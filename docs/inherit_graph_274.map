@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classThreading_1_1DataQueueBase.html" title="Abstract base class for all type&#45;specific data queue classes. " alt="" coords="5,88,190,118"/>
+<area shape="rect" id="node2" href="$classThreading_1_1TDataQueue.html" title="Threading::TDataQueue\l\&lt; void * \&gt;" alt="" coords="254,5,417,54"/>
+<area shape="rect" id="node3" href="$classThreading_1_1TDataQueue.html" title="Threading::TDataQueue\l\&lt; WorkEntry \&gt;" alt="" coords="254,79,417,128"/>
+<area shape="rect" id="node4" href="$classThreading_1_1TDataQueue.html" title="Template class for type&#45;specific data queues. " alt="" coords="238,152,432,182"/>
+</map>

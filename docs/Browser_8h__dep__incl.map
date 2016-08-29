@@ -1,0 +1,19 @@
+<map id="/Users/howes/src/sidecar/Zeroconf/Browser.h" name="/Users/howes/src/sidecar/Zeroconf/Browser.h">
+<area shape="rect" id="node2" href="$BugPlotSubscriber_8h_source.html" title="/Users/howes/src/sidecar\l/Algorithms/BugCollector\l/BugPlotSubscriber.h" alt="" coords="197,102,366,170"/>
+<area shape="rect" id="node5" href="$ServiceBrowser_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ServiceBrowser.cc" alt="" coords="404,112,572,161"/>
+<area shape="rect" id="node6" href="$GUI_2ServiceEntry_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ServiceEntry.cc" alt="" coords="596,112,764,161"/>
+<area shape="rect" id="node7" href="$DataSubscriber_8h.html" title="/Users/howes/src/sidecar\l/IO/DataSubscriber.h" alt="" coords="788,112,956,161"/>
+<area shape="rect" id="node14" href="$MulticastDataPublisher_8h.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataPublisher.h" alt="" coords="981,112,1169,161"/>
+<area shape="rect" id="node16" href="$StateEmitter_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/StateEmitter.cc" alt="" coords="1193,112,1362,161"/>
+<area shape="rect" id="node17" href="$StatusEmitterBase_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/StatusEmitterBase.cc" alt="" coords="1385,112,1554,161"/>
+<area shape="rect" id="node18" href="$Browser_8cc_source.html" title="/Users/howes/src/sidecar\l/Zeroconf/Browser.cc" alt="" coords="1577,112,1746,161"/>
+<area shape="rect" id="node3" href="$BugCollector_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/BugCollector\l/BugCollector.cc" alt="" coords="197,218,366,286"/>
+<area shape="rect" id="node4" href="$BugPlotSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/BugCollector\l/BugPlotSubscriber.cc" alt="" coords="5,218,174,286"/>
+<area shape="rect" id="node8" href="$DataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/DataSubscriber.cc" alt="" coords="611,227,779,276"/>
+<area shape="rect" id="node9" href="$MulticastDataSubscriber_8h.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataSubscriber.h" alt="" coords="390,227,586,276"/>
+<area shape="rect" id="node12" href="$TCPDataSubscriber_8h.html" title="/Users/howes/src/sidecar\l/IO/TCPDataSubscriber.h" alt="" coords="803,227,973,276"/>
+<area shape="rect" id="node10" href="$MulticastDataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataSubscriber.cc" alt="" coords="387,334,589,383"/>
+<area shape="rect" id="node11" href="$StreamBuilder_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/StreamBuilder.cc" alt="" coords="906,334,1078,383"/>
+<area shape="rect" id="node13" href="$TCPDataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/TCPDataSubscriber.cc" alt="" coords="707,334,883,383"/>
+<area shape="rect" id="node15" href="$MulticastDataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataPublisher.cc" alt="" coords="998,227,1192,276"/>
+</map>

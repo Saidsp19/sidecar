@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classPoolAllocator.html" title="A wrapper for the Utils::Pool class which allows it to be used as an ACE memory allocator. " alt="" coords="194,60,293,91"/>
+<area shape="rect" id="node3" href="$classDataBlockAllocatorImpl.html" title="Specialization of the PoolAllocator for ACE_Data_Block objects. " alt="" coords="354,5,511,36"/>
+<area shape="rect" id="node4" href="$classMessageBlockAllocatorImpl.html" title="Specialization of the PoolAllocator for ACE_Message_Block objects. " alt="" coords="341,60,524,91"/>
+<area shape="rect" id="node5" href="$classMetaDataAllocatorImpl.html" title="Specialization of the PoolAllocator for MetaData objects. " alt="" coords="356,115,510,145"/>
+</map>

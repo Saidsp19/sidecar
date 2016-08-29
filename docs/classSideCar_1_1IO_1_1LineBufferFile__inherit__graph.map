@@ -1,0 +1,8 @@
+<map id="SideCar::IO::LineBufferFile" name="SideCar::IO::LineBufferFile">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1LineBufferFileHelper.html" title="Helper class for LineBufferFile that allows it to open a C++ file input stream and get its read buffe..." alt="" coords="5,338,183,387"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1LineBufferStream.html" title="Derivation of std::istream that uses a LineBuffer for input buffering. " alt="" coords="207,347,406,378"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="262,259,351,290"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="243,162,370,211"/>
+<area shape="rect" id="node6" title="STL class. " alt="" coords="230,84,383,114"/>
+<area shape="rect" id="node7" title="STL class. " alt="" coords="257,5,356,36"/>
+</map>

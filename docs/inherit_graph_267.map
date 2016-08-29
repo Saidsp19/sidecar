@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1Zeroconf_1_1Transaction.html" title="Base class for all Zeroconf classes that interact with the DNSSD library. " alt="" coords="5,79,141,128"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Zeroconf_1_1Browser.html" title="Zeroconf browser for information regarding available SideCar services. " alt="" coords="189,5,324,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Zeroconf_1_1Publisher.html" title="Zeroconf publisher of information regarding an available service. " alt="" coords="189,79,324,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Zeroconf_1_1ServiceEntry.html" title="Information about of a Zeroconf service published by a Publisher object. " alt="" coords="189,152,324,201"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="/Users/howes/src/sidecar/GUI/PPIDisplay/BinaryOffscreenBuffer.h" name="/Users/howes/src/sidecar/GUI/PPIDisplay/BinaryOffscreenBuffer.h">
+<area shape="rect" id="node2" href="$PPIDisplay_2OffscreenBuffer_8h.html" title="OffscreenBuffer.h" alt="" coords="1638,121,1760,151"/>
+<area shape="rect" id="node3" href="$OffscreenBuffer_8h.html" title="GUI/OffscreenBuffer.h" alt="" coords="1044,199,1194,230"/>
+<area shape="rect" id="node39" href="$SineCosineLUT_8h_source.html" title="Utils/SineCosineLUT.h" alt="" coords="2072,514,2227,544"/>
+<area shape="rect" id="node4" href="$Texture_8h_source.html" title="GUI/Texture.h" alt="" coords="324,278,428,309"/>
+<area shape="rect" id="node6" href="$VertexColorArray_8h_source.html" title="GUI/VertexColorArray.h" alt="" coords="1795,435,1955,466"/>
+<area shape="rect" id="node11" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="744,278,915,309"/>
+<area shape="rect" id="node8" href="$Color_8h_source.html" title="GUI/Color.h" alt="" coords="1957,514,2049,544"/>
+<area shape="rect" id="node10" href="$Vertex_8h_source.html" title="GUI/Vertex.h" alt="" coords="1835,514,1933,544"/>
+<area shape="rect" id="node15" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="760,357,899,387"/>
+<area shape="rect" id="node31" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1178,435,1311,466"/>
+<area shape="rect" id="node34" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1462,357,1632,387"/>
+<area shape="rect" id="node37" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="496,435,664,466"/>
+<area shape="rect" id="node17" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="491,514,637,544"/>
+<area shape="rect" id="node19" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1193,514,1295,544"/>
+<area shape="rect" id="node21" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="786,435,916,466"/>
+<area shape="rect" id="node23" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="984,514,1169,544"/>
+<area shape="rect" id="node28" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="661,514,838,544"/>
+<area shape="rect" id="node24" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1632,592,1752,623"/>
+<area shape="rect" id="node30" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="905,592,981,623"/>
+</map>

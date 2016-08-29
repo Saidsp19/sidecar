@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::TCPMessageWriter" name="SideCar::GUI::TCPMessageWriter">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1MessageWriter.html" title="Abstract base class for Qt data publishers. " alt="" coords="5,93,201,124"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="225,84,362,133"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="195,5,392,36"/>
+</map>

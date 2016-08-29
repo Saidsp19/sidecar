@@ -1,0 +1,5 @@
+<map id="PoolAllocator" name="PoolAllocator">
+<area shape="rect" id="node3" href="$classDataBlockAllocatorImpl.html" title="Specialization of the PoolAllocator for ACE_Data_Block objects. " alt="" coords="5,162,163,193"/>
+<area shape="rect" id="node4" href="$classMessageBlockAllocatorImpl.html" title="Specialization of the PoolAllocator for ACE_Message_Block objects. " alt="" coords="187,162,370,193"/>
+<area shape="rect" id="node5" href="$classMetaDataAllocatorImpl.html" title="Specialization of the PoolAllocator for MetaData objects. " alt="" coords="395,162,549,193"/>
+</map>

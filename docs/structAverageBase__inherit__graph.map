@@ -1,0 +1,6 @@
+<map id="AverageBase" name="AverageBase">
+<area shape="rect" id="node2" href="$structAverage2.html" title="Functor used to update runningAverage_ by adding new message data, and as a side&#45;effect add running a..." alt="" coords="5,84,82,114"/>
+<area shape="rect" id="node3" href="$structAverage2IQ.html" title="Functor used to update runningAverage_ by adding new IQ message data, and as a side&#45;effect add runnin..." alt="" coords="106,84,197,114"/>
+<area shape="rect" id="node4" href="$structAverage3.html" title="Functor used to update runningAverage_ by adding new message data and removing the oldest message..." alt="" coords="221,84,298,114"/>
+<area shape="rect" id="node5" href="$structAverage3IQ.html" title="Functor used to update runningAverage_ by adding new IQ message data and removing the oldest message..." alt="" coords="322,84,413,114"/>
+</map>

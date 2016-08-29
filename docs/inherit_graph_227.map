@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1CircularBufferIterator.html" title="Iterator for the general PRI message circular buffers. " alt="" coords="140,5,284,54"/>
+<area shape="rect" id="node4" href="$classUtils_1_1ConverterAdapter.html" title="Adapter for an iterator that performs some type of conversion for each value obtained from a forward ..." alt="" coords="129,79,294,128"/>
+<area shape="rect" id="node5" href="$classUtils_1_1StringConverterAdapter.html" title="Iterator adapter that attempts to convert std::string values into other types. " alt="" coords="115,152,308,201"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Messages_1_1TCircularBufferIterator.html" title="Type&#45;specific iterator for a type&#45;specific circular buffer. " alt="" coords="356,5,537,54"/>
+</map>

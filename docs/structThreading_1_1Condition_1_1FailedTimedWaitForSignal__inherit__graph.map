@@ -1,0 +1,8 @@
+<map id="Threading::Condition::FailedTimedWaitForSignal" name="Threading::Condition::FailedTimedWaitForSignal">
+<area shape="rect" id="node2" href="$structThreading_1_1Condition_1_1Exception.html" title="Top&#45;level exception class for all Condition&#45;related exceptions. " alt="" coords="651,28,794,77"/>
+<area shape="rect" id="node3" href="$structThreading_1_1ThreadingException.html" title="Top&#45;level exception class for all thread&#45;related exceptions. " alt="" coords="370,37,575,68"/>
+<area shape="rect" id="node4" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="210,37,322,68"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="32,5,135,36"/>
+<area shape="rect" id="node6" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,60,162,109"/>
+<area shape="rect" id="node7" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; FailedTimedWaitForSignal \&gt;" alt="" coords="623,101,822,150"/>
+</map>

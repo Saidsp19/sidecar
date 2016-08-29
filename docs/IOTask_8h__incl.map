@@ -1,0 +1,20 @@
+<map id="/Users/howes/src/sidecar/IO/IOTask.h" name="/Users/howes/src/sidecar/IO/IOTask.h">
+<area shape="rect" id="node2" href="$Task_8h.html" title="IO/Task.h" alt="" coords="1394,102,1472,133"/>
+<area shape="rect" id="node13" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="1655,338,1831,369"/>
+<area shape="rect" id="node9" href="$IO_2Channel_8h.html" title="IO/Channel.h" alt="" coords="1383,181,1482,211"/>
+<area shape="rect" id="node16" href="$ProcessingState_8h.html" title="IO/ProcessingState.h" alt="" coords="1856,338,2001,369"/>
+<area shape="rect" id="node17" href="$Stats_8h.html" title="IO/Stats.h" alt="" coords="1165,181,1244,211"/>
+<area shape="rect" id="node27" href="$TaskStatus_8h.html" title="IO/TaskStatus.h" alt="" coords="1583,181,1698,211"/>
+<area shape="rect" id="node32" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="606,181,745,211"/>
+<area shape="rect" id="node36" href="$Parameter_8h.html" title="Parameter/Parameter.h" alt="" coords="1799,259,1957,290"/>
+<area shape="rect" id="node10" href="$RecipientList_8h.html" title="IO/RecipientList.h" alt="" coords="1306,259,1431,290"/>
+<area shape="rect" id="node11" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="426,338,528,369"/>
+<area shape="rect" id="node15" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1733,417,1809,447"/>
+<area shape="rect" id="node18" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="343,259,476,290"/>
+<area shape="rect" id="node21" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="602,338,748,369"/>
+<area shape="rect" id="node23" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="142,417,262,447"/>
+<area shape="rect" id="node28" href="$StatusBase_8h.html" title="IO/StatusBase.h" alt="" coords="1607,259,1725,290"/>
+<area shape="rect" id="node30" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="2077,338,2247,369"/>
+<area shape="rect" id="node33" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="736,259,865,290"/>
+<area shape="rect" id="node35" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="946,338,1130,369"/>
+</map>

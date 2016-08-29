@@ -1,0 +1,20 @@
+<map id="SideCar::IO::IOTask" name="SideCar::IO::IOTask">
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1ClientSocketReaderTask.html" title="An ACE task that keeps alive a TCP connection to a remote server. " alt="" coords="667,5,839,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1ClientSocketWriterTask.html" title="An ACE task that keeps alive a connection to a remote server. " alt="" coords="667,79,839,128"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1DataPublisher.html" title="Abstract base class for data publishers. " alt="" coords="663,152,843,182"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1IO_1_1DataSubscriber.html" title="A variant of IOTask which acts as the subscriber part in a publisher/subscriber relationship. " alt="" coords="659,207,847,237"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1IO_1_1FileReaderTask.html" title="An ACE service / task that takes data from a file and generates messages objects which are then place..." alt="" coords="658,261,848,292"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1IO_1_1FileWriterTask.html" title="An ACE service / task that takes data from a processing queue writes them out to a file..." alt="" coords="662,316,844,346"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1IO_1_1MulticastVMEReaderTask.html" title="A socket reader task for multicast UDP messages. " alt="" coords="628,371,878,401"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1IO_1_1ServerSocketReaderTask.html" title="An ACE service / task that sets up a server&#45;side socket for client connections, managers client conne..." alt="" coords="665,425,841,474"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1IO_1_1ServerSocketWriterTask.html" title="An ACE service / task that sets up a server&#45;side socket for client connections, managers client conne..." alt="" coords="665,499,841,548"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1IO_1_1TSPIReaderTask.html" title="A socket reader task for TSPI multicast UDP messages. " alt="" coords="654,572,852,602"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1IO_1_1UDPSocketReaderTask.html" title="A socket reader task for UDP messages. " alt="" coords="634,627,871,657"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1IO_1_1UDPSocketWriterTask.html" title="A socket writer task for UDP messages. " alt="" coords="639,681,867,712"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1IO_1_1VMEReaderTask.html" title="A socket reader task for UDP messages. " alt="" coords="654,736,852,766"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1Task.html" title="Derivation of ACE_Task for SideCar processing modules. " alt="" coords="267,371,393,401"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1IO_1_1MulticastDataPublisher.html" title="Publisher of data using UDP multicast transport. " alt="" coords="944,73,1122,122"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1IO_1_1TCPDataPublisher.html" title="Publisher of data using TCP transport. " alt="" coords="930,147,1136,177"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1IO_1_1MulticastDataSubscriber.html" title="Subscriber of data using the UDP multicast transport. " alt="" coords="944,201,1122,250"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1IO_1_1TCPDataSubscriber.html" title="SideCar::IO::TCPDataSubscriber" alt="" coords="926,275,1140,305"/>
+</map>

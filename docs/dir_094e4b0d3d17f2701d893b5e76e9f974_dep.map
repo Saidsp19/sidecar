@@ -1,0 +1,25 @@
+<map id="/Users/howes/src/sidecar/Messages" name="/Users/howes/src/sidecar/Messages">
+<area shape="rect" id="node1" href="dir_094e4b0d3d17f2701d893b5e76e9f974.html" title="Messages" alt="" coords="34,56,115,104"/>
+<area shape="rect" id="node2" href="dir_8d167d08c82e789c44b9f4b41a897732.html" title="IO" alt="" coords="139,56,211,104"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000004_000022.html" title="20" alt="" coords="113,62,128,81"/>
+<area shape="rect" id="node3" href="dir_f8aecf1212e5099580012e9c7ab66cf2.html" title="Utils" alt="" coords="212,248,284,296"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000004_000031.html" title="13" alt="" coords="187,253,202,271"/>
+<area shape="rect" id="node4" href="dir_8d816fe3cc13574c506d16a0549ade2a.html" title="Logger" alt="" coords="212,344,284,392"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000004_000024.html" title="13" alt="" coords="191,329,206,348"/>
+<area shape="rect" id="node5" href="dir_480c6457fd79c56b26b760c4bfa8347a.html" title="XMLRPC" alt="" coords="38,152,114,200"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000004_000032.html" title="1" alt="" coords="80,124,88,143"/>
+<area shape="rect" id="node6" href="dir_d7507aa2b03a8fd1ca33d27ed2488d63.html" title="Time" alt="" coords="139,152,211,200"/>
+<area shape="rect" id="edge13-headlabel" href="dir_000004_000029.html" title="3" alt="" coords="139,124,147,142"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000022_000004.html" title="32" alt="" coords="127,79,141,98"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000022_000031.html" title="62" alt="" coords="234,219,248,237"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000022_000024.html" title="48" alt="" coords="279,325,294,343"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000022_000032.html" title="5" alt="" coords="116,136,123,155"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000022_000029.html" title="4" alt="" coords="170,124,178,142"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000031_000022.html" title="3" alt="" coords="205,114,213,133"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000031_000024.html" title="4" alt="" coords="244,316,251,334"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000024_000031.html" title="3" alt="" coords="245,306,253,324"/>
+<area shape="rect" id="edge14-headlabel" href="dir_000029_000022.html" title="2" alt="" coords="172,114,179,132"/>
+<area shape="rect" id="edge15-headlabel" href="dir_000029_000031.html" title="3" alt="" coords="222,219,229,238"/>
+<area shape="rect" id="edge16-headlabel" href="dir_000029_000024.html" title="1" alt="" coords="222,315,229,333"/>
+<area shape="rect" id="clust1" href="dir_16861240cd43450fd06793f5fadb1278.html" title="sidecar" alt="" coords="24,16,125,115"/>
+</map>

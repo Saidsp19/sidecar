@@ -1,0 +1,7 @@
+<map id="SideCar::IO::DatagramReader" name="SideCar::IO::DatagramReader">
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; DatagramReader, ReaderDevices\l::MulticastSocket \&gt;" alt="" coords="440,5,671,73"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; DatagramReader, ReaderDevices\l::UDPSocket \&gt;" alt="" coords="440,97,671,165"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1Reader.html" title="Abstract base class for readers. " alt="" coords="5,71,146,101"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1MulticastSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="728,15,918,64"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1UDPSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="719,116,927,146"/>
+</map>

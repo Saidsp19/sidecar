@@ -1,0 +1,7 @@
+<map id="SideCar::GUI::Master::CollectionItem" name="SideCar::GUI::Master::CollectionItem">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationItem.html" title="TreeViewItem that represents a configuration file, which contains a collection of runner processes..." alt="" coords="515,5,662,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1Master_1_1RootItem.html" title="The root item of a QTreeView view. " alt="" coords="515,79,662,128"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1Master_1_1RunnerItem.html" title="TreeViewItem that represents a runner process, which contains a collection of processing streams..." alt="" coords="515,152,662,201"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1Master_1_1StreamItem.html" title="TreeViewItem that represents an IO::Stream object of a runner process. " alt="" coords="515,225,662,274"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Master_1_1TreeViewItem.html" title="Base class for a row in a QTreeView display. " alt="" coords="123,116,271,165"/>
+</map>

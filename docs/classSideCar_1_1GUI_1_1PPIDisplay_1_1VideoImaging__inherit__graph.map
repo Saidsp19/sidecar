@@ -1,0 +1,6 @@
+<map id="SideCar::GUI::PPIDisplay::VideoImaging" name="SideCar::GUI::PPIDisplay::VideoImaging">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1SampleImaging.html" title="Derivation of the ChannelImaging settings collection class that contains additional settings for Open..." alt="" coords="7,338,207,369"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1ChannelImaging.html" title="Collection of display attributes for a data channel or artifact. " alt="" coords="5,259,209,290"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="12,162,202,211"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1SettingsBlock.html" title="Base class for a collection of Setting objects that conceptually belong together as a unit..." alt="" coords="13,84,201,114"/>
+</map>

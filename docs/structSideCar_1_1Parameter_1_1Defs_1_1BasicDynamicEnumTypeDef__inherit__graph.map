@@ -1,0 +1,5 @@
+<map id="SideCar::Parameter::Defs::BasicDynamicEnumTypeDef&lt; TypeTraits &gt;" name="SideCar::Parameter::Defs::BasicDynamicEnumTypeDef&lt; TypeTraits &gt;">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicDynamicRangedTypeDef.html" title="Variant of the BasicTypeDef template that treats a parameter value as having a dynamically determined..." alt="" coords="17,218,210,286"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="Basic template defining the interface for a type definition that can be used as the template paramete..." alt="" coords="41,102,186,170"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="112,5,248,54"/>
+</map>

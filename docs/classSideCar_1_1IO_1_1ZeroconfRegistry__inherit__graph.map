@@ -1,0 +1,14 @@
+<map id="SideCar::IO::ZeroconfRegistry" name="SideCar::IO::ZeroconfRegistry">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="251,335,435,384"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1ChannelGroup.html" title="A manager of a collection of subscription channels for a particular message type (eg. " alt="" coords="501,5,694,36"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1ChannelSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change a subscription c..." alt="" coords="499,60,696,91"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1MulticastMessageReader.html" title="Derivation of MessageReader that obtains messages over a UDP multicast socket. " alt="" coords="491,115,704,164"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1TCPMessageWriter.html" title="Qt message writer that uses QTcpServer/QTcpSocket to write data over a TCP connection. " alt="" coords="504,188,691,237"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1UDPMessageWriter.html" title="Qt message writer that uses IO::UDPSocketWriter to do the writing. " alt="" coords="503,261,692,310"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1IO_1_1MulticastDataPublisher.html" title="Publisher of data using UDP multicast transport. " alt="" coords="509,335,686,384"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1IO_1_1MulticastDataSubscriber.html" title="Subscriber of data using the UDP multicast transport. " alt="" coords="509,408,686,457"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1IO_1_1StateEmitter.html" title="SideCar::IO::StateEmitter" alt="" coords="513,481,682,512"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1IO_1_1TCPDataPublisher.html" title="Publisher of data using TCP transport. " alt="" coords="495,536,701,567"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1IO_1_1TCPDataSubscriber.html" title="SideCar::IO::TCPDataSubscriber" alt="" coords="490,591,705,621"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1Runner_1_1RemoteController.html" title="A remote controller class for App objects. " alt="" coords="483,645,712,676"/>
+</map>

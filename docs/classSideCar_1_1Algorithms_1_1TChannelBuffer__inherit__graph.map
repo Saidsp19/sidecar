@@ -1,0 +1,5 @@
+<map id="SideCar::Algorithms::TChannelBuffer&lt; T &gt;" name="SideCar::Algorithms::TChannelBuffer&lt; T &gt;">
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1ChannelBuffer.html" title="Abstract base class of an input message buffer that will hold a maximum number of messages in FIFO or..." alt="" coords="222,5,360,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="SideCar::Algorithms\l::TProcessor\&lt; TChannelBuffer\l\&lt; T \&gt;, T \&gt;" alt="" coords="192,79,390,146"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1Processor.html" title="Abstract base class that defines the API for all SideCar message processors. " alt="" coords="5,88,144,137"/>
+</map>

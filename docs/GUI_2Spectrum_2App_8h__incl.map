@@ -1,0 +1,16 @@
+<map id="/Users/howes/src/sidecar/GUI/Spectrum/App.h" name="/Users/howes/src/sidecar/GUI/Spectrum/App.h">
+<area shape="rect" id="node2" href="$AppBase_8h.html" title="GUI/AppBase.h" alt="" coords="240,102,353,133"/>
+<area shape="rect" id="node7" href="$MessageList_8h.html" title="GUI/MessageList.h" alt="" coords="672,102,806,133"/>
+<area shape="rect" id="node28" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="1101,102,1273,133"/>
+<area shape="rect" id="node8" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="951,181,1090,211"/>
+<area shape="rect" id="node11" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="1049,338,1195,369"/>
+<area shape="rect" id="node13" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1584,338,1686,369"/>
+<area shape="rect" id="node15" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="830,259,960,290"/>
+<area shape="rect" id="node25" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1222,259,1355,290"/>
+<area shape="rect" id="node17" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="789,338,974,369"/>
+<area shape="rect" id="node22" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="214,338,390,369"/>
+<area shape="rect" id="node18" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1487,417,1607,447"/>
+<area shape="rect" id="node24" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="189,417,265,447"/>
+<area shape="rect" id="node31" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1726,181,1896,211"/>
+<area shape="rect" id="node34" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="1491,259,1659,290"/>
+</map>

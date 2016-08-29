@@ -1,0 +1,9 @@
+<map id="Threading::Thread::Exception" name="Threading::Thread::Exception">
+<area shape="rect" id="node6" href="$structThreading_1_1Thread_1_1FailedCancel.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="807,5,944,54"/>
+<area shape="rect" id="node7" href="$structThreading_1_1Thread_1_1FailedCreate.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="807,79,944,128"/>
+<area shape="rect" id="node8" href="$structThreading_1_1Thread_1_1FailedJoin.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="807,152,944,201"/>
+<area shape="rect" id="node2" href="$structThreading_1_1ThreadingException.html" title="Top&#45;level exception class for all thread&#45;related exceptions. " alt="" coords="370,88,575,118"/>
+<area shape="rect" id="node3" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="210,88,322,118"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="32,56,135,86"/>
+<area shape="rect" id="node5" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,111,162,160"/>
+</map>

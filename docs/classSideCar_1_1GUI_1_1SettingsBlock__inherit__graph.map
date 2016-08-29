@@ -1,0 +1,34 @@
+<map id="SideCar::GUI::SettingsBlock" name="SideCar::GUI::SettingsBlock">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1DefaultViewSettings.html" title="SideCar::GUI::AScope\l::DefaultViewSettings" alt="" coords="386,5,539,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1FramesListSettings.html" title="SideCar::GUI::BScope\l::FramesListSettings" alt="" coords="386,79,539,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1BScope_1_1HistorySettings.html" title="SideCar::GUI::BScope\l::HistorySettings" alt="" coords="386,152,539,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1BScope_1_1PlayerSettings.html" title="SideCar::GUI::BScope\l::PlayerSettings" alt="" coords="386,225,539,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1BScope_1_1ViewSettings.html" title="Collection of settings that relate the the view shown in a PPIWidget. " alt="" coords="386,299,539,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1ESScope_1_1RadarSettings.html" title="SideCar::GUI::ESScope\l::RadarSettings" alt="" coords="382,372,544,421"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1ChannelPlotSettings.html" title="SideCar::GUI::HealthAndStatus\l::ChannelPlotSettings" alt="" coords="359,445,566,494"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationSettings.html" title="SideCar::GUI::Master\l::ConfigurationSettings" alt="" coords="385,519,540,568"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1Master_1_1RadarSettings.html" title="SideCar::GUI::Master\l::RadarSettings" alt="" coords="389,592,536,641"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1Master_1_1RecordingSettings.html" title="SideCar::GUI::Master\l::RecordingSettings" alt="" coords="389,665,536,714"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="368,739,557,788"/>
+<area shape="rect" id="node31" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ViewSettings.html" title="Collection of settings that relate the the view shown in a PPIWidget. " alt="" coords="377,812,548,861"/>
+<area shape="rect" id="node32" href="$classSideCar_1_1GUI_1_1Spectrum_1_1FFTSettings.html" title="SideCar::GUI::Spectrum\l::FFTSettings" alt="" coords="380,885,545,934"/>
+<area shape="rect" id="node33" href="$classSideCar_1_1GUI_1_1Spectrum_1_1Settings.html" title="SideCar::GUI::Spectrum\l::Settings" alt="" coords="380,959,545,1008"/>
+<area shape="rect" id="node34" href="$classSideCar_1_1GUI_1_1VideoSampleCountTransform.html" title="Converts sample count information contained in Messages::Video messages into values between 0 and 1..." alt="" coords="369,1032,556,1081"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1AScope_1_1HistorySettings.html" title="Collection of settings that configure the application&#39;s History object. " alt="" coords="639,528,792,577"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1GUI_1_1AScope_1_1PeakBarSettings.html" title="Collection of settings that configure the application&#39;s History object. " alt="" coords="639,601,792,650"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1GUI_1_1BugPlotEmitterSettings.html" title="SideCar::GUI::BugPlotEmitter\lSettings" alt="" coords="618,675,813,724"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1GUI_1_1ChannelImaging.html" title="Collection of display attributes for a data channel or artifact. " alt="" coords="614,748,817,778"/>
+<area shape="rect" id="node28" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1BackgroundImageSettings.html" title="Collection of Setting objects that control the display of a background image in a PPIWidget widget..." alt="" coords="624,803,807,852"/>
+<area shape="rect" id="node29" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1DecaySettings.html" title="Collection of Setting objects that relate to the simulated phosphor decay effect available in the PPI..." alt="" coords="630,876,801,925"/>
+<area shape="rect" id="node30" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1HistorySettings.html" title="SideCar::GUI::PPIDisplay\l::HistorySettings" alt="" coords="630,949,801,998"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1GUI_1_1ESScope_1_1GridImaging.html" title="Extension of the ChannelImaging class for the display of grids. " alt="" coords="884,560,1046,609"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1GUI_1_1PhantomCursorImaging.html" title="SideCar::GUI::PhantomCursor\lImaging" alt="" coords="865,633,1065,682"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1GUI_1_1RangeRingsImaging.html" title="Extension of the ChannelImaging class for the display of range rings. " alt="" coords="875,707,1055,756"/>
+<area shape="rect" id="node21" href="$classSideCar_1_1GUI_1_1SampleImaging.html" title="Derivation of the ChannelImaging settings collection class that contains additional settings for Open..." alt="" coords="865,780,1065,810"/>
+<area shape="rect" id="node25" href="$classSideCar_1_1GUI_1_1Spectrum_1_1SpectrographImaging.html" title="SideCar::GUI::Spectrum\l::SpectrographImaging" alt="" coords="883,835,1047,884"/>
+<area shape="rect" id="node26" href="$classSideCar_1_1GUI_1_1TargetPlotImaging.html" title="Extension of the ChannelImaging class that contains display settings for target plots. " alt="" coords="881,912,1049,961"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1127,695,1281,744"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1123,768,1285,817"/>
+<area shape="rect" id="node24" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1118,841,1290,890"/>
+<area shape="rect" id="node27" href="$classSideCar_1_1GUI_1_1RangeTruthsImaging.html" title="SideCar::GUI::RangeTruths\lImaging" alt="" coords="1113,915,1296,964"/>
+</map>

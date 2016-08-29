@@ -1,0 +1,9 @@
+<map id="Threading::Mutex::Exception" name="Threading::Mutex::Exception">
+<area shape="rect" id="node6" href="$structThreading_1_1Mutex_1_1FailedInit.html" title="Exception thrown if there is a problem with pthread_mutex_init. " alt="" coords="865,5,1049,36"/>
+<area shape="rect" id="node7" href="$structThreading_1_1Mutex_1_1FailedLock.html" title="Exception thrown if there is a problem with pthread_mutex_lock. " alt="" coords="859,60,1054,91"/>
+<area shape="rect" id="node8" href="$structThreading_1_1Mutex_1_1FailedUnlock.html" title="Exception thrown if there is a problem with pthread_mutex_unlock. " alt="" coords="873,115,1040,164"/>
+<area shape="rect" id="node2" href="$structThreading_1_1ThreadingException.html" title="Top&#45;level exception class for all thread&#45;related exceptions. " alt="" coords="370,60,575,91"/>
+<area shape="rect" id="node3" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="210,60,322,91"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="32,28,135,59"/>
+<area shape="rect" id="node5" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,83,162,132"/>
+</map>

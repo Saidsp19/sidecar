@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structSideCar_1_1GUI_1_1RGBColor.html" title="Primitive color class that holds OpenGL RGB values for a specific color. " alt="" coords="5,5,173,36"/>
+<area shape="rect" id="node2" href="$structSideCar_1_1GUI_1_1Color.html" title="Utility OpenGL color class that expands on the primitive RGBColor class to hold an opacity (alpha) va..." alt="" coords="221,5,360,36"/>
+</map>

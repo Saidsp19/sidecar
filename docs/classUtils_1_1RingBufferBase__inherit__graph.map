@@ -1,0 +1,6 @@
+<map id="Utils::RingBufferBase" name="Utils::RingBufferBase">
+<area shape="rect" id="node2" href="$classUtils_1_1TRingBuffer.html" title="Utils::TRingBuffer\l\&lt; void * \&gt;" alt="" coords="25,84,150,133"/>
+<area shape="rect" id="node5" href="$classUtils_1_1TRingBuffer.html" title="Template class that defines a type&#45;safe ring buffer. " alt="" coords="174,93,329,124"/>
+<area shape="rect" id="node3" href="$classUtils_1_1VoidRingBuffer.html" title="Specialization of TRingBuffer for memory pointer objects. " alt="" coords="16,181,158,211"/>
+<area shape="rect" id="node4" href="$classUtils_1_1PtrRingBuffer.html" title="Template class for ring buffers that contain pointers to user&#45;defined types. " alt="" coords="5,259,169,290"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="/Users/howes/src/sidecar/GUI/PRIEmitter/MainWindow.h" name="/Users/howes/src/sidecar/GUI/PRIEmitter/MainWindow.h">
+<area shape="rect" id="node3" href="$MainWindowBase_8h.html" title="GUI/MainWindowBase.h" alt="" coords="585,102,750,133"/>
+<area shape="rect" id="node5" href="$Readers_8h.html" title="IO/Readers.h" alt="" coords="774,102,873,133"/>
+<area shape="rect" id="node13" href="$Preamble_8h.html" title="IO/Preamble.h" alt="" coords="1227,259,1333,290"/>
+<area shape="rect" id="node14" href="$Stats_8h.html" title="IO/Stats.h" alt="" coords="1142,181,1222,211"/>
+<area shape="rect" id="node15" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="920,259,1053,290"/>
+<area shape="rect" id="node18" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="1136,338,1282,369"/>
+<area shape="rect" id="node20" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1010,338,1112,369"/>
+<area shape="rect" id="node22" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="552,338,671,369"/>
+</map>

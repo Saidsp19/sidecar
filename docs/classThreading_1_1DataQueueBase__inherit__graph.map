@@ -1,0 +1,5 @@
+<map id="Threading::DataQueueBase" name="Threading::DataQueueBase">
+<area shape="rect" id="node2" href="$classThreading_1_1TDataQueue.html" title="Threading::TDataQueue\l\&lt; void * \&gt;" alt="" coords="254,5,417,54"/>
+<area shape="rect" id="node3" href="$classThreading_1_1TDataQueue.html" title="Threading::TDataQueue\l\&lt; WorkEntry \&gt;" alt="" coords="254,79,417,128"/>
+<area shape="rect" id="node4" href="$classThreading_1_1TDataQueue.html" title="Template class for type&#45;specific data queues. " alt="" coords="238,152,432,182"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="UnitTest::TestObj" name="UnitTest::TestObj">
+<area shape="rect" id="node2" href="$structSideCar_1_1Algorithms_1_1TestBase.html" title="SideCar::Algorithms\l::TestBase" alt="" coords="21,84,159,133"/>
+<area shape="rect" id="node4" href="$classUnitTest_1_1ProcSuite.html" title="Template class that represents a collection of unit test methods within one class. " alt="" coords="183,93,349,124"/>
+<area shape="rect" id="node5" href="$classUnitTest_1_1Suite.html" title="Represents a collection of TestObj objects. " alt="" coords="372,93,480,124"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Algorithms_1_1TTestBase.html" title="SideCar::Algorithms\l::TTestBase\&lt; MsgType \&gt;" alt="" coords="5,181,174,230"/>
+</map>

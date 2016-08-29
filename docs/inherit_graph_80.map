@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1Algorithms_1_1PastBufferBase.html" title="SideCar::Algorithms\l::PastBufferBase" alt="" coords="5,56,144,105"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1PastBuffer.html" title="SideCar::Algorithms\l::PastBuffer\&lt; Messages\l::Video \&gt;" alt="" coords="192,5,352,73"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1PastBuffer.html" title="SideCar::Algorithms\l::PastBuffer\&lt; T \&gt;" alt="" coords="202,97,341,146"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1SynchronizedBuffer.html" title="SideCar::Algorithms\l::SynchronizedBuffer\l\&lt; Messages::Video \&gt;" alt="" coords="413,5,559,73"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1SynchronizedBuffer.html" title="SideCar::Algorithms\l::SynchronizedBuffer\&lt; T \&gt;" alt="" coords="400,97,572,146"/>
+</map>

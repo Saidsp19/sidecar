@@ -1,0 +1,6 @@
+<map id="SideCar::IO::MulticastSocketReader" name="SideCar::IO::MulticastSocketReader">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; DatagramReader, ReaderDevices\l::MulticastSocket \&gt;" alt="" coords="97,181,328,249"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1DatagramReader.html" title="Abstract base class for readers. " alt="" coords="5,93,203,124"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1Reader.html" title="Abstract base class for readers. " alt="" coords="34,5,175,36"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1ReaderDevices_1_1MulticastSocket.html" title="Device that gets data from a network socket set up for multicast UDP messages. " alt="" coords="228,84,415,133"/>
+</map>

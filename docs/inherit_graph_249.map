@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1Messages_1_1VoidLoaderRegistry.html" title="Registry of methods that perform version&#45;specific loads of raw data. " alt="" coords="5,88,149,137"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1TLoaderRegistry.html" title="Template version of the LoaderRegistry class. " alt="" coords="211,5,360,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Messages_1_1TLoaderRegistry.html" title="SideCar::Messages::\lTLoaderRegistry\&lt; SideCar\l::Messages::GUID \&gt;" alt="" coords="197,79,374,146"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Messages_1_1TLoaderRegistry.html" title="SideCar::Messages::\lTLoaderRegistry\&lt; SideCar\l::Messages::Header \&gt;" alt="" coords="197,171,374,238"/>
+</map>

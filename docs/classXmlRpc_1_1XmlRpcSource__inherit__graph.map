@@ -1,0 +1,5 @@
+<map id="XmlRpc::XmlRpcSource" name="XmlRpc::XmlRpcSource">
+<area shape="rect" id="node2" href="$classXmlRpc_1_1XmlRpcClient.html" title="A class to send XML RPC requests to a server and return the results. " alt="" coords="5,84,160,114"/>
+<area shape="rect" id="node3" href="$classXmlRpc_1_1XmlRpcServer.html" title="A class to handle XML RPC requests. " alt="" coords="184,84,344,114"/>
+<area shape="rect" id="node4" href="$classXmlRpc_1_1XmlRpcServerConnection.html" title="A class to handle XML RPC requests from a particular client. " alt="" coords="367,84,593,114"/>
+</map>

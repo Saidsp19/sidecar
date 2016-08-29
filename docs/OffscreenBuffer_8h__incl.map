@@ -1,0 +1,18 @@
+<map id="/Users/howes/src/sidecar/GUI/OffscreenBuffer.h" name="/Users/howes/src/sidecar/GUI/OffscreenBuffer.h">
+<area shape="rect" id="node2" href="$Texture_8h_source.html" title="GUI/Texture.h" alt="" coords="45,102,149,133"/>
+<area shape="rect" id="node4" href="$VertexColorArray_8h_source.html" title="GUI/VertexColorArray.h" alt="" coords="124,259,284,290"/>
+<area shape="rect" id="node9" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="1024,102,1195,133"/>
+<area shape="rect" id="node6" href="$Color_8h_source.html" title="GUI/Color.h" alt="" coords="41,338,133,369"/>
+<area shape="rect" id="node8" href="$Vertex_8h_source.html" title="GUI/Vertex.h" alt="" coords="157,338,254,369"/>
+<area shape="rect" id="node13" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="1040,181,1179,211"/>
+<area shape="rect" id="node29" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1223,259,1356,290"/>
+<area shape="rect" id="node32" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1334,181,1504,211"/>
+<area shape="rect" id="node35" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="1564,259,1732,290"/>
+<area shape="rect" id="node15" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="1011,338,1157,369"/>
+<area shape="rect" id="node17" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1232,338,1334,369"/>
+<area shape="rect" id="node19" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="874,259,1004,290"/>
+<area shape="rect" id="node21" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="802,338,987,369"/>
+<area shape="rect" id="node26" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="379,338,555,369"/>
+<area shape="rect" id="node22" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1626,417,1745,447"/>
+<area shape="rect" id="node28" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="558,417,634,447"/>
+</map>

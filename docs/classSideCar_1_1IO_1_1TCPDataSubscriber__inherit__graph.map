@@ -1,0 +1,7 @@
+<map id="SideCar::IO::TCPDataSubscriber" name="SideCar::IO::TCPDataSubscriber">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1DataSubscriber.html" title="A variant of IOTask which acts as the subscriber part in a publisher/subscriber relationship. " alt="" coords="18,241,206,271"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1IOTask.html" title="Derivative of IO::Task that holds a MetaTypeInfo object which describes the message type the task han..." alt="" coords="43,162,182,193"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1Task.html" title="Derivation of ACE_Task for SideCar processing modules. " alt="" coords="49,84,175,114"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="231,241,410,271"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="222,162,419,193"/>
+</map>

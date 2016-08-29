@@ -1,0 +1,11 @@
+<map id="SideCar::Messages::SamplingMessage" name="SideCar::Messages::SamplingMessage">
+<area shape="rect" id="node5" href="$classSideCar_1_1Messages_1_1TSamplingMessage.html" title="Template class for all type&#45;specific sampling messages. " alt="" coords="630,5,867,54"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Messages_1_1TSamplingMessage.html" title="SideCar::Messages::\lTSamplingMessage\&lt; char \&gt;" alt="" coords="655,79,842,128"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1Messages_1_1TSamplingMessage.html" title="SideCar::Messages::\lTSamplingMessage\&lt; short \&gt;" alt="" coords="654,152,844,201"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1BaseMessage.html" title="Base class for all message containers. " alt="" coords="247,79,391,128"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1CDRStreamable.html" title="SideCar::IO::CDRStreamable\l\&lt; BaseMessage \&gt;" alt="" coords="5,41,199,90"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; BaseMessage \&gt;" alt="" coords="27,115,177,164"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Messages_1_1BooleanSequence.html" title="Derivation of TSamplingMessage for messages with 8&#45;bit (boolean) values, where zero is false and non&#45;..." alt="" coords="915,79,1059,128"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1Messages_1_1IQSequence.html" title="Derivation of TSamplingMessage for messages with 2&#45;tuple (complex) 16&#45;bit values. ..." alt="" coords="915,152,1059,201"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1Messages_1_1ShortSequence.html" title="Derivation of TSamplingMessage for messages with 16&#45;bit values. " alt="" coords="915,225,1059,274"/>
+</map>

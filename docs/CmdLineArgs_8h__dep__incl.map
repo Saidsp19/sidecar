@@ -1,0 +1,23 @@
+<map id="/Users/howes/src/sidecar/Utils/CmdLineArgs.h" name="/Users/howes/src/sidecar/Utils/CmdLineArgs.h">
+<area shape="rect" id="node2" href="$converter_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/converter.cc" alt="" coords="5,102,174,151"/>
+<area shape="rect" id="node3" href="$extinfo_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/extinfo.cc" alt="" coords="197,102,366,151"/>
+<area shape="rect" id="node4" href="$gradients_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/gradients.cc" alt="" coords="389,102,558,151"/>
+<area shape="rect" id="node5" href="$poser_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/poser.cc" alt="" coords="581,102,750,151"/>
+<area shape="rect" id="node6" href="$prichunker_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/prichunker.cc" alt="" coords="773,102,942,151"/>
+<area shape="rect" id="node7" href="$priinfo_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/priinfo.cc" alt="" coords="965,102,1134,151"/>
+<area shape="rect" id="node8" href="$pristats_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/pristats.cc" alt="" coords="1157,102,1326,151"/>
+<area shape="rect" id="node9" href="$rawpriinfo_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/rawpriinfo.cc" alt="" coords="1349,102,1518,151"/>
+<area shape="rect" id="node10" href="$rings_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/rings.cc" alt="" coords="1541,102,1710,151"/>
+<area shape="rect" id="node11" href="$sc2xml_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/sc2xml.cc" alt="" coords="1733,102,1902,151"/>
+<area shape="rect" id="node12" href="$sccut_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/sccut.cc" alt="" coords="1925,102,2094,151"/>
+<area shape="rect" id="node13" href="$sines_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/sines.cc" alt="" coords="2117,102,2286,151"/>
+<area shape="rect" id="node14" href="$truthgen_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/truthgen.cc" alt="" coords="2309,102,2478,151"/>
+<area shape="rect" id="node15" href="$xml2sc_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/xml2sc.cc" alt="" coords="2501,102,2670,151"/>
+<area shape="rect" id="node16" href="$Runner_2App_8h.html" title="/Users/howes/src/sidecar\l/Runner/App.h" alt="" coords="2693,102,2862,151"/>
+<area shape="rect" id="node22" href="$CmdLineArgs_8cc_source.html" title="/Users/howes/src/sidecar\l/Utils/CmdLineArgs.cc" alt="" coords="2885,102,3054,151"/>
+<area shape="rect" id="node17" href="$Runner_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/App.cc" alt="" coords="2297,199,2466,249"/>
+<area shape="rect" id="node18" href="$Runner_2main_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/main.cc" alt="" coords="2489,199,2658,249"/>
+<area shape="rect" id="node19" href="$RemoteController_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/RemoteController.cc" alt="" coords="2682,199,2873,249"/>
+<area shape="rect" id="node20" href="$StatusEmitter_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/StatusEmitter.cc" alt="" coords="2897,199,3066,249"/>
+<area shape="rect" id="node21" href="$StreamBuilder_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/StreamBuilder.cc" alt="" coords="3089,199,3261,249"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="SideCar::Parameter::Defs::DoubleTypeTraits" name="SideCar::Parameter::Defs::DoubleTypeTraits">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; DoubleTypeTraits \&gt;" alt="" coords="252,5,400,73"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedDoubleTypeTraits.html" title="Type definition for range of double values, defined by a lower and upper bound. " alt="" coords="220,97,432,165"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1Double.html" title="Complete type and class method definitions for C++ double values. " alt="" coords="513,15,650,64"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="BasicTypeDef\&lt; RangedDouble\lTypeTraits\&lt; DoubleBounds \&gt; \&gt;" alt="" coords="480,107,684,156"/>
+<area shape="rect" id="node6" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; RangedDoubleTypeTraits\l\&lt; DoubleBounds \&gt; \&gt;" alt="" coords="732,88,923,174"/>
+<area shape="rect" id="node7" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedDouble.html" title="Complete type and class method definitions for a range of double values. " alt="" coords="971,97,1122,165"/>
+</map>

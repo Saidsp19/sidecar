@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1GUI_1_1VertexGenerator.html" title="Abstract base class that defines the interface for classes that generate Vertex and Color values from..." alt="" coords="5,125,209,156"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1BScope_1_1BinaryVertexGenerator.html" title="Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color..." alt="" coords="262,5,424,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoVertexGenerator.html" title="Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color..." alt="" coords="263,79,422,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1BinaryVertexGenerator.html" title="Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color..." alt="" coords="257,152,429,201"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoVertexGenerator.html" title="Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color..." alt="" coords="257,225,429,274"/>
+</map>

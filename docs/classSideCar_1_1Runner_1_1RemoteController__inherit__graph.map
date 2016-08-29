@@ -1,0 +1,5 @@
+<map id="SideCar::Runner::RemoteController" name="SideCar::Runner::RemoteController">
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1RemoteControllerBase.html" title="An XML&#45;RPC remote controller abstract base class. " alt="" coords="253,5,415,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="251,79,417,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="5,88,203,118"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Utils::Uncopyable" name="Utils::Uncopyable">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1AutoCloseFileDescriptor.html" title="Simple utility class that closes a held file descriptor when the object is destroyed. " alt="" coords="189,5,369,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1MessageManager.html" title="Manager class for all message objects in the SideCar system. " alt="" coords="178,79,381,109"/>
+<area shape="rect" id="node4" href="$classUnitTest_1_1ProcSuite.html" title="Template class that represents a collection of unit test methods within one class. " alt="" coords="196,133,362,164"/>
+<area shape="rect" id="node5" href="$classUnitTest_1_1Suite.html" title="Represents a collection of TestObj objects. " alt="" coords="225,188,333,218"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::ControlsWindow" name="SideCar::GUI::ControlsWindow">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ControlsWindow.html" title="SideCar::GUI::PPIDisplay\l::ControlsWindow" alt="" coords="24,241,196,290"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1ToolWindowBase.html" title="Common base class for all SideCar GUI tool windows. " alt="" coords="5,84,215,114"/>
+</map>

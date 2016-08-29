@@ -1,0 +1,19 @@
+<map id="SideCar::Parameter::Defs::IntTypeTraits" name="SideCar::Parameter::Defs::IntTypeTraits">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; IntTypeTraits \&gt;" alt="" coords="214,5,359,73"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1NonNegativeIntTypeTraits.html" title="Variant of the integer definition that describes a range of non&#45;negative integer values. " alt="" coords="195,97,378,165"/>
+<area shape="rect" id="node8" href="$structSideCar_1_1Parameter_1_1Defs_1_1NotificationTypeTraits.html" title="Basic type definition for a notification. " alt="" coords="192,189,381,238"/>
+<area shape="rect" id="node11" href="$structSideCar_1_1Parameter_1_1Defs_1_1PositiveIntTypeTraits.html" title="Variant of the int definition that describes a range of positive integer values. " alt="" coords="195,271,379,320"/>
+<area shape="rect" id="node15" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedIntTypeTraits.html" title="Basic type definition for range of integer values, defined by a lower and upper bound given as the te..." alt="" coords="194,360,379,428"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1Int.html" title="Complete type and class method definitions for 32&#45;bit integer values. " alt="" coords="465,15,602,64"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; NonNegativeIntTypeTraits \&gt;" alt="" coords="436,88,632,156"/>
+<area shape="rect" id="node6" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; NonNegativeIntTypeTraits \&gt;" alt="" coords="700,88,897,156"/>
+<area shape="rect" id="node7" href="$structSideCar_1_1Parameter_1_1Defs_1_1NonNegativeInt.html" title="Complete type and class method definitions for non&#45;negative integer values. " alt="" coords="979,97,1133,146"/>
+<area shape="rect" id="node9" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; NotificationTypeTraits \&gt;" alt="" coords="449,180,619,248"/>
+<area shape="rect" id="node10" href="$structSideCar_1_1Parameter_1_1Defs_1_1Notification.html" title="Complete type and class method definitions for &#39;notification&#39; values. " alt="" coords="730,189,867,238"/>
+<area shape="rect" id="node12" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; PositiveIntTypeTraits \&gt;" alt="" coords="451,272,617,340"/>
+<area shape="rect" id="node13" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; PositiveIntTypeTraits \&gt;" alt="" coords="703,267,894,334"/>
+<area shape="rect" id="node14" href="$structSideCar_1_1Parameter_1_1Defs_1_1PositiveInt.html" title="Complete type and class method definitions for positive integer values. " alt="" coords="988,276,1124,325"/>
+<area shape="rect" id="node16" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="BasicTypeDef\&lt; RangedIntType\lTraits\&lt; MinValue, MaxValue \&gt; \&gt;" alt="" coords="429,373,638,422"/>
+<area shape="rect" id="node17" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; RangedIntTypeTraits\&lt; MinValue,\l MaxValue \&gt; \&gt;" alt="" coords="686,359,911,445"/>
+<area shape="rect" id="node18" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedInt.html" title="Complete type and class method definitions for fixed&#45;range integer values. " alt="" coords="959,368,1153,436"/>
+</map>

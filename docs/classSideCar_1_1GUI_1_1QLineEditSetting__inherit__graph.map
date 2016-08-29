@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::QLineEditSetting" name="SideCar::GUI::QLineEditSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1StringSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="17,162,200,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="34,84,183,114"/>
+</map>

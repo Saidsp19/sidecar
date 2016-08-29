@@ -1,0 +1,24 @@
+<map id="/Users/howes/src/sidecar/GUI/ESScope/VideoImaging.h" name="/Users/howes/src/sidecar/GUI/ESScope/VideoImaging.h">
+<area shape="rect" id="node3" href="$CLUT_8h_source.html" title="GUI/CLUT.h" alt="" coords="1126,181,1221,211"/>
+<area shape="rect" id="node6" href="$SampleImaging_8h.html" title="SampleImaging.h" alt="" coords="1543,102,1667,133"/>
+<area shape="rect" id="node4" href="$Color_8h_source.html" title="GUI/Color.h" alt="" coords="801,259,892,290"/>
+<area shape="rect" id="node7" href="$ChannelImaging_8h.html" title="GUI/ChannelImaging.h" alt="" coords="1527,181,1683,211"/>
+<area shape="rect" id="node48" href="$QComboBoxSetting_8h_source.html" title="GUI/QComboBoxSetting.h" alt="" coords="2056,181,2232,211"/>
+<area shape="rect" id="node8" href="$BoolSetting_8h_source.html" title="GUI/BoolSetting.h" alt="" coords="1713,338,1841,369"/>
+<area shape="rect" id="node13" href="$ColorButtonSetting_8h_source.html" title="GUI/ColorButtonSetting.h" alt="" coords="1892,259,2062,290"/>
+<area shape="rect" id="node16" href="$DoubleSetting_8h_source.html" title="GUI/DoubleSetting.h" alt="" coords="1547,338,1690,369"/>
+<area shape="rect" id="node17" href="$OnOffSettingsBlock_8h_source.html" title="GUI/OnOffSettingsBlock.h" alt="" coords="1694,259,1869,290"/>
+<area shape="rect" id="node19" href="$OpacitySetting_8h_source.html" title="GUI/OpacitySetting.h" alt="" coords="1422,259,1568,290"/>
+<area shape="rect" id="node21" href="$LogUtils_8h_source.html" title="GUI/LogUtils.h" alt="" coords="917,259,1024,290"/>
+<area shape="rect" id="node9" href="$Setting_8h_source.html" title="GUI/Setting.h" alt="" coords="1683,417,1784,447"/>
+<area shape="rect" id="node14" href="$QColorSetting_8h_source.html" title="GUI/QColorSetting.h" alt="" coords="1916,338,2060,369"/>
+<area shape="rect" id="node18" href="$SettingsBlock_8h_source.html" title="GUI/SettingsBlock.h" alt="" coords="1808,417,1949,447"/>
+<area shape="rect" id="node30" href="$Log_8h.html" title="Logger/Log.h" alt="" coords="877,338,976,369"/>
+<area shape="rect" id="node38" href="$Priority_8h.html" title="Logger/Priority.h" alt="" coords="869,495,987,526"/>
+<area shape="rect" id="node40" href="$LogStreamBuf_8h.html" title="Logger/LogStreamBuf.h" alt="" coords="538,417,699,447"/>
+<area shape="rect" id="node42" href="$Logger_2Writers_8h.html" title="Logger/Writers.h" alt="" coords="397,417,515,447"/>
+<area shape="rect" id="node47" href="$Threading_8h_source.html" title="Threading/Threading.h" alt="" coords="5,495,160,526"/>
+<area shape="rect" id="node39" href="$Exceptions_8h.html" title="Logger/Exceptions.h" alt="" coords="782,574,922,604"/>
+<area shape="rect" id="node46" href="$Formatters_8h.html" title="Logger/Formatters.h" alt="" coords="514,495,654,526"/>
+<area shape="rect" id="node50" href="$IntSetting_8h_source.html" title="GUI/IntSetting.h" alt="" coords="2086,259,2202,290"/>
+</map>

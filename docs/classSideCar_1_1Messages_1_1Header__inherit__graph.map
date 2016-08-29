@@ -1,0 +1,19 @@
+<map id="SideCar::Messages::Header" name="SideCar::Messages::Header">
+<area shape="rect" id="node4" href="$classSideCar_1_1Messages_1_1BugPlot.html" title="SideCar::Messages::\lBugPlot" alt="" coords="453,5,597,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Messages_1_1Extractions.html" title="Container of Extraction objects. " alt="" coords="453,79,597,128"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Messages_1_1PRIMessage.html" title="Base class for all PRI&#45;type messages created in the SideCar. " alt="" coords="453,152,597,201"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1Messages_1_1RawVideo.html" title="SideCar::Messages::\lRawVideo" alt="" coords="453,225,597,274"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1Messages_1_1SegmentMessage.html" title="SideCar::Messages::\lSegmentMessage" alt="" coords="453,299,597,348"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1Messages_1_1TDecimator.html" title="Template class that can generate iterators for a TPRIMessage class that return every N item..." alt="" coords="453,372,597,421"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1Messages_1_1Track.html" title="SideCar::Messages::\lTrack" alt="" coords="453,445,597,494"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1Messages_1_1TSPI.html" title="SideCar::Messages::TSPI" alt="" coords="439,519,611,549"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1CDRStreamable.html" title="SideCar::IO::CDRStreamable\l\&lt; Header \&gt;" alt="" coords="5,225,199,274"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; Header \&gt;" alt="" coords="27,299,177,348"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Messages_1_1TPRIMessage.html" title="Templated version of the PRIMessage class. " alt="" coords="661,23,805,72"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1Messages_1_1TPRIMessage.html" title="SideCar::Messages::\lTPRIMessage\&lt; Traits\l::Bool \&gt;" alt="" coords="659,96,807,164"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1Messages_1_1TPRIMessage.html" title="SideCar::Messages::\lTPRIMessage\&lt; Traits\l::ComplexInt16 \&gt;" alt="" coords="659,188,807,256"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1Messages_1_1TPRIMessage.html" title="SideCar::Messages::\lTPRIMessage\&lt; Traits\l::Int16 \&gt;" alt="" coords="659,280,807,348"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1Messages_1_1BinaryVideo.html" title="Collection of gate values for one PRI message from a radar. " alt="" coords="855,105,999,154"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1Messages_1_1Complex.html" title="Collection of gate values for one PRI message from a radar. " alt="" coords="855,197,999,246"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1Messages_1_1Video.html" title="Collection of sample values for one PRI message from a radar. " alt="" coords="855,289,999,338"/>
+</map>

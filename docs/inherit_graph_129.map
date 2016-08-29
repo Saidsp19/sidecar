@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Master_1_1CleanerThread.html" title="Worker thread used by the Cleaner class to perform the cleaning actions. " alt="" coords="154,5,301,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Master_1_1DiskSpaceThread.html" title="SideCar::GUI::Master\l::DiskSpaceThread" alt="" coords="154,79,301,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Playback_1_1Emitter.html" title="Message emitter for the Playback application. " alt="" coords="147,152,308,201"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1Playback_1_1LoaderThread.html" title="SideCar::GUI::Playback\l::LoaderThread" alt="" coords="147,225,308,274"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1ReaderThread.html" title="A class that manages a TCP/UDP reader that runs in a separate thread. " alt="" coords="132,299,324,329"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1SignalGenerator_1_1Emitter.html" title="SideCar::GUI::SignalGenerator\l::Emitter" alt="" coords="126,353,329,402"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1Spectrum_1_1WorkerThread.html" title="SideCar::GUI::Spectrum\l::WorkerThread" alt="" coords="145,427,310,476"/>
+</map>

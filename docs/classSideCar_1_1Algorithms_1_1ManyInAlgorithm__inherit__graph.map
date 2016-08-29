@@ -1,0 +1,10 @@
+<map id="SideCar::Algorithms::ManyInAlgorithm" name="SideCar::Algorithms::ManyInAlgorithm">
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1BinaryOp.html" title="Documentation for the algorithm BinaryOp. " alt="" coords="383,5,522,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1DynamicThreshold.html" title="Unlike the Threshold algorithm, which is essential a high&#45;pass filter with a constant threshold..." alt="" coords="383,79,522,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1ManyInCPIAlgorithm.html" title="Documentation for the algorithm Summer. " alt="" coords="378,152,527,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Algorithms_1_1MatchedFilter.html" title="Documentation for the algorithm MatchedFilter. " alt="" coords="383,225,522,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Algorithms_1_1Printer.html" title="Documentation for the algorithm Printer. " alt="" coords="383,299,522,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1Algorithms_1_1SimpleOp.html" title="Documentation for the algorithm SimpleOp. " alt="" coords="383,372,522,421"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1Algorithms_1_1Summer.html" title="Documentation for the algorithm Summer. " alt="" coords="383,445,522,494"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1Algorithm.html" title="Base class for all algorithm classes. " alt="" coords="5,225,144,274"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="SideCar::GUI::StringSetting" name="SideCar::GUI::StringSetting">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1ChannelSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change a subscription c..." alt="" coords="556,5,754,36"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1PathSetting.html" title="SideCar::GUI::PathSetting" alt="" coords="567,60,742,91"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1QLineEditSetting.html" title="SideCar::GUI::QLineEditSetting" alt="" coords="551,115,758,145"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="123,60,272,91"/>
+</map>

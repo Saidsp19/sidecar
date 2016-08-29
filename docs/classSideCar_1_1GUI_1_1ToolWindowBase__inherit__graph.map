@@ -1,0 +1,25 @@
+<map id="SideCar::GUI::ToolWindowBase" name="SideCar::GUI::ToolWindowBase">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1ChannelConnectionWindow.html" title="Tool window that shows the list of configured channel connections for the active Visuazlier. " alt="" coords="388,5,579,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1AScope_1_1ConfigurationWindow.html" title="Window that shows range and power level limits used by the Visualizer objects. " alt="" coords="407,79,561,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1AScope_1_1HistoryControlWindow.html" title="Tool window that allows the user to move back in time to a previous frame of data. " alt="" coords="404,152,563,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1AScope_1_1ViewEditor.html" title="SideCar::GUI::AScope\l::ViewEditor" alt="" coords="407,225,561,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1BScope_1_1ConfigurationWindow.html" title="SideCar::GUI::BScope\l::ConfigurationWindow" alt="" coords="407,299,561,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1BScope_1_1ControlsWindow.html" title="SideCar::GUI::BScope\l::ControlsWindow" alt="" coords="407,372,561,421"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1ChannelSelectorWindow.html" title="Tool window that shows three QComboBox buttons that allow the user to select which Video..." alt="" coords="381,445,586,494"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1ControlsWindow.html" title="SideCar::GUI::ControlsWindow" alt="" coords="382,519,586,549"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1ESScope_1_1ConfigurationWindow.html" title="SideCar::GUI::ESScope\l::ConfigurationWindow" alt="" coords="403,573,565,622"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1ESScope_1_1ControlsWindow.html" title="SideCar::GUI::ESScope\l::ControlsWindow" alt="" coords="403,647,565,696"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1ESScope_1_1ViewEditor.html" title="SideCar::GUI::ESScope\l::ViewEditor" alt="" coords="403,720,565,769"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1ConfigurationWindow.html" title="Window that shows range and power level limits used by the Visualizer and RenderThread objects..." alt="" coords="381,793,587,842"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1GUI_1_1LoggerWindow.html" title="Floating tool window that shows the various Logger::Log devices in use by a GUI program. " alt="" coords="386,867,581,897"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1GUI_1_1ManualWindow.html" title="SideCar::GUI::ManualWindow" alt="" coords="385,921,583,952"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationWindow.html" title="Window that shows range and power level limits used by the Visualizer objects. " alt="" coords="407,976,561,1025"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1GUI_1_1Playback_1_1BrowserWindow.html" title="SideCar::GUI::Playback\l::BrowserWindow" alt="" coords="403,1049,564,1098"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ConfigurationWindow.html" title="SideCar::GUI::PPIDisplay\l::ConfigurationWindow" alt="" coords="398,1123,570,1172"/>
+<area shape="rect" id="node21" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ScreenCaptureWindow.html" title="SideCar::GUI::PPIDisplay\l::ScreenCaptureWindow" alt="" coords="398,1196,570,1245"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1GUI_1_1PresetsWindow.html" title="Floating tool window that shows the message time for the data shown in a PPIWidget, and the range/azimuth values for the cursor. " alt="" coords="385,1269,583,1300"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ChannelSelectorWindow.html" title="Tool window that shows three QComboBox buttons that allow the user to select which Video..." alt="" coords="397,1324,570,1373"/>
+<area shape="rect" id="node24" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ConfigurationWindow.html" title="Window that shows range and power level limits used by the Visualizer and RenderThread objects..." alt="" coords="402,1397,566,1446"/>
+<area shape="rect" id="node25" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ViewEditor.html" title="SideCar::GUI::Spectrum\l::ViewEditor" alt="" coords="402,1471,566,1520"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ControlsWindow.html" title="SideCar::GUI::PPIDisplay\l::ControlsWindow" alt="" coords="635,509,807,558"/>
+</map>

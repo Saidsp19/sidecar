@@ -1,0 +1,8 @@
+<map id="SideCar::Algorithms::Processor" name="SideCar::Algorithms::Processor">
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="Templated class that provides type&#45;safe processing of SideCar messages. " alt="" coords="218,5,364,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="SideCar::Algorithms\l::TProcessor\&lt; Channel,\l Messages::Video \&gt;" alt="" coords="211,79,371,146"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="SideCar::Algorithms\l::TProcessor\&lt; TChannelBuffer\l\&lt; T \&gt;, T \&gt;" alt="" coords="192,171,390,238"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1TChannelBuffer.html" title="TChannelBuffer\&lt; Messages\l::Video \&gt;" alt="" coords="438,5,621,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1DownConverterUtils_1_1Channel.html" title="Utility class for DownConverter that manages data from one input channel. " alt="" coords="457,79,602,146"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Algorithms_1_1TChannelBuffer.html" title="Templated class for a input channel buffer. " alt="" coords="454,180,605,229"/>
+</map>

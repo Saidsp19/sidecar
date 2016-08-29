@@ -1,0 +1,8 @@
+<map id="SideCar::GUI::PresetManager" name="SideCar::GUI::PresetManager">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1Configuration.html" title="SideCar::GUI::AScope\l::Configuration" alt="" coords="378,5,531,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1Configuration.html" title="SideCar::GUI::BScope\l::Configuration" alt="" coords="378,79,531,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1ESScope_1_1Configuration.html" title="Configuration settings for the ESScope application. " alt="" coords="373,152,536,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1Master_1_1Settings.html" title="Settings that persist between executions of the Master application. " alt="" coords="381,225,528,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1Configuration.html" title="SideCar::GUI::PPIDisplay\l::Configuration" alt="" coords="369,299,540,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1Spectrum_1_1Configuration.html" title="SideCar::GUI::Spectrum\l::Configuration" alt="" coords="372,372,537,421"/>
+</map>

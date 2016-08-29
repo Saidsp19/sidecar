@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::Master::DurationSetting" name="SideCar::GUI::Master::DurationSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1QTimeEditSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="5,241,216,271"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1TimeSetting.html" title="Derivation of the Setting class that manages QTime values (HH:MM:SS) " alt="" coords="22,162,200,193"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="36,84,185,114"/>
+</map>

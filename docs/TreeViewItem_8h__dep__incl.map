@@ -1,0 +1,30 @@
+<map id="/Users/howes/src/sidecar/GUI/Master/TreeViewItem.h" name="/Users/howes/src/sidecar/GUI/Master/TreeViewItem.h">
+<area shape="rect" id="node2" href="$CollectionItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/CollectionItem.h" alt="" coords="1006,102,1197,151"/>
+<area shape="rect" id="node18" href="$ParamEditor_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ParamEditor.cc" alt="" coords="2495,297,2681,346"/>
+<area shape="rect" id="node20" href="$ConfigurationModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationModel.cc" alt="" coords="2316,102,2543,151"/>
+<area shape="rect" id="node21" href="$TaskItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/TaskItem.h" alt="" coords="2124,102,2292,151"/>
+<area shape="rect" id="node25" href="$LogAlertsWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/LogAlertsWindow.cc" alt="" coords="2618,102,2833,151"/>
+<area shape="rect" id="node26" href="$LogViewWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/LogViewWindow.cc" alt="" coords="2858,102,3068,151"/>
+<area shape="rect" id="node27" href="$Master_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/MainWindow.cc" alt="" coords="3092,102,3281,151"/>
+<area shape="rect" id="node28" href="$Master_2RecordingModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RecordingModel.cc" alt="" coords="3306,102,3516,151"/>
+<area shape="rect" id="node29" href="$TreeViewItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/TreeViewItem.cc" alt="" coords="3540,102,3735,151"/>
+<area shape="rect" id="node3" href="$CollectionItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/CollectionItem.cc" alt="" coords="898,199,1095,249"/>
+<area shape="rect" id="node4" href="$RunnerItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/RunnerItem.h" alt="" coords="1119,199,1295,249"/>
+<area shape="rect" id="node14" href="$ConfigurationItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationItem.h" alt="" coords="646,199,856,249"/>
+<area shape="rect" id="node16" href="$RootItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/RootItem.h" alt="" coords="453,199,622,249"/>
+<area shape="rect" id="node17" href="$StreamItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/StreamItem.h" alt="" coords="1889,199,2064,249"/>
+<area shape="rect" id="node5" href="$ConfigurationController_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationController.cc" alt="" coords="1083,297,1331,346"/>
+<area shape="rect" id="node6" href="$ConfigurationInfo_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationInfo.cc" alt="" coords="1355,297,1568,346"/>
+<area shape="rect" id="node7" href="$ConfigurationItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationItem.cc" alt="" coords="197,297,414,346"/>
+<area shape="rect" id="node8" href="$ControllerItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ControllerItem.cc" alt="" coords="1878,297,2074,346"/>
+<area shape="rect" id="node9" href="$LogViewWindowManager_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/LogViewWindowManager.cc" alt="" coords="1592,297,1854,346"/>
+<area shape="rect" id="node10" href="$RunnerItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RunnerItem.cc" alt="" coords="661,297,843,346"/>
+<area shape="rect" id="node11" href="$ServicesModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ServicesModel.cc" alt="" coords="437,297,638,346"/>
+<area shape="rect" id="node12" href="$ServicesView_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ServicesView.cc" alt="" coords="866,297,1059,346"/>
+<area shape="rect" id="node13" href="$StreamItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/StreamItem.cc" alt="" coords="2098,297,2279,346"/>
+<area shape="rect" id="node15" href="$RootItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RootItem.cc" alt="" coords="5,297,174,346"/>
+<area shape="rect" id="node19" href="$TaskItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/TaskItem.cc" alt="" coords="2303,297,2471,346"/>
+<area shape="rect" id="node22" href="$ControllerItem_8h.html" title="/Users/howes/src/sidecar\l/GUI/Master/ControllerItem.h" alt="" coords="2100,199,2290,249"/>
+<area shape="rect" id="node23" href="$RawPRIItem_8h_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RawPRIItem.h" alt="" coords="2705,297,2885,346"/>
+<area shape="rect" id="node24" href="$RawPRIItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RawPRIItem.cc" alt="" coords="2702,394,2888,443"/>
+</map>

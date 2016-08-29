@@ -1,0 +1,7 @@
+<map id="SideCar::GUI::CursorWidget" name="SideCar::GUI::CursorWidget">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="371,5,524,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="370,79,524,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1ESScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="366,152,528,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="361,225,533,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1Spectrum_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="365,299,529,348"/>
+</map>

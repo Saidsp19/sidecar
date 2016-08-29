@@ -1,0 +1,264 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structController_1_1IncomingNotifier.html" title="Helper class for Controller objects that do not spawn a thread for algorithm message processing (see ..." alt="" coords="717,145,905,194"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1BugCollectorUtils_1_1BugPlotReader.html" title="Multicast data reader of BugPlot messages. " alt="" coords="742,219,881,286"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1BugCollectorUtils_1_1BugPlotSubscriber.html" title="Automatic BugPlot channel subscriber. " alt="" coords="742,311,881,378"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Zeroconf_1_1ACEMonitor.html" title="Concrete implementation of the Monitor class that relies on the ACE infrastructure to determine when ..." alt="" coords="744,403,879,452"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1Algorithms_1_1MatchedFilterUtils_1_1WorkerThreads.html" title="Thread pool that generates threads that perform the following in the overridden svc() method: ..." alt="" coords="211,4533,350,4601"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1Algorithms_1_1Recorder.html" title="Documentation for the algorithm Recorder. " alt="" coords="211,4460,350,4509"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1Algorithms_1_1RemoteControllerBase.html" title="An XML&#45;RPC remote controller abstract base class. " alt="" coords="447,5235,609,5284"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1RTCLMessageReader.html" title="Derivation of MessageReader that obtains messages over an RTCL topic. " alt="" coords="1001,3117,1196,3166"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1IO_1_1MulticastDataSubscriber_1_1ReaderThread.html" title="Internal class used by MulticastDataSubscriber to perform reading from a multicast UDP socket in a se..." alt="" coords="192,4675,369,4724"/>
+<area shape="rect" id="node14" href="$structSideCar_1_1IO_1_1StateEmitter_1_1Private.html" title="SideCar::IO::StateEmitter\l::Private" alt="" coords="196,4748,365,4797"/>
+<area shape="rect" id="node15" href="$structSideCar_1_1IO_1_1StatusEmitterBase_1_1Emitter.html" title="Internal class used by StatusEmitterBase to do most of the work. " alt="" coords="192,4821,369,4870"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1IO_1_1Task.html" title="Derivation of ACE_Task for SideCar processing modules. " alt="" coords="218,4895,343,4925"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1Runner_1_1RemoteController.html" title="A remote controller class for App objects. " alt="" coords="984,5163,1213,5193"/>
+<area shape="rect" id="node17" href="$structConverterInputTask.html" title="Simple task that places messages given to its put() method into its message queue. " alt="" coords="460,4785,596,4816"/>
+<area shape="rect" id="node18" href="$structInputTask.html" title="Simple task that places messages given to its put() method into its message queue. " alt="" coords="488,4840,567,4870"/>
+<area shape="rect" id="node19" href="$structPRIChunkerInputTask.html" title="Simple task that places messages given to its put() method into its message queue. " alt="" coords="453,4895,603,4925"/>
+<area shape="rect" id="node20" href="$structPRIChunkerOutputTask.html" title="PRIChunkerOutputTask" alt="" coords="448,4949,608,4980"/>
+<area shape="rect" id="node21" href="$structPRIInfoInputTask.html" title="Simple task that places messages given to its put() method into its message queue. " alt="" coords="467,4511,588,4541"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1Algorithms_1_1Controller.html" title="Controller for an Algorithm object found in a separate DLL. " alt="" coords="458,4565,597,4614"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1Algorithms_1_1ShutdownMonitor.html" title="Simple task that watches for MB_STOP messages in its message queue, and calls ACE_Reactor::end_event_..." alt="" coords="458,4639,597,4688"/>
+<area shape="rect" id="node24" href="$structSideCar_1_1Algorithms_1_1Sink.html" title="SideCar::Algorithms\l::Sink" alt="" coords="458,4712,597,4761"/>
+<area shape="rect" id="node25" href="$classSideCar_1_1IO_1_1IOTask.html" title="Derivative of IO::Task that holds a MetaTypeInfo object which describes the message type the task han..." alt="" coords="458,5059,597,5089"/>
+<area shape="rect" id="node26" href="$classSideCar_1_1IO_1_1ClientSocketReaderTask.html" title="An ACE task that keeps alive a TCP connection to a remote server. " alt="" coords="725,4829,897,4878"/>
+<area shape="rect" id="node27" href="$classSideCar_1_1IO_1_1ClientSocketWriterTask.html" title="An ACE task that keeps alive a connection to a remote server. " alt="" coords="725,4903,897,4952"/>
+<area shape="rect" id="node28" href="$classSideCar_1_1IO_1_1DataPublisher.html" title="Abstract base class for data publishers. " alt="" coords="721,5031,901,5061"/>
+<area shape="rect" id="node31" href="$classSideCar_1_1IO_1_1DataSubscriber.html" title="A variant of IOTask which acts as the subscriber part in a publisher/subscriber relationship. " alt="" coords="717,5341,905,5372"/>
+<area shape="rect" id="node34" href="$classSideCar_1_1IO_1_1FileReaderTask.html" title="An ACE service / task that takes data from a file and generates messages objects which are then place..." alt="" coords="716,4976,906,5006"/>
+<area shape="rect" id="node35" href="$classSideCar_1_1IO_1_1FileWriterTask.html" title="An ACE service / task that takes data from a processing queue writes them out to a file..." alt="" coords="720,5085,902,5116"/>
+<area shape="rect" id="node36" href="$classSideCar_1_1IO_1_1MulticastVMEReaderTask.html" title="A socket reader task for multicast UDP messages. " alt="" coords="686,5140,936,5170"/>
+<area shape="rect" id="node37" href="$classSideCar_1_1IO_1_1ServerSocketReaderTask.html" title="An ACE service / task that sets up a server&#45;side socket for client connections, managers client conne..." alt="" coords="723,5195,900,5244"/>
+<area shape="rect" id="node38" href="$classSideCar_1_1IO_1_1ServerSocketWriterTask.html" title="An ACE service / task that sets up a server&#45;side socket for client connections, managers client conne..." alt="" coords="723,5268,900,5317"/>
+<area shape="rect" id="node39" href="$classSideCar_1_1IO_1_1TSPIReaderTask.html" title="A socket reader task for TSPI multicast UDP messages. " alt="" coords="713,4611,910,4641"/>
+<area shape="rect" id="node40" href="$classSideCar_1_1IO_1_1UDPSocketReaderTask.html" title="A socket reader task for UDP messages. " alt="" coords="693,4665,930,4696"/>
+<area shape="rect" id="node41" href="$classSideCar_1_1IO_1_1UDPSocketWriterTask.html" title="A socket writer task for UDP messages. " alt="" coords="697,4720,925,4750"/>
+<area shape="rect" id="node42" href="$classSideCar_1_1IO_1_1VMEReaderTask.html" title="A socket reader task for UDP messages. " alt="" coords="712,4775,910,4805"/>
+<area shape="rect" id="node29" href="$classSideCar_1_1IO_1_1MulticastDataPublisher.html" title="Publisher of data using UDP multicast transport. " alt="" coords="1010,4583,1187,4632"/>
+<area shape="rect" id="node30" href="$classSideCar_1_1IO_1_1TCPDataPublisher.html" title="Publisher of data using TCP transport. " alt="" coords="996,4528,1202,4558"/>
+<area shape="rect" id="node32" href="$classSideCar_1_1IO_1_1MulticastDataSubscriber.html" title="Subscriber of data using the UDP multicast transport. " alt="" coords="1010,4784,1187,4833"/>
+<area shape="rect" id="node33" href="$classSideCar_1_1IO_1_1TCPDataSubscriber.html" title="SideCar::IO::TCPDataSubscriber" alt="" coords="992,4729,1206,4760"/>
+<area shape="rect" id="node44" href="$classLEDPlugin.html" title="LEDPlugin" alt="" coords="769,604,853,634"/>
+<area shape="rect" id="node45" href="$classPotentiometerPlugin.html" title="PotentiometerPlugin" alt="" coords="742,659,881,689"/>
+<area shape="rect" id="node46" href="$classSquareButtonPlugin.html" title="SquareButtonPlugin" alt="" coords="742,713,881,744"/>
+<area shape="rect" id="node48" href="$classModelTest.html" title="ModelTest" alt="" coords="770,2772,853,2802"/>
+<area shape="rect" id="node49" href="$classSideCar_1_1GUI_1_1AScope_1_1ChannelConnection.html" title="Instances represent a link between an AScope Visualizer and a VideoChannel. " alt="" coords="734,2827,888,2876"/>
+<area shape="rect" id="node50" href="$classSideCar_1_1GUI_1_1AScope_1_1History.html" title="Manager of a collection of HistoryFrame objects that represent unique snapshots of data from one or m..." alt="" coords="734,2900,888,2949"/>
+<area shape="rect" id="node51" href="$classSideCar_1_1GUI_1_1AScope_1_1HistoryPosition.html" title="History position for a given Visualizer object. " alt="" coords="734,2973,888,3022"/>
+<area shape="rect" id="node52" href="$classSideCar_1_1GUI_1_1AScope_1_1PeakBarCollection.html" title="SideCar::GUI::AScope\l::PeakBarCollection" alt="" coords="734,3047,888,3096"/>
+<area shape="rect" id="node53" href="$classSideCar_1_1GUI_1_1AScope_1_1PeakBarRenderer.html" title="Rendering class for PeakBarCollection objects. " alt="" coords="734,3120,888,3169"/>
+<area shape="rect" id="node54" href="$classSideCar_1_1GUI_1_1AScope_1_1RenderInfo.html" title="Collection of render attributes associated with a particular ChannelConnection object. " alt="" coords="734,3193,888,3242"/>
+<area shape="rect" id="node55" href="$classSideCar_1_1GUI_1_1AScope_1_1VideoChannel.html" title="Manages a Subscriber connection to a remote data publisher for Messages::Video data. " alt="" coords="734,3267,888,3316"/>
+<area shape="rect" id="node56" href="$classSideCar_1_1GUI_1_1BScope_1_1CursorPosition.html" title="SideCar::GUI::BScope\l::CursorPosition" alt="" coords="734,3340,888,3389"/>
+<area shape="rect" id="node57" href="$classSideCar_1_1GUI_1_1BScope_1_1History.html" title="Container for collections of SideCar messages, grouped by revolution. " alt="" coords="734,3413,888,3462"/>
+<area shape="rect" id="node58" href="$classSideCar_1_1GUI_1_1BScope_1_1ImageScaler.html" title="SideCar::GUI::BScope\l::ImageScaler" alt="" coords="734,3487,888,3536"/>
+<area shape="rect" id="node59" href="$classSideCar_1_1GUI_1_1ChannelGroup.html" title="A manager of a collection of subscription channels for a particular message type (eg. " alt="" coords="1002,4419,1195,4449"/>
+<area shape="rect" id="node60" href="$classSideCar_1_1GUI_1_1ESScope_1_1History.html" title="SideCar::GUI::ESScope\l::History" alt="" coords="730,3719,892,3768"/>
+<area shape="rect" id="node61" href="$classSideCar_1_1GUI_1_1ESScope_1_1ViewSettings.html" title="SideCar::GUI::ESScope\l::ViewSettings" alt="" coords="730,4341,892,4390"/>
+<area shape="rect" id="node64" href="$classSideCar_1_1GUI_1_1ExtractionEmitter_1_1ViewModelChanger.html" title="SideCar::GUI::Extraction\lEmitter::ViewModelChanger" alt="" coords="719,3792,904,3841"/>
+<area shape="rect" id="node65" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1ChannelConnection.html" title="SideCar::GUI::HealthAndStatus\l::ChannelConnection" alt="" coords="708,3865,914,3914"/>
+<area shape="rect" id="node66" href="$classSideCar_1_1GUI_1_1LoggerTreeItem.html" title="SideCar::GUI::LoggerTreeItem" alt="" coords="711,3939,911,3969"/>
+<area shape="rect" id="node67" href="$classSideCar_1_1GUI_1_1Master_1_1Cleaner.html" title="Terminates active &#39;runner&#39; and &#39;tail&#39; processes on a set of hosts that are running under the current ..." alt="" coords="737,3993,885,4042"/>
+<area shape="rect" id="node68" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationController.html" title="Controller class for the ConfigurationModel and the QTableView used to show loaded configuration file..." alt="" coords="730,4067,893,4116"/>
+<area shape="rect" id="node69" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationInfo.html" title="Class that holds information about a particular configuration file. " alt="" coords="737,4140,885,4189"/>
+<area shape="rect" id="node70" href="$classSideCar_1_1GUI_1_1Master_1_1DiskSpaceMonitor.html" title="SideCar::GUI::Master\l::DiskSpaceMonitor" alt="" coords="737,4213,885,4262"/>
+<area shape="rect" id="node71" href="$classSideCar_1_1GUI_1_1Master_1_1Launcher.html" title="Starts the &#39;runner&#39; processes associated with a given configuration file. " alt="" coords="737,1319,885,1368"/>
+<area shape="rect" id="node72" href="$classSideCar_1_1GUI_1_1Master_1_1ParamBase.html" title="Abstract base class for a parameter editor. " alt="" coords="737,768,885,817"/>
+<area shape="rect" id="node80" href="$classSideCar_1_1GUI_1_1Master_1_1RecordingController.html" title="SideCar::GUI::Master\l::RecordingController" alt="" coords="737,1473,885,1522"/>
+<area shape="rect" id="node81" href="$classSideCar_1_1GUI_1_1Master_1_1RecordingInfo.html" title="Class that holds information about a particular recording. " alt="" coords="737,1547,885,1596"/>
+<area shape="rect" id="node82" href="$classSideCar_1_1GUI_1_1Master_1_1RemoteClient.html" title="TCP command interface that allows control of the recordings via command&#45;line utility. " alt="" coords="737,1620,885,1669"/>
+<area shape="rect" id="node83" href="$classSideCar_1_1GUI_1_1Master_1_1RunnerLog.html" title="Log message collector object for a Runner applications. " alt="" coords="737,1693,885,1742"/>
+<area shape="rect" id="node84" href="$classSideCar_1_1GUI_1_1Master_1_1StatusCollector.html" title="Status collector for Runner StatusEmitter objects. " alt="" coords="737,1767,885,1816"/>
+<area shape="rect" id="node85" href="$classSideCar_1_1GUI_1_1Master_1_1TreeViewItem.html" title="Base class for a row in a QTreeView display. " alt="" coords="737,4537,885,4586"/>
+<area shape="rect" id="node94" href="$classSideCar_1_1GUI_1_1MessageReader.html" title="Base class for SideCar message readers used by the GUI applications. " alt="" coords="709,2352,913,2382"/>
+<area shape="rect" id="node97" href="$classSideCar_1_1GUI_1_1MessageWriter.html" title="Abstract base class for Qt data publishers. " alt="" coords="714,4287,909,4317"/>
+<area shape="rect" id="node100" href="$classSideCar_1_1GUI_1_1OffscreenBuffer.html" title="Manager of an OpenGL framebuffer object that allows for direct rendering into a texture object..." alt="" coords="713,1035,910,1065"/>
+<area shape="rect" id="node109" href="$classSideCar_1_1GUI_1_1PeakDetector.html" title="SideCar::GUI::PeakDetector" alt="" coords="718,1949,905,1980"/>
+<area shape="rect" id="node110" href="$classSideCar_1_1GUI_1_1Playback_1_1Clock.html" title="Playback clock for the Playback application. " alt="" coords="731,2004,892,2053"/>
+<area shape="rect" id="node111" href="$classSideCar_1_1GUI_1_1Playback_1_1RecordingInfo.html" title="Class that holds information about a particular recording. " alt="" coords="731,2077,892,2126"/>
+<area shape="rect" id="node112" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1CursorPosition.html" title="SideCar::GUI::PPIDisplay\l::CursorPosition" alt="" coords="725,2151,897,2200"/>
+<area shape="rect" id="node113" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1History.html" title="Container for collections of SideCar messages, grouped by revolution. " alt="" coords="725,2224,897,2273"/>
+<area shape="rect" id="node114" href="$classSideCar_1_1GUI_1_1Preset.html" title="Collection of Setting values that represent a defined preset for an application. " alt="" coords="739,2297,884,2328"/>
+<area shape="rect" id="node115" href="$classSideCar_1_1GUI_1_1PresetManager.html" title="Manager for Preset objects and associated Setting objects. " alt="" coords="713,1392,910,1422"/>
+<area shape="rect" id="node122" href="$classSideCar_1_1GUI_1_1QtMonitor.html" title="Concrete implementation of the Monitor class that relies on QSocketNotifier object to determine when ..." alt="" coords="729,549,894,580"/>
+<area shape="rect" id="node123" href="$classSideCar_1_1GUI_1_1RangeMap.html" title="Set of points that define lines that make up a range map. " alt="" coords="725,1840,897,1870"/>
+<area shape="rect" id="node125" href="$classSideCar_1_1GUI_1_1ServiceBrowser.html" title="A refined Zeroconf browser for use by Qt widgets. " alt="" coords="712,2407,911,2437"/>
+<area shape="rect" id="node126" href="$classSideCar_1_1GUI_1_1ServiceEntry.html" title="Bridge class that brings together the Zeroconf::ServiceEntry interface and the Qt QObject interface..." alt="" coords="720,2461,902,2492"/>
+<area shape="rect" id="node127" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="737,3609,886,3640"/>
+<area shape="rect" id="node151" href="$classSideCar_1_1GUI_1_1SettingsBlock.html" title="Base class for a collection of Setting objects that conceptually belong together as a unit..." alt="" coords="717,1895,905,1925"/>
+<area shape="rect" id="node184" href="$classSideCar_1_1GUI_1_1Spectrum_1_1WeightWindow.html" title="SideCar::GUI::Spectrum\l::WeightWindow" alt="" coords="729,2516,893,2565"/>
+<area shape="rect" id="node185" href="$classSideCar_1_1GUI_1_1Spectrum_1_1WorkRequest.html" title="Representation of an FFT processing step. " alt="" coords="729,2589,893,2638"/>
+<area shape="rect" id="node186" href="$classSideCar_1_1GUI_1_1Subscriber.html" title="The input side of a publisher/subscriber pair. " alt="" coords="726,2663,897,2693"/>
+<area shape="rect" id="node187" href="$classSideCar_1_1GUI_1_1SvgIconMaker.html" title="SideCar::GUI::SvgIconMaker" alt="" coords="716,2717,907,2748"/>
+<area shape="rect" id="node188" href="$classSideCar_1_1GUI_1_1WindowManager.html" title="Manager of an application&#39;s &#39;Window&#39; menu. " alt="" coords="708,3664,915,3694"/>
+<area shape="rect" id="node62" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaBetaViewSettings.html" title="SideCar::GUI::ESScope\l::AlphaBetaViewSettings" alt="" coords="1016,4199,1182,4248"/>
+<area shape="rect" id="node63" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaRangeViewSettings.html" title="SideCar::GUI::ESScope\l::AlphaRangeViewSettings" alt="" coords="1010,4345,1188,4394"/>
+<area shape="rect" id="node73" href="$classSideCar_1_1GUI_1_1Master_1_1BoolParam.html" title="Boolean value parameter editor. " alt="" coords="1025,695,1173,744"/>
+<area shape="rect" id="node74" href="$classSideCar_1_1GUI_1_1Master_1_1DoubleParam.html" title="Double parameter editor. " alt="" coords="1025,768,1173,817"/>
+<area shape="rect" id="node75" href="$classSideCar_1_1GUI_1_1Master_1_1EnumParam.html" title="Enumeration parameter editor. " alt="" coords="1025,841,1173,890"/>
+<area shape="rect" id="node76" href="$classSideCar_1_1GUI_1_1Master_1_1IntParam.html" title="Integer parameter editor. " alt="" coords="1025,401,1173,450"/>
+<area shape="rect" id="node77" href="$classSideCar_1_1GUI_1_1Master_1_1NotificationParam.html" title="Notification parameter &#39;editor&#39;. " alt="" coords="1025,475,1173,524"/>
+<area shape="rect" id="node78" href="$classSideCar_1_1GUI_1_1Master_1_1PathParam.html" title="File path parameter editor. " alt="" coords="1025,548,1173,597"/>
+<area shape="rect" id="node79" href="$classSideCar_1_1GUI_1_1Master_1_1StringParam.html" title="String parameter editor. " alt="" coords="1025,621,1173,670"/>
+<area shape="rect" id="node86" href="$classSideCar_1_1GUI_1_1Master_1_1CollectionItem.html" title="Specialization of TreeViewItem that represents a collection of TreeViewItem objects. " alt="" coords="1025,4656,1173,4705"/>
+<area shape="rect" id="node91" href="$classSideCar_1_1GUI_1_1Master_1_1TaskItem.html" title="TreeViewItem that represents an IO::Task object of an IO::Stream. " alt="" coords="1025,4857,1173,4906"/>
+<area shape="rect" id="node87" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationItem.html" title="TreeViewItem that represents a configuration file, which contains a collection of runner processes..." alt="" coords="1300,4536,1447,4585"/>
+<area shape="rect" id="node88" href="$classSideCar_1_1GUI_1_1Master_1_1RootItem.html" title="The root item of a QTreeView view. " alt="" coords="1300,4609,1447,4658"/>
+<area shape="rect" id="node89" href="$classSideCar_1_1GUI_1_1Master_1_1RunnerItem.html" title="TreeViewItem that represents a runner process, which contains a collection of processing streams..." alt="" coords="1300,4683,1447,4732"/>
+<area shape="rect" id="node90" href="$classSideCar_1_1GUI_1_1Master_1_1StreamItem.html" title="TreeViewItem that represents an IO::Stream object of a runner process. " alt="" coords="1300,4756,1447,4805"/>
+<area shape="rect" id="node92" href="$classSideCar_1_1GUI_1_1Master_1_1ControllerItem.html" title="Derivation of TaskItem that represents an Algorithms::Controller object of an IO::Stream. " alt="" coords="1300,4857,1447,4906"/>
+<area shape="rect" id="node93" href="$classSideCar_1_1GUI_1_1Master_1_1RawPRIItem.html" title="SideCar::GUI::Master\l::RawPRIItem" alt="" coords="1560,4857,1707,4906"/>
+<area shape="rect" id="node95" href="$classSideCar_1_1GUI_1_1MulticastMessageReader.html" title="Derivation of MessageReader that obtains messages over a UDP multicast socket. " alt="" coords="992,3847,1205,3896"/>
+<area shape="rect" id="node96" href="$classSideCar_1_1GUI_1_1TCPMessageReader.html" title="SideCar::GUI::TCPMessage\lReader" alt="" coords="1005,2748,1192,2797"/>
+<area shape="rect" id="node98" href="$classSideCar_1_1GUI_1_1TCPMessageWriter.html" title="Qt message writer that uses QTcpServer/QTcpSocket to write data over a TCP connection. " alt="" coords="1005,4272,1192,4321"/>
+<area shape="rect" id="node99" href="$classSideCar_1_1GUI_1_1UDPMessageWriter.html" title="Qt message writer that uses IO::UDPSocketWriter to do the writing. " alt="" coords="1004,3932,1193,3981"/>
+<area shape="rect" id="node101" href="$classSideCar_1_1GUI_1_1BScope_1_1OffscreenBuffer.html" title="SideCar::GUI::BScope\l::OffscreenBuffer" alt="" coords="1022,915,1176,964"/>
+<area shape="rect" id="node104" href="$classSideCar_1_1GUI_1_1ESScope_1_1OffscreenBuffer.html" title="SideCar::GUI::ESScope\l::OffscreenBuffer" alt="" coords="1018,988,1180,1037"/>
+<area shape="rect" id="node106" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1OffscreenBuffer.html" title="SideCar::GUI::PPIDisplay\l::OffscreenBuffer" alt="" coords="1013,1061,1185,1110"/>
+<area shape="rect" id="node102" href="$classSideCar_1_1GUI_1_1BScope_1_1BinaryOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Binar..." alt="" coords="1295,915,1452,964"/>
+<area shape="rect" id="node103" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="1297,841,1450,890"/>
+<area shape="rect" id="node105" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="1292,988,1455,1037"/>
+<area shape="rect" id="node107" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1BinaryOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Binar..." alt="" coords="1288,1135,1459,1184"/>
+<area shape="rect" id="node108" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="1288,1061,1459,1110"/>
+<area shape="rect" id="node116" href="$classSideCar_1_1GUI_1_1AScope_1_1Configuration.html" title="SideCar::GUI::AScope\l::Configuration" alt="" coords="1022,1135,1176,1184"/>
+<area shape="rect" id="node117" href="$classSideCar_1_1GUI_1_1BScope_1_1Configuration.html" title="SideCar::GUI::BScope\l::Configuration" alt="" coords="1022,1208,1176,1257"/>
+<area shape="rect" id="node118" href="$classSideCar_1_1GUI_1_1ESScope_1_1Configuration.html" title="Configuration settings for the ESScope application. " alt="" coords="1018,1281,1180,1330"/>
+<area shape="rect" id="node119" href="$classSideCar_1_1GUI_1_1Master_1_1Settings.html" title="Settings that persist between executions of the Master application. " alt="" coords="1025,1355,1173,1404"/>
+<area shape="rect" id="node120" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1Configuration.html" title="SideCar::GUI::PPIDisplay\l::Configuration" alt="" coords="1013,1428,1185,1477"/>
+<area shape="rect" id="node121" href="$classSideCar_1_1GUI_1_1Spectrum_1_1Configuration.html" title="SideCar::GUI::Spectrum\l::Configuration" alt="" coords="1017,1501,1181,1550"/>
+<area shape="rect" id="node124" href="$classSideCar_1_1GUI_1_1BScope_1_1RangeMap.html" title="SideCar::GUI::BScope\l::RangeMap" alt="" coords="1022,1575,1176,1624"/>
+<area shape="rect" id="node128" href="$classSideCar_1_1GUI_1_1BoolSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="1011,4055,1186,4085"/>
+<area shape="rect" id="node132" href="$classSideCar_1_1GUI_1_1DoubleSetting.html" title="Derivation of the Setting class that manages &#39;double&#39; floating&#45;point values. " alt="" coords="1004,4136,1194,4166"/>
+<area shape="rect" id="node135" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="1017,3485,1180,3516"/>
+<area shape="rect" id="node141" href="$classSideCar_1_1GUI_1_1QColorSetting.html" title="Derivation of the Setting class that works with QColor values. " alt="" coords="1003,3613,1194,3644"/>
+<area shape="rect" id="node143" href="$classSideCar_1_1GUI_1_1StringListSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="1017,3540,1180,3589"/>
+<area shape="rect" id="node144" href="$classSideCar_1_1GUI_1_1StringSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="1007,3776,1190,3806"/>
+<area shape="rect" id="node148" href="$classSideCar_1_1GUI_1_1TimeSetting.html" title="Derivation of the Setting class that manages QTime values (HH:MM:SS) " alt="" coords="1010,3672,1188,3702"/>
+<area shape="rect" id="node129" href="$classSideCar_1_1GUI_1_1QCheckBoxSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="1264,4027,1483,4057"/>
+<area shape="rect" id="node130" href="$classSideCar_1_1GUI_1_1QGroupBoxSetting.html" title="SideCar::GUI::QGroupBoxSetting" alt="" coords="1264,4081,1482,4112"/>
+<area shape="rect" id="node131" href="$classSideCar_1_1GUI_1_1QRadioButtonSetting.html" title="SideCar::GUI::QRadioButton\lSetting" alt="" coords="1278,3953,1468,4002"/>
+<area shape="rect" id="node133" href="$classSideCar_1_1GUI_1_1OpacitySetting.html" title="SideCar::GUI::OpacitySetting" alt="" coords="1277,4136,1470,4166"/>
+<area shape="rect" id="node134" href="$classSideCar_1_1GUI_1_1QDoubleSpinBoxSetting.html" title="Derivation of DoubleSetting that works with a QDoubleSpinBox widget to display and change setting val..." alt="" coords="1280,4191,1467,4240"/>
+<area shape="rect" id="node136" href="$classSideCar_1_1GUI_1_1QComboBoxSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change setting values..." alt="" coords="1261,3549,1486,3580"/>
+<area shape="rect" id="node138" href="$classSideCar_1_1GUI_1_1QSliderSetting.html" title="SideCar::GUI::QSliderSetting" alt="" coords="1277,3367,1470,3397"/>
+<area shape="rect" id="node139" href="$classSideCar_1_1GUI_1_1QSpinBoxSetting.html" title="Derivation of IntSetting that works with a QSpinBox widget to display and change setting values..." alt="" coords="1269,3421,1477,3452"/>
+<area shape="rect" id="node140" href="$classSideCar_1_1GUI_1_1QTabWidgetSetting.html" title="SideCar::GUI::QTabWidget\lSetting" alt="" coords="1283,3476,1464,3525"/>
+<area shape="rect" id="node137" href="$classSideCar_1_1GUI_1_1CLUTSetting.html" title="SideCar::GUI::CLUTSetting" alt="" coords="1542,3549,1725,3580"/>
+<area shape="rect" id="node142" href="$classSideCar_1_1GUI_1_1ColorButtonSetting.html" title="Derivation of QColorSetting that works with a QPushButton widget to show the current color setting..." alt="" coords="1285,3604,1462,3653"/>
+<area shape="rect" id="node145" href="$classSideCar_1_1GUI_1_1ChannelSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change a subscription c..." alt="" coords="1275,3893,1472,3924"/>
+<area shape="rect" id="node146" href="$classSideCar_1_1GUI_1_1PathSetting.html" title="SideCar::GUI::PathSetting" alt="" coords="1286,3749,1461,3780"/>
+<area shape="rect" id="node147" href="$classSideCar_1_1GUI_1_1QLineEditSetting.html" title="SideCar::GUI::QLineEditSetting" alt="" coords="1270,3804,1477,3834"/>
+<area shape="rect" id="node149" href="$classSideCar_1_1GUI_1_1QTimeEditSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="1268,3677,1479,3708"/>
+<area shape="rect" id="node150" href="$classSideCar_1_1GUI_1_1Master_1_1DurationSetting.html" title="SideCar::GUI::Master\l::DurationSetting" alt="" coords="1560,3668,1707,3717"/>
+<area shape="rect" id="node152" href="$classSideCar_1_1GUI_1_1AScope_1_1DefaultViewSettings.html" title="SideCar::GUI::AScope\l::DefaultViewSettings" alt="" coords="1022,1941,1176,1990"/>
+<area shape="rect" id="node153" href="$classSideCar_1_1GUI_1_1BScope_1_1FramesListSettings.html" title="SideCar::GUI::BScope\l::FramesListSettings" alt="" coords="1022,2015,1176,2064"/>
+<area shape="rect" id="node154" href="$classSideCar_1_1GUI_1_1BScope_1_1HistorySettings.html" title="SideCar::GUI::BScope\l::HistorySettings" alt="" coords="1022,2088,1176,2137"/>
+<area shape="rect" id="node155" href="$classSideCar_1_1GUI_1_1BScope_1_1PlayerSettings.html" title="SideCar::GUI::BScope\l::PlayerSettings" alt="" coords="1022,2161,1176,2210"/>
+<area shape="rect" id="node156" href="$classSideCar_1_1GUI_1_1BScope_1_1ViewSettings.html" title="Collection of settings that relate the the view shown in a PPIWidget. " alt="" coords="1022,2235,1176,2284"/>
+<area shape="rect" id="node157" href="$classSideCar_1_1GUI_1_1ESScope_1_1RadarSettings.html" title="SideCar::GUI::ESScope\l::RadarSettings" alt="" coords="1018,2308,1180,2357"/>
+<area shape="rect" id="node158" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1ChannelPlotSettings.html" title="SideCar::GUI::HealthAndStatus\l::ChannelPlotSettings" alt="" coords="996,2455,1202,2504"/>
+<area shape="rect" id="node159" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationSettings.html" title="SideCar::GUI::Master\l::ConfigurationSettings" alt="" coords="1022,2528,1176,2577"/>
+<area shape="rect" id="node160" href="$classSideCar_1_1GUI_1_1Master_1_1RadarSettings.html" title="SideCar::GUI::Master\l::RadarSettings" alt="" coords="1025,2601,1173,2650"/>
+<area shape="rect" id="node161" href="$classSideCar_1_1GUI_1_1Master_1_1RecordingSettings.html" title="SideCar::GUI::Master\l::RecordingSettings" alt="" coords="1025,2675,1173,2724"/>
+<area shape="rect" id="node162" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="1004,2381,1194,2430"/>
+<area shape="rect" id="node180" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ViewSettings.html" title="Collection of settings that relate the the view shown in a PPIWidget. " alt="" coords="1013,1648,1185,1697"/>
+<area shape="rect" id="node181" href="$classSideCar_1_1GUI_1_1Spectrum_1_1FFTSettings.html" title="SideCar::GUI::Spectrum\l::FFTSettings" alt="" coords="1017,1721,1181,1770"/>
+<area shape="rect" id="node182" href="$classSideCar_1_1GUI_1_1Spectrum_1_1Settings.html" title="SideCar::GUI::Spectrum\l::Settings" alt="" coords="1017,1795,1181,1844"/>
+<area shape="rect" id="node183" href="$classSideCar_1_1GUI_1_1VideoSampleCountTransform.html" title="Converts sample count information contained in Messages::Video messages into values between 0 and 1..." alt="" coords="1006,1868,1192,1917"/>
+<area shape="rect" id="node163" href="$classSideCar_1_1GUI_1_1AScope_1_1HistorySettings.html" title="Collection of settings that configure the application&#39;s History object. " alt="" coords="1297,2308,1450,2357"/>
+<area shape="rect" id="node164" href="$classSideCar_1_1GUI_1_1AScope_1_1PeakBarSettings.html" title="Collection of settings that configure the application&#39;s History object. " alt="" coords="1297,2381,1450,2430"/>
+<area shape="rect" id="node165" href="$classSideCar_1_1GUI_1_1BugPlotEmitterSettings.html" title="SideCar::GUI::BugPlotEmitter\lSettings" alt="" coords="1276,2455,1471,2504"/>
+<area shape="rect" id="node166" href="$classSideCar_1_1GUI_1_1ChannelImaging.html" title="Collection of display attributes for a data channel or artifact. " alt="" coords="1272,2528,1475,2558"/>
+<area shape="rect" id="node177" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1BackgroundImageSettings.html" title="Collection of Setting objects that control the display of a background image in a PPIWidget widget..." alt="" coords="1282,2583,1465,2632"/>
+<area shape="rect" id="node178" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1DecaySettings.html" title="Collection of Setting objects that relate to the simulated phosphor decay effect available in the PPI..." alt="" coords="1288,2161,1459,2210"/>
+<area shape="rect" id="node179" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1HistorySettings.html" title="SideCar::GUI::PPIDisplay\l::HistorySettings" alt="" coords="1288,2235,1459,2284"/>
+<area shape="rect" id="node167" href="$classSideCar_1_1GUI_1_1ESScope_1_1GridImaging.html" title="Extension of the ChannelImaging class for the display of grids. " alt="" coords="1552,2409,1714,2458"/>
+<area shape="rect" id="node168" href="$classSideCar_1_1GUI_1_1PhantomCursorImaging.html" title="SideCar::GUI::PhantomCursor\lImaging" alt="" coords="1534,2483,1733,2532"/>
+<area shape="rect" id="node169" href="$classSideCar_1_1GUI_1_1RangeRingsImaging.html" title="Extension of the ChannelImaging class for the display of range rings. " alt="" coords="1543,2556,1724,2605"/>
+<area shape="rect" id="node170" href="$classSideCar_1_1GUI_1_1SampleImaging.html" title="Derivation of the ChannelImaging settings collection class that contains additional settings for Open..." alt="" coords="1534,2629,1733,2660"/>
+<area shape="rect" id="node174" href="$classSideCar_1_1GUI_1_1Spectrum_1_1SpectrographImaging.html" title="SideCar::GUI::Spectrum\l::SpectrographImaging" alt="" coords="1551,2684,1715,2733"/>
+<area shape="rect" id="node175" href="$classSideCar_1_1GUI_1_1TargetPlotImaging.html" title="Extension of the ChannelImaging class that contains display settings for target plots. " alt="" coords="1550,2336,1717,2385"/>
+<area shape="rect" id="node171" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1796,2693,1950,2742"/>
+<area shape="rect" id="node172" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1792,2547,1954,2596"/>
+<area shape="rect" id="node173" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1787,2620,1959,2669"/>
+<area shape="rect" id="node176" href="$classSideCar_1_1GUI_1_1RangeTruthsImaging.html" title="SideCar::GUI::RangeTruths\lImaging" alt="" coords="1781,2336,1964,2385"/>
+<area shape="rect" id="node189" href="$classSideCar_1_1Algorithms_1_1Algorithm.html" title="Base class for all algorithm classes. " alt="" coords="5,2224,144,2273"/>
+<area shape="rect" id="node190" href="$classSideCar_1_1Algorithms_1_1ABTracker.html" title="Documentation for the algorithm ABTracker. " alt="" coords="211,1747,350,1796"/>
+<area shape="rect" id="node191" href="$classSideCar_1_1Algorithms_1_1Alarmer.html" title="Simple algorithm that sets an alarm for every 10 seconds which invokes processAlarm(). " alt="" coords="211,1820,350,1869"/>
+<area shape="rect" id="node192" href="$classSideCar_1_1Algorithms_1_1BugCollector.html" title="The BugCollector algorithm takes automatically subscribes to all available BugPlot publishers..." alt="" coords="211,1893,350,1942"/>
+<area shape="rect" id="node193" href="$classSideCar_1_1Algorithms_1_1CFAR.html" title="SideCar::Algorithms\l::CFAR" alt="" coords="211,1967,350,2016"/>
+<area shape="rect" id="node194" href="$classSideCar_1_1Algorithms_1_1CIntegrate.html" title="Documentation for the algorithm CIntegrate. " alt="" coords="211,2040,350,2089"/>
+<area shape="rect" id="node195" href="$classSideCar_1_1Algorithms_1_1Clamp.html" title="This algorithm &quot;clamps&quot; sample values to a given range [min, max]. " alt="" coords="211,2113,350,2162"/>
+<area shape="rect" id="node196" href="$classSideCar_1_1Algorithms_1_1ClutterMap.html" title="Clutter map filter. " alt="" coords="211,2187,350,2236"/>
+<area shape="rect" id="node197" href="$classSideCar_1_1Algorithms_1_1ComposeExtractions.html" title="Documentation for the algorithm ProcessTracks This task simply receives track messages and passes the..." alt="" coords="206,2260,355,2309"/>
+<area shape="rect" id="node198" href="$classSideCar_1_1Algorithms_1_1ComposeTracks.html" title="Documentation for the algorithm ProcessTracks This task simply receives track messages and passes the..." alt="" coords="211,2333,350,2382"/>
+<area shape="rect" id="node199" href="$classSideCar_1_1Algorithms_1_1CPIAlgorithm.html" title="Documentation for the algorithm CPIAlgorithm. " alt="" coords="211,3653,350,3702"/>
+<area shape="rect" id="node205" href="$classSideCar_1_1Algorithms_1_1CPIMarker.html" title="Documentation for the algorithm CPIMarker. " alt="" coords="211,2407,350,2456"/>
+<area shape="rect" id="node206" href="$classSideCar_1_1Algorithms_1_1Decimator.html" title="Documentation for the algorithm Decimator. " alt="" coords="211,2480,350,2529"/>
+<area shape="rect" id="node207" href="$classSideCar_1_1Algorithms_1_1Delay.html" title="Documentation for the algorithm Delay. " alt="" coords="211,2553,350,2602"/>
+<area shape="rect" id="node208" href="$classSideCar_1_1Algorithms_1_1Despeckle.html" title="Attempts to suppress noise using a modified median filter. " alt="" coords="211,2627,350,2676"/>
+<area shape="rect" id="node209" href="$classSideCar_1_1Algorithms_1_1Difference.html" title="SideCar::Algorithms\l::Difference" alt="" coords="211,2700,350,2749"/>
+<area shape="rect" id="node210" href="$classSideCar_1_1Algorithms_1_1DownConverter.html" title="Documentation for the algorithm s. " alt="" coords="211,2773,350,2822"/>
+<area shape="rect" id="node211" href="$classSideCar_1_1Algorithms_1_1EdgeDetector.html" title="Documentation for the algorithm EdgeDetector. " alt="" coords="211,2847,350,2896"/>
+<area shape="rect" id="node212" href="$classSideCar_1_1Algorithms_1_1Extract.html" title="This algorithm takes in thresholded pri&#39;s and outputs extraction messages. " alt="" coords="211,2920,350,2969"/>
+<area shape="rect" id="node213" href="$classSideCar_1_1Algorithms_1_1ExtractWithCentroiding.html" title="SideCar::Algorithms\l::ExtractWithCentroiding" alt="" coords="199,2993,362,3042"/>
+<area shape="rect" id="node214" href="$classSideCar_1_1Algorithms_1_1FanIn.html" title="Documentation for the algorithm FanIn. " alt="" coords="211,3067,350,3116"/>
+<area shape="rect" id="node215" href="$classSideCar_1_1Algorithms_1_1FanOut.html" title="Documentation for the algorithm FanOut. " alt="" coords="211,3140,350,3189"/>
+<area shape="rect" id="node216" href="$classSideCar_1_1Algorithms_1_1Filter.html" title="Filter algorithm. " alt="" coords="211,3213,350,3262"/>
+<area shape="rect" id="node217" href="$classSideCar_1_1Algorithms_1_1GeoFilter.html" title="Documentation for the algorithm GeoFilter. " alt="" coords="211,3287,350,3336"/>
+<area shape="rect" id="node218" href="$classSideCar_1_1Algorithms_1_1Inverter.html" title="Simple algorithm that inverts data found in a PRIMessage object. " alt="" coords="211,3360,350,3409"/>
+<area shape="rect" id="node219" href="$classSideCar_1_1Algorithms_1_1IQ2AmplitudePhase.html" title="/ () . " alt="" coords="207,3433,354,3482"/>
+<area shape="rect" id="node220" href="$classSideCar_1_1Algorithms_1_1IQFilter.html" title="Conversion filter from I/Q (complex) messages into Video message format. " alt="" coords="211,3507,350,3556"/>
+<area shape="rect" id="node221" href="$classSideCar_1_1Algorithms_1_1LowPassFilter.html" title="Documentation for the algorithm LowPassFilter. " alt="" coords="211,3580,350,3629"/>
+<area shape="rect" id="node222" href="$classSideCar_1_1Algorithms_1_1ManyInAlgorithm.html" title="Derivation of the basic Algorithm class that handles multiple input channels using ChannelBuffer obje..." alt="" coords="211,519,350,568"/>
+<area shape="rect" id="node230" href="$classSideCar_1_1Algorithms_1_1MofN.html" title="This algorithm performs &quot;M of N&quot; (binary integration) processing on a series of input PRIs..." alt="" coords="211,3727,350,3776"/>
+<area shape="rect" id="node231" href="$classSideCar_1_1Algorithms_1_1MTI2.html" title="This algorithm averages a block of pulses around the input pulse. " alt="" coords="211,3800,350,3849"/>
+<area shape="rect" id="node232" href="$classSideCar_1_1Algorithms_1_1NCIntegrate.html" title="This algorithm averages a block of pulses around the input pulse. " alt="" coords="211,3873,350,3922"/>
+<area shape="rect" id="node233" href="$classSideCar_1_1Algorithms_1_1NOOP.html" title="An algorithm which does nothing but reads in a Video message type only to immediately write it out..." alt="" coords="211,3947,350,3996"/>
+<area shape="rect" id="node234" href="$classSideCar_1_1Algorithms_1_1Offset.html" title="SideCar::Algorithms\l::Offset" alt="" coords="211,4020,350,4069"/>
+<area shape="rect" id="node235" href="$classSideCar_1_1Algorithms_1_1OSCFAR.html" title="Algorithm that performs ordered&#45;statistics CFAR (OSCFAR) processing on Video message data..." alt="" coords="211,4093,350,4142"/>
+<area shape="rect" id="node236" href="$classSideCar_1_1Algorithms_1_1PRISegmentation.html" title="SideCar::Algorithms\l::PRISegmentation" alt="" coords="211,4167,350,4216"/>
+<area shape="rect" id="node237" href="$classSideCar_1_1Algorithms_1_1ProcessTracks.html" title="Documentation for the algorithm ProcessTracks This task simply receives track messages and passes the..." alt="" coords="211,4240,350,4289"/>
+<area shape="rect" id="node238" href="$classSideCar_1_1Algorithms_1_1RawPRI.html" title="Simple algorithm that transforms simply converts data from RIU format into normal PRI format..." alt="" coords="211,4313,350,4362"/>
+<area shape="rect" id="node239" href="$classSideCar_1_1Algorithms_1_1Router.html" title="Documentation for the algorithm Router. " alt="" coords="211,4387,350,4436"/>
+<area shape="rect" id="node240" href="$classSideCar_1_1Algorithms_1_1SandBox.html" title="A playground for for testing out algorithms. " alt="" coords="211,5,350,54"/>
+<area shape="rect" id="node241" href="$classSideCar_1_1Algorithms_1_1Scale.html" title="SideCar::Algorithms\l::Scale" alt="" coords="211,79,350,128"/>
+<area shape="rect" id="node242" href="$classSideCar_1_1Algorithms_1_1ScanCorrelator.html" title="SideCar::Algorithms\l::ScanCorrelator" alt="" coords="211,152,350,201"/>
+<area shape="rect" id="node243" href="$classSideCar_1_1Algorithms_1_1SectorMask.html" title="This algorithm masks out any hits within a given sector of the observable area. " alt="" coords="211,225,350,274"/>
+<area shape="rect" id="node244" href="$classSideCar_1_1Algorithms_1_1Segment2Extraction.html" title="SideCar::Algorithms\l::Segment2Extraction" alt="" coords="207,299,354,348"/>
+<area shape="rect" id="node245" href="$classSideCar_1_1Algorithms_1_1SegmentConnector.html" title="Takes a stream of PRISegments and outputs a stream of segments, each representing an extraction blob..." alt="" coords="210,372,351,421"/>
+<area shape="rect" id="node246" href="$classSideCar_1_1Algorithms_1_1SegmentSplitter.html" title="SideCar::Algorithms\l::SegmentSplitter" alt="" coords="211,445,350,494"/>
+<area shape="rect" id="node247" href="$classSideCar_1_1Algorithms_1_1SegmentStats.html" title="SideCar::Algorithms\l::SegmentStats" alt="" coords="211,592,350,641"/>
+<area shape="rect" id="node248" href="$classSideCar_1_1Algorithms_1_1ShiftBins.html" title="Documentation for the algorithm ShiftBins. " alt="" coords="211,665,350,714"/>
+<area shape="rect" id="node249" href="$classSideCar_1_1Algorithms_1_1SimpleNOOP.html" title="Documentation for the algorithm. " alt="" coords="211,739,350,788"/>
+<area shape="rect" id="node250" href="$classSideCar_1_1Algorithms_1_1SlidingOp.html" title="This algorithm performs an operation on a set of values encapsulated in a sliding window..." alt="" coords="211,812,350,861"/>
+<area shape="rect" id="node251" href="$classSideCar_1_1Algorithms_1_1Sum.html" title="Documentation for the algorithm Sum. " alt="" coords="194,885,367,916"/>
+<area shape="rect" id="node252" href="$classSideCar_1_1Algorithms_1_1SumNDiff.html" title="Documentation for the algorithm SumNDiff. " alt="" coords="211,940,350,989"/>
+<area shape="rect" id="node253" href="$classSideCar_1_1Algorithms_1_1Threshold.html" title="This algorithm is a dummy thresholding algorithm for temporary use until the proper one is finished..." alt="" coords="211,1013,350,1062"/>
+<area shape="rect" id="node254" href="$classSideCar_1_1Algorithms_1_1TrackerReceive.html" title="SideCar::Algorithms\l::TrackerReceive" alt="" coords="211,1087,350,1136"/>
+<area shape="rect" id="node255" href="$classSideCar_1_1Algorithms_1_1TrackerSend.html" title="SideCar::Algorithms\l::TrackerSend" alt="" coords="211,1160,350,1209"/>
+<area shape="rect" id="node256" href="$classSideCar_1_1Algorithms_1_1TrackInitiator.html" title="SideCar::Algorithms\l::TrackInitiator" alt="" coords="211,1233,350,1282"/>
+<area shape="rect" id="node257" href="$classSideCar_1_1Algorithms_1_1TrackMaintainer.html" title="Documentation for the algorithm TrackMaintainer This task simply receives track messages and passes t..." alt="" coords="211,1307,350,1356"/>
+<area shape="rect" id="node258" href="$classSideCar_1_1Algorithms_1_1Trimmer.html" title="Documentation for the algorithm Trimmer. " alt="" coords="211,1380,350,1429"/>
+<area shape="rect" id="node259" href="$classSideCar_1_1Algorithms_1_1TSPI.html" title="Simple algorithm that reads/writes TSPI messages, possibly recording them. " alt="" coords="211,1453,350,1502"/>
+<area shape="rect" id="node260" href="$classSideCar_1_1Algorithms_1_1VideoInterpolation.html" title="&#39; &#39; a lower angular resulution. " alt="" coords="211,1527,350,1576"/>
+<area shape="rect" id="node261" href="$classSideCar_1_1Algorithms_1_1Volts2Power.html" title="Documentation for the algorithm. " alt="" coords="211,1600,350,1649"/>
+<area shape="rect" id="node262" href="$classSideCar_1_1Algorithms_1_1WindowedMinMax.html" title="Documentation for the algorithm WindowedMinMax. " alt="" coords="211,1673,350,1722"/>
+<area shape="rect" id="node200" href="$classSideCar_1_1Algorithms_1_1CPIIntegrate.html" title="Documentation for the algorithm CPIIntegrate. " alt="" coords="458,3507,597,3556"/>
+<area shape="rect" id="node201" href="$classSideCar_1_1Algorithms_1_1CPISimpleOp.html" title="Documentation for the algorithm CPISimpleOp. " alt="" coords="458,3580,597,3629"/>
+<area shape="rect" id="node202" href="$classSideCar_1_1Algorithms_1_1RangeDopplerMap.html" title="Documentation for the algorithm s. " alt="" coords="458,3653,598,3702"/>
+<area shape="rect" id="node203" href="$classSideCar_1_1Algorithms_1_1RGBConverter.html" title="Documentation for the algorithm RGBConverter. " alt="" coords="458,3727,597,3776"/>
+<area shape="rect" id="node204" href="$classSideCar_1_1Algorithms_1_1SpreadMofN.html" title="Documentation for the algorithm SpreadMofN. " alt="" coords="458,3800,597,3849"/>
+<area shape="rect" id="node223" href="$classSideCar_1_1Algorithms_1_1BinaryOp.html" title="Documentation for the algorithm BinaryOp. " alt="" coords="458,2663,597,2712"/>
+<area shape="rect" id="node224" href="$classSideCar_1_1Algorithms_1_1DynamicThreshold.html" title="Unlike the Threshold algorithm, which is essential a high&#45;pass filter with a constant threshold..." alt="" coords="458,2736,597,2785"/>
+<area shape="rect" id="node225" href="$classSideCar_1_1Algorithms_1_1ManyInCPIAlgorithm.html" title="Documentation for the algorithm Summer. " alt="" coords="453,2809,602,2858"/>
+<area shape="rect" id="node226" href="$classSideCar_1_1Algorithms_1_1MatchedFilter.html" title="Documentation for the algorithm MatchedFilter. " alt="" coords="458,2883,597,2932"/>
+<area shape="rect" id="node227" href="$classSideCar_1_1Algorithms_1_1Printer.html" title="Documentation for the algorithm Printer. " alt="" coords="458,687,597,736"/>
+<area shape="rect" id="node228" href="$classSideCar_1_1Algorithms_1_1SimpleOp.html" title="Documentation for the algorithm SimpleOp. " alt="" coords="458,2516,597,2565"/>
+<area shape="rect" id="node229" href="$classSideCar_1_1Algorithms_1_1Summer.html" title="Documentation for the algorithm Summer. " alt="" coords="458,2589,597,2638"/>
+<area shape="rect" id="node263" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="429,5004,626,5034"/>
+<area shape="rect" id="node264" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="719,4464,904,4513"/>
+<area shape="rect" id="node265" href="$classSideCar_1_1IO_1_1StateEmitter.html" title="SideCar::IO::StateEmitter" alt="" coords="1014,4473,1184,4504"/>
+<area shape="rect" id="node266" href="$classSideCar_1_1Zeroconf_1_1Monitor.html" title="Abstract base class that monitors the running status of a Zerconf object such as Publisher or Browser..." alt="" coords="460,476,595,525"/>
+<area shape="rect" id="node267" href="$classSideCar_1_1Zeroconf_1_1ASIOMonitor.html" title="Concrete implementation of the Monitor class that relies on the Boost ASIO infrastructure to determin..." alt="" coords="744,476,879,525"/>
+</map>

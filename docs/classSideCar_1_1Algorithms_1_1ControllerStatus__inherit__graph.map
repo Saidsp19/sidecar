@@ -1,0 +1,5 @@
+<map id="SideCar::Algorithms::ControllerStatus" name="SideCar::Algorithms::ControllerStatus">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TaskStatus.html" title="Extension of StatusBase to include Task&#45;specific information, such as processing state, seen message count, and mesage and byte rates. " alt="" coords="6,181,169,211"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1StatusBase.html" title="Base class for all status collections. " alt="" coords="5,102,170,133"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; StatusBase \&gt;" alt="" coords="13,5,163,54"/>
+</map>

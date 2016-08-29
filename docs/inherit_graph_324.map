@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classXmlRpc_1_1XmlRpcSource.html" title="An RPC source represents a file descriptor to monitor. " alt="" coords="5,60,168,91"/>
+<area shape="rect" id="node2" href="$classXmlRpc_1_1XmlRpcClient.html" title="A class to send XML RPC requests to a server and return the results. " alt="" coords="251,5,406,36"/>
+<area shape="rect" id="node3" href="$classXmlRpc_1_1XmlRpcServer.html" title="A class to handle XML RPC requests. " alt="" coords="249,60,408,91"/>
+<area shape="rect" id="node4" href="$classXmlRpc_1_1XmlRpcServerConnection.html" title="A class to handle XML RPC requests from a particular client. " alt="" coords="216,115,442,145"/>
+</map>

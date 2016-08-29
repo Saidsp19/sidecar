@@ -1,0 +1,10 @@
+<map id="SideCar::GUI::OffscreenBuffer" name="SideCar::GUI::OffscreenBuffer">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1BScope_1_1OffscreenBuffer.html" title="SideCar::GUI::BScope\l::OffscreenBuffer" alt="" coords="378,79,532,128"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1ESScope_1_1OffscreenBuffer.html" title="SideCar::GUI::ESScope\l::OffscreenBuffer" alt="" coords="374,152,536,201"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1OffscreenBuffer.html" title="SideCar::GUI::PPIDisplay\l::OffscreenBuffer" alt="" coords="369,225,541,274"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1BinaryOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Binar..." alt="" coords="596,5,753,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="598,79,751,128"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="594,152,756,201"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1BinaryOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Binar..." alt="" coords="589,225,760,274"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="589,299,760,348"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="SideCar::Algorithms::CPIAlgorithm" name="SideCar::Algorithms::CPIAlgorithm">
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1CPIIntegrate.html" title="Documentation for the algorithm CPIIntegrate. " alt="" coords="379,5,517,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1CPISimpleOp.html" title="Documentation for the algorithm CPISimpleOp. " alt="" coords="379,79,517,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1RangeDopplerMap.html" title="Documentation for the algorithm s. " alt="" coords="378,152,518,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Algorithms_1_1RGBConverter.html" title="Documentation for the algorithm RGBConverter. " alt="" coords="379,225,517,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Algorithms_1_1SpreadMofN.html" title="Documentation for the algorithm SpreadMofN. " alt="" coords="379,299,517,348"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1Algorithm.html" title="Base class for all algorithm classes. " alt="" coords="5,152,144,201"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="SideCar::IO::Reader" name="SideCar::IO::Reader">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1DatagramReader.html" title="Abstract base class for readers. " alt="" coords="194,116,392,146"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1IO_1_1StreamReader.html" title="Abstract base class for readers. " alt="" coords="202,255,384,285"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; DatagramReader, ReaderDevices\l::MulticastSocket \&gt;" alt="" coords="440,5,671,73"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; DatagramReader, ReaderDevices\l::UDPSocket \&gt;" alt="" coords="440,97,671,165"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1MulticastSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="732,15,922,64"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1UDPSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="723,116,931,146"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; IO::StreamReader, TCPSocket\lReaderDevice \&gt;" alt="" coords="449,189,662,257"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; StreamReader, ReaderDevices\l::File \&gt;" alt="" coords="448,281,663,349"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; StreamReader, ReaderDevices\l::TCPSocket \&gt;" alt="" coords="448,373,663,441"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1TCPSocketReader.html" title="SideCar::GUI::TCPSocketReader" alt="" coords="719,208,935,238"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1IO_1_1FileReader.html" title="Reader that obtains raw data from a file device. " alt="" coords="746,300,908,330"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1IO_1_1TCPSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="724,392,930,422"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::QGroupBoxSetting" name="SideCar::GUI::QGroupBoxSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1BoolSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="27,162,202,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="40,84,189,114"/>
+</map>

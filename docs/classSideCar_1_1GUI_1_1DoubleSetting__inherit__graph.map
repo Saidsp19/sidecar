@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::DoubleSetting" name="SideCar::GUI::DoubleSetting">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1OpacitySetting.html" title="SideCar::GUI::OpacitySetting" alt="" coords="5,250,199,281"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1QDoubleSpinBoxSetting.html" title="Derivation of DoubleSetting that works with a QDoubleSpinBox widget to display and change setting val..." alt="" coords="222,241,409,290"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="134,84,283,114"/>
+</map>

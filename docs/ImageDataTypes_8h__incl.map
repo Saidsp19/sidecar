@@ -1,0 +1,16 @@
+<map id="/Users/howes/src/sidecar/Algorithms/extractWithCentroiding/ImageDataTypes.h" name="/Users/howes/src/sidecar/Algorithms/extractWithCentroiding/ImageDataTypes.h">
+<area shape="rect" id="node6" href="$BinaryVideo_8h.html" title="Messages/BinaryVideo.h" alt="" coords="1005,121,1173,151"/>
+<area shape="rect" id="node7" href="$Video_8h.html" title="Messages/Video.h" alt="" coords="964,199,1094,230"/>
+<area shape="rect" id="node8" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="944,278,1115,309"/>
+<area shape="rect" id="node11" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="780,357,919,387"/>
+<area shape="rect" id="node27" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1068,435,1201,466"/>
+<area shape="rect" id="node30" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1205,357,1374,387"/>
+<area shape="rect" id="node32" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="1428,435,1596,466"/>
+<area shape="rect" id="node13" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="776,514,922,544"/>
+<area shape="rect" id="node15" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1362,514,1464,544"/>
+<area shape="rect" id="node17" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="638,435,767,466"/>
+<area shape="rect" id="node19" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="568,514,752,544"/>
+<area shape="rect" id="node24" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="93,514,269,544"/>
+<area shape="rect" id="node20" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1266,592,1385,623"/>
+<area shape="rect" id="node26" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="89,592,165,623"/>
+</map>

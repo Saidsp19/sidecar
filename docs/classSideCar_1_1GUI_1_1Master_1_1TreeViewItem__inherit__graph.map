@@ -1,0 +1,10 @@
+<map id="SideCar::GUI::Master::TreeViewItem" name="SideCar::GUI::Master::TreeViewItem">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Master_1_1CollectionItem.html" title="Specialization of TreeViewItem that represents a collection of TreeViewItem objects. " alt="" coords="319,152,467,201"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1Master_1_1TaskItem.html" title="TreeViewItem that represents an IO::Task object of an IO::Stream. " alt="" coords="319,261,467,310"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationItem.html" title="TreeViewItem that represents a configuration file, which contains a collection of runner processes..." alt="" coords="515,5,662,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1Master_1_1RootItem.html" title="The root item of a QTreeView view. " alt="" coords="515,79,662,128"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1Master_1_1RunnerItem.html" title="TreeViewItem that represents a runner process, which contains a collection of processing streams..." alt="" coords="515,152,662,201"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1Master_1_1StreamItem.html" title="TreeViewItem that represents an IO::Stream object of a runner process. " alt="" coords="515,225,662,274"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1Master_1_1ControllerItem.html" title="Derivation of TaskItem that represents an Algorithms::Controller object of an IO::Stream. " alt="" coords="515,299,662,348"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1Master_1_1RawPRIItem.html" title="SideCar::GUI::Master\l::RawPRIItem" alt="" coords="710,299,858,348"/>
+</map>

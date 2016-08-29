@@ -1,0 +1,5 @@
+<map id="SideCar::Parameter::Defs::ReadPathTypeTraits" name="SideCar::Parameter::Defs::ReadPathTypeTraits">
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; ReadPathTypeTraits \&gt;" alt="" coords="15,199,178,267"/>
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1StringTypeTraits.html" title="Basic type definition for std::string values. " alt="" coords="17,5,176,54"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1ReadPath.html" title="Complete type and class method definitions for file path that one should be able to read from..." alt="" coords="28,315,165,364"/>
+</map>

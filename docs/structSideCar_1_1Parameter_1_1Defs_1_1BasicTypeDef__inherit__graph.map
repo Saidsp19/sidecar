@@ -1,0 +1,7 @@
+<map id="SideCar::Parameter::Defs::BasicTypeDef&lt; TypeTraits &gt;" name="SideCar::Parameter::Defs::BasicTypeDef&lt; TypeTraits &gt;">
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicDynamicRangedTypeDef.html" title="Variant of the BasicTypeDef template that treats a parameter value as having a dynamically determined..." alt="" coords="383,5,576,73"/>
+<area shape="rect" id="node6" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="Variant of the BasicTypeDef template that defines parameter values with a valid range. " alt="" coords="384,97,575,165"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="5,93,142,142"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicDynamicEnumTypeDef.html" title="Variant of the BasicDynamicRangedTypeDef template that treats a parameter value as having a dynamical..." alt="" coords="624,5,833,73"/>
+<area shape="rect" id="node7" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicEnumTypeDef.html" title="Variant of the BasicRangedTypeDef template that treats a parameter value as a C++ enumeration type pl..." alt="" coords="639,97,818,165"/>
+</map>

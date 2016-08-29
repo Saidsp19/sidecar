@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::AScope::ViewChanger" name="SideCar::GUI::AScope::ViewChanger">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1AScope_1_1PanningViewChanger.html" title="View changer for panning. " alt="" coords="5,102,161,151"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1ZoomingViewChanger.html" title="View changer for zooming. " alt="" coords="185,102,344,151"/>
+</map>

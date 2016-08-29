@@ -1,0 +1,9 @@
+<map id="Logger::Configurator::ConfiguratorException&lt; T &gt;" name="Logger::Configurator::ConfiguratorException&lt; T &gt;">
+<area shape="rect" id="node7" href="$structLogger_1_1ConfiguratorFile_1_1CannotAccessConfigFile.html" title="Exception thrown if unable to access (see) the configuration file. " alt="" coords="929,5,1117,73"/>
+<area shape="rect" id="node8" href="$structLogger_1_1ConfiguratorFile_1_1CannotOpenConfigFile.html" title="Exception thrown if unable to open a configuration file. " alt="" coords="934,97,1112,165"/>
+<area shape="rect" id="node2" href="$structLogger_1_1LoggerException.html" title="Top&#45;level exception thrown by the Logger classes. " alt="" coords="445,71,644,101"/>
+<area shape="rect" id="node3" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="247,43,359,73"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="32,11,135,41"/>
+<area shape="rect" id="node5" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,65,162,114"/>
+<area shape="rect" id="node6" href="$structUtils_1_1ExceptionInserter.html" title="Define a stream inserter operator to use for Exception objects that returns the appropriate type..." alt="" coords="210,97,397,128"/>
+</map>

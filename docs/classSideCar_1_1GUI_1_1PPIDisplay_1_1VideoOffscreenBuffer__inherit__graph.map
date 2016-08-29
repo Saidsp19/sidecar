@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::PPIDisplay::VideoOffscreenBuffer" name="SideCar::GUI::PPIDisplay::VideoOffscreenBuffer">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1OffscreenBuffer.html" title="SideCar::GUI::PPIDisplay\l::OffscreenBuffer" alt="" coords="18,162,190,211"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1OffscreenBuffer.html" title="Manager of an OpenGL framebuffer object that allows for direct rendering into a texture object..." alt="" coords="5,84,203,114"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="/Users/howes/src/sidecar/GUI/AScope/HistoryControlWindow.h" name="/Users/howes/src/sidecar/GUI/AScope/HistoryControlWindow.h">
+<area shape="rect" id="node2" href="$ToolWindowBase_8h.html" title="GUI/ToolWindowBase.h" alt="" coords="382,102,544,133"/>
+<area shape="rect" id="node4" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="972,102,1143,133"/>
+<area shape="rect" id="node9" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="867,181,1006,211"/>
+<area shape="rect" id="node25" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1217,259,1350,290"/>
+<area shape="rect" id="node28" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1366,181,1536,211"/>
+<area shape="rect" id="node31" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="974,259,1142,290"/>
+<area shape="rect" id="node11" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="870,338,1016,369"/>
+<area shape="rect" id="node13" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1128,338,1230,369"/>
+<area shape="rect" id="node15" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="665,259,795,290"/>
+<area shape="rect" id="node17" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="488,338,673,369"/>
+<area shape="rect" id="node22" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="238,338,414,369"/>
+<area shape="rect" id="node18" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1573,417,1692,447"/>
+<area shape="rect" id="node24" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="400,417,476,447"/>
+</map>

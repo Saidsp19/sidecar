@@ -1,0 +1,4 @@
+<map id="Logger::Writers::File" name="Logger::Writers::File">
+<area shape="rect" id="node3" href="$classLogger_1_1Writers_1_1RollingFile.html" title="Logger::Writers::RollingFile" alt="" coords="5,162,185,193"/>
+<area shape="rect" id="node2" href="$classLogger_1_1Writers_1_1Writer.html" title="Abstract class that defines the interface for all objects that write log messages. " alt="" coords="19,5,171,36"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::BugPlotEmitterSettings" name="SideCar::GUI::BugPlotEmitterSettings">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="8,162,198,211"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1SettingsBlock.html" title="Base class for a collection of Setting objects that conceptually belong together as a unit..." alt="" coords="9,84,197,114"/>
+</map>

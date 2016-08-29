@@ -1,0 +1,17 @@
+<map id="Threading::ThreadingException" name="Threading::ThreadingException">
+<area shape="rect" id="node5" href="$structThreading_1_1Condition_1_1Exception.html" title="Top&#45;level exception class for all Condition&#45;related exceptions. " alt="" coords="645,116,789,165"/>
+<area shape="rect" id="node9" href="$structThreading_1_1Mutex_1_1Exception.html" title="Top&#45;level exception class for all Mutex&#45;related exceptions. " alt="" coords="623,280,811,310"/>
+<area shape="rect" id="node13" href="$structThreading_1_1Thread_1_1Exception.html" title="Top&#45;level exception class for all Thread&#45;related exceptions. " alt="" coords="649,444,785,493"/>
+<area shape="rect" id="node2" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="210,280,322,310"/>
+<area shape="rect" id="node3" title="STL class. " alt="" coords="32,248,135,278"/>
+<area shape="rect" id="node4" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,303,162,352"/>
+<area shape="rect" id="node6" href="$structThreading_1_1Condition_1_1FailedInit.html" title="Exception thrown if there is a problem with pthread_cond_init. " alt="" coords="885,5,1029,54"/>
+<area shape="rect" id="node7" href="$structThreading_1_1Condition_1_1FailedTimedWaitForSignal.html" title="Exception thrown if there is a problem with pthread_cond_timedwait. " alt="" coords="865,79,1049,128"/>
+<area shape="rect" id="node8" href="$structThreading_1_1Condition_1_1FailedWaitForSignal.html" title="Exception thrown if there is a problem with pthread_cond_wait. " alt="" coords="883,152,1030,201"/>
+<area shape="rect" id="node10" href="$structThreading_1_1Mutex_1_1FailedInit.html" title="Exception thrown if there is a problem with pthread_mutex_init. " alt="" coords="865,225,1049,256"/>
+<area shape="rect" id="node11" href="$structThreading_1_1Mutex_1_1FailedLock.html" title="Exception thrown if there is a problem with pthread_mutex_lock. " alt="" coords="859,280,1054,310"/>
+<area shape="rect" id="node12" href="$structThreading_1_1Mutex_1_1FailedUnlock.html" title="Exception thrown if there is a problem with pthread_mutex_unlock. " alt="" coords="873,335,1040,384"/>
+<area shape="rect" id="node14" href="$structThreading_1_1Thread_1_1FailedCancel.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="888,408,1025,457"/>
+<area shape="rect" id="node15" href="$structThreading_1_1Thread_1_1FailedCreate.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="888,481,1025,530"/>
+<area shape="rect" id="node16" href="$structThreading_1_1Thread_1_1FailedJoin.html" title="Exception thrown if there is a problem with pthread_create. " alt="" coords="888,555,1025,604"/>
+</map>
