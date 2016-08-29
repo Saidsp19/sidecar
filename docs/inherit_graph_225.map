@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1Messages_1_1BaseMessageImpl.html" title="Virtual interface that all messsage implementations must support. " alt="" coords="5,15,149,64"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1SamplingMessageImpl.html" title="Interface that all sampling message implementations must support. " alt="" coords="197,15,352,64"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Messages_1_1TSamplingMessageImpl.html" title="Template interface that provides access to sample values of a sampling message. " alt="" coords="400,5,562,73"/>
+</map>

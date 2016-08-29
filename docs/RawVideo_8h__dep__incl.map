@@ -1,0 +1,15 @@
+<map id="/Users/howes/src/sidecar/Messages/RawVideo.h" name="/Users/howes/src/sidecar/Messages/RawVideo.h">
+<area shape="rect" id="node2" href="$Complex_8h.html" title="/Users/howes/src/sidecar\l/Messages/Complex.h" alt="" coords="216,102,384,151"/>
+<area shape="rect" id="node6" href="$RawPRI_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/RawPRI/RawPRI.h" alt="" coords="529,102,730,151"/>
+<area shape="rect" id="node10" href="$MulticastVMEReaderTask_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastVMEReaderTask.cc" alt="" coords="754,102,966,151"/>
+<area shape="rect" id="node11" href="$VMEReaderTask_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/VMEReaderTask.cc" alt="" coords="991,102,1159,151"/>
+<area shape="rect" id="node12" href="$CircularBuffer_8h.html" title="/Users/howes/src/sidecar\l/Messages/CircularBuffer.h" alt="" coords="1182,102,1362,151"/>
+<area shape="rect" id="node14" href="$RawVideo_8cc_source.html" title="/Users/howes/src/sidecar\l/Messages/RawVideo.cc" alt="" coords="1385,102,1554,151"/>
+<area shape="rect" id="node3" href="$IQFilter_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/iqfilter/IQFilter.h" alt="" coords="8,199,192,249"/>
+<area shape="rect" id="node5" href="$Complex_8cc_source.html" title="/Users/howes/src/sidecar\l/Messages/Complex.cc" alt="" coords="216,199,384,249"/>
+<area shape="rect" id="node4" href="$IQFilter_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/iqfilter/IQFilter.cc" alt="" coords="5,297,195,346"/>
+<area shape="rect" id="node7" href="$RawPRI_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/RawPRI/RawPRI.cc" alt="" coords="408,199,616,249"/>
+<area shape="rect" id="node8" href="$MessageStats_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/MessageStats.cc" alt="" coords="640,199,837,249"/>
+<area shape="rect" id="node9" href="$RawPRIItem_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RawPRIItem.cc" alt="" coords="862,199,1048,249"/>
+<area shape="rect" id="node13" href="$CircularBuffer_8cc_source.html" title="/Users/howes/src/sidecar\l/Messages/CircularBuffer.cc" alt="" coords="1179,199,1365,249"/>
+</map>

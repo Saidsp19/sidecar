@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::MessageWriter" name="SideCar::GUI::MessageWriter">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1TCPMessageWriter.html" title="Qt message writer that uses QTcpServer/QTcpSocket to write data over a TCP connection. " alt="" coords="5,162,192,211"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1UDPMessageWriter.html" title="Qt message writer that uses IO::UDPSocketWriter to do the writing. " alt="" coords="216,162,405,211"/>
+</map>

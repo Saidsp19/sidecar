@@ -1,0 +1,24 @@
+<map id="SideCar::GUI::MainWindowBase" name="SideCar::GUI::MainWindowBase">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1MainWindow.html" title="Main window for the AScope application. " alt="" coords="449,5,602,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1FramesWindow.html" title="SideCar::GUI::BScope\l::FramesWindow" alt="" coords="449,79,602,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1BScope_1_1MagnifierWindow.html" title="Window that hosts a magnified view of the MainWindow. " alt="" coords="449,152,602,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1BScope_1_1MainWindow.html" title="Main display window for the BScope application. " alt="" coords="449,225,602,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1BScope_1_1PlayerWindow.html" title="SideCar::GUI::BScope\l::PlayerWindow" alt="" coords="449,299,602,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1ESScope_1_1MainWindow.html" title="SideCar::GUI::ESScope\l::MainWindow" alt="" coords="444,372,607,421"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1ExtractionEmitter_1_1MainWindow.html" title="SideCar::GUI::Extraction\lEmitter::MainWindow" alt="" coords="443,445,608,494"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1MainWindow.html" title="Main window for the HealthAndStatus application. " alt="" coords="422,519,629,568"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1Master_1_1ConfigurationEditor.html" title="SideCar::GUI::Master\l::ConfigurationEditor" alt="" coords="452,592,599,641"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1Master_1_1LogAlertsWindow.html" title="Window that shows SideCar Logger::Log messages of level Logger::Priority::kWarning or greater..." alt="" coords="452,665,599,714"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1Master_1_1LogViewWindow.html" title="Window that shows the log output for a specific remote Runner process. " alt="" coords="452,739,599,788"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1Master_1_1MainWindow.html" title="SideCar::GUI::Master\l::MainWindow" alt="" coords="452,812,599,861"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1GUI_1_1Master_1_1NotesWindow.html" title="SideCar::GUI::Master\l::NotesWindow" alt="" coords="452,885,599,934"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1GUI_1_1Playback_1_1MainWindow.html" title="Main window for the Playback application. " alt="" coords="445,959,606,1008"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1MagnifierWindow.html" title="Window that hosts a magnified view of the MainWindow. " alt="" coords="440,1032,611,1081"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1MainWindow.html" title="Main display window for the PPIDisplay application. " alt="" coords="440,1105,611,1154"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1GUI_1_1PRIEmitter_1_1MainWindow.html" title="Main window of the PRIEmitter application. " alt="" coords="440,1179,611,1228"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1GUI_1_1RangeTruthEmitter_1_1MainWindow.html" title="SideCar::GUI::RangeTruth\lEmitter::MainWindow" alt="" coords="437,1252,614,1301"/>
+<area shape="rect" id="node21" href="$classSideCar_1_1GUI_1_1SignalGenerator_1_1MainWindow.html" title="SideCar::GUI::SignalGenerator\l::MainWindow" alt="" coords="424,1325,627,1374"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1GUI_1_1Spectrum_1_1MainWindow.html" title="Main window for the Spectrum application. " alt="" coords="443,1399,608,1448"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1GUI_1_1Spectrum_1_1SpectrographWindow.html" title="SideCar::GUI::Spectrum\l::SpectrographWindow" alt="" coords="443,1472,608,1521"/>
+<area shape="rect" id="node24" href="$classSideCar_1_1GUI_1_1ZeroconfMonitor_1_1MainWindow.html" title="Main window for the ZeroconfMonitor application. " alt="" coords="424,1545,627,1594"/>
+</map>

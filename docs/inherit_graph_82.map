@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1Algorithms_1_1ChannelBuffer.html" title="Abstract base class of an input message buffer that will hold a maximum number of messages in FIFO or..." alt="" coords="222,97,360,146"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1Algorithms_1_1TChannelBuffer.html" title="Templated class for a input channel buffer. " alt="" coords="458,31,608,80"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Algorithms_1_1TChannelBuffer.html" title="SideCar::Algorithms\l::TChannelBuffer\&lt; Messages\l::Video \&gt;" alt="" coords="438,120,629,188"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1Processor.html" title="Abstract base class that defines the API for all SideCar message processors. " alt="" coords="5,171,144,220"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="Templated class that provides type&#45;safe processing of SideCar messages. " alt="" coords="218,171,364,220"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="SideCar::Algorithms\l::TProcessor\&lt; Channel,\l Messages::Video \&gt;" alt="" coords="211,244,371,312"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1Algorithms_1_1TProcessor.html" title="SideCar::Algorithms\l::TProcessor\&lt; TChannelBuffer\l\&lt; T \&gt;, T \&gt;" alt="" coords="192,5,390,73"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1Algorithms_1_1DownConverterUtils_1_1Channel.html" title="Utility class for DownConverter that manages data from one input channel. " alt="" coords="461,244,606,312"/>
+</map>

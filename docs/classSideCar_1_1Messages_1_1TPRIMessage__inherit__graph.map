@@ -1,0 +1,6 @@
+<map id="SideCar::Messages::TPRIMessage&lt; _V &gt;" name="SideCar::Messages::TPRIMessage&lt; _V &gt;">
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1PRIMessage.html" title="Base class for all PRI&#45;type messages created in the SideCar. " alt="" coords="128,199,271,249"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Messages_1_1Header.html" title="Definition of the header found at the beginning of all messages, regardless of content type..." alt="" coords="128,102,271,151"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1CDRStreamable.html" title="SideCar::IO::CDRStreamable\l\&lt; Header \&gt;" alt="" coords="5,5,199,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; Header \&gt;" alt="" coords="223,5,373,54"/>
+</map>

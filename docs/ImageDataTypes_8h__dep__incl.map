@@ -1,0 +1,20 @@
+<map id="/Users/howes/src/sidecar/Algorithms/extractWithCentroiding/ImageDataTypes.h" name="/Users/howes/src/sidecar/Algorithms/extractWithCentroiding/ImageDataTypes.h">
+<area shape="rect" id="node2" href="$Row_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding/Row.h" alt="" coords="161,130,426,179"/>
+<area shape="rect" id="node3" href="$SegmentedTargetImage_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/SegmentedTargetImage.h" alt="" coords="220,352,444,420"/>
+<area shape="rect" id="node6" href="$Centroid_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/Centroid.h" alt="" coords="568,583,792,651"/>
+<area shape="rect" id="node13" href="$TargetImage_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/TargetImage.h" alt="" coords="629,237,853,304"/>
+<area shape="rect" id="node14" href="$VideoStorage_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/VideoStorage.h" alt="" coords="717,468,941,535"/>
+<area shape="rect" id="node15" href="$TargetSize_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/TargetSize.h" alt="" coords="502,121,727,189"/>
+<area shape="rect" id="node17" href="$ScanLine_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/ScanLine.h" alt="" coords="866,352,1091,420"/>
+<area shape="rect" id="node18" href="$Filter_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/filter/Filter.h" alt="" coords="1165,130,1333,179"/>
+<area shape="rect" id="node12" href="$Row_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding/\lRow.cc" alt="" coords="29,237,257,304"/>
+<area shape="rect" id="node4" href="$blobDebug_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/blobDebug.cc" alt="" coords="344,699,568,767"/>
+<area shape="rect" id="node5" href="$ImageSegmentation_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/ImageSegmentation.h" alt="" coords="469,468,693,535"/>
+<area shape="rect" id="node11" href="$SegmentedTargetImage_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/SegmentedTargetImage.cc" alt="" coords="220,468,444,535"/>
+<area shape="rect" id="node9" href="$ExtractWithCentroiding_8h.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/ExtractWithCentroiding.h" alt="" coords="816,583,1040,651"/>
+<area shape="rect" id="node10" href="$ImageSegmentation_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/ImageSegmentation.cc" alt="" coords="218,583,443,651"/>
+<area shape="rect" id="node7" href="$Centroid_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/Centroid.cc" alt="" coords="592,699,816,767"/>
+<area shape="rect" id="node8" href="$ExtractWithCentroiding_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/ExtractWithCentroiding.cc" alt="" coords="840,699,1064,767"/>
+<area shape="rect" id="node16" href="$TargetSize_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/extractWithCentroiding\l/TargetSize.cc" alt="" coords="381,237,605,304"/>
+<area shape="rect" id="node19" href="$Filter_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/filter/Filter.cc" alt="" coords="1165,246,1333,295"/>
+</map>

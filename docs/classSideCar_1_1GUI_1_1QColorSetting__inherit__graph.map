@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::QColorSetting" name="SideCar::GUI::QColorSetting">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1ColorButtonSetting.html" title="Derivation of QColorSetting that works with a QPushButton widget to show the current color setting..." alt="" coords="12,241,189,290"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="26,84,175,114"/>
+</map>

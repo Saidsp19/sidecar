@@ -1,0 +1,18 @@
+<map id="/Users/howes/src/sidecar/GUI/Spectrum/SpectrumWidget.h" name="/Users/howes/src/sidecar/GUI/Spectrum/SpectrumWidget.h">
+<area shape="rect" id="node7" href="$Color_8h_source.html" title="GUI/Color.h" alt="" coords="696,102,788,133"/>
+<area shape="rect" id="node9" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="812,102,984,133"/>
+<area shape="rect" id="node37" href="$DoubleVector_8h_source.html" title="DoubleVector.h" alt="" coords="1722,338,1834,369"/>
+<area shape="rect" id="node41" href="$Spectrum_2ViewSettings_8h_source.html" title="ViewSettings.h" alt="" coords="1725,102,1834,133"/>
+<area shape="rect" id="node14" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="992,181,1132,211"/>
+<area shape="rect" id="node30" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="520,259,653,290"/>
+<area shape="rect" id="node33" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="248,181,417,211"/>
+<area shape="rect" id="node35" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="677,259,845,290"/>
+<area shape="rect" id="node16" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="818,338,964,369"/>
+<area shape="rect" id="node18" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="692,338,794,369"/>
+<area shape="rect" id="node20" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="1007,259,1136,290"/>
+<area shape="rect" id="node22" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="988,338,1173,369"/>
+<area shape="rect" id="node27" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="1197,338,1373,369"/>
+<area shape="rect" id="node23" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="749,417,868,447"/>
+<area shape="rect" id="node29" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1204,417,1280,447"/>
+<area shape="rect" id="node38" href="$FFTWAllocator_8h_source.html" title="FFTWAllocator.h" alt="" coords="1722,417,1842,447"/>
+</map>

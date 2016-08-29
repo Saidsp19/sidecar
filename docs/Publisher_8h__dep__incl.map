@@ -1,0 +1,16 @@
+<map id="/Users/howes/src/sidecar/Zeroconf/Publisher.h" name="/Users/howes/src/sidecar/Zeroconf/Publisher.h">
+<area shape="rect" id="node2" href="$RemoteControllerBase_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/RemoteControllerBase.cc" alt="" coords="5,102,246,151"/>
+<area shape="rect" id="node3" href="$StatusCollector_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/StatusCollector.cc" alt="" coords="270,102,473,151"/>
+<area shape="rect" id="node4" href="$MulticastMessageReader_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/MulticastMessageReader.cc" alt="" coords="497,102,715,151"/>
+<area shape="rect" id="node5" href="$GUI_2Writers_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Writers.cc" alt="" coords="739,102,907,151"/>
+<area shape="rect" id="node6" href="$DataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/DataPublisher.cc" alt="" coords="963,199,1131,249"/>
+<area shape="rect" id="node7" href="$DataPublisher_8h.html" title="/Users/howes/src/sidecar\l/IO/DataPublisher.h" alt="" coords="1116,102,1285,151"/>
+<area shape="rect" id="node9" href="$MulticastDataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataPublisher.cc" alt="" coords="953,297,1147,346"/>
+<area shape="rect" id="node13" href="$MulticastDataSubscriber_8h.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataSubscriber.h" alt="" coords="1393,102,1589,151"/>
+<area shape="rect" id="node15" href="$Publisher_8cc_source.html" title="/Users/howes/src/sidecar\l/Zeroconf/Publisher.cc" alt="" coords="1614,102,1782,151"/>
+<area shape="rect" id="node8" href="$MulticastDataPublisher_8h.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataPublisher.h" alt="" coords="1156,199,1344,249"/>
+<area shape="rect" id="node11" href="$TCPDataPublisher_8h.html" title="/Users/howes/src/sidecar\l/IO/TCPDataPublisher.h" alt="" coords="1368,199,1537,249"/>
+<area shape="rect" id="node10" href="$StreamBuilder_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/StreamBuilder.cc" alt="" coords="1427,297,1598,346"/>
+<area shape="rect" id="node12" href="$TCPDataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/TCPDataPublisher.cc" alt="" coords="1235,297,1403,346"/>
+<area shape="rect" id="node14" href="$MulticastDataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataSubscriber.cc" alt="" coords="1611,199,1814,249"/>
+</map>

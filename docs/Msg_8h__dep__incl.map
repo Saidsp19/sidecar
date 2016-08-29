@@ -1,0 +1,10 @@
+<map id="/Users/howes/src/sidecar/Logger/Msg.h" name="/Users/howes/src/sidecar/Logger/Msg.h">
+<area shape="rect" id="node2" href="$RunnerLog_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RunnerLog.cc" alt="" coords="5,199,183,249"/>
+<area shape="rect" id="node3" href="$LogCollector_8h_source.html" title="/Users/howes/src/sidecar\l/Runner/LogCollector.h" alt="" coords="187,102,356,151"/>
+<area shape="rect" id="node6" href="$Formatters_8cc_source.html" title="/Users/howes/src/sidecar\l/Logger/Formatters.cc" alt="" coords="379,102,548,151"/>
+<area shape="rect" id="node7" href="$Log_8cc_source.html" title="/Users/howes/src/sidecar\l/Logger/Log.cc" alt="" coords="571,102,740,151"/>
+<area shape="rect" id="node8" href="$RemoteSyslogWriter_8cc_source.html" title="/Users/howes/src/sidecar\l/Logger/RemoteSyslogWriter.cc" alt="" coords="763,102,969,151"/>
+<area shape="rect" id="node9" href="$SyslogWriter_8cc_source.html" title="/Users/howes/src/sidecar\l/Logger/SyslogWriter.cc" alt="" coords="993,102,1161,151"/>
+<area shape="rect" id="node4" href="$Runner_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/App.cc" alt="" coords="207,199,376,249"/>
+<area shape="rect" id="node5" href="$LogCollector_8cc_source.html" title="/Users/howes/src/sidecar\l/Runner/LogCollector.cc" alt="" coords="399,199,568,249"/>
+</map>

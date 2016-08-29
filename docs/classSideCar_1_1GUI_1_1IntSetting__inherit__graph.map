@@ -1,0 +1,8 @@
+<map id="SideCar::GUI::IntSetting" name="SideCar::GUI::IntSetting">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1QComboBoxSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change setting values..." alt="" coords="531,5,756,36"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1QSliderSetting.html" title="SideCar::GUI::QSliderSetting" alt="" coords="547,60,740,91"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1QSpinBoxSetting.html" title="Derivation of IntSetting that works with a QSpinBox widget to display and change setting values..." alt="" coords="539,115,747,145"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1QTabWidgetSetting.html" title="SideCar::GUI::QTabWidget\lSetting" alt="" coords="553,169,734,218"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="123,88,272,119"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1CLUTSetting.html" title="SideCar::GUI::CLUTSetting" alt="" coords="804,5,986,36"/>
+</map>

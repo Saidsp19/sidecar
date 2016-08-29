@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1GUI_1_1AScope_1_1ViewChanger.html" title="Abstract base class that manages user events associated with changing a Visualizer view transformatio..." alt="" coords="5,43,159,92"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1AScope_1_1PanningViewChanger.html" title="View changer for panning. " alt="" coords="209,5,364,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1ZoomingViewChanger.html" title="View changer for zooming. " alt="" coords="207,79,366,128"/>
+</map>

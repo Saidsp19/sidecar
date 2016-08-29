@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::CLUTSetting" name="SideCar::GUI::CLUTSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1QComboBoxSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change setting values..." alt="" coords="5,241,230,271"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="36,162,199,193"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="43,84,192,114"/>
+</map>

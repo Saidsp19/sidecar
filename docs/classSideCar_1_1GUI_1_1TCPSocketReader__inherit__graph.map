@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::TCPSocketReader" name="SideCar::GUI::TCPSocketReader">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; IO::StreamReader, TCPSocket\lReaderDevice \&gt;" alt="" coords="90,162,303,230"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1StreamReader.html" title="Abstract base class for readers. " alt="" coords="5,84,188,114"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1Reader.html" title="Abstract base class for readers. " alt="" coords="26,5,167,36"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="/Users/howes/src/sidecar/GUI/AScope/VideoChannel.h" name="/Users/howes/src/sidecar/GUI/AScope/VideoChannel.h">
+<area shape="rect" id="node2" href="$AScope_2ChannelConnection_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ChannelConnection.cc" alt="" coords="5,102,240,151"/>
+<area shape="rect" id="node3" href="$AScope_2ChannelConnectionModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ChannelConnectionModel.cc" alt="" coords="265,102,535,151"/>
+<area shape="rect" id="node4" href="$AScope_2ChannelConnectionView_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ChannelConnectionView.cc" alt="" coords="559,102,822,151"/>
+<area shape="rect" id="node5" href="$ChannelConnectionWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ChannelConnectionWindow.cc" alt="" coords="846,102,1127,151"/>
+<area shape="rect" id="node6" href="$PeakBarRenderer_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/PeakBarRenderer.cc" alt="" coords="1152,102,1376,151"/>
+<area shape="rect" id="node7" href="$VideoChannel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/VideoChannel.cc" alt="" coords="1400,102,1602,151"/>
+<area shape="rect" id="node8" href="$Visualizer_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/Visualizer.cc" alt="" coords="1626,102,1803,151"/>
+</map>

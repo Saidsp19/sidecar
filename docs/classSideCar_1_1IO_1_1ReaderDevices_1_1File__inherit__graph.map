@@ -1,0 +1,4 @@
+<map id="SideCar::IO::ReaderDevices::File" name="SideCar::IO::ReaderDevices::File">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; StreamReader, ReaderDevices\l::File \&gt;" alt="" coords="5,102,221,170"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1FileReader.html" title="Reader that obtains raw data from a file device. " alt="" coords="32,218,194,249"/>
+</map>

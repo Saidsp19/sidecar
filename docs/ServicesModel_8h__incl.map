@@ -1,0 +1,14 @@
+<map id="/Users/howes/src/sidecar/GUI/Master/ServicesModel.h" name="/Users/howes/src/sidecar/GUI/Master/ServicesModel.h">
+<area shape="rect" id="node7" href="$ProcessingState_8h.html" title="IO/ProcessingState.h" alt="" coords="956,181,1102,211"/>
+<area shape="rect" id="node10" href="$ServiceBrowser_8h.html" title="GUI/ServiceBrowser.h" alt="" coords="646,102,798,133"/>
+<area shape="rect" id="node22" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1597,181,1730,211"/>
+<area shape="rect" id="node33" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="1126,181,1297,211"/>
+<area shape="rect" id="node13" href="$QtMonitor_8h.html" title="GUI/QtMonitor.h" alt="" coords="451,181,569,211"/>
+<area shape="rect" id="node19" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="697,181,873,211"/>
+<area shape="rect" id="node14" href="$Transaction_8h.html" title="Zeroconf/Transaction.h" alt="" coords="323,259,479,290"/>
+<area shape="rect" id="node18" href="$Zeroconf_2Monitor_8h.html" title="Zeroconf/Monitor.h" alt="" coords="178,338,309,369"/>
+<area shape="rect" id="node21" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="744,259,820,290"/>
+<area shape="rect" id="node25" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="1345,259,1491,290"/>
+<area shape="rect" id="node27" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1830,259,1932,290"/>
+<area shape="rect" id="node29" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="1956,259,2075,290"/>
+</map>

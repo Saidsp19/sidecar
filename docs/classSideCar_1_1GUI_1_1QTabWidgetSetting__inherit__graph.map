@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::QTabWidgetSetting" name="SideCar::GUI::QTabWidgetSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="14,162,177,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="21,84,170,114"/>
+</map>

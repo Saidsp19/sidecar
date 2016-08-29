@@ -1,0 +1,30 @@
+<map id="/Users/howes/src/sidecar/IO/MulticastDataSubscriber.h" name="/Users/howes/src/sidecar/IO/MulticastDataSubscriber.h">
+<area shape="rect" id="node4" href="$DataSubscriber_8h.html" title="IO/DataSubscriber.h" alt="" coords="1402,102,1543,133"/>
+<area shape="rect" id="node47" href="$Module_8h.html" title="IO/Module.h" alt="" coords="386,181,479,211"/>
+<area shape="rect" id="node49" href="$ZeroconfRegistry_8h.html" title="IO/ZeroconfRegistry.h" alt="" coords="71,181,220,211"/>
+<area shape="rect" id="node50" href="$Publisher_8h.html" title="Zeroconf/Publisher.h" alt="" coords="3425,417,3567,447"/>
+<area shape="rect" id="node5" href="$IOTask_8h.html" title="IO/IOTask.h" alt="" coords="1427,181,1518,211"/>
+<area shape="rect" id="node39" href="$Browser_8h.html" title="Zeroconf/Browser.h" alt="" coords="2665,338,2800,369"/>
+<area shape="rect" id="node6" href="$Task_8h.html" title="IO/Task.h" alt="" coords="1517,259,1595,290"/>
+<area shape="rect" id="node17" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="1326,495,1502,526"/>
+<area shape="rect" id="node13" href="$IO_2Channel_8h.html" title="IO/Channel.h" alt="" coords="1564,338,1663,369"/>
+<area shape="rect" id="node20" href="$ProcessingState_8h.html" title="IO/ProcessingState.h" alt="" coords="1627,495,1773,526"/>
+<area shape="rect" id="node21" href="$Stats_8h.html" title="IO/Stats.h" alt="" coords="1460,338,1540,369"/>
+<area shape="rect" id="node28" href="$TaskStatus_8h.html" title="IO/TaskStatus.h" alt="" coords="1739,338,1854,369"/>
+<area shape="rect" id="node32" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="780,338,919,369"/>
+<area shape="rect" id="node36" href="$Parameter_8h.html" title="Parameter/Parameter.h" alt="" coords="1879,417,2036,447"/>
+<area shape="rect" id="node14" href="$RecipientList_8h.html" title="IO/RecipientList.h" alt="" coords="1376,417,1502,447"/>
+<area shape="rect" id="node15" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="648,495,750,526"/>
+<area shape="rect" id="node19" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1501,574,1577,604"/>
+<area shape="rect" id="node22" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="628,417,761,447"/>
+<area shape="rect" id="node25" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="774,495,920,526"/>
+<area shape="rect" id="node27" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="929,574,1048,604"/>
+<area shape="rect" id="node29" href="$StatusBase_8h.html" title="IO/StatusBase.h" alt="" coords="1738,417,1855,447"/>
+<area shape="rect" id="node31" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="1994,495,2164,526"/>
+<area shape="rect" id="node33" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="908,417,1037,447"/>
+<area shape="rect" id="node35" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="1117,495,1302,526"/>
+<area shape="rect" id="node41" href="$Transaction_8h.html" title="Zeroconf/Transaction.h" alt="" coords="3587,495,3742,526"/>
+<area shape="rect" id="node45" href="$Zeroconf_2ServiceEntry_8h.html" title="Zeroconf/ServiceEntry.h" alt="" coords="3130,417,3292,447"/>
+<area shape="rect" id="node44" href="$Zeroconf_2Monitor_8h.html" title="Zeroconf/Monitor.h" alt="" coords="3757,574,3889,604"/>
+<area shape="rect" id="node46" href="$ResolvedEntry_8h.html" title="Zeroconf/ResolvedEntry.h" alt="" coords="2772,495,2945,526"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="SideCar::IO::TCPSocketWriter" name="SideCar::IO::TCPSocketWriter">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TWriter.html" title="SideCar::IO::TWriter\l\&lt; WriterDevices::TCPSocket \&gt;" alt="" coords="61,102,260,151"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1Writer.html" title="Abstract base class for data writers. " alt="" coords="5,15,137,45"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1WriterDevices_1_1TCPSocket.html" title="Device that writes data to a network socket using TCP. " alt="" coords="162,5,341,54"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="SideCar::Parameter::Defs::StringTypeTraits" name="SideCar::Parameter::Defs::StringTypeTraits">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; StringTypeTraits \&gt;" alt="" coords="231,5,376,73"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1ReadPathTypeTraits.html" title="Basic type definition for a readable file path. " alt="" coords="212,97,395,146"/>
+<area shape="rect" id="node7" href="$structSideCar_1_1Parameter_1_1Defs_1_1WritePathTypeTraits.html" title="Basic type definition for a writable file path. " alt="" coords="213,180,394,229"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1String.html" title="Complete type and class method definitions for std::string values. " alt="" coords="456,15,593,64"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; ReadPathTypeTraits \&gt;" alt="" coords="443,88,607,156"/>
+<area shape="rect" id="node6" href="$structSideCar_1_1Parameter_1_1Defs_1_1ReadPath.html" title="Complete type and class method definitions for file path that one should be able to read from..." alt="" coords="655,97,791,146"/>
+<area shape="rect" id="node8" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; WritePathTypeTraits \&gt;" alt="" coords="443,180,606,248"/>
+<area shape="rect" id="node9" href="$structSideCar_1_1Parameter_1_1Defs_1_1WritePath.html" title="Complete type and class method definitions for file path that one should be able to write to..." alt="" coords="655,189,791,238"/>
+</map>

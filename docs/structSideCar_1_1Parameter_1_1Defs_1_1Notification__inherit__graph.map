@@ -1,0 +1,6 @@
+<map id="SideCar::Parameter::Defs::Notification" name="SideCar::Parameter::Defs::Notification">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; NotificationTypeTraits \&gt;" alt="" coords="429,33,600,101"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1NotificationTypeTraits.html" title="Basic type definition for a notification. " alt="" coords="192,5,381,54"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1IntTypeTraits.html" title="Basic type definition for normal integer values. " alt="" coords="5,5,144,54"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="218,79,355,128"/>
+</map>

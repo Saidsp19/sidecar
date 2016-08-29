@@ -1,0 +1,9 @@
+<map id="SideCar::IO::StreamReader" name="SideCar::IO::StreamReader">
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; IO::StreamReader, TCPSocket\lReaderDevice \&gt;" alt="" coords="426,5,639,73"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; StreamReader, ReaderDevices\l::File \&gt;" alt="" coords="425,97,640,165"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1IO_1_1TReader.html" title="SideCar::IO::TReader\l\&lt; StreamReader, ReaderDevices\l::TCPSocket \&gt;" alt="" coords="425,189,640,257"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1Reader.html" title="Abstract base class for readers. " alt="" coords="5,116,146,146"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1TCPSocketReader.html" title="SideCar::GUI::TCPSocketReader" alt="" coords="688,24,905,54"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1FileReader.html" title="Reader that obtains raw data from a file device. " alt="" coords="715,116,877,146"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1IO_1_1TCPSocketReader.html" title="Reader that obtains raw data from a socket device. " alt="" coords="693,208,900,238"/>
+</map>

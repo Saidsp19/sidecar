@@ -1,0 +1,4 @@
+<map id="Logger::ClockSource" name="Logger::ClockSource">
+<area shape="rect" id="node2" href="$classLogger_1_1DayClockSource.html" title="Similar to SystemClockSource, but returns time values that range from 0 to 86400 seconds (24 hours)..." alt="" coords="5,84,173,114"/>
+<area shape="rect" id="node3" href="$classLogger_1_1SystemClockSource.html" title="Concrete derivation of ClockSource that uses the Unix system clock to provide a timeval value..." alt="" coords="197,84,384,114"/>
+</map>

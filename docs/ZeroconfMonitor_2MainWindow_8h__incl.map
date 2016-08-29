@@ -1,0 +1,12 @@
+<map id="/Users/howes/src/sidecar/GUI/ZeroconfMonitor/MainWindow.h" name="/Users/howes/src/sidecar/GUI/ZeroconfMonitor/MainWindow.h">
+<area shape="rect" id="node4" href="$MainWindowBase_8h.html" title="GUI/MainWindowBase.h" alt="" coords="954,102,1120,133"/>
+<area shape="rect" id="node6" href="$ServiceBrowser_8h.html" title="GUI/ServiceBrowser.h" alt="" coords="634,102,786,133"/>
+<area shape="rect" id="node21" href="$ZeroconfRegistry_8h.html" title="IO/ZeroconfRegistry.h" alt="" coords="405,102,554,133"/>
+<area shape="rect" id="node22" href="$GUI_2ZeroconfMonitor_2App_8h.html" title="App.h" alt="" coords="297,102,353,133"/>
+<area shape="rect" id="node11" href="$QtMonitor_8h.html" title="GUI/QtMonitor.h" alt="" coords="897,181,1014,211"/>
+<area shape="rect" id="node17" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="646,181,822,211"/>
+<area shape="rect" id="node12" href="$Transaction_8h.html" title="Zeroconf/Transaction.h" alt="" coords="1000,259,1156,290"/>
+<area shape="rect" id="node16" href="$Zeroconf_2Monitor_8h.html" title="Zeroconf/Monitor.h" alt="" coords="670,338,801,369"/>
+<area shape="rect" id="node20" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="760,259,836,290"/>
+<area shape="rect" id="node23" href="$AppBase_8h.html" title="GUI/AppBase.h" alt="" coords="268,181,382,211"/>
+</map>

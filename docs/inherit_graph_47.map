@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structItemDelegate.html" title="ItemDelegate" alt="" coords="245,60,345,91"/>
+<area shape="rect" id="node3" href="$structMyItemDelegate.html" title="QComboBox view delegate. " alt="" coords="236,115,354,145"/>
+<area shape="rect" id="node4" href="$structNameItemDelegate.html" title="Item delegate for the &quot;Name&quot; column. " alt="" coords="227,5,362,36"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1PriorityWidget.html" title="SideCar::GUI::PriorityWidget" alt="" coords="200,169,390,200"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1RangeTruthEmitter_1_1AccelerationEditor.html" title="SideCar::GUI::RangeTruth\lEmitter::AccelerationEditor" alt="" coords="206,224,383,273"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1RangeTruthEmitter_1_1DurationEditor.html" title="SideCar::GUI::RangeTruth\lEmitter::DurationEditor" alt="" coords="206,297,383,346"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1RangeTruthEmitter_1_1VelocityEditor.html" title="SideCar::GUI::RangeTruth\lEmitter::VelocityEditor" alt="" coords="206,371,383,420"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="SideCar::GUI::ChannelImaging" name="SideCar::GUI::ChannelImaging">
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1ESScope_1_1GridImaging.html" title="Extension of the ChannelImaging class for the display of grids. " alt="" coords="867,5,1029,54"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1PhantomCursorImaging.html" title="SideCar::GUI::PhantomCursor\lImaging" alt="" coords="849,79,1048,128"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1RangeRingsImaging.html" title="Extension of the ChannelImaging class for the display of range rings. " alt="" coords="858,152,1039,201"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1SampleImaging.html" title="Derivation of the ChannelImaging settings collection class that contains additional settings for Open..." alt="" coords="849,225,1048,256"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1Spectrum_1_1SpectrographImaging.html" title="SideCar::GUI::Spectrum\l::SpectrographImaging" alt="" coords="866,280,1030,329"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1TargetPlotImaging.html" title="Extension of the ChannelImaging class that contains display settings for target plots. " alt="" coords="865,357,1032,406"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="359,184,549,233"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1SettingsBlock.html" title="Base class for a collection of Setting objects that conceptually belong together as a unit..." alt="" coords="123,193,311,224"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1111,140,1265,189"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1107,213,1269,262"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1102,287,1274,336"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1RangeTruthsImaging.html" title="SideCar::GUI::RangeTruths\lImaging" alt="" coords="1096,360,1279,409"/>
+</map>

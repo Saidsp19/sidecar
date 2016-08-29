@@ -1,0 +1,6 @@
+<map id="SideCar::Parameter::Defs::RangedIntTypeTraits&lt; MinValue, MaxValue &gt;" name="SideCar::Parameter::Defs::RangedIntTypeTraits&lt; MinValue, MaxValue &gt;">
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="BasicTypeDef\&lt; RangedIntType\lTraits\&lt; MinValue, MaxValue \&gt; \&gt;" alt="" coords="425,24,634,73"/>
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1IntTypeTraits.html" title="Basic type definition for normal integer values. " alt="" coords="5,24,144,73"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; RangedIntTypeTraits\&lt; MinValue,\l MaxValue \&gt; \&gt;" alt="" coords="682,5,907,91"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedInt.html" title="Complete type and class method definitions for fixed&#45;range integer values. " alt="" coords="955,15,1149,82"/>
+</map>

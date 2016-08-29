@@ -1,0 +1,13 @@
+<map id="/Users/howes/src/sidecar/GUI/Master/MainWindow.h" name="/Users/howes/src/sidecar/GUI/Master/MainWindow.h">
+<area shape="rect" id="node2" href="$GUI_2Master_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/App.cc" alt="" coords="5,102,174,151"/>
+<area shape="rect" id="node3" href="$ConfigurationController_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationController.cc" alt="" coords="197,102,446,151"/>
+<area shape="rect" id="node4" href="$ConfigurationInfo_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ConfigurationInfo.cc" alt="" coords="470,102,683,151"/>
+<area shape="rect" id="node5" href="$LogViewWindowManager_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/LogViewWindowManager.cc" alt="" coords="706,102,969,151"/>
+<area shape="rect" id="node6" href="$Master_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/MainWindow.cc" alt="" coords="992,102,1181,151"/>
+<area shape="rect" id="node7" href="$ParamEditor_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ParamEditor.cc" alt="" coords="1206,102,1392,151"/>
+<area shape="rect" id="node8" href="$RecordingController_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RecordingController.cc" alt="" coords="1415,102,1646,151"/>
+<area shape="rect" id="node9" href="$Master_2RecordingInfo_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RecordingInfo.cc" alt="" coords="1670,102,1866,151"/>
+<area shape="rect" id="node10" href="$RunnerLog_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/RunnerLog.cc" alt="" coords="1890,102,2068,151"/>
+<area shape="rect" id="node11" href="$ServicesModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ServicesModel.cc" alt="" coords="2092,102,2292,151"/>
+<area shape="rect" id="node12" href="$ServicesView_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/Master/ServicesView.cc" alt="" coords="2316,102,2509,151"/>
+</map>

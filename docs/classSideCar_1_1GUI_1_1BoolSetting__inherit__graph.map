@@ -1,0 +1,6 @@
+<map id="SideCar::GUI::BoolSetting" name="SideCar::GUI::BoolSetting">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1QCheckBoxSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="543,5,763,36"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1QGroupBoxSetting.html" title="SideCar::GUI::QGroupBoxSetting" alt="" coords="544,60,762,91"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1QRadioButtonSetting.html" title="SideCar::GUI::QRadioButton\lSetting" alt="" coords="558,115,748,164"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="123,60,272,91"/>
+</map>

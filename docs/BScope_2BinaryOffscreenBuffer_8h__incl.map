@@ -1,0 +1,24 @@
+<map id="/Users/howes/src/sidecar/GUI/BScope/BinaryOffscreenBuffer.h" name="/Users/howes/src/sidecar/GUI/BScope/BinaryOffscreenBuffer.h">
+<area shape="rect" id="node2" href="$BScope_2OffscreenBuffer_8h.html" title="OffscreenBuffer.h" alt="" coords="1859,102,1982,133"/>
+<area shape="rect" id="node3" href="$OffscreenBuffer_8h.html" title="GUI/OffscreenBuffer.h" alt="" coords="1408,181,1558,211"/>
+<area shape="rect" id="node39" href="$BScope_2ViewSettings_8h.html" title="ViewSettings.h" alt="" coords="2035,181,2144,211"/>
+<area shape="rect" id="node4" href="$Texture_8h_source.html" title="GUI/Texture.h" alt="" coords="1658,259,1762,290"/>
+<area shape="rect" id="node6" href="$VertexColorArray_8h_source.html" title="GUI/VertexColorArray.h" alt="" coords="99,417,259,447"/>
+<area shape="rect" id="node11" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="1179,259,1350,290"/>
+<area shape="rect" id="node8" href="$Color_8h_source.html" title="GUI/Color.h" alt="" coords="5,495,97,526"/>
+<area shape="rect" id="node10" href="$Vertex_8h_source.html" title="GUI/Vertex.h" alt="" coords="121,495,218,526"/>
+<area shape="rect" id="node15" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="1063,338,1202,369"/>
+<area shape="rect" id="node31" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="669,417,802,447"/>
+<area shape="rect" id="node34" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="1725,338,1895,369"/>
+<area shape="rect" id="node37" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="826,417,994,447"/>
+<area shape="rect" id="node17" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="922,495,1068,526"/>
+<area shape="rect" id="node19" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="796,495,898,526"/>
+<area shape="rect" id="node21" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="1120,417,1249,447"/>
+<area shape="rect" id="node23" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="1092,495,1277,526"/>
+<area shape="rect" id="node28" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="1423,495,1599,526"/>
+<area shape="rect" id="node24" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="699,574,819,604"/>
+<area shape="rect" id="node30" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1455,574,1530,604"/>
+<area shape="rect" id="node40" href="$DoubleSetting_8h_source.html" title="GUI/DoubleSetting.h" alt="" coords="2184,259,2327,290"/>
+<area shape="rect" id="node45" href="$SettingsBlock_8h_source.html" title="GUI/SettingsBlock.h" alt="" coords="2020,259,2160,290"/>
+<area shape="rect" id="node41" href="$Setting_8h_source.html" title="GUI/Setting.h" alt="" coords="2205,338,2306,369"/>
+</map>

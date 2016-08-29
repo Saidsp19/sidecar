@@ -1,0 +1,8 @@
+<map id="Logger::Configurator::MissingRemoteHost" name="Logger::Configurator::MissingRemoteHost">
+<area shape="rect" id="node2" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; MissingRemoteHost \&gt;" alt="" coords="131,297,294,364"/>
+<area shape="rect" id="node3" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingRemoteHost \&gt;" alt="" coords="129,199,296,249"/>
+<area shape="rect" id="node4" href="$classUtils_1_1Exception.html" title="Base exception class. " alt="" coords="76,112,189,142"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="5,15,108,45"/>
+<area shape="rect" id="node6" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="132,5,288,54"/>
+<area shape="rect" id="node7" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; MissingRemoteHost \&gt;" alt="" coords="213,102,375,151"/>
+</map>

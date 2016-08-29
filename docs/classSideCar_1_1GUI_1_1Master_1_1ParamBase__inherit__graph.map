@@ -1,0 +1,9 @@
+<map id="SideCar::GUI::Master::ParamBase" name="SideCar::GUI::Master::ParamBase">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Master_1_1BoolParam.html" title="Boolean value parameter editor. " alt="" coords="319,5,467,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1Master_1_1DoubleParam.html" title="Double parameter editor. " alt="" coords="319,79,467,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1Master_1_1EnumParam.html" title="Enumeration parameter editor. " alt="" coords="319,152,467,201"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1Master_1_1IntParam.html" title="Integer parameter editor. " alt="" coords="319,225,467,274"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1Master_1_1NotificationParam.html" title="Notification parameter &#39;editor&#39;. " alt="" coords="319,299,467,348"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1Master_1_1PathParam.html" title="File path parameter editor. " alt="" coords="319,372,467,421"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1Master_1_1StringParam.html" title="String parameter editor. " alt="" coords="319,445,467,494"/>
+</map>

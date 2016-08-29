@@ -1,0 +1,5 @@
+<map id="SideCar::Parameter::Defs::Bool" name="SideCar::Parameter::Defs::Bool">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; BoolTypeTraits \&gt;" alt="" coords="92,102,237,170"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1BoolTypeTraits.html" title="Basic type definition for &#39;bool&#39; values. " alt="" coords="5,5,156,54"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="180,5,317,54"/>
+</map>

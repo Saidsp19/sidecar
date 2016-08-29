@@ -1,0 +1,7 @@
+<map id="Utils::ExceptionInserter&lt; T &gt;" name="Utils::ExceptionInserter&lt; T &gt;">
+<area shape="rect" id="node2" href="$structLogger_1_1LoggerException.html" title="Top&#45;level exception thrown by the Logger classes. " alt="" coords="241,108,439,138"/>
+<area shape="rect" id="node3" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Top&#45;level exception class used by all Configurator exceptions. " alt="" coords="487,61,677,110"/>
+<area shape="rect" id="node6" href="$structLogger_1_1Priority_1_1PriorityException.html" title="Base class for all Priority class exceptions. " alt="" coords="503,135,661,184"/>
+<area shape="rect" id="node4" href="$structLogger_1_1ConfiguratorFile_1_1CannotAccessConfigFile.html" title="Exception thrown if unable to access (see) the configuration file. " alt="" coords="725,5,912,73"/>
+<area shape="rect" id="node5" href="$structLogger_1_1ConfiguratorFile_1_1CannotOpenConfigFile.html" title="Exception thrown if unable to open a configuration file. " alt="" coords="730,97,907,165"/>
+</map>

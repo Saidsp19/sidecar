@@ -1,0 +1,7 @@
+<map id="SideCar::Parameter::Defs::RangedDouble&lt; DoubleBounds &gt;" name="SideCar::Parameter::Defs::RangedDouble&lt; DoubleBounds &gt;">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicRangedTypeDef.html" title="SideCar::Parameter\l::Defs::BasicRangedTypeDef\l\&lt; RangedDoubleTypeTraits\l\&lt; DoubleBounds \&gt; \&gt;" alt="" coords="710,60,902,146"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; RangedDoubleTypeTraits\l\&lt; DoubleBounds \&gt; \&gt;" alt="" coords="480,60,662,146"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1RangedDoubleTypeTraits.html" title="Type definition for range of double values, defined by a lower and upper bound. " alt="" coords="220,28,432,96"/>
+<area shape="rect" id="node5" href="$structSideCar_1_1Parameter_1_1Defs_1_1DoubleTypeTraits.html" title="Basic type definition for float&#45;point C++ double values. " alt="" coords="5,5,172,54"/>
+<area shape="rect" id="node7" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="257,120,394,169"/>
+</map>

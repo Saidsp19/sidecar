@@ -1,0 +1,50 @@
+<map id="Utils::Exception" name="Utils::Exception">
+<area shape="rect" id="node4" href="$structLogger_1_1LoggerException.html" title="Top&#45;level exception thrown by the Logger classes. " alt="" coords="373,88,571,118"/>
+<area shape="rect" id="node7" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidCommand \&gt;" alt="" coords="388,175,556,224"/>
+<area shape="rect" id="node9" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidFileFlag \&gt;" alt="" coords="388,263,556,312"/>
+<area shape="rect" id="node11" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidFormatterType \&gt;" alt="" coords="388,345,556,394"/>
+<area shape="rect" id="node13" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidLevel \&gt;" alt="" coords="388,419,556,468"/>
+<area shape="rect" id="node15" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidLoggerName \&gt;" alt="" coords="388,492,556,541"/>
+<area shape="rect" id="node17" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidName \&gt;" alt="" coords="388,565,556,614"/>
+<area shape="rect" id="node19" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidRemoteSyslogFlag \&gt;" alt="" coords="376,639,569,688"/>
+<area shape="rect" id="node21" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidStreamFlag \&gt;" alt="" coords="388,712,556,761"/>
+<area shape="rect" id="node23" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidSyslogFlag \&gt;" alt="" coords="388,785,556,834"/>
+<area shape="rect" id="node25" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; InvalidWriterType \&gt;" alt="" coords="388,859,556,908"/>
+<area shape="rect" id="node27" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingFacility \&gt;" alt="" coords="388,932,556,981"/>
+<area shape="rect" id="node29" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingFileMode \&gt;" alt="" coords="388,1005,556,1054"/>
+<area shape="rect" id="node31" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingFilePath \&gt;" alt="" coords="388,1079,556,1128"/>
+<area shape="rect" id="node32" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingFormatterPattern \&gt;" alt="" coords="378,1152,566,1201"/>
+<area shape="rect" id="node33" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingFormatterType \&gt;" alt="" coords="385,1225,560,1274"/>
+<area shape="rect" id="node34" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingIdent \&gt;" alt="" coords="388,1299,556,1348"/>
+<area shape="rect" id="node35" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingLoggerName \&gt;" alt="" coords="388,1372,556,1421"/>
+<area shape="rect" id="node36" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingMaxSize \&gt;" alt="" coords="388,1445,556,1494"/>
+<area shape="rect" id="node37" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingNumVersions \&gt;" alt="" coords="388,1519,556,1568"/>
+<area shape="rect" id="node38" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingPriorityName \&gt;" alt="" coords="388,1592,556,1641"/>
+<area shape="rect" id="node39" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingRemoteHost \&gt;" alt="" coords="388,1665,556,1714"/>
+<area shape="rect" id="node40" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingRemotePort \&gt;" alt="" coords="388,1739,556,1788"/>
+<area shape="rect" id="node41" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; MissingWriterType \&gt;" alt="" coords="388,1812,556,1861"/>
+<area shape="rect" id="node42" href="$structLogger_1_1LoggerException.html" title="Logger::LoggerException\l\&lt; UnterminatedString \&gt;" alt="" coords="388,1885,556,1934"/>
+<area shape="rect" id="node43" href="$classSideCar_1_1Messages_1_1Attributes_1_1DuplicateAttribute.html" title="Exception thrown when a duplicate attribute name is detected. " alt="" coords="378,1959,566,2008"/>
+<area shape="rect" id="node44" href="$classSideCar_1_1Parameter_1_1InvalidValue.html" title="Exception thrown if a value given to a parameter is invalid. " alt="" coords="404,2032,541,2081"/>
+<area shape="rect" id="node45" href="$structSideCar_1_1Time_1_1TimeStamp_1_1IllegalTimeStamp.html" title="SideCar::Time::TimeStamp\l::IllegalTimeStamp" alt="" coords="382,2105,562,2154"/>
+<area shape="rect" id="node46" href="$structSideCar_1_1Time_1_1TimeStamp_1_1InvalidSpecification.html" title="SideCar::Time::TimeStamp\l::InvalidSpecification" alt="" coords="382,2179,562,2228"/>
+<area shape="rect" id="node47" href="$structSideCar_1_1Time_1_1TimeStampRange_1_1InvalidRange.html" title="Exception thrown if a range is invalid (start &gt; end). " alt="" coords="382,2252,562,2301"/>
+<area shape="rect" id="node48" href="$structThreading_1_1ThreadingException.html" title="Top&#45;level exception class for all thread&#45;related exceptions. " alt="" coords="370,2325,575,2356"/>
+<area shape="rect" id="node49" href="$structUtils_1_1SineCosineLUT_1_1InvalidSize.html" title="Exception thrown if the requested table size is not a multiple of 4. " alt="" coords="398,2380,546,2429"/>
+<area shape="rect" id="node2" title="STL class. " alt="" coords="32,1240,135,1270"/>
+<area shape="rect" id="node3" href="$structUtils_1_1ExceptionInserter.html" title="Utils::ExceptionInserter\l\&lt; Exception \&gt;" alt="" coords="5,1295,162,1344"/>
+<area shape="rect" id="node5" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Top&#45;level exception class used by all Configurator exceptions. " alt="" coords="624,5,813,54"/>
+<area shape="rect" id="node6" href="$structLogger_1_1Priority_1_1PriorityException.html" title="Base class for all Priority class exceptions. " alt="" coords="640,79,798,128"/>
+<area shape="rect" id="node8" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidCommand \&gt;" alt="" coords="640,152,798,220"/>
+<area shape="rect" id="node10" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidFileFlag \&gt;" alt="" coords="640,244,798,312"/>
+<area shape="rect" id="node12" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidFormatterType \&gt;" alt="" coords="635,336,803,404"/>
+<area shape="rect" id="node14" href="$structLogger_1_1Priority_1_1PriorityException.html" title="Logger::Priority::Priority\lException\&lt; InvalidLevel \&gt;" alt="" coords="634,428,804,477"/>
+<area shape="rect" id="node16" href="$structLogger_1_1InvalidLoggerName.html" title="Exception thrown for when Log::Find is given an invalid name. " alt="" coords="627,501,810,532"/>
+<area shape="rect" id="node18" href="$structLogger_1_1Priority_1_1PriorityException.html" title="Logger::Priority::Priority\lException\&lt; InvalidName \&gt;" alt="" coords="632,556,806,605"/>
+<area shape="rect" id="node20" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidRemoteSyslogFlag \&gt;" alt="" coords="623,629,815,697"/>
+<area shape="rect" id="node22" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidStreamFlag \&gt;" alt="" coords="640,721,798,789"/>
+<area shape="rect" id="node24" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidSyslogFlag \&gt;" alt="" coords="640,813,798,881"/>
+<area shape="rect" id="node26" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; InvalidWriterType \&gt;" alt="" coords="640,905,798,973"/>
+<area shape="rect" id="node28" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; MissingFacility \&gt;" alt="" coords="640,997,798,1065"/>
+<area shape="rect" id="node30" href="$structLogger_1_1Configurator_1_1ConfiguratorException.html" title="Logger::Configurator\l::ConfiguratorException\l\&lt; MissingFileMode \&gt;" alt="" coords="640,1089,798,1157"/>
+</map>

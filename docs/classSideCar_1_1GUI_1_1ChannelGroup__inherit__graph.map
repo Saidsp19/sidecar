@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::ChannelGroup" name="SideCar::GUI::ChannelGroup">
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="100,84,237,133"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="70,5,267,36"/>
+</map>

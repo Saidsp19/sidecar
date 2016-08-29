@@ -1,0 +1,5 @@
+<map id="SideCar::Parameter::Defs::Short" name="SideCar::Parameter::Defs::Short">
+<area shape="rect" id="node2" href="$structSideCar_1_1Parameter_1_1Defs_1_1BasicTypeDef.html" title="SideCar::Parameter\l::Defs::BasicTypeDef\l\&lt; ShortTypeTraits \&gt;" alt="" coords="96,102,241,170"/>
+<area shape="rect" id="node3" href="$structSideCar_1_1Parameter_1_1Defs_1_1ShortTypeTraits.html" title="Basic type definition for &#39;short&#39; integer values. " alt="" coords="5,5,161,54"/>
+<area shape="rect" id="node4" href="$structSideCar_1_1Parameter_1_1Defs_1_1XMLMixin.html" title="Helper class that initializes an XML&#45;RPC value object with a name and type. " alt="" coords="185,5,322,54"/>
+</map>

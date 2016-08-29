@@ -1,0 +1,25 @@
+<map id="/Users/howes/src/sidecar/Algorithms/CIntegrate/CIntegrate.h" name="/Users/howes/src/sidecar/Algorithms/CIntegrate/CIntegrate.h">
+<area shape="rect" id="node11" href="$Algorithm_8h.html" title="Algorithms/Algorithm.h" alt="" coords="1264,121,1418,151"/>
+<area shape="rect" id="node38" href="$Parameter_8h.html" title="Parameter/Parameter.h" alt="" coords="1237,514,1394,544"/>
+<area shape="rect" id="node46" href="$Video_8h.html" title="Messages/Video.h" alt="" coords="292,199,422,230"/>
+<area shape="rect" id="node14" href="$Controller_8h.html" title="Algorithms/Controller.h" alt="" coords="1557,199,1712,230"/>
+<area shape="rect" id="node33" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="662,435,801,466"/>
+<area shape="rect" id="node35" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="136,592,312,623"/>
+<area shape="rect" id="node44" href="$Processor_8h_source.html" title="Algorithms/Processor.h" alt="" coords="899,357,1056,387"/>
+<area shape="rect" id="node22" href="$ControllerStatus_8h.html" title="Algorithms/ControllerStatus.h" alt="" coords="2086,278,2279,309"/>
+<area shape="rect" id="node23" href="$ProcessingStat_8h.html" title="Algorithms/ProcessingStat.h" alt="" coords="1181,435,1368,466"/>
+<area shape="rect" id="node30" href="$Module_8h.html" title="IO/Module.h" alt="" coords="2353,278,2447,309"/>
+<area shape="rect" id="node31" href="$Task_8h.html" title="IO/Task.h" alt="" coords="1981,357,2059,387"/>
+<area shape="rect" id="node32" href="$ProcessingState_8h.html" title="IO/ProcessingState.h" alt="" coords="2130,514,2275,544"/>
+<area shape="rect" id="node43" href="$Priority_8h.html" title="Logger/Priority.h" alt="" coords="2796,357,2913,387"/>
+<area shape="rect" id="node24" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="619,514,752,544"/>
+<area shape="rect" id="node25" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="336,592,482,623"/>
+<area shape="rect" id="node27" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="506,592,608,623"/>
+<area shape="rect" id="node29" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="683,592,802,623"/>
+<area shape="rect" id="node34" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="222,514,351,544"/>
+<area shape="rect" id="node37" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="333,671,408,701"/>
+<area shape="rect" id="node42" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="1232,592,1403,623"/>
+<area shape="rect" id="node47" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="438,357,609,387"/>
+<area shape="rect" id="node49" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="28,514,198,544"/>
+<area shape="rect" id="node50" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="426,514,595,544"/>
+</map>

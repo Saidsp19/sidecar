@@ -1,0 +1,5 @@
+<map id="SideCar::IO::TaskStatus" name="SideCar::IO::TaskStatus">
+<area shape="rect" id="node4" href="$classSideCar_1_1Algorithms_1_1ControllerStatus.html" title="Status information reported by an algorithm controller. " alt="" coords="19,259,157,309"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1StatusBase.html" title="Base class for all status collections. " alt="" coords="5,102,170,133"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; StatusBase \&gt;" alt="" coords="13,5,163,54"/>
+</map>

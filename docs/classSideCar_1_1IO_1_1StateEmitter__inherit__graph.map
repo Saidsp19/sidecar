@@ -1,0 +1,4 @@
+<map id="SideCar::IO::StateEmitter" name="SideCar::IO::StateEmitter">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="10,84,198,114"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="5,5,203,36"/>
+</map>

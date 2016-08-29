@@ -1,0 +1,7 @@
+<map id="SideCar::Messages::BooleanSequence" name="SideCar::Messages::BooleanSequence">
+<area shape="rect" id="node2" href="$classSideCar_1_1Messages_1_1TSamplingMessage.html" title="SideCar::Messages::\lTSamplingMessage\&lt; char \&gt;" alt="" coords="106,297,293,346"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Messages_1_1SamplingMessage.html" title="Class for all sampling message containers. " alt="" coords="128,199,271,249"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Messages_1_1BaseMessage.html" title="Base class for all message containers. " alt="" coords="128,102,271,151"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1CDRStreamable.html" title="SideCar::IO::CDRStreamable\l\&lt; BaseMessage \&gt;" alt="" coords="5,5,199,54"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; BaseMessage \&gt;" alt="" coords="223,5,373,54"/>
+</map>

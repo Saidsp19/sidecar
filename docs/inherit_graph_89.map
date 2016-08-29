@@ -1,0 +1,48 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classQLed.html" title="QLed" alt="" coords="290,519,343,549"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1AScope_1_1AzimuthLatch.html" title="SideCar::GUI::AScope\l::AzimuthLatch" alt="" coords="240,5,393,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1AScope_1_1HistoryControlWidget.html" title="Tool window that allows the user to move back in time to a previous frame of data. " alt="" coords="240,152,393,201"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1AScope_1_1ScaleWidget.html" title="Widget that draws tick marks and value labels. " alt="" coords="240,573,393,622"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1AScope_1_1ViewChooser.html" title="SideCar::GUI::AScope\l::ViewChooser" alt="" coords="240,647,393,696"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1AScope_1_1Visualizer.html" title="Render widget for the AScope application. " alt="" coords="240,720,393,769"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1BScope_1_1FramesPositioner.html" title="SideCar::GUI::BScope\l::FramesPositioner" alt="" coords="240,225,393,274"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1BScope_1_1FrameWidget.html" title="SideCar::GUI::BScope\l::FrameWidget" alt="" coords="240,793,393,842"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1BScope_1_1PastImage.html" title="SideCar::GUI::BScope\l::PastImage" alt="" coords="240,867,393,916"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1BScope_1_1PlayerPositioner.html" title="SideCar::GUI::BScope\l::PlayerPositioner" alt="" coords="240,299,393,348"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1BScope_1_1ScaleWidget.html" title="Widget that draws tick marks and value labels. " alt="" coords="240,940,393,989"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1ChannelInfoWidget.html" title="SideCar::GUI::ChannelInfo\lWidget" alt="" coords="227,1013,406,1062"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1GUI_1_1ColorMapWidget.html" title="Floating tool window that shows the message time for the data shown in a PPIWidget, and the range/azimuth values for the cursor. " alt="" coords="213,1087,420,1117"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1GUI_1_1ControlsWidget.html" title="SideCar::GUI::ControlsWidget" alt="" coords="218,1141,415,1172"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1GUI_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="223,1196,410,1226"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1GUI_1_1ESScope_1_1RadarInfoWidget.html" title="QToolBar widget that shows the azimuth and message time of the last message processed by the applicat..." alt="" coords="235,1251,398,1300"/>
+<area shape="rect" id="node24" href="$classSideCar_1_1GUI_1_1ESScope_1_1ScaleWidget.html" title="Widget that draws tick marks and value labels. " alt="" coords="235,1324,398,1373"/>
+<area shape="rect" id="node25" href="$classSideCar_1_1GUI_1_1ESScope_1_1ViewChooser.html" title="SideCar::GUI::ESScope\l::ViewChooser" alt="" coords="235,1397,398,1446"/>
+<area shape="rect" id="node26" href="$classSideCar_1_1GUI_1_1ESScope_1_1XYView.html" title="SideCar::GUI::ESScope\l::XYView" alt="" coords="235,1471,398,1520"/>
+<area shape="rect" id="node29" href="$classSideCar_1_1GUI_1_1HealthAndStatus_1_1SamplePlotWidget.html" title="QWidget variant that plots time&#45;series data. " alt="" coords="213,1544,420,1593"/>
+<area shape="rect" id="node30" href="$classSideCar_1_1GUI_1_1Master_1_1StatusWidget.html" title="SideCar::GUI::Master\l::StatusWidget" alt="" coords="243,2093,390,2142"/>
+<area shape="rect" id="node31" href="$classSideCar_1_1GUI_1_1Master_1_1UtilsWidget.html" title="SideCar::GUI::Master\l::UtilsWidget" alt="" coords="243,2167,390,2216"/>
+<area shape="rect" id="node32" href="$classSideCar_1_1GUI_1_1Playback_1_1NotesWindow.html" title="Simple window which shows the contents of the &#39;notes.txt&#39; file from a recording directory. " alt="" coords="236,2240,397,2289"/>
+<area shape="rect" id="node33" href="$classSideCar_1_1GUI_1_1Potentiometer.html" title="SideCar::GUI::Potentiometer" alt="" coords="222,1617,411,1648"/>
+<area shape="rect" id="node34" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1ControlWidget.html" title="SideCar::GUI::PPIDisplay\l::ControlWidget" alt="" coords="231,1672,402,1721"/>
+<area shape="rect" id="node36" href="$classSideCar_1_1GUI_1_1RadarInfoWidget.html" title="QToolBar widget that shows the azimuth and message time of the last message processed by the applicat..." alt="" coords="214,1745,420,1776"/>
+<area shape="rect" id="node38" href="$classSideCar_1_1GUI_1_1SignalGenerator_1_1GeneratorConfiguration.html" title="SideCar::GUI::SignalGenerator\l::GeneratorConfiguration" alt="" coords="215,1800,418,1849"/>
+<area shape="rect" id="node39" href="$classSideCar_1_1GUI_1_1Spectrum_1_1AzimuthLatch.html" title="SideCar::GUI::Spectrum\l::AzimuthLatch" alt="" coords="234,79,399,128"/>
+<area shape="rect" id="node40" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ChannelSelectorWidget.html" title="Widget that holds a QComboBox button that allow the user to select which Video channel to connect to ..." alt="" coords="233,2313,400,2362"/>
+<area shape="rect" id="node41" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ColorMapWidget.html" title="Floating tool window that shows the message time for the data shown in a PPIWidget, and the range/azimuth values for the cursor. " alt="" coords="234,1873,399,1922"/>
+<area shape="rect" id="node42" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ScaleWidget.html" title="Widget that draws tick marks and value labels. " alt="" coords="234,1947,399,1996"/>
+<area shape="rect" id="node45" href="$classSideCar_1_1GUI_1_1Spectrum_1_1SpectrumWidget.html" title="SideCar::GUI::Spectrum\l::SpectrumWidget" alt="" coords="234,2020,399,2069"/>
+<area shape="rect" id="node46" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ViewChooser.html" title="SideCar::GUI::Spectrum\l::ViewChooser" alt="" coords="234,372,399,421"/>
+<area shape="rect" id="node47" href="$classSideCar_1_1GUI_1_1TargetPlotSymbolsWidget.html" title="Widget that shows the current plot symbols for the extractions (E), range truths (T) and user pick (P..." alt="" coords="233,445,400,494"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1BScope_1_1DegreesScaleWidget.html" title="SideCar::GUI::BScope\l::DegreesScaleWidget" alt="" coords="477,940,631,989"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1GUI_1_1AScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="477,1113,630,1162"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1GUI_1_1BScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="477,1187,631,1236"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1GUI_1_1ESScope_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="473,1260,635,1309"/>
+<area shape="rect" id="node21" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="468,1333,639,1382"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1GUI_1_1Spectrum_1_1CursorWidget.html" title="QToolBar widget that shows the mouse cursor postion in real&#45;world values such as range and sample val..." alt="" coords="472,1040,636,1089"/>
+<area shape="rect" id="node27" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaBetaView.html" title="SideCar::GUI::ESScope\l::AlphaBetaView" alt="" coords="473,1512,635,1561"/>
+<area shape="rect" id="node28" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaRangeView.html" title="SideCar::GUI::ESScope\l::AlphaRangeView" alt="" coords="473,1439,635,1488"/>
+<area shape="rect" id="node35" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1HistoryWidget.html" title="SideCar::GUI::PPIDisplay\l::HistoryWidget" alt="" coords="468,1668,639,1717"/>
+<area shape="rect" id="node37" href="$classSideCar_1_1GUI_1_1AScope_1_1RadarInfoWidget.html" title="Adaptation of GUI/InfoWidget QToolBar widget that shows the shaft encoding value of the last message ..." alt="" coords="477,1741,630,1790"/>
+<area shape="rect" id="node43" href="$classSideCar_1_1GUI_1_1Spectrum_1_1FreqScaleWidget.html" title="SideCar::GUI::Spectrum\l::FreqScaleWidget" alt="" coords="472,1911,636,1960"/>
+<area shape="rect" id="node44" href="$classSideCar_1_1GUI_1_1Spectrum_1_1PowerScaleWidget.html" title="SideCar::GUI::Spectrum\l::PowerScaleWidget" alt="" coords="472,1984,636,2033"/>
+</map>

@@ -1,0 +1,29 @@
+<map id="/Users/howes/src/sidecar/GUI/TargetPlotImaging.h" name="/Users/howes/src/sidecar/GUI/TargetPlotImaging.h">
+<area shape="rect" id="node2" href="$GUI_2BScope_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/BScope/App.cc" alt="" coords="89,102,257,151"/>
+<area shape="rect" id="node3" href="$BScope_2Configuration_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/BScope/Configuration.cc" alt="" coords="5,199,203,249"/>
+<area shape="rect" id="node4" href="$BScope_2PlotPositionFunctor_8h.html" title="/Users/howes/src/sidecar\l/GUI/BScope/PlotPositionFunctor.h" alt="" coords="332,102,559,151"/>
+<area shape="rect" id="node6" href="$BScope_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/BScope/MainWindow.cc" alt="" coords="765,102,960,151"/>
+<area shape="rect" id="node7" href="$BScope_2PPIWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/BScope/PPIWidget.cc" alt="" coords="984,102,1165,151"/>
+<area shape="rect" id="node8" href="$AlphaBetaPlotPositioner_8h_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaBetaPlotPositioner.h" alt="" coords="1189,102,1453,151"/>
+<area shape="rect" id="node11" href="$AlphaRangePlotPositioner_8h_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaRangePlotPositioner.h" alt="" coords="1477,102,1752,151"/>
+<area shape="rect" id="node14" href="$RangeTruthsImaging_8h_source.html" title="/Users/howes/src/sidecar\l/GUI/RangeTruthsImaging.h" alt="" coords="2247,102,2433,151"/>
+<area shape="rect" id="node15" href="$ESScope_2Configuration_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/Configuration.cc" alt="" coords="1602,199,1808,249"/>
+<area shape="rect" id="node16" href="$ESScope_2History_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/History.cc" alt="" coords="1832,199,2000,249"/>
+<area shape="rect" id="node17" href="$ESScope_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/MainWindow.cc" alt="" coords="2025,199,2228,249"/>
+<area shape="rect" id="node18" href="$XYWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/XYWidget.cc" alt="" coords="2252,199,2439,249"/>
+<area shape="rect" id="node19" href="$GUI_2PPIDisplay_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/App.cc" alt="" coords="2678,199,2847,249"/>
+<area shape="rect" id="node20" href="$PPIDisplay_2Configuration_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/Configuration.cc" alt="" coords="3331,199,3546,249"/>
+<area shape="rect" id="node21" href="$PPIDisplay_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/MainWindow.cc" alt="" coords="2871,199,3084,249"/>
+<area shape="rect" id="node22" href="$PPIDisplay_2PPIWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/PPIWidget.cc" alt="" coords="3108,199,3307,249"/>
+<area shape="rect" id="node24" href="$PlotSymbolWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PlotSymbolWidget.cc" alt="" coords="2929,102,3106,151"/>
+<area shape="rect" id="node25" href="$PPIDisplay_2PlotPositionFunctor_8h.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/PlotPositionFunctor.h" alt="" coords="2660,102,2905,151"/>
+<area shape="rect" id="node27" href="$TargetPlotImaging_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/TargetPlotImaging.cc" alt="" coords="3130,102,3307,151"/>
+<area shape="rect" id="node28" href="$TargetPlotSymbolsWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/TargetPlotSymbolsWidget.cc" alt="" coords="3331,102,3552,151"/>
+<area shape="rect" id="node5" href="$BScope_2PlotPositionFunctor_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/BScope/PlotPositionFunctor.cc" alt="" coords="226,199,459,249"/>
+<area shape="rect" id="node9" href="$AlphaBetaPlotPositioner_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaBetaPlotPositioner.cc" alt="" coords="482,199,752,249"/>
+<area shape="rect" id="node10" href="$AlphaBetaWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaBetaWidget.cc" alt="" coords="777,199,1007,249"/>
+<area shape="rect" id="node12" href="$AlphaRangePlotPositioner_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaRangePlotPositioner.cc" alt="" coords="1031,199,1313,249"/>
+<area shape="rect" id="node13" href="$AlphaRangeWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/ESScope/AlphaRangeWidget.cc" alt="" coords="1336,199,1578,249"/>
+<area shape="rect" id="node23" href="$RangeTruthsImaging_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/RangeTruthsImaging.cc" alt="" coords="2463,199,2655,249"/>
+<area shape="rect" id="node26" href="$PPIDisplay_2PlotPositionFunctor_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/PPIDisplay/PlotPositionFunctor.cc" alt="" coords="3571,199,3821,249"/>
+</map>

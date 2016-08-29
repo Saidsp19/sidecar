@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::Master::RootItem" name="SideCar::GUI::Master::RootItem">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Master_1_1CollectionItem.html" title="Specialization of TreeViewItem that represents a collection of TreeViewItem objects. " alt="" coords="5,181,153,230"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Master_1_1TreeViewItem.html" title="Base class for a row in a QTreeView display. " alt="" coords="5,84,153,133"/>
+</map>

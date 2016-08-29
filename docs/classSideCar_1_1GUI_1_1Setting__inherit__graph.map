@@ -1,0 +1,25 @@
+<map id="SideCar::GUI::Setting" name="SideCar::GUI::Setting">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1BoolSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="328,92,503,123"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1DoubleSetting.html" title="Derivation of the Setting class that manages &#39;double&#39; floating&#45;point values. " alt="" coords="320,252,511,283"/>
+<area shape="rect" id="node10" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="334,425,497,456"/>
+<area shape="rect" id="node16" href="$classSideCar_1_1GUI_1_1QColorSetting.html" title="Derivation of the Setting class that works with QColor values. " alt="" coords="320,499,511,529"/>
+<area shape="rect" id="node18" href="$classSideCar_1_1GUI_1_1StringListSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="334,553,497,602"/>
+<area shape="rect" id="node19" href="$classSideCar_1_1GUI_1_1StringSetting.html" title="Derivation of the Setting class that manages boolean values. " alt="" coords="324,663,507,693"/>
+<area shape="rect" id="node23" href="$classSideCar_1_1GUI_1_1TimeSetting.html" title="Derivation of the Setting class that manages QTime values (HH:MM:SS) " alt="" coords="326,744,505,775"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1QCheckBoxSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="561,5,781,36"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1QGroupBoxSetting.html" title="SideCar::GUI::QGroupBoxSetting" alt="" coords="562,60,780,91"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1QRadioButtonSetting.html" title="SideCar::GUI::QRadioButton\lSetting" alt="" coords="576,115,766,164"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1OpacitySetting.html" title="SideCar::GUI::OpacitySetting" alt="" coords="574,188,768,219"/>
+<area shape="rect" id="node9" href="$classSideCar_1_1GUI_1_1QDoubleSpinBoxSetting.html" title="Derivation of DoubleSetting that works with a QDoubleSpinBox widget to display and change setting val..." alt="" coords="578,243,764,292"/>
+<area shape="rect" id="node11" href="$classSideCar_1_1GUI_1_1QComboBoxSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change setting values..." alt="" coords="559,316,783,347"/>
+<area shape="rect" id="node13" href="$classSideCar_1_1GUI_1_1QSliderSetting.html" title="SideCar::GUI::QSliderSetting" alt="" coords="575,371,767,401"/>
+<area shape="rect" id="node14" href="$classSideCar_1_1GUI_1_1QSpinBoxSetting.html" title="Derivation of IntSetting that works with a QSpinBox widget to display and change setting values..." alt="" coords="567,425,775,456"/>
+<area shape="rect" id="node15" href="$classSideCar_1_1GUI_1_1QTabWidgetSetting.html" title="SideCar::GUI::QTabWidget\lSetting" alt="" coords="581,480,761,529"/>
+<area shape="rect" id="node12" href="$classSideCar_1_1GUI_1_1CLUTSetting.html" title="SideCar::GUI::CLUTSetting" alt="" coords="831,316,1014,347"/>
+<area shape="rect" id="node17" href="$classSideCar_1_1GUI_1_1ColorButtonSetting.html" title="Derivation of QColorSetting that works with a QPushButton widget to show the current color setting..." alt="" coords="583,553,759,602"/>
+<area shape="rect" id="node20" href="$classSideCar_1_1GUI_1_1ChannelSetting.html" title="Derivation of StringSetting that works with a QComboBox widget to display and change a subscription c..." alt="" coords="572,627,770,657"/>
+<area shape="rect" id="node21" href="$classSideCar_1_1GUI_1_1PathSetting.html" title="SideCar::GUI::PathSetting" alt="" coords="583,681,759,712"/>
+<area shape="rect" id="node22" href="$classSideCar_1_1GUI_1_1QLineEditSetting.html" title="SideCar::GUI::QLineEditSetting" alt="" coords="568,736,774,767"/>
+<area shape="rect" id="node24" href="$classSideCar_1_1GUI_1_1QTimeEditSetting.html" title="Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values..." alt="" coords="566,791,776,821"/>
+<area shape="rect" id="node25" href="$classSideCar_1_1GUI_1_1Master_1_1DurationSetting.html" title="SideCar::GUI::Master\l::DurationSetting" alt="" coords="849,781,996,830"/>
+</map>

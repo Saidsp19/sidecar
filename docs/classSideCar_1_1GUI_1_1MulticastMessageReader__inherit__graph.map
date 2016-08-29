@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::MulticastMessageReader" name="SideCar::GUI::MulticastMessageReader">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1MessageReader.html" title="Base class for SideCar message readers used by the GUI applications. " alt="" coords="5,93,209,124"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1ZeroconfTypes_1_1TZCType.html" title="Template class that adds class methods that return character types for the template parameter type ID..." alt="" coords="234,84,370,133"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1ZeroconfRegistry.html" title="Registry of Zeroconf types values used within the SideCar system. " alt="" coords="203,5,401,36"/>
+</map>

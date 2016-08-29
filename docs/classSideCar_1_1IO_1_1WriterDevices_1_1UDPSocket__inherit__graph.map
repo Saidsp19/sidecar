@@ -1,0 +1,4 @@
+<map id="SideCar::IO::WriterDevices::UDPSocket" name="SideCar::IO::WriterDevices::UDPSocket">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1TWriter.html" title="SideCar::IO::TWriter\l\&lt; WriterDevices::UDPSocket \&gt;" alt="" coords="5,102,207,151"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1UDPSocketWriter.html" title="Writer that sends raw data to a UDP socket device. " alt="" coords="6,199,206,230"/>
+</map>

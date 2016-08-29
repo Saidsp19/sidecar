@@ -1,0 +1,5 @@
+<map id="SideCar::Zeroconf::Monitor" name="SideCar::Zeroconf::Monitor">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1QtMonitor.html" title="Concrete implementation of the Monitor class that relies on QSocketNotifier object to determine when ..." alt="" coords="189,5,354,36"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1Zeroconf_1_1ACEMonitor.html" title="Concrete implementation of the Monitor class that relies on the ACE infrastructure to determine when ..." alt="" coords="204,60,339,109"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1Zeroconf_1_1ASIOMonitor.html" title="Concrete implementation of the Monitor class that relies on the Boost ASIO infrastructure to determin..." alt="" coords="204,133,339,182"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="/Users/howes/src/sidecar/Messages/Segments.h" name="/Users/howes/src/sidecar/Messages/Segments.h">
+<area shape="rect" id="node2" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="497,259,643,290"/>
+<area shape="rect" id="node5" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="5,259,107,290"/>
+<area shape="rect" id="node7" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="653,102,793,133"/>
+<area shape="rect" id="node17" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="1099,259,1275,290"/>
+<area shape="rect" id="node9" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="658,181,788,211"/>
+<area shape="rect" id="node20" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="312,181,446,211"/>
+<area shape="rect" id="node11" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="789,259,974,290"/>
+<area shape="rect" id="node13" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="347,338,467,369"/>
+<area shape="rect" id="node19" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1226,338,1302,369"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::QComboBoxSetting" name="SideCar::GUI::QComboBoxSetting">
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1CLUTSetting.html" title="SideCar::GUI::CLUTSetting" alt="" coords="26,319,209,350"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="36,162,199,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="43,84,192,114"/>
+</map>

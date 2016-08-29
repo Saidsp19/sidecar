@@ -1,0 +1,8 @@
+<map id="SideCar::GUI::SampleImaging" name="SideCar::GUI::SampleImaging">
+<area shape="rect" id="node6" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1105,5,1259,54"/>
+<area shape="rect" id="node7" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1101,79,1263,128"/>
+<area shape="rect" id="node8" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1VideoImaging.html" title="Extension of the SampleImaging class for the display of Video data. " alt="" coords="1096,152,1268,201"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1ChannelImaging.html" title="Collection of display attributes for a data channel or artifact. " alt="" coords="597,88,801,118"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1OnOffSettingsBlock.html" title="Derivation of SettingsBlock that has a BoolSetting object which acts as an &#39;enabled&#39; setting..." alt="" coords="359,79,549,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1SettingsBlock.html" title="Base class for a collection of Setting objects that conceptually belong together as a unit..." alt="" coords="123,88,311,118"/>
+</map>

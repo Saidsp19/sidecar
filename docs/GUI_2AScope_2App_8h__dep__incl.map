@@ -1,0 +1,20 @@
+<map id="/Users/howes/src/sidecar/GUI/AScope/App.h" name="/Users/howes/src/sidecar/GUI/AScope/App.h">
+<area shape="rect" id="node2" href="$GUI_2AScope_2App_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/App.cc" alt="" coords="5,199,174,249"/>
+<area shape="rect" id="node3" href="$AScope_2MainWindow_8h.html" title="/Users/howes/src/sidecar\l/GUI/AScope/MainWindow.h" alt="" coords="351,102,540,151"/>
+<area shape="rect" id="node5" href="$GUI_2AScope_2main_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/main.cc" alt="" coords="691,199,859,249"/>
+<area shape="rect" id="node7" href="$AScope_2AzimuthLatch_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/AzimuthLatch.cc" alt="" coords="615,102,814,151"/>
+<area shape="rect" id="node8" href="$AScope_2ChannelConnectionModel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ChannelConnectionModel.cc" alt="" coords="838,102,1109,151"/>
+<area shape="rect" id="node9" href="$AScope_2Configuration_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/Configuration.cc" alt="" coords="1132,102,1329,151"/>
+<area shape="rect" id="node10" href="$AScope_2ConfigurationWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ConfigurationWindow.cc" alt="" coords="1353,102,1597,151"/>
+<area shape="rect" id="node11" href="$AScope_2CursorWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/CursorWidget.cc" alt="" coords="1620,102,1820,151"/>
+<area shape="rect" id="node12" href="$HistoryControlWidget_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/HistoryControlWidget.cc" alt="" coords="1844,102,2087,151"/>
+<area shape="rect" id="node13" href="$HistoryPosition_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/HistoryPosition.cc" alt="" coords="2111,102,2318,151"/>
+<area shape="rect" id="node14" href="$PeakBarCollection_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/PeakBarCollection.cc" alt="" coords="2342,102,2570,151"/>
+<area shape="rect" id="node15" href="$PeakBarRenderer_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/PeakBarRenderer.cc" alt="" coords="2594,102,2817,151"/>
+<area shape="rect" id="node16" href="$RenderInfo_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/RenderInfo.cc" alt="" coords="2842,102,3025,151"/>
+<area shape="rect" id="node17" href="$VideoChannel_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/VideoChannel.cc" alt="" coords="3050,102,3252,151"/>
+<area shape="rect" id="node18" href="$AScope_2ViewEditor_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/ViewEditor.cc" alt="" coords="3276,102,3458,151"/>
+<area shape="rect" id="node19" href="$Visualizer_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/Visualizer.cc" alt="" coords="3483,102,3659,151"/>
+<area shape="rect" id="node4" href="$HistoryControlWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/HistoryControlWindow.cc" alt="" coords="198,199,448,249"/>
+<area shape="rect" id="node6" href="$AScope_2MainWindow_8cc_source.html" title="/Users/howes/src/sidecar\l/GUI/AScope/MainWindow.cc" alt="" coords="472,199,667,249"/>
+</map>

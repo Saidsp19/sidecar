@@ -1,0 +1,22 @@
+<map id="/Users/howes/src/sidecar/IO/ServerSocketWriterTask.h" name="/Users/howes/src/sidecar/IO/ServerSocketWriterTask.h">
+<area shape="rect" id="node6" href="$IOTask_8h.html" title="IO/IOTask.h" alt="" coords="1321,102,1412,133"/>
+<area shape="rect" id="node43" href="$IO_2Writers_8h.html" title="IO/Writers.h" alt="" coords="2995,417,3086,447"/>
+<area shape="rect" id="node7" href="$Task_8h.html" title="IO/Task.h" alt="" coords="1328,181,1406,211"/>
+<area shape="rect" id="node18" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="2624,417,2800,447"/>
+<area shape="rect" id="node14" href="$IO_2Channel_8h.html" title="IO/Channel.h" alt="" coords="2707,259,2806,290"/>
+<area shape="rect" id="node21" href="$ProcessingState_8h.html" title="IO/ProcessingState.h" alt="" coords="1209,417,1354,447"/>
+<area shape="rect" id="node22" href="$Stats_8h.html" title="IO/Stats.h" alt="" coords="1430,259,1509,290"/>
+<area shape="rect" id="node32" href="$TaskStatus_8h.html" title="IO/TaskStatus.h" alt="" coords="934,259,1050,290"/>
+<area shape="rect" id="node37" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="1965,259,2104,290"/>
+<area shape="rect" id="node41" href="$Parameter_8h.html" title="Parameter/Parameter.h" alt="" coords="833,338,991,369"/>
+<area shape="rect" id="node15" href="$RecipientList_8h.html" title="IO/RecipientList.h" alt="" coords="1821,338,1947,369"/>
+<area shape="rect" id="node16" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="1896,417,1998,447"/>
+<area shape="rect" id="node20" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="1834,495,1910,526"/>
+<area shape="rect" id="node23" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="1664,338,1797,369"/>
+<area shape="rect" id="node26" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="2072,417,2218,447"/>
+<area shape="rect" id="node28" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="902,495,1021,526"/>
+<area shape="rect" id="node33" href="$StatusBase_8h.html" title="IO/StatusBase.h" alt="" coords="1091,338,1208,369"/>
+<area shape="rect" id="node35" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="641,417,812,447"/>
+<area shape="rect" id="node38" href="$GUID_8h.html" title="Messages/GUID.h" alt="" coords="2211,338,2341,369"/>
+<area shape="rect" id="node40" href="$LoaderRegistry_8h.html" title="Messages/LoaderRegistry.h" alt="" coords="2242,417,2427,447"/>
+</map>

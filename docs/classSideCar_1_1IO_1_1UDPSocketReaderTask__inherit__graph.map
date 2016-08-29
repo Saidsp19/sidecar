@@ -1,0 +1,4 @@
+<map id="SideCar::IO::UDPSocketReaderTask" name="SideCar::IO::UDPSocketReaderTask">
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1IOTask.html" title="Derivative of IO::Task that holds a MetaTypeInfo object which describes the message type the task han..." alt="" coords="54,162,193,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1Task.html" title="Derivation of ACE_Task for SideCar processing modules. " alt="" coords="61,84,187,114"/>
+</map>

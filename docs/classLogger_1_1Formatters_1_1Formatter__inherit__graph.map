@@ -1,0 +1,5 @@
+<map id="Logger::Formatters::Formatter" name="Logger::Formatters::Formatter">
+<area shape="rect" id="node2" href="$classLogger_1_1Formatters_1_1Pattern.html" title="Concrete Formatter class that uses a formatting pattern (ala printf and friends) to determine what co..." alt="" coords="5,102,138,151"/>
+<area shape="rect" id="node3" href="$classLogger_1_1Formatters_1_1Terse.html" title="Log formatter that emits terse output. " alt="" coords="161,102,294,151"/>
+<area shape="rect" id="node4" href="$classLogger_1_1Formatters_1_1Verbose.html" title="Log formatter that emits verbose output. " alt="" coords="317,102,450,151"/>
+</map>

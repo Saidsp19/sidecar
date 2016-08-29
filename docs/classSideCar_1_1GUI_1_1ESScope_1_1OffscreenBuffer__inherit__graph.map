@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::ESScope::OffscreenBuffer" name="SideCar::GUI::ESScope::OffscreenBuffer">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1ESScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="23,259,185,309"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1OffscreenBuffer.html" title="Manager of an OpenGL framebuffer object that allows for direct rendering into a texture object..." alt="" coords="5,84,203,114"/>
+</map>

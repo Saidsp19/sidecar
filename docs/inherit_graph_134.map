@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Master_1_1LogViewWindowManager.html" title="Derivation of QComboBox that manages the set of known RunnerItem objects and their LogViewWindow wind..." alt="" coords="159,5,337,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1PlotSymbolWidget.html" title="Derivation of a QComboBox that works with a TargetPlotImaging instance to show the available target p..." alt="" coords="161,79,335,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1PresetChooser.html" title="SideCar::GUI::PresetChooser" alt="" coords="150,152,345,182"/>
+</map>

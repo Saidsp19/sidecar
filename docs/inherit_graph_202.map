@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSideCar_1_1IO_1_1Printable.html" title="SideCar::IO::Printable\l\&lt; StatusBase \&gt;" alt="" coords="5,51,155,100"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1StatusBase.html" title="Base class for all status collections. " alt="" coords="203,60,368,91"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1StreamStatus.html" title="SideCar::IO::StreamStatus" alt="" coords="431,5,608,36"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1IO_1_1TaskStatus.html" title="Extension of StatusBase to include Task&#45;specific information, such as processing state, seen message count, and mesage and byte rates. " alt="" coords="438,60,601,91"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1Runner_1_1RunnerStatus.html" title="SideCar::Runner::RunnerStatus" alt="" coords="416,115,622,145"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1Algorithms_1_1ControllerStatus.html" title="Status information reported by an algorithm controller. " alt="" coords="670,51,809,100"/>
+</map>

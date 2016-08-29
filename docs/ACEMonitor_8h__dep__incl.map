@@ -1,0 +1,11 @@
+<map id="/Users/howes/src/sidecar/Zeroconf/ACEMonitor.h" name="/Users/howes/src/sidecar/Zeroconf/ACEMonitor.h">
+<area shape="rect" id="node2" href="$BugPlotSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/BugCollector\l/BugPlotSubscriber.cc" alt="" coords="5,102,174,170"/>
+<area shape="rect" id="node3" href="$RemoteControllerBase_8cc_source.html" title="/Users/howes/src/sidecar\l/Algorithms/RemoteControllerBase.cc" alt="" coords="197,112,438,161"/>
+<area shape="rect" id="node4" href="$DataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/DataPublisher.cc" alt="" coords="461,112,630,161"/>
+<area shape="rect" id="node5" href="$DataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/DataSubscriber.cc" alt="" coords="653,112,822,161"/>
+<area shape="rect" id="node6" href="$MulticastDataPublisher_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataPublisher.cc" alt="" coords="846,112,1040,161"/>
+<area shape="rect" id="node7" href="$MulticastDataSubscriber_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/MulticastDataSubscriber.cc" alt="" coords="1064,112,1267,161"/>
+<area shape="rect" id="node8" href="$StateEmitter_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/StateEmitter.cc" alt="" coords="1291,112,1459,161"/>
+<area shape="rect" id="node9" href="$StatusEmitterBase_8cc_source.html" title="/Users/howes/src/sidecar\l/IO/StatusEmitterBase.cc" alt="" coords="1483,112,1651,161"/>
+<area shape="rect" id="node10" href="$ACEMonitor_8cc_source.html" title="/Users/howes/src/sidecar\l/Zeroconf/ACEMonitor.cc" alt="" coords="1675,112,1843,161"/>
+</map>

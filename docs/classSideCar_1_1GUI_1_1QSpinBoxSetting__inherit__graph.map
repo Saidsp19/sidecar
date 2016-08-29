@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::QSpinBoxSetting" name="SideCar::GUI::QSpinBoxSetting">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1IntSetting.html" title="Derivation of the Setting class that manages integer values. " alt="" coords="28,162,191,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Setting.html" title="A general name/value object that holds QVariant values. " alt="" coords="35,84,184,114"/>
+</map>

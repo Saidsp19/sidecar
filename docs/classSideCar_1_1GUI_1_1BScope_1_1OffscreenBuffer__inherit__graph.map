@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::BScope::OffscreenBuffer" name="SideCar::GUI::BScope::OffscreenBuffer">
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1BScope_1_1BinaryOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Binar..." alt="" coords="571,5,727,54"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1BScope_1_1VideoOffscreenBuffer.html" title="Derivation of OffscreenBuffer that understands how to generate OpenGL point data from Messages::Video..." alt="" coords="572,79,726,128"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1OffscreenBuffer.html" title="Manager of an OpenGL framebuffer object that allows for direct rendering into a texture object..." alt="" coords="123,52,321,82"/>
+</map>

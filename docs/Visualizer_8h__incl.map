@@ -1,0 +1,19 @@
+<map id="/Users/howes/src/sidecar/GUI/AScope/Visualizer.h" name="/Users/howes/src/sidecar/GUI/AScope/Visualizer.h">
+<area shape="rect" id="node10" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="634,574,736,604"/>
+<area shape="rect" id="node13" href="$AScope_2AzimuthLatch_8h_source.html" title="AzimuthLatch.h" alt="" coords="589,102,701,133"/>
+<area shape="rect" id="node34" href="$AScope_2ChannelConnection_8h.html" title="ChannelConnection.h" alt="" coords="1106,102,1253,133"/>
+<area shape="rect" id="node49" href="$AScope_2ViewSettings_8h_source.html" title="ViewSettings.h" alt="" coords="1469,102,1578,133"/>
+<area shape="rect" id="node15" href="$OnOffSettingsBlock_8h_source.html" title="GUI/OnOffSettingsBlock.h" alt="" coords="822,181,996,211"/>
+<area shape="rect" id="node22" href="$QCheckBoxSetting_8h_source.html" title="GUI/QCheckBoxSetting.h" alt="" coords="472,181,644,211"/>
+<area shape="rect" id="node24" href="$Utils_2Utils_8h.html" title="Utils/Utils.h" alt="" coords="210,495,298,526"/>
+<area shape="rect" id="node16" href="$BoolSetting_8h_source.html" title="GUI/BoolSetting.h" alt="" coords="658,259,786,290"/>
+<area shape="rect" id="node21" href="$SettingsBlock_8h_source.html" title="GUI/SettingsBlock.h" alt="" coords="808,338,948,369"/>
+<area shape="rect" id="node17" href="$Setting_8h_source.html" title="GUI/Setting.h" alt="" coords="672,338,773,369"/>
+<area shape="rect" id="node29" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="72,574,191,604"/>
+<area shape="rect" id="node38" href="$PeakBarRenderer_8h_source.html" title="PeakBarRenderer.h" alt="" coords="1298,181,1435,211"/>
+<area shape="rect" id="node41" href="$PeakBar_8h_source.html" title="PeakBar.h" alt="" coords="1446,259,1529,290"/>
+<area shape="rect" id="node42" href="$Video_8h.html" title="Messages/Video.h" alt="" coords="1433,338,1563,369"/>
+<area shape="rect" id="node43" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="946,417,1117,447"/>
+<area shape="rect" id="node47" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="861,495,1000,526"/>
+<area shape="rect" id="node48" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="667,495,836,526"/>
+</map>

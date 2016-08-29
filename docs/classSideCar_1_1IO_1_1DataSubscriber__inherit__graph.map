@@ -1,0 +1,6 @@
+<map id="SideCar::IO::DataSubscriber" name="SideCar::IO::DataSubscriber">
+<area shape="rect" id="node5" href="$classSideCar_1_1IO_1_1MulticastDataSubscriber.html" title="Subscriber of data using the UDP multicast transport. " alt="" coords="5,319,183,369"/>
+<area shape="rect" id="node6" href="$classSideCar_1_1IO_1_1TCPDataSubscriber.html" title="SideCar::IO::TCPDataSubscriber" alt="" coords="207,329,421,359"/>
+<area shape="rect" id="node2" href="$classSideCar_1_1IO_1_1IOTask.html" title="Derivative of IO::Task that holds a MetaTypeInfo object which describes the message type the task han..." alt="" coords="134,162,273,193"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1IO_1_1Task.html" title="Derivation of ACE_Task for SideCar processing modules. " alt="" coords="140,84,266,114"/>
+</map>

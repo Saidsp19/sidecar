@@ -1,0 +1,5 @@
+<map id="SideCar::GUI::MessageReader" name="SideCar::GUI::MessageReader">
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1MulticastMessageReader.html" title="Derivation of MessageReader that obtains messages over a UDP multicast socket. " alt="" coords="375,5,589,54"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1RTCLMessageReader.html" title="Derivation of MessageReader that obtains messages over an RTCL topic. " alt="" coords="385,79,579,128"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1TCPMessageReader.html" title="SideCar::GUI::TCPMessage\lReader" alt="" coords="388,152,576,201"/>
+</map>

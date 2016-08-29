@@ -1,0 +1,4 @@
+<map id="SideCar::GUI::Spectrum::ViewChanger" name="SideCar::GUI::Spectrum::ViewChanger">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1Spectrum_1_1PanningViewChanger.html" title="View changer for panning. " alt="" coords="218,5,382,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1Spectrum_1_1ZoomingViewChanger.html" title="View changer for zooming. " alt="" coords="218,79,382,128"/>
+</map>

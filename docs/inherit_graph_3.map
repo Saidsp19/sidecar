@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structAverageBase.html" title="Base class for the averaging functors used to update the running average vector. " alt="" coords="5,88,105,119"/>
+<area shape="rect" id="node2" href="$structAverage2.html" title="Functor used to update runningAverage_ by adding new message data, and as a side&#45;effect add running a..." alt="" coords="160,5,237,36"/>
+<area shape="rect" id="node3" href="$structAverage2IQ.html" title="Functor used to update runningAverage_ by adding new IQ message data, and as a side&#45;effect add runnin..." alt="" coords="153,60,244,91"/>
+<area shape="rect" id="node4" href="$structAverage3.html" title="Functor used to update runningAverage_ by adding new message data and removing the oldest message..." alt="" coords="160,115,237,145"/>
+<area shape="rect" id="node5" href="$structAverage3IQ.html" title="Functor used to update runningAverage_ by adding new IQ message data and removing the oldest message..." alt="" coords="153,169,244,200"/>
+</map>

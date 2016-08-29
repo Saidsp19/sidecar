@@ -1,0 +1,10 @@
+<map id="AppMethodBase" name="AppMethodBase">
+<area shape="rect" id="node3" href="$structClearStats.html" title="App method to clear processing statistics for all streams. " alt="" coords="464,5,547,36"/>
+<area shape="rect" id="node4" href="$structGetChangedParameters.html" title="App method to fetch the runtime parameters for a particular IO::Task object. " alt="" coords="424,60,587,91"/>
+<area shape="rect" id="node5" href="$structGetParameters.html" title="App method to Fetch the runtime parameters for a particular IO::Task object. " alt="" coords="451,115,560,145"/>
+<area shape="rect" id="node6" href="$structRecordingChange.html" title="App method to change the recording state for all IO::Task objects. " alt="" coords="441,169,570,200"/>
+<area shape="rect" id="node7" href="$structSetParameters.html" title="App method to change one or more runtime parameters for a particular IO::Task object. " alt="" coords="451,224,560,255"/>
+<area shape="rect" id="node8" href="$structShutdown.html" title="App method to command the App to shutdown its IO::Stream objects and exit. " alt="" coords="466,279,545,309"/>
+<area shape="rect" id="node9" href="$structStateChange.html" title="StateChange" alt="" coords="456,333,555,364"/>
+<area shape="rect" id="node2" href="$classXmlRpc_1_1XmlRpcServerMethod.html" title="Abstract class representing a single RPC method. " alt="" coords="5,169,209,200"/>
+</map>

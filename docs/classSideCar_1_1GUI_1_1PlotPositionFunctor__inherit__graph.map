@@ -1,0 +1,6 @@
+<map id="SideCar::GUI::PlotPositionFunctor" name="SideCar::GUI::PlotPositionFunctor">
+<area shape="rect" id="node2" href="$classSideCar_1_1GUI_1_1BScope_1_1PlotPositionFunctor.html" title="SideCar::GUI::BScope\l::PlotPositionFunctor" alt="" coords="244,5,398,54"/>
+<area shape="rect" id="node3" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaBetaPlotPositioner.html" title="SideCar::GUI::ESScope\l::AlphaBetaPlotPositioner" alt="" coords="236,79,407,128"/>
+<area shape="rect" id="node4" href="$classSideCar_1_1GUI_1_1ESScope_1_1AlphaRangePlotPositioner.html" title="SideCar::GUI::ESScope\l::AlphaRangePlotPositioner" alt="" coords="230,152,413,201"/>
+<area shape="rect" id="node5" href="$classSideCar_1_1GUI_1_1PPIDisplay_1_1PlotPositionFunctor.html" title="Implementation of the GUI::PlotPositionFunctor interface. " alt="" coords="235,225,407,274"/>
+</map>

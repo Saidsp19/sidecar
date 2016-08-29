@@ -1,0 +1,15 @@
+<map id="/Users/howes/src/sidecar/GUI/HealthAndStatus" name="/Users/howes/src/sidecar/GUI/HealthAndStatus">
+<area shape="rect" id="node1" href="dir_f5e83bf6dcf96d31381485820a917f4a.html" title="HealthAndStatus" alt="" coords="63,56,183,104"/>
+<area shape="rect" id="node2" href="dir_8d167d08c82e789c44b9f4b41a897732.html" title="IO" alt="" coords="87,152,159,200"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000095_000022.html" title="1" alt="" coords="128,124,135,143"/>
+<area shape="rect" id="node3" href="dir_094e4b0d3d17f2701d893b5e76e9f974.html" title="Messages" alt="" coords="5,248,87,296"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000095_000004.html" title="3" alt="" coords="57,222,64,240"/>
+<area shape="rect" id="node4" href="dir_d7507aa2b03a8fd1ca33d27ed2488d63.html" title="Time" alt="" coords="99,344,171,392"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000095_000029.html" title="1" alt="" coords="157,321,164,339"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000022_000004.html" title="32" alt="" coords="67,229,82,248"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000022_000029.html" title="4" alt="" coords="130,315,137,334"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000004_000022.html" title="20" alt="" coords="87,200,102,219"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000004_000029.html" title="3" alt="" coords="103,316,111,334"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000029_000022.html" title="2" alt="" coords="121,210,129,228"/>
+<area shape="rect" id="clust1" href="dir_f4a3f8116077ff33be38eb7fcab102f6.html" title="GUI" alt="" coords="53,16,194,115"/>
+</map>

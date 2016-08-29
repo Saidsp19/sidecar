@@ -1,0 +1,20 @@
+<map id="/Users/howes/src/sidecar/Algorithms/RangeDopplerMap/RangeDopplerMap.h" name="/Users/howes/src/sidecar/Algorithms/RangeDopplerMap/RangeDopplerMap.h">
+<area shape="rect" id="node10" href="$CPIAlgorithm_8h.html" title="Algorithms/CPIAlgorithm.h" alt="" coords="393,121,568,151"/>
+<area shape="rect" id="node42" href="$Video_8h.html" title="Messages/Video.h" alt="" coords="231,278,361,309"/>
+<area shape="rect" id="node44" href="$Parameter_8h.html" title="Parameter/Parameter.h" alt="" coords="1850,357,2007,387"/>
+<area shape="rect" id="node11" href="$Algorithm_8h.html" title="Algorithms/Algorithm.h" alt="" coords="954,278,1108,309"/>
+<area shape="rect" id="node27" href="$TimeStamp_8h.html" title="Time/TimeStamp.h" alt="" coords="258,514,391,544"/>
+<area shape="rect" id="node37" href="$PRIMessage_8h.html" title="Messages/PRIMessage.h" alt="" coords="211,357,382,387"/>
+<area shape="rect" id="node43" href="$BinaryVideo_8h.html" title="Messages/BinaryVideo.h" alt="" coords="334,199,502,230"/>
+<area shape="rect" id="node14" href="$Controller_8h.html" title="Algorithms/Controller.h" alt="" coords="872,357,1027,387"/>
+<area shape="rect" id="node22" href="$Header_8h.html" title="Messages/Header.h" alt="" coords="333,435,473,466"/>
+<area shape="rect" id="node34" href="$Processor_8h_source.html" title="Algorithms/Processor.h" alt="" coords="533,357,690,387"/>
+<area shape="rect" id="node35" href="$MetaTypeInfo_8h.html" title="Messages/MetaTypeInfo.h" alt="" coords="2258,435,2434,466"/>
+<area shape="rect" id="node23" href="$CDRStreamable_8h.html" title="IO/CDRStreamable.h" alt="" coords="691,592,837,623"/>
+<area shape="rect" id="node25" href="$Printable_8h.html" title="IO/Printable.h" alt="" coords="553,592,655,623"/>
+<area shape="rect" id="node30" href="$Exception_8h.html" title="Utils/Exception.h" alt="" coords="410,592,530,623"/>
+<area shape="rect" id="node36" href="$IO_8h.html" title="Utils/IO.h" alt="" coords="2580,514,2656,544"/>
+<area shape="rect" id="node40" href="$RadarConfig_8h.html" title="Messages/RadarConfig.h" alt="" coords="861,592,1031,623"/>
+<area shape="rect" id="node41" href="$VMEHeader_8h.html" title="Messages/VMEHeader.h" alt="" coords="520,514,689,544"/>
+<area shape="rect" id="node48" href="$XmlRpcValue_8h.html" title="XMLRPC/XmlRpcValue.h" alt="" coords="2458,435,2628,466"/>
+</map>
