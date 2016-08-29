@@ -1,0 +1,239 @@
+/* General coloring for all widgets */
+
+* {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:0, 
+                                       stop: 0 #313131,
+                                       stop: 0.5 #202030, 
+                                       stop: 0.6 #131313, 
+                                       stop: 1 #353535 );
+    color: #EEEEEE;
+}
+
+QDialog {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:0, 
+                                       stop: 0 #313131,
+                                       stop: 0.5 #202030, 
+                                       stop: 0.6 #131313, 
+                                       stop: 1 #353535 );
+    color: #EEEEEE;
+}
+
+QMessageBox {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:0, 
+                                       stop: 0 #313131,
+                                       stop: 0.5 #202030, 
+                                       stop: 0.6 #131313, 
+                                       stop: 1 #353535 );
+    color: #EEEEEE;
+}
+
+QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align:center;
+}
+
+QProgressBar::chunk {
+    background-color: #999999;
+}
+
+QToolTip {
+    background-color: #999900;
+    padding: 2px;
+    /* opacity: 200; */
+}
+
+/* Specialization for the QLabel widgets in the status bar. */
+
+QWidget#StatusWidget > QLabel {
+    font-size: 18pt;
+}
+
+QTimeEdit {
+    padding-right: 30px;
+    border-width: 2;
+    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+                                       stop: 0 #515151,
+                                       stop: 0.5 #404040, 
+                                       stop: 0.6 #333333, 
+                                       stop: 1 #555555 );
+    color: #66FF66;
+}
+
+QLineEdit {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+                                       stop: 0 #515151,
+                                       stop: 0.5 #404040, 
+                                       stop: 0.6 #333333, 
+                                       stop: 1 #555555 );
+    border: 2px solid #5c5c5c;
+    border-radius: 6px;
+
+    
+    color: #66FF66;
+    min-width: 80px;
+
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-top: 2px;
+    padding-botttom: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+QPushButton {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+                                       stop: 0 #515151,
+                                       stop: 0.5 #404040, 
+                                       stop: 0.6 #333333, 
+                                       stop: 1 #555555 );
+    border: 2px solid #5c5c5c;
+    border-radius: 6px;
+
+    
+    color: #66FF66;
+    min-width: 80px;
+
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-top: 2px;
+    padding-botttom: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+QPushButton::pressed {
+    padding-top: 3px;
+    padding-bottom: 0px;
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+                                       stop: 0 #515151,
+                                       stop: 0.6 #404040, 
+                                       stop: 0.7 #333333, 
+                                       stop: 1 #555555 );
+    border: 2px solid #808080;
+}
+
+QPushButton::default {
+    border: 2px solid #008000;
+}
+
+QPushButton::default::pressed {
+    border: 2px solid #808080;
+}
+
+QPushButton:disabled {
+    color: #808080;
+}
+
+QTextEdit {
+    font-size: 11pt;
+    background-color: #000000;
+}
+
+QToolButton#paramEditor {
+    background-color: gray;
+    color: black;
+    padding-top: 2px;
+    padding-botttom: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+QTreeView {
+    alternate-background-color: #313131;
+    font-size: 11pt;
+    gridline-color: #CCCCCC;
+}
+
+QTableView {
+    font-size: 11pt;
+    selection-color: #FFFFFF;
+    selection-background-color: #666666;
+}
+
+QHeaderView {
+    font-size: 11pt;
+}
+
+QHeaderView::section {
+    background-color: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+    		      		       stop: 0 #616161,
+                                       stop: 0.5 #505050, 
+				       stop: 0.6 #434343, 
+                                       stop: 1 #656565 );
+    color: #33FF33;
+    border: 1px solid #6c6c6c;
+}
+
+QScrollBar:horizontal {
+    border: 1px solid #999999;
+    height: 15px;
+    margin: 0px 20px 0px 20px;
+    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+    		      		 stop: 0 #616161,
+                                 stop: 0.5 #505050, 
+				 stop: 0.6 #434343, 
+                                 stop: 1 #656565 );
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 18px;
+    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+    		      		 stop: 0 #616161,
+                                 stop: 0.3 #505050, 
+				 stop: 0.4 #434343, 
+                                 stop: 1 #656565 );
+}
+
+QScrollBar::add-line:horizontal {
+    width: 18px;
+    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+    		      		 stop: 0 #616161,
+                                 stop: 0.3 #505050, 
+				 stop: 0.4 #434343, 
+                                 stop: 1 #656565 );
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    width: 18px;
+    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, 
+    		      		 stop: 0 #616161,
+                                 stop: 0.3 #505050, 
+				 stop: 0.4 #434343, 
+                                 stop: 1 #656565 );
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    background: green;
+}
+
+QCheckBox {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+QCheckBox::indicator {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #000000;
+}
+
+QCheckBox::indicator:unchecked {
+    background-color: #CCCCCC;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #33CC33;
+}
+
+QCheckBox::indicator:unchecked:pressed {
+    background-color: #009900;
+}
+
+QCheckBox::indicator:checked:pressed {
+    background-color: #009900;
+}

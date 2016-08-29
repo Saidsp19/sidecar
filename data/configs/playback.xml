@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Basic Extraction</name>
+    <comments>
+      Contains algorithm chain for basic extraction from NegativeVideo channel.
+      The data-recorder only runs algorithms for data conversion from VME host.
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+    -->
+  <radar file="radar-1.xml"/>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingBasePath="/space2/recordings"
+      loggerConfigPath="/opt/sidecar/builds/latest/data/logger.cfg">
+
+    <!-- BEGIN blade-2 configuration -->
+
+    <host name="blade-2" tag="1" multicast="237.1.2.102">
+
+      <!-- Basic target extraction processing stream -->
+
+      <stream name="BasicExtraction">
+	<subscriber name="NegativeVideo" type="Video"/>
+	<algorithm dll="NCIntegrate">
+	  <input type="Video"/>
+	  <output type="Video" channel="NCIntegrate"/>
+	</algorithm>
+	<publisher name="NCIntegrate" type="Video" channel="NCIntegrate"/>
+	<algorithm dll="Threshold">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="Threshold"/>
+	  <param name="threshold" type="int" value="-2400"/>
+	</algorithm>
+	<publisher name="Threshold" type="BinaryVideo" channel="Threshold"/>
+	<algorithm dll="MofN">
+	  <input type="BinaryVideo" channel="Threshold"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN" type="BinaryVideo" channel="MofN"/>
+	<algorithm dll="Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+	<publisher name="Extractions" type="Extractions" channel="Extract"/>
+      </stream>
+
+      <!-- MGC calibration reporting -->
+
+      <stream name="MGC Calibration">
+	<subscriber name="MGC" type="Video"/>
+	<algorithm dll="MGC" name="MGC Count">
+	  <input type="Video"/>
+	  <output type="Video"/>
+          <param name="modelGain" type="double" value="0.4" min="0.000001" 
+		 max="1.0"/>
+	</algorithm>
+      </stream>
+
+      <!-- Bipolar MTI2 processing -->
+      <stream name="Bipolar MTI2">
+	<subscriber name="BiPolarVideo" type="Video"/>
+	<algorithm dll="MTI2">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="BiPolarVideo MTI2" type="Video"/>
+      </stream>
+
+      <!-- NegativeVideo calibration reporting -->
+
+      <stream name="NegativeVideo Calibration">
+	<subscriber name="NegativeVideo" type="Video"/>
+	<algorithm dll="ScanModelTest" name="Scan Rate">
+	  <input type="Video"/>
+	  <output type="Video"/>
+          <param name="modelGain" type="double" value="0.4" min="0.000001"
+		 max="1.0"/>
+	</algorithm>
+	<algorithm dll="PPITargetDisplayCal" name="Off-range PPI Target Cal">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="lldFile" type="string" value="ppi_tgt.lld"/>
+	  <param name="expectedCount" type="double" value="5000."/>
+	  <param name="expectedBin" type="int" value="4540"/>
+	  <param name="jarFilename" type="string" 
+          value="/opt/sidecar/builds/latest/data/LLDRFMfiles/exe/lldrfmCmd.jar"/>
+	</algorithm>
+      </stream>
+    </host> <!-- end blade-2/1 -->
+
+    <host name="blade-2" tag="2" multicast="237.1.2.102">
+
+      <!-- RxRF Side-Lobe Cancelling (SLC) stream -->
+
+      <stream name="RxRF SLC">
+
+	<subscriber name="RxRF" type="Video" channel="main"/>
+	<subscriber name="AUX1" type="Video" channel="aux1"/>
+	<subscriber name="AUX2" type="Video" channel="aux2"/>
+	<subscriber name="AUX3" type="Video" channel="aux3"/>
+	<subscriber name="AUX4" type="Video" channel="aux4"/>
+
+	<algorithm dll="SLC">
+	  <input type="Video" name="main" channel="main"/>
+	  <input type="Video" name="aux1" channel="aux1"/>
+	  <input type="Video" name="aux2" channel="aux2"/>
+	  <input type="Video" name="aux3" channel="aux3"/>
+	  <input type="Video" name="aux4" channel="aux4"/>
+	  <output type="Video" channel="SLC"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="aux1Enabled" type="boolean" value="1"/>
+	  <param name="aux2Enabled" type="boolean" value="0"/>
+	  <param name="aux3Enabled" type="boolean" value="0"/>
+	  <param name="aux4Enabled" type="boolean" value="0"/>	
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <!-- First bin to use for the correlation calculation. Negative start
+	       values here are added to the message size value in the
+	       algorithm. A start of -1 becomes the message size - 1.
+	    -->
+	  <param name="corrStart" type="int" value="-200"/>
+	  <!-- Number of bins to use for the correlation calculation, starting
+	       at corrStart. A span of zero here will become the message size
+	       in the algorithm. A span of -1 will become the message size - 1.
+	       See Algorithms::Utils::normalizeSampleRanges to see how start,
+	       span and message size work together.
+	    -->
+	  <param name="corrSpan" type="int" value="200"/>
+	  <!-- First bin of the RxRF channel to filter when generating the
+	       output. Negative start values here are added to the message size
+	       value in the algorithm. A start of -1 becomes the message size -
+	       1.
+	    -->
+	  <param name="filterStart" type="int" value="0"/>
+	  <!-- Number of bins of the RxRF channel to filter when generating the
+	       output. A span of zero here will become the message size in the
+	       algorithm. A span of -1 will become the message size - 1. See
+	       Algorithms::Utils::normalizeSampleRanges to see how start, span
+	       and message size work together.
+	    -->
+	  <param name="filterSpan" type="int" value="0"/>
+	  <!-- Flag controlling which algorithm to use to solve the correlation
+	       matrix: linear least-squares (0) or singular value decomposition
+	       (1). -->
+	  <param name="useSVD" type="boolean" value="0"/>
+	</algorithm>
+
+	<publisher name="RxRF SLC" type="Video" channel="SLC"/>
+
+	<algorithm dll="IQFilter">
+	  <input type="Video" channel="SLC"/>
+	  <output type="Video" channel="SLC Filtered"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="RxRF SLC Filtered" type="Video"
+		   channel="SLC Filtered"/>
+
+	<algorithm dll="NCIntegrate">
+	  <input type="Video" channel="SLC Filtered"/>
+	  <output type="Video"/>
+	</algorithm>
+
+	<algorithm dll="Threshold">
+	  <input type="Video"/>
+	  <output type="BinaryVideo"/>
+	  <param name="threshold" type="int" value="-2400"/>
+	</algorithm>
+
+	<algorithm dll="MofN">
+	  <input type="BinaryVideo"/>
+	  <output type="BinaryVideo"/>
+	</algorithm>
+
+	<algorithm dll="Extract">
+	  <input type="BinaryVideo"/>
+	  <output type="Extractions"/>
+	</algorithm>
+
+	<publisher name="RxRF SLC Extractions" type="Extractions"/>
+
+      </stream>
+    </host> <!-- end blade-2/2 -->
+
+    <!-- Filters for baseband channels, with interleaved I/Q samples -->
+
+    <host name="blade-3" tag="1" multicast="237.1.2.103">
+
+      <stream name="AUX1 Filter">
+	<subscriber name="AUX1" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="AUX1 Filtered" type="Video"/>
+      </stream>
+
+      <stream name="AUX2 Filter">
+	<subscriber name="AUX2" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="AUX2 Filtered" type="Video"/>
+      </stream>
+
+      <stream name="AUX3 Filter">
+	<subscriber name="AUX3" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="AUX3 Filtered" type="Video"/>
+      </stream>
+
+      <stream name="AUX4 Filter">
+	<subscriber name="AUX4" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="AUX4 Filtered" type="Video"/>
+      </stream>
+    </host> <!-- end blade-3/1 -->
+
+    <host name="blade-3" tag="2" multicast="237.1.2.103">
+      <stream name="Coho Filter">
+	<subscriber name="Coho" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="Coho Filtered" type="Video"/>
+      </stream>
+
+      <stream name="RxIF Filter">
+	<subscriber name="RxIF" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="RxIF Filtered" type="Video"/>
+      </stream>
+
+      <stream name="RxRF Filter">
+	<subscriber name="RxRF" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="RxRF Filtered" type="Video"/>
+      </stream>
+
+      <stream name="TxRF Filter">
+	<subscriber name="TxRF" type="Video"/>
+	<algorithm dll="IQFilter">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+	<publisher name="TxRF Filtered" type="Video"/>
+      </stream>
+
+    </host> <!-- end blade-3/2 -->
+
+    <host name="blade-3" tag="3" multicast="237.1.2.103">
+
+      <!-- RxRF Matched Filtering stream -->
+
+      <stream name="TxRF/RxRF MatchedFilter">
+
+	<subscriber name="TxRF" type="Video" channel="transmit"/>
+	<subscriber name="RxRF" type="Video" channel="receive"/>
+	<algorithm dll="MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="receive"/>
+	  <output type="Video" channel="mfOut"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <!-- First bin of the TxRF message to use for the filter calculation.
+	       Negative start values here are added to the message size value
+	       in the algorithm. A start of -1 becomes the message size - 1.
+	    -->
+	  <param name="txPulseStartBin" type="int" value="32"/>
+	  <!-- Number of bins in the TxRF message to use for the filter
+	       calculatiion, starting at txPulseStartBin. A span of zero here
+	       will become the message size in the algorithm. A span of -1 will
+	       become the message size - 1. See
+	       Algorithms::Utils::normalizeSampleRanges to see how start, span
+	       and message size work together.
+	    -->
+	  <param name="txPulseSpan" type="int" value="18"/>
+	  <!-- First bin in the RxRF message output to filter. Negative start
+	       values here are added to the message size value in the
+	       algorithm. A start of -1 becomes the message size - 1.
+	    -->
+	  <param name="rxFilterStartBin" type="int" value="100"/>
+	  <!-- Number of bins in the RxRF message output to filter. A span of
+	       zero here will become the message size in the algorithm. A span
+	       of -1 will become the message size - 1. See
+	       Algorithms::Utils::normalizeSampleRanges to see how start, span
+	       and message size work together.
+	    -->
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/RxRF MatchedFilter" type="Video" 
+		   channel="mfOut"/>
+
+	<algorithm dll="IQFilter">
+	  <input type="Video" channel="mfOut"/>
+	  <output type="Video" channel="iqFilterOut"/>
+	  <param name="filter" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/RxRF MatchedFilter IQF" type="Video"
+		   channel="iqFilterOut"/>
+
+      </stream>
+    </host> <!-- end blade-3/3 -->
+
+  </dp>
+
+</sidecar>

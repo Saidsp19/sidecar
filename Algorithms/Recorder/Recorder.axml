@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Recorder">
+   <input type="Video"/>
+   <param name="recordingEnabled" type="bool" value="1"/>
+  </algorithm>
+ </configuration>
+</configurations>

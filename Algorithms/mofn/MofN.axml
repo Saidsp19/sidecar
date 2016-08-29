@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+ <algorithm dll="MofN">
+  <input type="BinaryVideo"/>
+  <param name="enabled" type="boolean" value="1"/>
+  <param name="numPRIs" type="int" value="15"/>
+  <param name="numGates" type="int" value="9"/>
+  <param name="threshold" type="double" value="0.7"/>
+  <output type="BinaryVideo"/>
+ </algorithm>
+ </configuration>
+</configurations>

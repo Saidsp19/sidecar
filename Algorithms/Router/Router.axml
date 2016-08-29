@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Router">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="inputChannel" type="int" value="0"/>
+   <param name="outputChannel" type="int" value="0"/>
+   <output type="Video"/>
+  </algorithm>
+ </configuration>
+</configurations>

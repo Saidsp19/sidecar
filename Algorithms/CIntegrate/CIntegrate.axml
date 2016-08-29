@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="CIntegrate">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <!-- max and min amplitude data.  All values greater than max will be assigned to max; all values less than min will be assigned to min  -->
+   <param name="min" type="int" value="1"/>
+   <param name="max" type="int" value="400"/>
+   <!-- Number of PRIs over which to apply the FFT. This is called the CPI -->
+   <param name="numPRIs" type="int" value="64"/>
+   <!-- 0 for hsv, 1 for rgb -->
+   <param name="colorEncoding" type="int" value="0"/>
+   <!-- number of PRIs to skip before starting the next CPI -->
+   <param name="moveSlidingWin" type="int" value="8" />
+   <!-- For output one_bin, use the parameter dopplerBin to select which doppler bin's output you want to send out -->	
+   <param name="dopplerBin" type="int" value="0"/>
+   <!-- For each CPI, this output channel is the entire matrix of FFT output -->
+   <output type="Video" name="results"/>
+   <!-- For each CPI, this output channel is the I, Q values from the maximum amplitude value from all the doppler bins, at each range cell -->
+   <output type="Video" name="maxAmp"/>
+   <!-- For each CPI, this output channel is the I, Q values from the doppler bin specified in the variable dopplerBin -->
+   <output type="Video" name="dopplerBinOutput"/>
+   <!-- For each CPI, this output channel is an rgb encoding of the FFT output
+        at each range cell. Each rgb value is 16 bits long, the upper 6 bits
+        for red, then 5 bits for green, then 5 bits for blue -->
+   <output type="Video" name="rgb"/>
+  </algorithm>
+ </configuration>
+</configurations>

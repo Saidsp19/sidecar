@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Decimator">
+   <input type="Video"/>
+   <param name="enabled" type="boolean" value="1"/>
+   <param name="isIQ" type="boolean" value="1"/>
+   <param name="factor" type="int" value="1"/>
+  </algorithm>
+ </configuration>
+</configurations>

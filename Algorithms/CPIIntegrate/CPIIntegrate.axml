@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="CPIIntegrate">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="numCPIs" type="int" value="15"/>
+   <param name="cpiSpan" type="int" value="10"/>
+  </algorithm>
+ </configuration>
+</configurations>

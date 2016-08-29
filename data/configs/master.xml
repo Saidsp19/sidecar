@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Sidecar Configuration 1.0.0 (DEV)</name>
+    <comments>
+      This configuration contains algorithm chains for the following extractors:
+        (1) Basic Extractor
+        (2) Basic CFAR Extractor
+        (3) Basic OSCFAR Extractor
+        (4) TxRF/RxRF Matched Filter Extractor
+        (5) Side Lobe Canceller Extractor
+
+      Distribution of Load :
+        blade-1 : Runs all the data channel conversion algorithms, a TxRF/RxRF
+                  matched filter, and an NCIntegrate algorithm for other
+                  extractor algorithm chains.  
+
+        blade-2 : Performs a matched filter on each AUX channel with TxRF.  
+        blade-3 : Contains each extraction chain and IQ Filters for each
+                  data channel, each matched filter, and the SLC algorithm.
+        data-recorder : Contains chains for recording the data channels.
+
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+    -->
+  <radar>
+    <name>Radar</name>
+    <gateCountMax type="int">4684</gateCountMax>
+    <shaftEncodingMax type="int">65535</shaftEncodingMax>
+    <rotationRate units="rpm" type="double">6</rotationRate>
+    <rangeMin units="km" type="double">0.0</rangeMin>
+    <rangeMax units="km" type="double">300.0</rangeMax>
+    <beamWidth units="radians" type="double">0.00125644</beamWidth>
+  </radar>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingBasePath="/space1/recordings"
+      loggerConfigPath="/opt/sidecar/builds/latest/data/logger.cfg">
+
+    <!-- Configuration sample for a runner named 'sample.' The only valid
+	 element in <runner> is <stream>. Each stream is made up of one or
+	 more tasks with the following element names:
+
+	 - vme: VME UDP connection
+	 - multicast: VME Multicast UDP connection
+	 - filein: message source that takes data from a file
+	 - fileout: message sink that writes data to a file
+	 - subscriber: message source that obtains data from a remote publisher
+	 - publisher: message sink that publishes data to remote subscribers
+	 - algorithm: a processing algorithm which may have one or more runtime
+   	   parameter settings (<param> elements)
+      -->
+
+    <!-- BEGIN blade-1 configuration -->
+    <runner host="blade-1" name="Channel Conversion (1)" 
+	    multicast="237.1.2.101">
+
+      <stream name="NegativeVideo Converter">
+	<vme host="237.1.10.1" port="5014"/>
+	<algorithm dll="RawPRI" name="NegativeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="NegativeVideo" type="Video"/>
+      </stream>
+
+      <stream name="BiPolarVideo Converter">
+	<vme host="237.1.10.1" port="5015"/>
+	<algorithm dll="RawPRI" name="BiPolarVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="BiPolarVideo" type="Video"/>
+      </stream>
+
+      <stream name="CompositeVideo Converter">
+	<vme host="237.1.10.1" port="5016"/>
+	<algorithm dll="RawPRI" name="CompositeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="CompositeVideo" type="Video"/>
+      </stream>
+
+      <stream name="RadarDisplay Converter">
+	<vme host="237.1.10.1" port="5017"/>
+	<algorithm dll="RawPRI" name="RadarDisplay">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RadarDisplay" type="Video"/>
+      </stream>
+
+    </runner> 
+    <!-- end Channel Conversion (1) runner -->
+
+    <runner host="blade-1" name="Channel Conversion (2)" 
+	    multicast="237.1.2.101"> 
+
+      <stream name="RxIF Converter">
+	<vme host="237.1.10.2" port="5018"/>
+	<algorithm dll="RawPRI" name="RxIF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RxIF" type="Video"/>
+      </stream>
+
+      <stream name="Coho Converter">
+	<vme host="237.1.10.2" port="5019"/>
+	<algorithm dll="RawPRI" name="Coho">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="Coho" type="Video"/>
+      </stream>
+
+      <stream name="RxRF Converter">
+	<vme host="237.1.10.2" port="5020"/>
+	<algorithm dll="RawPRI" name="RxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RxRF" type="Video"/>
+      </stream>
+
+      <stream name="TxRF Converter">
+	<vme host="237.1.10.2" port="5021"/>
+	<algorithm dll="RawPRI" name="TxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="TxRF" type="Video"/>
+      </stream>
+
+    </runner> 
+    <!-- end Channel Conversion (2) runner -->
+
+    <runner host="blade-1" name="Channel Conversion (3)" 
+	    multicast="237.1.2.101">
+
+      <stream name="AUX1 Converter">
+	<vme host="237.1.10.3" port="5022"/>
+	<algorithm dll="RawPRI" name="AUX1">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX1" type="Video"/>
+      </stream>
+
+      <stream name="AUX2 Converter">
+	<vme host="237.1.10.3" port="5023"/>
+	<algorithm dll="RawPRI" name="AUX2">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX2" type="Video"/>
+      </stream>
+
+      <stream name="AUX3 Converter">
+	<vme host="237.1.10.3" port="5024"/>
+	<algorithm dll="RawPRI" name="AUX3">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX3" type="Video"/>
+      </stream>
+
+      <stream name="AUX4 Converter">
+	<vme host="237.1.10.3" port="5025"/>
+	<algorithm dll="RawPRI" name="AUX4">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX4" type="Video"/>
+      </stream>
+
+    </runner>
+    <!-- end Channel Conversion (3) runner -->
+
+    <runner host="blade-1" name="TxRF-RxRF Matched Filter" 
+	    multicast="237.1.2.101">
+
+      <stream name="TxRF/RxRF MatchedFilter">
+	<subscriber name="TxRF" type="Video" channel="transmit"/>
+	<subscriber name="RxRF" type="Video" channel="receive"/>
+	<algorithm dll="MatchedFilter" name="TxRF-RxRF-MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="receive"/>
+	  <output type="Video" channel="mfOut"/>
+
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="txPulseStartBin" type="int" value="30"/>
+	  <param name="txPulseSpan" type="int" value="45"/>
+	  <param name="rxFilterStartBin" type="int" value="0"/>
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/RxRF MF" type="Video" channel="mfOut"/>
+      </stream>
+
+    </runner>
+    <!-- end TxRF-RxRF Matched Filter runner -->
+
+    <runner host="blade-1" name="NCIntegrate" multicast="237.1.2.101">
+
+      <stream name="Basic NCIntegrate">
+	<subscriber name="NegativeVideo" type="Video" channel="NegativeVideo"/> 
+	<algorithm dll="NCIntegrate">
+	  <input type="Video" channel="NegativeVideo"/>
+	  <output type="Video" channel="NCIntegrate"/>
+	</algorithm>
+	<publisher name="NCIntegrate" type="Video" channel="NCIntegrate"/>
+      </stream>
+ 
+   </runner>
+    <!-- end NCIntegrate runner -->
+
+    <!--   END blade-1 configuration -->
+
+    <!-- BEGIN blade-2 configuration -->
+    <runner host="blade-2" name="TxRF-AUX1 Matched Filter" 
+	    multicast="237.1.2.102">
+
+      <stream name="TxRF/AUX1 MatchedFilter">
+	<subscriber name="TxRF" type="Video" channel="transmit"/> 
+	<subscriber name="AUX1" type="Video" channel="aux1"/>
+	<algorithm dll="MatchedFilter" name="TxRF-AUX1-MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="aux1"/>
+	  <output type="Video" channel="mfAux1Out"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="txPulseStartBin" type="int" value="30"/>
+	  <param name="txPulseSpan" type="int" value="45"/>
+	  <param name="rxFilterStartBin" type="int" value="100"/>
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+	<publisher name="TxRF/Aux1 MF" type="Video" channel="mfAux1Out"/>
+      </stream> 
+
+    </runner>
+    <!-- end TxRF-AUX1 Matched Filter runner --> 
+
+    <runner host="blade-2" name="TxRF-AUX2 Matched Filter" 
+	    multicast="237.1.2.102">
+
+      <stream name="TxRF/AUX2 MatchedFilter">
+	<subscriber name="TxRF" type="Video" channel="transmit"/> 
+	<subscriber name="AUX2" type="Video" channel="aux2"/>
+	<algorithm dll="MatchedFilter" name="TxRF-AUX2-MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="aux2"/>
+	  <output type="Video" channel="mfAux2Out"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="txPulseStartBin" type="int" value="30"/>
+	  <param name="txPulseSpan" type="int" value="45"/>
+	  <param name="rxFilterStartBin" type="int" value="0"/>
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/Aux2 MF" type="Video" channel="mfAux2Out"/>
+      </stream> 
+
+    </runner>
+    <!-- end TxRF-AUX2 Matched Filter runner --> 
+      
+    <runner host="blade-2" name="TxRF-AUX3 Matched Filter" 
+	    multicast="237.1.2.102">
+
+      <stream name="TxRF/AUX3 MatchedFilter">
+	<subscriber name="TxRF" type="Video" channel="transmit"/> 
+	<subscriber name="AUX3" type="Video" channel="aux3"/>
+	<algorithm dll="MatchedFilter" name="TxRF-AUX3-MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="aux3"/>
+	  <output type="Video" channel="mfAux3Out"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="txPulseStartBin" type="int" value="30"/>
+	  <param name="txPulseSpan" type="int" value="45"/>
+	  <param name="rxFilterStartBin" type="int" value="0"/>
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/Aux3 MF" type="Video" channel="mfAux3Out"/>
+      </stream> 
+
+    </runner>
+    <!-- end TxRF-AUX3 Matched Filter runner --> 
+
+    <runner host="blade-2" name="TxRF-AUX4 Matched Filter" 
+	    multicast="237.1.2.102">
+
+      <stream name="TxRF/AUX4 MatchedFilter">
+	<subscriber name="TxRF" type="Video" channel="transmit"/> 
+	<subscriber name="AUX4" type="Video" channel="aux4"/>
+	<algorithm dll="MatchedFilter" name="TxRF-AUX4-MatchedFilter">
+	  <input type="Video" name="transmit" channel="transmit"/>
+	  <input type="Video" name="receive" channel="aux4"/>
+	  <output type="Video" channel="mfAux4Out"/>
+	  <param name="recordingEnabled" type="boolean" value="0"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="txPulseStartBin" type="int" value="30"/>
+	  <param name="txPulseSpan" type="int" value="45"/>
+	  <param name="rxFilterStartBin" type="int" value="0"/>
+	  <param name="rxFilterSpan" type="int" value="0"/>
+	</algorithm>
+
+	<publisher name="TxRF/Aux4 MF" type="Video" channel="mfAux4Out"/>
+      </stream> 
+
+    </runner>
+    <!-- end TxRF-AUX4 Matched Filter runner --> 
+
+    <!--   END blade-2 configuration -->
+
+    <!-- BEGIN blade-3 configuration -->
+    <runner host="blade-3" name="Basic Detector" multicast="237.1.2.103">
+
+      <stream name="Basic Detector">
+
+	<subscriber name="NCIntegrate" type="Video" channel="NCIntegrate"/> 
+	<algorithm dll="Threshold" name="BasicDetector-Threshold">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="Threshold"/>
+	  <param name="threshold" type="int" value="-2400"/>
+	</algorithm>
+	<publisher name="Threshold BD" type="BinaryVideo" channel="Threshold"/>
+
+	<algorithm dll="MofN" name="BasicDetector-MofN">
+	  <input type="BinaryVideo" channel="Threshold"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN BD" type="BinaryVideo" channel="MofN"/>
+
+	<algorithm dll="Extract" name="BasicDetector-Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+	<publisher name="Extractions BD" type="Extractions" channel="Extract"/>
+
+	<algorithm dll="ScanCorrelator" name="BasicDetector-ScanCorrelator">
+	  <input type="Extractions" channel="Extract"/>
+	  <output type="Extractions" channel="ScanCorrelator"/>
+	</algorithm>
+	<publisher name="ScanCorrelator BD" type="Extractions" 
+		   channel="ScanCorrelator"/> 
+
+      </stream>
+
+    </runner>
+    <!-- end Basic Detector runner  -->
+    
+    <runner host="blade-3" name="Basic CFAR Detector" multicast="237.1.2.103">
+
+      <stream name="Basic CFAR Detector">
+	<subscriber name="NCIntegrate" type="Video" channel="NCIntegrate"/> 
+	<subscriber name="NegativeVideo" type="Video" channel="NegativeVideo"/> 
+	<algorithm dll="CFAR">
+	  <input type="Video" name="video" channel="NegativeVideo"/>
+	  <input type="Video" name="estimate" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="CFAR"/>
+	</algorithm>
+	<publisher name="CFAR" type="BinaryVideo" channel="CFAR"/>
+
+	<algorithm dll="MofN" name="CFAR-MofN">
+	  <input type="BinaryVideo" channel="CFAR"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN CFAR" type="BinaryVideo" channel="MofN"/>
+
+	<algorithm dll="Extract" name="CFAR-Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extractions"/>
+	</algorithm>
+	<publisher name="Extractions CFAR" type="Extractions" 
+		   channel="Extractions"/>
+
+	<algorithm dll="ScanCorrelator" name="CFAR-ScanCorrelator">
+	  <input type="Extractions" channel="Extractions"/>
+	  <output type="Extractions" channel="ScanCorrelator"/>
+	</algorithm>
+	<publisher name="ScanCorrelator CFAR" type="Extractions" 
+		   channel="ScanCorrelator"/> 
+
+      </stream>
+
+    </runner>
+    <!-- end Basic CFAR Detector runner --> 
+    
+    <runner host="blade-3" name="Basic OSCFAR Detector" multicast="237.1.2.103">
+      <stream name="Basic OSCFAR Detector">
+	<subscriber name="NCIntegrate" type="Video" channel="NCIntegrate"/> 
+	<algorithm dll="OSCFAR">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="OSCFAR"/>
+	</algorithm>
+	<publisher name="OSCFAR" type="BinaryVideo" channel="OSCFAR"/>
+
+	<algorithm dll="MofN" name="OSCFAR-MofN">
+	  <input type="BinaryVideo" channel="OSCFAR"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN OSCFAR" type="BinaryVideo" channel="MofN"/>
+
+	<algorithm dll="Extract" name="OSCFAR-Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+	<publisher name="Extractions OSCFAR" type="Extractions" 
+		   channel="Extract"/>
+
+	<algorithm dll="ScanCorrelator" name="OSCFAR-ScanCorrelator">
+	  <input type="Extractions" channel="Extract"/>
+	  <output type="Extractions" channel="ScanCorrelator"/>
+	</algorithm>
+	<publisher name="ScanCorrelator OSCFAR" type="Extractions" 
+		   channel="ScanCorrelator"/> 
+
+      </stream>
+
+    </runner>
+    <!-- end Basic OSCFAR Detector runner --> 
+    
+    <runner host="blade-3" name="TxRF-RxRF Matched Filter Extractor" 
+	    multicast="237.1.2.103">
+
+      <stream name="TxRF/RxRF MF Extractor">
+	<subscriber name="TxRF/RxRF MF" type="Video" channel="mfOut"/>
+	<algorithm dll="MTI3" name="TxRF-RxRF-MF-MTI3">
+	  <input type="Video" channel="mfOut"/>
+	  <output type="Video" channel="MTI3Out"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="TxRF/RxRF MTI3 MF" type="Video" channel="MTI3Out"/>
+
+	<algorithm dll="IQFilter" name="TxRF-RxRF-MF-IQFilter">
+	  <input type="Video" channel="MTI3Out"/>
+	  <output type="Video" channel="IQFilter"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+
+	<publisher name="TxRF/RxRF MTI3 MF IQF" type="Video" 
+		   channel="IQFilter"/>
+
+	<algorithm dll="NCIntegrate" name="TxRF-RxRF-MF-NCIntegrate">
+	  <input type="Video" channel="IQFilter"/>
+	  <output type="Video" channel="NCIntegrate"/>
+	</algorithm>
+	<publisher name="NCIntegrate MF" type="Video" channel="NCIntegrate"/>
+
+	<algorithm dll="Threshold" name="TxRF-RxRF-MF-Threshold">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="Threshold"/>
+	</algorithm>
+	<publisher name="Threshold MF" type="BinaryVideo" channel="Threshold"/>
+
+	<algorithm dll="MofN" name="TxRF-RxRF-MF-MofN">
+	  <input type="BinaryVideo" channel="Threshold"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN MF" type="BinaryVideo" channel="MofN"/>
+
+	<algorithm dll="Extract" name="TxRF-RxRF-MF-Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+	<publisher name="Extractions MF" type="Extractions" channel="Extract"/>
+
+	<algorithm dll="ScanCorrelator" name="TxRF-RxRF-MF-ScanCorrelator">
+	  <input type="Extractions" channel="Extract"/>
+	  <output type="Extractions" channel="ScanCorrelator"/>
+	</algorithm>
+	<publisher name="ScanCorrelator MF" type="Extractions" 
+		   channel="ScanCorrelator"/> 
+
+      </stream>
+
+    </runner>
+    <!-- end TxRF-RxRF Matched Filter Extractor runner -->
+    
+    <runner host="blade-3" name="Side Lobe Canceller Extractor" 
+	    multicast="237.1.2.103">
+
+      <stream name="Side Lobe Canceller Extractor">
+	<subscriber name="TxRF/RxRF MF" type="Video" channel="mfOut"/>
+	<subscriber name="TxRF/Aux1 MF" type="Video" channel="mfAux1Out"/>
+	<subscriber name="TxRF/Aux2 MF" type="Video" channel="mfAux2Out"/>
+	<subscriber name="TxRF/Aux3 MF" type="Video" channel="mfAux3Out"/>
+	<subscriber name="TxRF/Aux4 MF" type="Video" channel="mfAux4Out"/>
+	<algorithm dll="SLC">
+	  <input type="Video" name="TxRf/RxRF MF" channel="mfOut"/>
+	  <input type="Video" name="TxRf/Aux1 MF" channel="mfAux1Out"/>
+	  <input type="Video" name="TxRf/Aux2 MF" channel="mfAux2Out"/>
+	  <input type="Video" name="TxRf/Aux3 MF" channel="mfAux3Out"/>
+	  <input type="Video" name="TxRf/Aux4 MF" channel="mfAux4Out"/>
+	  <output type="Video" channel="SLC"/>
+	  <param name="maxBufferSize" type="int" value="100"/>
+	  <param name="aux1Enabled" type="boolean" value="1"/>
+	  <param name="aux2Enabled" type="boolean" value="0"/>
+	  <param name="aux3Enabled" type="boolean" value="0"/>
+	  <param name="aux4Enabled" type="boolean" value="0"/>
+	</algorithm>
+	<publisher name="SLC" type="Video" channel="SLC"/>
+
+	<algorithm dll="MTI3" name="SLC-MTI3">
+	  <input type="Video" channel="SLC"/>
+	  <output type="Video" channel="MTI3Out"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="TxRF/RxRF MTI3 SLC" type="Video" channel="MTI3Out"/>
+
+	<algorithm dll="IQFilter" name="SLC-IQFilter">
+	  <input type="Video" channel="MTI3Out"/>
+	  <output type="Video" channel="IQFilter"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="SLC-IQ Filter" type="Video" channel="IQFilter"/>
+
+	<algorithm dll="NCIntegrate" name="SLC-NCIntegrate">
+	  <input type="Video" channel="IQFilter"/>
+	  <output type="Video" channel="NCIntegrate"/>
+	</algorithm>
+	<publisher name="NCIntegrate SLC" type="Video" channel="NCIntegrate"/>
+
+	<algorithm dll="Threshold" name="SLC-Threshold">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="Threshold"/>
+	  <param name="threshold" type="int" value="-2400"/>
+	</algorithm>
+	<publisher name="Threshold SLC" type="BinaryVideo" channel="Threshold"/>
+	<algorithm dll="MofN" name="SLC-MofN">
+	  <input type="BinaryVideo" channel="Threshold"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+	<publisher name="MofN SLC" type="BinaryVideo" channel="MofN"/>
+
+	<algorithm dll="Extract" name="SLC-Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+	<publisher name="Extractions SLC" type="Extractions" channel="Extract"/>
+	<algorithm dll="ScanCorrelator" name="SLC-ScanCorrelator">
+	  <input type="Extractions" channel="Extract"/>
+	  <output type="Extractions" channel="ScanCorrelator"/>
+	</algorithm>
+	<publisher name="ScanCorrelator SLC" type="Extractions" 
+		   channel="ScanCorrelator"/> 
+
+      </stream>
+
+    </runner>
+    <!-- end Side Lobe Canceler runner -->
+    <runner host="blade-3" name="IQ Filters (Data Channels)" 
+	    multicast="237.1.2.103">
+
+      <stream name="TxRF IQ Filter">
+	<subscriber name="TxRF" type="Video" channel="TxRF"/>
+	<algorithm dll="IQFilter" name="IQFilter-TxRF">
+	  <input type="Video" channel="TxRF"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF" type="Video"/>
+      </stream>
+
+      <stream name="RxRF IQ Filter">
+	<subscriber name="RxRF" type="Video" channel="RxRF"/>
+	<algorithm dll="IQFilter" name="IQFilter-RxRF">
+	  <input type="Video" channel="RxRF"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-RxRF" type="Video"/>
+      </stream>
+
+      <stream name="RxIF IQ Filter">
+	<subscriber name="RxIF" type="Video" channel="RxIF"/>
+	<algorithm dll="IQFilter" name="IQFilter-RxIF">
+	  <input type="Video" channel="RxIF"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-RxIF" type="Video"/>
+      </stream>
+
+      <stream name="AUX1 IQ Filter">
+	<subscriber name="AUX1" type="Video" channel="AUX1"/>
+	<algorithm dll="IQFilter" name="IQFilter-AUX1">
+	  <input type="Video" channel="AUX1"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-AUX1" type="Video"/>
+      </stream>
+
+      <stream name="AUX2 IQ Filter">
+	<subscriber name="AUX2" type="Video" channel="AUX2"/>
+	<algorithm dll="IQFilter" name="IQFilter-AUX2">
+	  <input type="Video" channel="AUX2"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-AUX2" type="Video"/>
+      </stream>
+
+      <stream name="AUX3 IQ Filter">
+	<subscriber name="AUX3" type="Video" channel="AUX3"/>
+	<algorithm dll="IQFilter" name="IQFilter-AUX3">
+	  <input type="Video" channel="AUX3"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-AUX3" type="Video"/>
+      </stream>
+
+      <stream name="AUX4 IQ Filter">
+	<subscriber name="AUX4" type="Video" channel="AUX4"/>
+	<algorithm dll="IQFilter" name="IQFilter-AUX4">
+	  <input type="Video" channel="AUX4"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-AUX4" type="Video"/>
+      </stream>
+
+    </runner>
+    <!-- end IQ Filters (1) runner -->
+    
+    <runner host="blade-3" name="IQ Filters (Coho/MF/SLC)" 
+	    multicast="237.1.2.103">
+
+      <stream name="Coho IQ Filter">
+	<subscriber name="Coho" type="Video" channel="Coho"/>
+	<algorithm dll="IQFilter" name="IQFilter-Coho">
+	  <input type="Video" channel="Coho"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-Coho" type="Video"/>
+      </stream>
+
+      <stream name="TxRF/RxRF MatchedFilter IQ Filter">
+	<subscriber name="TxRF/RxRF MF" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-TxRF-RxRF-MF">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF/RxRF MF" type="Video"/> 
+      </stream>
+
+      <stream name="TxRF/AUX1 MatchedFilter IQ Filter">
+	<subscriber name="TxRF/Aux1 MF" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-TxRF-AUX1-MF">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF/AUX1 MF" type="Video"/> 
+      </stream>
+
+      <stream name="TxRF/AUX2 MatchedFilter IQ Filter">
+	<subscriber name="TxRF/Aux2 MF" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-TxRF-AUX2-MF">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF/AUX2 MF" type="Video"/> 
+      </stream>
+
+      <stream name="TxRF/AUX3 MatchedFilter IQ Filter">
+	<subscriber name="TxRF/Aux3 MF" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-TxRF-AUX3-MF">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF/AUX3 MF" type="Video"/> 
+      </stream>
+
+      <stream name="TxRF/AUX4 MatchedFilter IQ Filter">
+	<subscriber name="TxRF/Aux4 MF" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-TxRF-AUX4-MF">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-TxRF/AUX4 MF" type="Video"/> 
+      </stream>
+
+      <stream name="SLC IQ Filter">
+	<subscriber name="SLC" type="Video"/> 
+	<algorithm dll="IQFilter" name="IQFilter-SLC">
+	  <input type="Video"/>
+	  <output type="Video"/>
+	  <param name="filter" type="int" value="2"/>
+	</algorithm>
+	<publisher name="IQ-Filtered-SLC" type="Video"/> 
+      </stream>
+
+    </runner>
+    <!-- end IQ Filters (2) runner -->
+    
+    <!--   END blade-3 configuration -->
+
+    <!-- BEGIN data-recorder configuration -->
+    <runner host="data-recorder" name="Recorders (1)" multicast="237.1.2.100">
+
+      <stream name="NegativeVideo Recorder">
+	<vme host="237.1.10.1" port="5014"/>
+	<algorithm dll="RawPRI" name="NegativeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="BiPolarVideo Recorder">
+	<vme host="237.1.10.1" port="5015"/>
+	<algorithm dll="RawPRI" name="BiPolarVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="CompositeVideo Recorder">
+	<vme host="237.1.10.1" port="5016"/>
+	<algorithm dll="RawPRI" name="CompositeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="RadarDisplay Recorder">
+	<vme host="237.1.10.1" port="5017"/>
+	<algorithm dll="RawPRI" name="RadarDisplay">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+    </runner> 
+    <!-- end Recorders (1) runner -->
+
+    <runner host="data-recorder" name="Recorders (2)" multicast="237.1.2.100">
+
+      <stream name="Coho Recorder">
+	<vme host="237.1.10.2" port="5019"/>
+	<algorithm dll="RawPRI" name="Coho">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="RxRF Recorder">
+	<vme host="237.1.10.2" port="5020"/>
+	<algorithm dll="RawPRI" name="RxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="RxIF Recorder">
+	<vme host="237.1.10.2" port="5018"/>
+	<algorithm dll="RawPRI" name="RxIF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="TxRF Recorder">
+	<vme host="237.1.10.2" port="5021"/>
+	<algorithm dll="RawPRI" name="TxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+    </runner> 
+    <!-- end Recorders (2) runner -->
+
+    <runner host="data-recorder" name="Recorders (3)" multicast="237.1.2.100">
+
+      <stream name="AUX1 Recorder">
+	<vme host="237.1.10.3" port="5022"/>
+	<algorithm dll="RawPRI" name="AUX1">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="AUX2 Recorder">
+	<vme host="237.1.10.3" port="5023"/>
+	<algorithm dll="RawPRI" name="AUX2">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="AUX3 Recorder">
+	<vme host="237.1.10.3" port="5024"/>
+	<algorithm dll="RawPRI" name="AUX3">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="AUX4 Recorder">
+	<vme host="237.1.10.3" port="5025"/>
+	<algorithm dll="RawPRI" name="AUX4">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+    </runner> 
+    <!-- end Recorders (3) runner -->
+
+    <runner host="data-recorder" name="Recorders (4)" multicast="237.1.2.100">
+
+      <stream name="NorthMark Recorder">
+	<vme host="237.1.10.4" port="5030"/>
+	<algorithm dll="RawPRI" name="NorthMark">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="MGC Recorder">
+	<vme host="237.1.10.4" port="5031"/>
+	<algorithm dll="RawPRI" name="MGC">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="ClutterGate Recorder">
+	<vme host="237.1.10.4" port="5032"/>
+	<algorithm dll="RawPRI" name="ClutterGate">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+      <stream name="AGC Recorder">
+	<vme host="237.1.10.4" port="5033"/>
+	<algorithm dll="RawPRI" name="AGC">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+      </stream>
+
+    </runner> 
+    <!-- end Recorders (4) runner -->
+    
+    <!--   END data-recorder configuration -->
+
+  </dp>
+
+</sidecar>

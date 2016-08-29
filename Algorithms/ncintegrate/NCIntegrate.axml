@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+ <algorithm dll="NCIntegrate">
+  <input type="Video"/>
+  <param name="enabled" type="boolean" value="1"/>
+  <param name="iqValues" type="boolean" value="0"/>
+  <param name="numPRIs" type="int" value="15"/>
+  <param name="recordingEnabled" type="boolean" value="0"/>
+  <param name="bypassEnabled" type="boolean" value="0"/>
+  <output type="Video"/>
+ </algorithm>
+ </configuration>
+</configurations>

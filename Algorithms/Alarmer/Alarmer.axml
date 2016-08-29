@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Alarmer">
+   <input type="Video"/>
+   <output type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   
+  </algorithm>
+ </configuration>
+</configurations>

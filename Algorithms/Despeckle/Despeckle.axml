@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+ <algorithm dll="Despeckle">
+  <input type="Video"/>
+  <param name="recordingEnabled" type="boolean" value="0"/>
+  <param name="bypassEnabled" type="boolean" value="0"/>
+  <param name="varianceMultiplier" type="int" value="15"/>
+  <output type="Video"/>
+ </algorithm>
+ </configuration>
+</configurations>

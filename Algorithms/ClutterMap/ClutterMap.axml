@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+ <algorithm dll="ClutterMap">
+  <input type="Video"/>
+  <param name="alpha" type="double" value="0.05"/>
+  <param name="learningScanCount" type="int" value="10"/>
+  <param name="radialPartitionCount" type="int" value="360"/>
+  <param name="loadFilePath" type="string" 
+	 value="/opt/sidecar/data/cluttermap.txt"/>
+  <param name="saveFilePath" type="string" 
+	 value="/opt/sidecar/data/cluttermap.txt"/>
+  <param name="recordingEnabled" type="boolean" value="0"/>
+  <param name="beginInLearningMode" type="boolean" value="1"/>
+  <param name="enabled" type="boolean" value="1"/>
+  <output type="Video"/>
+ </algorithm>
+ </configuration>
+</configurations>

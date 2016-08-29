@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="ShiftBins">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="shift" type="int" value="0"/>
+  </algorithm>
+ </configuration>
+</configurations>

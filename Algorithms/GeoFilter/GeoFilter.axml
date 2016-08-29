@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="GeoFilter">
+   <input type="Video"/>
+   <param name="enabled" type="boolean" value="1"/>
+   <param name="configPath" type="string"
+	  value="/opt/sidecar/data/geofilter.xml"/>
+   <output type="Video"/>
+  </algorithm>
+ </configuration>
+</configurations>

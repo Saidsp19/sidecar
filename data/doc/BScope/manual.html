@@ -1,0 +1,86 @@
+<html>
+<head>
+</head>
+<body>
+<table>
+<tr>
+<td valign="top"><img src="/opt/sidecar/data/doc/BScope/screen.png"></td>
+<td>
+<h1>AScope Application</h1>
+
+<p>The Playback application attempts to emit data recorded by the SideCar
+system. The application uses the timestamps recorded in the data files to
+replicate the original arrival rates seen by the SideCar recorder.</p>
+
+<h2>Loading Recording Files</h2>
+
+<p>You may select a directory containing recorded data in one of two ways:
+clicking on the <b>Load</b> button and navigating into the directory to load,
+or typing in the location by hand in the text field to the right of
+the <b>Load</b> button. The text field also contains a collection of
+previously-visited directory locations. Simply click on the triangle at the
+right of the text field to view previous load locations. Selecting one of the
+shown entries will load the indicated directory.</p>
+
+<h2>Channel Activation</h2>
+
+<p>Specific data channels may be enabled or disabled by simply clicking on the
+checkbox to the left of the channel name. Channels without a check mark next to
+their name will not emit any data when playback is active.</p>
+
+<h2>Playback Control</h2>
+
+<p>To begin emitting recorded data, simply press the <b>Start</b> button.
+Likewise to stop, press the button again. The button's label will change
+depending on whether or not playback is active.</p>
+
+<p>To jump to the beginning of the recorded data, press the <b>Rewind</b>
+button. You may press this button at any time, even while a playback is active.
+To jump elsewhere in time, enter a time value in the <b>Jump To</b> field. You
+can enter relative or absolute time values, like so:</p>
+
+<ul>
+<li>+53s &mdash; jump 50 seconds ahead</li>
+<li>-3m &mdash; jump 3 minutes back</li>
+<li>15.03.23 or 15:03:23 &mdash jump to an absolute time of 15:03:23</li>
+</ul>
+
+<p>Relative times may contain a suffix that describes the time units: <b>h</b>
+for hours, <b>m</b> for minutes, and <b>s</b> for seconds. If not given the
+units defauls to seconds. Absolute times must always consist of at least 8
+characters, with minutes and seconds always having two digits of value and the
+hours having two or more.</p>
+
+<p>Both time formats support fractional second values to the right of a decimal
+point in the time value. For instance, the time value <b>+0.001</b> will
+attempt to jump forward by 1/1000th of a second.</p>
+
+<h2>Rate Control</h2>
+
+<p>To change the rate at which the playback clock runs, click on
+the <b>Rate</b> widget. Selecting <b>Normal</b> will cause the playback clock
+to run at the same speed as the wall clock. Selecting values greater than one
+will cause the playback clock to run faster than real time, while choosing
+fractional values less than one will cause it to run slower than real time.</p>
+
+<p>Although the rate setting may be changed at any time, for best playback
+fidelity, stop any active playback before changing the playback rate.</p>
+
+<h2>Emitter Control</h2>
+
+<p>Unlike the <b>PRI Emitter</b> application, <b>Playback</b> does not support
+TCP connections, only UDP multicast. You can set the multicast address used by
+the playback emitters in the <b>Address</b> field.</p.
+
+<p>Since each playback emitter is a SideCar data publisher, running more than
+one Playback application on the local LAN will result in data publisher name
+conflicts, which the Zeroconf DNS infrastructure will resolve by renaming one
+of the data publishers. To mitigate this, you can enter your own unique suffix
+in the <b>Pub Suffix</b> text field. Note that if others choose the same suffix
+as you, Zeroconf will again have to resolve name conflicts like before.</p>
+
+</td>
+</tr>
+</table>
+</body>
+</html>

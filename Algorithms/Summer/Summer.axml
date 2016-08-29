@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Summer">
+   <param name="enabled" type="bool" value="1"/>
+  </algorithm>
+ </configuration>
+</configurations>

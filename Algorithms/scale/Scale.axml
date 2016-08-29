@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<configurations>
+  <configuration name="">
+    <algorithm dll="Scale">
+      <param name="enabled" type="boolean" value="1"/>
+      <param name="scale" type="double" value="1.0"/>
+    </algorithm>
+  </configuration>
+</configurations>

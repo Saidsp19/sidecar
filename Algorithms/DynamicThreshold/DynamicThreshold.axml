@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="DynamicThreshold">
+   <input type="Video" name="samples"/>
+   <input type="Video" name="thresholds"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="maxBufferSize" type="int" value="10"/>
+   <param name="operator" type="int" value="4"/>
+   <output type="BinaryVideo" name="out"/>
+  </algorithm>
+ </configuration>
+</configurations>

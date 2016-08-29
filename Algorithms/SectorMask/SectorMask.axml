@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="SectorMask">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="minAzimuth" type="double" value="0.0"/>
+   <param name="maxAzimuth" type="double" value="90.0"/>
+   <param name="minRangeBin" type="int" value="50"/>
+   <param name="maxRangeBin" type="int" value="100"/>
+  </algorithm>
+ </configuration>
+</configurations>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Clamp">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="min" type="int" value="-500"/>
+   <param name="max" type="int" value="500"/>
+  </algorithm>
+ </configuration>
+</configurations>

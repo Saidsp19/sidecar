@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<configurations>
+  <configuration name="">
+    <algorithm dll="BugCollector">
+      <param name="prefix" type="string" value="UserBugs"/>
+      <output type="BugPlot"/>
+    </algorithm>
+  </configuration>
+</configurations>

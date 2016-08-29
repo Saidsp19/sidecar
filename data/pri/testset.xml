@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sidecar>
+<!-- Configuration file for testset.pri file -->
+<sidecar version="1.0">
+  <radar>
+    <name>Vito</name>
+    <gateCountMax type="int">400</gateCountMax>
+    <shaftEncodingMax type="int">4999</shaftEncodingMax>
+    <rotationRate units="rpm" type="double">6</rotationRate>
+    <rangeMin units="km" type="double">0.5</rangeMin>
+    <rangeMax units="km" type="double">250.0</rangeMax>
+    <beamWidth units="radians" type="double">0.00125664</beamWidth>
+  </radar>
+</sidecar>

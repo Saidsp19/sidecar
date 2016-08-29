@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Printer">
+   <input type="Video"/>
+   <param name="enabled" type="boolean" value="1"/>
+   <param name="isIQ" type="boolean" value="0"/>
+   <param name="binStart" type="int" value="0"/>
+   <param name="binCount" type="int" value="10"/>
+   <param name="maxBufferSize" type="int" value="100"/>
+  </algorithm>
+ </configuration>
+</configurations>

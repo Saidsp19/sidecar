@@ -1,0 +1,14 @@
+<!DOCTYPE DCF> <!-- Mode: html -->
+<assistantconfig version="3.2.0">
+  <DCF ref="./manual.html" icon="screen.png" title="PRIEmitter">
+    <section ref="./publisherConfiguration.html"
+	     title="Publisher Configuration"/>
+    <section ref="./loadingFile.html" title="Loading a File"/>
+    <section ref="./fileStats.html" title="File Statistics"/>
+    <section ref="./playback.html" title="Playback">
+      <section ref="./frequencyControl.html" title="Frequency Control"/>
+      <section ref="./looping.html" title="Looping"/>
+      <section ref="./simulatedAzimuth.html" title="Simulated Azimuth"/>
+    </section>	
+  </DCF>
+</assistantconfig>

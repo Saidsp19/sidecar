@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="BinaryOp">
+   <input type="BinaryVideo"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="operator" type="int" value="0"/>
+   <param name="maxBufferSize" type="int" value="10"/>
+  </algorithm>
+ </configuration>
+</configurations>
