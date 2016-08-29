@@ -48,4 +48,5 @@ a static web site:
 % doxygen doc/Doxyfile
 ```
 
-The HTML output will reside under `doc/html`.
+The HTML output will reside under the `docs/`. It is available online at
+https://bradhowes.github.io/sidecar/index.html
