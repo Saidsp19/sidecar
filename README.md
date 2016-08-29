@@ -38,4 +38,14 @@ build is to create a build directory, move into it and then execute `cmake` to g
 
 If successful, one should then just type `make` to build the executables
 
+# Documentation
 
+Many but not all of the source headers have JavaDoc-style comments. Using `doxygen`, one can convert them into
+a static web site:
+
+```
+% cd ~/src/sidecar
+% doxygen doc/Doxyfile
+```
+
+The HTML output will reside under `doc/html`.
