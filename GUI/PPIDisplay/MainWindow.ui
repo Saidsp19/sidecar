@@ -1,0 +1,900 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>1100</height>
+   </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>800</width>
+    <height>650</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>PPI</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="layoutDirection" >
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>0</number>
+    </property>
+    <property name="spacing" >
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="displayFrame_" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>2</horstretch>
+        <verstretch>2</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize" >
+       <size>
+        <width>200</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="palette" >
+       <palette>
+        <active>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>221</red>
+          <green>223</green>
+          <blue>228</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>238</red>
+          <green>239</green>
+          <blue>241</blue>
+         </color>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>147</red>
+          <green>149</green>
+          <blue>152</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>103</red>
+          <green>141</green>
+          <blue>178</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>238</blue>
+         </color>
+         <color>
+          <red>82</red>
+          <green>24</green>
+          <blue>139</blue>
+         </color>
+         <color>
+          <red>238</red>
+          <green>239</green>
+          <blue>241</blue>
+         </color>
+        </active>
+        <inactive>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>221</red>
+          <green>223</green>
+          <blue>228</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>238</red>
+          <green>239</green>
+          <blue>241</blue>
+         </color>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>147</red>
+          <green>149</green>
+          <blue>152</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>103</red>
+          <green>141</green>
+          <blue>178</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>238</blue>
+         </color>
+         <color>
+          <red>82</red>
+          <green>24</green>
+          <blue>139</blue>
+         </color>
+         <color>
+          <red>238</red>
+          <green>239</green>
+          <blue>241</blue>
+         </color>
+        </inactive>
+        <disabled>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>221</red>
+          <green>223</green>
+          <blue>228</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>238</red>
+          <green>239</green>
+          <blue>241</blue>
+         </color>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>147</red>
+          <green>149</green>
+          <blue>152</blue>
+         </color>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>110</red>
+          <green>111</green>
+          <blue>114</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+         <color>
+          <red>86</red>
+          <green>117</green>
+          <blue>148</blue>
+         </color>
+         <color>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+         <color>
+          <red>0</red>
+          <green>0</green>
+          <blue>238</blue>
+         </color>
+         <color>
+          <red>82</red>
+          <green>24</green>
+          <blue>139</blue>
+         </color>
+         <color>
+          <red>221</red>
+          <green>223</green>
+          <blue>228</blue>
+         </color>
+        </disabled>
+       </palette>
+      </property>
+      <property name="autoFillBackground" >
+       <bool>true</bool>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth" >
+       <number>0</number>
+      </property>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="SideCar::GUI::PPIDisplay::PPIWidget" name="display_" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>7</vsizetype>
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>233</red>
+             <green>231</green>
+             <blue>227</blue>
+            </color>
+            <color>
+             <red>191</red>
+             <green>191</green>
+             <blue>191</blue>
+            </color>
+            <color>
+             <red>160</red>
+             <green>160</green>
+             <blue>164</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>220</red>
+             <green>220</green>
+             <blue>220</blue>
+            </color>
+            <color>
+             <red>181</red>
+             <green>213</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>237</red>
+             <green>243</green>
+             <blue>254</blue>
+            </color>
+           </active>
+           <inactive>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>233</red>
+             <green>231</green>
+             <blue>227</blue>
+            </color>
+            <color>
+             <red>191</red>
+             <green>191</green>
+             <blue>191</blue>
+            </color>
+            <color>
+             <red>160</red>
+             <green>160</green>
+             <blue>164</blue>
+            </color>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>230</red>
+             <green>230</green>
+             <blue>230</blue>
+            </color>
+            <color>
+             <red>208</red>
+             <green>208</green>
+             <blue>208</blue>
+            </color>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>237</red>
+             <green>243</green>
+             <blue>254</blue>
+            </color>
+           </inactive>
+           <disabled>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>233</red>
+             <green>231</green>
+             <blue>227</blue>
+            </color>
+            <color>
+             <red>191</red>
+             <green>191</green>
+             <blue>191</blue>
+            </color>
+            <color>
+             <red>160</red>
+             <green>160</green>
+             <blue>164</blue>
+            </color>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>106</red>
+             <green>104</green>
+             <blue>100</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+            <color>
+             <red>230</red>
+             <green>230</green>
+             <blue>230</blue>
+            </color>
+            <color>
+             <red>208</red>
+             <green>208</green>
+             <blue>208</blue>
+            </color>
+            <color>
+             <red>127</red>
+             <green>127</green>
+             <blue>127</blue>
+            </color>
+            <color>
+             <red>0</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>255</red>
+             <green>0</green>
+             <blue>255</blue>
+            </color>
+            <color>
+             <red>237</red>
+             <green>243</green>
+             <blue>254</blue>
+            </color>
+           </disabled>
+          </palette>
+         </property>
+         <property name="autoFillBackground" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>626</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView_" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionViewToggleVideo_" />
+    <addaction name="actionViewToggleBinary_" />
+    <addaction name="actionViewToggleExtractions_" />
+    <addaction name="actionViewToggleRangeTruths_" />
+    <addaction name="actionViewToggleBugPlots_" />
+    <addaction name="actionViewToggleRangeRings_" />
+    <addaction name="actionViewToggleRangeMap_" />
+    <addaction name="actionViewToggleBackground_" />
+    <addaction name="actionViewToggleShowCursorPosition_" />
+    <addaction name="actionViewTogglePhantomCursor_" />
+    <addaction name="separator" />
+    <addaction name="actionViewZoomIn_" />
+    <addaction name="actionViewZoomOut_" />
+    <addaction name="actionViewPanLeft_" />
+    <addaction name="actionViewPanRight_" />
+    <addaction name="actionViewPanUp_" />
+    <addaction name="actionViewPanDown_" />
+    <addaction name="actionViewCenterAtCursor_" />
+    <addaction name="separator" />
+    <addaction name="actionPresetSave_" />
+    <addaction name="actionPresetRevert_" />
+    <addaction name="separator" />
+    <addaction name="actionViewReset_" />
+    <addaction name="actionViewClearAll_" />
+    <addaction name="actionViewClearVideo_" />
+    <addaction name="actionViewClearBinaryVideo_" />
+    <addaction name="actionViewClearExtractions_" />
+    <addaction name="actionViewClearRangeTruths_" />
+    <addaction name="actionViewClearBugPlots_" />
+   </widget>
+   <addaction name="menuView_" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionViewToggleVideo_" >
+   <property name="text" >
+    <string>Show Video Data</string>
+   </property>
+   <property name="shortcut" >
+    <string>V</string>
+   </property>
+  </action>
+  <action name="actionViewToggleBinary_" >
+   <property name="text" >
+    <string>Show Binary Data</string>
+   </property>
+   <property name="shortcut" >
+    <string>B</string>
+   </property>
+  </action>
+  <action name="actionViewToggleExtractions_" >
+   <property name="text" >
+    <string>Show Extractions</string>
+   </property>
+   <property name="shortcut" >
+    <string>E</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeTruths_" >
+   <property name="text" >
+    <string>Show Range Truths</string>
+   </property>
+   <property name="shortcut" >
+    <string>T</string>
+   </property>
+  </action>
+  <action name="actionViewToggleBugPlots_" >
+   <property name="text" >
+    <string>Show User Bug Plots</string>
+   </property>
+   <property name="shortcut" >
+    <string>P</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeRings_" >
+   <property name="text" >
+    <string>Show Range Rings</string>
+   </property>
+   <property name="shortcut" >
+    <string>R</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeMap_" >
+   <property name="text" >
+    <string>Show Range Map</string>
+   </property>
+   <property name="shortcut" >
+    <string>M</string>
+   </property>
+  </action>
+  <action name="actionViewToggleBackground_" >
+   <property name="text" >
+    <string>Show Background Image</string>
+   </property>
+   <property name="shortcut" >
+    <string>G</string>
+   </property>
+  </action>
+  <action name="actionViewZoomIn_" >
+   <property name="text" >
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut" >
+    <string>I</string>
+   </property>
+  </action>
+  <action name="actionViewZoomOut_" >
+   <property name="text" >
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut" >
+    <string>O</string>
+   </property>
+  </action>
+  <action name="actionViewPanLeft_" >
+   <property name="text" >
+    <string>Pan Left</string>
+   </property>
+  </action>
+  <action name="actionViewPanRight_" >
+   <property name="text" >
+    <string>Pan Right</string>
+   </property>
+  </action>
+  <action name="actionViewPanUp_" >
+   <property name="text" >
+    <string>Pan Up</string>
+   </property>
+  </action>
+  <action name="actionViewPanDown_" >
+   <property name="text" >
+    <string>Pan Down</string>
+   </property>
+  </action>
+  <action name="actionViewReset_" >
+   <property name="text" >
+    <string>Full View</string>
+   </property>
+   <property name="shortcut" >
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionViewClearAll_" >
+   <property name="text" >
+    <string>Clear View</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionViewClearVideo_" >
+   <property name="text" >
+    <string>Clear Video</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionViewClearBinaryVideo_" >
+   <property name="text" >
+    <string>Clear Binary Video</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionViewClearExtractions_" >
+   <property name="text" >
+    <string>Clear Extractions</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionViewClearRangeTruths_" >
+   <property name="text" >
+    <string>Clear Range Truths</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionViewClearBugPlots_" >
+   <property name="text" >
+    <string>Clear User Bug Plots</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionViewCenterAtCursor_" >
+   <property name="text" >
+    <string>Center At Cursor</string>
+   </property>
+   <property name="shortcut" >
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionViewToggleShowCursorPosition_" >
+   <property name="text" >
+    <string>Cursor Position Text</string>
+   </property>
+   <property name="shortcut" >
+    <string>F4</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionViewTogglePhantomCursor_" >
+   <property name="text" >
+    <string>Phantom Cursor</string>
+   </property>
+   <property name="shortcut" >
+    <string>U</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPresetSave_" >
+   <property name="text" >
+    <string>Save Preset</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPresetRevert_" >
+   <property name="text" >
+    <string>Revert Preset</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>SideCar::GUI::PPIDisplay::PPIWidget</class>
+   <extends>QGLWidget</extends>
+   <header>PPIWidget.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>QGLWidget</class>
+   <extends>QFrame</extends>
+   <header>QtOpenGL/QGLWidget</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

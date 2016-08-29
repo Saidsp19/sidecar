@@ -1,0 +1,761 @@
+<ui version="4.0" >
+ <class>ConfigurationWindow</class>
+ <widget class="QDialog" name="ConfigurationWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>307</width>
+    <height>526</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Configuration</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="spacing" >
+    <number>8</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Formatting and Units</string>
+     </property>
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QGridLayout" >
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_5" >
+          <property name="font" >
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text" >
+           <string>Angles</string>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLabel" name="label_2" >
+          <property name="font" >
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text" >
+           <string>Distances</string>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QFrame" name="frame_2" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="frameShape" >
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <layout class="QVBoxLayout" >
+           <property name="spacing" >
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="angleFormatMinSec_" >
+             <property name="toolTip" >
+              <string/>
+             </property>
+             <property name="text" >
+              <string>360° 59' 59"</string>
+             </property>
+             <property name="checked" >
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="angleFormatDecimal_" >
+             <property name="toolTip" >
+              <string/>
+             </property>
+             <property name="text" >
+              <string>359.9997</string>
+             </property>
+             <property name="checked" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QFrame" name="frame" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="frameShape" >
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <layout class="QVBoxLayout" >
+           <property name="spacing" >
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="distanceUnitsKm_" >
+             <property name="toolTip" >
+              <string/>
+             </property>
+             <property name="text" >
+              <string>km</string>
+             </property>
+             <property name="checked" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="distanceUnitsNm_" >
+             <property name="statusTip" >
+              <string/>
+             </property>
+             <property name="text" >
+              <string>nm</string>
+             </property>
+             <property name="checked" >
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Default Channel Settings</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupBox" >
+        <property name="title" >
+         <string>Sample Counts</string>
+        </property>
+        <property name="flat" >
+         <bool>true</bool>
+        </property>
+        <layout class="QHBoxLayout" >
+         <property name="leftMargin" >
+          <number>6</number>
+         </property>
+         <property name="topMargin" >
+          <number>6</number>
+         </property>
+         <property name="rightMargin" >
+          <number>6</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_8" >
+           <property name="text" >
+            <string>Min:</string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="sampleMin_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+           <property name="toolTip" >
+            <string>Default minimum sample count
+for new channels</string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight</set>
+           </property>
+           <property name="minimum" >
+            <number>-65535</number>
+           </property>
+           <property name="maximum" >
+            <number>65535</number>
+           </property>
+           <property name="singleStep" >
+            <number>10</number>
+           </property>
+           <property name="value" >
+            <number>-8192</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9" >
+           <property name="text" >
+            <string>Max:</string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="sampleMax_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+           <property name="toolTip" >
+            <string>Default maximum sample count
+for new channels</string>
+           </property>
+           <property name="frame" >
+            <bool>true</bool>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight</set>
+           </property>
+           <property name="buttonSymbols" >
+            <enum>QAbstractSpinBox::UpDownArrows</enum>
+           </property>
+           <property name="minimum" >
+            <number>-65535</number>
+           </property>
+           <property name="maximum" >
+            <number>65535</number>
+           </property>
+           <property name="singleStep" >
+            <number>10</number>
+           </property>
+           <property name="value" >
+            <number>8192</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2" >
+        <property name="title" >
+         <string>Voltages</string>
+        </property>
+        <property name="flat" >
+         <bool>true</bool>
+        </property>
+        <layout class="QHBoxLayout" >
+         <property name="leftMargin" >
+          <number>6</number>
+         </property>
+         <property name="topMargin" >
+          <number>6</number>
+         </property>
+         <property name="rightMargin" >
+          <number>6</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_6" >
+           <property name="text" >
+            <string>Min:</string>
+           </property>
+           <property name="textFormat" >
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="voltageMin_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+           <property name="toolTip" >
+            <string>Default minimum voltage value
+for new channels</string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight</set>
+           </property>
+           <property name="suffix" >
+            <string/>
+           </property>
+           <property name="minimum" >
+            <double>-99.989999999999995</double>
+           </property>
+           <property name="maximum" >
+            <double>99.989999999999995</double>
+           </property>
+           <property name="value" >
+            <double>0.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_7" >
+           <property name="text" >
+            <string>Max:</string>
+           </property>
+           <property name="textFormat" >
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="voltageMax_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+           <property name="toolTip" >
+            <string>Default maximum voltage value
+for new channels</string>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignRight</set>
+           </property>
+           <property name="suffix" >
+            <string/>
+           </property>
+           <property name="minimum" >
+            <double>-99.989999999999995</double>
+           </property>
+           <property name="value" >
+            <double>5.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>10</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showPeakBars_" >
+          <property name="toolTip" >
+           <string>Check to enable peak bars
+for new channels</string>
+          </property>
+          <property name="text" >
+           <string>Show Peak Bars</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>10</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="blahblah" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Peak Bars</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QCheckBox" name="peakBarsEnabled_" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip" >
+           <string>Check to enable display of peak bars</string>
+          </property>
+          <property name="text" >
+           <string>Enabled</string>
+          </property>
+          <property name="checkable" >
+           <bool>true</bool>
+          </property>
+          <property name="checked" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="peakBarsFade_" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip" >
+           <string>Check to fade peak bars over time</string>
+          </property>
+          <property name="text" >
+           <string>Fade with age</string>
+          </property>
+          <property name="checkable" >
+           <bool>true</bool>
+          </property>
+          <property name="checked" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" colspan="2" >
+           <widget class="QLabel" name="label_4" >
+            <property name="text" >
+             <string>Width:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QSpinBox" name="peakBarsWidth_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip" >
+             <string>Number of data samples represented
+by a peak bar</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="suffix" >
+             <string> samples</string>
+            </property>
+            <property name="minimum" >
+             <number>4</number>
+            </property>
+            <property name="maximum" >
+             <number>1000</number>
+            </property>
+            <property name="value" >
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Lifetime:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QSpinBox" name="peakBarsLifeTime_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+            <property name="toolTip" >
+             <string>How long a peak bar will hold
+its position before resetting</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="suffix" >
+             <string> PRIs</string>
+            </property>
+            <property name="minimum" >
+             <number>10</number>
+            </property>
+            <property name="maximum" >
+             <number>50000</number>
+            </property>
+            <property name="value" >
+             <number>5000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="historyEnabledOld_" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Capture Buffer</string>
+     </property>
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="historyEnabled_" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip" >
+         <string>Check to enable the capture buffer</string>
+        </property>
+        <property name="text" >
+         <string>Enabled</string>
+        </property>
+        <property name="checkable" >
+         <bool>true</bool>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>Duration:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="historyDuration_" >
+          <property name="keyboardTracking" >
+           <bool>false</bool>
+          </property>
+        <property name="toolTip" >
+         <string>The oldest message that will be held
+in the capture buffer</string>
+        </property>
+        <property name="suffix" >
+         <string> secs</string>
+        </property>
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>999</number>
+        </property>
+        <property name="value" >
+         <number>30</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>angleFormatMinSec_</tabstop>
+  <tabstop>angleFormatDecimal_</tabstop>
+  <tabstop>distanceUnitsKm_</tabstop>
+  <tabstop>distanceUnitsNm_</tabstop>
+  <tabstop>peakBarsWidth_</tabstop>
+  <tabstop>peakBarsLifeTime_</tabstop>
+  <tabstop>peakBarsFade_</tabstop>
+  <tabstop>historyDuration_</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

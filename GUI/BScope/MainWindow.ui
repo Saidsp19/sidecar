@@ -1,0 +1,246 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>BScope</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="layoutDirection" >
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>9</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QWidget" native="1" name="live_" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>1</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>603</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView_" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionViewToggleVideo_" />
+    <addaction name="actionViewToggleBinary_" />
+    <addaction name="actionViewToggleExtractions_" />
+    <addaction name="actionViewToggleRangeTruths_" />
+    <addaction name="actionViewToggleBugPlots_" />
+    <addaction name="actionViewToggleRangeRings_" />
+    <addaction name="actionViewToggleRangeMap_" />
+    <addaction name="actionViewToggleShowCursorPosition_" />
+    <addaction name="actionViewTogglePhantomCursor_" />
+    <addaction name="separator" />
+    <addaction name="actionViewClearAll_" />
+    <addaction name="actionViewClearVideo_" />
+    <addaction name="actionViewClearBinaryVideo_" />
+    <addaction name="actionViewClearExtractions_" />
+    <addaction name="actionViewClearRangeTruths_" />
+    <addaction name="actionViewClearBugPlots_" />
+    <addaction name="separator" />
+    <addaction name="actionShowFramesWindow_" />
+    <addaction name="actionShowPlayerWindow_" />
+    <addaction name="separator" />
+    <addaction name="actionPresetSave_" />
+    <addaction name="actionPresetRevert_" />
+   </widget>
+   <addaction name="menuView_" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionViewToggleVideo_" >
+   <property name="text" >
+    <string>Show Video Data</string>
+   </property>
+   <property name="shortcut" >
+    <string>V</string>
+   </property>
+  </action>
+  <action name="actionViewToggleBinary_" >
+   <property name="text" >
+    <string>Show Binary Data</string>
+   </property>
+   <property name="shortcut" >
+    <string>B</string>
+   </property>
+  </action>
+  <action name="actionViewToggleExtractions_" >
+   <property name="text" >
+    <string>Show Extractions</string>
+   </property>
+   <property name="shortcut" >
+    <string>E</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeTruths_" >
+   <property name="text" >
+    <string>Show Range Truths</string>
+   </property>
+   <property name="shortcut" >
+    <string>E</string>
+   </property>
+  </action>
+  <action name="actionViewToggleBugPlots_" >
+   <property name="text" >
+    <string>Show User Bug Plots</string>
+   </property>
+   <property name="shortcut" >
+    <string>P</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeRings_" >
+   <property name="text" >
+    <string>Show Range Rings</string>
+   </property>
+   <property name="shortcut" >
+    <string>R</string>
+   </property>
+  </action>
+  <action name="actionViewToggleRangeMap_" >
+   <property name="text" >
+    <string>Show Range Map</string>
+   </property>
+   <property name="shortcut" >
+    <string>M</string>
+   </property>
+  </action>
+  <action name="actionViewToggleShowCursorPosition_" >
+   <property name="text" >
+    <string>Cursor Position Text</string>
+   </property>
+   <property name="shortcut" >
+    <string>F4</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionViewTogglePhantomCursor_" >
+   <property name="text" >
+    <string>Show Phantom Cursor</string>
+   </property>
+   <property name="shortcut" >
+    <string>C</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionViewClearAll_" >
+   <property name="text" >
+    <string>Clear View</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionViewClearVideo_" >
+   <property name="text" >
+    <string>Clear Video</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionViewClearBinaryVideo_" >
+   <property name="text" >
+    <string>Clear Binary Video</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionViewClearExtractions_" >
+   <property name="text" >
+    <string>Clear Extractions</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionViewClearRangeTruths_" >
+   <property name="text" >
+    <string>Clear Range Truths</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionViewClearBugPlots_" >
+   <property name="text" >
+    <string>Clear User Bug Plots</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionPresetSave_" >
+   <property name="text" >
+    <string>Save Preset</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPresetRevert_" >
+   <property name="text" >
+    <string>Revert Preset</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionShowFramesWindow_" >
+   <property name="text" >
+    <string>Past Frames List</string>
+   </property>
+   <property name="shortcut" >
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="actionShowPlayerWindow_" >
+   <property name="text" >
+    <string>Past Frames Player</string>
+   </property>
+   <property name="shortcut" >
+    <string>F4</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

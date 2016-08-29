@@ -1,0 +1,205 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1260</width>
+    <height>822</height>
+   </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>900</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>AScope</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>9</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1260</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView_" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionToggleHorizontalScale_" />
+    <addaction name="actionToggleVerticalScale_" />
+    <addaction name="actionViewToggleGrid_" />
+    <addaction name="actionViewTogglePeaks_" />
+    <addaction name="actionViewPause_" />
+    <addaction name="actionViewPrevious_" />
+    <addaction name="actionViewSwap_" />
+    <addaction name="actionViewFull_" />
+    <addaction name="separator" />
+    <addaction name="actionViewSplitHorizontally_" />
+    <addaction name="actionViewSplitVertically_" />
+    <addaction name="actionViewUnsplit_" />
+   </widget>
+   <addaction name="menuView_" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionViewPause_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Freeze View</string>
+   </property>
+   <property name="toolTip" >
+    <string>Freeze active view</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actionToggleHorizontalScale_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>false</bool>
+   </property>
+   <property name="text" >
+    <string>Show Range Distances</string>
+   </property>
+   <property name="iconText" >
+    <string>Show Range Distances</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show range gate indices</string>
+   </property>
+   <property name="shortcut" >
+    <string>H</string>
+   </property>
+  </action>
+  <action name="actionToggleVerticalScale_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Show Voltage Values</string>
+   </property>
+   <property name="iconText" >
+    <string>Show Voltage Values</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show raw sample counts</string>
+   </property>
+   <property name="shortcut" >
+    <string>V</string>
+   </property>
+  </action>
+  <action name="actionViewToggleGrid_" >
+   <property name="text" >
+    <string>Background Grid</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show background grid</string>
+   </property>
+   <property name="shortcut" >
+    <string>G</string>
+   </property>
+  </action>
+  <action name="actionViewTogglePeaks_" >
+   <property name="text" >
+    <string>Peak Bars</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show signal peak bars</string>
+   </property>
+   <property name="shortcut" >
+    <string>P</string>
+   </property>
+  </action>
+  <action name="actionViewPrevious_" >
+   <property name="text" >
+    <string>Pop View Stack</string>
+   </property>
+   <property name="toolTip" >
+    <string>Restore previous entry in view stack</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionViewFull_" >
+   <property name="text" >
+    <string>Clear View Stack</string>
+   </property>
+   <property name="toolTip" >
+    <string>Clear view stack and show configured view</string>
+   </property>
+   <property name="shortcut" >
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionViewSplitHorizontally_" >
+   <property name="text" >
+    <string>Split View Left/Right</string>
+   </property>
+   <property name="toolTip" >
+    <string>Split view into left and right views</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+\</string>
+   </property>
+  </action>
+  <action name="actionViewSplitVertically_" >
+   <property name="text" >
+    <string>Split View Top/Bottom</string>
+   </property>
+   <property name="toolTip" >
+    <string>Split active view into top and bottom views</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+|</string>
+   </property>
+  </action>
+  <action name="actionViewUnsplit_" >
+   <property name="text" >
+    <string>Unsplit View</string>
+   </property>
+   <property name="toolTip" >
+    <string>Unsplit active view</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionViewSwap_" >
+   <property name="text" >
+    <string>Swap View Stack Entries</string>
+   </property>
+   <property name="toolTip" >
+    <string>Swap current view stack entry with previous one</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

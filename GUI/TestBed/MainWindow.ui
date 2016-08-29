@@ -1,0 +1,137 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Spectrum Display</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="layoutDirection" >
+    <enum>Qt::LeftToRight</enum>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView_" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionViewToggleGrid_" />
+    <addaction name="actionViewPause_" />
+    <addaction name="actionViewPrevious_" />
+    <addaction name="actionViewSwap_" />
+    <addaction name="actionViewFull_" />
+    <addaction name="separator" />
+    <addaction name="actionShowSpectrograph_" />
+    <addaction name="separator" />
+    <addaction name="actionViewPrint_" />
+   </widget>
+   <addaction name="menuView_" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionViewToggleGrid_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Background Grid</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show background grid</string>
+   </property>
+   <property name="shortcut" >
+    <string>G</string>
+   </property>
+  </action>
+  <action name="actionViewPause_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Freeze View</string>
+   </property>
+   <property name="toolTip" >
+    <string>Freeze active view</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actionViewPrint_" >
+   <property name="text" >
+    <string>Print...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionViewPrevious_" >
+   <property name="text" >
+    <string>Pop View Stack</string>
+   </property>
+   <property name="toolTip" >
+    <string>Restore previous entry in view stack</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionViewFull_" >
+   <property name="text" >
+    <string>Clear View Stack</string>
+   </property>
+   <property name="toolTip" >
+    <string>Clear view stack and show configured view</string>
+   </property>
+   <property name="shortcut" >
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionViewUnsplit_" >
+   <property name="text" >
+    <string>Unsplit View</string>
+   </property>
+   <property name="toolTip" >
+    <string>Unsplit active view</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionViewSwap_" >
+   <property name="text" >
+    <string>Swap View Stack Entries</string>
+   </property>
+   <property name="toolTip" >
+    <string>Swap current view stack entry with previous one</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionShowSpectrograph_" >
+   <property name="text" >
+    <string>Spectrograph Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>F3</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

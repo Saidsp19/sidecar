@@ -1,0 +1,8 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/" >
+    <file>reload.png</file>
+    <file>clearFind.png</file>
+    <file>findMenu.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,7 @@
+build/
+builds/
+GUI/*/*.icns
+GUI/*/*.png
+doc/doc
+doc/html
+

@@ -1,0 +1,82 @@
+<ui version="4.0" >
+ <class>LogViewWindow</class>
+ <widget class="QMainWindow" name="LogViewWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>723</width>
+    <height>612</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Log Viewer</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>9</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QTextEdit" name="log_" >
+      <property name="undoRedoEnabled" >
+       <bool>false</bool>
+      </property>
+      <property name="lineWrapMode" >
+       <enum>QTextEdit::NoWrap</enum>
+      </property>
+      <property name="readOnly" >
+       <bool>true</bool>
+      </property>
+      <property name="acceptRichText" >
+       <bool>false</bool>
+      </property>
+      <property name="textInteractionFlags" >
+       <enum>Qt::TextSelectableByMouse</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>723</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuEdit" >
+    <property name="title" >
+     <string>Edit</string>
+    </property>
+    <addaction name="actionCopy" />
+    <addaction name="actionClear" />
+   </widget>
+   <addaction name="menuEdit" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionCopy" >
+   <property name="text" >
+    <string>Copy</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionClear" >
+   <property name="text" >
+    <string>Clear</string>
+   </property>
+   <property name="shortcut" >
+    <string>Backspace</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

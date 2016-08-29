@@ -1,0 +1,512 @@
+<ui version="4.0" >
+ <class>ViewEditor</class>
+ <widget class="QDialog" name="ViewEditor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>433</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>View Editor</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QGroupBox" name="groupBox_3" >
+     <property name="title" >
+      <string>Named Views</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QComboBox" name="presets_" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable" >
+         <bool>true</bool>
+        </property>
+        <property name="currentIndex" >
+         <number>-1</number>
+        </property>
+        <property name="insertPolicy" >
+         <enum>QComboBox::NoInsert</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="use_" >
+          <property name="focusPolicy" >
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Load view values into fields below</string>
+          </property>
+          <property name="text" >
+           <string>Load</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="update_" >
+          <property name="focusPolicy" >
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Update the named view with values below</string>
+          </property>
+          <property name="text" >
+           <string>Update</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="delete_" >
+          <property name="focusPolicy" >
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Delete the indicated named view</string>
+          </property>
+          <property name="text" >
+           <string>Delete</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4" >
+     <property name="title" >
+      <string>Alpha/Beta View</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_10" >
+        <property name="text" >
+         <string>Alpha Min/Max:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QDoubleSpinBox" name="alpha1Min_" >
+        <property name="toolTip" >
+         <string>Minimum alpha value in Alpha/Beta view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>-0.500000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" >
+       <widget class="QDoubleSpinBox" name="alpha1Max_" >
+        <property name="toolTip" >
+         <string>Max viewable range</string>
+        </property>
+        <property name="statusTip" >
+         <string>Maximum alpha value in Alpha/Beta view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>0.500000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_6" >
+        <property name="text" >
+         <string>Beta Min/Max:</string>
+        </property>
+        <property name="textFormat" >
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QDoubleSpinBox" name="betaMin_" >
+        <property name="toolTip" >
+         <string>Minimum beta value in Alpha/Beta view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>-0.300000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" >
+       <widget class="QDoubleSpinBox" name="betaMax_" >
+        <property name="toolTip" >
+         <string>Maximum beta value in Alpha/Beta view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>0.600000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_5" >
+     <property name="title" >
+      <string>Alpha/Range View</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_11" >
+        <property name="text" >
+         <string>Alpha Min/Max:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QDoubleSpinBox" name="alpha2Min_" >
+        <property name="toolTip" >
+         <string>Minimum alpha value in Alpha/Range view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>-0.500000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" >
+       <widget class="QDoubleSpinBox" name="alpha2Max_" >
+        <property name="toolTip" >
+         <string>Maximum alpha value in Alpha/Range view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="decimals" >
+         <number>4</number>
+        </property>
+        <property name="minimum" >
+         <double>-1.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value" >
+         <double>0.500000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_9" >
+        <property name="text" >
+         <string>Range Min/Max:</string>
+        </property>
+        <property name="textFormat" >
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QDoubleSpinBox" name="rangeMin_" >
+        <property name="toolTip" >
+         <string>Minimum range value in Alpha/Range view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="suffix" >
+         <string> km</string>
+        </property>
+        <property name="decimals" >
+         <number>2</number>
+        </property>
+        <property name="minimum" >
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>10000.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value" >
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" >
+       <widget class="QDoubleSpinBox" name="rangeMax_" >
+        <property name="toolTip" >
+         <string>Maximum range value in Alpha/Range view</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="suffix" >
+         <string> km</string>
+        </property>
+        <property name="decimals" >
+         <number>2</number>
+        </property>
+        <property name="minimum" >
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum" >
+         <double>10000.000000000000000</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value" >
+         <double>1000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3" >
+       <widget class="QCheckBox" name="syncAlphaMinMax_" >
+        <property name="text" >
+         <string>Use same Alpha Min/Max as Alpha/Beta View</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>31</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>10</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="revert_" >
+       <property name="toolTip" >
+        <string>Revert above fields to values from views.</string>
+       </property>
+       <property name="text" >
+        <string>Revert</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="apply_" >
+       <property name="focusPolicy" >
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="toolTip" >
+        <string>Apply view settings</string>
+       </property>
+       <property name="text" >
+        <string>Apply</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>false</bool>
+       </property>
+       <property name="default" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>10</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>presets_</tabstop>
+  <tabstop>use_</tabstop>
+  <tabstop>update_</tabstop>
+  <tabstop>delete_</tabstop>
+  <tabstop>alpha1Min_</tabstop>
+  <tabstop>alpha1Max_</tabstop>
+  <tabstop>betaMin_</tabstop>
+  <tabstop>betaMax_</tabstop>
+  <tabstop>alpha2Min_</tabstop>
+  <tabstop>alpha2Max_</tabstop>
+  <tabstop>rangeMin_</tabstop>
+  <tabstop>rangeMax_</tabstop>
+  <tabstop>revert_</tabstop>
+  <tabstop>apply_</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

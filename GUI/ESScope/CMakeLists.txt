@@ -1,0 +1,57 @@
+# -*- Mode: CMake -*-
+# 
+# CMake build file for the 'esscope' application.
+# 
+
+add_gui(esscope
+		main.cc
+		AlphaBetaPlotPositioner.cc
+		AlphaBetaView.cc
+		AlphaBetaView.h
+		AlphaBetaViewSettings.cc
+		AlphaBetaWidget.cc
+		AlphaBetaWidget.h
+		AlphaRangeColumn.cc
+		AlphaRangePlotPositioner.cc
+		AlphaRangeView.cc
+		AlphaRangeView.h
+		AlphaRangeViewSettings.cc
+		AlphaRangeWidget.cc
+		AlphaRangeWidget.h
+		App.cc
+		App.h
+		Configuration.cc
+		ConfigurationWindow.cc
+		ConfigurationWindow.h
+		ConfigurationWindow.ui
+		CursorWidget.cc
+		CursorWidget.h
+		DataContainer.cc
+		GridImaging.cc
+		GridImaging.h
+		History.cc
+		History.h
+		MainWindow.cc
+		MainWindow.h
+		MainWindow.ui
+		RadarInfoWidget.cc
+		RadarInfoWidget.h
+		RadarInfoWidget.ui
+		RadarSettings.cc
+		RadarSettings.h
+		ScaleWidget.cc
+		ScaleWidget.h
+		VideoImaging.cc
+		VideoImaging.h
+		ViewChooser.cc
+		ViewChooser.h
+		ViewEditor.cc
+		ViewEditor.h
+		ViewEditor.ui
+		ViewSettings.cc
+		ViewSettings.h
+		XYView.cc
+		XYView.h
+		XYWidget.cc
+		XYWidget.h
+        )
