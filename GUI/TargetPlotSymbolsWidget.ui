@@ -1,0 +1,306 @@
+<ui version="4.0" >
+ <class>TargetPlotSymbolsWidget</class>
+ <widget class="QWidget" name="TargetPlotSymbolsWidget" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>573</width>
+    <height>26</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>Plot Symbols</string>
+  </property>
+  <property name="toolTip" >
+   <string>Symbols assigned to different plot channels</string>
+  </property>
+  <layout class="QHBoxLayout" >
+   <property name="leftMargin" >
+    <number>6</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>6</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>E:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="SideCar::GUI::PlotSymbolWidget" name="extractions_" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>Extractions plot symbol</string>
+     </property>
+     <property name="currentIndex" >
+      <number>6</number>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Cross</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Cross+Square</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus+Diamond</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Square (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Sqaure (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Hollow)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>T:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="SideCar::GUI::PlotSymbolWidget" name="rangeTruths_" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>TSPI plot symbol</string>
+     </property>
+     <property name="currentIndex" >
+      <number>2</number>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Cross</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Cross+Square</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus+Diamond</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Square (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Sqaure (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Hollow)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3" >
+     <property name="text" >
+      <string>P:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="SideCar::GUI::PlotSymbolWidget" name="bugPlots_" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>User bug plot symbol</string>
+     </property>
+     <property name="currentIndex" >
+      <number>8</number>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Cross</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Cross+Square</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Diamond (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Plus+Diamond</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Square (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Sqaure (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Triangle (Hollow)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Filled)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Dagger (Hollow)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SideCar::GUI::PlotSymbolWidget</class>
+   <extends>QComboBox</extends>
+   <header>GUI/PlotSymbolWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

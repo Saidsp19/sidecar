@@ -1,0 +1,45 @@
+# -*- Mode: CMake -*-
+# 
+# CMake build file for the 'configeditor' application.
+# 
+
+add_gui(configeditor
+		main.cc
+		AlgorithmItem.cc
+		AlgorithmItem.h
+		App.cc
+		App.h
+		ChannelItem.cc
+		ChannelItem.h
+		ChannelListItem.cc
+		ChannelListItem.h
+		ConfigurationItem.cc
+		ConfigurationItem.h
+		ConnectionItem.cc
+		ConnectionItem.h
+		MainWindow.cc
+		MainWindow.h
+		MainWindow.ui
+		MessageType.cc
+		ParameterItem.cc
+		ParameterItem.h
+		ParameterListItem.cc
+		ParameterListItem.h
+		RootItem.cc
+		RootItem.h
+		RunnerItem.cc
+		RunnerItem.h
+		Settings.cc
+		Settings.h
+		SettingsWindow.cc
+		SettingsWindow.h
+		SettingsWindow.ui
+		StreamItem.cc
+		StreamItem.h
+		TaskItem.cc
+		TaskItem.h
+		TreeItem.cc
+		TreeItem.h
+		TreeModel.cc
+		TreeModel.h
+		icons.qrc)

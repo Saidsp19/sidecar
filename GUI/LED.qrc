@@ -1,0 +1,12 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/LED">
+    <file>grey.svg</file>
+    <file>red.svg</file>
+    <file>green.svg</file>
+    <file>blue.svg</file>
+    <file>yellow.svg</file>
+    <file>orange.svg</file>
+    <file>turquoise.svg</file>
+</qresource>
+</RCC>

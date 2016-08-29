@@ -1,0 +1,534 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1217</width>
+    <height>958</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Master</string>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac" >
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>25</y>
+     <width>1217</width>
+     <height>911</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="splitter2" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitter1" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QWidget" name="layoutWidget1" >
+        <layout class="QVBoxLayout" >
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QTableView" name="configurations_" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="selectionMode" >
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior" >
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="configurationsControls_" >
+           <property name="autoFillBackground" >
+            <bool>true</bool>
+           </property>
+           <property name="frameShape" >
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Plain</enum>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="configAdd_" >
+              <property name="toolTip" >
+               <string>Add a configuration file</string>
+              </property>
+              <property name="text" >
+               <string>add</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="../guiIcons.qrc" >
+                <normaloff>:/plus.png</normaloff>:/plus.png</iconset>
+              </property>
+              <property name="iconSize" >
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="configRemove_" >
+              <property name="toolTip" >
+               <string>Remove selected configuraton file</string>
+              </property>
+              <property name="text" >
+               <string>remove</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="../guiIcons.qrc" >
+                <normaloff>:/minus.png</normaloff>:/minus.png</iconset>
+              </property>
+              <property name="iconSize" >
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="configReload_" >
+              <property name="toolTip" >
+               <string>Reload selected configuration file</string>
+              </property>
+              <property name="text" >
+               <string>reload</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="icons.qrc" >
+                <normaloff>:/reload.png</normaloff>:/reload.png</iconset>
+              </property>
+              <property name="iconSize" >
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="configStartStop_" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip" >
+               <string>Start selected configuraton file</string>
+              </property>
+              <property name="text" >
+               <string>Launch</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget2" >
+        <layout class="QVBoxLayout" >
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QTableView" name="recordings_" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="selectionMode" >
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior" >
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="recordingsControls_" >
+           <property name="autoFillBackground" >
+            <bool>false</bool>
+           </property>
+           <property name="frameShape" >
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Plain</enum>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <property name="margin" >
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="showConfigurationWindow_" >
+              <property name="toolTip" >
+               <string>Show configuration window.</string>
+              </property>
+              <property name="text" >
+               <string>...</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="../guiIcons.qrc" >
+                <normaloff>:/configurationWindow.png</normaloff>:/configurationWindow.png</iconset>
+              </property>
+              <property name="iconSize" >
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="recordingNumberLabel_" >
+              <property name="text" >
+               <string>Recording Sequence ID</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="recordingSequenceId_" >
+              <property name="toolTip" >
+               <string>User-defined sequence ID for recording</string>
+              </property>
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+              <property name="maximum" >
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="recordingDurationEnable_" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip" >
+               <string>Limit recording duration if enabled.</string>
+              </property>
+              <property name="text" >
+               <string>Limit Duration</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="recordingDuration_" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip" >
+               <string>Recording duration in HH:MM:SS</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignLeading</set>
+              </property>
+              <property name="maximumTime" >
+               <time>
+                <hour>12</hour>
+                <minute>59</minute>
+                <second>59</second>
+               </time>
+              </property>
+              <property name="minimumTime" >
+               <time>
+                <hour>0</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="currentSection" >
+               <enum>QDateTimeEdit::HourSection</enum>
+              </property>
+              <property name="displayFormat" >
+               <string>hh:mm:ss</string>
+              </property>
+              <property name="time" >
+               <time>
+                <hour>0</hour>
+                <minute>3</minute>
+                <second>0</second>
+               </time>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="recordingStartStop_" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="focusPolicy" >
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip" >
+               <string>Start a new recording</string>
+              </property>
+              <property name="text" >
+               <string>Start Recording</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="SideCar::GUI::Master::ServicesView" name="runners_" >
+       <property name="alternatingRowColors" >
+        <bool>true</bool>
+       </property>
+       <property name="textElideMode" >
+        <enum>Qt::ElideNone</enum>
+       </property>
+       <property name="animated" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1217</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuConfigurations" >
+    <property name="title" >
+     <string>Configurations</string>
+    </property>
+    <addaction name="actionConfigAdd_" />
+    <addaction name="actionConfigRemove_" />
+    <addaction name="actionConfigReload_" />
+    <addaction name="separator" />
+    <addaction name="actionConfigStartStop_" />
+   </widget>
+   <widget class="QMenu" name="menuRecordings" >
+    <property name="title" >
+     <string>Recordings</string>
+    </property>
+    <addaction name="actionPreferences_" />
+    <addaction name="actionRecordingLimitDuration_" />
+    <addaction name="separator" />
+    <addaction name="actionRecordingStartStop_" />
+   </widget>
+   <addaction name="menuConfigurations" />
+   <addaction name="menuRecordings" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>936</y>
+     <width>1217</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionConfigAdd_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/plus.png</normaloff>:/plus.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Add...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+0</string>
+   </property>
+  </action>
+  <action name="actionConfigRemove_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/minus.png</normaloff>:/minus.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Remove</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionConfigReload_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/refresh.png</normaloff>:/refresh.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Reload</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionConfigStartStop_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/channelsWindow.png</normaloff>:/channelsWindow.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Launch</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionPreferences_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/configurationWindow.png</normaloff>:/configurationWindow.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Preferences...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+,</string>
+   </property>
+  </action>
+  <action name="actionRecordingLimitDuration_" >
+   <property name="text" >
+    <string>Limit Recording Duration</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionRecordingStartStop_" >
+   <property name="icon" >
+    <iconset resource="../guiIcons.qrc" >
+     <normaloff>:/controlsWindow.png</normaloff>:/controlsWindow.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Start Recording</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SideCar::GUI::Master::ServicesView</class>
+   <extends>QTreeView</extends>
+   <header>ServicesView.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc" />
+  <include location="../guiIcons.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>recordingDurationEnable_</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>recordingDuration_</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>668</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>739</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

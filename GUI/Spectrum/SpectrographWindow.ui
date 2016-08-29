@@ -1,0 +1,75 @@
+<ui version="4.0" >
+ <class>SpectrographWindow</class>
+ <widget class="QMainWindow" name="SpectrographWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Spectrograph Display</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="layoutDirection" >
+    <enum>Qt::LeftToRight</enum>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView_" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionViewPause_" />
+    <addaction name="separator" />
+    <addaction name="actionShowMainWindow_" />
+    <addaction name="separator" />
+    <addaction name="actionViewPrint_" />
+   </widget>
+   <addaction name="menuView_" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionViewPause_" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Freeze View</string>
+   </property>
+   <property name="toolTip" >
+    <string>Freeze active view</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actionViewPrint_" >
+   <property name="text" >
+    <string>Print...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionShowMainWindow_" >
+   <property name="text" >
+    <string>Main Display</string>
+   </property>
+   <property name="shortcut" >
+    <string>F2</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

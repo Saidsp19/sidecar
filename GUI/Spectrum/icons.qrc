@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+
+     <file>gridOn.png</file>
+     <file>gridOff.png</file>
+     <file>freeze.png</file>
+     <file>unfreeze.png</file>
+     <file>popViewStack.png</file>
+
+</qresource>
+</RCC>

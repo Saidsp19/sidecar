@@ -1,0 +1,75 @@
+# -*- Mode: CMake -*-
+# 
+# CMake build file for the ascope application.
+# 
+
+add_gui(ascope
+        main.cc
+        App.cc
+        App.h
+        AzimuthLatch.cc
+        AzimuthLatch.h
+        AzimuthLatch.ui
+        ChannelConnection.cc
+        ChannelConnection.h
+        ChannelConnectionModel.cc
+        ChannelConnectionModel.h
+        ChannelConnectionView.cc
+        ChannelConnectionView.h
+        ChannelConnectionWindow.cc
+        ChannelConnectionWindow.h
+        ChannelConnectionWindow.ui
+        ChannelEditor.cc
+        ChannelEditor.h
+        ChannelEditor.ui
+        Configuration.cc
+        Configuration.h
+        ConfigurationWindow.cc
+        ConfigurationWindow.h
+        ConfigurationWindow.ui
+        CursorWidget.cc
+        CursorWidget.h
+        DisplayView.cc
+        DisplayView.h
+        History.cc
+        History.h
+        HistoryControlWidget.cc
+        HistoryControlWidget.h
+        HistoryControlWidget.ui
+        HistoryFrame.cc
+        HistoryPosition.cc
+        HistoryPosition.h
+        HistorySettings.cc
+        HistorySettings.h
+        MainWindow.cc
+        MainWindow.h
+        MainWindow.ui
+        PeakBar.cc
+        PeakBarCollection.cc
+        PeakBarCollection.h
+        PeakBarRenderer.cc
+        PeakBarRenderer.h
+        PeakBarSettings.cc
+        PeakBarSettings.h
+        RadarInfoWidget.cc
+        RadarInfoWidget.h
+        ScaleWidget.cc
+        ScaleWidget.h
+        VideoChannel.cc
+        VideoChannel.h
+        ViewChanger.cc
+        ViewChooser.cc
+        ViewChooser.h
+        ViewEditor.cc
+        ViewEditor.h
+        ViewEditor.ui
+        ViewSettings.cc
+        Visualizer.cc
+        Visualizer.h
+        icons.qrc
+        ascope.icns
+        ascope.png
+        )
+
+set_target_properties(ascope PROPERTIES MACOSX_BUNDLE_INFO_STRING
+                      "Graphical viewer for SideCar signals - similar to an oscilloscope.")

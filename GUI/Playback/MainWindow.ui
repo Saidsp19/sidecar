@@ -1,0 +1,930 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>623</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Playback</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>22</y>
+     <width>623</width>
+     <height>724</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3" >
+    <item>
+     <layout class="QHBoxLayout" >
+      <item>
+       <widget class="QPushButton" name="load_" >
+        <property name="toolTip" >
+         <string>Click to select a recording directory to load</string>
+        </property>
+        <property name="text" >
+         <string>Load...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="recordingDir_" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip" >
+         <string>List of previously-loaded directories</string>
+        </property>
+        <property name="editable" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="showBrowser_" >
+        <property name="toolTip" >
+         <string>Show browser window</string>
+        </property>
+        <property name="text" >
+         <string>...</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="icons.qrc" >
+          <normaloff>:/browser.svg</normaloff>:/browser.svg</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="recordingInfo_" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title" >
+       <string>Recording Info</string>
+      </property>
+      <layout class="QHBoxLayout" >
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="spacing" >
+          <number>20</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" >
+           <property name="spacing" >
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label" >
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>Start:</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="startTime_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>HH:MM:SS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" >
+           <property name="spacing" >
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_2" >
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>End:</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="endTime_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>HH:MM:SS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" >
+           <property name="spacing" >
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_3" >
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>Duration:</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="duration_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>+HH:MM:SS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="notes_" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>Click to show the notes file associated
+with the loaded recordiing</string>
+         </property>
+         <property name="text" >
+          <string>Show Notes</string>
+         </property>
+         <property name="shortcut" >
+          <string>Ctrl+N</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" >
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2" >
+        <item>
+         <widget class="QGroupBox" name="playbackControl_" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title" >
+           <string>Playback Control</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout" >
+           <item>
+            <widget class="QLabel" name="clockAbsolute_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font" >
+              <font>
+               <family>Lucida Grande</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>HH:MM:SS</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="clockElapsed_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font" >
+              <font>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text" >
+              <string>+HH:MM:SS</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout" >
+             <item>
+              <widget class="QPushButton" name="startStop_" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip" >
+                <string>Click to start playback</string>
+               </property>
+               <property name="text" >
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="rewind_" >
+               <property name="toolTip" >
+                <string>Click to rewind to  time</string>
+               </property>
+               <property name="text" >
+                <string>Rewind</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_7" >
+               <property name="text" >
+                <string>Rate:</string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="rateMultiplier_" >
+               <property name="toolTip" >
+                <string>Select a playback rate</string>
+               </property>
+               <property name="currentIndex" >
+                <number>3</number>
+               </property>
+               <item>
+                <property name="text" >
+                 <string>x 8</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>Normal</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/8</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/16</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/32</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/64</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/128</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/256</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/512</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/1024</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/2048</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>x 1/4096</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line_2" >
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QGridLayout" >
+             <item row="0" column="1" >
+              <widget class="QComboBox" name="jumpTo_" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip" >
+                <string>Enter a time to jump to. Relative times begin with a &lt;b>+&lt;/b> or &lt;b>-&lt;/b> followed by an offset value. By default, offset values are in seconds; append &lt;b>m&lt;/b> or &lt;b>h&lt;/b> to indicate minutes or hours. For absolute times, enter the time in &lt;b>HH:MM:SS&lt;/b> format.</string>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
+               </property>
+               <property name="maxCount" >
+                <number>10</number>
+               </property>
+               <property name="insertPolicy" >
+                <enum>QComboBox::InsertAtTop</enum>
+               </property>
+               <property name="sizeAdjustPolicy" >
+                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" >
+              <widget class="QLabel" name="label_11" >
+               <property name="text" >
+                <string>Loop:</string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" >
+              <widget class="QComboBox" name="regionLoop_" >
+               <property name="toolTip" >
+                <string>Select playback clock behavior at 'End' time.</string>
+               </property>
+               <item>
+                <property name="text" >
+                 <string>Stop at End</string>
+                </property>
+               </item>
+               <item>
+                <property name="text" >
+                 <string>Loop at End</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="2" column="0" >
+              <widget class="QLabel" name="label_9" >
+               <property name="text" >
+                <string>Start:</string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1" >
+              <widget class="QComboBox" name="regionStart_" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip" >
+                <string>Enter a time for playback start. Relative times begin with a &lt;b>+&lt;/b> or &lt;b>-&lt;/b> followed by an offset value. By default, offset values are in seconds; append &lt;b>m&lt;/b> or &lt;b>h&lt;/b> to indicate minutes or hours. For absolute times, enter the time in &lt;b>HH:MM:SS&lt;/b> format.</string>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
+               </property>
+               <property name="maxCount" >
+                <number>10</number>
+               </property>
+               <property name="insertPolicy" >
+                <enum>QComboBox::InsertAtTop</enum>
+               </property>
+               <property name="sizeAdjustPolicy" >
+                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0" >
+              <widget class="QLabel" name="label_10" >
+               <property name="text" >
+                <string>End:</string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" >
+              <widget class="QComboBox" name="regionEnd_" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip" >
+                <string>Enter a time for playback end. Relative times begin with a &lt;b>+&lt;/b> or &lt;b>-&lt;/b> followed by an offset value. By default, offset values are in seconds; append &lt;b>m&lt;/b> or &lt;b>h&lt;/b> to indicate minutes or hours. For absolute times, enter the time in &lt;b>HH:MM:SS&lt;/b> format.</string>
+               </property>
+               <property name="editable" >
+                <bool>true</bool>
+               </property>
+               <property name="maxCount" >
+                <number>10</number>
+               </property>
+               <property name="insertPolicy" >
+                <enum>QComboBox::InsertAtTop</enum>
+               </property>
+               <property name="sizeAdjustPolicy" >
+                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_6" >
+               <property name="text" >
+                <string>Jump:</string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="bookmarksControl_" >
+          <property name="title" >
+           <string>Bookmarks</string>
+          </property>
+          <layout class="QVBoxLayout" >
+           <item>
+            <layout class="QHBoxLayout" >
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QComboBox" name="bookmarks_" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip" >
+                <string>Select bookmark to jump to.</string>
+               </property>
+               <property name="editable" >
+                <bool>false</bool>
+               </property>
+               <property name="maxCount" >
+                <number>10</number>
+               </property>
+               <property name="insertPolicy" >
+                <enum>QComboBox::InsertAtTop</enum>
+               </property>
+               <property name="sizeAdjustPolicy" >
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="bookmarkAdd_" >
+               <property name="toolTip" >
+                <string>Click to add a new bookmark at the current 
+playback time.</string>
+               </property>
+               <property name="text" >
+                <string>Add...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="bookmarkDelete_" >
+               <property name="toolTip" >
+                <string>Click to delete the current bookmark.</string>
+               </property>
+               <property name="text" >
+                <string>Delete</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0" >
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="emitter_" >
+          <property name="title" >
+           <string>Emitter Configuration</string>
+          </property>
+          <layout class="QGridLayout" >
+           <item row="0" column="0" >
+            <widget class="QLabel" name="label_12" >
+             <property name="text" >
+              <string>Address:</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" >
+            <widget class="QLineEdit" name="address_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip" >
+              <string>Multicast address to use for emitting data</string>
+             </property>
+             <property name="inputMask" >
+              <string>###.###.###.###; </string>
+             </property>
+             <property name="maxLength" >
+              <number>15</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QLabel" name="label_13" >
+             <property name="text" >
+              <string>Pub Suffix:</string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" >
+            <widget class="QLineEdit" name="suffix_" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip" >
+              <string>Suffix to append to data channel publisher names
+to avoid name conflicts with other SideCar publishers</string>
+             </property>
+             <property name="text" >
+              <string>PB</string>
+             </property>
+             <property name="maxLength" >
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableView" name="files_" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font" >
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>623</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile_" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="menuRecentFiles_" >
+     <property name="title" >
+      <string>&amp;Recent Files</string>
+     </property>
+    </widget>
+    <addaction name="actionLoad_" />
+    <addaction name="actionBrowser_" />
+    <addaction name="menuRecentFiles_" />
+   </widget>
+   <widget class="QMenu" name="menuPlayback" >
+    <property name="title" >
+     <string>Clock</string>
+    </property>
+    <addaction name="actionStart_" />
+    <addaction name="actionRewind_" />
+   </widget>
+   <addaction name="menuFile_" />
+   <addaction name="menuPlayback" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>746</y>
+     <width>623</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionLoad_" >
+   <property name="text" >
+    <string>&amp;Load...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionBrowser_" >
+   <property name="text" >
+    <string>Browser</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionStart_" >
+   <property name="text" >
+    <string>Start</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionRewind_" >
+   <property name="text" >
+    <string>Rewind</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="icons.qrc" />
+ </resources>
+ <connections/>
+</ui>

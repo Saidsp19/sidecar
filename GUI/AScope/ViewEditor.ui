@@ -1,0 +1,654 @@
+<ui version="4.0" >
+ <class>ViewEditor</class>
+ <widget class="QDialog" name="ViewEditor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>389</width>
+    <height>383</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>View Editor</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="leftMargin" >
+    <number>4</number>
+   </property>
+   <property name="topMargin" >
+    <number>4</number>
+   </property>
+   <property name="rightMargin" >
+    <number>4</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>4</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3" >
+     <property name="title" >
+      <string>View Presets</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QComboBox" name="presets_" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip" >
+         <string>Select existing preset or
+enter new preset name</string>
+        </property>
+        <property name="editable" >
+         <bool>true</bool>
+        </property>
+        <property name="currentIndex" >
+         <number>-1</number>
+        </property>
+        <property name="insertPolicy" >
+         <enum>QComboBox::NoInsert</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="fetch_" >
+          <property name="focusPolicy" >
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Click to fetch the view settings
+stored in the above preset and
+insert them in the fields below</string>
+          </property>
+          <property name="text" >
+           <string>Fetch</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="update_" >
+          <property name="focusPolicy" >
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Click to save the view settings below
+under the current preset name, 
+overwriting previous values</string>
+          </property>
+          <property name="text" >
+           <string>Save</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="use_" >
+          <property name="focusPolicy" >
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Click to use the preset values
+in the active view</string>
+          </property>
+          <property name="text" >
+           <string>Apply</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+          <property name="default" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>5</width>
+            <height>5</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="delete_" >
+          <property name="focusPolicy" >
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="toolTip" >
+           <string>Click to delete the current preset</string>
+          </property>
+          <property name="text" >
+           <string>Delete</string>
+          </property>
+          <property name="autoDefault" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4" >
+     <property name="title" >
+      <string>Horizontal Scale (X Axis)</string>
+     </property>
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QTabWidget" name="horizontalUnits_" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="currentIndex" >
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="tab" >
+         <attribute name="title" >
+          <string>Range Distances</string>
+         </attribute>
+         <attribute name="toolTip" >
+          <string>Click to use range scaling in
+the horizontal direction</string>
+         </attribute>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label_10" >
+            <property name="text" >
+             <string>Min:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="rangeMin_" >
+            <property name="toolTip" >
+             <string>Minimum range value in view</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="suffix" >
+             <string> km</string>
+            </property>
+            <property name="minimum" >
+             <double>-1000.000000000000000</double>
+            </property>
+            <property name="maximum" >
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>10.000000000000000</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_11" >
+            <property name="text" >
+             <string>Max:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="rangeMax_" >
+            <property name="toolTip" >
+             <string>Maximum range value in view</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="suffix" >
+             <string> km</string>
+            </property>
+            <property name="minimum" >
+             <double>-1000.000000000000000</double>
+            </property>
+            <property name="maximum" >
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="singleStep" >
+             <double>10.000000000000000</double>
+            </property>
+            <property name="value" >
+             <double>300.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_2" >
+         <attribute name="title" >
+          <string>Range Indices</string>
+         </attribute>
+         <attribute name="toolTip" >
+          <string>Click to use sample offset scaling
+in the horizontal direction</string>
+         </attribute>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label_12" >
+            <property name="text" >
+             <string>Min:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="gateMin_" >
+            <property name="toolTip" >
+             <string>Minimum voltage value in view</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="minimum" >
+             <number>-65535</number>
+            </property>
+            <property name="maximum" >
+             <number>65535</number>
+            </property>
+            <property name="singleStep" >
+             <number>10</number>
+            </property>
+            <property name="value" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13" >
+            <property name="text" >
+             <string>Max:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="gateMax_" >
+            <property name="toolTip" >
+             <string>Maximum voltage value in view</string>
+            </property>
+            <property name="frame" >
+             <bool>true</bool>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="buttonSymbols" >
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="minimum" >
+             <number>-65535</number>
+            </property>
+            <property name="maximum" >
+             <number>65535</number>
+            </property>
+            <property name="singleStep" >
+             <number>10</number>
+            </property>
+            <property name="value" >
+             <number>3000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_7" >
+     <property name="title" >
+      <string>Vertical Scale (Y Axis)</string>
+     </property>
+     <layout class="QHBoxLayout" >
+      <property name="leftMargin" >
+       <number>6</number>
+      </property>
+      <property name="topMargin" >
+       <number>6</number>
+      </property>
+      <property name="rightMargin" >
+       <number>6</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QTabWidget" name="verticalUnits_" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="currentIndex" >
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab_3" >
+         <attribute name="title" >
+          <string>Sample Voltages</string>
+         </attribute>
+         <attribute name="toolTip" >
+          <string>Click to use voltage value scaling in
+the vertical direction</string>
+         </attribute>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label_6" >
+            <property name="text" >
+             <string>Min:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="voltageMin_" >
+            <property name="toolTip" >
+             <string>Minimum voltage value in view</string>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="suffix" >
+             <string/>
+            </property>
+            <property name="minimum" >
+             <double>-99.989999999999995</double>
+            </property>
+            <property name="maximum" >
+             <double>99.989999999999995</double>
+            </property>
+            <property name="value" >
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_7" >
+            <property name="text" >
+             <string>Max:</string>
+            </property>
+            <property name="textFormat" >
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="voltageMax_" >
+            <property name="toolTip" >
+             <string>Maximum voltage value in view</string>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="suffix" >
+             <string/>
+            </property>
+            <property name="minimum" >
+             <double>-99.989999999999995</double>
+            </property>
+            <property name="value" >
+             <double>5.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_4" >
+         <attribute name="title" >
+          <string>Sample Counts</string>
+         </attribute>
+         <attribute name="toolTip" >
+          <string>Click to use sample count scaling
+in the vertical direction</string>
+         </attribute>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label_8" >
+            <property name="text" >
+             <string>Min:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="sampleMin_" >
+            <property name="toolTip" >
+             <string>Minimum sample counts in view</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="minimum" >
+             <number>-65535</number>
+            </property>
+            <property name="maximum" >
+             <number>65535</number>
+            </property>
+            <property name="singleStep" >
+             <number>10</number>
+            </property>
+            <property name="value" >
+             <number>-8192</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_9" >
+            <property name="text" >
+             <string>Max:</string>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="sampleMax_" >
+            <property name="toolTip" >
+             <string>Maximum sample counts in view</string>
+            </property>
+            <property name="frame" >
+             <bool>true</bool>
+            </property>
+            <property name="alignment" >
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="buttonSymbols" >
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
+            </property>
+            <property name="keyboardTracking" >
+             <bool>false</bool>
+            </property>
+            <property name="minimum" >
+             <number>-65535</number>
+            </property>
+            <property name="maximum" >
+             <number>65535</number>
+            </property>
+            <property name="singleStep" >
+             <number>10</number>
+            </property>
+            <property name="value" >
+             <number>8192</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="revert_" >
+       <property name="toolTip" >
+        <string>Click to revert changes to last saved
+values for the preset</string>
+       </property>
+       <property name="text" >
+        <string>Revert</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="apply_" >
+       <property name="focusPolicy" >
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="toolTip" >
+        <string>Click to apply changes to the
+active view</string>
+       </property>
+       <property name="text" >
+        <string>Apply</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>presets_</tabstop>
+  <tabstop>rangeMin_</tabstop>
+  <tabstop>rangeMax_</tabstop>
+  <tabstop>sampleMin_</tabstop>
+  <tabstop>sampleMax_</tabstop>
+  <tabstop>revert_</tabstop>
+  <tabstop>apply_</tabstop>
+  <tabstop>update_</tabstop>
+  <tabstop>delete_</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

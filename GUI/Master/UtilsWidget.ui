@@ -1,0 +1,205 @@
+<ui version="4.0" >
+ <class>UtilsWidget</class>
+ <widget class="QWidget" name="UtilsWidget" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>751</width>
+    <height>34</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>UtilsWidget</string>
+  </property>
+  <layout class="QHBoxLayout" >
+   <property name="leftMargin" >
+    <number>4</number>
+   </property>
+   <property name="topMargin" >
+    <number>2</number>
+   </property>
+   <property name="rightMargin" >
+    <number>12</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>2</number>
+   </property>
+   <item>
+    <widget class="SideCar::GUI::Master::FindLineEdit" name="find_" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <property name="acceptDrops" >
+      <bool>false</bool>
+     </property>
+     <property name="toolTip" >
+      <string>Enter text to show only the entities that
+match in their names</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>State:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="runState_" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>Select a new processing state for the active runners.</string>
+     </property>
+     <property name="currentIndex" >
+      <number>2</number>
+     </property>
+     <item>
+      <property name="text" >
+       <string>AutoDiag</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Calibrate</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Run</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Stop</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="clearStats_" >
+     <property name="toolTip" >
+      <string>Click to clear algorithm statistics</string>
+     </property>
+     <property name="text" >
+      <string>Clear Stats</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_5" >
+     <property name="text" >
+      <string>Logs:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="SideCar::GUI::Master::LogViewWindowManager" name="logs_" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="toolTip" >
+      <string>List of available log files. Select to view in a new window.</string>
+     </property>
+     <property name="sizeAdjustPolicy" >
+      <enum>QComboBox::AdjustToContents</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="showAlerts_" >
+     <property name="toolTip" >
+      <string>Click to view the log entries from all of the log files that have a priority WARNING or higher.</string>
+     </property>
+     <property name="text" >
+      <string>Alerts</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="cleanup_" >
+     <property name="toolTip" >
+      <string>Clear all hosts of SideCar processes</string>
+     </property>
+     <property name="text" >
+      <string>Hard Reset</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SideCar::GUI::Master::LogViewWindowManager</class>
+   <extends>QComboBox</extends>
+   <header>LogViewWindowManager.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SideCar::GUI::Master::FindLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>FindLineEdit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

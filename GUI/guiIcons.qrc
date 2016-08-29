@@ -1,0 +1,37 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource prefix="/">
+    <file>upArrow.png</file>
+    <file>downArrow.png</file>
+    <file>leftArrow.png</file>
+    <file>rightArrow.png</file>
+    <file>zoomIn.png</file>
+    <file>zoomOut.png</file>
+    <file>home.png</file>
+    <file>fullscreen.png</file>
+    <file>refresh.png</file>
+    <file>channelsWindow.png</file>
+    <file>configurationWindow.png</file>
+    <file>controlsWindow.png</file>
+    <file>infoWindow.png</file>
+    <file>presetsWindow.png</file>
+    <file>checkMark.png</file>
+    <file>minus.png</file>
+    <file>plus.png</file>
+    <file>cursorPositionOn.svg</file>
+    <file>cursorPositionOff.svg</file>
+    <file>phantomCursorOn.svg</file>
+    <file>phantomCursorOff.svg</file>
+    <file>popViewStack.png</file>
+    <file>viewEditor.svg</file>
+    <file>undo.png</file>
+    <file>redo.png</file>
+    <file>cut.png</file>
+    <file>copy.png</file>
+    <file>paste.png</file>
+    <file>delete.png</file>
+    <file>red.svg</file>
+    <file>green.svg</file>
+    <file>yellow.svg</file>
+</qresource>
+</RCC>

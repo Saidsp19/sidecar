@@ -1,0 +1,19 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+
+     <file>peaksOn.png</file>
+     <file>peaksOff.png</file>
+     <file>gridOn.png</file>
+     <file>gridOff.png</file>
+     <file>horizontalSplitView.png</file>
+     <file>verticalSplitView.png</file>
+     <file>unSplitView.png</file>
+     <file>freeze.png</file>
+     <file>unfreeze.png</file>
+     <file>showGates.png</file>
+     <file>showRanges.png</file>
+     <file>showSamples.png</file>
+     <file>showVoltages.png</file>
+
+</qresource>
+</RCC>

@@ -1,0 +1,72 @@
+# -*- Mode: CMake -*-
+# 
+# CMake build file for the 'bscope' application.
+# 
+
+add_gui(bscope
+		main.cc
+		App.cc
+		App.h
+		BinaryVertexGenerator.cc
+		Configuration.cc
+		ConfigurationWindow.cc
+		ConfigurationWindow.h
+		ConfigurationWindow.ui
+		CursorPosition.cc
+		CursorPosition.h
+		CursorWidget.cc
+		CursorWidget.h
+		FrameWidget.cc
+		FrameWidget.h
+		FramesListSettings.cc
+		FramesListSettings.h
+		FramesPositioner.cc
+		FramesPositioner.h
+		FramesPositioner.ui
+		FramesWindow.cc
+		FramesWindow.h
+		FramesWindow.ui
+		History.cc
+		History.h
+		HistorySettings.cc
+		HistorySettings.h
+		ImageScaler.cc
+		ImageScaler.h
+		MagnifierView.cc
+		MagnifierView.h
+		MagnifierWindow.cc
+		MagnifierWindow.h
+		MagnifierWindow.ui
+		MainWindow.cc
+		MainWindow.h
+		MainWindow.ui
+		OffscreenBuffer.cc
+		OffscreenBuffer.h
+		PPIWidget.cc
+		PPIWidget.h
+		PastImage.cc
+		PastImage.h
+		PlayerPositioner.cc
+		PlayerPositioner.h
+		PlayerPositioner.ui
+		PlayerSettings.cc
+		PlayerSettings.h
+		PlayerWindow.cc
+		PlayerWindow.h
+		PlayerWindow.ui
+		PlotPositionFunctor.cc
+		RangeMap.cc
+		RangeMap.h
+		ScaleWidget.cc
+		ScaleWidget.h
+		VideoImaging.cc
+		VideoImaging.h
+		VideoVertexGenerator.cc
+		ViewSettings.h
+		ViewSettings.cc
+        bscope.icns
+        bscope.png
+        )
+
+set_target_properties(bscope PROPERTIES MACOSX_BUNDLE_INFO_STRING
+                      "X-Y display of SideCar signals and plots.")

@@ -1,0 +1,106 @@
+# -*- Mode: CMake -*-
+# 
+# CMake build file for the 'master' application.
+# 
+
+add_gui(master
+		main.cc
+		Alert.cc
+		Alert.h
+		App.cc
+		App.h
+		Cleaner.cc
+		Cleaner.h
+		CollectionItem.cc
+		CollectionItem.h
+		CollectionStats.cc
+		ConfigurationController.cc
+		ConfigurationController.h
+		ConfigurationEditor.cc
+		ConfigurationEditor.h
+		ConfigurationEditor.ui
+		ConfigurationInfo.cc
+		ConfigurationInfo.h
+		ConfigurationItem.cc
+		ConfigurationItem.h
+		ConfigurationModel.cc
+		ConfigurationModel.h
+		ConfigurationSettings.cc
+		ConfigurationSettings.h
+		ConfigurationWindow.cc
+		ConfigurationWindow.h
+		ConfigurationWindow.ui
+		ControllerItem.cc
+		ControllerItem.h
+		DiskSpace.cc
+		DiskSpace.h
+		FindLineEdit.cc
+		FindLineEdit.h
+		InfoFormatter.cc
+		Launcher.cc
+		Launcher.h
+		LogAlertsWindow.cc
+		LogAlertsWindow.h
+		LogAlertsWindow.ui
+		LogViewWindow.cc
+		LogViewWindow.h
+		LogViewWindow.ui
+		LogViewWindowManager.cc
+		LogViewWindowManager.h
+		MainWindow.cc
+		MainWindow.h
+		MainWindow.ui
+		NotesEdit.cc
+		NotesEdit.h
+		NotesWindow.cc
+		NotesWindow.h
+		NotesWindow.ui
+		ParamEditor.cc
+		ParamEditor.h
+		RadarSettings.cc
+		RadarSettings.h
+		RecordingController.cc
+		RecordingController.h
+		RecordingInfo.cc
+		RecordingInfo.h
+		RecordingModel.cc
+		RecordingModel.h
+		RecordingSettings.cc
+		RecordingSettings.h
+		RemoteClient.cc
+		RemoteClient.h
+		RootItem.cc
+		RootItem.h
+		RunnerItem.cc
+		RunnerItem.h
+		RunnerLog.cc
+		RunnerLog.h
+		ServicesModel.cc
+		ServicesModel.h
+		ServicesView.cc
+		ServicesView.h
+		Settings.cc
+		Settings.h
+		StatusCollector.cc
+		StatusCollector.h
+		StatusWidget.cc
+		StatusWidget.h
+		StatusWidget.ui
+		StreamItem.cc
+		StreamItem.h
+		TaskItem.cc
+		TaskItem.h
+		TreeViewItem.cc
+		TreeViewItem.h
+		UtilsWidget.cc
+		UtilsWidget.h
+		UtilsWidget.ui
+		icons.qrc
+        master.icns
+        master.png
+        )
+
+set_target_properties(master PROPERTIES MACOSX_BUNDLE_INFO_STRING
+                      "Controller and monitor for SideCar processing chains.")
+
+target_link_libraries(master Configuration)
