@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sidecar>
+<!-- Configuration file for centroidtesting.pri file -->
+<sidecar version="1.0">
+  <radar>
+    <name>Moose</name>
+    <gateCountMax type="int">3000</gateCountMax>
+    <shaftEncodingMax type="int">2000</shaftEncodingMax>
+    <rotationRate units="rpm" type="double">6</rotationRate>
+    <rangeMin units="km" type="double">0.0</rangeMin>
+    <rangeMax units="km" type="double">300.0</rangeMax>
+    <beamWidth units="radians" type="double">0.00314159</beamWidth>
+  </radar>
+</sidecar>

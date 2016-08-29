@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Trimmer">
+   <param name="firstSample" type="int" value="0"/>
+   <param name="maxSampleCount" type="int" value="0"/>
+   <param name="complexSamples" type="boolean" value="1"/>
+   <param name="enabled" type="boolean" value="1"/>
+  </algorithm>
+ </configuration>
+</configurations>

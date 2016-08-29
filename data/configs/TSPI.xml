@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Foobar</name>
+    <comments>
+      Contains algorithm chain for basic extraction from NegativeVideo channel.
+      The data-recorder only runs algorithms for data conversion from VME host.
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+    -->
+  <radar file="/opt/sidecar/data/radar-1.xml"  />
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingsDirectory="/space1/recordings">
+    <runner name="TSPI Reader" host="blade-1" multicast="237.1.2.101">
+      <stream name="TSPI Reader">
+	<tspi host="237.1.2.123" port="5000"/>
+	<algorithm dll="TSPI">
+	  <input type="TSPI"/>
+	  <output type="TSPI"/>
+	  <param name="recordingEnabled" type="boolean" value="1"/>
+	</algorithm>
+	<publisher name="TSPI Plots" type="TSPI"/>
+      </stream>
+    </runner>
+  </dp>
+
+</sidecar>

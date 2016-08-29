@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<configurations>
+  <configuration name="">
+    <algorithm dll="EdgeDetector">
+      <input type="Video"/>
+      <param name="edge" type="int" value="1"/>
+      <output type="BinaryVideo"/>
+    </algorithm>
+  </configuration>
+</configurations>

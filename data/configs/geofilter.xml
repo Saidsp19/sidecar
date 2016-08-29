@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<geofilter xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	   targetNamespace="http://harrier.llan.mit.edu:8000/geofilter"
+	   version="1.0">
+
+  <!-- 
+
+  The only valid entity within a <geofilter> document is a <filter> entity, and
+  there may be any number of them. Each <filter> entity must have two
+  attributes, 'name' and 'enabled'. The 'name' attribute must contain a
+  non-empty value. The 'enabled' attribute must contain one of the following:
+
+    t, true, y, yes, 1 -- indication of an enabled filter
+    f, false, n, no, 0 -- indication of a disabled filter
+
+  Within a <filter> entity, the following entities are valid:
+
+    <range> MIN MAX </range> -- start/end of boundary in range (kilometers)
+    <azimuth> MIN MAX </azimuth> -- start/end of boundary in azimuth (degrees)
+    <attenuation> VALUE </attenuation> -- sample count multiplier (1.0)
+    <offset> VALUE </offset> -- sample count offset (0.0)
+    <clamp> MIN MAX </clamp> -- min/max sample count clamping (-BIG, +BIG)
+
+  The <range> and <azimuth> entities are essentially mandatory since their
+  default values cause the filter to never match a sample. The others are
+  optional with reasonable default values given in parentheses.
+  -->
+
+  <filter name="blah" enabled="yes">
+    <range units="km">20.0 40.0</range>
+    <azimuth units="degress">10.0 30.0</azimuth>
+    <attenuation>0.0</attenuation>
+  </filter>
+
+  <filter name="foo" enabled="1">
+    <range units="km">100.0 150.0</range>
+    <azimuth units="degress">180.0 270.0</azimuth>
+    <attenuation>0.5</attenuation>
+  </filter>
+
+</geofilter>

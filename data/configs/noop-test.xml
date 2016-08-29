@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sidecar>
+
+<!-- Valid elements within the <sidecar> element are:
+       info - configuration file description
+       radar - settings of the radar
+       riu - configuration for the RIU (VME system)
+       rib - configuration for the RIB control system
+       dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar version="1.0">
+
+  <!-- Information about the configuration file 
+         name - display name
+	 comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Sample Configuration</name>
+    <comments>
+      "Blah, blah, blah, got a pillow stuck in my head" -- Tom Verlaine
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+         name - radar name (needed?)
+	 rotationRate - number of rotations per minute
+	 beamWidth - how far the radar rotates while sampling one PRI (radians)
+	 shaftEncodingMax - the maximum shaft encoding value to expect
+	 gatesPerMessage - the maximum number of samples to expect in a PRI
+                           message
+	 rangeOfFirstGate - the range value associated with the first sample
+	 rangeDelta - the change in range between subsequent samples
+    -->
+  <radar>
+    <name>Vito</name>
+    <gateCountMax type="int">400</gateCountMax>
+    <shaftEncodingMax type="int">4999</shaftEncodingMax>
+    <rotationRate units="rpm" type="double">6</rotationRate>
+    <rangeMin units="km" type="double">0.5</rangeMin>
+    <rangeMax units="km" type="double">250.0</rangeMax>
+    <beamWidth units="radians" type="double">0.00125664</beamWidth>
+  </radar>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu>
+  </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib>
+  </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingBasePath="/tmp"
+      loggerConfigPath="/opt/sidecar/builds/latest/data/logger.cfg">
+    <host name="localhost">
+      <stream name="fun">
+	<subscriber name="OneIn" type="Video" channel="one"/>
+	<subscriber name="TwoIn" type="Video" channel="two"/>
+	<subscriber name="ThreeIn" type="Video" channel="three"/>
+	<subscriber name="FourIn" type="Video" channel="four"/>
+	<algorithm dll="NOOP">
+	  <input type="Video" name="InOne" channel="one"/>
+	  <input type="Video" name="InTwo" channel="two"/>
+	  <input type="Video" name="InThree" channel="three"/>
+	  <input type="Video" name="InFour" channel="four"/>
+	  <output type="Video" name="OutOne" channel="five"/>
+	  <output type="Video" name="OutTwo" channel="six"/>
+	  <output type="Video" name="OutThree" channel="seven"/>
+	  <output type="Video" name="OutFour" channel="eight"/>
+	</algorithm>
+	<publisher name="OneOut" type="Video" channel="five"/>
+	<publisher name="TwoOut" type="Video" channel="six"/>
+	<publisher name="ThreeOut" type="Video" channel="seven"/>
+	<publisher name="FourOut" type="Video" channel="eight"/>
+      </stream>
+    </host>
+  </dp>
+</sidecar>

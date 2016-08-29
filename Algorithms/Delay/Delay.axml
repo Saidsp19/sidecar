@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="Delay">
+   <input type="Video"/>
+   <param name="enabled" type="boolean" value="1"/>
+   <param name="delay" type="int" value="1"/>
+  </algorithm>
+ </configuration>
+</configurations>

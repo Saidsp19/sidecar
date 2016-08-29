@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="sidecar">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="info" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="radar" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="riu" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="rib" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dp" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="version" use="required" type="xs:decimal"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="info">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="comments" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="comments" type="xs:string"/>
+  <xs:element name="name" type="xs:string"/>
+  <xs:element name="radar">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name"/>
+        <xs:element ref="gateCountMax"/>
+        <xs:element ref="shaftEncodingMax"/>
+        <xs:element ref="rotationRate"/>
+        <xs:element ref="rangeMin"/>
+        <xs:element ref="rangeMax"/>
+        <xs:element ref="beamWidth"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="gateCountMax">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="shaftEncodingMax">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="rotationRate">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+          <xs:attribute name="units" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="rangeMin">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:decimal">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+          <xs:attribute name="units" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="rangeMax">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:decimal">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+          <xs:attribute name="units" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="beamWidth">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:decimal">
+          <xs:attribute name="type" use="required" type="xs:NCName"/>
+          <xs:attribute name="units" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="riu"/>
+  <xs:element name="rib"/>
+  <xs:element name="dp">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="host" minOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="loggerConfigPath" use="optional"/>
+      <xs:attribute name="recordingBasePath" use="required"/>
+    </xs:complexType>
+    <xs:unique name="unique1">
+      <xs:selector xpath="host"/>
+      <xs:field xpath="name"/>
+    </xs:unique>
+  </xs:element>
+  <xs:element name="host">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="stream" minOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:NCName"/>
+      <xs:attribute name="tag" use="optional" type="xs:NCName"/>
+    </xs:complexType>
+    <xs:unique name="unique2">
+      <xs:selector xpath="stream"/>
+      <xs:field xpath="name"/>
+    </xs:unique>
+  </xs:element>
+  <xs:element name="stream">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="multicast"/>
+          <xs:element ref="subscriber"/>
+          <xs:element ref="vme"/>
+        </xs:choice>
+        <xs:element ref="algorithm" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="publisher" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:token"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="algorithm">
+    <xs:complexType>
+      <xs:sequence>
+          <xs:element ref="input" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="output" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="dll" use="required" type="xs:NCName"/>
+      <xs:attribute name="name" use="optional" type="xs:token"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="multicast">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="output" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="host" use="required" type="xs:NCName"/>
+      <xs:attribute name="port" use="required" type="xs:unsignedShort"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="publisher">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="input" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:NCName"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="subscriber">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="output" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:token"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vme">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="output" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="interface" use="required" type="xs:NCName"/>
+      <xs:attribute name="port" use="required" type="xs:unsignedShort"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="input">
+    <xs:complexType>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+      <xs:attribute name="name" use="optional" type="xs:token"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="output">
+    <xs:complexType>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+      <xs:attribute name="name" use="optional" type="xs:token"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="param">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:token"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+      <xs:attribute name="value" use="required" type="xs:token"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

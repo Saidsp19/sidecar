@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="CPIMarker">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="scale" type="int" value="1000"/>
+   <param name="freqMHz" type="double" value="10.0"/>
+  </algorithm>
+ </configuration>
+</configurations>

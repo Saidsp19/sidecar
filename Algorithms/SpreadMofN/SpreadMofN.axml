@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="SpreadMofN">
+   <input type="BinaryVideo"/>
+   <output type="BinaryVideo"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="cpiSpan" type="int" value="10"/>
+   <param name="M" type="int" value="5"/>
+  </algorithm>
+ </configuration>
+</configurations>

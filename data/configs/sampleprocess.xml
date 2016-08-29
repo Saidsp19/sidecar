@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sidecar>
+
+<!-- Sample SideCar processing chain -->
+<sidecar version="1.0">
+    <radar>
+        <name>for testset.pri</name>
+        <gateCountMax type="int">400</gateCountMax>
+        <shaftEncodingMax type="int">4999</shaftEncodingMax>
+        <rotationRate units="rpm" type="double">6</rotationRate>
+        <rangeMin units="km" type="double">0.5</rangeMin>
+        <rangeMax units="km" type="double">250.0</rangeMax>
+        <beamWidth units="radians" type="double">0.00125664</beamWidth>
+    </radar>
+
+    <!-- Authoritative descriptor of the algorithm interfaces -->
+    <algorithms>
+        <!-- Copy & paste material
+        <algorithm name="">
+            <param name="" type="" />
+            <input name="" type="" />
+            <output name="" type="" />
+        </algorithm>
+        -->
+
+        <algorithm name="Extract">
+            <input name="BinaryVideo" type="BinaryVideo" />
+            <output name="Extractions" type="Extractions" />
+        </algorithm>
+
+        <algorithm name="IQ2AmplitudePhase">
+            <input name="I" type="Video" />
+            <input name="Q" type="Video" />
+            <output name="Amplitude" type="Video" />
+            <output name="Phase" type="Video" />
+        </algorithm>
+
+        <algorithm name="NCIntegrate">
+            <param name="numPulses" type="int" />
+            <input name="in" type="Video" />
+            <output name="out" type="Video" />
+        </algorithm>
+
+        <algorithm name="ScanCorrelator">
+            <param name="SearchRadius" type="double" />
+            <param name="ScanTime" type="int" />
+            <input name="in" type="Extractions" />
+            <output name="out" type="Extractions" />
+        </algorithm>
+
+        <algorithm name="Threshold">
+            <param name="Threshold" type="int" />
+            <input name="Video" type="Video" />
+            <output name="BinaryVideo" type="BinaryVideo" />
+        </algorithm>
+
+        <algorithm name="VideoInterpolation" service="interp">
+            <param name="MaxInputAzimuth" type="int" />
+            <param name="MaxOutputAzimuth" type="int" />
+            <input name="in" type="Video"/>
+            <output name="out" type="Video" />
+        </algorithm>
+    </algorithms>
+
+    <!-- dp parameters will lose the "type" attribute when the above works. -->
+
+    <dp>
+        <!-- change the hostname to match the `hostname` command -->
+        <host name="station11">
+            <stream name="test">
+                <subscriber service="station11_prie" type="Video">
+                    <output name="raw" />
+                </subscriber>
+
+                <algorithm name="NCIntegrate" service="NoncoherentIntegration">
+                    <param name="numPulses" type="int" value="7" />
+                    <input name="raw" port="0" />
+                    <output name="ncint" port="0" />
+                </algorithm>
+                <publisher service="ncint" type="Video">
+                    <input name="ncint" />
+                </publisher>
+                <filewriter type="Video" path="/tmp/sample.pri">
+                    <input name="ncint" port="0" />
+                </filewriter>
+                <!-- note: you can't have two NCIntegrate's... should fix. -->
+
+                <algorithm name="Threshold" service="Thresholding">
+                    <param name="Threshold" type="int" value="4999" />
+                    <input name="ncint" />
+                    <output name="thresh" />
+                </algorithm>
+                <publisher service="thresh" type="BinaryVideo">
+                    <input name="thresh" />
+                </publisher>
+
+                <algorithm name="VideoInterpolation" service="interp">
+                    <param name="MaxInputAzimuth" type="int" value="5000" />
+                    <param name="MaxOutputAzimuth" type="int" value="4000" />
+                    <input name="raw" />
+                    <output name="interp" />
+                </algorithm>
+
+                <algorithm name="Extract" service="Extraction">
+                    <input name="thresh" />
+                    <output name="ext" />
+                </algorithm>
+                <publisher service="ext" type="Extractions">
+                    <input name="ext" />
+                </publisher>
+
+                <algorithm name="ScanCorrelator" service="correlation">
+                    <input name="ext" />
+                    <output name="corr" />
+                </algorithm>
+            </stream>
+        </host>
+    </dp>
+</sidecar>
+

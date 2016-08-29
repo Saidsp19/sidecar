@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="WindowedMinMax">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="windowSize" type="int" value="5"/>
+   <param name="windowCount" type="int" value="3"/>
+   <param name="windowOffset" type="int" value="2"/>
+   <param name="valueGenerator" type="int" value="0"/>
+  </algorithm>
+ </configuration>
+</configurations>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Sidecar Configuration 1.0.0 (DEV)</name>
+    <comments>
+      blah, blah, blah
+    </comments>
+  </info>
+
+  <radar file="/opt/sidecar/data/configs/radar-1.xml"/>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingBasePath="/space1/recordings"
+      loggerConfigPath="/opt/sidecar/builds/latest/data/logger.cfg">
+
+    <!-- Configuration sample for a runner named 'sample.' The only valid
+	 element in <runner> is <stream>. Each stream is made up of one or
+	 more tasks with the following element names:
+
+	 - vme: VME UDP connection
+	 - multicast: VME Multicast UDP connection
+	 - filein: message source that takes data from a file
+	 - fileout: message sink that writes data to a file
+	 - subscriber: message source that obtains data from a remote publisher
+	 - publisher: message sink that publishes data to remote subscribers
+	 - algorithm: a processing algorithm which may have one or more runtime
+   	   parameter settings (<param> elements)
+      -->
+
+    <!-- BEGIN blade-1 configuration -->
+    <runner host="blade-1" name="Data Converter 1" 
+	    multicast="237.1.2.101">
+      <stream name="NegativeVideo Converter">
+	<vme host="237.1.10.1" port="5014"/>
+	<algorithm dll="RawPRI" name="NegativeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="NegativeVideo" type="Video"/>
+      </stream>
+      <stream name="BiPolarVideo Converter">
+	<vme host="237.1.10.1" port="5015"/>
+	<algorithm dll="RawPRI" name="BiPolarVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="BiPolarVideo" type="Video"/>
+      </stream>
+      <stream name="CompositeVideo Converter">
+	<vme host="237.1.10.1" port="5016"/>
+	<algorithm dll="RawPRI" name="CompositeVideo">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="CompositeVideo" type="Video"/>
+      </stream>
+      <stream name="RadarDisplay Converter">
+	<vme host="237.1.10.1" port="5017"/>
+	<algorithm dll="RawPRI" name="RadarDisplay">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RadarDisplay" type="Video"/>
+      </stream>
+    </runner> 
+    <!-- end Channel Conversion (1) runner -->
+
+    <runner host="blade-1" name="Data Converter 2" 
+	    multicast="237.1.2.101"> 
+      <stream name="RxIF Converter">
+	<vme host="237.1.10.2" port="5018"/>
+	<algorithm dll="RawPRI" name="RxIF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RxIF" type="Video"/>
+      </stream>
+      <stream name="Coho Converter">
+	<vme host="237.1.10.2" port="5019"/>
+	<algorithm dll="RawPRI" name="Coho">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="Coho" type="Video"/>
+      </stream>
+      <stream name="RxRF Converter">
+	<vme host="237.1.10.2" port="5020"/>
+	<algorithm dll="RawPRI" name="RxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="RxRF" type="Video"/>
+      </stream>
+      <stream name="TxRF Converter">
+	<vme host="237.1.10.2" port="5021"/>
+	<algorithm dll="RawPRI" name="TxRF">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="TxRF" type="Video"/>
+      </stream>
+    </runner> 
+    <!-- end Channel Conversion (2) runner -->
+
+    <runner host="blade-1" name="Data Converter 3" 
+	    multicast="237.1.2.101">
+      <stream name="AUX1 Converter">
+	<vme host="237.1.10.3" port="5022"/>
+	<algorithm dll="RawPRI" name="AUX1">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX1" type="Video"/>
+      </stream>
+      <stream name="AUX2 Converter">
+	<vme host="237.1.10.3" port="5023"/>
+	<algorithm dll="RawPRI" name="AUX2">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX2" type="Video"/>
+      </stream>
+      <stream name="AUX3 Converter">
+	<vme host="237.1.10.3" port="5024"/>
+	<algorithm dll="RawPRI" name="AUX3">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX3" type="Video"/>
+      </stream>
+      <stream name="AUX4 Converter">
+	<vme host="237.1.10.3" port="5025"/>
+	<algorithm dll="RawPRI" name="AUX4">
+	  <input type="RawVideo"/>
+	  <output type="Video"/>
+	</algorithm>
+	<publisher name="AUX4" type="Video"/>
+      </stream>
+    </runner>
+    <!-- end Channel Conversion (3) runner -->
+  
+  </dp>
+
+</sidecar>

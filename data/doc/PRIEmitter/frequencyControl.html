@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Frequency Control</title>
+</head>
+<body style="font-size:12pt;font-family=helvetica">
+<h1>Frequency Control</h1>
+
+<p>
+The PRIEmitter application attempts to determine the overall frequency of the
+messages in the data file, and reports the calculated value in
+the <b>Frequency</b> data entry field. If desired, you may change this value to
+affect how often the application emits the the recorded messages.
+</p>
+
+<blockquote>
+<b>NOTE:</b> the timing mechanism used to control message emission is not very
+exact, and it may not be able to support high frequency rates. The Playback
+application does not have these limitations.
+</blockquote>
+
+<p>
+Instead of adjusting the frequency value, you may instead skip over one or more
+messages by changing the <b>Step</b> value. The default value of one, emits
+every message in the loaded file. A value of 2 emits every other message. For
+values greater than 1, the application will adjust the azimuth fields of the
+message header to account for the missing messages. This may result in visual
+anomalies in some of the SideCar display applications, notably PPIDisplay.
+</p>
+
+<p>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Sidecar Configuration 1.0.0 (DEV)</name>
+    <comments>
+      
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+    -->
+  <radar>
+    <name>Radar</name>
+    <gateCountMax type="int">4684</gateCountMax>
+    <shaftEncodingMax type="int">65535</shaftEncodingMax>
+    <rotationRate units="rpm" type="double">6</rotationRate>
+    <rangeMin units="km" type="double">0.0</rangeMin>
+    <rangeMax units="km" type="double">300.0</rangeMax>
+    <beamWidth units="radians" type="double">0.00125644</beamWidth>
+  </radar>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingsDirectory="/space1/recordings"
+      loggerConfiguration="/opt/sidecar/data/logger.cfg">
+
+    <!-- Configuration sample for a runner named 'sample.' The only valid
+	 element in <runner> is <stream>. Each stream is made up of one or
+	 more tasks with the following element names:
+
+	 - vme: VME UDP connection
+	 - multicast: VME Multicast UDP connection
+	 - filein: message source that takes data from a file
+	 - fileout: message sink that writes data to a file
+	 - subscriber: message source that obtains data from a remote publisher
+	 - publisher: message sink that publishes data to remote subscribers
+	 - algorithm: a processing algorithm which may have one or more runtime
+   	   parameter settings (<param> elements)
+      -->
+
+    <runner host="localhost" name="NOOP" multicast="237.1.2.104">
+      <stream name="NOOP">
+	<subscriber name="TxRF" type="Video" channel="input"/>
+	<algorithm dll="SimpleNOOP">
+	  <input type="Video" channel="input"/>
+	  <output type="Video" channel="noop"/>
+	  <param name="alwaysUsingData" type="boolean" value="1"/>
+	</algorithm>
+	<publisher name="NOOPout" type="Video" channel="noop"/>
+      </stream>
+    </runner>
+    <!-- end Side Lobe Canceler runner -->
+
+  </dp>
+
+</sidecar>

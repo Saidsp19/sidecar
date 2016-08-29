@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="ComposeExtractions">
+   <output type="Extractions"/>
+   <param name="enabled" type="bool" value="1"/>
+   
+  </algorithm>
+ </configuration>
+</configurations>

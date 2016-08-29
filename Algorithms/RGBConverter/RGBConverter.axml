@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="RGBConverter">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="cpiSpan" type="int" value="10"/>
+   <param name="min" type="int" value="1"/>
+   <param name="max" type="int" value="30"/>
+  </algorithm>
+ </configuration>
+</configurations>

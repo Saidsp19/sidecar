@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Valid elements within the <sidecar> element are:
+
+info - configuration file description
+radar - settings of the radar
+riu - configuration for the RIU (VME system)
+rib - configuration for the RIB control system
+dp - configuration for the data processing / recording system
+
+All SideCar processes will receive the same file, but they should just ignore the elements that they do not
+recognize or need.
+
+-->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!--
+      Information about the configuration file.
+      name - display name
+      comments - commentary describing the configuration
+  -->
+  <info>
+    <name>20t10scans</name>
+    <comments>Configuration for 20t10scans synthetic file.</comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+  -->
+  <radar file="/opt/sidecar/data/radar_files/20t10scans.xml" /> 
+
+</sidecar>

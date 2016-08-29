@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="SlidingOp">
+   <input type="Video"/>
+   <param name="enabled" type="bool" value="1"/>
+   <param name="initialOffset" type="int" value="-4"/>
+   <param name="windowSize" type="int" value="9"/>
+   <param name="emptyValue" type="int" value="0"/>
+   <param name="operation" type="int" value="0"/>
+  </algorithm>
+ </configuration>
+</configurations>

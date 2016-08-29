@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="SimpleOp">
+   <input type="Video"/>
+   <param name="enabled" type="boolean" value="1"/>
+   <param name="operator" type="int" value="0"/>
+   <param name="maxBufferSize" type="int" value="100"/>
+  </algorithm>
+ </configuration>
+</configurations>

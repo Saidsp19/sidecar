@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+ <algorithm dll="Difference">
+  <input type="Video"/>
+  <param name="recordingEnabled" type="boolean" value="0"/>
+  <param name="bypassEnabled" type="boolean" value="0"/>
+  <param name="bufferSize" type="int" value="10"/>
+  <output type="Video"/>
+ </algorithm>
+ </configuration>
+</configurations>

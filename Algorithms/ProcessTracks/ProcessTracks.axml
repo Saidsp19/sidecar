@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configurations>
+ <configuration name="">
+  <algorithm dll="ProcessTracks">
+   <input type="Track"/>
+   <output type="Track"/>
+   <param name="enabled" type="bool" value="1"/>
+   
+  </algorithm>
+ </configuration>
+</configurations>

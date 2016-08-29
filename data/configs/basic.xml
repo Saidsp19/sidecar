@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Valid elements within the <sidecar> element are:
+     info - configuration file description
+     radar - settings of the radar
+     riu - configuration for the RIU (VME system)
+     rib - configuration for the RIB control system
+     dp - configuration for the data processing / recording system
+
+     All SideCar processes will receive the same file, but they should just
+     ignore the elements that they do not recognize or need.
+  -->
+<sidecar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:noNamespaceSchemaLocation="sidecar.xsd" version="1.0">
+
+  <!-- Information about the configuration file 
+       name - display name
+       comments - commentary describing the configuration
+    -->
+  <info>
+    <name>Basic Extraction</name>
+    <comments>
+      Contains algorithm chain for basic extraction from NegativeVideo channel.
+      The data-recorder only runs algorithms for data conversion from VME host.
+    </comments>
+  </info>
+
+  <!-- Information about the radar being monitored
+       name - radar name (needed?)
+       rotationRate - number of rotations per minute
+       beamWidth - how far the radar rotates while sampling one PRI (radians)
+       shaftEncodingMax - the maximum shaft encoding value to expect
+       gatesPerMessage - the maximum number of samples to expect in a PRI
+       message
+       rangeOfFirstGate - the range value associated with the first sample
+       rangeDelta - the change in range between subsequent samples
+    -->
+  <radar file="radar-1.xml"/>
+
+  <!-- Configuration of the Radar Interface Unit (RIU) VME system
+    -->
+  <riu> </riu>
+
+  <!-- Configuration of the Radar Interface Box (RIB) PC-104 system.
+    -->
+  <rib> </rib>
+
+  <!-- Configuration for the Data Processing (DP) DELL Blade systems. Contains
+       host-specific items inside <host> tags. Note that this may also apply to
+       the Data Recorder box if there is a <host> element with the name
+       'data-recorder'
+
+       The only valid element inside <dp> is <host>
+    -->
+  <dp recordingBasePath="/Users/howes/sidecar/recordings" loggerConfigPath="/opt/sidecar/data/logger.cfg">
+    <runner name="localhost" tag="1" multicast="237.1.2.102">
+
+      <!-- Basic target extraction processing stream -->
+
+      <stream name="BasicExtraction">
+
+	<subscriber name="NegativeVideo" type="Video"/>
+	<algorithm dll="NCIntegrate">
+	  <input type="Video"/>
+	  <output type="Video" channel="NCIntegrate"/>
+	</algorithm>
+
+        <publisher name="NCIntegrate" type="Video" channel="NCIntegrate"/>
+
+	<algorithm dll="Threshold">
+	  <input type="Video" channel="NCIntegrate"/>
+	  <output type="BinaryVideo" channel="Threshold"/>
+	  <param name="threshold" type="int" value="-2400"/>
+	</algorithm>
+
+        <publisher name="Threshold" type="BinaryVideo" channel="Threshold"/>
+
+        <algorithm dll="MofN">
+	  <input type="BinaryVideo" channel="Threshold"/>
+	  <output type="BinaryVideo" channel="MofN"/>
+	</algorithm>
+
+        <publisher name="MofN" type="BinaryVideo" channel="MofN"/>
+
+        <algorithm dll="Extract">
+	  <input type="BinaryVideo" channel="MofN"/>
+	  <output type="Extractions" channel="Extract"/>
+	</algorithm>
+
+        <publisher name="Extractions" type="Extractions" channel="Extract"/>
+
+      </stream>
+    </runner>
+  </dp>
+
+</sidecar>
