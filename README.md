@@ -7,11 +7,11 @@ SideCar LAN.
 
 There are several applications available which provide a graphical interface to the user:
 
-* AScope - a software oscilloscope for viewing data samples
-* BScope - a rectangular representation of radar returns (contrast with PPIDisplay's polar display)
+* AScope - a software oscilloscope for viewing data samples ([additional info](http://keystrokecountdown.com/articles/ascope/index.html))
+* BScope - a rectangular representation of radar returns - contrast with PPIDisplay's polar display ([additional info](http://keystrokecountdown.com/articles/bscope/index.html))
 * Master - a process manager application that shows the active processing streams running in the SideCar LAN
 * Playback - an application that can playback recorded data files. Supports playback rate changing and looping when it reaches the end of a data file
-* PPIDisplay - a simulation of a phosphor plot position indicator (PPI) display. Even has a crude simulated decay effect for those that can't live without phosphor decay
+* PPIDisplay - a simulation of a phosphor plot position indicator (PPI) display. Even has a crude simulated decay effect for those that can't live without phosphor decay ([additional info](http://keystrokecountdown.com/articles/radardisplay/index.html))
 
 Various signal processing algorithms can be found in the Algorithms directory.
 
