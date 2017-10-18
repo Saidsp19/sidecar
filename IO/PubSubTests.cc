@@ -83,7 +83,7 @@ Message::GetMetaTypeInfo()
 struct EmitterTask : public Task
 {
     enum {
-	kNumMessages = 20,
+	kNumMessages = 10,
 	kTimeout = 15,
     };
 

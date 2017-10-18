@@ -66,7 +66,6 @@ add_directories(ABTracker
 				inverter
 				iqfilter
 				LowPassFilter
-                #				 MatchedFilter
 				mofn
 				MTI2
 				ncintegrate
@@ -83,10 +82,6 @@ add_directories(ABTracker
 				SandBox
 				scale
 				ScanCorrelator
-				Segment2Extraction
-				SegmentConnector
-				SegmentSplitter
-				SegmentStats
 				ShiftBins
 				SimpleNOOP
 				SimpleOp
@@ -96,11 +91,8 @@ add_directories(ABTracker
 				Summer
 				SumNDiff
 				Threshold
-                #				 TrackInitiator
-                #				 TrackMaintainer
 				Trimmer
 				TSPI
-                #				 VideoInterpolation
 				Volts2Power
 				WindowedMinMax
                 )
