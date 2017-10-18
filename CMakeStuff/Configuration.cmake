@@ -90,7 +90,7 @@ if(UNIX)
 
         # Definitions for MacOS X
         #
-        add_definitions(-Ddarwin -D_XOPEN_SOURCE)
+        add_definitions(-Ddarwin -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
         set(CMAKE_OSX_ARCHITECTURES "x86_64")
         set(SIDECAR_PACKAGING MACOSX_BUNDLE)
