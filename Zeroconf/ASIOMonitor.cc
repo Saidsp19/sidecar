@@ -27,8 +27,9 @@ struct ASIOMonitor::Private : public boost::enable_shared_from_this<ASIOMonitor:
 	    LOGDEBUG << "fd: " << fd << std::endl;
 	    socket_.assign(boost::asio::local::stream_protocol(), fd);
 			    
-	    boost::asio::local::stream_protocol::socket::non_blocking_io nbio(true);
-	    socket_.io_control(nbio);
+	    // boost::asio::local::stream_protocol::socket::non_blocking_io nbio(true);
+            socket_.non_blocking(true);
+	    // socket_.io_control(nbio);
 	    startAsyncRead();
 	}
 
