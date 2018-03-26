@@ -28,8 +28,8 @@ DynamicThreshold::OperatorEnumTraits::GetEnumNames()
     return kOperatorNames;
 }
 
-// Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
-// startup() method. NOTE: it is WRONG to call any virtual functions here...
+// Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur
+// in the startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
 DynamicThreshold::DynamicThreshold(Controller& controller, Logger::Log& log)
     : Super(controller, log, kDefaultEnabled, kDefaultMaxBufferSize),
@@ -121,8 +121,8 @@ DynamicThreshold::processChannels()
 	thresholds->resize(samples->size(), 0);
     }
 
-    // Create our output message. Use std::transform to visit the sample and threshold values, calling the appropriate
-    // functor for each and adding the binary result to the output message.
+    // Create our output message. Use std::transform to visit the sample and threshold values, calling the
+    // appropriate functor for each and adding the binary result to the output message.
     //
     BinaryVideo::Ref out(BinaryVideo::Make("DynamicThreshold", samples));
     out->resize(samples->size());
