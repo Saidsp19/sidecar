@@ -3,3 +3,6 @@ build/
 GUI/*/*.icns
 # GUI/*/*.png
 doc/html
+bin
+lib
+deps
