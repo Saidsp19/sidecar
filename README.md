@@ -50,3 +50,17 @@ a static web site:
 
 The HTML output will reside under the `docs/`. It is available online at
 https://bradhowes.github.io/sidecar/index.html
+
+# MacOS Installation
+
+```
+% brew install ace # 6.4.7
+% brew install cmake # 3.10.3
+% brew install boost # 1.66.0
+% brew install fftw # 3.3.7
+% brew install open-mpi # 3.0.0
+
+% mkdir deps
+% cd $_
+% git clone https://github.com/openvsip/openvsip.git
+% 
