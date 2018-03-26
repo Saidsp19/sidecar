@@ -74,8 +74,9 @@ if [[ -z "${SIDECAR_SRC}" && -d "${HOME}/sidecar" ]]; then
 fi
 
 [[ -z "${SIDECAR}" && -d "/opt/sidecar/bin" ]] && SIDECAR="/opt/sidecar"
-[[ -z "${SIDECAR}" ]] && echo "*** SIDECAR not defined and not found"
-[[ -z "${SIDECAR_CONFIG}" ]] && SIDECAR_CONFIG="${SIDECAR}/data/radar_files/20t10scans.xml"
-
-PathAdd PATH "${SIDECAR}/bin"
-
+if [[ -d "${SIDECAR}" ]]; then
+    PathAdd PATH "${SIDECAR}/bin"
+    [[ -z "${SIDECAR_CONFIG}" ]] && SIDECAR_CONFIG="${SIDECAR}/data/radar_files/20t10scans.xml"
+else
+    echo "*** SIDECAR not defined or not found"
+fi
