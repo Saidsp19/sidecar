@@ -61,8 +61,8 @@ class Options:
     # found in instance. Return a FALSE value.
     #
     def __getattr__( self, key ):
-        if key[ 0 ] == '_':             # Disregard Python hooks
-            raise AttributeError, key
+        if key[0] == '_':             # Disregard Python hooks
+            raise AttributeError(key)
         return None
     
     #
@@ -71,8 +71,8 @@ class Options:
     # option name.
     #
     def __getitem__( self, key ):
-        dict = self.__dict__
-        return ( dict.has_key( key ) and dict[ key ] ) or None
+        d = self.__dict__
+        return ( key in d and d[key] ) or None
 
     def get( self, key, value = None ):
         return self.__dict__.get( key, value )
@@ -183,8 +183,8 @@ def Process( optDefs, argDefs, argv = sys.argv ):
     #
     try:
         opts, argv = getopt.getopt( argv[ 1 : ], opts, longOpts )
-    except getopt.error, err:
-        Usage( progName, optDefs, argDefs, err )
+    except getopt.error as err:
+        Usage(progName, optDefs, argDefs, err)
 
     #
     # Options have been stripped off. Now assign mandatory arguments.
