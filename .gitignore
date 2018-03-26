@@ -1,4 +1,8 @@
+CMakeCache.txt
 build/
 GUI/*/*.icns
 GUI/*/*.png
 doc/html
+*Test
+*Test.ok
+*_defaults.h
