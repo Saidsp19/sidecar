@@ -3,7 +3,8 @@
 # Top-level CMake file for the SideCar project.
 #
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.4)
+
 project(SIDECAR VERSION 1.0.0)
 
 set(SIDECAR_VERSION ${PROJECT_VERSION})
@@ -37,7 +38,7 @@ add_subdirectory(Configuration)
 add_subdirectory(GeoStars)
 add_subdirectory(GUI)
 add_subdirectory(IO)
-# add_subdirectory( LLDRFM )
+# add_subdirectory(LLDRFM)
 add_subdirectory(Logger)
 add_subdirectory(Messages)
 add_subdirectory(Parameter)
