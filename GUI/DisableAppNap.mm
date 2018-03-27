@@ -3,6 +3,8 @@
 
 #include "DisableAppNap.h"
 
+using namespace SideCar::GUI;
+
 struct DisableAppNap::Impl {
     id<NSObject> activityId;
 };

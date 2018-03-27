@@ -16,6 +16,7 @@ namespace Logger { class ConfiguratorFile; class Log; }
 namespace SideCar {
 namespace GUI {
 
+class DisableAppNap;
 class LoggerWindow;
 class MainWindowBase;
 class ManualWindow;
@@ -357,7 +358,7 @@ private:
     QPointF phantomCursor_;
     AngularFormatType angularFormatType_;
     bool quitting_;
-
+    DisableAppNap* disableAppNap_;
     static AppBase* singleton_;
 };
 
