@@ -27,14 +27,12 @@ add_tested_library(Utils
                    SineCosineLUT.cc
                    Utils.cc
                    Wrapper.cc
-                   DEPS
-                   Logger ${ACE_LIBRARY}
-                   TEST
-                   FilePathTest.cc
-                   TEST
-                   FileWatcherTest.cc
-                   TEST
-                   FormatTests.cc
+
+                   DEPS Logger ${ACE_LIBRARY}
+
+                   TEST FilePathTest.cc
+                   TEST FileWatcherTest.cc
+                   TEST FormatTests.cc
                    TEST MD5Tests.cc
                    TEST PoolTest.cc
                    TEST PowerOf2Test.cc

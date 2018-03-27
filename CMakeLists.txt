@@ -33,22 +33,26 @@ endif(ccache)
 include("CMakeStuff/Configuration.cmake")
 
 add_subdirectory(Scripts)
-add_subdirectory(Algorithms)
-add_subdirectory(Configuration)
 add_subdirectory(GeoStars)
-add_subdirectory(GUI)
-add_subdirectory(IO)
-# add_subdirectory(LLDRFM)
-add_subdirectory(Logger)
-add_subdirectory(Messages)
-add_subdirectory(Parameter)
-add_subdirectory(Runner)
-add_subdirectory(Threading)
-add_subdirectory(Time)
-add_subdirectory(UnitTest)
-add_subdirectory(Utils)
 add_subdirectory(XMLRPC)
+
+add_subdirectory(Threading)
+add_subdirectory(Utils)
+add_subdirectory(Time)
+add_subdirectory(Logger)
+
+add_subdirectory(UnitTest)
+add_subdirectory(Parameter)
 add_subdirectory(Zeroconf)
+
+add_subdirectory(IO)
+add_subdirectory(Messages)
+add_subdirectory(Configuration)
+add_subdirectory(Runner)
+
+add_subdirectory(Algorithms)
+add_subdirectory(GUI)
+# add_subdirectory(LLDRFM)
 
 # Install the env-init.sh files
 #

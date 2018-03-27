@@ -5,7 +5,9 @@
 
 # Production specification for libThreading
 #
-add_tested_library(Threading SOURCES Threading.cc DEPS Exception ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT}
+add_tested_library(Threading
+                   SOURCES Threading.cc
+                   DEPS Exception ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT}
                    TEST ThreadingTests.cc)
 
 install(TARGETS Threading LIBRARY DESTINATION lib)
