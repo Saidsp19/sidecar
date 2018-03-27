@@ -143,7 +143,7 @@ FilePath::expandEnvVars()
 	value = ::getenv(var.c_str());
 	if (! value) {
 	    std::cerr << "FilePath::expandEnvVars: environment variable '" << var << "' does not exist\n";
-	    value = "";
+            value = var == "SIDECAR" ? "/opt/sidecar" : "";
 	}
 
 	filePath_.replace(name, pos - name, value);

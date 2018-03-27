@@ -24,7 +24,7 @@ macro(ADD_ALGORITHM NAME)
     if(EXISTS "${SRC}")
         set(DST "${CMAKE_CURRENT_BINARY_DIR}/${NAME}_defaults.h")
         add_custom_command(OUTPUT "${DST}"
-                           COMMAND python ${PROJECT_SOURCE_DIR}/Scripts/algxml.py -o ${DST} ${SRC}
+                           COMMAND python ${PROJECT_SOURCE_DIR}/Scripts/algxml.py ${SRC} ${DST}
                            DEPENDS "${SRC}")
         set_source_files_properties("${DST}" PROPERTIES GENERATED TRUE)
         list(APPEND FILES ${DST})

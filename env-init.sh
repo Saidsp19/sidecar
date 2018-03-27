@@ -73,7 +73,7 @@ if [[ -z "${SIDECAR_SRC}" && -d "${HOME}/src/sidecar" ]]; then
     SIDECAR="${SIDECAR_SRC}/builds/latest"
 fi
 
-[[ -z "${SIDECAR}" && -d "/opt/sidecar/bin" ]] && SIDECAR="/opt/sidecar"
+[[ -z "${SIDECAR}" ]] && SIDECAR="/opt/sidecar"
 if [[ -d "${SIDECAR}" ]]; then
     PathAdd PATH "${SIDECAR}/bin"
     [[ -z "${SIDECAR_CONFIG}" ]] && SIDECAR_CONFIG="${SIDECAR}/data/radar_files/20t10scans.xml"

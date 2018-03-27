@@ -286,6 +286,8 @@ ConfigurationTests::testIncludes()
 	   << "</runner>\n";
     }
 
+    ::setenv("SIDECAR", "/opt/sidecar", 1);
+    
     Loader loader;
     assertEqual(Loader::kNotLoaded, loader.getLastLoadResult());
     assertFalse(loader.isLoaded());
