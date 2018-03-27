@@ -42,31 +42,44 @@ target_link_libraries(IOBase MessagesBase Parameter Zeroconf)
 
 # Production specification for libIO
 #
-add_library(IO SHARED 
-            ClientSocketReaderTask.cc
-            ClientSocketWriterTask.cc
-            DataPublisher.cc
-            DataSubscriber.cc
-            FileReaderTask.cc
-            FileWriterTask.cc
-            IndexMaker.cc
-            MulticastVMEReaderTask.cc
-            MulticastDataPublisher.cc
-            MulticastDataSubscriber.cc
-            ServerSocketReaderTask.cc
-            ServerSocketWriterTask.cc
-            TCPConnector.cc
-            TCPDataPublisher.cc
-            TCPDataSubscriber.cc
-            TCPInputHandler.cc
-            TSPIReaderTask.cc
-            UDPSocketReaderTask.cc
-            UDPSocketWriterTask.cc
-            VMEReaderTask.cc
+add_tested_library(IO
+                   SOURCES
+                   ClientSocketReaderTask.cc
+                   ClientSocketWriterTask.cc
+                   DataPublisher.cc
+                   DataSubscriber.cc
+                   FileReaderTask.cc
+                   FileWriterTask.cc
+                   IndexMaker.cc
+                   MulticastVMEReaderTask.cc
+                   MulticastDataPublisher.cc
+                   MulticastDataSubscriber.cc
+                   ServerSocketReaderTask.cc
+                   ServerSocketWriterTask.cc
+                   TCPConnector.cc
+                   TCPDataPublisher.cc
+                   TCPDataSubscriber.cc
+                   TCPInputHandler.cc
+                   TSPIReaderTask.cc
+                   UDPSocketReaderTask.cc
+                   UDPSocketWriterTask.cc
+                   VMEReaderTask.cc
+
+                   DEPS IOBase Messages ${CMAKE_THREAD_LIBS_INIT}
+                   
+                   TEST ControlMessageTests.cc
+                   TEST FileModuleTests.cc
+                   TEST FileTaskTests.cc
+                   TEST GrowlTests.cc
+                   TEST IOTests.cc
+                   TEST LineBufferTests.cc
+                   TEST MessageManagerTests.cc
+                   TEST PubSubTests.cc
+                   TEST RecordIndexTests.cc
+                   # TEST SocketModuleTests.cc
+                   TEST TimeIndexTests.cc
             )
 
-set_target_properties(IO PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION ${SIDECAR_VERSION})
-target_link_libraries(IO IOBase Messages ${CMAKE_THREAD_LIBS_INIT})
 install(TARGETS IOBase IO LIBRARY DESTINATION lib)
 
 # Build some utilities that work with SideCar files
@@ -94,17 +107,3 @@ foreach(CMD ${CMDS})
 endforeach(CMD ${CMDS})
 
 install(TARGETS ${CMDS} RUNTIME DESTINATION bin)
-
-# Unit tests for libIO classes
-#
-add_unit_test(ControlMessageTests.cc IO)
-add_unit_test(FileModuleTests.cc IO)
-add_unit_test(FileTaskTests.cc IO)
-add_unit_test(GrowlTests.cc IO)
-add_unit_test(IOTests.cc IO)
-add_unit_test(LineBufferTests.cc IO)
-add_unit_test(MessageManagerTests.cc IO)
-add_unit_test(PubSubTests.cc IO)
-add_unit_test(RecordIndexTests.cc IO)
-# add_unit_test(SocketModuleTests.cc IO)
-add_unit_test(TimeIndexTests.cc IO)
