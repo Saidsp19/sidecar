@@ -134,12 +134,12 @@ You should see something like
 
 ![](images/priemitter1.png)
 
-Now, try loading the data file `data/pri/20t10scans.pri` Make sure that the `Connection Type` is set to
-`Multicast`
+Now, try loading the data file `<SIDECAR>/data/pri/20t10scans.pri` Make sure that the `Connection Type` is set
+to `Multicast`
 
 ![](images/priemitter2.png)
 
-The window shows `Connections: 0` because no on is listening for data on the `NegativeVideo` channel. Let's see
+The window shows `Connections: 0` because no one is listening for data on the `NegativeVideo` channel. Let's see
 if we can get an app to do so:
 
 ```
@@ -176,5 +176,3 @@ Bring up the `Channel Selector` window with **⌘ 1** and select `NegativeVideo`
 should start to see data flow to the display.
 
 ![](images/ppidisplay2.png)
-
-
