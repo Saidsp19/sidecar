@@ -10,7 +10,7 @@ set_target_properties(UnitTest PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION $
 
 # Linkage dependencies for libUnitTest
 #
-target_link_libraries(UnitTest Logger_tests)
+target_link_libraries(UnitTest Logger)
 install(TARGETS UnitTest LIBRARY DESTINATION lib)
 
 # Unit test for libUnitTest

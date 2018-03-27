@@ -50,8 +50,8 @@ macro(ADD_UNIT_TEST FILE)
     set(aut_LOG "${CMAKE_CURRENT_BINARY_DIR}/${aut_NAME}.log")
     set_source_files_properties("${aut_LOG}" "${aut_OK}" PROPERTIES GENERATED TRUE)
 
-    # Execute the dotest Bash script to run the unit test and spit out the test results when the test fails. If
-    # the unit test succeeds, we 'touch' a sentinal file that lets the CMake build know that everything worked.
+    # Execute the unit test and spit out the test results when the test fails. If the unit test succeeds, we
+    # 'touch' a sentinal file that lets the CMake build know that everything worked.
     #
     add_custom_command(OUTPUT "${aut_OK}"
                        COMMAND ${CMAKE_COMMAND} -E remove ${aut_OK} ${aut_LOG}
@@ -64,7 +64,7 @@ macro(ADD_UNIT_TEST FILE)
     # Create a custom target that will execute the above custom command whenever necessary to regenerate the
     # test output file
     #
-    add_custom_target(${aut_NAME}Passed DEPENDS ${aut_OK} ${aut_NAME} COMMENT "${aut_NAME} PASSED")
+    add_custom_target(${aut_NAME}Passed ALL DEPENDS ${aut_OK} ${aut_NAME})
 
 endmacro(ADD_UNIT_TEST)
 
@@ -128,6 +128,6 @@ macro(add_tested_library NAME)
     target_link_libraries(${atl_TESTED} ${atl_DEPS})
     set_target_properties(${atl_TESTED} PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION ${SIDECAR_VERSION})
 
-    add_dependencies(${atl_TESTED} ${atl_TEST_TARGETS})
+    # add_dependencies(${atl_TESTED} ${atl_TEST_TARGETS})
 
 endmacro(add_tested_library)

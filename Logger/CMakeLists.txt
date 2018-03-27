@@ -19,8 +19,7 @@ add_tested_library(Logger
                    RollingWriter.cc
                    StreamWriter.cc
                    SyslogWriter.cc
-                   DEPS
-                   Threading
+                   DEPS Threading
                    TEST LogTests.cc)
 
 install(TARGETS Logger LIBRARY DESTINATION lib)

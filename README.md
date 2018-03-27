@@ -113,14 +113,20 @@ Note that in the instructions below `<SIDECAR>` will refer to the source directo
 
 # Post Install
 
+The SideCar applications rely on IPv4 multicast for transmitting data between them (using Zeroconf/Bonjour to
+determine who is around to listen to). For best results, you should probably route multicast traffic over your
+loopback interface. The apps are hardcoded (I think) to use the address `237.1.2.100` for multicast traffic.
+
+```
+% sudo route add -net 237.1.2.100/32 -interface lo0
+```
+
 There are some binary files in the `data/pri` directory that need to be joined before they can be used:
 
 ```
 % cd <SIDECAR>/data/pri
 % bash prijoin.sh
 ```
-
-# Demo
 
 If all of the above went well, we can test out the apps in the `build/bin` directory. First, let's try and emit
 some data:
