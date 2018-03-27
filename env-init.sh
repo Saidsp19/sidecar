@@ -68,8 +68,8 @@ export SIDECAR
 export SIDECAR_SRC
 export SIDECAR_CONFIG
 
-if [[ -z "${SIDECAR_SRC}" && -d "${HOME}/sidecar" ]]; then
-    SIDECAR_SRC="${HOME}/sidecar"
+if [[ -z "${SIDECAR_SRC}" && -d "${HOME}/src/sidecar" ]]; then
+    SIDECAR_SRC="${HOME}/src/sidecar"
     SIDECAR="${SIDECAR_SRC}/builds/latest"
 fi
 
