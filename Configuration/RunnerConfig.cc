@@ -36,17 +36,25 @@ RunnerConfig::RunnerConfig(const Loader& loader, const Init& cfg)
     logPath_ = QString("%1/%2_%3.log").arg(loader.getLogsDirectory()).arg(configurationName_).arg(tmp);
     LOGDEBUG << "logPath: " << logPath_ << std::endl;
 
-    remoteCommand_ = QString("ssh -Tfnx %1 "
-                             "'/usr/bin/nohup "
-                             "\"%2\" "
-                             "-L \"%3\" "
-                             "runner %4 \"%5\" \"%6\"'")
-	.arg(cfg_.host)
-        .arg(QString(Utils::FilePath("${SIDECAR}/bin/startup").c_str()))
-	.arg(logPath_)
-	.arg(cfg_.opts)
-	.arg(cfg_.name)
-	.arg(loader.getConfigurationPath());
+    if (cfg_.host == "localhost") {
+        remoteCommand_ = QString("runner %1 \"%2\" \"%3\"")
+            .arg(cfg_.opts)
+            .arg(cfg_.name)
+            .arg(loader.getConfigurationPath());
+    }
+    else {
+        remoteCommand_ = QString("ssh -Tfnx %1 "
+                                 "'/usr/bin/nohup "
+                                 "\"%2\" "
+                                 "-L \"%3\" "
+                                 "runner %4 \"%5\" \"%6\"'")
+            .arg(cfg_.host)
+            .arg(QString(Utils::FilePath("${SIDECAR}/bin/startup").c_str()))
+            .arg(logPath_)
+            .arg(cfg_.opts)
+            .arg(cfg_.name)
+            .arg(loader.getConfigurationPath());
+    }
     LOGDEBUG << "remoteCommand: " << remoteCommand_ << std::endl;
 }
 
