@@ -69,7 +69,7 @@ macro(ADD_GUI NAME)
             set_target_properties(${NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE ${${NAME}_ICNS})
         endif(${NAME}_ICNS)
 
-        install(TARGETS ${NAME} BUNDLE DESTINATION bin)
+        # install(TARGETS ${NAME} BUNDLE DESTINATION bin)
 
         # Let the app disable any OS sleeping
         #
