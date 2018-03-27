@@ -17,6 +17,7 @@
 #include "Utils/FilePath.h"
 
 #include "AppBase.h"
+#include "DisableAppNap.h"
 #include "LoggerWindow.h"
 #include "LogUtils.h"
 #include "MainWindowBase.h"
@@ -60,7 +61,7 @@ AppBase::AppBase(const QString& name, int& argc, char** argv)
       windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), lastConfigurationFile_(""),
       lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
       distanceUnits_("km"), distanceUnitsSuffix_(" km"), phantomCursor_(PhantomCursorImaging::InvalidCursor()),
-      angularFormatType_(kDecimal), quitting_(false)
+      angularFormatType_(kDecimal), quitting_(false), disableAppNap_(new DisableAppNap)
 {
     Logger::ProcLog log("AppBase", Log());
     LOGINFO << name << std::endl;
@@ -111,6 +112,8 @@ AppBase::AppBase(const QString& name, int& argc, char** argv)
     //
     QSettings settings;
     lastConfigurationFile_ = settings.value(kLogConfigurationFile, "").toString();
+
+    disableAppNap_->begin();
 }
 
 AppBase::~AppBase()
