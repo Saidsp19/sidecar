@@ -5,32 +5,28 @@ from __future__ import print_function
 import os, string, sys
 import xml.dom.minidom
 
-#if 'SIDECAR_SRC' in os.environ:
-#    path = os.path.join( os.environ['SIDECAR_SRC'], 'lib')
-#else:
-#    path = os.path.join( os.environ['SIDECAR'], 'lib')
+path = os.path.split(sys.argv[0])[0]
+sys.path.insert(0, path)
 
-#sys.path.insert(0, path)
-
-# import optargs, Logger
+import optargs, Logger
 
 def Abort(msg):
     print(msg)
-    sys.exit( 1 )
+    sys.exit(1)
 
 class InputOutput:
 
     kTag = None
 
     def __init__(self, node):
-        self.name = node.getAttribute( 'name' )
-        self.type = node.getAttribute( 'type' )
-        self.channel = node.getAttribute( 'channel' )
+        self.name = node.getAttribute('name')
+        self.type = node.getAttribute('type')
+        self.channel = node.getAttribute('channel')
 
-    def generateC( self ):
+    def generateC(self):
         pass
 
-    def generateXML( self ):
+    def generateXML(self):
         if self.name == '' and self.channel == '':
             print('<%s type="%s"/>' % (self.kTag, self.type,))
         elif self.name == '':
@@ -40,20 +36,20 @@ class InputOutput:
         else:
             print('<input type="%s" name="%s" channel="%s"/>' % (self.kTag, self.type, self.name, self.channel))
 
-class Input( InputOutput ):
+class Input(InputOutput):
     kTag = 'input'
     
-class Output( InputOutput ):
+class Output(InputOutput):
     kTag = 'output'
 
 class Parameter:
 
-    def __init__( self, node ):
-        self.name = node.getAttribute( 'name' )
-        self.type = node.getAttribute( 'type' )
-        self.value = node.getAttribute( 'value' )
+    def __init__(self, node):
+        self.name = node.getAttribute('name')
+        self.type = node.getAttribute('type')
+        self.value = node.getAttribute('value')
 
-    def generateC( self ):
+    def generateC(self):
         name = 'kDefault' + self.name[ 0 ].upper() + self.name[ 1 : ]
         value = self.value
         type = self.type
@@ -69,14 +65,14 @@ class Parameter:
 
 class Algorithm:
 
-    def __init__( self, node ):
+    def __init__(self, node):
         self.dll = node.getAttribute('dll')
         self.name = node.getAttribute('name')
         if self.name == '':
             self.name = self.dll
 
         self.inputs = []
-        for input in node.getElementsByTagName( 'input' ):
+        for input in node.getElementsByTagName('input'):
             self.inputs.append(Input(input))
 
         self.outputs = []
@@ -87,11 +83,11 @@ class Algorithm:
         for parameter in node.getElementsByTagName('param'):
             self.parameters.append(Parameter(parameter))
 
-    def generateC( self ):
+    def generateC(self):
         for parameter in self.parameters:
             parameter.generateC()
 
-    def generateXML( self ):
+    def generateXML(self):
         print('<algorithm name="%s" dll="%s">' % (self.name, self.dll))
         for input in self.inputs:
             input.generateXML()
@@ -101,44 +97,44 @@ class Algorithm:
             parameters.generateXML()
         print('</algorithm>')
 
-    def dump( self ):
+    def dump(self):
         print('    Algorithm:', self.name)
 
 class Configuration:
 
-    def __init__( self, node ):
-        self.name = node.getAttribute( 'name' )
+    def __init__(self, node):
+        self.name = node.getAttribute('name')
         self.algorithms = {}
-        for spec in node.getElementsByTagName( 'algorithm' ):
-            algorithm = Algorithm( spec )
-            self.algorithms[ algorithm.name ] = algorithm
+        for spec in node.getElementsByTagName('algorithm'):
+            algorithm = Algorithm(spec)
+            self.algorithms[algorithm.name] = algorithm
 
-    def generateC( self, name ):
-        self.algorithms[ name ].generateC()
+    def generateC(self, name):
+        self.algorithms[name].generateC()
 
-    def generateXML( self, name ):
-        self.algorithms[ name ].generateXML()
+    def generateXML(self, name):
+        self.algorithms[name].generateXML()
 
-    def dump( self ):
+    def dump(self):
         print('  Configuration:', self.name)
         for algorithm in self.algorithms.values():
             algorithm.dump()
 
 class Document:
 
-    def __init__( self, node ):
+    def __init__(self, node):
         self.configurations = {}
-        for spec in node.getElementsByTagName( 'configuration' ):
-            configuration = Configuration( spec )
-            self.configurations[ configuration.name ] = configuration
+        for spec in node.getElementsByTagName('configuration'):
+            configuration = Configuration(spec)
+            self.configurations[configuration.name] = configuration
 
-    def generateC( self, configuration, algorithm ):
-        self.configurations[ configuration ].generateC( algorithm )
+    def generateC(self, configuration, algorithm):
+        self.configurations[configuration].generateC(algorithm)
 
-    def generateXML( self, configuration, algorithm ):
-        self.configurations[ configuration ].generateXML( algorithm )
+    def generateXML(self, configuration, algorithm):
+        self.configurations[configuration].generateXML(algorithm)
 
-    def dump( self ):
+    def dump(self):
         print('Document:')
         for configuration in self.configurations.values():
             configuration.dump()
@@ -146,32 +142,31 @@ class Document:
 optDefs = (
     ('a', 'algorithm', 'NAME', "name of the algorithm to emit"),
     ('c', 'config', 'NAME', "name of the configuration to emit"),
-    ('f', 'format', 'FORMAT', "output format to use ('xml' or 'c' )"),
+    ('f', 'format', 'FORMAT', "output format to use ('xml' or 'c')"),
     ('o', 'output', 'FILE', "write output to file FILE"),)
 argDefs = (
-    ('input', 'path to file to process' ),)
+    ('input', 'path to file to process'),)
 
 def main():
-    # opts, args = optargs.Process(optDefs, argDefs)
-    format = 'c' # opts.get( 'format', 'c' )
-    path = sys.argv[1] # args.input
-    if not os.path.exists( path ):
-        optargs.Error( 'file does not exist', opts, args )
+    opts, args = optargs.Process(optDefs, argDefs)
+    format = opts.get('format', 'c')
+    path = args.input
+    if not os.path.exists(path):
+        optargs.Error('file does not exist', opts, args)
 
-    config = '' # opts.get( 'config', '' )
+    config = opts.get('config', '')
 
-    algorithm = None # opts.get('algorithm')
+    algorithm = opts.get('algorithm')
     if algorithm is None:
         algorithm = os.path.basename(path)
-        algorithm = os.path.splitext(algorithm)[ 0 ]
+        algorithm = os.path.splitext(algorithm)[0]
 
-    #if opts.output:
-    #    sys.stdout = open( opts.output, 'w' )
-    sys.stdout =  open(sys.argv[2], 'w' )
+    if opts.output:
+        sys.stdout = open(opts.output, 'w')
 
-    dom = xml.dom.minidom.parse( path )
-    document = Document( dom.getElementsByTagName( 'configurations' )[ 0 ] )
-    document.generateC( config, algorithm )
+    dom = xml.dom.minidom.parse(path)
+    document = Document(dom.getElementsByTagName('configurations')[0])
+    document.generateC(config, algorithm)
 
 if __name__ == '__main__':
     main()

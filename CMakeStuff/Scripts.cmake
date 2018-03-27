@@ -17,7 +17,7 @@ macro(ADD_SCRIPTS)
         # Define full paths for source and destination files
         #
         get_filename_component(as_EXT "${as_TARGET}" EXT)
-        set(as_SRC  "${CMAKE_CURRENT_SOURCE_DIR}/${as_TARGET}")
+        set(as_SRC "${CMAKE_CURRENT_SOURCE_DIR}/${as_TARGET}")
 
 	    # Get target name w/out extention (NAME_WE)
 	    #

@@ -54,6 +54,12 @@ add_subdirectory(Algorithms)
 add_subdirectory(GUI)
 # add_subdirectory(LLDRFM)
 
+# Create a symbolic link in the build directory to the data directory
+#
+add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/data
+                   COMMAND ${CMAKE_COMMAND} -E create_symlink ${SIDECAR}/data ${PROJECT_BINARY_DIR}/data)
+add_custom_target(link-data ALL DEPENDS ${PROJECT_BINARY_DIR}/data)
+                   
 # Install the env-init.sh files
 #
 install(FILES env-init.sh DESTINATION ./)
