@@ -8,7 +8,7 @@
 
 using namespace SideCar::Zeroconf;
 
-/** Internal implementation class for ASIOMonitor.
+/** Internal implementation class for ASIOMonitor
  */
 struct ASIOMonitor::Private : public boost::enable_shared_from_this<ASIOMonitor::Private>
 {
