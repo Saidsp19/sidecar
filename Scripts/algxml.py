@@ -5,14 +5,14 @@ from __future__ import print_function
 import os, string, sys
 import xml.dom.minidom
 
-if 'SIDECAR_SRC' in os.environ:
-    path = os.path.join( os.environ['SIDECAR_SRC'], 'lib')
-else:
-    path = os.path.join( os.environ['SIDECAR'], 'lib')
+#if 'SIDECAR_SRC' in os.environ:
+#    path = os.path.join( os.environ['SIDECAR_SRC'], 'lib')
+#else:
+#    path = os.path.join( os.environ['SIDECAR'], 'lib')
 
-sys.path.insert(0, path)
+#sys.path.insert(0, path)
 
-import optargs, Logger
+# import optargs, Logger
 
 def Abort(msg):
     print(msg)
@@ -152,21 +152,22 @@ argDefs = (
     ('input', 'path to file to process' ),)
 
 def main():
-    opts, args = optargs.Process(optDefs, argDefs)
-    format = opts.get( 'format', 'c' )
-    path = args.input
+    # opts, args = optargs.Process(optDefs, argDefs)
+    format = 'c' # opts.get( 'format', 'c' )
+    path = sys.argv[1] # args.input
     if not os.path.exists( path ):
         optargs.Error( 'file does not exist', opts, args )
 
-    config = opts.get( 'config', '' )
+    config = '' # opts.get( 'config', '' )
 
-    algorithm = opts.get( 'algorithm' )
+    algorithm = None # opts.get('algorithm')
     if algorithm is None:
-        algorithm = os.path.basename( path )
-        algorithm = os.path.splitext( algorithm )[ 0 ]
+        algorithm = os.path.basename(path)
+        algorithm = os.path.splitext(algorithm)[ 0 ]
 
-    if opts.output:
-        sys.stdout = open( opts.output, 'w' )
+    #if opts.output:
+    #    sys.stdout = open( opts.output, 'w' )
+    sys.stdout =  open(sys.argv[2], 'w' )
 
     dom = xml.dom.minidom.parse( path )
     document = Document( dom.getElementsByTagName( 'configurations' )[ 0 ] )
