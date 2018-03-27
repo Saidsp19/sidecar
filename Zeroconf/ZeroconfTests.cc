@@ -97,14 +97,11 @@ Test::test()
     Publisher::Ref publisher(Publisher::Make(monitorFactory->make()));
     publisher->setType("_blah._tcp");
     assertTrue(publisher.unique());
-    publisher->connectToPublishedSignal(
-	boost::bind(&Test::publishedNotification, this, _1));
+    publisher->connectToPublishedSignal(boost::bind(&Test::publishedNotification, this, _1));
 
-    Browser::Ref browser(
-	Browser::Make(monitorFactory, "_blah._tcp"));
+    Browser::Ref browser(Browser::Make(monitorFactory, "_blah._tcp"));
     assertTrue(browser.unique());
-    browser->connectToFoundSignal(
-	boost::bind(&Test::foundServiceNotification, this, _1));
+    browser->connectToFoundSignal(boost::bind(&Test::foundServiceNotification, this, _1));
 
     assertTrue(browser->start());
     assertTrue(publisher->setTextData("one", "first", false));
