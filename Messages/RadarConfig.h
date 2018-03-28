@@ -12,9 +12,13 @@ namespace Logger {
 class Log;
 }
 namespace SideCar {
+
+namespace Configuration {
+class RadarConfigFileWatcher;
+}
+
 namespace Messages {
 
-class RadarConfigFileWatcher;
 
 /** Run-time configuration parameters that describe the radar. Since there is only one radar configuration in
     use at a time, this class supports no instances; all methods and attributes belong to the class.
@@ -44,14 +48,8 @@ public:
     */
     static Logger::Log& Log();
 
-    /** Use a new file path for radar configuration values.
-
-        \param path file path to use
-
-        \return true if successfully installed
-    */
-    static bool SetConfigurationFilePath(std::string path);
-
+    static bool IsLoaded();
+    
     /** Load in a new radar configuration from an XML DOM node
 
         \param config the DOM node containing the configuration
@@ -193,17 +191,6 @@ private:
     */
     static double CalculateRangeFactor();
 
-    /** Internal initializer class that starts/stops a configuration file monitor (RadarConfigFileWatcher),
-        using RAII principle.
-    */
-    struct Initializer {
-        Initializer();
-        ~Initializer();
-        bool setConfigurationFilePath(const std::string& path);
-    };
-
-    static Initializer initializer_;
-    static RadarConfigFileWatcher* radarConfigFileWatcher_;
     static std::string name_;
     static uint32_t gateCountMax_;
     static uint32_t shaftEncodingMax_;

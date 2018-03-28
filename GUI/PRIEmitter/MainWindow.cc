@@ -25,6 +25,7 @@
 #include "QtGui/QRegExpValidator"
 #include "QtGui/QStatusBar"
 
+#include "Configuration/Loader.h"
 #include "GUI/AppBase.h"
 #include "GUI/LogUtils.h"
 #include "GUI/Writers.h"
@@ -371,7 +372,8 @@ MainWindow::openConfigFile(const QFileInfo& fileInfo)
         configPath = ::getenv("SIDECAR_CONFIG");
     }
 
-    Messages::RadarConfig::SetConfigurationFilePath(configPath.toStdString());
+    Configuration::Loader loader;
+    loader.loadRadarConfig(configPath);
 }
 
 bool

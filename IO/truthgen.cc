@@ -4,10 +4,10 @@
 
 #include "ace/FILE_Connector.h"
 
+#include "Configuration/Loader.h"
 #include "IO/MessageManager.h"
 #include "IO/Writers.h"
 #include "Logger/Log.h"
-#include "Messages/RadarConfig.h"
 #include "Messages/TSPI.h"
 #include "Utils/CmdLineArgs.h"
 #include "Utils/FilePath.h"
@@ -47,7 +47,8 @@ main(int argc, char** argv)
     if (cla.hasOpt("config", value)) {
         LOGINFO << "using '" << value << "' for radar configuration" << std::endl;
         Utils::FilePath configPath(value);
-        Messages::RadarConfig::SetConfigurationFilePath(configPath);
+        Configuration::Loader loader;
+        loader.loadRadarConfig(configPath);
     }
 
     // Create a new FileWriter object and then 'connect' it to the file path given on the command line.

@@ -64,7 +64,7 @@ macro(ADD_UNIT_TEST FILE)
     # Create a custom target that will execute the above custom command whenever necessary to regenerate the
     # test output file
     #
-    add_custom_target(${aut_NAME}Passed ALL DEPENDS ${aut_OK} ${aut_NAME})
+    add_custom_target(${aut_NAME}-PASSED ALL DEPENDS ${aut_OK} ${aut_NAME})
 
 endmacro(ADD_UNIT_TEST)
 
@@ -109,7 +109,7 @@ macro(add_tested_library NAME)
         if("${atl_ARG}" STREQUAL "TEST")
             if(atl_TST)
                 add_unit_test(${atl_TST} ${atl_UNTESTED})
-                list(APPEND atl_TEST_TARGETS ${aut_NAME}Passed)
+                list(APPEND atl_TEST_TARGETS ${aut_NAME}-PASSED)
             endif()
             set(atl_TST)
         else()
@@ -119,7 +119,7 @@ macro(add_tested_library NAME)
 
     if(atl_TST)
         add_unit_test(${atl_TST} ${atl_UNTESTED})
-        list(APPEND atl_TEST_TARGETS ${aut_NAME}Passed)
+        list(APPEND atl_TEST_TARGETS ${aut_NAME}-PASSED)
     endif()
 
     # message("${atl_UNTESTED} tests: ${atl_TEST_TARGETS}")

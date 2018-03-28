@@ -45,8 +45,8 @@ VoidLoaderRegistry::dump() const
 {
     static Logger::ProcLog log("dump", Log());
     LOGDEBUG << "count: " << loaders_.size() << std::endl;
-    VersionedVoidLoaderVector::const_iterator pos(loaders_.begin());
-    VersionedVoidLoaderVector::const_iterator end(loaders_.end());
+    auto pos(loaders_.begin());
+    auto end(loaders_.end());
     while (pos != end) {
         LOGDEBUG << pos->version_ << ' ' << ptrdiff_t(pos->loader_) << std::endl;
         ++pos;

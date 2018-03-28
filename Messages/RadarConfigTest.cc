@@ -25,8 +25,6 @@ Test::test()
 {
     Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug);
 
-    assertFalse(RadarConfig::SetConfigurationFilePath("/a/b/c.xml"));
-
     RadarConfig::Load("blah", 1, 2, 3, 4, 5, 6);
     assertEqual("blah", RadarConfig::GetName());
     assertEqual(1U, RadarConfig::GetGateCountMax());
