@@ -6,6 +6,7 @@
 #include "boost/algorithm/minmax.hpp"
 #include "boost/algorithm/minmax_element.hpp"
 
+#include "Configuration/Loader.h"
 #include "IO/FileReaderTask.h"
 #include "IO/MessageManager.h"
 #include "Logger/Log.h"
@@ -82,8 +83,9 @@ main(int argc, char** argv)
         Utils::FilePath configPath(filePath);
         configPath.setExtension("xml");
         if (configPath.exists()) {
+            Configuration::Loader loader;
             std::clog << cla.progName() << ": using '" << configPath << "' for radar config\n";
-            Messages::RadarConfig::SetConfigurationFilePath(configPath);
+            loader.loadRadarConfig(configPath);
         }
     }
 

@@ -65,7 +65,7 @@ add_tested_library(IO
                    UDPSocketWriterTask.cc
                    VMEReaderTask.cc
 
-                   DEPS IOBase Messages ${CMAKE_THREAD_LIBS_INIT}
+                   DEPS IOBase Messages Configuration ${CMAKE_THREAD_LIBS_INIT}
                    
                    TEST ControlMessageTests.cc
                    TEST FileModuleTests.cc

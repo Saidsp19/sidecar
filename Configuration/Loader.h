@@ -50,6 +50,22 @@ public:
      */
     ~Loader();
 
+    /** Attempt to load a SideCar Radar configuration file.
+
+        \param configurationPath location of the file
+
+        \return true if successful
+    */
+    bool loadRadarConfig(const QString& configurationPath);
+
+    /** Attempt to load a SideCar Radar configuration file.
+
+        \param configurationPath location of the file
+
+        \return true if successful
+    */
+    bool loadRadarConfig(const std::string& configurationPath);
+
     /** Attempt to load a SideCar configuration file.
 
         \param configurationPath location of the file
@@ -57,6 +73,14 @@ public:
         \return true if successful
     */
     bool load(const QString& configurationPath);
+
+    /** Attempt to load a SideCar configuration file.
+
+        \param configurationPath location of the file
+
+        \return true if successful
+    */
+    bool load(const std::string& configurationPath);
 
     /** Determine if a configuration file has been successfully loaded
 

@@ -7,11 +7,11 @@
 #include "boost/algorithm/minmax_element.hpp"
 #include "boost/lexical_cast.hpp"
 
+#include "Configuration/Loader.h"
 #include "IO/FileReaderTask.h"
 #include "IO/FileWriterTask.h"
 #include "IO/MessageManager.h"
 #include "Logger/Log.h"
-#include "Messages/RadarConfig.h"
 #include "Messages/Video.h"
 #include "Utils/CmdLineArgs.h"
 #include "Utils/FilePath.h"
@@ -104,7 +104,8 @@ main(int argc, char** argv)
     configPath.setExtension("xml");
     if (configPath.exists()) {
         std::clog << cla.progName() << ": using '" << configPath << "' for radar config\n";
-        Messages::RadarConfig::SetConfigurationFilePath(configPath);
+        Configuration::Loader loader;
+        loader.loadRadarConfig(configPath);
     }
 
     // Locate last '.' so we can insert file index

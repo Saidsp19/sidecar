@@ -1,5 +1,7 @@
 #include <signal.h>
 
+#include "ace/OS.h"
+
 #include "QtCore/QFile"
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
@@ -13,6 +15,7 @@
 #include "QtGui/QWidget"
 #include "QtNetwork/QHostInfo"
 
+#include "Configuration/Loader.h"
 #include "Logger/ConfiguratorFile.h"
 #include "Utils/FilePath.h"
 
@@ -33,15 +36,8 @@ using namespace SideCar::GUI;
 
 static const char* const kLogConfigurationFile = "LogConfigurationFile";
 static const char* const kObjectName = "ObjectName";
-static const char* const kRootDocumentationPath = "/opt/sidecar/data/doc";
 
 AppBase* AppBase::singleton_ = 0;
-
-QString
-AppBase::GetRootDocumentationPath()
-{
-    return QString(kRootDocumentationPath);
-}
 
 Logger::Log&
 AppBase::Log()
@@ -57,18 +53,19 @@ AppBase::GetApp()
 }
 
 AppBase::AppBase(const QString& name, int& argc, char** argv) :
-    QApplication(argc, argv), name_(name), docDir_(QDir(QCoreApplication::applicationDirPath())),
-    windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), lastConfigurationFile_(""),
-    lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
+    QApplication(argc, argv), name_(name), windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), 
+    lastConfigurationFile_(""), lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
     distanceUnits_("km"), distanceUnitsSuffix_(" km"), phantomCursor_(PhantomCursorImaging::InvalidCursor()),
     angularFormatType_(kDecimal), quitting_(false), disableAppNap_(new DisableAppNap)
 {
     Logger::ProcLog log("AppBase", Log());
-    LOGERROR << name << ' ' << docDir_.canonicalPath().toStdString() << std::endl;
-    Logger::Log::Root().setPriorityLimit(Logger::Priority::kWarning);
+    LOGINFO << "argv0: " << argv[0] << std::endl;
 
     singleton_ = this;
-
+    auto root = getInstallationRoot(argv[0]);
+    setActiveConfiguration(root);
+    setDocumentDirectory(root);
+    
 #ifdef linux
     setStyle(new SCStyle);
 #endif
@@ -123,11 +120,57 @@ AppBase::~AppBase()
     if (config_) { delete config_; }
 }
 
-QString
-AppBase::getDocumentationPath() const
+std::string
+AppBase::getInstallationRoot(const char* argv0)
 {
-    QDir dir(GetRootDocumentationPath());
-    return dir.filePath(name_);
+    Logger::ProcLog log("getInstallationRoot", Log());
+
+    auto appPath = [](const char* arg) -> std::string {
+                       if (*arg != '/') {
+                           char buffer[MAXPATHLEN + 1];
+                           std::string path(::getcwd(buffer, MAXPATHLEN));
+                           path += '/';
+                           path += arg;
+                           return path;
+                       }
+                       return std::string(arg);
+                   }(argv0);
+
+    std::string root = "";
+    std::string token;
+    std::istringstream tokenStream(appPath);
+    while (std::getline(tokenStream, token, '/')) {
+        if (token == "bin") break;
+        if (token.empty()) continue;
+        root += '/';
+        root += token;
+    }
+
+    LOGINFO << "root: " << root << std::endl;
+    return root;
+}
+
+void
+AppBase::setActiveConfiguration(const std::string& root)
+{
+    ::setenv("SIDECAR", root.c_str(), 0);
+    auto paths = {"${SIDECAR_CONFIG}", "${SIDECAR}/data/configuration.xml", "/opt/sidecar/data/configuration.xml"};
+    SideCar::Configuration::Loader loader;
+    for (auto path : paths) {
+        auto filePath = Utils::FilePath(path);
+        if (filePath.exists() && loader.load(filePath.filePath())) {
+            return;
+        }
+    }
+}
+
+void
+AppBase::setDocumentDirectory(const std::string& root)
+{
+    QString tmp = QString::fromStdString(root);
+    tmp += "/data/doc/";
+    tmp += name_;
+    docDir_.cd(tmp);
 }
 
 QMenu*

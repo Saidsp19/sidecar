@@ -40,11 +40,11 @@ static const char* const kAttributeCpuAffinity = "cpu";
 static const char* const kAttributeInitialProcessingState = "state";
 static const char* const kEntityStream = "stream";
 
-static void
-expandEnvVars(QString& val)
+static QString
+expandEnvVars(const QString& val)
 {
     Utils::FilePath tmp(val.toUtf8().constData());
-    val = tmp.c_str();
+    return QString::fromStdString(tmp);
 }
 
 /** Private implementation class the performs the work for the Loader class.
@@ -53,6 +53,8 @@ struct Loader::Private {
     static Logger::Log& Log();
 
     Private(const Loader& parent);
+
+    bool loadRadarConfig(const QString& configurationPath);
 
     bool load(const QString& configurationPath);
 
@@ -151,6 +153,32 @@ Loader::Private::updateInit(RunnerConfig::Init& cfg, QDomElement xml)
 }
 
 bool
+Loader::Private::loadRadarConfig(const QString& configurationPath)
+{
+    // Open the XML file
+    //
+    QFile file(configurationPath);
+    std::cout << "file: " << qPrintable(configurationPath) << std::endl;
+    if (!file.open(QFile::ReadOnly | QFile::Text)) { return finishLoad(Loader::kFailedFileOpen); }
+
+    // Load the XML data, creating a DOM object.
+    //
+    QDomDocument dom;
+    if (!dom.setContent(&file, false, &errorText_, &errorLine_, &errorColumn_)) {
+        return finishLoad(Loader::kFailedXMLParse);
+    }
+
+    // We MUST have a <radar> element
+    //
+    QDomElement radar = dom.namedItem(kEntityRadar).toElement();
+    if (radar.isNull()) { return finishLoad(Loader::kMissingRadarNode); }
+
+    if (!Messages::RadarConfig::Load(radar)) { return finishLoad(Loader::kInvalidRadarNode); }
+
+    return finishLoad(Loader::kOK);
+}
+
+bool
 Loader::Private::load(const QString& configurationPath)
 {
     Logger::ProcLog log("load", Log());
@@ -190,7 +218,7 @@ Loader::Private::load(const QString& configurationPath)
     QDir dir(QFileInfo(configurationPath).dir());
     if (radar.hasAttribute(kAttributeFile)) {
         QDomDocument doc;
-        radar = loadIncludeFile(dir.filePath(radar.attribute(kAttributeFile)), kEntityRadar, doc);
+        radar = loadIncludeFile(dir.filePath(expandEnvVars(radar.attribute(kAttributeFile))), kEntityRadar, doc);
     }
 
     if (!Messages::RadarConfig::Load(radar)) { return finishLoad(Loader::kInvalidRadarNode); }
@@ -210,7 +238,7 @@ Loader::Private::load(const QString& configurationPath)
         loggerConfiguration_ = dp.attribute(kAttributeLoggerConfiguration);
     }
 
-    expandEnvVars(loggerConfiguration_);
+    loggerConfiguration_ = expandEnvVars(loggerConfiguration_);
     LOGDEBUG << "loggerConfiguration: " << loggerConfiguration_ << std::endl;
 
     logsDirectory_ = dp.attribute(kAttributeLogsDirectory, kDefaultLogsDirectory);
@@ -229,7 +257,7 @@ Loader::Private::load(const QString& configurationPath)
         recordingsDirectory_ = dp.attribute(kAttributeRecordingsDirectory, kDefaultRecordingsDirectory);
     }
 
-    expandEnvVars(recordingsDirectory_);
+    recordingsDirectory_ = expandEnvVars(recordingsDirectory_);
     LOGDEBUG << "recordingsDirectory: " << recordingsDirectory_ << std::endl;
 
     initialProcessingState_ = dp.attribute(kAttributeInitialProcessingState, initialProcessingState_);
@@ -367,9 +395,27 @@ Loader::~Loader()
 }
 
 bool
+Loader::loadRadarConfig(const QString& configurationPath)
+{
+    return p_->loadRadarConfig(configurationPath);
+}
+
+bool
+Loader::loadRadarConfig(const std::string& configurationPath)
+{
+    return p_->loadRadarConfig(QString::fromStdString(configurationPath));
+}
+
+bool
 Loader::load(const QString& configurationPath)
 {
     return p_->load(configurationPath);
+}
+
+bool
+Loader::load(const std::string& configurationPath)
+{
+    return p_->load(QString::fromStdString(configurationPath));
 }
 
 Loader::LoadResult

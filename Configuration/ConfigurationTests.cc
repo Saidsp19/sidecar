@@ -1,18 +1,21 @@
 #include <fstream>
 
 #include "Logger/Log.h"
+#include "Messages/RadarConfig.h"
 #include "UnitTest/UnitTest.h"
 #include "Utils/FilePath.h"
 
 #include "Loader.h"
 #include "RunnerConfig.h"
 
+using namespace SideCar::Messages;
 using namespace SideCar::Configuration;
 
 struct ConfigurationTests : public UnitTest::ProcSuite<ConfigurationTests> {
     ConfigurationTests() : UnitTest::ProcSuite<ConfigurationTests>(this, "Configuration")
     {
-        add("Normal", &ConfigurationTests::testNormal);
+        add("LoadConfig", &ConfigurationTests::testLoadConfig);
+        add("LoadRadarConfig", &ConfigurationTests::testLoadRadarConfig);
         add("FailedFileOpen", &ConfigurationTests::testFailedFileOpen);
         add("FailedXMLParse", &ConfigurationTests::testFailedXMLParse);
         add("MissingSidecar", &ConfigurationTests::testMissingSidecar);
@@ -22,7 +25,8 @@ struct ConfigurationTests : public UnitTest::ProcSuite<ConfigurationTests> {
         add("InvalidIncludes", &ConfigurationTests::testIncludes);
     }
 
-    void testNormal();
+    void testLoadConfig();
+    void testLoadRadarConfig();
     void testFailedFileOpen();
     void testFailedXMLParse();
     void testMissingSidecar();
@@ -33,7 +37,7 @@ struct ConfigurationTests : public UnitTest::ProcSuite<ConfigurationTests> {
 };
 
 void
-ConfigurationTests::testNormal()
+ConfigurationTests::testLoadConfig()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
@@ -63,6 +67,7 @@ ConfigurationTests::testNormal()
     }
 
     Loader loader;
+
     assertEqual(Loader::kNotLoaded, loader.getLastLoadResult());
     assertFalse(loader.isLoaded());
 
@@ -74,10 +79,43 @@ ConfigurationTests::testNormal()
 }
 
 void
+ConfigurationTests::testLoadRadarConfig()
+{
+    Utils::TemporaryFilePath tempFilePath;
+    {
+        const char* text = "\
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
+<radar>\
+ <name>Radar</name>\
+ <gateCountMax type=\"int\">9876</gateCountMax>\
+ <shaftEncodingMax type=\"int\">12345</shaftEncodingMax>\
+ <rotationRate units=\"rpm\" type=\"double\">6</rotationRate>\
+ <rangeMin units=\"km\" type=\"double\">0.0</rangeMin>\
+ <rangeMax units=\"km\" type=\"double\">300.0</rangeMax>\
+ <beamWidth units=\"radians\" type=\"double\">0.00125644</beamWidth>\
+</radar>\
+";
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
+    }
+
+    Loader loader;
+
+    assertEqual(Loader::kNotLoaded, loader.getLastLoadResult());
+    assertFalse(loader.isLoaded());
+
+    assertTrue(loader.loadRadarConfig(QString::fromStdString(tempFilePath)));
+    assertEqual(Loader::kOK, loader.getLastLoadResult());
+
+    assertEqual(RadarConfig::GetShaftEncodingMax(), 12345);
+    assertEqual(RadarConfig::GetGateCountMax(), 9876);
+}
+
+void
 ConfigurationTests::testFailedFileOpen()
 {
     Loader loader;
-    assertFalse(loader.load("/this should/ not match/ a file path"));
+    assertFalse(loader.load(std::string("/this should/ not match/ a file path")));
     assertEqual(Loader::kFailedFileOpen, loader.getLastLoadResult());
 }
 

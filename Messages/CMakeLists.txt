@@ -7,13 +7,11 @@
 #
 add_library(MessagesBase SHARED 
 			Attributes.cc
-			CircularBuffer.cc
 			GUID.cc
 			Header.cc
 			LoaderRegistry.cc
 			MetaTypeInfo.cc
 			RadarConfig.cc
-			RadarConfigFileWatcher.cc
 			VMEHeader.cc
 			XmlStreamReader.cc
             )
@@ -32,6 +30,7 @@ add_tested_library(Messages
                    SOURCES
 			       BinaryVideo.cc
 			       BugPlot.cc
+			       CircularBuffer.cc
 			       Complex.cc
 			       Extraction.cc
 			       PRIMessage.cc

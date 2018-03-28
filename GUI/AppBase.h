@@ -52,8 +52,6 @@ public:
     */
     static AppBase* GetApp();
 
-    static QString GetRootDocumentationPath();
-
     /** Constructor.
 
         \param name the name of the application
@@ -69,8 +67,6 @@ public:
     ~AppBase();
 
     const QString& getApplicationName() const { return name_; }
-
-    QString getDocumentationPath() const;
 
     WindowManager* getWindowManager() const { return windowManager_; }
 
@@ -317,6 +313,13 @@ protected:
     MainWindowBase* makeAndInitializeNewMainWindow(const QString& type);
 
 private:
+
+    std::string getInstallationRoot(const char* argv0);
+
+    void setActiveConfiguration(const std::string& root);
+
+    void setDocumentDirectory(const std::string& root);
+
     /** Manually set the active main window. MainWindowBase objects use this to notify the application when it
         becomes the active window.
 
@@ -338,6 +341,8 @@ private:
 
     bool event(QEvent* event);
 
+    static void UpdateRadarConfig(const char* argv0);
+
     QString name_;
     QDir docDir_;
     WindowManager* windowManager_;
@@ -355,6 +360,7 @@ private:
     AngularFormatType angularFormatType_;
     bool quitting_;
     DisableAppNap* disableAppNap_;
+
     static AppBase* singleton_;
 };
 

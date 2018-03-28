@@ -1,7 +1,5 @@
 #ifndef SIDECAR_MESSAGES_XMLSTREAMREADER_H // -*- C++ -*-
 #define SIDECAR_MESSAGES_XMLSTREAMREADER_H
-// (C) Copyright 2009 Massachusetts Institute of Technology. All rights reserved.
-//
 
 #include "QtCore/QString"
 #include "QtCore/QStringList"

@@ -6,56 +6,9 @@
 #include "Utils/Utils.h"
 
 #include "RadarConfig.h"
-#include "RadarConfigFileWatcher.h"
 
 using namespace SideCar::Messages;
 
-RadarConfig::Initializer::Initializer()
-{
-    Logger::ProcLog log("Initializer::Initializer", Log());
-    LOGINFO << std::endl;
-
-    auto paths = {"${SIDECAR_CONFIG}", "${SIDECAR}/data/configuration.xml", "/opt/sidecar/data/configuration.xml"};
-
-    for (auto path : paths) {
-        auto filePath = Utils::FilePath(path);
-        if (filePath.exists()) {
-            setConfigurationFilePath(path);
-            break;
-        }
-    }
-
-    LOGFATAL << "failed to locate radar configuration file" << std::endl;
-}
-
-bool
-RadarConfig::Initializer::setConfigurationFilePath(const std::string& path)
-{
-    Logger::ProcLog log("Initializer::setConfigurationFilePath", Log());
-    LOGINFO << path << std::endl;
-
-    Utils::FilePath fp(path);
-    LOGINFO << "path: " << path << " (" << fp << ")" << std::endl;
-    if (!fp.exists()) {
-        LOGWARNING << "no configuration file at " << path << " (expansion: " << fp << ")" << std::endl;
-        return false;
-    }
-
-    if (!radarConfigFileWatcher_) { radarConfigFileWatcher_ = new RadarConfigFileWatcher; }
-
-    return radarConfigFileWatcher_->setFilePath(fp.filePath());
-}
-
-RadarConfig::Initializer::~Initializer()
-{
-    delete radarConfigFileWatcher_;
-    radarConfigFileWatcher_ = 0;
-}
-
-/** NOTE: ordering here is critical: the initializer_ object must appear after all of the other attributes,
-    especially name_, since the initializer_ will create a RadarConfigFileWatcher object, which may load and
-    update the other class attributes.
-*/
 std::string RadarConfig::name_ = "Default";
 uint32_t RadarConfig::gateCountMax_ = 4000;
 uint32_t RadarConfig::shaftEncodingMax_ = 65535;
@@ -67,9 +20,6 @@ double RadarConfig::beamWidth_ = 0.001544;
 double RadarConfig::latitude_ = 37.0 + 49.0 / 60.0 + 7.83477 / 3600.0;
 double RadarConfig::longitude_ = -(116.0 + 31.0 / 60.0 + 53.51066 / 3600.0);
 double RadarConfig::height_ = 0.0;
-
-RadarConfigFileWatcher* RadarConfig::radarConfigFileWatcher_ = 0;
-RadarConfig::Initializer RadarConfig::initializer_; ///< !!! Keep last !!!
 
 Logger::Log&
 RadarConfig::Log()
@@ -148,12 +98,6 @@ double
 RadarConfig::GetSiteHeight()
 {
     return height_;
-}
-
-bool
-RadarConfig::SetConfigurationFilePath(std::string path)
-{
-    return initializer_.setConfigurationFilePath(path);
 }
 
 void

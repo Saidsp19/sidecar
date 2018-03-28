@@ -36,6 +36,8 @@ recognize or need.
        rangeOfFirstGate - the range value associated with the first sample
        rangeDelta - the change in range between subsequent samples
   -->
-  <radar file="/opt/sidecar/data/radar_files/20t10scans.xml" /> 
+  <radar file="${SIDECAR}/data/radar_files/20t10scans.xml" /> 
 
+  <dp>
+  </dp>
 </sidecar>
