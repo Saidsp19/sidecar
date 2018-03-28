@@ -6,15 +6,15 @@
 
 #include "boost/scoped_ptr.hpp"
 
-#include <vsip/support.hpp>
-#include <vsip/matrix.hpp>
-#include <vsip/vector.hpp>
-#include <vsip/signal.hpp>
 #include <vsip/math.hpp>
+#include <vsip/matrix.hpp>
+#include <vsip/signal.hpp>
+#include <vsip/support.hpp>
+#include <vsip/vector.hpp>
 
 #include "Algorithms/CPIAlgorithm.h"
-#include "Parameter/Parameter.h"
 #include "Messages/Video.h"
+#include "Parameter/Parameter.h"
 
 namespace SideCar {
 namespace Algorithms {
@@ -23,16 +23,13 @@ namespace Algorithms {
     possible, mathematical terms.
 */
 
-
-class RangeDopplerMap : public CPIAlgorithm
-{
+class RangeDopplerMap : public CPIAlgorithm {
 public:
-  
     using Super = CPIAlgorithm;
     using ComplexType = std::complex<float>;
     using VsipComplexVector = vsip::Vector<ComplexType>;
     using VsipComplexMatrix = vsip::Matrix<ComplexType>;
-    using ForwardFFTM = vsip::Fftm<ComplexType,ComplexType,vsip::col, vsip::fft_fwd, vsip::by_reference>;
+    using ForwardFFTM = vsip::Fftm<ComplexType, ComplexType, vsip::col, vsip::fft_fwd, vsip::by_reference>;
 
     /** Constructor.
 
@@ -49,11 +46,10 @@ public:
     bool startup();
 
 private:
-
     bool cpiSpanChanged(const Parameter::PositiveIntValue& parameter);
     bool processCPI();
     bool resize(int);
-  
+
     // Add attributes here
     //
     boost::scoped_ptr<VsipComplexMatrix> CPI_;

@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <cstring>		// for tolower
+#include <cstring> // for tolower
 #include <string>
 #include <vector>
 
@@ -19,17 +19,15 @@ using namespace SideCar::Messages;
     generator for each thread that requests a sequence number so that threads will not generate sequences with
     gaps in them.
 */
-class MetaTypeInfo::SequenceGenerator
-{
+class MetaTypeInfo::SequenceGenerator {
 public:
     class PerThreadInfo;
 
     static Logger::Log& Log()
-	{
-	    static Logger::Log& log_ = Logger::Log::Find(
-		"SideCar.Messages.MetaTypeInfo::SequenceGenerator");
-	    return log_;
-	}
+    {
+        static Logger::Log& log_ = Logger::Log::Find("SideCar.Messages.MetaTypeInfo::SequenceGenerator");
+        return log_;
+    }
 
     /** Constructor. Creates a unique pthread_key_t for a MetaTypeInfo object.
      */
@@ -51,8 +49,7 @@ private:
 
 /** Internal message sequence counter that exists for each thread.
  */
-struct MetaTypeInfo::SequenceGenerator::PerThreadInfo
-{
+struct MetaTypeInfo::SequenceGenerator::PerThreadInfo {
     /** Constructor. Initialize the sequence counter to 0
      */
     PerThreadInfo() : sequenceCounter_(0) {}
@@ -70,15 +67,16 @@ struct MetaTypeInfo::SequenceGenerator::PerThreadInfo
 
 extern "C" {
 
-    /** Stub C function that deletes the PerThreadInfo object associated with a thread that is terminating.
+/** Stub C function that deletes the PerThreadInfo object associated with a thread that is terminating.
 
-        \param obj the PerThreadInfo object to delete
-    */
-    static void MetaTypeInfoDestroyPerThreadInfoStub(void* obj)
-    {
-	using PerThreadInfo = MetaTypeInfo::SequenceGenerator::PerThreadInfo;
-	delete static_cast<PerThreadInfo*>(obj);
-    }
+    \param obj the PerThreadInfo object to delete
+*/
+static void
+MetaTypeInfoDestroyPerThreadInfoStub(void* obj)
+{
+    using PerThreadInfo = MetaTypeInfo::SequenceGenerator::PerThreadInfo;
+    delete static_cast<PerThreadInfo*>(obj);
+}
 }
 
 MetaTypeInfo::SequenceGenerator::SequenceGenerator()
@@ -101,10 +99,10 @@ MetaTypeInfo::SequenceGenerator::getNextSequenceNumber()
     static Logger::ProcLog log("getNextSequenceNumber", Log());
     LOGINFO << std::endl;
     PerThreadInfo* pti = static_cast<PerThreadInfo*>(::pthread_getspecific(perThreadInfoKey_));
-    if (! pti) {
-	LOGINFO << "created new PerThreadInfo object" << std::endl;
-	pti = new PerThreadInfo();
-	::pthread_setspecific(perThreadInfoKey_, pti);
+    if (!pti) {
+        LOGINFO << "created new PerThreadInfo object" << std::endl;
+        pti = new PerThreadInfo();
+        ::pthread_setspecific(perThreadInfoKey_, pti);
     }
 
     return pti->getNextSequenceNumber();
@@ -112,8 +110,7 @@ MetaTypeInfo::SequenceGenerator::getNextSequenceNumber()
 
 /** Internal class that mananges MetaTypeInfo registrations.
  */
-struct MetaTypeInfo::Registrations
-{
+struct MetaTypeInfo::Registrations {
     using KeyVector = std::vector<int>;
     using MetaTypeInfoVector = std::vector<MetaTypeInfo*>;
     KeyVector keys_;
@@ -144,25 +141,22 @@ MetaTypeInfo::Registrations::add(int key, MetaTypeInfo* info)
     LOGDEBUG << keys_.size() << ' ' << infos_.size() << std::endl;
 
     if (keys_.empty() || key > keys_.back()) {
-	LOGDEBUG << "adding to back" << std::endl;
-	keys_.push_back(key);
-	infos_.push_back(info);
-    }
-    else {
-	KeyVector::iterator pos(std::upper_bound(keys_.begin(), keys_.end(), key));
-	if (pos != keys_.begin() && *(pos - 1) == key) {
-	    Utils::Exception ex("duplicate MetaTypeInfo keys - ");
-	    ex << int(key) << '/' << info->getName() << ' '
-	       << infos_[pos - keys_.begin() - 1]->getName()
-	       << ' ' << info << ' '
-	       << infos_[pos - keys_.begin() - 1];
-	    log.thrower(ex);
-	}
+        LOGDEBUG << "adding to back" << std::endl;
+        keys_.push_back(key);
+        infos_.push_back(info);
+    } else {
+        auto pos = std::upper_bound(keys_.begin(), keys_.end(), key);
+        auto index = std::distance(keys_.begin(), pos);
+        if (pos != keys_.begin() && *(pos - 1) == key) {
+            Utils::Exception ex("duplicate MetaTypeInfo keys - ");
+            const auto& existing = infos_[index - 1];
+            ex << int(key) << '/' << info->getName() << ' ' << existing->getName() << ' ' << info << ' ' << existing;
+            log.thrower(ex);
+        }
 
-	size_t index(pos - keys_.begin());
-	LOGDEBUG << keys_.size() << ' ' << index << std::endl;
-	keys_.insert(pos, key);
-	infos_.insert(infos_.begin() + index, info);
+        LOGDEBUG << keys_.size() << ' ' << index << std::endl;
+        keys_.insert(pos, key);
+        infos_.insert(infos_.begin() + index, info);
     }
 
     dump();
@@ -172,12 +166,7 @@ void
 MetaTypeInfo::Registrations::dump() const
 {
     static Logger::ProcLog log("dump", Log());
-    MetaTypeInfoVector::const_iterator pos(infos_.begin());
-    MetaTypeInfoVector::const_iterator end(infos_.end());
-    while (pos != end) {
-	LOGDEBUG << (**pos).getKey() << ' ' << (**pos).getName() << std::endl;
-	++pos;
-    }
+    for (auto& info : infos_) { LOGDEBUG << info->getKey() << ' ' << info->getName() << std::endl; }
 }
 
 void
@@ -188,11 +177,11 @@ MetaTypeInfo::Registrations::remove(int key)
 
     KeyVector::iterator pos(std::lower_bound(keys_.begin(), keys_.end(), key));
     if (pos == keys_.end()) {
-	LOGINFO << "object is not registered" << std::endl;
-	return;
+        LOGINFO << "object is not registered" << std::endl;
+        return;
     }
 
-    size_t index(pos - keys_.begin());
+    auto index = std::distance(keys_.begin(), pos);
     LOGDEBUG << keys_.size() << ' ' << index << std::endl;
     keys_.erase(pos);
     infos_.erase(infos_.begin() + index);
@@ -205,15 +194,14 @@ MetaTypeInfo::Registrations::find(int key) const
     static Logger::ProcLog log("Find", Log());
     LOGINFO << key << std::endl;
 
-    KeyVector::const_iterator pos(std::lower_bound(keys_.begin(), keys_.end(),
-                                                   key));
+    KeyVector::const_iterator pos(std::lower_bound(keys_.begin(), keys_.end(), key));
     if (pos == keys_.end()) {
-	Utils::Exception ex("no MetaTypeInfo registered for key ");
-	ex << int(key);
-	log.thrower(ex);
+        Utils::Exception ex("no MetaTypeInfo registered for key ");
+        ex << int(key);
+        log.thrower(ex);
     }
 
-    return infos_[pos - keys_.begin()];
+    return infos_[std::distance(keys_.begin(), pos)];
 }
 
 const MetaTypeInfo*
@@ -225,15 +213,14 @@ MetaTypeInfo::Registrations::find(const std::string& name) const
     MetaTypeInfoVector::const_iterator pos(infos_.begin());
     MetaTypeInfoVector::const_iterator end(infos_.end());
     while (pos != end) {
-	if ((**pos).getName() == name)
-	    break;
-	++pos;
+        if ((**pos).getName() == name) break;
+        ++pos;
     }
 
     if (pos == end) {
-	Utils::Exception ex("no MetaTypeInfo registered with name ");
-	ex << name;
-	log.thrower(ex);
+        Utils::Exception ex("no MetaTypeInfo registered with name ");
+        ex << name;
+        log.thrower(ex);
     }
 
     return *pos;
@@ -245,19 +232,17 @@ MetaTypeInfo::Registrations* MetaTypeInfo::registrations_ = 0;
 Logger::Log&
 MetaTypeInfo::Log()
 {
-    static Logger::Log& log_ = Logger::Log::Find(
-	"SideCar.Messages.MetaTypeInfo");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.Messages.MetaTypeInfo");
     return log_;
 }
 
-MetaTypeInfo::MetaTypeInfo(Value key, const std::string& name, CDRLoader cdrLoader, XMLLoader xmlLoader)
-    : key_(key), name_(name), cdrLoader_(cdrLoader), xmlLoader_(xmlLoader),
-      sequenceGenerator_(new SequenceGenerator)
+MetaTypeInfo::MetaTypeInfo(Value key, const std::string& name, CDRLoader cdrLoader, XMLLoader xmlLoader) :
+    key_(key), name_(name), cdrLoader_(cdrLoader), xmlLoader_(xmlLoader), sequenceGenerator_(new SequenceGenerator)
 {
     static Logger::ProcLog log("MetaTypeInfo", Log());
     LOGINFO << key << ' ' << name << ' ' << std::endl;
     ACE_Guard<ACE_Mutex> locker(mutex_);
-    if (! registrations_) registrations_ = new Registrations;
+    if (!registrations_) registrations_ = new Registrations;
     registrations_->add(GetValueValue(key_), this);
 }
 
@@ -331,9 +316,9 @@ SideCar::Messages::operator>>(ACE_InputCDR& cdr, MetaTypeInfo::Value& value)
     cdr >> tmpInt;
     MetaTypeInfo::Value tmp(static_cast<MetaTypeInfo::Value>(tmpInt));
     if (tmp < MetaTypeInfo::Value::kInvalid || tmp > MetaTypeInfo::Value::kUnassigned) {
-	Utils::Exception ex("invalid MetaTypeInfo::Value value - ");
-	ex << tmp;
-	log.thrower(ex);
+        Utils::Exception ex("invalid MetaTypeInfo::Value value - ");
+        ex << tmp;
+        log.thrower(ex);
     }
     value = tmp;
     return cdr.good_bit();

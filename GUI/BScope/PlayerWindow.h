@@ -10,7 +10,9 @@
 
 class QScrollArea;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace BScope {
@@ -20,16 +22,14 @@ class ImageScaler;
 class PlayerPositioner;
 class PlayerSettings;
 
-class PlayerWindow : public MainWindowBase
-{
+class PlayerWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
-    PlayerWindow(const QList<QImage>& past, const QImage& blank,
-                 int shortcut);
+    PlayerWindow(const QList<QImage>& past, const QImage& blank, int shortcut);
 
     void saveToSettings(QSettings&);
 
@@ -72,7 +72,6 @@ private slots:
     void imageScalerDone(const QImage& image, int index);
 
 private:
-
     void updateButtons();
 
     void updateInfo();

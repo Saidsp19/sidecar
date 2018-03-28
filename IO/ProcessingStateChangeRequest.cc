@@ -2,8 +2,8 @@
 
 using namespace SideCar::IO;
 
-ProcessingStateChangeRequest::ProcessingStateChangeRequest(ProcessingState::Value state)
-    : ControlMessage(kProcessingStateChange, sizeof(state))
+ProcessingStateChangeRequest::ProcessingStateChangeRequest(ProcessingState::Value state) :
+    ControlMessage(kProcessingStateChange, sizeof(state))
 {
     getData()->copy(reinterpret_cast<char*>(&state), sizeof(state));
 }

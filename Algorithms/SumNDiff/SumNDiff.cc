@@ -1,6 +1,6 @@
-#include "boost/bind.hpp"		// for std::transform
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include "boost/bind.hpp" // for std::transform
+#include <algorithm>      // for std::transform
+#include <functional>     // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -16,11 +16,10 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-SumNDiff::SumNDiff(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      radius_(Parameter::PositiveIntValue::Make("radius", "Size of windows to sum and subtract", kDefaultRadius)),
-      sum1_(), sum2_(), buffer_()
+SumNDiff::SumNDiff(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    radius_(Parameter::PositiveIntValue::Make("radius", "Size of windows to sum and subtract", kDefaultRadius)),
+    sum1_(), sum2_(), buffer_()
 {
     radius_->connectChangedSignalTo(boost::bind(&SumNDiff::radiusChanged, this, _1));
 }
@@ -32,7 +31,7 @@ SumNDiff::SumNDiff(Controller& controller, Logger::Log& log)
 bool
 SumNDiff::startup()
 {
-    registerProcessor<SumNDiff,Messages::Video>(&SumNDiff::processInput);
+    registerProcessor<SumNDiff, Messages::Video>(&SumNDiff::processInput);
     return registerParameter(radius_) && registerParameter(enabled_) && Super::startup();
 }
 
@@ -60,18 +59,15 @@ SumNDiff::processInput(const Messages::Video::Ref& msg)
 
     // Don't process anything until we have accumulated enough messages
     //
-    if (buffer_.size() < size_t(2*radius_->getValue())) {
-        return true;
-    }
+    if (buffer_.size() < size_t(2 * radius_->getValue())) { return true; }
 
     std::fill(sum1_.begin(), sum1_.end(), 0);
     std::fill(sum2_.begin(), sum2_.end(), 0);
 
-    VideoMessageBuffer::iterator  itr;
+    VideoMessageBuffer::iterator itr;
     VideoMessageBuffer::reverse_iterator ritr;
     size_t R = radius_->getValue();
     for (itr = buffer_.begin(), ritr = buffer_.rbegin(); itr != buffer_.begin() + R; itr++, ritr++) {
-	 
         std::transform(sum1_.begin(), sum1_.end(), (*itr)->begin(), sum1_.begin(),
                        std::plus<Messages::Video::DatumType>());
         std::transform(sum2_.begin(), sum2_.end(), (*ritr)->begin(), sum2_.begin(),
@@ -86,7 +82,7 @@ SumNDiff::processInput(const Messages::Video::Ref& msg)
     // By default the new message has no elements. Either append them or resize.
     //
     out->resize(sum1_.size());
-	
+
     // Fill the buffer with the difference between sum1 and sum2
     //
     std::transform(sum1_.begin(), sum1_.end(), sum2_.begin(), out->begin(), std::minus<Messages::Video::DatumType>());
@@ -101,7 +97,7 @@ SumNDiff::processInput(const Messages::Video::Ref& msg)
     return rc;
 }
 
-void 
+void
 SumNDiff::radiusChanged(const Parameter::PositiveIntValue& parameter)
 {
     buffer_.clear();
@@ -117,7 +113,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[SumNDiff::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[SumNDiff::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

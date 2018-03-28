@@ -15,7 +15,9 @@
 class QDir;
 class QProgressDialog;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace Master {
@@ -28,12 +30,11 @@ class ServicesModel;
 class StatusWidget;
 class UtilsWidget;
 
-class MainWindow : public MainWindowBase, public Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, public Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -48,26 +49,21 @@ public:
 
     QString getNow() const { return now_; }
 
-    void setRecordingElapsed(const QString& elapsed,
-                             const QString& remaining);
+    void setRecordingElapsed(const QString& elapsed, const QString& remaining);
 
-    ConfigurationController& getConfigurationController() const
-	{ return *configurationController_; }
-    
-    RecordingController& getRecordingController() const
-	{ return *recordingController_; }
-    
+    ConfigurationController& getConfigurationController() const { return *configurationController_; }
+
+    RecordingController& getRecordingController() const { return *recordingController_; }
+
     QStringList getRecordableConfigurations() const;
 
     ConfigurationInfo* getConfigurationInfo(const QString& name) const;
 
     bool shutdownConfiguration(const QString& configName);
 
-    bool getChangedParameters(const QStringList& configNames,
-                              QStringList& changes) const;
+    bool getChangedParameters(const QStringList& configNames, QStringList& changes) const;
 
-    bool startRecording(const QStringList& configNames,
-                        const QStringList& recordingPaths);
+    bool startRecording(const QStringList& configNames, const QStringList& recordingPaths);
 
     bool stopRecording();
 
@@ -116,7 +112,6 @@ private slots:
     void restoreRecordings();
 
 private:
-
     void processChecker();
 
     void restoreFromSettings(QSettings& settings);

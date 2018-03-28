@@ -5,20 +5,23 @@
 #include "IO/Module.h"
 #include "IO/ZeroconfRegistry.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Zeroconf { class Publisher; }
+namespace Zeroconf {
+class Publisher;
+}
 namespace IO {
 
 class ServerSocketWriterTask;
 
 /** Publisher of data using TCP transport. Relies on a ServerSocketWriterTask to do the heady lifing.
  */
-class TCPDataPublisher : public DataPublisher,
-			 public ZeroconfTypes::Publisher
-{
+class TCPDataPublisher : public DataPublisher, public ZeroconfTypes::Publisher {
     using Super = DataPublisher;
+
 public:
     using Self = TCPDataPublisher;
     using Ref = boost::shared_ptr<Self>;
@@ -37,16 +40,14 @@ public:
 
     /** Open a server connection on a particular port.
 
-	\param key message type key of published data
+        \param key message type key of published data
 
-	\param serviceName Zeroconf name of service publishing the data
+        \param serviceName Zeroconf name of service publishing the data
 
         \return true if successful, false otherwise
     */
-    bool openAndInit(const std::string& key, const std::string& serviceName,
-                     uint16_t port = 0, int bufferSize = 0,
-                     long threadFlags = kDefaultThreadFlags,
-                     long threadPriority = ACE_DEFAULT_THREAD_PRIORITY);
+    bool openAndInit(const std::string& key, const std::string& serviceName, uint16_t port = 0, int bufferSize = 0,
+                     long threadFlags = kDefaultThreadFlags, long threadPriority = ACE_DEFAULT_THREAD_PRIORITY);
 
     /** Override of DataPublisher method. The service is being shutdown.
 
@@ -59,18 +60,15 @@ public:
     size_t getConnectionCount() const;
 
 protected:
-
     /** Constructor.
      */
     TCPDataPublisher();
 
-    bool deliverDataMessage(ACE_Message_Block* data,
-                            ACE_Time_Value* timeout = 0);
+    bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout = 0);
 
     void setServiceName(const std::string& serviceName);
 
 private:
-
     bool calculateUsingDataValue() const;
 
     void connectionCountChanged(size_t value);

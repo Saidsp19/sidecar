@@ -10,10 +10,14 @@
 class ACE_Message_Block;
 class QFileInfo;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace IO { class TimeIndex; }
+namespace IO {
+class TimeIndex;
+}
 namespace GUI {
 
 class MessageWriter;
@@ -30,12 +34,11 @@ class MainWindow;
     The Emitter processing happens in a separate thread in the run() method. The main thread controls thread execution
     via the start() and stop() methods.
 */
-class Emitter : public QThread
-{
+class Emitter : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     /** Log device for instances of this class.
 
         \return log device
@@ -61,7 +64,7 @@ public:
     void load(const QFileInfo& fileInfo);
 
     /** Obtain the name of the recording file being emitted.
-        
+
         \return file name
     */
     const QString& getName() const { return name_; }
@@ -69,25 +72,25 @@ public:
     int getPort() const;
 
     /** Obtain the time of the first record in the file. This is in the recording's frame of reference.
-        
-	\return Time::TimeStamp value in clock time
+
+        \return Time::TimeStamp value in clock time
     */
     const Time::TimeStamp& getStartTime() const { return startTime_; }
 
     /** Obtain the time of the last record in the file. This is in the recording's frame of reference.
-        
+
         \return Time::TimeStamp value in clock time
     */
     const Time::TimeStamp& getEndTime() const { return endTime_; }
 
     /** Obtain the duration of the recording file we represent.
-        
+
         \return Time::TimeStamp value containing getEndTime() - getStartTime()
     */
     Time::TimeStamp getDuration() const { return endTime_ - startTime_; }
 
     /** Determine if the emitter is enabled to run.
-        
+
         \return true if so
     */
     bool getEmitting() const { return emitting_; }
@@ -97,7 +100,7 @@ public:
     size_t getSubscriberCount() const { return subscriberCount_; }
 
     /** Set whether the emitter should run when start() is invoked.
-        
+
         \param emitting new value
     */
     void setEmitting(bool emitting);
@@ -131,7 +134,7 @@ private slots:
 
     /** Signal handler for suffix changes by the user in the MainWindow window. If an emitter is running, this
         will stop it and restart it after the change is made.
-        
+
         \param suffix new suffix to use
     */
     void setSuffix(const QString& suffix);
@@ -140,7 +143,7 @@ private slots:
         timestamp greater than or equal to the given value. Uses the held IO::TimeIndex that provides fast
         binary searching of time values to get near to the desired record; the position() method then finishes
         with a (hopefully small) linear search.
-        
+
         \param when the value to search for
     */
     void setPlaybackClockStart(const Time::TimeStamp& when);
@@ -156,17 +159,16 @@ private slots:
     void writerSubscriberCountChanged(size_t value);
 
 private:
-
     /** Method the runs in a separate thread. Performs the actual emitting of data.
      */
     void run();
-    
+
     /** Jump to the given file offset and attempt to read in the message record there. Updates pending_ and
         pendingTime_ attributes.
-        
+
         \param offset file offset to move to
 
-	\param when time stamp to search for
+        \param when time stamp to search for
     */
     void repositionAndFetch(off_t offset, const Time::TimeStamp& when);
 

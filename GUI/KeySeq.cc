@@ -6,26 +6,22 @@ using namespace SideCar::GUI;
 
 int KeySeq::kMetaTypeId_ = qRegisterMetaType<KeySeq>("SideCar::GUI::KeySeq");
 
-KeySeq::KeySeq()
-    : key_()
+KeySeq::KeySeq() : key_()
 {
     ;
 }
 
-KeySeq::KeySeq(const QString& key)
-    : key_(key)
+KeySeq::KeySeq(const QString& key) : key_(key)
 {
     ;
 }
 
-KeySeq::KeySeq(const QKeySequence& key)
-    : key_(key)
+KeySeq::KeySeq(const QKeySequence& key) : key_(key)
 {
     ;
 }
 
-KeySeq::KeySeq(const QKeyEvent* event)
-    : key_()
+KeySeq::KeySeq(const QKeyEvent* event) : key_()
 {
     unsigned int mods = event->modifiers();
     unsigned int keyMods = 0;
@@ -59,11 +55,11 @@ bool
 KeySeq::matches(const KeySeq& rhs) const
 {
     for (size_t index = 0; index < key_.count(); ++index) {
-	int key = key_[index] & ~Qt::UNICODE_ACCEL;
-	for (size_t inner = 0; inner < rhs.key_.count(); ++inner) {
-	    int other = rhs.key_[inner] & ~Qt::UNICODE_ACCEL;
-	    if (key == other) return true;
-	}
+        int key = key_[index] & ~Qt::UNICODE_ACCEL;
+        for (size_t inner = 0; inner < rhs.key_.count(); ++inner) {
+            int other = rhs.key_[inner] & ~Qt::UNICODE_ACCEL;
+            if (key == other) return true;
+        }
     }
 
     return false;

@@ -8,8 +8,7 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-TSPI::TSPI(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log)
+TSPI::TSPI(Controller& controller, Logger::Log& log) : Algorithm(controller, log)
 {
     ;
 }
@@ -17,7 +16,7 @@ TSPI::TSPI(Controller& controller, Logger::Log& log)
 bool
 TSPI::startup()
 {
-    registerProcessor<TSPI,Messages::TSPI>(&TSPI::process);
+    registerProcessor<TSPI, Messages::TSPI>(&TSPI::process);
     return Algorithm::startup();
 }
 

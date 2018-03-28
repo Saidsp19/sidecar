@@ -7,16 +7,12 @@ namespace SideCar {
 namespace GUI {
 namespace ConfigEditor {
 
-class ConfigurationModel : public QAbstractListModel
-{
+class ConfigurationModel : public QAbstractListModel {
 public:
-
     ConfigurationModel(QObject* parent = 0)
 
         private:
-    
 };
-
 
 } // end namespace ConfigEditor
 } // end namespace GUI

@@ -10,18 +10,16 @@ namespace GUI {
 namespace HealthAndStatus {
 
 struct PlotDataPoint {
-
     PlotDataPoint(double s) : sample(s), when(Time::TimeStamp::Now()) {}
 
     double sample;
     Time::TimeStamp when;
 };
 
-class PlotDataPointDeque : public std::deque<PlotDataPoint>
-{
+class PlotDataPointDeque : public std::deque<PlotDataPoint> {
     std::deque<PlotDataPoint> Super;
-public:
 
+public:
     PlotDataPointDeque() : Super() {}
 };
 

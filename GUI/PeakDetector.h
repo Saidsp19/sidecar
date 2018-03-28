@@ -8,14 +8,15 @@
 namespace SideCar {
 namespace GUI {
 
-class PeakDetector : public QObject
-{
+class PeakDetector : public QObject {
     Q_OBJECT
 public:
     using ValueDeque = std::deque<float>;
 
-    PeakDetector(size_t size, float zero = 0.0, QObject* parent = 0)
-	: QObject(parent), values_(size, zero), peakIndex_(0) {}
+    PeakDetector(size_t size, float zero = 0.0, QObject* parent = 0) :
+        QObject(parent), values_(size, zero), peakIndex_(0)
+    {
+    }
 
     void clear(float zero = 0.0);
 

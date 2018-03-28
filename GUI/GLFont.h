@@ -8,15 +8,15 @@
 
 #include "GUI/VertexColorTagArray.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
-class GLFont
-{
+class GLFont {
 public:
-
     static Logger::Log& Log();
 
     GLFont(const QFont& font);
@@ -32,21 +32,18 @@ public:
     const QFontMetrics& getFontMetrics() const { return fontMetrics_; }
 
 private:
-
-    //create all needed textures and display lists to paint the string
+    // create all needed textures and display lists to paint the string
     void analyzeText(const QString& text);
 
-    struct RenderInfo
-    {
-	RenderInfo()
-	    : texture_(0), displayList_(0) {}
-	GLuint texture_;
-	GLuint displayList_;
+    struct RenderInfo {
+        RenderInfo() : texture_(0), displayList_(0) {}
+        GLuint texture_;
+        GLuint displayList_;
     };
 
-    using CharacterRenderInfoHash = QHash<QChar,RenderInfo>;
+    using CharacterRenderInfoHash = QHash<QChar, RenderInfo>;
     CharacterRenderInfoHash characterRenderInfos_;
-    QFont font_; 
+    QFont font_;
     QFontMetrics fontMetrics_;
 
     static void DetermineTextureType();
@@ -55,7 +52,7 @@ private:
     static bool powerOfTwoRequired_;
 };
 
-}
-}
+} // namespace GUI
+} // namespace SideCar
 
 #endif

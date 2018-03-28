@@ -25,66 +25,52 @@ App::Log()
     return log_;
 }
 
-App::App(int& argc, char** argv)
-    : AppBase("PPIDisplay", argc, argv), configuration_(0),
-      history_(new History(this, 5, false))
+App::App(int& argc, char** argv) :
+    AppBase("PPIDisplay", argc, argv), configuration_(0), history_(new History(this, 5, false))
 {
     setVisibleWindowMenuNew(false);
     makeToolWindows();
-    configuration_ = new Configuration(channelSelectorWindow_,
-                                       configurationWindow_,
-                                       controlsWindow_);
+    configuration_ = new Configuration(channelSelectorWindow_, configurationWindow_, controlsWindow_);
     configurationWindow_->setConfiguration(configuration_);
 
-    controlsWindow_->setVideoSampleCountTransform(
-	configuration_->getVideoSampleCountTransform());
+    controlsWindow_->setVideoSampleCountTransform(configuration_->getVideoSampleCountTransform());
 
     HistorySettings* historySettings = configuration_->getHistorySettings();
 
     history_->setEnabled(historySettings->isEnabled());
-    connect(historySettings, SIGNAL(enabledChanged(bool)), history_,
-            SLOT(setEnabled(bool)));
+    connect(historySettings, SIGNAL(enabledChanged(bool)), history_, SLOT(setEnabled(bool)));
 
     history_->setRetentionSize(historySettings->getRetentionSize());
-    connect(historySettings, SIGNAL(retentionSizeChanged(int)), history_,
-            SLOT(setRetentionSize(int)));
+    connect(historySettings, SIGNAL(retentionSizeChanged(int)), history_, SLOT(setRetentionSize(int)));
 
     TargetPlotImaging* imaging = configuration_->getExtractionsImaging();
     history_->setExtractionsLifeTime(imaging->getLifeTime());
-    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_,
-            SLOT(setExtractionsLifeTime(int)));
+    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_, SLOT(setExtractionsLifeTime(int)));
 
     RangeTruthsImaging* rti = configuration_->getRangeTruthsImaging();
     history_->setRangeTruthsLifeTime(rti->getLifeTime());
-    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_,
-            SLOT(setRangeTruthsLifeTime(int)));
+    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_, SLOT(setRangeTruthsLifeTime(int)));
     history_->setRangeTruthsMaxTrailLength(rti->getTrailSize());
-    connect(rti, SIGNAL(trailSizeChanged(int)), history_,
-            SLOT(setRangeTruthsMaxTrailLength(int)));
+    connect(rti, SIGNAL(trailSizeChanged(int)), history_, SLOT(setRangeTruthsMaxTrailLength(int)));
 
     imaging = configuration_->getBugPlotsImaging();
     history_->setBugPlotsLifeTime(imaging->getLifeTime());
-    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_,
-            SLOT(setBugPlotsLifeTime(int)));
+    connect(imaging, SIGNAL(lifeTimeChanged(int)), history_, SLOT(setBugPlotsLifeTime(int)));
 
-    presetsWindow_ = new PresetsWindow(
-	Qt::CTRL + Qt::Key_1 + kShowPresetsWindow, configuration_);
+    presetsWindow_ = new PresetsWindow(Qt::CTRL + Qt::Key_1 + kShowPresetsWindow, configuration_);
     addToolWindow(kShowPresetsWindow, presetsWindow_);
 }
 
 void
 App::makeToolWindows()
 {
-    channelSelectorWindow_ = new ChannelSelectorWindow(
-	Qt::CTRL + Qt::Key_1 + kShowChannelSelectorWindow);
+    channelSelectorWindow_ = new ChannelSelectorWindow(Qt::CTRL + Qt::Key_1 + kShowChannelSelectorWindow);
     addToolWindow(kShowChannelSelectorWindow, channelSelectorWindow_);
 
-    configurationWindow_ = new ConfigurationWindow(
-	Qt::CTRL + Qt::Key_1 + kShowConfigurationWindow);
+    configurationWindow_ = new ConfigurationWindow(Qt::CTRL + Qt::Key_1 + kShowConfigurationWindow);
     addToolWindow(kShowConfigurationWindow, configurationWindow_);
 
-    controlsWindow_ = new ControlsWindow(
-	Qt::CTRL + Qt::Key_1 + kShowControlsWindow, history_);
+    controlsWindow_ = new ControlsWindow(Qt::CTRL + Qt::Key_1 + kShowControlsWindow, history_);
     addToolWindow(kShowControlsWindow, controlsWindow_);
 }
 
@@ -94,9 +80,7 @@ App::makeNewMainWindow(const QString& objectName)
     static Logger::ProcLog log("makeNewMainWindow", Log());
     LOGINFO << "objectName: " << objectName << std::endl;
 
-    if (objectName == "MagnifierWindow") {
-	return 0;
-    }
+    if (objectName == "MagnifierWindow") { return 0; }
 
     return new MainWindow;
 }
@@ -107,30 +91,22 @@ App::applicationQuit()
     bool saveChanges = false;
 
     if (getConfiguration()->getAnyIsDirty()) {
-	QMessageBox::StandardButton button = 
-	    QMessageBox::question(0, "Unsaved Settings",
+        QMessageBox::StandardButton button =
+            QMessageBox::question(0, "Unsaved Settings",
                                   "<p>There are one or more presets that "
                                   "have been modified without saving. "
                                   "Quitting now will lose all changes.</p>",
-                                  QMessageBox::Cancel |
-                                  QMessageBox::Save |
-                                  QMessageBox::Discard);
+                                  QMessageBox::Cancel | QMessageBox::Save | QMessageBox::Discard);
 
-	switch (button) {
+        switch (button) {
+        case QMessageBox::Save: saveChanges = true; break;
 
-	case QMessageBox::Save:
-	    saveChanges = true;
-	    break;
+        case QMessageBox::Discard: break;
 
-	case QMessageBox::Discard:
-	    break;
+        case QMessageBox::Cancel: getPresetsWindow()->showAndRaise();
 
-	case QMessageBox::Cancel:
-	    getPresetsWindow()->showAndRaise();
-
-	default:
-	    return;
-	}
+        default: return;
+        }
     }
 
     getConfiguration()->saveAllPresets(saveChanges);

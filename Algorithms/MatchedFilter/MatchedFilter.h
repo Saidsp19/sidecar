@@ -19,32 +19,20 @@ namespace Algorithms {
 /** Documentation for the algorithm MatchedFilter. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class MatchedFilter : public ManyInAlgorithm
-{
+class MatchedFilter : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
     using ComplexType = std::complex<float>;
     using VsipComplexVector = vsip::Vector<ComplexType>;
     using VsipComplexMatrix = vsip::Matrix<ComplexType>;
-    using FwdFFT = vsip::Fft<vsip::Vector,ComplexType,ComplexType,vsip::fft_fwd>;
-    using InvFFT = vsip::Fft<vsip::Vector,ComplexType,ComplexType,vsip::fft_inv>;
+    using FwdFFT = vsip::Fft<vsip::Vector, ComplexType, ComplexType, vsip::fft_fwd>;
+    using InvFFT = vsip::Fft<vsip::Vector, ComplexType, ComplexType, vsip::fft_inv>;
 
 public:
-
-    enum InfoSlot {
-	kFFTSize = Super::kNumSlots,
-	kOomain,
-	kNumSlots
-    };
+    enum InfoSlot { kFFTSize = Super::kNumSlots, kOomain, kNumSlots };
 
     /** Domain options available via the Master GUI application.
      */
-    enum Domain {
-	kMinValue,
-	kFrequencyDomain = kMinValue, 
-	kTimeDomain,
-	kMaxValue = kTimeDomain,
-	kNumFilterTypes
-    };
+    enum Domain { kMinValue, kFrequencyDomain = kMinValue, kTimeDomain, kMaxValue = kTimeDomain, kNumFilterTypes };
 
     /** Constructor.
 
@@ -67,25 +55,18 @@ public:
     */
     bool shutdown();
 
-    void setTxPulseStartBin(int value)
-	{ txPulseStartBin_->setValue(value); }
+    void setTxPulseStartBin(int value) { txPulseStartBin_->setValue(value); }
 
-    void setTxPulseSpan(int value)
-	{ txPulseSpan_->setValue(value); }
-    
-    void setRxFilterStartBin(int value)
-	{ rxFilterStartBin_->setValue(value); }
+    void setTxPulseSpan(int value) { txPulseSpan_->setValue(value); }
 
-    void setRxFilterSpan(int value)
-	{ rxFilterSpan_->setValue(value); }
+    void setRxFilterStartBin(int value) { rxFilterStartBin_->setValue(value); }
 
-    void setFFTSize(int size)
-	{ fftSize_->setValue(size); }
+    void setRxFilterSpan(int value) { rxFilterSpan_->setValue(value); }
+
+    void setFFTSize(int size) { fftSize_->setValue(size); }
 
 private:
-
-    ChannelBuffer* makeChannelBuffer(int index, const std::string& name,
-                                     size_t maxBufferSize);
+    ChannelBuffer* makeChannelBuffer(int index, const std::string& name, size_t maxBufferSize);
 
     void fftSizeChanged(const Parameter::PositiveIntValue& parameter);
     void buildFFTs();
@@ -104,23 +85,23 @@ private:
     TChannelBuffer<Messages::Video>* tx_;
 
     /** Run-time parameter for the first complex sample in the TxRF message to use for the transmit pulse.
-	Negative values cause the processing to start from the end of the message: -1 is the last gate, -2 the
-	second-to-last, etc.
+        Negative values cause the processing to start from the end of the message: -1 is the last gate, -2 the
+        second-to-last, etc.
     */
     Parameter::IntValue::Ref txPulseStartBin_;
 
     /** Run-time parameter for the number of complex samples in the TxRF message to use for the transmit pulse,
-	starting at txPulseStartBin_.
+        starting at txPulseStartBin_.
     */
     Parameter::IntValue::Ref txPulseSpan_;
 
     /** Run-time parameter for the first complex sample in the RxRF message to filter. Negative values cause the
-	processing to start from the end of the message: -1 is the last gate, -2 the second-to-last, etc.
+        processing to start from the end of the message: -1 is the last gate, -2 the second-to-last, etc.
     */
     Parameter::IntValue::Ref rxFilterStartBin_;
 
     /** Run-time parameter for the number of complex samples in the RxRF message to filter, starting at
-	rxFilterStartBin_.
+        rxFilterStartBin_.
     */
     Parameter::IntValue::Ref rxFilterSpan_;
 
@@ -135,10 +116,10 @@ private:
     /** Definition of the enum range for the domain_ parameter.
      */
     struct DomainEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Domain;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = Domain;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using DomainParameter = Parameter::TValue<Parameter::Defs::Enum<DomainEnumTraits>>;
@@ -152,7 +133,6 @@ private:
     boost::scoped_ptr<VsipComplexVector> txPulseVec_;
     boost::scoped_ptr<VsipComplexVector> rxVec_;
     boost::scoped_ptr<VsipComplexVector> rxOp_;
-
 };
 
 } // end namespace Algorithms

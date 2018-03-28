@@ -3,8 +3,7 @@
 
 namespace Utils {
 
-class AzimuthSweep
-{
+class AzimuthSweep {
 public:
     AzimuthSweep(double start, double width);
 
@@ -37,7 +36,6 @@ public:
     bool operator!=(const AzimuthSweep& rhs) const { return start_ != rhs.start_ || width_ != rhs.width_; }
 
 private:
-
     /** Determine if a given sweep start value is found within our sweep range.
 
         \param start value to check

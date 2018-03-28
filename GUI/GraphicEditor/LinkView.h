@@ -9,25 +9,22 @@ class ComponentView;
 /**
    Draw pub/sub links or chained links
 */
-class LinkView : public QGraphicsItem
-{
+class LinkView : public QGraphicsItem {
 public:
-    LinkView(ComponentView *source, ComponentView *drain);
+    LinkView(ComponentView* source, ComponentView* drain);
     ~LinkView();
     void release();
 
     // QGraphicsItem API:
     QRectF boundingRect() const;
     QPainterPath shape() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
     void moveStart();
     void moveEnd();
 
     enum { Type = UserType + 2 };
     int type() const { return Type; }
-
-
 
 private:
     ComponentView *src, *dst;

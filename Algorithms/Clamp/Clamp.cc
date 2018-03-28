@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -12,10 +12,10 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Clamp::Clamp(Controller& controller, Logger::Log& log)
-    : Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      min_(Parameter::IntValue::Make("min", "Min Value", kDefaultMin)),
-      max_(Parameter::IntValue::Make("max", "Max Value", kDefaultMax))
+Clamp::Clamp(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    min_(Parameter::IntValue::Make("min", "Min Value", kDefaultMin)),
+    max_(Parameter::IntValue::Make("max", "Max Value", kDefaultMax))
 {
     ;
 }
@@ -23,7 +23,7 @@ Clamp::Clamp(Controller& controller, Logger::Log& log)
 bool
 Clamp::startup()
 {
-    registerProcessor<Clamp,Messages::Video>(&Clamp::processInput);
+    registerProcessor<Clamp, Messages::Video>(&Clamp::processInput);
     bool ok = true;
     ok = ok && registerParameter(min_) && registerParameter(max_) && registerParameter(enabled_);
     return ok && Super::startup();
@@ -55,9 +55,7 @@ Clamp::processInput(const Messages::Video::Ref& msg)
 
     // If not enabled, simply pass message.
     //
-    if (! enabled_->getValue()) {
-	return send(msg);
-    }
+    if (!enabled_->getValue()) { return send(msg); }
 
     // Create a new message to hold the output of what we do. Note that although we pass in the input message,
     // the new message does not contain any data.
@@ -72,9 +70,7 @@ Clamp::processInput(const Messages::Video::Ref& msg)
     DatumType minValue = min_->getValue();
     DatumType maxValue = max_->getValue();
     std::transform(msg->begin(), msg->end(), std::back_inserter(out->getData()),
-                   [minValue, maxValue](auto value) {
-                       return std::max(minValue, std::min(maxValue, value));
-                   });
+                   [minValue, maxValue](auto value) { return std::max(minValue, std::min(maxValue, value)); });
 
     // Send out on the default output device, and return the result to our Controller. NOTE: for multichannel
     // output, one must give a channel index to the send() method. Use getOutputChannelIndex() to obtain the
@@ -97,9 +93,9 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[Clamp::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
-    return Algorithm::FormatInfoValue(QString("Min: %1  Max: %2").arg(int(status[Clamp::kMin]))
-                                      .arg(int(status[Clamp::kMax])));
+    if (!status[Clamp::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    return Algorithm::FormatInfoValue(
+        QString("Min: %1  Max: %2").arg(int(status[Clamp::kMin])).arg(int(status[Clamp::kMax])));
 }
 
 // Factory function for the DLL that will create a new instance of the Clamp class. DO NOT CHANGE!

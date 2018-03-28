@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "IO/Channel.h"
@@ -16,8 +16,7 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-FanOut::FanOut(Controller& controller, Logger::Log& log)
-    : Super(controller, log)
+FanOut::FanOut(Controller& controller, Logger::Log& log) : Super(controller, log)
 {
     ;
 }
@@ -31,13 +30,11 @@ FanOut::startup()
 {
     const IO::Channel& channel(getController().getInputChannel(0));
     if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-	registerProcessor<FanOut,Messages::Video>(&FanOut::processInputVideo);
-    }
-    else if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-	registerProcessor<FanOut,Messages::BinaryVideo>(&FanOut::processInputBinary);
-    }
-    else {
-	return false;
+        registerProcessor<FanOut, Messages::Video>(&FanOut::processInputVideo);
+    } else if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
+        registerProcessor<FanOut, Messages::BinaryVideo>(&FanOut::processInputBinary);
+    } else {
+        return false;
     }
 
     return Super::startup();
@@ -56,8 +53,7 @@ FanOut::processInputVideo(const Messages::Video::Ref& msg)
 {
     bool rc = true;
     for (size_t index = 0; index < getController().getNumOutputChannels(); ++index) {
-	if (! send(msg, index))
-	    rc = false;
+        if (!send(msg, index)) rc = false;
     }
 
     return rc;
@@ -68,8 +64,7 @@ FanOut::processInputBinary(const Messages::BinaryVideo::Ref& msg)
 {
     bool rc = true;
     for (size_t index = 0; index < getController().getNumOutputChannels(); ++index) {
-	if (! send(msg, index))
-	    rc = false;
+        if (!send(msg, index)) rc = false;
     }
 
     return rc;

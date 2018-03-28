@@ -7,16 +7,13 @@
 
 using namespace SideCar::GUI::AScope;
 
-AzimuthLatch::AzimuthLatch(QWidget* parent)
-    : QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0)
+AzimuthLatch::AzimuthLatch(QWidget* parent) : QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0)
 {
     setupUi(this);
     azimuth_->setSuffix(DegreeSymbol());
     connect(enabled_, SIGNAL(clicked(bool)), SLOT(handleChange()));
-    connect(channel_, SIGNAL(activated(const QString&)),
-            SLOT(handleChange()));
-    connect(azimuth_, SIGNAL(valueChanged(double)),
-            SLOT(handleChange()));
+    connect(channel_, SIGNAL(activated(const QString&)), SLOT(handleChange()));
+    connect(azimuth_, SIGNAL(valueChanged(double)), SLOT(handleChange()));
     connect(relatch_, SIGNAL(clicked(bool)), SLOT(handleChange()));
 }
 
@@ -46,13 +43,11 @@ AzimuthLatch::updateCaughtIndicator(bool caught)
 void
 AzimuthLatch::handleChange()
 {
-    emit configurationChanged(enabled_->isChecked(), azimuth_->value(),
-                              relatch_->isChecked(), channel_->currentText());
+    emit configurationChanged(enabled_->isChecked(), azimuth_->value(), relatch_->isChecked(), channel_->currentText());
 }
 
 void
-AzimuthLatch::setConfiguration(bool enabled, double azimuth, bool relatch,
-                               bool caught, const QStringList& names,
+AzimuthLatch::setConfiguration(bool enabled, double azimuth, bool relatch, bool caught, const QStringList& names,
                                const QString& active)
 {
     channel_->clear();

@@ -13,8 +13,7 @@ Transaction::Log()
     return log_;
 }
 
-Transaction::Transaction(Monitor* monitor)
-    : ref_(0), monitor_(monitor), self_(), finished_(false)
+Transaction::Transaction(Monitor* monitor) : ref_(0), monitor_(monitor), self_(), finished_(false)
 {
     monitor->setMonitored(this);
 }
@@ -31,7 +30,7 @@ Transaction::stop()
 {
     Logger::ProcLog log("stop", Log());
     LOGINFO << ref_ << std::endl;
-    if (! isRunning()) return false;
+    if (!isRunning()) return false;
     serviceStopping();
     DNSServiceRefDeallocate(ref_);
     ref_ = 0;
@@ -59,7 +58,7 @@ Transaction::processConnection()
 {
     Logger::ProcLog log("processConnection", Log());
     LOGINFO << ref_ << std::endl;
-    if (! isRunning()) return false;
+    if (!isRunning()) return false;
     bool rc = DNSServiceProcessResult(ref_) == kDNSServiceErr_NoError;
     if (finished_) stop();
     return rc;

@@ -28,6 +28,7 @@
 
     \copydoc unittest
 */
-namespace UnitTest {}
+namespace UnitTest {
+}
 
 #endif

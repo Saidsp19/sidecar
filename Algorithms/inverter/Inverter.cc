@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Logger/Log.h"
 
@@ -8,10 +8,9 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Inverter::Inverter(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      min_(Parameter::IntValue::Make("min", "Min Sample", -8192)),
-      max_(Parameter::IntValue::Make("max", "Max Sample", 8192))
+Inverter::Inverter(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), min_(Parameter::IntValue::Make("min", "Min Sample", -8192)),
+    max_(Parameter::IntValue::Make("max", "Max Sample", 8192))
 {
     ;
 }
@@ -19,9 +18,8 @@ Inverter::Inverter(Controller& controller, Logger::Log& log)
 bool
 Inverter::startup()
 {
-    registerProcessor<Inverter,Messages::Video>(&Inverter::process);
-    return registerParameter(min_) && registerParameter(max_) &&
-	Algorithm::startup();
+    registerProcessor<Inverter, Messages::Video>(&Inverter::process);
+    return registerParameter(min_) && registerParameter(max_) && Algorithm::startup();
 }
 
 Inverter::DatumType
@@ -41,8 +39,7 @@ Inverter::process(const Messages::Video::Ref& msg)
     // std::bind1st - a value binder that assigns a value to the 1st value of a method. For member functions,
     // the first argument is always an object of the type that has the method
     //
-    std::transform(msg->begin(), msg->end(), msg->begin(),
-                   std::bind1st(std::mem_fun(&Inverter::invert), this));
+    std::transform(msg->begin(), msg->end(), msg->begin(), std::bind1st(std::mem_fun(&Inverter::invert), this));
 
     // Transformation is done -- send out on the default output device.
     //

@@ -118,7 +118,7 @@
     param2_(Parameter::IntValue::Make("param2", 3.1415926))
     {}
     \endcode
-    
+
     The first argument to a parameter's Make factory method is the name the parameter will have when viewed by
     an external editor. It does not have to match the name of the parameter declared in the C++ header file;
     instead, it should be somewhat descriptive of what the value does in the algorithm. The second argument to
@@ -158,7 +158,7 @@
     active Runner processes, and displays the status information to the user. The standard status display for an
     algorithm shows pending queue and recording queue sizes, current processing state, recording status (active,
     standby, or inactive), and any error text posted by the algorithm by way of Task::setError().
-    
+
     Algorithms desiring customized reporting information, should override the getInfoData() method, which is
     called by the algorithm's Controller when it wants updated status information. The sole parameter is an
     XmlRpc::XmlRpcValue reference that may be used to store any valid XML-RPC value. The return value of the
@@ -243,7 +243,8 @@ namespace SideCar {
     For a description of the algorithm API, see the documentation for SideCar::Algorithms::Algorithm.h. The
     currently-defined algorithms are listed below.
 */
-namespace Algorithms {}
+namespace Algorithms {
+}
 
 } // end namespace SideCar
 

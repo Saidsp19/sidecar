@@ -1,8 +1,8 @@
 #include <cmath>
 
 #include "Logger/Log.h"
-#include "Time/TimeStamp.h"
 #include "Stats.h"
+#include "Time/TimeStamp.h"
 
 using namespace SideCar;
 using namespace SideCar::IO;
@@ -49,16 +49,15 @@ Stats::updateInputCounters(size_t byteCount, uint32_t sequenceNumber)
     //
     size_t delta = 1;
     if (lastSequenceNumber_ != 0 && sequenceNumber >= lastSequenceNumber_) {
-	delta = sequenceNumber - lastSequenceNumber_;
+        delta = sequenceNumber - lastSequenceNumber_;
     }
 
     if (delta == 0) {
-	++dupes_;
-	LOGERROR << "detected duplicate message - seq#: " << sequenceNumber << std::endl;
-    }
-    else if (delta > 1) {
-	--delta;
-	drops_ += delta;
+        ++dupes_;
+        LOGERROR << "detected duplicate message - seq#: " << sequenceNumber << std::endl;
+    } else if (delta > 1) {
+        --delta;
+        drops_ += delta;
         LOGERROR << "detected " << delta << " message drop(s) - seq#: " << sequenceNumber << std::endl;
     }
 
@@ -81,8 +80,8 @@ Stats::calculateRates()
     Time::TimeStamp now(Time::TimeStamp::Now());
 
     if (lastRateCalcTime_ == Time::TimeStamp::Min()) {
-	lastRateCalcTime_ = now;
-	return;
+        lastRateCalcTime_ = now;
+        return;
     }
 
     if (messageTotal_ == lastMessageTotal_) return;

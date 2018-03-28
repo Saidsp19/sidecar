@@ -22,12 +22,11 @@ class MainWindow;
 
 /** Application class for the PRIEmitter application.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Obtain the singleton App object.
 
         \return App instance
@@ -40,11 +39,9 @@ public:
 
         \param argv command-line argument values
     */
-    App(int& argc, char** argv)
-	: AppBase("PRIEmitter", argc, argv) {}
-    
-protected:
+    App(int& argc, char** argv) : AppBase("PRIEmitter", argc, argv) {}
 
+protected:
     /** Create a new MainWindow object and show to the user. Implements AppBase::makeNewMainWindow() interface.
 
         \return new MainWindow object
@@ -52,7 +49,7 @@ protected:
     MainWindowBase* makeNewMainWindow(const QString& objectName);
 };
 
-} // end namespace AScope
+} // namespace PRIEmitter
 } // end namespace GUI
 } // end namespace SideCar
 

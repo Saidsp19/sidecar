@@ -3,8 +3,7 @@
 #include "GUI/LED.h"
 #include "LEDPlugin.h"
 
-LEDPlugin::LEDPlugin(QObject *parent)
-    : QObject(parent), initialized_(false)
+LEDPlugin::LEDPlugin(QObject* parent) : QObject(parent), initialized_(false)
 {
     ;
 }
@@ -68,18 +67,18 @@ QString
 LEDPlugin::domXml() const
 {
     return "<widget class=\"SideCar::GUI::LED\" name=\"led\">\n"
-	" <property name=\"geometry\">\n"
-	"  <rect>\n"
-	"   <x>0</x>\n"
-	"   <y>0</y>\n"
-	"   <width>32</width>\n"
-	"   <height>32</height>\n"
-	"  </rect>\n"
-	" </property>\n"
-	" <property name=\"color\">\n"
-	" <enum>SideCar::GUI::LED::kRed</enum>\n"
-	" </property>\n"
-	"</widget>\n";
+           " <property name=\"geometry\">\n"
+           "  <rect>\n"
+           "   <x>0</x>\n"
+           "   <y>0</y>\n"
+           "   <width>32</width>\n"
+           "   <height>32</height>\n"
+           "  </rect>\n"
+           " </property>\n"
+           " <property name=\"color\">\n"
+           " <enum>SideCar::GUI::LED::kRed</enum>\n"
+           " </property>\n"
+           "</widget>\n";
 }
 
 QString

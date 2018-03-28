@@ -11,30 +11,29 @@ namespace IO {
     valid integral values for a processing state. Also provides class methods for converting the enumerated
     value to/from a string.
 */
-class ProcessingState 
-{
+class ProcessingState {
 public:
     enum Value {
-	kInvalid = 0,
-	kInitialize,		///< Task initialized to known state
-	kAutoDiagnostic,	///< Task performing auto-diagnostics
-	kCalibrate,		///< Task doing calibration processing
-	kRun,			///< Task doing normal data processing
-	kStop,			///< Task stopped
-	kFailure,		///< Task has detected a serious problem
-	kNumStates,
+        kInvalid = 0,
+        kInitialize,     ///< Task initialized to known state
+        kAutoDiagnostic, ///< Task performing auto-diagnostics
+        kCalibrate,      ///< Task doing calibration processing
+        kRun,            ///< Task doing normal data processing
+        kStop,           ///< Task stopped
+        kFailure,        ///< Task has detected a serious problem
+        kNumStates,
     };
 
     static const char* const* GetNames();
 
     /** Class method that obtains the textual name of a given state constant.
 
-	\param state value to look for
+        \param state value to look for
 
-	\return text value
+        \return text value
     */
     static const char* GetName(Value state);
-    
+
     /** Class method that attempts to locate the state index for a given name. Ignores case when searching.
 
         \param name the state name to search for
@@ -49,31 +48,28 @@ public:
 
         \return true if kInitialize, kAutoDiagnostic, kCalibrate, kRun, or kStop
     */
-    static bool IsNormal(ProcessingState::Value state)
-	{ return state >= kInitialize && state <= kStop; }
-    
+    static bool IsNormal(ProcessingState::Value state) { return state >= kInitialize && state <= kStop; }
+
     /** Determine if the given state index is a active processing state
 
         \param state the state to test
 
         \return true if kAutoDiagnostic, kCalibrate, or kRun
     */
-    static bool IsActive(ProcessingState::Value state)
-	{ return state >= kAutoDiagnostic && state <= kRun; }
+    static bool IsActive(ProcessingState::Value state) { return state >= kAutoDiagnostic && state <= kRun; }
 
 private:
-
     /** Collection of display names for the states.
      */
     static const char* const displayNames_[kNumStates];
 
     /** Lower-case versions of the display names. Used by GetValue() to locate state index without regard for
-	name case.
+        name case.
     */
     static std::vector<std::string> searchNames_;
 
     /** Internal class used to initialize the searchNames_ attribute above. The Initializer constructor copies
-	lower-case versions of the values from displayNames_ to the searchNames_ vector.
+        lower-case versions of the values from displayNames_ to the searchNames_ vector.
     */
     class Initializer;
 

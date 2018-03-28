@@ -9,12 +9,11 @@ namespace SideCar {
 namespace GUI {
 namespace Master {
 
-class RecordingSettings : public SettingsBlock
-{
+class RecordingSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     RecordingSettings(BoolSetting* durationEnabled, TimeSetting* duration);
 
     void connectWidgets(QCheckBox* durationEnabled, QTimeEdit* duration);

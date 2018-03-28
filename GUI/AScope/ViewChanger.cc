@@ -3,15 +3,12 @@
 
 using namespace SideCar::GUI::AScope;
 
-ViewChanger::ViewChanger(Visualizer* visualizer, const QPoint& start)
-    : visualizer_(visualizer), start_(start)
+ViewChanger::ViewChanger(Visualizer* visualizer, const QPoint& start) : visualizer_(visualizer), start_(start)
 {
     ;
 }
 
-PanningViewChanger::PanningViewChanger(Visualizer* visualizer,
-                                       const QPoint& start)
-    : ViewChanger(visualizer, start)
+PanningViewChanger::PanningViewChanger(Visualizer* visualizer, const QPoint& start) : ViewChanger(visualizer, start)
 {
     visualizer->dupView();
 }
@@ -31,13 +28,11 @@ PanningViewChanger::mouseMoved(const QPoint& pos)
 void
 PanningViewChanger::finished(const QPoint& pos)
 {
-    visualizer_  = 0;
+    visualizer_ = 0;
 }
 
-ZoomingViewChanger::ZoomingViewChanger(Visualizer* visualizer,
-                                       const QPoint& start)
-    : ViewChanger(visualizer, start),
-      rubberBand_(QRubberBand::Rectangle, visualizer)
+ZoomingViewChanger::ZoomingViewChanger(Visualizer* visualizer, const QPoint& start) :
+    ViewChanger(visualizer, start), rubberBand_(QRubberBand::Rectangle, visualizer)
 {
     rubberBand_.setGeometry(QRect(start, QSize()));
     rubberBand_.show();
@@ -54,7 +49,7 @@ ZoomingViewChanger::finished(const QPoint& pos)
 {
     rubberBand_.hide();
     if (pos.x() != start_.x() && pos.y() != start_.y()) {
-	visualizer_->dupView();
-	visualizer_->zoom(start_, pos);
+        visualizer_->dupView();
+        visualizer_->zoom(start_, pos);
     }
 }

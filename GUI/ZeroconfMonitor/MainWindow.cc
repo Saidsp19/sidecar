@@ -11,13 +11,11 @@ using namespace SideCar::GUI::ZeroconfMonitor;
 Logger::Log&
 MainWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("zcm.MainWindow");
+    static Logger::Log& log_ = Logger::Log::Find("zcm.MainWindow");
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow()
+MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow()
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -36,10 +34,7 @@ MainWindow::MainWindow()
     setWindowTitle("Zeroconf Monitor");
 #endif
 
-    publishers_->start(IO::ZeroconfRegistry::GetType(
-                           IO::ZeroconfRegistry::kPublisher));
-    controllers_->start(IO::ZeroconfRegistry::GetType(
-                            IO::ZeroconfRegistry::kRunnerRemoteController));
-    collectors_->start(IO::ZeroconfRegistry::GetType(
-                           IO::ZeroconfRegistry::kRunnerStatusCollector));
+    publishers_->start(IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kPublisher));
+    controllers_->start(IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerRemoteController));
+    collectors_->start(IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerStatusCollector));
 }

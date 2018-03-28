@@ -18,8 +18,8 @@
 #include "GUI/PresetChooser.h"
 #include "GUI/PresetsWindow.h"
 #include "GUI/QSliderSetting.h"
-#include "GUI/SvgIconMaker.h"
 #include "GUI/RangeTruthsImaging.h"
+#include "GUI/SvgIconMaker.h"
 #include "GUI/TargetPlotImaging.h"
 #include "GUI/TargetPlotSymbolsWidget.h"
 #include "GUI/ToolBar.h"
@@ -50,7 +50,7 @@ using namespace SideCar;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::ESScope;
 
-static int kUpdateRate = 33;	// msecs between updateGL() calls (~30 FPS)
+static int kUpdateRate = 33; // msecs between updateGL() calls (~30 FPS)
 
 Logger::Log&
 MainWindow::Log()
@@ -59,10 +59,9 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), alphaBetaView_(0),
-      alphaBetaViewSettings_(0), alphaRangeView_(0),
-      alphaRangeViewSettings_(0), updateTimer_(), configuration_(0)
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), alphaBetaView_(0), alphaBetaViewSettings_(0), alphaRangeView_(0),
+    alphaRangeViewSettings_(0), updateTimer_(), configuration_(0)
 {
     setupUi(this);
     setObjectName("MainWindow");
@@ -77,53 +76,38 @@ MainWindow::MainWindow()
     History* history = configuration_->getHistory();
     QHBoxLayout* layout = new QHBoxLayout(centralWidget());
 
-    alphaBetaViewSettings_ = new AlphaBetaViewSettings(
-	this, configuration_->getRadarSettings());
-    connect(alphaBetaViewSettings_, SIGNAL(viewChanged()),
-            SLOT(updateAlphaBetaViewActions()));
+    alphaBetaViewSettings_ = new AlphaBetaViewSettings(this, configuration_->getRadarSettings());
+    connect(alphaBetaViewSettings_, SIGNAL(viewChanged()), SLOT(updateAlphaBetaViewActions()));
 
     alphaBetaView_ = new AlphaBetaView(this, alphaBetaViewSettings_);
     layout->addWidget(alphaBetaView_);
 
-    alphaRangeViewSettings_ = new AlphaRangeViewSettings(
-	this, configuration_->getRadarSettings());
-    connect(alphaRangeViewSettings_, SIGNAL(viewChanged()),
-            SLOT(updateAlphaRangeViewActions()));
+    alphaRangeViewSettings_ = new AlphaRangeViewSettings(this, configuration_->getRadarSettings());
+    connect(alphaRangeViewSettings_, SIGNAL(viewChanged()), SLOT(updateAlphaRangeViewActions()));
 
     alphaRangeView_ = new AlphaRangeView(this, alphaRangeViewSettings_);
     layout->addWidget(alphaRangeView_);
 
-    app->getViewEditor()->setViewSettings(alphaBetaViewSettings_,
-                                          alphaRangeViewSettings_);
+    app->getViewEditor()->setViewSettings(alphaBetaViewSettings_, alphaRangeViewSettings_);
 
     centralWidget()->setLayout(layout);
 
     updatePresetActions();
-    connect(configuration_, SIGNAL(presetDirtyStateChanged(int, bool)),
-            SLOT(updatePresetActions()));
-    connect(configuration_, SIGNAL(activePresetChanged(int)),
-            SLOT(updatePresetActions()));
+    connect(configuration_, SIGNAL(presetDirtyStateChanged(int, bool)), SLOT(updatePresetActions()));
+    connect(configuration_, SIGNAL(activePresetChanged(int)), SLOT(updatePresetActions()));
 
     // Associate QAction objects with configuration settings.
     //
-    configuration_->getVideoImaging()->setToggleEnabledAction(
-	actionViewToggleVideo_);
-    configuration_->getExtractionsImaging()->setToggleEnabledAction(
-	actionViewToggleExtractions_);
-    configuration_->getRangeTruthsImaging()->setToggleEnabledAction(
-	actionViewToggleRangeTruths_);
-    configuration_->getBugPlotsImaging()->setToggleEnabledAction(
-	actionViewToggleBugPlots_);
-    configuration_->getGridImaging()->setToggleEnabledAction(
-	actionViewToggleGrid_);
-    configuration_->getShowPhantomCursorSetting()->setToggleEnabledAction(
-	actionViewTogglePhantomCursor_);
+    configuration_->getVideoImaging()->setToggleEnabledAction(actionViewToggleVideo_);
+    configuration_->getExtractionsImaging()->setToggleEnabledAction(actionViewToggleExtractions_);
+    configuration_->getRangeTruthsImaging()->setToggleEnabledAction(actionViewToggleRangeTruths_);
+    configuration_->getBugPlotsImaging()->setToggleEnabledAction(actionViewToggleBugPlots_);
+    configuration_->getGridImaging()->setToggleEnabledAction(actionViewToggleGrid_);
+    configuration_->getShowPhantomCursorSetting()->setToggleEnabledAction(actionViewTogglePhantomCursor_);
 
-    connect(configuration_->getPhantomCursorImaging(),
-            SIGNAL(enabledChanged(bool)),
-            actionViewTogglePhantomCursor_, SLOT(setEnabled(bool)));
-    actionViewTogglePhantomCursor_->setEnabled(
-	configuration_->getPhantomCursorImaging()->isEnabled());
+    connect(configuration_->getPhantomCursorImaging(), SIGNAL(enabledChanged(bool)), actionViewTogglePhantomCursor_,
+            SLOT(setEnabled(bool)));
+    actionViewTogglePhantomCursor_->setEnabled(configuration_->getPhantomCursorImaging()->isEnabled());
 
     SvgIconMaker im;
     actionViewToggleVideo_->setIcon(im.make('V'));
@@ -141,34 +125,26 @@ MainWindow::MainWindow()
     CursorWidget* cursorWidget = new CursorWidget(statusBar());
     statusBar()->addPermanentWidget(cursorWidget);
 
-    connect(alphaBetaView_->getDisplay(),
-            SIGNAL(cursorMoved(double, double)),
-            cursorWidget, SLOT(setAlphaBeta(double, double)));
+    connect(alphaBetaView_->getDisplay(), SIGNAL(cursorMoved(double, double)), cursorWidget,
+            SLOT(setAlphaBeta(double, double)));
 
-    connect(alphaBetaView_->getDisplay(), SIGNAL(bugged()),
-            SLOT(bugged()));
+    connect(alphaBetaView_->getDisplay(), SIGNAL(bugged()), SLOT(bugged()));
 
-    connect(alphaBetaView_->getDisplay(),
-            SIGNAL(cursorMoved(double, double)),
-            alphaRangeView_->getDisplay(), SLOT(setSlaveAlpha(double)));
+    connect(alphaBetaView_->getDisplay(), SIGNAL(cursorMoved(double, double)), alphaRangeView_->getDisplay(),
+            SLOT(setSlaveAlpha(double)));
 
-    connect(alphaRangeView_->getDisplay(),
-            SIGNAL(cursorMoved(double, double)),
-            cursorWidget, SLOT(setRange(double, double)));
+    connect(alphaRangeView_->getDisplay(), SIGNAL(cursorMoved(double, double)), cursorWidget,
+            SLOT(setRange(double, double)));
 
-    connect(alphaRangeView_->getDisplay(), SIGNAL(bugged()),
-            SLOT(bugged()));
+    connect(alphaRangeView_->getDisplay(), SIGNAL(bugged()), SLOT(bugged()));
 
-    connect(alphaRangeView_->getDisplay(),
-            SIGNAL(cursorMoved(double, double)),
-            alphaBetaView_->getDisplay(), SLOT(setSlaveAlpha(double)));
+    connect(alphaRangeView_->getDisplay(), SIGNAL(cursorMoved(double, double)), alphaBetaView_->getDisplay(),
+            SLOT(setSlaveAlpha(double)));
 
     // Radar info widget
     //
     RadarInfoWidget* radarInfoWidget = new RadarInfoWidget(statusBar());
-    connect(history,
-            SIGNAL(currentMessage(const Messages::PRIMessage::Ref&)),
-            radarInfoWidget,
+    connect(history, SIGNAL(currentMessage(const Messages::PRIMessage::Ref&)), radarInfoWidget,
             SLOT(showMessageInfo(const Messages::PRIMessage::Ref&)));
     statusBar()->addPermanentWidget(radarInfoWidget);
 
@@ -176,14 +152,10 @@ MainWindow::MainWindow()
     //
     ChannelInfoWidget* channelInfoWidget = new ChannelInfoWidget(statusBar());
     statusBar()->addPermanentWidget(channelInfoWidget);
-    channelInfoWidget->addChannel(
-	"V:", configuration_->getVideoChannel());
-    channelInfoWidget->addChannel(
-	"E:", configuration_->getExtractionsChannel());
-    channelInfoWidget->addChannel(
-	"T:", configuration_->getRangeTruthsChannel());
-    channelInfoWidget->addChannel(
-	"P:", configuration_->getBugPlotsChannel());
+    channelInfoWidget->addChannel("V:", configuration_->getVideoChannel());
+    channelInfoWidget->addChannel("E:", configuration_->getExtractionsChannel());
+    channelInfoWidget->addChannel("T:", configuration_->getRangeTruthsChannel());
+    channelInfoWidget->addChannel("P:", configuration_->getBugPlotsChannel());
 
     actionAlphaBetaViewFull_->setIcon(QIcon(":/home.png"));
     actionAlphaBetaViewFull_->setEnabled(false);
@@ -231,31 +203,21 @@ MainWindow::MainWindow()
     //
     toolBar = makeToolBar("Layer Controls", Qt::LeftToolBarArea);
     toolBar->addAction(actionViewToggleVideo_);
-    QToolButton* toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleVideo_));
+    QToolButton* toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleVideo_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(configuration_->getVideoChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(configuration_->getVideoChannel(), toolButton));
     toolBar->addAction(actionViewToggleExtractions_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleExtractions_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleExtractions_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(configuration_->getExtractionsChannel(),
-                        toolButton));
+    toolButton->setMenu(new ChannelMenu(configuration_->getExtractionsChannel(), toolButton));
     toolBar->addAction(actionViewToggleRangeTruths_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleRangeTruths_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleRangeTruths_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(configuration_->getRangeTruthsChannel(),
-                        toolButton));
+    toolButton->setMenu(new ChannelMenu(configuration_->getRangeTruthsChannel(), toolButton));
     toolBar->addAction(actionViewToggleBugPlots_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleBugPlots_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleBugPlots_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(configuration_->getBugPlotsChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(configuration_->getBugPlotsChannel(), toolButton));
     toolBar->addAction(actionViewToggleGrid_);
     toolBar->addAction(actionViewTogglePhantomCursor_);
     app->addWindowMenuActionTo(toolBar, WindowManager::kFullScreen);
@@ -273,16 +235,12 @@ MainWindow::MainWindow()
     //
     toolBar = makeToolBar("ColorMap", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    ColorMapWidget* colorMapWidget =
-	new ColorMapWidget(configuration_->getVideoSampleCountTransform(),
-                           toolBar);
+    ColorMapWidget* colorMapWidget = new ColorMapWidget(configuration_->getVideoSampleCountTransform(), toolBar);
     toolBar->addWidget(colorMapWidget);
     VideoImaging* videoImaging = configuration_->getVideoImaging();
     colorMapWidget->setColorMap(videoImaging->getColorMap());
-    connect(videoImaging, SIGNAL(colorMapChanged(const QImage&)),
-            colorMapWidget, SLOT(setColorMap(const QImage&)));
-    connect(colorMapWidget, SIGNAL(changeColorMapType(int)),
-            videoImaging, SLOT(setColorMapType(int)));
+    connect(videoImaging, SIGNAL(colorMapChanged(const QImage&)), colorMapWidget, SLOT(setColorMap(const QImage&)));
+    connect(colorMapWidget, SIGNAL(changeColorMapType(int)), videoImaging, SLOT(setColorMapType(int)));
 
     toolBar = makeToolBar("View Chooser", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
@@ -297,26 +255,22 @@ MainWindow::MainWindow()
     //
     toolBar = makeToolBar("Plot Symbols", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    TargetPlotSymbolsWidget* symbolsWidget =
-	new TargetPlotSymbolsWidget(toolBar);
+    TargetPlotSymbolsWidget* symbolsWidget = new TargetPlotSymbolsWidget(toolBar);
     toolBar->addWidget(symbolsWidget);
-    symbolsWidget->connectExtractionsSymbolType(
-	configuration_->getExtractionsImaging());
-    symbolsWidget->connectRangeTruthsSymbolType(
-	configuration_->getRangeTruthsImaging());
-    symbolsWidget->connectBugPlotsSymbolType(
-	configuration_->getBugPlotsImaging());
+    symbolsWidget->connectExtractionsSymbolType(configuration_->getExtractionsImaging());
+    symbolsWidget->connectRangeTruthsSymbolType(configuration_->getRangeTruthsImaging());
+    symbolsWidget->connectBugPlotsSymbolType(configuration_->getBugPlotsImaging());
 
 #if 0
 
-    // Create a toolbar for the gain and min/max controls
-    //
-    toolBar = makeToolBar("Gain and Min/Max", Qt::RightToolBarArea);
-    ControlsWidget* controlsWidget = new ControlsWidget(toolBar);
-    controlsWidget->addControl("Gain", configuration_->getGainSetting());
-    controlsWidget->addControl("Min", configuration_->getCutoffMinSetting());
-    controlsWidget->addControl("Max", configuration_->getCutoffMaxSetting());
-    toolBar->addWidget(controlsWidget);
+  // Create a toolbar for the gain and min/max controls
+  //
+  toolBar = makeToolBar("Gain and Min/Max", Qt::RightToolBarArea);
+  ControlsWidget* controlsWidget = new ControlsWidget(toolBar);
+  controlsWidget->addControl("Gain", configuration_->getGainSetting());
+  controlsWidget->addControl("Min", configuration_->getCutoffMinSetting());
+  controlsWidget->addControl("Max", configuration_->getCutoffMaxSetting());
+  toolBar->addWidget(controlsWidget);
 #endif
 }
 
@@ -380,9 +334,9 @@ void
 MainWindow::timerEvent(QTimerEvent* event)
 {
     if (event->timerId() != updateTimer_.timerId()) {
-	event->ignore();
-	Super::timerEvent(event);
-	return;
+        event->ignore();
+        Super::timerEvent(event);
+        return;
     }
 
     alphaBetaView_->refresh();
@@ -394,8 +348,7 @@ MainWindow::showEvent(QShowEvent* event)
 {
     Logger::ProcLog log("showEvent", Log());
     LOGINFO << std::endl;
-    if (! updateTimer_.isActive())
-	updateTimer_.start(kUpdateRate, this);
+    if (!updateTimer_.isActive()) updateTimer_.start(kUpdateRate, this);
     Super::showEvent(event);
 }
 
@@ -406,14 +359,13 @@ MainWindow::closeEvent(QCloseEvent* event)
     // window so that the user can manage the unsaved presets.
     //
     App* app = getApp();
-    if (! app->isQuitting()) {
-	event->ignore();
-	QTimer::singleShot(0, app, SLOT(applicationQuit()));
-	return;
+    if (!app->isQuitting()) {
+        event->ignore();
+        QTimer::singleShot(0, app, SLOT(applicationQuit()));
+        return;
     }
 
-    if (updateTimer_.isActive())
-	updateTimer_.stop();
+    if (updateTimer_.isActive()) updateTimer_.stop();
 
     Super::closeEvent(event);
 }
@@ -434,13 +386,10 @@ MainWindow::bugged()
     double range = alphaRange.y();
     double azimuth;
     double elevation;
-    radarSettings->getAzimuthElevation(alphaBeta.x(), alphaBeta.y(),
-                                       &azimuth, &elevation);
+    radarSettings->getAzimuthElevation(alphaBeta.x(), alphaBeta.y(), &azimuth, &elevation);
     BugPlotEmitterSettings* bpes = configuration_->getBugPlotEmitterSettings();
     Messages::BugPlot::Ref msg = bpes->addBugPlot(range, azimuth, elevation);
-    if (msg) {
-	configuration_->getHistory()->addBugPlot(msg);
-    }
+    if (msg) { configuration_->getHistory()->addBugPlot(msg); }
 }
 
 void
@@ -464,7 +413,7 @@ MainWindow::on_actionAlphaBetaViewSwap__triggered()
 void
 MainWindow::updateAlphaBetaViewActions()
 {
-    bool canPop = alphaBetaViewSettings_->canPop(); 
+    bool canPop = alphaBetaViewSettings_->canPop();
     actionAlphaBetaViewFull_->setEnabled(canPop);
     actionAlphaBetaViewPrevious_->setEnabled(canPop);
     actionAlphaBetaViewSwap_->setEnabled(canPop);

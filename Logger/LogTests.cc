@@ -30,22 +30,20 @@ checkException(const char* txt)
 {
     std::istringstream is(txt);
     try {
-	Configurator cfg(is);
-	std::clog << "*** checkException: no exception thrown for: ***\n" << txt << std::endl;
-	return false;		// expected an exception
-    }
-    catch (...) {
-	return true;
+        Configurator cfg(is);
+        std::clog << "*** checkException: no exception thrown for: ***\n" << txt << std::endl;
+        return false; // expected an exception
+    } catch (...) {
+        return true;
     }
 }
 
-class MyClockSource : public ClockSource
-{
+class MyClockSource : public ClockSource {
 public:
-
     using Ref = boost::shared_ptr<MyClockSource>;
 
-    static Ref Make() {
+    static Ref Make()
+    {
         Ref ref(new MyClockSource);
         Log::SetClockSource(ref);
         return ref;
@@ -70,20 +68,18 @@ MyClockSource::now(timeval& t)
 
 MyClockSource::Ref testClock(MyClockSource::Make());
 
-struct TestStartup : public UnitTest::TestObj
-{
+struct TestStartup : public UnitTest::TestObj {
     TestStartup();
 
     void test();
 
-    struct Child : public Threading::Thread
-    {
-	Child(TestStartup& parent, const std::string& logName);
+    struct Child : public Threading::Thread {
+        Child(TestStartup& parent, const std::string& logName);
 
-	virtual void run();
+        virtual void run();
 
-	TestStartup& parent_;
-	std::string logName_;
+        TestStartup& parent_;
+        std::string logName_;
     };
 
     int alive_;
@@ -91,14 +87,12 @@ struct TestStartup : public UnitTest::TestObj
     Threading::Condition::Ref condition_;
 };
 
-TestStartup::TestStartup()
-    : TestObj("Startup"), alive_(0), dead_(0), condition_(Threading::Condition::Make())
+TestStartup::TestStartup() : TestObj("Startup"), alive_(0), dead_(0), condition_(Threading::Condition::Make())
 {
     ;
 }
 
-TestStartup::Child::Child(TestStartup& parent, const std::string& logName)
-    : parent_(parent), logName_(logName)
+TestStartup::Child::Child(TestStartup& parent, const std::string& logName) : parent_(parent), logName_(logName)
 {
     ++parent_.alive_;
 }
@@ -108,8 +102,8 @@ TestStartup::Child::run()
 {
     Sleep(::drand48());
     Logger::Log& log = Logger::Log::Find(logName_);
-    log.fatal() << std::hex << &log << std::dec << " parent: " << std::hex << log.getParent() << std::dec
-		<< " " << parent_.alive_ << ' ' << parent_.dead_ << std::endl;
+    log.fatal() << std::hex << &log << std::dec << " parent: " << std::hex << log.getParent() << std::dec << " "
+                << parent_.alive_ << ' ' << parent_.dead_ << std::endl;
     Sleep(::drand48());
     Threading::Locker lock(parent_.condition_);
     ++parent_.dead_;
@@ -124,29 +118,28 @@ TestStartup::test()
 
     std::string full("a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z");
     for (int index = full.size(); index > 0; index -= 2) {
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
     }
-    
+
     while (dead_ != 26 * 4) condition_->waitForSignal();
 
     dead_ = 0;
     alive_ = 0;
 
     for (size_t index = 1; index <= full.size(); index += 2) {
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
-	(new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
+        (new Child(*this, full.substr(0, index)))->start();
     }
 
     while (dead_ != 26 * 4) condition_->waitForSignal();
 }
 
-struct TestConfigurator : public UnitTest::TestObj
-{
+struct TestConfigurator : public UnitTest::TestObj {
     TestConfigurator() : TestObj("Configurator") {}
     void test();
 };
@@ -207,9 +200,8 @@ root.foo1.bar priority debug-1 writer clog formatter pattern 'hi mom %p - %m'\n\
     c.info() << "repetitive" << std::endl;
     a.setPriorityLimit(Priority::kError);
 }
-    
-struct TestConfiguratorFile : public UnitTest::TestObj
-{
+
+struct TestConfiguratorFile : public UnitTest::TestObj {
     TestConfiguratorFile() : TestObj("ConfiguratorFile") {}
 
     void test();
@@ -223,11 +215,10 @@ TestConfiguratorFile::test()
     // Attempt to access a bogus file.
     //
     try {
-	ConfiguratorFile c("/this/file/does not/exist.exe");
-	assertTrue(0);
-    }
-    catch (...) {
-	assertTrue(1);
+        ConfiguratorFile c("/this/file/does not/exist.exe");
+        assertTrue(0);
+    } catch (...) {
+        assertTrue(1);
     }
 
     ::unlink("foo.cfg");
@@ -275,7 +266,7 @@ root.foo2.bar priority d2 writer cerr formatter pattern 'hi mom %p - %m'\n\
     // Start separate thread to monitor the modification time of the configuration file.
     //
     cfg.startMonitor(0.1);
-    
+
     // Change the priority levels of our configured Log objects
     //
     b.setPriorityLimit(Priority::kError);
@@ -303,13 +294,11 @@ root.foo2.bar priority d2 writer cerr formatter pattern 'hi mom %p - %m'\n\
     ::unlink("foo.cfg");
 }
 
-struct TestClockSource : public UnitTest::TestObj
-{
+struct TestClockSource : public UnitTest::TestObj {
     void test();
 };
 
-struct CleanUp
-{
+struct CleanUp {
     CleanUp(Log& l, const Writers::Writer::Ref& w) : l_(l), w_(w) {}
     ~CleanUp() { l_.removeWriter(w_); }
 
@@ -333,79 +322,78 @@ TestClockSource::test()
 
     os.str("");
     a.fatal() << "I can see clearly "
-	      << "now the rain has gone" << std::endl;
-    assertEqual("2.00 DBG1 - I can see clearly now the rain has gone\n",
-                std::string(os.str(), 0, os.tellp()));
+              << "now the rain has gone" << std::endl;
+    assertEqual("2.00 DBG1 - I can see clearly now the rain has gone\n", std::string(os.str(), 0, os.tellp()));
 }
 
-struct TestFormatter : public UnitTest::TestObj
-{
+struct TestFormatter : public UnitTest::TestObj {
     void testTerse()
-	{
-	    testClock->reset();
-	    Msg a("category", "msg", Priority::Find("error"));
-	    std::ostringstream os("");
-	    Formatters::Formatter::Ref b(Formatters::Terse::Make());
-	    b->format(os, a);
-	    assertEqual("19700101 000000.00 E - msg", os.str());
-	}
+    {
+        testClock->reset();
+        Msg a("category", "msg", Priority::Find("error"));
+        std::ostringstream os("");
+        Formatters::Formatter::Ref b(Formatters::Terse::Make());
+        b->format(os, a);
+        assertEqual("19700101 000000.00 E - msg", os.str());
+    }
 
     void testVerbose()
-	{
-	    testClock->reset();
-	    Msg a("category", "msg", Priority::Find("info"));
-	    a.when_.tv_sec = 123;
-	    a.when_.tv_usec = 995678;
-	    std::ostringstream os("");
-	    Formatters::Formatter::Ref b(Formatters::Verbose::Make());
-	    b->format(os, a);
-	    assertEqual("19700101 000203.99 INFO category: msg", os.str());
-	    a.when_.tv_usec = 994567;
-	    os.str("");
-	    b->format(os, a);
-	    assertEqual("19700101 000203.99 INFO category: msg", os.str());
-	}
+    {
+        testClock->reset();
+        Msg a("category", "msg", Priority::Find("info"));
+        a.when_.tv_sec = 123;
+        a.when_.tv_usec = 995678;
+        std::ostringstream os("");
+        Formatters::Formatter::Ref b(Formatters::Verbose::Make());
+        b->format(os, a);
+        assertEqual("19700101 000203.99 INFO category: msg", os.str());
+        a.when_.tv_usec = 994567;
+        os.str("");
+        b->format(os, a);
+        assertEqual("19700101 000203.99 INFO category: msg", os.str());
+    }
 
     void testPattern()
-	{
-	    // Force ASCII times to be in UTC. We expect to be in C or US locale.
-	    //
-	    ::putenv(::strdup("TZ="));
-	    ::tzset();
+    {
+        // Force ASCII times to be in UTC. We expect to be in C or US locale.
+        //
+        ::putenv(::strdup("TZ="));
+        ::tzset();
 
-	    testClock->reset();
-	    Msg a("category", "msg", Priority::Find("INFO"));
-	    a.when_.tv_sec = 987650000;
-	    a.when_.tv_usec = 454321;
-	    Formatters::Pattern::Ref b(Formatters::Pattern::Make());
-	    std::ostringstream os("");
-	    b->format(os, a);
-	    assertEqual("20010419 031320.45 I category: msg", os.str());
-	    os.str("");
-	    b->setPattern("hubba %W %P bubba");
-	    b->format(os, a);
-	    assertEqual("hubba Thu Apr 19 03:13:20 UTC 2001 INFO bubba", os.str());
-	    os.str("");
-	    b->setPattern("%% %w %S %M %c %p %P %m");
-	    b->format(os, a);
-	    assertEqual("% 20010419 031320.45 987650000 454321 category I " "INFO msg", os.str());
-	    os.str("");
-	    b->setPattern("%'%A %B %e, %Y %H:%M:%S' %p %m%z");
-	    b->format(os, a);
-	    assertEqual("Thursday April 19, 2001 03:13:20 I msg\n", os.str());
-	}
+        testClock->reset();
+        Msg a("category", "msg", Priority::Find("INFO"));
+        a.when_.tv_sec = 987650000;
+        a.when_.tv_usec = 454321;
+        Formatters::Pattern::Ref b(Formatters::Pattern::Make());
+        std::ostringstream os("");
+        b->format(os, a);
+        assertEqual("20010419 031320.45 I category: msg", os.str());
+        os.str("");
+        b->setPattern("hubba %W %P bubba");
+        b->format(os, a);
+        assertEqual("hubba Thu Apr 19 03:13:20 UTC 2001 INFO bubba", os.str());
+        os.str("");
+        b->setPattern("%% %w %S %M %c %p %P %m");
+        b->format(os, a);
+        assertEqual("% 20010419 031320.45 987650000 454321 category I "
+                    "INFO msg",
+                    os.str());
+        os.str("");
+        b->setPattern("%'%A %B %e, %Y %H:%M:%S' %p %m%z");
+        b->format(os, a);
+        assertEqual("Thursday April 19, 2001 03:13:20 I msg\n", os.str());
+    }
 
     static UnitTest::ProcSuite<TestFormatter>* Install(UnitTest::ProcSuite<TestFormatter>* ps)
-	{
-	    ps->add("terse", &TestFormatter::testTerse);
-	    ps->add("verbose", &TestFormatter::testVerbose);
-	    ps->add("pattern", &TestFormatter::testPattern);
-	    return ps;
-	}
+    {
+        ps->add("terse", &TestFormatter::testTerse);
+        ps->add("verbose", &TestFormatter::testVerbose);
+        ps->add("pattern", &TestFormatter::testPattern);
+        return ps;
+    }
 };
 
-struct TestLog : public UnitTest::TestObj
-{
+struct TestLog : public UnitTest::TestObj {
     void test() { testLog(); }
 
     void testFind();
@@ -414,14 +402,14 @@ struct TestLog : public UnitTest::TestObj
     void testPriorityLimit();
     void testProcLog();
 
-    static UnitTest::ProcSuite<TestLog>* Install(
-	UnitTest::ProcSuite<TestLog>* ps) {
-	ps->add("find", &TestLog::testFind);
-	ps->add("log", &TestLog::testLog);
-	ps->add("propagation", &TestLog::testPropagation);
-	ps->add("priorityLimit", &TestLog::testPriorityLimit);
-	ps->add("procLog", &TestLog::testProcLog);
-	return ps;
+    static UnitTest::ProcSuite<TestLog>* Install(UnitTest::ProcSuite<TestLog>* ps)
+    {
+        ps->add("find", &TestLog::testFind);
+        ps->add("log", &TestLog::testLog);
+        ps->add("propagation", &TestLog::testPropagation);
+        ps->add("priorityLimit", &TestLog::testPriorityLimit);
+        ps->add("procLog", &TestLog::testProcLog);
+        return ps;
     }
 };
 
@@ -435,7 +423,7 @@ TestLog::testFind()
     Log& a(Log::Root());
     Log& b(Log::Find("root"));
     assertEqual(&b, &a);
-    
+
     // Create a new Log object with a fully-qualified name.
     //
     Log& c(Log::Find("root.bubba"));
@@ -490,13 +478,14 @@ TestLog::testLog()
     oss.str("");
     a.setPriorityLimit(Priority::kDebug1);
     assertEqual(Priority::kDebug1, a.getPriorityLimit());
-    a.debug1() << "I can see clearly " << "now the rain has gone" << std::endl;
-    assertEqual("19700101 000001.00 D1 - I can see clearly now the rain " "has gone\n",
+    a.debug1() << "I can see clearly "
+               << "now the rain has gone" << std::endl;
+    assertEqual("19700101 000001.00 D1 - I can see clearly now the rain "
+                "has gone\n",
                 std::string(oss.str(), 0, oss.tellp()));
 }
 
-class Blah
-{
+class Blah {
 public:
     static Logger::Log& Log();
     void a();
@@ -616,11 +605,9 @@ TestLog::testPropagation()
     bar.info() << "both foo and bar" << std::endl;
     assertEqual("19700101 000002.00 I - both foo and bar\n", barBuf.str());
     assertEqual("19700101 000002.00 I - both foo and bar\n", fooBuf.str());
-
 }
 
-struct TestPriority : public UnitTest::TestObj
-{
+struct TestPriority : public UnitTest::TestObj {
     TestPriority() : TestObj("Priority") {}
     void test();
 };
@@ -634,37 +621,31 @@ TestPriority::test()
     assertEqual("none", key);
     assertEqual(Priority::kDebug1, Priority::Find("D1"));
     try {
-	Priority::Find("bugger");
-    }
-    catch (...) {
-	assertTrue(1);
+        Priority::Find("bugger");
+    } catch (...) {
+        assertTrue(1);
     }
 
-    assertEqual(std::string("D3"),
-                Priority::GetShortName(Priority::kDebug3));
-    assertEqual(std::string("FATAL"),
-                Priority::GetLongName(Priority::kFatal));
+    assertEqual(std::string("D3"), Priority::GetShortName(Priority::kDebug3));
+    assertEqual(std::string("FATAL"), Priority::GetLongName(Priority::kFatal));
 }
 
-struct TestWriter : public UnitTest::TestObj
-{
+struct TestWriter : public UnitTest::TestObj {
     void testFileWriter();
     void testStreamWriter();
     void testRollingWriter();
     void testSyslogWriter();
     void testRemoteSyslogWriter();
 
-    static UnitTest::ProcSuite<TestWriter>* Install(
-	UnitTest::ProcSuite<TestWriter>* ps)
-	{
-	    ps->add("FileWriter", &TestWriter::testFileWriter);
-	    ps->add("StreamWriter", &TestWriter::testStreamWriter);
-	    ps->add("RollingWriter", &TestWriter::testRollingWriter);
-	    ps->add("SyslogWriter", &TestWriter::testSyslogWriter);
-	    ps->add("RemoteSyslogWriter",
-                    &TestWriter::testRemoteSyslogWriter);
-	    return ps;
-	}
+    static UnitTest::ProcSuite<TestWriter>* Install(UnitTest::ProcSuite<TestWriter>* ps)
+    {
+        ps->add("FileWriter", &TestWriter::testFileWriter);
+        ps->add("StreamWriter", &TestWriter::testStreamWriter);
+        ps->add("RollingWriter", &TestWriter::testRollingWriter);
+        ps->add("SyslogWriter", &TestWriter::testSyslogWriter);
+        ps->add("RemoteSyslogWriter", &TestWriter::testRemoteSyslogWriter);
+        return ps;
+    }
 };
 
 void
@@ -710,7 +691,8 @@ TestWriter::testStreamWriter()
     sw->open();
     sw->write(msg);
     assertEqual("19700101 000000.00 D3 - msg\n"
-                "19700101 000000.00 D3 - msg\n", os.str());
+                "19700101 000000.00 D3 - msg\n",
+                os.str());
 }
 
 void

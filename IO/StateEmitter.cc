@@ -23,20 +23,20 @@
 namespace SideCar {
 namespace IO {
 
-struct StateEmitter::Private : public ACE_Task<ACE_MT_SYNCH>
-{
+struct StateEmitter::Private : public ACE_Task<ACE_MT_SYNCH> {
     using Super = ACE_Task<ACE_MT_SYNCH>;
-public:
 
+public:
     /** Connection information for a StatusCollector.
      */
-    struct Destination
-    {
-	Destination(const Zeroconf::ServiceEntry::Ref& serviceEntry)
-            : serviceEntry_(serviceEntry), address_(), failures_(0) {}
-	Zeroconf::ServiceEntry::Ref serviceEntry_;
-	ACE_INET_Addr address_;
-	int failures_;
+    struct Destination {
+        Destination(const Zeroconf::ServiceEntry::Ref& serviceEntry) :
+            serviceEntry_(serviceEntry), address_(), failures_(0)
+        {
+        }
+        Zeroconf::ServiceEntry::Ref serviceEntry_;
+        ACE_INET_Addr address_;
+        int failures_;
     };
 
     using DestinationVector = std::vector<Destination*>;
@@ -67,7 +67,8 @@ public:
     XmlRpc::XmlRpcValue state_;
 };
 
-}} 				// end namespace SideCar::IO
+} // namespace IO
+} // namespace SideCar
 
 using namespace SideCar;
 using namespace SideCar::IO;
@@ -79,10 +80,10 @@ StateEmitter::Log()
     return log_;
 }
 
-StateEmitter::Private::Private()
-    : Super(), socket_(ACE_INET_Addr(uint16_t(0))),
-      browser_(Zeroconf::Browser::Make(Zeroconf::ACEMonitorFactory::Make(), GetZeroconfType())), destinations_(),
-      state_(new XmlRpc::XmlRpcValue::ValueStruct)
+StateEmitter::Private::Private() :
+    Super(), socket_(ACE_INET_Addr(uint16_t(0))),
+    browser_(Zeroconf::Browser::Make(Zeroconf::ACEMonitorFactory::Make(), GetZeroconfType())), destinations_(),
+    state_(new XmlRpc::XmlRpcValue::ValueStruct)
 {
     Logger::ProcLog log("Private", Log());
 
@@ -91,18 +92,18 @@ StateEmitter::Private::Private()
     // !!! this on Mac OS X (Darwin), and perhaps others.
     //
 #ifdef darwin
-    int value = 64 * 1024;	// 64K IO buffer
+    int value = 64 * 1024; // 64K IO buffer
     if (socket_.set_option(SOL_SOCKET, SO_SNDBUF, &value, sizeof(value)) == -1)
-	LOGERROR << "failed to set SO_SNDBUF to " << value << std::endl;
+        LOGERROR << "failed to set SO_SNDBUF to " << value << std::endl;
 #endif
 
-    browser_->connectToFoundSignal([this](auto& v){foundSlot(v);});
-    browser_->connectToLostSignal([this](auto& v){lostSlot(v);});
+    browser_->connectToFoundSignal([this](auto& v) { foundSlot(v); });
+    browser_->connectToLostSignal([this](auto& v) { lostSlot(v); });
 }
 
 StateEmitter::Private::~Private()
 {
-    for (auto d: destinations_) delete d;
+    for (auto d : destinations_) delete d;
     destinations_.clear();
 }
 
@@ -115,20 +116,20 @@ StateEmitter::Private::openAndInit(const std::string& emitterName, long threadFl
     state_["emitterName"] = emitterName;
     state_["state"] = new XmlRpc::XmlRpcValue::ValueStruct;
 
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
     // Start our browser to detect any state collectors.
     //
-    if (! browser_->start()) {
-	LOGFATAL << "failed to start browser - " << Utils::showErrno() << std::endl;
-	return false;
+    if (!browser_->start()) {
+        LOGFATAL << "failed to start browser - " << Utils::showErrno() << std::endl;
+        return false;
     }
 
     // Start our emitter thread
     //
     if (activate(threadFlags, 1, 0, priority) == -1) {
-	LOGFATAL << "failed to start emitter thread - " << Utils::showErrno() << std::endl;
-	return false;
+        LOGFATAL << "failed to start emitter thread - " << Utils::showErrno() << std::endl;
+        return false;
     }
 
     return true;
@@ -142,18 +143,15 @@ StateEmitter::Private::close(u_long flags)
 
     Super::close(flags);
 
-    if (flags && ! msg_queue()->deactivated()) {
+    if (flags && !msg_queue()->deactivated()) {
+        // Signal the emitter thread to exit and wait for it to die.
+        //
+        msg_queue()->deactivate();
+        wait();
 
-	// Signal the emitter thread to exit and wait for it to die.
-	//
-	msg_queue()->deactivate();
-	wait();
+        browser_->stop();
 
-	browser_->stop();
-
-	if (socket_.get_handle() != ACE_INVALID_HANDLE) {
-	    socket_.close();
-	}
+        if (socket_.get_handle() != ACE_INVALID_HANDLE) { socket_.close(); }
     }
 
     return 0;
@@ -199,8 +197,8 @@ StateEmitter::Private::publish()
     // Publish the message to our emitter.
     //
     if (putq(data) == -1) {
-	LOGERROR << "failed to enqueue updated state" << std::endl;
-	data->release();
+        LOGERROR << "failed to enqueue updated state" << std::endl;
+        data->release();
     }
 }
 
@@ -216,55 +214,53 @@ StateEmitter::Private::svc()
     // been deactivated.
     //
     while (getq(data) != -1) {
-	switch(data->msg_type()) {
-	case ACE_Message_Block::MB_DATA:
+        switch (data->msg_type()) {
+        case ACE_Message_Block::MB_DATA:
 
-	    // Emit the current status to all active destinations.
-	    //
-            for (auto d: destinations_) sendTo(d, data);
-	    break;
+            // Emit the current status to all active destinations.
+            //
+            for (auto d : destinations_) sendTo(d, data);
+            break;
 
-	case ACE_Message_Block::MB_START:
+        case ACE_Message_Block::MB_START:
 
-	    // New Destination object to add. First make sure that it points to a unique location.
-	    //
-	    dest = reinterpret_cast<Destination*>(data->base());
-	    for (size_t index = 0; index < destinations_.size(); ++index) {
-		if (destinations_[index]->serviceEntry_->getName() ==
-                    dest->serviceEntry_->getName()) {
-		    delete dest;
-		    dest = 0;
-		    break;
-		}
-	    }
+            // New Destination object to add. First make sure that it points to a unique location.
+            //
+            dest = reinterpret_cast<Destination*>(data->base());
+            for (size_t index = 0; index < destinations_.size(); ++index) {
+                if (destinations_[index]->serviceEntry_->getName() == dest->serviceEntry_->getName()) {
+                    delete dest;
+                    dest = 0;
+                    break;
+                }
+            }
 
-	    if (dest) {
-		destinations_.push_back(dest);
-		bringUpToDate(dest);
-	    }
-	    break;
+            if (dest) {
+                destinations_.push_back(dest);
+                bringUpToDate(dest);
+            }
+            break;
 
-	case ACE_Message_Block::MB_STOP:
+        case ACE_Message_Block::MB_STOP:
 
-	    // Destination object to remove. Scan the Destination vector for the entry to remove and then remove
-	    // it.
-	    //
-	    dest = reinterpret_cast<Destination*>(data->base());
-	    for (size_t index = 0; index < destinations_.size(); ++index) {
-		if (destinations_[index] == dest) {
-		    destinations_.erase(destinations_.begin() + index);
-		    delete dest;
-		    break;
-		}
-	    }
-	    break;
+            // Destination object to remove. Scan the Destination vector for the entry to remove and then remove
+            // it.
+            //
+            dest = reinterpret_cast<Destination*>(data->base());
+            for (size_t index = 0; index < destinations_.size(); ++index) {
+                if (destinations_[index] == dest) {
+                    destinations_.erase(destinations_.begin() + index);
+                    delete dest;
+                    break;
+                }
+            }
+            break;
 
-	default:
-	    break;
-	}
+        default: break;
+        }
 
-	data->release();
-	data = 0;
+        data->release();
+        data = 0;
     }
 
     return 0;
@@ -297,13 +293,11 @@ StateEmitter::Private::sendTo(Destination* destination, const ACE_Message_Block*
     //
     ssize_t rc = socket_.send(data->rd_ptr(), data->size() - 1, destination->address_, 0);
     if (rc != ssize_t(data->size() - 1)) {
-	++destination->failures_;
-	LOGERROR << serviceEntry->getName() << " failed send to "
-		 << Utils::INETAddrToString(destination->address_) << " - buffer size: " << data->size() << " - "
-                 << Utils::showErrno() << std::endl;
-    }
-    else {
-	destination->failures_ = 0;
+        ++destination->failures_;
+        LOGERROR << serviceEntry->getName() << " failed send to " << Utils::INETAddrToString(destination->address_)
+                 << " - buffer size: " << data->size() << " - " << Utils::showErrno() << std::endl;
+    } else {
+        destination->failures_ = 0;
     }
 }
 
@@ -317,9 +311,9 @@ StateEmitter::Private::foundSlot(const ServiceEntryVector& services)
     // it to the vector of Destination objects.
     //
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	service->connectToResolvedSignal([this](auto& v){resolvedSlot(v);});
-	service->resolve();
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        service->connectToResolvedSignal([this](auto& v) { resolvedSlot(v); });
+        service->resolve();
     }
 }
 
@@ -329,17 +323,17 @@ StateEmitter::Private::resolvedSlot(const Zeroconf::ServiceEntry::Ref& service)
     static Logger::ProcLog log("resolvedSlot", Log());
 
     const Zeroconf::ResolvedEntry& resolvedEntry = service->getResolvedEntry();
-    LOGINFO << "fullname: " << resolvedEntry.getFullName() << " host: " << resolvedEntry.getHost() << " port: "
-	    << resolvedEntry.getPort() << " interface: " << service->getInterface() << std::endl;
+    LOGINFO << "fullname: " << resolvedEntry.getFullName() << " host: " << resolvedEntry.getHost()
+            << " port: " << resolvedEntry.getPort() << " interface: " << service->getInterface() << std::endl;
 
     std::string host(resolvedEntry.getHost());
     LOGDEBUG << "host: " << host << std::endl;
 
     ACE_INET_Addr address;
     if (address.set(resolvedEntry.getPort(), host.c_str(), 1, AF_INET) == -1) {
-	LOGFATAL << "invalid address to use: " << host << '/' << resolvedEntry.getPort() << " - "
-                 << Utils::showErrno() << std::endl;
-	return;
+        LOGFATAL << "invalid address to use: " << host << '/' << resolvedEntry.getPort() << " - " << Utils::showErrno()
+                 << std::endl;
+        return;
     }
 
     // Create a new Destination object to represent the location of the remote StatusCollector. Encapsulate it
@@ -347,12 +341,12 @@ StateEmitter::Private::resolvedSlot(const Zeroconf::ServiceEntry::Ref& service)
     //
     Destination* dest = new Destination(service);
     dest->address_ = address;
-    ACE_Message_Block* data = new ACE_Message_Block(sizeof(*dest), ACE_Message_Block::MB_START, 0,
-                                                    reinterpret_cast<char*>(dest));
+    ACE_Message_Block* data =
+        new ACE_Message_Block(sizeof(*dest), ACE_Message_Block::MB_START, 0, reinterpret_cast<char*>(dest));
     if (putq(data) == -1) {
-	LOGERROR << "failed to enqueue new destination" << std::endl;
-	data->release();
-	delete dest;
+        LOGERROR << "failed to enqueue new destination" << std::endl;
+        data->release();
+        delete dest;
     }
 }
 
@@ -362,10 +356,9 @@ StateEmitter::Private::findDestinationIndex(const Zeroconf::ServiceEntry::Ref& s
     // Locate the an existing Destination object that refers to a given Zeroconf service.
     //
     for (size_t index = 0; index < destinations_.size(); ++index) {
-	Destination* destination = destinations_[index];
-	Zeroconf::ServiceEntry::Ref held(destination->serviceEntry_);
-	if (held->getName() == service->getName() && held->getDomain() == service->getDomain())
-	    return index;
+        Destination* destination = destinations_[index];
+        Zeroconf::ServiceEntry::Ref held(destination->serviceEntry_);
+        if (held->getName() == service->getName() && held->getDomain() == service->getDomain()) return index;
     }
 
     // Not found. Return the size of the Destination vector as a failure flag.
@@ -382,28 +375,27 @@ StateEmitter::Private::lostSlot(const ServiceEntryVector& services)
     // Locate the Destination object we will remove, but let the emitter thread do the removal.
     //
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	size_t serviceIndex = findDestinationIndex(service);
-	if (serviceIndex == destinations_.size()) {
-	    LOGWARNING << "registration for " << service->getName() << " not found" << std::endl;
-	    continue;
-	}
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        size_t serviceIndex = findDestinationIndex(service);
+        if (serviceIndex == destinations_.size()) {
+            LOGWARNING << "registration for " << service->getName() << " not found" << std::endl;
+            continue;
+        }
 
-	Destination* dest = destinations_[serviceIndex];
+        Destination* dest = destinations_[serviceIndex];
 
-	// Encapsulate the Destination object to remove in an ACE_Message_Block and post to the emitter thread.
-	//
-	ACE_Message_Block* data = new ACE_Message_Block(sizeof(dest), ACE_Message_Block::MB_STOP, 0,
-                                                        reinterpret_cast<char*>(dest));
-	if (putq(data) == -1) {
-	    LOGERROR << "failed to enqueue remove destination" << std::endl;
-	    data->release();
-	}
+        // Encapsulate the Destination object to remove in an ACE_Message_Block and post to the emitter thread.
+        //
+        ACE_Message_Block* data =
+            new ACE_Message_Block(sizeof(dest), ACE_Message_Block::MB_STOP, 0, reinterpret_cast<char*>(dest));
+        if (putq(data) == -1) {
+            LOGERROR << "failed to enqueue remove destination" << std::endl;
+            data->release();
+        }
     }
 }
 
-StateEmitter::StateEmitter()
-    : p_(new Private)
+StateEmitter::StateEmitter() : p_(new Private)
 {
     ;
 }

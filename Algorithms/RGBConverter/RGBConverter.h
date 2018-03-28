@@ -5,9 +5,9 @@
 #include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 
-#include <vsip/matrix.hpp>
 #include <deque>
 #include <vector>
+#include <vsip/matrix.hpp>
 
 namespace SideCar {
 namespace Algorithms {
@@ -15,12 +15,10 @@ namespace Algorithms {
 /** Documentation for the algorithm RGBConverter. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class RGBConverter : public CPIAlgorithm
-{
+class RGBConverter : public CPIAlgorithm {
     using Super = CPIAlgorithm;
 
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -45,10 +43,9 @@ public:
     bool cpiSpanChanged(const Parameter::PositiveIntValue& parameter);
     bool processCPI();
 
-    bool resize(int max) ;
-    
-private:
+    bool resize(int max);
 
+private:
     // Add attributes here
     //
     Parameter::PositiveIntValue::Ref min_;

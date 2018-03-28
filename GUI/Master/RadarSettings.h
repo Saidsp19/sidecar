@@ -12,14 +12,12 @@ namespace Master {
 
 class MainWindow;
 
-class RadarSettings : public SettingsBlock
-{
+class RadarSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
-    RadarSettings(BoolSetting* transmitting, DoubleSetting* frequency,
-                  BoolSetting* rotating, DoubleSetting* rate,
+public:
+    RadarSettings(BoolSetting* transmitting, DoubleSetting* frequency, BoolSetting* rotating, DoubleSetting* rate,
                   BoolSetting* drfmOn, StringSetting* drfmConfig);
 
     bool isTransmitting() const { return transmitting_->getValue(); }

@@ -5,7 +5,9 @@
 
 #include "Messages/Header.h"
 
-namespace  Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,8 +26,7 @@ namespace GUI {
     copy of a held mesage block, for instance when giving it to an
     IO::MessageManager instance.
 */
-class MessageList
-{
+class MessageList {
 public:
     using Container = std::vector<Messages::Header::Ref>;
     using const_iterator = Container::const_iterator;
@@ -40,15 +41,13 @@ public:
 
     void clear() { messages_.clear(); }
 
-    void push_back(const Messages::Header::Ref& msg)
-	{ messages_.push_back(msg); }
+    void push_back(const Messages::Header::Ref& msg) { messages_.push_back(msg); }
 
     Messages::Header::Ref front() const { return messages_.front(); }
 
     Messages::Header::Ref back() const { return messages_.back(); }
 
-    Messages::Header::Ref operator[](size_t index) const
-	{ return messages_[index]; }
+    Messages::Header::Ref operator[](size_t index) const { return messages_[index]; }
 
     const_iterator begin() const { return messages_.begin(); }
 

@@ -22,10 +22,8 @@ namespace BugCollectorUtils {
     BugPlot publisher. Forwards each incoming BugPlot message to the BugCollector algorithm it knows about via
     its BugCollector::process() method.
 */
-class BugPlotReader : public ACE_Event_Handler
-{
+class BugPlotReader : public ACE_Event_Handler {
 public:
-
     /** Constructor. Only performs simple initialization.
 
         \param bugCollector the Bugcollector algorithm to forward BugPlot
@@ -46,7 +44,7 @@ public:
 
         \param flags ignored
 
-        \return 
+        \return
     */
     int close(u_long flags);
 
@@ -60,7 +58,7 @@ public:
 
     /** Obtain the socket descriptor for the connection.
 
-        \return 
+        \return
     */
     ACE_HANDLE get_handle() const;
 
@@ -77,7 +75,6 @@ public:
     void sendHeartBeat(const char* msg = "HI") const;
 
 private:
-
     BugCollector& bugCollector_;
     std::string serviceName_;
     IO::MulticastSocketReader reader_;
@@ -91,8 +88,7 @@ private:
     BugPlotReader for each one it finds. Note that it will only subscribe to a publisher whose name starts with
     a specific prefix value.
 */
-class BugPlotSubscriber : public ACE_Event_Handler
-{
+class BugPlotSubscriber : public ACE_Event_Handler {
 public:
     using ServiceEntryVector = Zeroconf::Browser::ServiceEntryVector;
 
@@ -110,7 +106,7 @@ public:
 
     /** Obtain the number of active BugPlotReader instances.
 
-        \return 
+        \return
     */
     size_t size() const { return readers_.size(); }
 
@@ -131,7 +127,6 @@ public:
     int handle_timeout(const ACE_Time_Value& duration, const void* arg);
 
 private:
-
     /** Notification from our Zeroconf::Browser object when a new BugPlot publisher is available.
 
         \param services list of new publishers

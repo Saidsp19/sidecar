@@ -11,17 +11,9 @@ namespace Algorithms {
 /** Documentation for the algorithm Trimmer. Removes a configurable number of samples from the start of a
     message, and make sure that the message is not any larger than a maximum value.
 */
-class Trimmer : public Algorithm
-{
+class Trimmer : public Algorithm {
 public:
-
-    enum InfoSlot {
-	kEnabled = ControllerStatus::kNumSlots,
-	kFirstSample,
-	kMaxSampleCount,
-	kComplexSamples,
-	kNumSlots
-    };
+    enum InfoSlot { kEnabled = ControllerStatus::kNumSlots, kFirstSample, kMaxSampleCount, kComplexSamples, kNumSlots };
 
     /** Constructor.
 
@@ -44,7 +36,6 @@ public:
     void setComplexSamples(bool value);
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);

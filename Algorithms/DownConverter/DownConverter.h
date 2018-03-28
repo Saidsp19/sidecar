@@ -16,14 +16,14 @@ namespace Algorithms {
 using ComplexType = std::complex<float>;
 using VsipComplexVector = vsip::Vector<ComplexType>;
 
-namespace DownConverterUtils { class Channel; }
+namespace DownConverterUtils {
+class Channel;
+}
 /** Documentation for the algorithm %s. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class DownConverter : public Algorithm
-{
+class DownConverter : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -41,12 +41,11 @@ public:
     /** Example of a message processor that takes in Video data.
 
         \param msg the message to process
-        eturn true if successful, false otherwise
+         eturn true if successful, false otherwise
     */
     bool process();
 
 private:
-
     void maxBufferSizeChanged(const Parameter::PositiveIntValue& parameter);
 
     // Add attributes here
@@ -54,7 +53,7 @@ private:
 
     DownConverterUtils::Channel* cohoChannel_;
     DownConverterUtils::Channel* rxChannel_;
-    
+
     Parameter::PositiveIntValue::Ref maxBufferSize_;
     Parameter::DoubleValue::Ref alpha_;
     Parameter::BoolValue::Ref enabled_;

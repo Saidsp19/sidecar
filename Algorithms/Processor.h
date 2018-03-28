@@ -1,8 +1,8 @@
 #ifndef SIDECAR_ALGORITHMS_PROCESSOR_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_PROCESSOR_H
 
-#include <vector>
 #include "boost/function.hpp"
+#include <vector>
 
 #include "Messages/Header.h"
 
@@ -13,14 +13,12 @@ namespace Algorithms {
     Processor objects may reside in STL containers. Although any class may derive from this one, its primary
     purpose is to serve as the base class for the TProcessor template class.
 */
-class Processor
-{
+class Processor {
 public:
-    
     /** Destructor. Here to silence irritating warnings from certain GNU compilers.
      */
     virtual ~Processor() {}
-    
+
     /** Process a single SideCar message. Derived classes must define.
 
         \param msg the message to process
@@ -33,13 +31,11 @@ public:
 /** Templated class that provides type-safe processing of SideCar messages.
  */
 template <typename P, typename M>
-class TProcessor : public Processor
-{
+class TProcessor : public Processor {
 public:
-
     /** Type definition for a method of class P that can process messages of class M.
      */
-    using Proc = boost::function<bool(P*,typename M::Ref)>;
+    using Proc = boost::function<bool(P*, typename M::Ref)>;
 
     /** Constructor. Initializes with the given parameters
 

@@ -4,7 +4,9 @@
 #include "GUI/RadarInfoWidget.h"
 
 namespace SideCar {
-namespace Time { class TimeStamp; }
+namespace Time {
+class TimeStamp;
+}
 namespace GUI {
 namespace AScope {
 
@@ -13,18 +15,16 @@ class App;
 /** Adaptation of GUI/InfoWidget QToolBar widget that shows the shaft encoding value of the last message
     processed by the application.
 */
-class RadarInfoWidget : public ::SideCar::GUI::RadarInfoWidget
-{
+class RadarInfoWidget : public ::SideCar::GUI::RadarInfoWidget {
     Q_OBJECT
     using Super = ::SideCar::GUI::RadarInfoWidget;
-public:
 
+public:
     /** Constructor. Creates and initializes window widgets.
      */
     RadarInfoWidget(QWidget* parent);
 
 private:
-
     void showMessageInfo(const Messages::PRIMessage::Ref& msg);
 
     bool needUpdate() const { return Super::needUpdate() || updateShaft_; }

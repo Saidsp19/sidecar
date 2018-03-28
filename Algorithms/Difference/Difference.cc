@@ -8,21 +8,19 @@
 using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 
-Difference::Difference(Controller& controller, Logger::Log &log)
-    : Algorithm(controller, log),
-      bufferSize_(Parameter::PositiveIntValue::Make(
-                      "bufferSize", "Buffer Size", kDefaultBufferSize)),
-      in0_(bufferSize_->getValue()), in1_(bufferSize_->getValue())
+Difference::Difference(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log),
+    bufferSize_(Parameter::PositiveIntValue::Make("bufferSize", "Buffer Size", kDefaultBufferSize)),
+    in0_(bufferSize_->getValue()), in1_(bufferSize_->getValue())
 {
-    bufferSize_->connectChangedSignalTo(
-	boost::bind(&Difference::bufferSizeChanged, this, _1));
+    bufferSize_->connectChangedSignalTo(boost::bind(&Difference::bufferSizeChanged, this, _1));
 }
 
 bool
 Difference::startup()
 {
-    registerProcessor<Difference,Video>(0, &Difference::processIn0);
-    registerProcessor<Difference,Video>(1, &Difference::processIn1);
+    registerProcessor<Difference, Video>(0, &Difference::processIn0);
+    registerProcessor<Difference, Video>(1, &Difference::processIn1);
     return registerParameter(bufferSize_);
 }
 
@@ -39,8 +37,7 @@ Difference::processIn0(Video::Ref in)
 {
     in0_.add(in);
     Video::Ref in1 = in1_.find(in->getSequenceCounter());
-    if (! in1)
-	return true;
+    if (!in1) return true;
     return process(in, in1);
 }
 
@@ -49,8 +46,7 @@ Difference::processIn1(Video::Ref in)
 {
     in1_.add(in);
     Video::Ref in0 = in0_.find(in->getSequenceCounter());
-    if (! in0)
-	return true;
+    if (!in0) return true;
     return process(in0, in);
 }
 

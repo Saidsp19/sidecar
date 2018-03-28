@@ -15,8 +15,7 @@
 using namespace SideCar;
 using namespace SideCar::IO;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("TimeIndex") {}
     void test();
 };
@@ -34,37 +33,35 @@ Test::test()
     // Write out 5 Video messages this should not take more than a second.
     //
     {
-	Messages::VMEDataMessage vme;
-	vme.header.msgDesc = ((Messages::VMEHeader::kPackedReal << 16) |
-                              Messages::VMEHeader::kIRIGValidMask |
-                              Messages::VMEHeader::kAzimuthValidMask |
-                              Messages::VMEHeader::kPRIValidMask);
-	vme.header.pri = 0;
-	vme.header.timeStamp = 0;
-	vme.rangeMin = 0.0;
-	vme.rangeFactor = 1.0;
-	FileWriter::Ref writer(FileWriter::Make());
-	ACE_FILE_Connector(writer->getDevice(), addr);
+        Messages::VMEDataMessage vme;
+        vme.header.msgDesc = ((Messages::VMEHeader::kPackedReal << 16) | Messages::VMEHeader::kIRIGValidMask |
+                              Messages::VMEHeader::kAzimuthValidMask | Messages::VMEHeader::kPRIValidMask);
+        vme.header.pri = 0;
+        vme.header.timeStamp = 0;
+        vme.rangeMin = 0.0;
+        vme.rangeFactor = 1.0;
+        FileWriter::Ref writer(FileWriter::Make());
+        ACE_FILE_Connector(writer->getDevice(), addr);
 
-	for (int count = 0; count < 5; ++count) {
-	    ++vme.header.pri;
-	    Messages::Video::Ref msg(Messages::Video::Make("Test", vme, 0));
-	    MessageManager mgr(msg);
-	    assertTrue(writer->write(mgr.getMessage()));
-	}
+        for (int count = 0; count < 5; ++count) {
+            ++vme.header.pri;
+            Messages::Video::Ref msg(Messages::Video::Make("Test", vme, 0));
+            MessageManager mgr(msg);
+            assertTrue(writer->write(mgr.getMessage()));
+        }
 
-	// Sleep to generate two TimeIndex records
-	//
-	::sleep(1);
+        // Sleep to generate two TimeIndex records
+        //
+        ::sleep(1);
 
-	// Write out 5 more Video messages.
-	//
-	for (int count = 5; count < 10; ++count) {
-	    ++vme.header.pri;
-	    Messages::Video::Ref msg(Messages::Video::Make("Test", vme, 0));
-	    MessageManager mgr(msg);
-	    assertTrue(writer->write(mgr.getMessage()));
-	}
+        // Write out 5 more Video messages.
+        //
+        for (int count = 5; count < 10; ++count) {
+            ++vme.header.pri;
+            Messages::Video::Ref msg(Messages::Video::Make("Test", vme, 0));
+            MessageManager mgr(msg);
+            assertTrue(writer->write(mgr.getMessage()));
+        }
     }
 
     // Create a new index files
@@ -80,7 +77,7 @@ Test::test()
     Utils::FilePath recordIndexFilePath(fp1.filePath());
     recordIndexFilePath.setExtension(RecordIndex::GetIndexFileSuffix());
     Utils::TemporaryFilePath fp3(recordIndexFilePath, false);
-    
+
     TimeIndex timeIndex(timeIndexFilePath);
 
     // Simple tests for overall capacity.

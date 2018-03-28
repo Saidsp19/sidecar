@@ -1,17 +1,17 @@
-#ifndef UTILS_FILEWATCHER_H	// -*- C++ -*-
+#ifndef UTILS_FILEWATCHER_H // -*- C++ -*-
 #define UTILS_FILEWATCHER_H
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace Utils {
 
 /** Abstract base class that monitors a file for changes to its modification timestamp. Derived clases must
     define a loadFile() method to do the actual loading.
 */
-class FileWatcher
-{
+class FileWatcher {
 public:
-
     /** Log device for RadarConfig messages
 
         \return Log device
@@ -19,7 +19,7 @@ public:
     static Logger::Log& Log();
 
     /** Constructor.
-        
+
         \param period number of seconds to wait between checks for file changes
     */
     FileWatcher(double period = 10.0);
@@ -51,9 +51,9 @@ public:
     bool isStale() const { return getModificationTime() > lastModification_; }
 
     /** Check to see if the watched file has changed since the last load. If file is not stale, nothing is done,
-	but routine still returns true.
+        but routine still returns true.
 
-	\return true if successful or file is not stale
+        \return true if successful or file is not stale
     */
     bool check() { return isStale() ? reload() : true; }
 
@@ -64,7 +64,6 @@ public:
     bool reload();
 
 protected:
-    
     /** Notification that the file has new contents. Derived classes must define.
 
         \param path configured file path
@@ -78,7 +77,6 @@ protected:
     virtual void stop() { stopMonitor(); }
 
 private:
-
     /** Start a separate thread to watch the configured file.
 
         \param period amount to time in seconds to sleep between checks for

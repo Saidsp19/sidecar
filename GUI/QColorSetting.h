@@ -12,12 +12,11 @@ class ColorButtonWidget;
 
 /** Derivation of the Setting class that works with QColor values.
  */
-class QColorSetting : public Setting
-{
+class QColorSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
-public:
 
+public:
     /** Constructor with initial default value
 
         \param mgr PresetManager object that records this setting
@@ -29,8 +28,7 @@ public:
         \param global if true, this is a global setting, not associated with a
         specific Preset.
     */
-    QColorSetting(PresetManager* mgr, const QString& name, const QColor& color,
-                  bool global = false);
+    QColorSetting(PresetManager* mgr, const QString& name, const QColor& color, bool global = false);
 
     /** Obtain the current setting value.
 
@@ -58,13 +56,11 @@ public slots:
     void setValue(const QColor& color);
 
 protected:
-
     /** Override of Setting method. Updates value_ attribute with new value and emits valueChanged() signal.
      */
     void valueUpdated();
 
 private:
-
     QColor value_;
 };
 

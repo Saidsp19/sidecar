@@ -1,8 +1,8 @@
 #include <errno.h>
-#include <string>
 #include <sstream>
+#include <string>
 
-#include "Zeroconf/Publisher.h"	// NOTE: place before *any* Qt includes
+#include "Zeroconf/Publisher.h" // NOTE: place before *any* Qt includes
 
 #include "GUI/LogUtils.h"
 #include "GUI/QtMonitor.h"
@@ -20,8 +20,7 @@ StatusCollector::Log()
     return log_;
 }
 
-StatusCollector::StatusCollector()
-    : publisher_(Zeroconf::Publisher::Make(new QtMonitor)), socket_(new QUdpSocket(this))
+StatusCollector::StatusCollector() : publisher_(Zeroconf::Publisher::Make(new QtMonitor)), socket_(new QUdpSocket(this))
 {
     static Logger::ProcLog log("StatusCollector", Log());
     LOGINFO << std::endl;
@@ -37,16 +36,14 @@ StatusCollector::open()
 
     // Using 0 gives us an unused port number, above 1024.
     //
-    if (! socket_->bind(QHostAddress(QHostAddress::Any), 0)) {
-	LOGFATAL << "failed to bind read socket - " << errno << ' ' << strerror(errno) << std::endl;
-	return false;
+    if (!socket_->bind(QHostAddress(QHostAddress::Any), 0)) {
+        LOGFATAL << "failed to bind read socket - " << errno << ' ' << strerror(errno) << std::endl;
+        return false;
     }
 
-    LOGDEBUG << "local address: " << socket_->localAddress().toString() << '/' << socket_->localPort()
-             << std::endl;
+    LOGDEBUG << "local address: " << socket_->localAddress().toString() << '/' << socket_->localPort() << std::endl;
 
-    LOGDEBUG << "peer address: " << socket_->peerAddress().toString() << '/' << socket_->peerPort()
-             << std::endl;
+    LOGDEBUG << "peer address: " << socket_->peerAddress().toString() << '/' << socket_->peerPort() << std::endl;
 
     int port = socket_->localPort();
     publisher_->setPort(port);
@@ -56,9 +53,9 @@ StatusCollector::open()
     //
     std::ostringstream os;
     os << "StatusCollector-" << port;
-    if (! publisher_->publish(os.str(), false)) {
-	LOGFATAL << "failed to publish info - " << errno << ' ' << strerror(errno) << std::endl;
-	return false;
+    if (!publisher_->publish(os.str(), false)) {
+        LOGFATAL << "failed to publish info - " << errno << ' ' << strerror(errno) << std::endl;
+        return false;
     }
 
     return true;
@@ -81,23 +78,19 @@ StatusCollector::dataAvailable()
     QList<QByteArray> statusReports;
 
     do {
-	qint64 size = socket_->pendingDatagramSize();
-	LOGINFO << size << std::endl;
-	if (size == -1)
-	    break;
+        qint64 size = socket_->pendingDatagramSize();
+        LOGINFO << size << std::endl;
+        if (size == -1) break;
 
-	QByteArray buffer(size + 1, 0);
-	size = socket_->readDatagram(buffer.data(), size);
-	if (size == -1)
-	    break;
+        QByteArray buffer(size + 1, 0);
+        size = socket_->readDatagram(buffer.data(), size);
+        if (size == -1) break;
 
-	statusReports.append(buffer);
+        statusReports.append(buffer);
 
     } while (socket_->hasPendingDatagrams());
 
-    if (! statusReports.empty()) {
-	emit statusUpdates(statusReports);
-    }
+    if (!statusReports.empty()) { emit statusUpdates(statusReports); }
 }
 
 void

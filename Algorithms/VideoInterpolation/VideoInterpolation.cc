@@ -11,14 +11,10 @@
 using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 
-VideoInterpolation::VideoInterpolation(Controller& controller,
-                                       Logger::Log& log)
-    : Algorithm(controller, log),
-      interpolationCount_(Parameter::PositiveIntValue::Make(
-                              "interpolationCount",
-                              "Interpolation Count",
-                              kDefaultInterpolationCount)),
-      past_(2)
+VideoInterpolation::VideoInterpolation(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), interpolationCount_(Parameter::PositiveIntValue::Make(
+                                    "interpolationCount", "Interpolation Count", kDefaultInterpolationCount)),
+    past_(2)
 {
     ;
 }
@@ -26,7 +22,7 @@ VideoInterpolation::VideoInterpolation(Controller& controller,
 bool
 VideoInterpolation::startup()
 {
-    registerProcessor<VideoInterpolation,Video>(&VideoInterpolation::process);
+    registerProcessor<VideoInterpolation, Video>(&VideoInterpolation::process);
     return registerParameter(interpolationCount_) && Algorithm::startup();
 }
 
@@ -44,11 +40,9 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
 
     const float kEncoded2PI = RadarConfig::GetShaftEncodingMax() + 1.0;
     const float kEncodedPI = kEncoded2PI / 2.0;
-    
+
     past_.add(in);
-    if (! past_.full()) {
-	return send(in);
-    }
+    if (!past_.full()) { return send(in); }
 
     // Convention: i indexes the input shaft encoding, j indexes the output shaft encoding
     //
@@ -57,8 +51,8 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
     LOGDEBUG << "iNew: " << iNew << " iOld: " << iOld << std::endl;
 
     if (iNew < iOld) {
-	iOld -= kEncoded2PI;
-	LOGDEBUG << "unwrapping iOld: " << iOld << std::endl;
+        iOld -= kEncoded2PI;
+        LOGDEBUG << "unwrapping iOld: " << iOld << std::endl;
     }
 
     float delta = iNew - iOld;
@@ -67,8 +61,8 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
     // Block time reversals (i.e. out-of-order packets)
     //
     if (delta > kEncodedPI) {
-	LOGERROR << "detected backward movement" << std::endl;
-	past_.add(past_[1]);
+        LOGERROR << "detected backward movement" << std::endl;
+        past_.add(past_[1]);
         return true;
     }
 
@@ -86,14 +80,13 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
     vsip::Vector<float> tmp(in->size(), 0.0);
 
     for (int index = 1; index <= emitCount; ++index) {
+        float shaftEncoding = iOld + delta * index;
+        if (shaftEncoding < 0.0)
+            shaftEncoding += kEncoded2PI;
+        else if (shaftEncoding >= kEncoded2PI)
+            shaftEncoding -= kEncoded2PI;
 
-	float shaftEncoding = iOld + delta * index;
-	if (shaftEncoding < 0.0)
-	    shaftEncoding += kEncoded2PI;
-	else if (shaftEncoding >= kEncoded2PI)
-	    shaftEncoding -= kEncoded2PI;
-
-	LOGDEBUG << "shaftEncoding: " << shaftEncoding << std::endl;
+        LOGDEBUG << "shaftEncoding: " << shaftEncoding << std::endl;
 
         Video::Ref out(Video::Make(getName(), in));
         out->resize(in->size(), 0);
@@ -103,15 +96,14 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
         vOut.admit(false);
 
         float weight = float(index) / float(emitCount);
-	LOGDEBUG << "index: " << index << " weight: " << weight << std::endl;
+        LOGDEBUG << "index: " << index << " weight: " << weight << std::endl;
 
-	tmp = mul(vOld.v, 1.0 - weight);
-	tmp = ma(vNew.v, weight, tmp);
+        tmp = mul(vOld.v, 1.0 - weight);
+        tmp = ma(vNew.v, weight, tmp);
         vOut.v = vsip::impl::view_cast<Video::DatumType>(tmp);
         vOut.release(true);
 
-        if (! send(out))
-	    return false;
+        if (!send(out)) return false;
     }
 
     vNew.release(false);
@@ -121,7 +113,6 @@ VideoInterpolation::process(const Messages::Video::Ref& in)
 
     return true;
 }
-
 
 // DLL support
 //

@@ -18,24 +18,24 @@ AddressLineEdit::keyPressEvent(QKeyEvent* event)
     static const Qt::KeyboardModifier kControlMod = MOD;
     switch (event->key()) {
     case Qt::Key_A:
-	if (event->modifiers() == kControlMod) {
-	    home(false);
-	    return;
-	}
-	break;
+        if (event->modifiers() == kControlMod) {
+            home(false);
+            return;
+        }
+        break;
     case Qt::Key_E:
-	if (event->modifiers() == kControlMod) {
-	    end(false);
-	    return;
-	}
-	break;
+        if (event->modifiers() == kControlMod) {
+            end(false);
+            return;
+        }
+        break;
     case Qt::Key_K:
-	if (event->modifiers() == kControlMod) {
-	    end(true);
-	    del();
-	    return;
-	}
-	break;
+        if (event->modifiers() == kControlMod) {
+            end(true);
+            del();
+            return;
+        }
+        break;
     }
 
     Super::keyPressEvent(event);

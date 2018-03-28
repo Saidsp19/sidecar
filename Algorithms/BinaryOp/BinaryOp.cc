@@ -1,7 +1,7 @@
-#include "Logger/Log.h"
-#include "Algorithms/Utils.h"
 #include "BinaryOp.h"
+#include "Algorithms/Utils.h"
 #include "BinaryOp_defaults.h"
+#include "Logger/Log.h"
 
 #include "QtCore/QString"
 
@@ -25,9 +25,9 @@ BinaryOp::OperatorEnumTraits::GetEnumNames()
     return kOperatorNames;
 }
 
-BinaryOp::BinaryOp(Controller& controller, Logger::Log& log)
-    : Super(controller, log, kDefaultEnabled, kDefaultMaxBufferSize),
-      operator_(OperatorParameter::Make("operator", "Operator", Operator(kDefaultOperator)))
+BinaryOp::BinaryOp(Controller& controller, Logger::Log& log) :
+    Super(controller, log, kDefaultEnabled, kDefaultMaxBufferSize),
+    operator_(OperatorParameter::Make("operator", "Operator", Operator(kDefaultOperator)))
 {
     ;
 }
@@ -40,8 +40,8 @@ BinaryOp::startup()
 
 namespace {
 
-struct BinaryProc : public std::binary_function<BinaryVideo::DatumType, BinaryVideo::DatumType,
-                                                BinaryVideo::DatumType> {
+struct BinaryProc
+    : public std::binary_function<BinaryVideo::DatumType, BinaryVideo::DatumType, BinaryVideo::DatumType> {
     using Arg = first_argument_type;
 };
 
@@ -70,10 +70,10 @@ struct ExclusiveOrOp : public BinaryProc {
 /** Functor that performs boolean NOT operation.
  */
 struct NotOp : public UnaryProc {
-    Arg operator()(Arg a) const { return ! a; }
+    Arg operator()(Arg a) const { return !a; }
 };
 
-}
+} // namespace
 
 bool
 BinaryOp::processChannels()
@@ -87,21 +87,20 @@ BinaryOp::processChannels()
 
     // If we are not enabled, just copy the message from the first enabled channel to the output.
     //
-    if (! isEnabled()) {
-	LOGDEBUG << "disabled" << std::endl;
-	if (! inputs.empty()) {
-	    BinaryVideo::Ref msg(inputs.front());
-	    BinaryVideo::Ref out(BinaryVideo::Make(getName(), msg));
-	    out->getData() = msg->getData();
-	    return send(out);
-	}
+    if (!isEnabled()) {
+        LOGDEBUG << "disabled" << std::endl;
+        if (!inputs.empty()) {
+            BinaryVideo::Ref msg(inputs.front());
+            BinaryVideo::Ref out(BinaryVideo::Make(getName(), msg));
+            out->getData() = msg->getData();
+            return send(out);
+        }
 
-	LOGDEBUG << "nothing to output" << std::endl;
-	return true;
-    }
-    else if (inputs.empty()) {
-	LOGWARNING << "enabled but no channels enabled" << std::endl;
-	return true;
+        LOGDEBUG << "nothing to output" << std::endl;
+        return true;
+    } else if (inputs.empty()) {
+        LOGWARNING << "enabled but no channels enabled" << std::endl;
+        return true;
     }
 
     // Create an output message using the first input message as its basis.
@@ -120,40 +119,33 @@ BinaryOp::processChannels()
     //
     BinaryVideo::Ref a = inputs.front();
     if (op != kNotOp) {
-	for (size_t index = 1; index < inputs.size(); ++index) {
-	    BinaryVideo::Ref b = inputs[index];
-	    switch (operator_->getValue()) {
-	    case kAndOp:
-	    case kNotAndOp:
-		std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), AndOp());
-		break;
+        for (size_t index = 1; index < inputs.size(); ++index) {
+            BinaryVideo::Ref b = inputs[index];
+            switch (operator_->getValue()) {
+            case kAndOp:
+            case kNotAndOp: std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), AndOp()); break;
 
-	    case kOrOp:
-	    case kNotOrOp:
-		std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), OrOp());
-		break;
+            case kOrOp:
+            case kNotOrOp: std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), OrOp()); break;
 
-	    case kXorOp:
-	    case kNotXorOp:
-		std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), ExclusiveOrOp());
-		break;
+            case kXorOp:
+            case kNotXorOp:
+                std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), ExclusiveOrOp());
+                break;
 
-	    default:
-		break;
-	    }
+            default: break;
+            }
 
-	    // Make the next 'a' input be the results of the last binary operation.
-	    //
-	    a = out;
-	}
+            // Make the next 'a' input be the results of the last binary operation.
+            //
+            a = out;
+        }
     }
 
     // Need to perform a NOT operation on the result? If we've gone through the above loop at least once, 'a'
     // will alias 'out'.
     //
-    if (op >= kNotOp) {
-	std::transform(a->begin(), a->begin() + minSize, out->begin(), NotOp());
-    }
+    if (op >= kNotOp) { std::transform(a->begin(), a->begin() + minSize, out->begin(), NotOp()); }
 
     LOGDEBUG << out->dataPrinter() << std::endl;
 
@@ -175,13 +167,12 @@ BinaryOp::setInfoSlots(IO::StatusBase& status)
     status.setSlot(kOperator, operator_->getValue());
 }
 
-extern "C" ACE_Svc_Export
-void*
+extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
 
-    if (! status[ManyInAlgorithm::kEnabled])
+    if (!status[ManyInAlgorithm::kEnabled])
         return Algorithm::FormatInfoValue(ManyInAlgorithm::GetFormattedStats(status));
 
     return Algorithm::FormatInfoValue(ManyInAlgorithm::GetFormattedStats(status) +

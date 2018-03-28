@@ -2,7 +2,7 @@
 
 #include <fcntl.h>
 #include <iostream>
-#include <unistd.h>		// for ::close
+#include <unistd.h> // for ::close
 
 #include "Writers.h"
 
@@ -10,11 +10,11 @@ using namespace Logger;
 using namespace Logger::Writers;
 
 File::File(const Formatters::Formatter::Ref& formatter, const std::string& path, bool append, mode_t mode,
-           bool flushAfterUse)
-    : Writer(formatter, flushAfterUse), buffer_(""), path_(path), fd_(-1),
-      openFlags_(O_CREAT | O_APPEND | O_WRONLY), openMode_(mode)
+           bool flushAfterUse) :
+    Writer(formatter, flushAfterUse),
+    buffer_(""), path_(path), fd_(-1), openFlags_(O_CREAT | O_APPEND | O_WRONLY), openMode_(mode)
 {
-    if (! append) openFlags_ |= O_TRUNC;
+    if (!append) openFlags_ |= O_TRUNC;
 #ifdef solaris
     openFlags_ |= O_LARGEFILE;
 #endif
@@ -28,17 +28,15 @@ File::open()
 {
     close();
     fd_ = ::open(path_.c_str(), openFlags_, openMode_);
-    if (fd_ == -1) {
-	std::cerr << "*** FileObj: failed to open file " << path_ << '\n';
-    }
+    if (fd_ == -1) { std::cerr << "*** FileObj: failed to open file " << path_ << '\n'; }
 }
 
 void
 File::close()
 {
     if (fd_ != -1) {
-	::close(fd_);
-	fd_ = -1;
+        ::close(fd_);
+        fd_ = -1;
     }
 }
 
@@ -61,8 +59,7 @@ File::write(const Msg& msg)
     std::string s = buffer_.str();
     if (::write(fd_, &s[0], s.size()) == -1) {
         close();
-    }
-    else {
+    } else {
         if (getFlushAfterUse()) flush();
     }
 }

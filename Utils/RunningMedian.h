@@ -3,7 +3,9 @@
 
 #include <vector>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace Utils {
 
@@ -24,18 +26,16 @@ namespace Utils {
     TODO: since the fingers are always ordered, an even faster implementation would be to use binary search on
     them to find the one to use to locate a given ordered link-list node.
 */
-class RunningMedian 
-{
+class RunningMedian {
 public:
-
     /** Representation of an address to a specific ordered value in the RunningMedian container. Use the
-	RunningMedian::generateOrderedIndex() method to create instances of this class.
+        RunningMedian::generateOrderedIndex() method to create instances of this class.
     */
     class OrderedIndex {
-	OrderedIndex(size_t index, size_t offset) : index_(index), offset_(offset) {}
-	size_t index_;
-	size_t offset_;
-	friend class RunningMedian;
+        OrderedIndex(size_t index, size_t offset) : index_(index), offset_(offset) {}
+        size_t index_;
+        size_t offset_;
+        friend class RunningMedian;
     };
 
     /** Obtain Logger::Log device to use for instances of this class.
@@ -77,7 +77,7 @@ public:
         between the largest and smallest values is very large. One can always obtain a true mean value via
         getTrueMeanValue() method, at some cost in performance.
 
-	\return current (estimated) mean value
+        \return current (estimated) mean value
     */
     double getEstimatedMeanValue() const { return sum_ / windowSize_; }
 
@@ -142,20 +142,19 @@ public:
     void setWindowSize(size_t windowSize, double initialValue = 0.0);
 
     /** Write out a textual representation of the internal container to the RunningMedian log device. Only
-	useful for debugging purposes.
+        useful for debugging purposes.
     */
     void dump() const;
 
 private:
-
     /** Internal Node object used to store sample values. Provides links so that the sample can exist in a
-	temporal FIFO linked-list as well as a numerically-ordered doubly-linked list.
+        temporal FIFO linked-list as well as a numerically-ordered doubly-linked list.
     */
     struct Node {
-	double value_;
-	Node* younger_;
-	Node* smaller_;
-	Node* bigger_;
+        double value_;
+        Node* younger_;
+        Node* smaller_;
+        Node* bigger_;
     };
 
     /** Release allocated Node objects.

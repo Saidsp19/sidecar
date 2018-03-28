@@ -14,9 +14,7 @@ namespace GUI {
 /** Combination of Vertex and Color objects.
  */
 struct VertexColorTag {
-
-    VertexColorTag(const Vertex& v, const Color& c, const QString& t)
-	: vertex(v), color(c), tag(t) {}
+    VertexColorTag(const Vertex& v, const Color& c, const QString& t) : vertex(v), color(c), tag(t) {}
 
     Vertex vertex;
     Color color;
@@ -26,10 +24,8 @@ struct VertexColorTag {
 /** Resizable array of Vertex/Color/QString tuple, interleaved in hopes of getting the best performance out of
     glVertexPointer and glColorPointer operations.
 */
-class VertexColorTagArray 
-{
+class VertexColorTagArray {
 public:
-
     VertexColorTagArray() : vertices_() {}
 
     bool empty() const { return vertices_.empty(); }
@@ -46,14 +42,14 @@ public:
 
         \param color Color object to store
 
-	\param tag text of the tag to store
+        \param tag text of the tag to store
     */
-    void push_back(const Vertex& vertex, const Color& color,
-                   const QString& tag)
-	{ vertices_.push_back(VertexColorTag(vertex, color, tag)); }
+    void push_back(const Vertex& vertex, const Color& color, const QString& tag)
+    {
+        vertices_.push_back(VertexColorTag(vertex, color, tag));
+    }
 
-    const VertexColorTag& operator[](size_t index) const
-	{ return vertices_[index]; }
+    const VertexColorTag& operator[](size_t index) const { return vertices_[index]; }
 
 private:
     std::vector<VertexColorTag> vertices_;

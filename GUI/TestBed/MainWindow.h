@@ -7,7 +7,9 @@
 
 #include "ui_TestBed.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,19 +18,18 @@ namespace TestBed {
 
 /** Main window for the TestBed application.
  */
-class MainWindow : public MainWindowBase, private Ui::TestBed
-{
+class MainWindow : public MainWindowBase, private Ui::TestBed {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
         \param history application history buffer for all Video messages.
 
-	\param basis DisplayView to duplicate
+        \param basis DisplayView to duplicate
     */
     MainWindow();
 
@@ -49,7 +50,7 @@ public slots:
     void on_modeB__clicked();
 };
 
-} // end namespace Spectrum
+} // namespace TestBed
 } // end namespace GUI
 } // end namespace SideCar
 

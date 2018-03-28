@@ -9,7 +9,9 @@
 
 #include "MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,12 +20,11 @@ class MessageWriter;
 
 namespace SignalGenerator {
 
-class Emitter : public QThread
-{
+class Emitter : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     static Logger::Log& Log();
 
     Emitter();
@@ -38,8 +39,7 @@ public:
 
     void setMessageList(const QList<Messages::Video::Ref>& messages);
 
-    MessageWriter* setPublisherInfo(const QString& name,
-                                    MainWindow::ConnectionType connectionType,
+    MessageWriter* setPublisherInfo(const QString& name, MainWindow::ConnectionType connectionType,
                                     const QString& multicastAddress);
 
     bool start();
@@ -53,7 +53,6 @@ public:
     int getMessageCount() const { return messages_.size(); }
 
 private:
-
     void run();
 
     MessageWriter* writer_;

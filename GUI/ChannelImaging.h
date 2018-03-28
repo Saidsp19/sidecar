@@ -5,11 +5,13 @@
 #include "GUI/Color.h"
 #include "GUI/ColorButtonSetting.h"
 #include "GUI/DoubleSetting.h"
+#include "GUI/LogUtils.h"
 #include "GUI/OnOffSettingsBlock.h"
 #include "GUI/OpacitySetting.h"
-#include "GUI/LogUtils.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -19,12 +21,11 @@ namespace GUI {
     analog that provides a way to change these values from the ConfigurationWindow GUI. This is the model
     component of the MVC triad.
 */
-class ChannelImaging : public OnOffSettingsBlock
-{
+class ChannelImaging : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
+
 public:
-    
     /** Constructor. Create a new model for a particular imaging part of the PPIWidget.
 
         \param enabled setting that controls whether the channel is rendered
@@ -35,8 +36,7 @@ public:
 
         \param opacity setting that controls the alpha value of the color used during rendering
     */
-    ChannelImaging(BoolSetting* enabled, ColorButtonSetting* color, 
-                   DoubleSetting* size, OpacitySetting* opacity);
+    ChannelImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* size, OpacitySetting* opacity);
 
     /** Obtain the current pen color setting as a Qt QColor value.
 
@@ -64,7 +64,7 @@ public:
     float getAlpha() const { return color_.alpha; }
 
 signals:
-    
+
     /** Notification sent out when the color setting changes.
      */
     void colorChanged();

@@ -19,14 +19,11 @@ AlphaRangeWidget::Log()
     return log_;
 }
 
-AlphaRangeWidget::AlphaRangeWidget(AlphaRangeView* parent,
-                                   ViewSettings* viewSettings)
-    : Super(parent, viewSettings, new AlphaRangePlotPositioner)
+AlphaRangeWidget::AlphaRangeWidget(AlphaRangeView* parent, ViewSettings* viewSettings) :
+    Super(parent, viewSettings, new AlphaRangePlotPositioner)
 {
-    connect(radarSettings_, SIGNAL(rangeMinMaxChanged(double, double)),
-            SLOT(generateVertices()));
-    connect(radarSettings_, SIGNAL(rangeMinMaxChanged(double, double)),
-            SLOT(generateVertices()));
+    connect(radarSettings_, SIGNAL(rangeMinMaxChanged(double, double)), SLOT(generateVertices()));
+    connect(radarSettings_, SIGNAL(rangeMinMaxChanged(double, double)), SLOT(generateVertices()));
     connect(radarSettings_, SIGNAL(rangeScalingChanged()), SLOT(clear()));
 }
 
@@ -37,10 +34,8 @@ AlphaRangeWidget::paintGL()
 
     Super::paintGL();
 
-    double firstSampleRange = radarSettings_->getRange(
-	radarSettings_->getFirstSample());
-    double lastSampleRange = radarSettings_->getRange(
-	radarSettings_->getLastSample());
+    double firstSampleRange = radarSettings_->getRange(radarSettings_->getFirstSample());
+    double lastSampleRange = radarSettings_->getRange(radarSettings_->getLastSample());
 
     if (firstSampleRange == lastSampleRange) return;
 
@@ -65,26 +60,21 @@ AlphaRangeWidget::alphasChanged(const AlphaIndices& alphaIndices)
 {
     static Logger::ProcLog log("alphasChanged", Log());
     colors_.clear();
-    std::for_each(alphaIndices.begin(), alphaIndices.end(),
-                  boost::bind(&AlphaRangeWidget::updateColumn, this, _1));
+    std::for_each(alphaIndices.begin(), alphaIndices.end(), boost::bind(&AlphaRangeWidget::updateColumn, this, _1));
     updateColors(alphaIndices[0] * getYScans());
 }
 
 void
 AlphaRangeWidget::updateColumn(int alphaIndex)
 {
-    const AlphaRangeColumn& samples(
-	history_->getAlphaRangeData(alphaIndex));
+    const AlphaRangeColumn& samples(history_->getAlphaRangeData(alphaIndex));
     int limit = std::min(getYScans(), int(samples.size()));
     for (int sampleIndex = 0; sampleIndex < limit; ++sampleIndex) {
-	int value = samples[sampleIndex];
-	colors_.add(
-	    videoImaging_->getColor(
-		videoSampleCountTransform_->transform(value)));
+        int value = samples[sampleIndex];
+        colors_.add(videoImaging_->getColor(videoSampleCountTransform_->transform(value)));
     }
 
-    while (limit++ < getYScans())
-	colors_.add(clearColor_);
+    while (limit++ < getYScans()) colors_.add(clearColor_);
 }
 
 void
@@ -93,26 +83,21 @@ AlphaRangeWidget::fillColors()
     // Revisit all columns of range values and recalculate their colors.
     //
     for (int x = 0; x < getXScans(); ++x) {
+        const AlphaRangeColumn& samples(history_->getAlphaRangeData(x));
 
-	const AlphaRangeColumn& samples(
-	    history_->getAlphaRangeData(x));
+        // Make sure we don't over do it.
+        //
+        int limit = std::min(getYScans(), int(samples.size()));
 
-	// Make sure we don't over do it.
-	//
-	int limit = std::min(getYScans(), int(samples.size()));
+        // Visit each sample in range, calculate its color value and add to the color container.
+        //
+        for (int y = 0; y < limit; ++y) {
+            int value = samples[y];
+            colors_.add(videoImaging_->getColor(videoSampleCountTransform_->transform(value)));
+        }
 
-	// Visit each sample in range, calculate its color value and add to the color container.
-	//
-	for (int y = 0; y < limit; ++y) {
-	    int value = samples[y];
-	    colors_.add(
-		videoImaging_->getColor(
-		    videoSampleCountTransform_->transform(value)));
-	}
-
-	// Make sure the color container stays aligned with the vertex buffer.
-	//
-	while (limit++ < getYScans())
-	    colors_.add(clearColor_);
+        // Make sure the color container stays aligned with the vertex buffer.
+        //
+        while (limit++ < getYScans()) colors_.add(clearColor_);
     }
 }

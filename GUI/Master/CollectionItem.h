@@ -11,12 +11,11 @@ namespace Master {
 /** Specialization of TreeViewItem that represents a collection of TreeViewItem objects. Defines and collects
     statistics for the TreeViewItem objects in its collection.
 */
-class CollectionItem : public TreeViewItem
-{
+class CollectionItem : public TreeViewItem {
     Q_OBJECT
     using Super = TreeViewItem;
-public:
 
+public:
     void updateCollectionStats(CollectionStats& stats) const;
 
     bool canExpand() const { return true; }
@@ -33,8 +32,7 @@ public:
 
     QVariant getErrorDataValue(int role) const;
 
-    IO::ProcessingState::Value getProcessingState() const
-	{ return stats_.getProcessingState(); }
+    IO::ProcessingState::Value getProcessingState() const { return stats_.getProcessingState(); }
 
     const CollectionStats& getCollectionStats() const { return stats_; }
 
@@ -47,11 +45,9 @@ public:
     void recalculateStats();
 
 protected:
-
     CollectionItem() : Super(), stats_() {}
 
-    CollectionItem(const IO::StatusBase& status, TreeViewItem* parent)
-	: Super(status, parent), stats_() {}
+    CollectionItem(const IO::StatusBase& status, TreeViewItem* parent) : Super(status, parent), stats_() {}
 
     virtual void updateChildren() = 0;
 
@@ -62,7 +58,6 @@ protected:
     void accumulateChildStats(TreeViewItem* child);
 
 private:
-
     void childAdded(TreeViewItem* child);
 
     void childRemoved(TreeViewItem* child);

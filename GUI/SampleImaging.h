@@ -11,28 +11,26 @@ namespace GUI {
     texture size and sample decimation. The OffscreenBuffer class uses an instance of this to perform its
     rendering.
 */
-class SampleImaging : public ChannelImaging
-{
+class SampleImaging : public ChannelImaging {
     Q_OBJECT
     using Super = ChannelImaging;
-public:
 
+public:
     /** Constructor.
 
-        \param enabled 
+        \param enabled
 
-        \param color 
+        \param color
 
-        \param pointSize 
+        \param pointSize
 
-        \param alpha 
+        \param alpha
 
-        \param textureSize 
+        \param textureSize
 
-        \param decimation 
+        \param decimation
     */
-    SampleImaging(BoolSetting* enabled, ColorButtonSetting* color,
-                  DoubleSetting* pointSize, OpacitySetting* alpha,
+    SampleImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* pointSize, OpacitySetting* alpha,
                   QComboBoxSetting* decimation);
 
     /** Obtain the current decimation setting value.

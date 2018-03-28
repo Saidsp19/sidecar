@@ -3,8 +3,12 @@
 
 #include "GUI/MainWindowBase.h"
 
-namespace Ui { class ConfigurationEditor; }
-namespace Logger { class Log; }
+namespace Ui {
+class ConfigurationEditor;
+}
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -12,12 +16,11 @@ namespace Master {
 
 class ConfigurationInfo;
 
-class ConfigurationEditor : public MainWindowBase 
-{
+class ConfigurationEditor : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** Constructor.
      */
     ConfigurationEditor(ConfigurationInfo& info);
@@ -31,7 +34,6 @@ private slots:
     void on_actionRevert_triggered();
 
 private:
-
     void makeMenuBar();
 
     void closeEvent(QCloseEvent* event);

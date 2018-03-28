@@ -6,7 +6,9 @@
 #include "IO/RecipientList.h"
 #include "Messages/MetaTypeInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -22,8 +24,7 @@ class Task;
     the ACE_Message_Block of the containing the message. The code for RecipientList::deliver() describes this in
     detail.
 */
-class Channel 
-{
+class Channel {
 public:
     using TaskRef = boost::shared_ptr<Task>;
 
@@ -35,8 +36,10 @@ public:
 
         \param typeName name of the message type the channel supports
     */
-    Channel(const std::string& name, const std::string& typeName)
-	: name_(name), metaTypeInfo_(Messages::MetaTypeInfo::Find(typeName)), recipients_(new RecipientList) {}
+    Channel(const std::string& name, const std::string& typeName) :
+        name_(name), metaTypeInfo_(Messages::MetaTypeInfo::Find(typeName)), recipients_(new RecipientList)
+    {
+    }
 
     /** Constructor. Allow specification of the first recipient.
 
@@ -44,15 +47,15 @@ public:
 
         \param typeName name of the message type the channel supports
 
-	\param taskIndex the task index for the first recipient
+        \param taskIndex the task index for the first recipient
 
-	\param channelIndex the channel index for the first recipient
+        \param channelIndex the channel index for the first recipient
     */
-    Channel(const std::string& name, const std::string& typeName, const TaskRef& task, size_t channelIndex = 0)
-	: name_(name), metaTypeInfo_(Messages::MetaTypeInfo::Find(typeName)), recipients_(new RecipientList)
-	{
-            addRecipient(task, channelIndex);
-        }
+    Channel(const std::string& name, const std::string& typeName, const TaskRef& task, size_t channelIndex = 0) :
+        name_(name), metaTypeInfo_(Messages::MetaTypeInfo::Find(typeName)), recipients_(new RecipientList)
+    {
+        addRecipient(task, channelIndex);
+    }
 
     /** Obtain the name of the channel. A channel name is defined by the task that holds the Channel object.
 
@@ -63,7 +66,7 @@ public:
     const Messages::MetaTypeInfo* getMetaTypeInfo() const { return metaTypeInfo_; }
 
     /** Obtain the name of the data type configured for the channel
-        
+
         \return data type name
     */
     const std::string& getTypeName() const { return metaTypeInfo_->getName(); }
@@ -75,7 +78,7 @@ public:
     Messages::MetaTypeInfo::Value getTypeKey() const { return metaTypeInfo_->getKey(); }
 
     /** Add a message recipient to the list of recipients associated with the channel.
-        
+
         \param taskIndex unique task identifier of the recipient
 
         \param channelIndex recipient's channel index for this output channel
@@ -87,9 +90,9 @@ public:
         \param sender Task that sends data over the channel
     */
     void setSender(const TaskRef& sender) { sender_ = sender; }
-    
+
     /** Obtain the Task object that sends data over this channel.
-        
+
         \return Task reference (may be empty if never set)
     */
     const TaskRef& getSender() const { return sender_; }
@@ -109,7 +112,7 @@ public:
     void updateSenderUsingData(bool value) const;
 
     /** Determine if there are any downstream recipients that demand data from the channel's sender.
-        
+
         \return true if so
     */
     bool areAnyRecipientsUsingData() const { return recipients_->areAnyTasksUsingData(); }
@@ -126,8 +129,7 @@ private:
     one output, so most ChannelVector objects are very small. If these operating characteristics change, we
     should reconsider the types held in a ChannelVector, possibly holding a boost::shared_ptr<Channel> instead.
 */
-class ChannelVector
-{
+class ChannelVector {
 public:
     using Container = std::vector<Channel>;
 

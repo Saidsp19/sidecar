@@ -1,6 +1,6 @@
 #include "QtCore/QSettings"
-#include "QtGui/QApplication"
 #include "QtGui/QAction"
+#include "QtGui/QApplication"
 #include "QtGui/QDesktopWidget"
 #include "QtGui/QHBoxLayout"
 #include "QtGui/QKeyEvent"
@@ -39,11 +39,9 @@ FramesWindow::Log()
     return log_;
 }
 
-FramesWindow::FramesWindow(const QList<QImage>& past, int shortcut)
-    : Super(), past_(past), scaled_(), frames_(),
-      imageScaler_(new ImageScaler(this)), panning_(false),
-      restoreFromSettings_(true), needUpdateMaxSize_(false),
-      positioned_(false), scrolled_(false), rescalingAll_(false)
+FramesWindow::FramesWindow(const QList<QImage>& past, int shortcut) :
+    Super(), past_(past), scaled_(), frames_(), imageScaler_(new ImageScaler(this)), panning_(false),
+    restoreFromSettings_(true), needUpdateMaxSize_(false), positioned_(false), scrolled_(false), rescalingAll_(false)
 {
     Ui::FramesWindow gui;
     gui.setupUi(this);
@@ -65,8 +63,7 @@ FramesWindow::FramesWindow(const QList<QImage>& past, int shortcut)
 
     framesView_ = new QWidget;
     scrollArea_->setWidget(framesView_);
-    connect(scrollArea_->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            SLOT(verticalScrollBarChanged(int)));
+    connect(scrollArea_->verticalScrollBar(), SIGNAL(valueChanged(int)), SLOT(verticalScrollBarChanged(int)));
 
     framesLayout_ = new QVBoxLayout(framesView_);
     framesLayout_->setMargin(0);
@@ -74,8 +71,7 @@ FramesWindow::FramesWindow(const QList<QImage>& past, int shortcut)
 
     Configuration* configuration = App::GetApp()->getConfiguration();
     framesListSettings_ = configuration->getFramesListSettings();
-    connect(framesListSettings_, SIGNAL(scaleChanged(double)),
-            SLOT(setScale(double)));
+    connect(framesListSettings_, SIGNAL(scaleChanged(double)), SLOT(setScale(double)));
 
     // Cursor info widget
     //
@@ -95,10 +91,8 @@ FramesWindow::FramesWindow(const QList<QImage>& past, int shortcut)
 
     positioner_ = new FramesPositioner(toolBar);
     toolBar->addWidget(positioner_);
-    connect(positioner_, SIGNAL(positionChanged(int)),
-            SLOT(positionerValueChanged(int)));
-    connect(actionViewTogglePhantomCursor_, SIGNAL(toggled(bool)),
-            SLOT(showPhantomCursor(bool)));
+    connect(positioner_, SIGNAL(positionChanged(int)), SLOT(positionerValueChanged(int)));
+    connect(actionViewTogglePhantomCursor_, SIGNAL(toggled(bool)), SLOT(showPhantomCursor(bool)));
 
     setScale(framesListSettings_->getScale());
 }
@@ -118,16 +112,14 @@ FramesWindow::setScale(double scale)
     scaledSize_ = normalSize_;
     scaledSize_ *= scale_;
 
-    for (int index = 0; index < past_.size(); ++index)
-	frames_[index]->setImageSize(scaledSize_);
+    for (int index = 0; index < past_.size(); ++index) frames_[index]->setImageSize(scaledSize_);
 
-    if (! past_.empty())
-	rescaleImage(0, true);
+    if (!past_.empty()) rescaleImage(0, true);
 
     if (isVisible())
-	updateMaxSize();
+        updateMaxSize();
     else
-	needUpdateMaxSize_ = true;
+        needUpdateMaxSize_ = true;
 }
 
 void
@@ -141,34 +133,32 @@ FramesWindow::setFrameCount(int frameCount)
     // end.
     //
     while (frameCount < frames_.size()) {
-	int index = frames_.size() - 1;
-	delete framesLayout_->takeAt(index);
-	delete frames_.takeAt(index);
-	scaled_.pop_back();
+        int index = frames_.size() - 1;
+        delete framesLayout_->takeAt(index);
+        delete frames_.takeAt(index);
+        scaled_.pop_back();
     }
 
     while (frameCount > frames_.size()) {
-	int index = frames_.size();
-	scaled_.push_back(past_[index]);
-	FrameWidget* frame =
-	    new FrameWidget(framesView_, scaled_[index], scaledSize_);
-	frames_.append(frame);
-	framesLayout_->addWidget(frame);
-	rescaleImage(index, false);
+        int index = frames_.size();
+        scaled_.push_back(past_[index]);
+        FrameWidget* frame = new FrameWidget(framesView_, scaled_[index], scaledSize_);
+        frames_.append(frame);
+        framesLayout_->addWidget(frame);
+        rescaleImage(index, false);
     }
 
     for (int index = 0; index < frames_.size(); ++index) {
-	frames_[index]->getPastImage()->setLabel(
-	    QString("T - %1").arg(index + 1));
+        frames_[index]->getPastImage()->setLabel(QString("T - %1").arg(index + 1));
     }
 
     positioner_->setMaximum(frameCount - 1);
 
-    if (! needUpdateMaxSize_) {
-	if (isVisible()) 
-	    updateMaxSize();
-	else
-	    needUpdateMaxSize_ = true;
+    if (!needUpdateMaxSize_) {
+        if (isVisible())
+            updateMaxSize();
+        else
+            needUpdateMaxSize_ = true;
     }
 }
 
@@ -178,13 +168,9 @@ FramesWindow::frameAdded(int activeFrames)
     Logger::ProcLog log("frameAdded", Log());
     LOGINFO << "activeFrames: " << activeFrames << std::endl;
 
-    scaled_.push_front(
-	past_[0].scaled(scaledSize_, Qt::IgnoreAspectRatio,
-                        Qt::SmoothTransformation));
+    scaled_.push_front(past_[0].scaled(scaledSize_, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     scaled_.pop_back();
-    for (int index = 0; index < scaled_.size(); ++index) {
-	frames_[index]->setImage(scaled_[index]);
-    }
+    for (int index = 0; index < scaled_.size(); ++index) { frames_[index]->setImage(scaled_[index]); }
 }
 
 void
@@ -193,16 +179,15 @@ FramesWindow::rescaleImage(int index, bool all)
     rescalingAll_ = all;
 
     if (index >= scaled_.size()) {
-	rescalingAll_ = false;
-	return;
+        rescalingAll_ = false;
+        return;
     }
 
     QImage image;
     if (past_[index].size() == scaledSize_)
-	image = past_[index];
+        image = past_[index];
     else
-	image = past_[index].scaled(scaledSize_, Qt::IgnoreAspectRatio,
-                                    Qt::SmoothTransformation);
+        image = past_[index].scaled(scaledSize_, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     // Save new scaled image, and update the view if user was looking at the old image.
     //
@@ -212,38 +197,36 @@ FramesWindow::rescaleImage(int index, bool all)
     // Scale more images until done.
     //
     if (rescalingAll_) {
-	++index;
-	if (index < scaled_.size()) {
-	    rescaleImage(index, true);
-	}
-	else {
-	    rescalingAll_ = false;
-	}
+        ++index;
+        if (index < scaled_.size()) {
+            rescaleImage(index, true);
+        } else {
+            rescalingAll_ = false;
+        }
     }
 }
 
 void
 FramesWindow::positionerValueChanged(int value)
 {
-    if (! scrolled_) {
-	int height = frames_[0]->size().height();
-	positioned_ = true;
-	scrollArea_->verticalScrollBar()->setValue(value * height);
-	positioned_ = false;
+    if (!scrolled_) {
+        int height = frames_[0]->size().height();
+        positioned_ = true;
+        scrollArea_->verticalScrollBar()->setValue(value * height);
+        positioned_ = false;
     }
 }
 
 void
 FramesWindow::verticalScrollBarChanged(int value)
 {
-    if (! positioned_) {
-	QScrollBar* scrollBar = qobject_cast<QScrollBar*>(sender());
-	double normalized = double(value - 1) /
-	    double(scrollBar->maximum() + scrollBar->pageStep());
-	int index = int(normalized * frames_.size());
-	scrolled_ = true;
-	positioner_->setPosition(index);
-	scrolled_ = false;
+    if (!positioned_) {
+        QScrollBar* scrollBar = qobject_cast<QScrollBar*>(sender());
+        double normalized = double(value - 1) / double(scrollBar->maximum() + scrollBar->pageStep());
+        int index = int(normalized * frames_.size());
+        scrolled_ = true;
+        positioner_->setPosition(index);
+        scrolled_ = false;
     }
 }
 
@@ -304,11 +287,11 @@ void
 FramesWindow::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	event->accept();
-	framesView_->setCursor(Qt::ClosedHandCursor);
-	useCursor(Qt::ClosedHandCursor);
-	panFrom_ = event->pos();
-	panning_ = true;
+        event->accept();
+        framesView_->setCursor(Qt::ClosedHandCursor);
+        useCursor(Qt::ClosedHandCursor);
+        panFrom_ = event->pos();
+        panning_ = true;
     }
 
     Super::mousePressEvent(event);
@@ -318,10 +301,10 @@ void
 FramesWindow::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	event->accept();
-	panning_ = false;
-	framesView_->setCursor(Qt::ArrowCursor);
-	useCursor(Qt::CrossCursor);
+        event->accept();
+        panning_ = false;
+        framesView_->setCursor(Qt::ArrowCursor);
+        useCursor(Qt::CrossCursor);
     }
     Super::mouseReleaseEvent(event);
 }
@@ -330,16 +313,16 @@ void
 FramesWindow::mouseMoveEvent(QMouseEvent* event)
 {
     if (panning_) {
-	framesView_->setCursor(Qt::ClosedHandCursor);
-	useCursor(Qt::ClosedHandCursor);
-	QPoint panTo(event->pos());
-	int dx = panTo.x() - panFrom_.x();
-	QScrollBar* scrollBar = scrollArea_->horizontalScrollBar();
-	scrollBar->setValue(scrollBar->value() - dx);
-	int dy = panTo.y() - panFrom_.y();
-	scrollBar = scrollArea_->verticalScrollBar();
-	scrollBar->setValue(scrollBar->value() - dy);
-	panFrom_ = panTo;
+        framesView_->setCursor(Qt::ClosedHandCursor);
+        useCursor(Qt::ClosedHandCursor);
+        QPoint panTo(event->pos());
+        int dx = panTo.x() - panFrom_.x();
+        QScrollBar* scrollBar = scrollArea_->horizontalScrollBar();
+        scrollBar->setValue(scrollBar->value() - dx);
+        int dy = panTo.y() - panFrom_.y();
+        scrollBar = scrollArea_->verticalScrollBar();
+        scrollBar->setValue(scrollBar->value() - dy);
+        panFrom_ = panTo;
     }
 }
 
@@ -355,14 +338,14 @@ void
 FramesWindow::useCursor(const QCursor& cursor)
 {
     foreach (FrameWidget* frame, frames_)
-	frame->getPastImage()->setCursor(cursor);
+        frame->getPastImage()->setCursor(cursor);
 }
 
 void
 FramesWindow::showPhantomCursor(bool state)
 {
     foreach (FrameWidget* frame, frames_)
-	frame->getPastImage()->showPhantomCursor(state);
+        frame->getPastImage()->showPhantomCursor(state);
 }
 
 void
@@ -371,7 +354,7 @@ FramesWindow::updateMaxSize()
     Logger::ProcLog log("updateMaxSize", Log());
     LOGINFO << std::endl;
 
-    needUpdateMaxSize_= false;
+    needUpdateMaxSize_ = false;
 
     // framesLayout_->update();
     framesView_->adjustSize();
@@ -409,26 +392,23 @@ FramesWindow::updateMaxSize()
     // If expanding, grow our window as well.
     //
     if (delta.width() > 0 || delta.height() > 0) {
+        // Grow our window if we can do so while remaining completely on the desktop.
+        //
+        QDesktopWidget* desktop = QApplication::desktop();
+        QRect available = desktop->availableGeometry();
+        int right = frameGeometry().right();
+        if (right + delta.width() > available.right()) delta.setWidth(std::max(0, available.right() - right));
 
-	// Grow our window if we can do so while remaining completely on the desktop.
-	//
-	QDesktopWidget* desktop = QApplication::desktop();
-	QRect available = desktop->availableGeometry();
-	int right = frameGeometry().right();
-	if (right + delta.width() > available.right())
-	    delta.setWidth(std::max(0, available.right() - right));
+        int bottom = frameGeometry().bottom();
+        if (bottom + delta.height() > available.bottom()) delta.setHeight(std::max(0, available.bottom() - bottom));
 
-	int bottom = frameGeometry().bottom();
-	if (bottom + delta.height() > available.bottom())
-	    delta.setHeight(std::max(0, available.bottom() - bottom));
-
-	if (delta.width() > 0 || delta.height() > 0) {
-	    QSize newSize(size());
-	    newSize += delta;
-	    LOGDEBUG << "resize: " << newSize << std::endl;
-	    resize(newSize);
-	    LOGDEBUG << "new size: " << size() << std::endl;
-	}
+        if (delta.width() > 0 || delta.height() > 0) {
+            QSize newSize(size());
+            newSize += delta;
+            LOGDEBUG << "resize: " << newSize << std::endl;
+            resize(newSize);
+            LOGDEBUG << "new size: " << size() << std::endl;
+        }
     }
 }
 
@@ -436,8 +416,7 @@ void
 FramesWindow::saveToSettings(QSettings& settings)
 {
     Super::saveToSettings(settings);
-    settings.setValue("showPhantomCursor",
-                      actionViewTogglePhantomCursor_->isChecked());
+    settings.setValue("showPhantomCursor", actionViewTogglePhantomCursor_->isChecked());
 }
 
 void

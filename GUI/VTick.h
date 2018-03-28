@@ -11,19 +11,17 @@ namespace GUI {
 /** Perhaps the silliest class in all of SideCar. Represents a 2-pixel vertical tick mark. Only used by
     ColorMapWidget, so perhaps it should be rolled into it.
 */
-class VTick : public QLabel
-{
+class VTick : public QLabel {
     Q_OBJECT
 public:
-
     /** Constructor. Creates and installs the pixmap representing the tick.
 
-        \param parent the parent widget of this one 
+        \param parent the parent widget of this one
     */
     VTick(QWidget* parent = 0);
 
 private:
-    static QPixmap* tick_;	///< Tick representation common to all VTicks
+    static QPixmap* tick_; ///< Tick representation common to all VTicks
 };
 
 } // end namespace GUI

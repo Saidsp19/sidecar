@@ -11,7 +11,9 @@
 #include "Zeroconf/ResolvedEntry.h"
 #include "Zeroconf/Transaction.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Zeroconf {
@@ -25,12 +27,11 @@ namespace Zeroconf {
     the name, type, domain, and the network interface over which the service may be found. However, users must
     invoke the ServiceEntry::resolve() method in order to obtain actual host/port connection information.
 */
-class ServiceEntry : public Transaction
-{
+class ServiceEntry : public Transaction {
 public:
     using Ref = boost::shared_ptr<ServiceEntry>;
     using SignalConnection = boost::signals2::connection;
-    using ResolvedSignal = boost::signals2::signal<void (const ServiceEntry::Ref&)>;
+    using ResolvedSignal = boost::signals2::signal<void(const ServiceEntry::Ref&)>;
     using ResolvedSignalProc = ResolvedSignal::slot_function_type;
 
     /** Log device for all ServiceEntry objects.
@@ -68,8 +69,7 @@ public:
 
         \return object identifying the signal connection
     */
-    SignalConnection connectToResolvedSignal(ResolvedSignalProc observer)
-        { return resolvedSignal_.connect(observer); }
+    SignalConnection connectToResolvedSignal(ResolvedSignalProc observer) { return resolvedSignal_.connect(observer); }
 
     /** Obtain the name of the service.
 
@@ -104,7 +104,7 @@ public:
     /** Begin the resolution process for this ServiceEntry object. Asks the DNSSD server to do the work. When
         the resolution is finished, the ResolvedSignal is emitted.
 
-	\param blocking if true, do not return until the service has resolved
+        \param blocking if true, do not return until the service has resolved
 
         \return true if successful, false otherwise
     */
@@ -113,19 +113,18 @@ public:
     /** Determine if the service has been resolved. NOTE: it is possible that previously resolved service
         information is no longer accurate. The only way to know is to attempt to connect to it.
 
-        \return 
+        \return
     */
     bool isResolved() const { return resolved_.get() != 0; }
 
     /** Obtain a previously-resolved service entry. NOTE: this is only valid if isResolved() returns true, and
         it is unwise to keep a reference of this around.
 
-        \return reference to ResolvedEntry object 
+        \return reference to ResolvedEntry object
     */
     const ResolvedEntry& getResolvedEntry() const { return *resolved_; }
 
 private:
-
     /** Process a DNSServiceResolve response from the DNSSD server. This implementation makes or updates the
         held ResolvedEntry object, and then invokes resolvedService(). invokes publishedService().
 
@@ -157,12 +156,12 @@ private:
     ServiceEntry(Monitor* monitor, const std::string& name, const std::string& type, const std::string& domain,
                  uint32_t interface);
 
-    std::string name_;		///< Name of the service
-    std::string type_;		///< Type of the service
-    std::string domain_;	///< Domain of the service
-    uint32_t interface_;	///< Interface of the service
-    boost::scoped_ptr<ResolvedEntry> resolved_;	///< Resolved info for service
-    ResolvedSignal resolvedSignal_; ///< Signal for resolved notifications
+    std::string name_;                          ///< Name of the service
+    std::string type_;                          ///< Type of the service
+    std::string domain_;                        ///< Domain of the service
+    uint32_t interface_;                        ///< Interface of the service
+    boost::scoped_ptr<ResolvedEntry> resolved_; ///< Resolved info for service
+    ResolvedSignal resolvedSignal_;             ///< Signal for resolved notifications
 
     /** DNSServiceResolve callback. Invoked when the DNSSD server has completed a DNSServiceResolve request to
         obtain the host/port information for a service. Updates the resolved_ attribute with information from
@@ -190,13 +189,13 @@ private:
         \param context pointer to the ServiceEntry object that called
         DNSServiceResolve
     */
-    static void ResolveCallback(DNSServiceRef ref, DNSServiceFlags flags, uint32_t interface,
-                                DNSServiceErrorType err, const char* fullName, const char* host, uint16_t port,
-                                uint16_t textSize, const unsigned char* textData, void* context);
+    static void ResolveCallback(DNSServiceRef ref, DNSServiceFlags flags, uint32_t interface, DNSServiceErrorType err,
+                                const char* fullName, const char* host, uint16_t port, uint16_t textSize,
+                                const unsigned char* textData, void* context);
 };
 
-}
-}
+} // namespace Zeroconf
+} // namespace SideCar
 
 /** \file
  */

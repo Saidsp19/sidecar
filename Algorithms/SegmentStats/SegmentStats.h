@@ -7,7 +7,6 @@
 #include "Utils/Buffer/Buffer.h"
 #include "Utils/Buffer/BufferRow.h"
 
-
 namespace SideCar {
 namespace Algorithms {
 
@@ -61,8 +60,7 @@ namespace Algorithms {
    Specifies what fraction of the extraction's average power defines its edges.
    \endcode
 */
-class SegmentStats : public Algorithm
-{
+class SegmentStats : public Algorithm {
     // Algorithm interface
     //
 public:
@@ -104,7 +102,8 @@ private:
     Buffer<VideoT>::Row row;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

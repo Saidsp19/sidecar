@@ -11,7 +11,9 @@
 #include "AlphaRangeColumn.h"
 #include "TargetPlot.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -27,19 +29,18 @@ class RadarSettings;
 
 using AlphaIndices = std::vector<int>;
 
-class History : public QObject
-{
+class History : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     struct AlphaBetaInfo {
-	AlphaBetaInfo() : value(DataContainer::GetMinValue()), scan(-1) {}
-	void reset() { *this = AlphaBetaInfo(); }
-	int value;
-	int scan;
+        AlphaBetaInfo() : value(DataContainer::GetMinValue()), scan(-1) {}
+        void reset() { *this = AlphaBetaInfo(); }
+        int value;
+        int scan;
     };
 
     using AlphaRangeData = std::vector<AlphaRangeColumn>;
@@ -47,39 +48,34 @@ public:
 
     /** Constructor.
      */
-    History(QObject* parent, RadarSettings* radarSettings,
-            TargetPlotImaging* extractionsImaging,
-            RangeTruthsImaging* rangeTruthsImaging,
-            TargetPlotImaging* bugPlotsImaging,
-            BoolSetting* allynHack);
+    History(QObject* parent, RadarSettings* radarSettings, TargetPlotImaging* extractionsImaging,
+            RangeTruthsImaging* rangeTruthsImaging, TargetPlotImaging* bugPlotsImaging, BoolSetting* allynHack);
 
-    int getAlphaBetaValue(size_t index) const
-	{ return alphaBetaData_[index].value; }
+    int getAlphaBetaValue(size_t index) const { return alphaBetaData_[index].value; }
 
-    /** 
+    /**
 
-        \param alphaIndex 
+        \param alphaIndex
 
-        \return 
+        \return
     */
-    const AlphaRangeColumn& getAlphaRangeData(size_t alphaIndex) const
-	{ return alphaRangeData_[alphaIndex]; }
+    const AlphaRangeColumn& getAlphaRangeData(size_t alphaIndex) const { return alphaRangeData_[alphaIndex]; }
 
     /** Obtain a read-only reference to the Extraction message collection
 
-	\return TargetPlotList reference
+        \return TargetPlotList reference
     */
     const TargetPlotList& getExtractions() const { return extractions_; }
 
     /** Obtain a read-only reference to the TSPI message collection
 
-	\return TargetPlotList reference
+        \return TargetPlotList reference
     */
     const TargetPlotListList& getRangeTruths() const { return rangeTruths_; }
 
     /** Obtain a read-only reference to the user bug plot entries.
 
-	\return TargetPlotList reference
+        \return TargetPlotList reference
     */
     const TargetPlotList& getBugPlots() const { return bugPlots_; }
 
@@ -119,26 +115,21 @@ private slots:
 
     void scansChanged(int alphaScans, int betaScans, int rangeScans);
 
-    void extractionsLifeTimeChanged(int msecs)
-	{ extractionsLifeTime_ = msecs; }
+    void extractionsLifeTimeChanged(int msecs) { extractionsLifeTime_ = msecs; }
 
-    void rangeTruthsLifeTimeChanged(int msecs)
-	{ rangeTruthsLifeTime_ = msecs; }
+    void rangeTruthsLifeTimeChanged(int msecs) { rangeTruthsLifeTime_ = msecs; }
 
-    void rangeTruthsMaxTrailLengthChanged(int length)
-	{ rangeTruthsMaxTrailLength_ = length; }
+    void rangeTruthsMaxTrailLengthChanged(int length) { rangeTruthsMaxTrailLength_ = length; }
 
-    void bugPlotsLifeTimeChanged(int msecs)
-	{ bugPlotsLifeTime_ = msecs; }
+    void bugPlotsLifeTimeChanged(int msecs) { bugPlotsLifeTime_ = msecs; }
 
 private:
-
     void pruneExtractions();
 
     void pruneRangeTruths();
 
     void pruneBugPlots();
-    
+
     RadarSettings* radarSettings_;
     AlphaBetaData alphaBetaData_;
     AlphaRangeData alphaRangeData_;

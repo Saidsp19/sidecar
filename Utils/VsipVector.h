@@ -9,20 +9,16 @@ namespace SideCar {
 /** Provides a simple wrapper around std::vector-like data structures. T needs to have T.size() and T[0]
     operators. DatumType needs to match the size of entries in T.
 */
-template<class T, class DatumType = typename T::value_type>
-class VsipVector
-{
+template <class T, class DatumType = typename T::value_type>
+class VsipVector {
 public:
-
     /** Constructor. Wraps T.size() entries, starting with T[0].
      */
-    VsipVector(T& base)
-	: m_(vsip::Domain<1>(base.size()), &base[0]), v(m_) {}
+    VsipVector(T& base) : m_(vsip::Domain<1>(base.size()), &base[0]), v(m_) {}
 
     /** Wraps size entries, starting with T[0].
      */
-    VsipVector(T& base, size_t size)
-	: m_(vsip::Domain<1>(size), &base[0]), v(m_) {}
+    VsipVector(T& base, size_t size) : m_(vsip::Domain<1>(size), &base[0]), v(m_) {}
 
     /** Wraps T[start] to T[stop].
 
@@ -30,8 +26,7 @@ public:
 
         \param stop final index
     */
-    VsipVector(T& base, size_t start, size_t stop)
-	: m_(vsip::Domain<1>(stop - start + 1), &base[start]), v(m_) {}
+    VsipVector(T& base, size_t start, size_t stop) : m_(vsip::Domain<1>(stop - start + 1), &base[start]), v(m_) {}
 
     /** Set whether VSIPL will use existing data found in the external array given in the constructor.
 
@@ -59,4 +54,3 @@ public:
  */
 
 #endif
-

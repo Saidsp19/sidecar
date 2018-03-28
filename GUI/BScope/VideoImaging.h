@@ -16,25 +16,15 @@ namespace BScope {
 /** Extension of the SampleImaging class for the display of Video data. Contains a color lookup table (CLUT)
     object that may be used for false-color imaging.
 */
-class VideoImaging : public SampleImaging
-{
+class VideoImaging : public SampleImaging {
     Q_OBJECT
     using Super = SampleImaging;
+
 public:
+    enum { kRed, kGreen, kBlue, kRedGreen, kRedBlue, kGreenBlue };
 
-    enum {
-	kRed,
-	kGreen,
-	kBlue,
-	kRedGreen,
-	kRedBlue,
-	kGreenBlue
-    };
-
-    VideoImaging(BoolSetting* enabled, ColorButtonSetting* color,
-                 DoubleSetting* pointSize, OpacitySetting* alpha,
-                 QComboBoxSetting* decimation, BoolSetting* colorMapEnabled,
-                 CLUTSetting* clutSetting);
+    VideoImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* pointSize, OpacitySetting* alpha,
+                 QComboBoxSetting* decimation, BoolSetting* colorMapEnabled, CLUTSetting* clutSetting);
 
     bool getColorMapEnabled() const { return colorMapEnabled_->getValue(); }
 
@@ -69,7 +59,6 @@ private slots:
     void colorMapTypeChanged(int value);
 
 private:
-
     /** Create a new colormap QImage representation, and emit the colorMapChanged() signal.
      */
     void updateColorMapImage();

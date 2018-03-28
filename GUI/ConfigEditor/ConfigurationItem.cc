@@ -4,9 +4,7 @@
 
 using namespace SideCar::GUI::ConfigEditor;
 
-
-ConfigurationItem::ConfigurationItem(RootItem* parent, const QString& name)
-    : Super(parent, name)
+ConfigurationItem::ConfigurationItem(RootItem* parent, const QString& name) : Super(parent, name)
 {
     ;
 }

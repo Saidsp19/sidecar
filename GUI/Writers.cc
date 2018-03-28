@@ -2,7 +2,7 @@
 #include "ace/INET_Addr.h"
 #include "boost/bind.hpp"
 
-#include "Zeroconf/Publisher.h"	// !!! Place BEFORE any Qt headers !!!
+#include "Zeroconf/Publisher.h" // !!! Place BEFORE any Qt headers !!!
 
 #include "Utils/Format.h"
 
@@ -24,8 +24,8 @@ using namespace SideCar::GUI;
 SocketWriterDevice::~SocketWriterDevice()
 {
     if (device_) {
-	device_->close();
-	device_->deleteLater();
+        device_->close();
+        device_->deleteLater();
     }
 }
 
@@ -33,8 +33,8 @@ void
 SocketWriterDevice::setDevice(QAbstractSocket* device)
 {
     if (device_ != device) {
-	if (device_) device_->deleteLater();
-	device_ = device;
+        if (device_) device_->deleteLater();
+        device_ = device;
     }
 }
 
@@ -52,9 +52,10 @@ MessageWriter::Log()
 }
 
 MessageWriter::MessageWriter(const QString& serviceName, const std::string& type, const std::string& transport,
-                             const QString& serviceAddress)
-    : serviceName_(serviceName), type_(type), transport_(transport), serviceAddress_(serviceAddress),
-      publisher_(Zeroconf::Publisher::Make(new QtMonitor)), port_(0)
+                             const QString& serviceAddress) :
+    serviceName_(serviceName),
+    type_(type), transport_(transport), serviceAddress_(serviceAddress),
+    publisher_(Zeroconf::Publisher::Make(new QtMonitor)), port_(0)
 {
     static Logger::ProcLog log("MessageWriter", Log());
     LOGINFO << "serviceName: " << serviceName << " type: " << type << " serviceAddress: " << serviceAddress
@@ -82,14 +83,10 @@ MessageWriter::setServiceName(const QString& serviceName)
     LOGINFO << "serviceName: " << serviceName << std::endl;
     if (serviceName != serviceName_) {
         bool publishing = isPublished();
-	if (publishing) {
-            stop();
-        }
-        
-	serviceName_ = serviceName;
-	if (publishing) {
-            start();
-        }
+        if (publishing) { stop(); }
+
+        serviceName_ = serviceName;
+        if (publishing) { start(); }
     }
 }
 
@@ -108,9 +105,9 @@ MessageWriter::start()
     publisher_->setHost(serviceAddress_.toStdString());
     publisher_->setPort(port_);
     publisher_->setTextData("transport", transport_, false);
-    if (! publisher_->publish(serviceName_.toStdString(), false)) {
-	LOGERROR << "failed to publish" << std::endl;
-	return false;
+    if (!publisher_->publish(serviceName_.toStdString(), false)) {
+        LOGERROR << "failed to publish" << std::endl;
+        return false;
     }
 
     return true;
@@ -133,14 +130,13 @@ MessageWriter::publishedNotification(bool state)
     LOGINFO << "state: " << state << " publishedName: " << publishedName << " port: " << port_ << std::endl;
 
     if (state) {
-	if (publishedName != serviceName_)
-	    LOGWARNING << "publishedName '" << publishedName << "' is not the same as requested serviceName: '"
-		       << serviceName_ << "'" << std::endl;
-	setPublishedServiceName(publishedName);
-	emit published(publishedName, serviceAddress_, port_);
-    }
-    else {
-	emit failure();
+        if (publishedName != serviceName_)
+            LOGWARNING << "publishedName '" << publishedName << "' is not the same as requested serviceName: '"
+                       << serviceName_ << "'" << std::endl;
+        setPublishedServiceName(publishedName);
+        emit published(publishedName, serviceAddress_, port_);
+    } else {
+        emit failure();
     }
 }
 
@@ -156,17 +152,17 @@ TCPMessageWriter::Make(const QString& serviceName, const std::string& subType)
 {
     static Logger::ProcLog log("Make", Log());
     TCPMessageWriter* writer = new TCPMessageWriter(serviceName, subType);
-    if (! writer->start()) {
-	LOGERROR << "failed to start server" << std::endl;
-	delete writer;
-	writer = 0;
+    if (!writer->start()) {
+        LOGERROR << "failed to start server" << std::endl;
+        delete writer;
+        writer = 0;
     }
 
     return writer;
 }
 
-TCPMessageWriter::TCPMessageWriter(const QString& serviceName, const std::string& subType)
-    : Super(serviceName, MakeZeroconfType(subType), "tcp", QHostInfo::localHostName()), server_(0), subscribers_()
+TCPMessageWriter::TCPMessageWriter(const QString& serviceName, const std::string& subType) :
+    Super(serviceName, MakeZeroconfType(subType), "tcp", QHostInfo::localHostName()), server_(0), subscribers_()
 {
     static Logger::ProcLog log("TCPMessageWriter", Log());
     LOGINFO << std::endl;
@@ -181,11 +177,11 @@ TCPMessageWriter::start()
     server_ = new QTcpServer(this);
     connect(server_, SIGNAL(newConnection()), SLOT(newSubscriberConnection()));
 
-    if (! server_->listen(QHostAddress::Any, 0)) {
-	LOGERROR << "failed to start server" << std::endl;
-	delete server_;
-	server_ = 0;
-	return false;
+    if (!server_->listen(QHostAddress::Any, 0)) {
+        LOGERROR << "failed to start server" << std::endl;
+        delete server_;
+        server_ = 0;
+        return false;
     }
 
     setPort(server_->serverPort());
@@ -199,14 +195,12 @@ TCPMessageWriter::stop()
     static Logger::ProcLog log("stop", Log());
     LOGINFO << std::endl;
     if (server_) {
-	server_->close();
-	delete server_;
-	server_ = 0;
+        server_->close();
+        delete server_;
+        server_ = 0;
     }
 
-    while (subscribers_.size()) {
-	delete subscribers_.takeAt(0);
-    }
+    while (subscribers_.size()) { delete subscribers_.takeAt(0); }
 
     emit subscriberCountChanged(subscribers_.size());
 
@@ -220,7 +214,7 @@ TCPMessageWriter::newSubscriberConnection()
     QTcpSocket* socket = server_->nextPendingConnection();
     LOGINFO << socket << std::endl;
 
-    if (! socket) return;
+    if (!socket) return;
 
     connect(socket, SIGNAL(disconnected()), SLOT(subscriberDisconnected()));
 
@@ -238,13 +232,13 @@ TCPMessageWriter::subscriberDisconnected()
     LOGINFO << sender() << std::endl;
     QTcpSocket* socket = static_cast<QTcpSocket*>(sender());
     for (int index = 0; index < subscribers_.size(); ++index) {
-	if (subscribers_[index]->getDevice() == socket) {
-	    LOGDEBUG << "found at index " << index << std::endl;
-	    SocketWriter* subscriber = subscribers_.takeAt(index);
-	    delete subscriber;
-	    emit subscriberCountChanged(subscribers_.size());
-	    break;
-	}
+        if (subscribers_[index]->getDevice() == socket) {
+            LOGDEBUG << "found at index " << index << std::endl;
+            SocketWriter* subscriber = subscribers_.takeAt(index);
+            delete subscriber;
+            emit subscriberCountChanged(subscribers_.size());
+            break;
+        }
     }
 }
 
@@ -256,11 +250,11 @@ TCPMessageWriter::writeMessage(const IO::MessageManager& mgr)
 
     QList<SocketWriter*>::iterator pos = subscribers_.begin();
     while (pos != subscribers_.end()) {
-	SocketWriter* subscriber = *pos;
-	if (! subscriber->write(mgr)) {
-	    LOGWARNING << "failed to write to socket " << subscriber->getDevice() << std::endl;
-	}
-	++pos;
+        SocketWriter* subscriber = *pos;
+        if (!subscriber->write(mgr)) {
+            LOGWARNING << "failed to write to socket " << subscriber->getDevice() << std::endl;
+        }
+        ++pos;
     }
 
     return true;
@@ -274,13 +268,13 @@ TCPMessageWriter::writeEncoded(ACE_Message_Block* data)
 
     QList<SocketWriter*>::iterator pos = subscribers_.begin();
     while (pos != subscribers_.end()) {
-	SocketWriter* subscriber = *pos;
-	ACE_Message_Block* tmp = data->duplicate();
-	if (! subscriber->writeEncoded(1, tmp)) {
-	    tmp->release();
-	    LOGWARNING << "failed to write to socket " << subscriber->getDevice() << std::endl;
-	}
-	++pos;
+        SocketWriter* subscriber = *pos;
+        ACE_Message_Block* tmp = data->duplicate();
+        if (!subscriber->writeEncoded(1, tmp)) {
+            tmp->release();
+            LOGWARNING << "failed to write to socket " << subscriber->getDevice() << std::endl;
+        }
+        ++pos;
     }
 
     return true;
@@ -298,30 +292,30 @@ UDPMessageWriter::Make(const QString& serviceName, const std::string& subType, c
                        uint16_t port)
 {
     static Logger::ProcLog log("Make", Log());
-    LOGINFO << "serviceName: " << serviceName << " subType: " << subType << "multicast address: "
-            << multicastAddress << std::endl;
+    LOGINFO << "serviceName: " << serviceName << " subType: " << subType << "multicast address: " << multicastAddress
+            << std::endl;
 
     UDPMessageWriter* writer = new UDPMessageWriter(serviceName, subType, multicastAddress);
-    if (! writer->initialize(port)) {
-	LOGERROR << "failed to connect to multicast address " << multicastAddress << " - " << Utils::showErrno()
+    if (!writer->initialize(port)) {
+        LOGERROR << "failed to connect to multicast address " << multicastAddress << " - " << Utils::showErrno()
                  << std::endl;
-	delete writer;
-	return 0;
+        delete writer;
+        return 0;
     }
 
-    if (! writer->start()) {
-	LOGERROR << "failed to start server" << std::endl;
-	delete writer;
-	return 0;
+    if (!writer->start()) {
+        LOGERROR << "failed to start server" << std::endl;
+        delete writer;
+        return 0;
     }
 
     return writer;
 }
 
 UDPMessageWriter::UDPMessageWriter(const QString& serviceName, const std::string& subType,
-                                   const QString& multicastAddress)
-    : Super(serviceName, MakeZeroconfType(subType), "multicast", multicastAddress),
-      writer_(), heartBeatReader_(0), heartBeats_(), active_(0), timer_(0)
+                                   const QString& multicastAddress) :
+    Super(serviceName, MakeZeroconfType(subType), "multicast", multicastAddress),
+    writer_(), heartBeatReader_(0), heartBeats_(), active_(0), timer_(0)
 {
     ;
 }
@@ -340,8 +334,8 @@ UDPMessageWriter::initialize(uint16_t port)
     ACE_INET_Addr address(u_short(port), "0.0.0.0", AF_INET);
     LOGDEBUG << "opening UDP socket with address " << Utils::INETAddrToString(address) << std::endl;
     if (device.open(address, AF_INET, 0, 1) == -1) {
-	LOGERROR << "failed to open multicast writer at " << getServiceAddress() << std::endl;
-	return false;
+        LOGERROR << "failed to open multicast writer at " << getServiceAddress() << std::endl;
+        return false;
     }
 
     LOGDEBUG << "opened socket " << writer_.getDevice().get_handle() << std::endl;
@@ -350,16 +344,15 @@ UDPMessageWriter::initialize(uint16_t port)
     //
     unsigned char ttl = 10;
     if (device.set_option(IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(ttl)) == -1) {
-	LOGERROR << "failed to set TTL for " << getServiceAddress() << std::endl;
-	return false;
+        LOGERROR << "failed to set TTL for " << getServiceAddress() << std::endl;
+        return false;
     }
 
-    if (! port) {
-
-	// Fetch the port assigned to us by the system.
-	//
-	device.get_local_addr(address);
-	port = address.get_port_number();
+    if (!port) {
+        // Fetch the port assigned to us by the system.
+        //
+        device.get_local_addr(address);
+        port = address.get_port_number();
     }
 
     LOGDEBUG << "socket device address: " << Utils::INETAddrToString(address) << std::endl;
@@ -379,9 +372,9 @@ UDPMessageWriter::initialize(uint16_t port)
     // their heart-beat messages to
     //
     heartBeatReader_ = new QUdpSocket(this);
-    if (! heartBeatReader_->bind(0)) {
-	LOGERROR << "failed to bind server socket" << std::endl;
-	return false;
+    if (!heartBeatReader_->bind(0)) {
+        LOGERROR << "failed to bind server socket" << std::endl;
+        return false;
     }
 
     connect(heartBeatReader_, SIGNAL(readyRead()), SLOT(heartBeatReady()));
@@ -410,45 +403,40 @@ UDPMessageWriter::heartBeatReady()
     bool notify = false;
 
     do {
-	qint64 count = heartBeatReader_->readDatagram(data.data(), data.size(), &senderAddress, &senderPort);
-	LOGDEBUG << "count: " << count << std::endl;
+        qint64 count = heartBeatReader_->readDatagram(data.data(), data.size(), &senderAddress, &senderPort);
+        LOGDEBUG << "count: " << count << std::endl;
 
-	if (count < 1) {
-	    LOGERROR << "failed readDatagram" << std::endl;
-	    return;
-	}
+        if (count < 1) {
+            LOGERROR << "failed readDatagram" << std::endl;
+            return;
+        }
 
-	QString msg(data);
-	LOGDEBUG << "msg: " << msg << std::endl;
+        QString msg(data);
+        LOGDEBUG << "msg: " << msg << std::endl;
 
-	QString key = QString("%1/%2").arg(senderAddress.toString()).arg(senderPort);
-	LOGDEBUG << "key: " << key << std::endl;
+        QString key = QString("%1/%2").arg(senderAddress.toString()).arg(senderPort);
+        LOGDEBUG << "key: " << key << std::endl;
 
-	HeartBeatMap::iterator pos = heartBeats_.find(key);
-	if (msg == "HI") {
-	    if (pos == heartBeats_.end()) {
-		LOGDEBUG << "new entry" << std::endl;
-		++active_;
-		notify = true;
-	    }
-	    heartBeats_[key].start();
-	}
-	else if (msg == "BYE") {
-	    HeartBeatMap::iterator pos = heartBeats_.find(key);
-	    if (pos != heartBeats_.end()) {
-		LOGDEBUG << "removing entry" << std::endl;
-		heartBeats_.erase(pos);
-		if (active_) {
-		    --active_;
-                }
-		notify = true;
-	    }
-	}
+        HeartBeatMap::iterator pos = heartBeats_.find(key);
+        if (msg == "HI") {
+            if (pos == heartBeats_.end()) {
+                LOGDEBUG << "new entry" << std::endl;
+                ++active_;
+                notify = true;
+            }
+            heartBeats_[key].start();
+        } else if (msg == "BYE") {
+            HeartBeatMap::iterator pos = heartBeats_.find(key);
+            if (pos != heartBeats_.end()) {
+                LOGDEBUG << "removing entry" << std::endl;
+                heartBeats_.erase(pos);
+                if (active_) { --active_; }
+                notify = true;
+            }
+        }
     } while (heartBeatReader_->hasPendingDatagrams());
 
-    if (notify) {
-	emit subscriberCountChanged(active_);
-    }
+    if (notify) { emit subscriberCountChanged(active_); }
 }
 
 void
@@ -457,29 +445,24 @@ UDPMessageWriter::checkHeartBeats()
     static Logger::ProcLog log("checkHeartBeats", Log());
     static int kLimit = 30 * 1000; // 30 seconds in milliseconds
 
-    if (! active_) return;
+    if (!active_) return;
 
     bool notify = false;
     HeartBeatMap::iterator pos = heartBeats_.begin();
     HeartBeatMap::iterator end = heartBeats_.end();
     while (pos != end) {
-	if (kLimit > pos->second.elapsed()) {
-	    ++pos;
-	}
-	else {
-	    HeartBeatMap::iterator tmp = pos++;
-	    LOGDEBUG << "forgetting " << pos->first << std::endl;
-	    heartBeats_.erase(tmp);
-            if (active_) {
-                --active_;
-            }
-	    notify = true;
-	}
+        if (kLimit > pos->second.elapsed()) {
+            ++pos;
+        } else {
+            HeartBeatMap::iterator tmp = pos++;
+            LOGDEBUG << "forgetting " << pos->first << std::endl;
+            heartBeats_.erase(tmp);
+            if (active_) { --active_; }
+            notify = true;
+        }
     }
 
-    if (notify) {
-	emit subscriberCountChanged(active_);
-    }
+    if (notify) { emit subscriberCountChanged(active_); }
 }
 
 bool
@@ -497,4 +480,3 @@ UDPMessageWriter::writeEncoded(ACE_Message_Block* data)
     LOGINFO << std::endl;
     return writer_.writeEncoded(1, data);
 }
-

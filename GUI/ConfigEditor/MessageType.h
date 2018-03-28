@@ -8,10 +8,8 @@ namespace SideCar {
 namespace GUI {
 namespace ConfigEditor {
 
-class MessageType
-{
+class MessageType {
 public:
-
     static MessageType* Make(const QString& name);
 
     static MessageType* Find(const QString& name);
@@ -19,12 +17,11 @@ public:
     const QString& getName() const { return name_; }
 
 private:
-
     MessageType(const QString& name);
 
     QString name_;
 
-    using HashTable = QHash<QString,MessageType*>;
+    using HashTable = QHash<QString, MessageType*>;
     static HashTable hash_;
 };
 

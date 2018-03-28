@@ -14,18 +14,13 @@
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::ProcSuite<Test>
-{
-    Test() : UnitTest::ProcSuite<Test>(this, "IOTests")
-	{
-	    add("Reader", &Test::testReader);
-	}
+struct Test : public UnitTest::ProcSuite<Test> {
+    Test() : UnitTest::ProcSuite<Test>(this, "IOTests") { add("Reader", &Test::testReader); }
 
     void testReader();
 };
 
-class Message : public Header
-{
+class Message : public Header {
 public:
     using Ref = boost::shared_ptr<Message>;
 
@@ -45,11 +40,12 @@ public:
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
 
 private:
-    Message(int one, double two, const std::string& three)
-	: Header("test", GetMetaTypeInfo()), one_(one), two_(two), three_(three) {}
+    Message(int one, double two, const std::string& three) :
+        Header("test", GetMetaTypeInfo()), one_(one), two_(two), three_(three)
+    {
+    }
 
-    Message()
-	: Header("test", GetMetaTypeInfo()), one_(0), two_(0.0), three_("") {}
+    Message() : Header("test", GetMetaTypeInfo()), one_(0), two_(0.0), three_("") {}
 
     int one_;
     double two_;
@@ -65,8 +61,7 @@ TLoaderRegistry<Message>::VersionedLoader*
 Message::DefineLoaders()
 {
     static TLoaderRegistry<Message>::VersionedLoader loaders_[] = {
-	TLoaderRegistry<Message>::VersionedLoader(1, &Message::LoadV1)
-    };
+        TLoaderRegistry<Message>::VersionedLoader(1, &Message::LoadV1)};
     return loaders_;
 }
 
@@ -143,53 +138,49 @@ Test::testReader()
     std::string big8(2048 * 100, '8');
 
     {
-	FileWriter writer;
-	ACE_FILE_Connector fd(writer.getDevice(), addr);
-	for (int count = 1; count <= 5; ++count) {
-	    Message::Ref msg(Message::Make(count, 2.345, big3));
-	    assertTrue(writer.write(MessageManager(msg).getMessage()));
-	}
+        FileWriter writer;
+        ACE_FILE_Connector fd(writer.getDevice(), addr);
+        for (int count = 1; count <= 5; ++count) {
+            Message::Ref msg(Message::Make(count, 2.345, big3));
+            assertTrue(writer.write(MessageManager(msg).getMessage()));
+        }
 
-	for (int count = 1; count <= 5; ++count) {
-	    Message::Ref msg(Message::Make(count * 2, 7.890, big8));
-	    assertTrue(writer.write(MessageManager(msg).getMessage()));
-	}
+        for (int count = 1; count <= 5; ++count) {
+            Message::Ref msg(Message::Make(count * 2, 7.890, big8));
+            assertTrue(writer.write(MessageManager(msg).getMessage()));
+        }
     }
 
     {
-	FileReader reader;
-	ACE_FILE_Connector fd(reader.getDevice(), addr);
+        FileReader reader;
+        ACE_FILE_Connector fd(reader.getDevice(), addr);
 
-	// Read in 5 small messages. Tests the Decoder::decode<>() method.
-	//
-	for (int count = 1; count <= 5; ++count) {
-	    std::clog << "big3 count: " << count << '\n';
-	    assertFalse(reader.isMessageAvailable());
-	    assertTrue(reader.fetchInput());
-	    assertTrue(reader.isMessageAvailable());
-	    Message::Ref msg(MessageManager(reader.getMessage(),
-                                            &Message::GetMetaTypeInfo())
-                             .getNative<Message>());
-	    assertEqual(count, msg->getOne());
-	    assertEqual(2.345, msg->getTwo());
-	    assertEqual(big3, msg->getThree());
-	}
+        // Read in 5 small messages. Tests the Decoder::decode<>() method.
+        //
+        for (int count = 1; count <= 5; ++count) {
+            std::clog << "big3 count: " << count << '\n';
+            assertFalse(reader.isMessageAvailable());
+            assertTrue(reader.fetchInput());
+            assertTrue(reader.isMessageAvailable());
+            Message::Ref msg(MessageManager(reader.getMessage(), &Message::GetMetaTypeInfo()).getNative<Message>());
+            assertEqual(count, msg->getOne());
+            assertEqual(2.345, msg->getTwo());
+            assertEqual(big3, msg->getThree());
+        }
 
-	// Read in 5 large messages. Tests the Decoder::decodeInto<>() method. Create a dummy message to write
-	// into with the decoder.
-	//
-	Message::Ref msg(Message::Make(-1, -1.0, ""));
-	for (int count = 1; count <= 5; ++count) {
-	    std::clog << "big8 count: " << count << '\n';
-	    assertTrue(reader.fetchInput());
-	    assertTrue(reader.isMessageAvailable());
-	    Message::Ref msg(MessageManager(reader.getMessage(),
-                                            &Message::GetMetaTypeInfo())
-                             .getNative<Message>());
-	    assertEqual(count * 2, msg->getOne());
-	    assertEqual(7.890, msg->getTwo());
-	    assertEqual(big8, msg->getThree());
-	}
+        // Read in 5 large messages. Tests the Decoder::decodeInto<>() method. Create a dummy message to write
+        // into with the decoder.
+        //
+        Message::Ref msg(Message::Make(-1, -1.0, ""));
+        for (int count = 1; count <= 5; ++count) {
+            std::clog << "big8 count: " << count << '\n';
+            assertTrue(reader.fetchInput());
+            assertTrue(reader.isMessageAvailable());
+            Message::Ref msg(MessageManager(reader.getMessage(), &Message::GetMetaTypeInfo()).getNative<Message>());
+            assertEqual(count * 2, msg->getOne());
+            assertEqual(7.890, msg->getTwo());
+            assertEqual(big8, msg->getThree());
+        }
     }
 
     // !!! Uncomment to see debug messages even if all tests above succeed. assertFalse(true);

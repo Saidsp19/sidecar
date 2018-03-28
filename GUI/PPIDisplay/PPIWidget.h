@@ -19,8 +19,12 @@ class QSettings;
 
 #include "History.h"
 
-namespace Logger { class Log; }
-namespace Utils { class SineCosineLUT; }
+namespace Logger {
+class Log;
+}
+namespace Utils {
+class SineCosineLUT;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -65,7 +69,7 @@ class ViewSettings;
     with a dimension 2 * rangeMax, the maximum range of the incoming radar reports.
 
     <h2>Viewport Control</h2>
-    
+
     The user may manipulate the view by panning or zooming. Panning is accomplished by clicking the left mouse button
     while holding the SHIFT key down and then moving the mouse, or by using the arrow keys of the keyboard. The zoom
     level is controlled via the mouse scroll wheel, or by the letter keys 'I' and 'O' for zooming in and out.
@@ -77,12 +81,11 @@ class ViewSettings;
     rectangle on the screen. When the left mouse button is released, a new Magnifier window object will pop up, showing
     the area circumscribed by the rectangle on the screen.
 */
-class PPIWidget :  public QGLWidget
-{
+class PPIWidget : public QGLWidget {
     Q_OBJECT
     using Super = QGLWidget;
-public:
 
+public:
     /** Obtain the Log device to use for objects of this classs.
 
         \return Loggger::Log reference
@@ -122,7 +125,7 @@ public:
     /** Pan the view by fractions of the existing viewport dimensions. For instance, pan(0.5, 0.25) will pan
         horizontally by 1/2 of the width, and 1/4 of the height of the viewport. Positive values move right and
         up, whereas negative values move left and down.
-        
+
         \param xf horizontal fraction to pan
 
         \param yf vertical fraction to pan
@@ -131,19 +134,19 @@ public:
 
     /** Change the zoom level for the viewport. Zoom is represented as a zoom factor raised by a zoom power.
         This method affects the zoom power.
-        
+
         \param change amount to change the zoom power
     */
     void changeZoom(int change);
 
     /** Initialize a view context, either ourselves or that of a Magnifier object.
-        
+
         \param modelViewMatrix storage for the model view matrix
     */
     void initializeContext(GLdouble* modelViewMatrix);
-    
+
     /** Render a display into the given widget.
-        
+
         \param widget where to render
     */
     void renderScene(QGLWidget* widget);
@@ -161,7 +164,7 @@ public:
     bool getShowCursorPosition() const { return showCursorPosition_; }
 
     /** Set the settings group key for us to use later when we must restore settings from a QSettings object.
-        
+
         \param settingsKey group key to apply before accessing setting values
     */
     void setSettingsKey(const QString& settingsKey) { settingsKey_ = settingsKey; }
@@ -203,10 +206,10 @@ public slots:
     /** Make sure all magnifier windows hover above our window.
      */
     void raiseMagnifiers();
-    
+
     /** Obtain the real-world coordinates of the current mouse cursor position, and then pan the viewport so
-	that the coordinates are found at the center of the windoow. Contrary to human factors orthodoxy, we
-	also move the mouse pointer to the center of the window.
+        that the coordinates are found at the center of the windoow. Contrary to human factors orthodoxy, we
+        also move the mouse pointer to the center of the window.
     */
     void centerAtCursor();
 
@@ -233,7 +236,7 @@ public slots:
     /** Clear the user bug plot layer.
      */
     void clearBugPlots();
-    
+
     /** Repaint all of the video data for the current rotation
      */
     void redisplayVideo();
@@ -271,7 +274,7 @@ public slots:
         \param data container of user plot message references
     */
     void processBugPlots(const MessageList& data);
-    
+
     /** Set the location of the phantom cursor.
 
         \param pos location of the phantom cursor in real-world coordinates
@@ -337,7 +340,7 @@ private slots:
     void remakeDecayTexture();
 
     /** Remake the desaturation decay mask texture, used when using a color map with saturated values at the
-	high end of the map.
+        high end of the map.
     */
     void remakeDesaturationTexture();
 
@@ -370,7 +373,7 @@ private slots:
     void viewSettingsChanged();
 
     /** Create a background texture based off of an image.
-        
+
         \param image the image to use for the texture.
     */
     void makeBackgroundTexture(const QImage& image);
@@ -388,19 +391,18 @@ private slots:
     void historyCurrentViewAged(int age);
 
 private:
-
     /** Indices for OpenGL display lists.
      */
     enum ListIndex {
-	kRenderVideoTexture = 0,
-	kRenderBinaryTexture,
-	kRenderBackgroundTexture,
-	kDesaturation,
-	kDecay,
-	kRangeMap,
-	kRangeRings,
-	kBeginRender,
-	kNumLists
+        kRenderVideoTexture = 0,
+        kRenderBinaryTexture,
+        kRenderBackgroundTexture,
+        kDesaturation,
+        kDecay,
+        kRangeMap,
+        kRangeRings,
+        kBeginRender,
+        kNumLists
     };
 
     /** Convert a ListIndex into an OpenGL display list identifier.
@@ -409,8 +411,7 @@ private:
 
         \return OpenGL display list identifier
     */
-    GLuint getDisplayList(ListIndex index) const
-	{ return displayLists_ + index; }
+    GLuint getDisplayList(ListIndex index) const { return displayLists_ + index; }
 
     /** Initialize the OpenGL environment.
      */
@@ -447,7 +448,7 @@ private:
     void mouseReleaseEvent(QMouseEvent* event);
 
     void wheelEvent(QWheelEvent* event);
-    
+
     void keyPressEvent(QKeyEvent* event);
 
     void keyReleaseEvent(QKeyEvent* event);

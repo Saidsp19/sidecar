@@ -1,19 +1,14 @@
 #include "GUI/LogUtils.h"
 
-#include "ui_ControlsWindow.h"
 #include "ControlsWindow.h"
 #include "History.h"
 #include "HistorySettings.h"
+#include "ui_ControlsWindow.h"
 
 using namespace SideCar::GUI::PPIDisplay;
 
-static const char* const kOrdinality [] =
-{
-    "th",
-    "st",
-    "nd",
-    "rd",
-    "th",
+static const char* const kOrdinality[] = {
+    "th", "st", "nd", "rd", "th",
 };
 
 Logger::Log&
@@ -23,8 +18,7 @@ ControlsWindow::Log()
     return log_;
 }
 
-ControlsWindow::ControlsWindow(int shortcut, History* history)
-    : Super(shortcut), history_(history)
+ControlsWindow::ControlsWindow(int shortcut, History* history) : Super(shortcut), history_(history)
 {
     Logger::ProcLog log("ControlsWindow", Log());
     LOGINFO << std::endl;
@@ -42,14 +36,10 @@ ControlsWindow::ControlsWindow(int shortcut, History* history)
     historyRetainedCountChanged(0);
     historyCurrentViewChanged(0);
 
-    connect(history, SIGNAL(retainedCountChanged(int)),
-            SLOT(historyRetainedCountChanged(int)));
-    connect(history, SIGNAL(currentViewChanged(int)),
-            SLOT(historyCurrentViewChanged(int)));
-    connect(history, SIGNAL(currentViewAged(int)),
-            SLOT(historyCurrentViewAged(int)));
-    connect(age_, SIGNAL(valueChanged(int)), history,
-            SLOT(showEntry(int)));
+    connect(history, SIGNAL(retainedCountChanged(int)), SLOT(historyRetainedCountChanged(int)));
+    connect(history, SIGNAL(currentViewChanged(int)), SLOT(historyCurrentViewChanged(int)));
+    connect(history, SIGNAL(currentViewAged(int)), SLOT(historyCurrentViewAged(int)));
+    connect(age_, SIGNAL(valueChanged(int)), history, SLOT(showEntry(int)));
 }
 
 void
@@ -79,9 +69,9 @@ ControlsWindow::historyCurrentViewAged(int age)
     Logger::ProcLog log("historyCurrentViewAged", Log());
     LOGINFO << "age: " << age << std::endl;
     if (age < history_->getRetentionCount()) {
-	age_->blockSignals(true);
-	age_->setValue(age);
-	age_->blockSignals(false);
+        age_->blockSignals(true);
+        age_->setValue(age);
+        age_->blockSignals(false);
     }
 
     setAgeText(age);
@@ -91,15 +81,10 @@ void
 ControlsWindow::setAgeText(int age)
 {
     if (age == 0) {
-	ageValue_->setText("now");
-    }
-    else if (age == 1) {
-	ageValue_->setText("previous");
-    }
-    else {
-	ageValue_->setText(
-	    QString("%1%2 past")
-	    .arg(age)
-	    .arg(kOrdinality[std::min(age, 4)]));
+        ageValue_->setText("now");
+    } else if (age == 1) {
+        ageValue_->setText("previous");
+    } else {
+        ageValue_->setText(QString("%1%2 past").arg(age).arg(kOrdinality[std::min(age, 4)]));
     }
 }

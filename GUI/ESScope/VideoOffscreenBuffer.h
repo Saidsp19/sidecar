@@ -5,7 +5,9 @@
 
 #include "GUI/OffscreenBuffer.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -23,23 +25,23 @@ class VideoImaging;
     SampleImaging::getDecimation() controls the amount of decimation that
     occurs.
 */
-class VideoOffscreenBuffer : public OffscreenBuffer
-{
+class VideoOffscreenBuffer : public OffscreenBuffer {
     using Super = OffscreenBuffer;
+
 public:
     static Logger::Log& Log();
- 
+
     /** Constructor.
 
-        \param sineCosineLUT 
+        \param sineCosineLUT
 
-        \param points 
+        \param points
 
-        \param imaging 
+        \param imaging
 
-        \param visibleRangeMax 
+        \param visibleRangeMax
 
-        \param transform 
+        \param transform
     */
     VideoOffscreenBuffer(History* history);
 
@@ -52,8 +54,7 @@ public:
     const VideoImaging* getImaging() const;
 
 private:
-    
-    const VideoSampleCountTransform* transform_;    
+    const VideoSampleCountTransform* transform_;
 };
 
 } // end namespace ESScope

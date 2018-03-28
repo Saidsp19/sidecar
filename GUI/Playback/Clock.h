@@ -6,7 +6,9 @@
 
 #include "Time/TimeStamp.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -29,11 +31,9 @@ namespace Playback {
     setWallClockRate() a non-zero value less than one will result in playback
     that is slower than real time.
 */
-class Clock : public QObject
-{
+class Clock : public QObject {
     Q_OBJECT
 public:
-
     static Logger::Log& Log();
 
     /** Constructor.
@@ -46,7 +46,7 @@ public:
 
     /** Obtain the playback clock value for the current wall clock time.
 
-        \return 
+        \return
     */
     Time::TimeStamp getPlaybackClock();
 
@@ -67,15 +67,13 @@ public:
 
         \param start the end of the time frame
     */
-    void setClockRange(const Time::TimeStamp& start,
-                       const Time::TimeStamp& end);
+    void setClockRange(const Time::TimeStamp& start, const Time::TimeStamp& end);
 
     /** Set the periodic tick rate.
 
         \param msecs milliseconds between tick() signal emissions.
     */
-    void setTickRate(int msecs)
-	{ ticker_.setInterval(msecs); }
+    void setTickRate(int msecs) { ticker_.setInterval(msecs); }
 
     /** Set the wall clock rate. Values must be greater than zero. Values greater than one will result in a
         playback clock that runs faster than real-time, while values less than one will give one that runs
@@ -115,18 +113,18 @@ public slots:
     void start();
 
     /** Stop the playback clock. Stops the internal QTimer used to perform ticking, and emits the stopped()
-	signal.
+        signal.
     */
     void stop();
 
     /** Change the playback clock so that it will start at a new time.
 
-        \param playbackClockStart 
+        \param playbackClockStart
     */
     void setPlaybackClockStart(const Time::TimeStamp& playbackClockStart);
 
 private slots:
-    
+
     /** Event handler for when the clock ticks. Invoked by the internal QTimer when it times out.
      */
     void doTick();
@@ -140,8 +138,7 @@ signals:
 
         \param elapsed playback duration
     */
-    void tick(const Time::TimeStamp& playbackTime,
-              const Time::TimeStamp& elapsed);
+    void tick(const Time::TimeStamp& playbackTime, const Time::TimeStamp& elapsed);
 
     /** Notification sent out when the playback clock has started.
      */
@@ -153,19 +150,18 @@ signals:
 
     /** Notification sent out when he start time of the playback clock has changed.
 
-        \param playbackClockStart 
+        \param playbackClockStart
     */
     void playbackClockStartChanged(const Time::TimeStamp& playbackClockStart);
 
 private:
-
-    QTimer ticker_;		///< Timer that updates our playback clock time
-    double wallClockRate_;	///< How fast/slow wall clock runs vs. playback
-    double playbackClockRate_;	///< Inverse of wallClockRate_
-    Time::TimeStamp minTime_;	///< First time stamp in all of the data files
-    Time::TimeStamp maxTime_;	///< Last time stamp in all of the data files
+    QTimer ticker_;                      ///< Timer that updates our playback clock time
+    double wallClockRate_;               ///< How fast/slow wall clock runs vs. playback
+    double playbackClockRate_;           ///< Inverse of wallClockRate_
+    Time::TimeStamp minTime_;            ///< First time stamp in all of the data files
+    Time::TimeStamp maxTime_;            ///< Last time stamp in all of the data files
     Time::TimeStamp playbackClockStart_; ///< Playback clock when playback began
-    Time::TimeStamp wallClockStart_;	 ///< System clock when playback began
+    Time::TimeStamp wallClockStart_;     ///< System clock when playback began
 };
 
 } // end namespace Playback

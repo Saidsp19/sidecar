@@ -15,12 +15,12 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
-    Test()
-	: UnitTest::TestObj("Decimator"), alg_(0), controller_(),
-	  messageCounter_(0), kMaxMessageCount(2), kMessageSize(12)
-	{}
+struct Test : public UnitTest::TestObj {
+    Test() :
+        UnitTest::TestObj("Decimator"), alg_(0), controller_(), messageCounter_(0), kMaxMessageCount(2),
+        kMessageSize(12)
+    {
+    }
 
     void test();
     bool testOutput(const Video::Ref& output);
@@ -32,32 +32,35 @@ struct Test : public UnitTest::TestObj
     const int kMessageSize;
 };
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), test_(0)
-	{
-	    Logger::ProcLog log("Sink", Log());
-	    LOGERROR << std::endl;
-	}
+    {
+        Logger::ProcLog log("Sink", Log());
+        LOGERROR << std::endl;
+    }
 
     ~Sink()
-	{
-	    Logger::ProcLog log("~Sink", Log());
-	    LOGERROR << std::endl;
-	}
+    {
+        Logger::ProcLog log("~Sink", Log());
+        LOGERROR << std::endl;
+    }
 
     void setTest(Test* test)
-	{
-	    Logger::ProcLog log("setTest", Log());
-	    test_ = test;
-	    LOGINFO << "test: " << test_ << std::endl;
-	}
+    {
+        Logger::ProcLog log("setTest", Log());
+        test_ = test;
+        LOGINFO << "test: " << test_ << std::endl;
+    }
 
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
@@ -79,16 +82,16 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 
     MessageManager mgr(data);
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    LOGERROR << test_ << ' ' << test_->alg_ << std::endl;
-	    if (test_->testOutput(msg)) {
-		LOGINFO << "shutting down server" << std::endl;
-		ACE_Reactor::instance()->end_reactor_event_loop();
-	    }
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            LOGERROR << test_ << ' ' << test_->alg_ << std::endl;
+            if (test_->testOutput(msg)) {
+                LOGINFO << "shutting down server" << std::endl;
+                ACE_Reactor::instance()->end_reactor_event_loop();
+            }
+        }
     }
 
     return true;
@@ -129,13 +132,12 @@ Test::test()
     alg_->setDecimationFactor(3);
     alg_->setIsIQ(false);
 
-    assertTrue(controller_->injectProcessingStateChange(
-                   ProcessingState::kRun));
+    assertTrue(controller_->injectProcessingStateChange(ProcessingState::kRun));
 
     VMEDataMessage vme;
     vme.header.azimuth = 0;
     vme.header.pri = 0;
-    int16_t init[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+    int16_t init[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
     Video::Ref msg(Video::Make("test", vme, init, init + 12));
     assertTrue(controller_->putInChannel(msg, 0));
 
@@ -150,42 +152,39 @@ bool
 Test::testOutput(const Video::Ref& msg)
 {
     if (messageCounter_ == 0) {
+        // Validate message content for decimated non-IQ message
+        //
+        assertEqual(size_t(4), msg->size());
+        Video::const_iterator pos = msg->begin();
+        assertEqual(1, *pos++);
+        assertEqual(4, *pos++);
+        assertEqual(7, *pos++);
+        assertEqual(10, *pos++);
+        assertTrue(pos == msg->end());
 
-	// Validate message content for decimated non-IQ message
-	//
-	assertEqual(size_t(4), msg->size());
-	Video::const_iterator pos = msg->begin();
-	assertEqual(1, *pos++);
-	assertEqual(4, *pos++);
-	assertEqual(7, *pos++);
-	assertEqual(10, *pos++);
-	assertTrue(pos == msg->end());
+        // Now set the algorithm to decimate IQ data
+        //
+        alg_->setDecimationFactor(4);
+        alg_->setIsIQ(true);
 
-	// Now set the algorithm to decimate IQ data
-	//
-	alg_->setDecimationFactor(4);
-	alg_->setIsIQ(true);
-
-	// Submit the same message
-	//
-	VMEDataMessage vme;
-	vme.header.azimuth = 0;
-	vme.header.pri = 0;
-	int16_t init[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 12));
-	assertTrue(controller_->putInChannel(msg, 0));
-    }
-    else {
-
-	// Validate message content for decimated IQ message
-	//
-	assertEqual(size_t(4), msg->size());
-	Video::const_iterator pos = msg->begin();
-	assertEqual(1, *pos++);
-	assertEqual(2, *pos++);
-	assertEqual(9, *pos++);
-	assertEqual(10, *pos++);
-	assertTrue(pos == msg->end());
+        // Submit the same message
+        //
+        VMEDataMessage vme;
+        vme.header.azimuth = 0;
+        vme.header.pri = 0;
+        int16_t init[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        Video::Ref msg(Video::Make("test", vme, init, init + 12));
+        assertTrue(controller_->putInChannel(msg, 0));
+    } else {
+        // Validate message content for decimated IQ message
+        //
+        assertEqual(size_t(4), msg->size());
+        Video::const_iterator pos = msg->begin();
+        assertEqual(1, *pos++);
+        assertEqual(2, *pos++);
+        assertEqual(9, *pos++);
+        assertEqual(10, *pos++);
+        assertTrue(pos == msg->end());
     }
 
     return ++messageCounter_ == kMaxMessageCount;

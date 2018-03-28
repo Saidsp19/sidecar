@@ -5,19 +5,20 @@
 
 class QDoubleSpinBox;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
 /** Derivation of the Setting class that manages 'double' floating-point values.
  */
-class DoubleSetting : public Setting
-{
+class DoubleSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
-public:
 
+public:
     /** Log device for DoubleSetting objects
 
         \return Log reference
@@ -26,23 +27,23 @@ public:
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
-        \param global 
+        \param global
     */
     DoubleSetting(PresetManager* mgr, const QString& name, bool global = false);
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
-        \param value 
+        \param value
 
-        \param global 
+        \param global
     */
     DoubleSetting(PresetManager* mgr, const QString& name, double value, bool global = false);
 
@@ -72,13 +73,11 @@ signals:
     void valueChanged(double value);
 
 protected:
-    
     /** Override of Setting::valueUpdated() method. Records the new value and emits the valueChanged() signal.
      */
     void valueUpdated();
 
 private:
-
     double value_;
 };
 

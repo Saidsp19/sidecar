@@ -49,8 +49,7 @@ expandEnvVars(QString& val)
 
 /** Private implementation class the performs the work for the Loader class.
  */
-struct Loader::Private
-{
+struct Loader::Private {
     static Logger::Log& Log();
 
     Private(const Loader& parent);
@@ -93,11 +92,10 @@ Loader::Private::Log()
     return log_;
 }
 
-Loader::Private::Private(const Loader& parent)
-    : parent_(parent), configurationPath_(""), configurationName_(""), loadResult_(Loader::kNotLoaded),
-      runnerConfigs_(), filePath_(), errorText_(""), errorLine_(-1), errorColumn_(-1), logsDirectory_(""),
-      recordingsDirectory_(""), loggerConfiguration_(""), initialProcessingState_(kDefaultInitialProcessingState),
-      includePaths_(), hostNames_()
+Loader::Private::Private(const Loader& parent) :
+    parent_(parent), configurationPath_(""), configurationName_(""), loadResult_(Loader::kNotLoaded), runnerConfigs_(),
+    filePath_(), errorText_(""), errorLine_(-1), errorColumn_(-1), logsDirectory_(""), recordingsDirectory_(""),
+    loggerConfiguration_(""), initialProcessingState_(kDefaultInitialProcessingState), includePaths_(), hostNames_()
 {
     ;
 }
@@ -106,11 +104,11 @@ void
 Loader::Private::reset()
 {
     loadResult_ = Loader::kNotLoaded;
-    foreach(RunnerConfig* config, runnerConfigs_) {
-	delete config;
+    foreach (RunnerConfig* config, runnerConfigs_) {
+        delete config;
     }
     runnerConfigs_.clear();
-    filePath_= "";
+    filePath_ = "";
     errorText_ = "";
     errorLine_ = -1;
     errorColumn_ = -1;
@@ -126,9 +124,7 @@ RunnerConfig*
 Loader::Private::getRunnerConfig(const QString& runnerName) const
 {
     foreach (RunnerConfig* config, runnerConfigs_) {
-	if (config->getRunnerName() == runnerName) {
-	    return config;
-        }
+        if (config->getRunnerName() == runnerName) { return config; }
     }
 
     return 0;
@@ -171,58 +167,47 @@ Loader::Private::load(const QString& configurationPath)
     // Open the XML file
     //
     QFile file(configurationPath_);
-    if (! file.open(QFile::ReadOnly | QFile::Text)) {
-	return finishLoad(Loader::kFailedFileOpen);
-    }
+    if (!file.open(QFile::ReadOnly | QFile::Text)) { return finishLoad(Loader::kFailedFileOpen); }
 
     // Load the XML data, creating a DOM object.
     //
     QDomDocument dom;
-    if (! dom.setContent(&file, false, &errorText_, &errorLine_, &errorColumn_)) {
-	return finishLoad(Loader::kFailedXMLParse);
+    if (!dom.setContent(&file, false, &errorText_, &errorLine_, &errorColumn_)) {
+        return finishLoad(Loader::kFailedXMLParse);
     }
 
     // We MUST have a <sidecar> element
     //
     QDomElement sidecar = dom.namedItem(kEntitySidecar).toElement();
-    if (sidecar.isNull()) {
-	return finishLoad(Loader::kMissingSidecarNode);
-    }
+    if (sidecar.isNull()) { return finishLoad(Loader::kMissingSidecarNode); }
 
     // We MUST have a <radar> configuration element, though it may include
     // another file.
     //
     QDomElement radar = sidecar.namedItem(kEntityRadar).toElement();
-    if (radar.isNull()) {
-	return finishLoad(Loader::kMissingRadarNode);
-    }
+    if (radar.isNull()) { return finishLoad(Loader::kMissingRadarNode); }
 
     QDir dir(QFileInfo(configurationPath).dir());
     if (radar.hasAttribute(kAttributeFile)) {
-	QDomDocument doc;
-	radar = loadIncludeFile(dir.filePath(radar.attribute(kAttributeFile)), kEntityRadar, doc);
+        QDomDocument doc;
+        radar = loadIncludeFile(dir.filePath(radar.attribute(kAttributeFile)), kEntityRadar, doc);
     }
 
-    if (! Messages::RadarConfig::Load(radar)) {
-	return finishLoad(Loader::kInvalidRadarNode);
-    }
+    if (!Messages::RadarConfig::Load(radar)) { return finishLoad(Loader::kInvalidRadarNode); }
 
     // We MUST have a <dp> (data-processor) element
     //
     QDomElement dp = sidecar.namedItem(kEntityDP).toElement();
-    if (dp.isNull()) {
-	return finishLoad(Loader::kMissingDPNode);
-    }
+    if (dp.isNull()) { return finishLoad(Loader::kMissingDPNode); }
 
     // Obtain some configuration attributes from the <dp> element
     //
     if (dp.hasAttribute("loggerConfigPath")) {
-	loggerConfiguration_ = dp.attribute("loggerConfigPath");
-	LOGWARNING << "using deprecated 'loggerConfigPath' attribute instead " << "of '"
-                   << kAttributeLoggerConfiguration << "'" << std::endl;
-    }
-    else {
-	loggerConfiguration_ = dp.attribute(kAttributeLoggerConfiguration);
+        loggerConfiguration_ = dp.attribute("loggerConfigPath");
+        LOGWARNING << "using deprecated 'loggerConfigPath' attribute instead "
+                   << "of '" << kAttributeLoggerConfiguration << "'" << std::endl;
+    } else {
+        loggerConfiguration_ = dp.attribute(kAttributeLoggerConfiguration);
     }
 
     expandEnvVars(loggerConfiguration_);
@@ -230,19 +215,18 @@ Loader::Private::load(const QString& configurationPath)
 
     logsDirectory_ = dp.attribute(kAttributeLogsDirectory, kDefaultLogsDirectory);
     if (logsDirectory_.isEmpty()) {
-	LOGWARNING << "using '/tmp' for 'logsDirectory'" << std::endl;
-	logsDirectory_ = "/tmp";
+        LOGWARNING << "using '/tmp' for 'logsDirectory'" << std::endl;
+        logsDirectory_ = "/tmp";
     }
 
     LOGDEBUG << "logsDirectory: " << logsDirectory_ << std::endl;
 
     if (dp.hasAttribute("recordingBasePath")) {
-	recordingsDirectory_ = dp.attribute("recordingBasePath");
-	LOGWARNING << "using deprecated 'recordingBasePath' attribute instead " << "of '"
-                   << kAttributeRecordingsDirectory << "'" << std::endl;
-    }
-    else {
-	recordingsDirectory_ = dp.attribute(kAttributeRecordingsDirectory, kDefaultRecordingsDirectory);
+        recordingsDirectory_ = dp.attribute("recordingBasePath");
+        LOGWARNING << "using deprecated 'recordingBasePath' attribute instead "
+                   << "of '" << kAttributeRecordingsDirectory << "'" << std::endl;
+    } else {
+        recordingsDirectory_ = dp.attribute(kAttributeRecordingsDirectory, kDefaultRecordingsDirectory);
     }
 
     expandEnvVars(recordingsDirectory_);
@@ -250,86 +234,72 @@ Loader::Private::load(const QString& configurationPath)
 
     initialProcessingState_ = dp.attribute(kAttributeInitialProcessingState, initialProcessingState_);
     if (ProcessingState::GetValue(initialProcessingState_.toStdString()) == ProcessingState::kInvalid) {
-	LOGWARNING << "unknown processing state - " << dp.attribute(kAttributeInitialProcessingState)
+        LOGWARNING << "unknown processing state - " << dp.attribute(kAttributeInitialProcessingState)
                    << " - using 'Run'" << std::endl;
-	initialProcessingState_ = kDefaultRecordingsDirectory;
+        initialProcessingState_ = kDefaultRecordingsDirectory;
     }
 
     // Load in the <runner> elements
     //
     QDomElement runner = dp.firstChildElement(kEntityRunner);
-    while (! runner.isNull()) {
+    while (!runner.isNull()) {
+        // Start with some default values.
+        //
+        RunnerConfig::Init cfg;
+        cfg.initialProcessingState = initialProcessingState_;
+        if (runner.hasAttribute(kAttributeFile)) {
+            // Load in an include file with the runner definition
+            //
+            QDomDocument doc;
+            QDomElement other = loadIncludeFile(dir.filePath(runner.attribute(kAttributeFile)), kEntityRunner, doc);
+            if (other.isNull()) { return false; }
 
-	// Start with some default values.
-	//
-	RunnerConfig::Init cfg;
-	cfg.initialProcessingState = initialProcessingState_;
-	if (runner.hasAttribute(kAttributeFile)) {
+            // Fetch the attributes from the include file, overriding the default values above.
+            //
+            updateInit(cfg, other);
 
-	    // Load in an include file with the runner definition
-	    //
-	    QDomDocument doc;
-	    QDomElement other = loadIncludeFile(dir.filePath(runner.attribute(kAttributeFile)), kEntityRunner,
-                                                doc);
-	    if (other.isNull()) {
-		return false;
+            // Load the <stream> definitions from the include file.
+            //
+            if (!getStreams(dir, other, cfg.streams) || cfg.streams.isEmpty()) {
+                return finishLoad(Loader::kMissingStreams);
             }
-
-	    // Fetch the attributes from the include file, overriding the default values above.
-	    //
-	    updateInit(cfg, other);
-
-	    // Load the <stream> definitions from the include file.
-	    //
-	    if (! getStreams(dir, other, cfg.streams) || cfg.streams.isEmpty()) {
-		return finishLoad(Loader::kMissingStreams);
+        } else {
+            // Load the <stream> definitions from the original file.
+            //
+            if (!getStreams(dir, runner, cfg.streams) || cfg.streams.isEmpty()) {
+                return finishLoad(Loader::kMissingStreams);
             }
-	}
-	else {
-
-	    // Load the <stream> definitions from the original file.
-	    //
-	    if (! getStreams(dir, runner, cfg.streams) || cfg.streams.isEmpty()) {
-		return finishLoad(Loader::kMissingStreams);
-            }
-	}
-
-	// Load the attributes from the original runner object, but possibly use values found in an include file
-	// if it is not found in the original.
-	//
-	updateInit(cfg, runner);
-
-	if (cfg.name.isEmpty()) {
-	    cfg.name = QString("Runner %1").arg(runnerConfigs_.size() + 1);
         }
 
-	LOGDEBUG << "name: " << cfg.name << std::endl
-                 << "host: " << cfg.host << std::endl;
-        
-	if (! hostNames_.contains(cfg.host)) {
-	    hostNames_.append(cfg.host);
-        }
+        // Load the attributes from the original runner object, but possibly use values found in an include file
+        // if it is not found in the original.
+        //
+        updateInit(cfg, runner);
 
-	LOGDEBUG << "multicast: " << cfg.multicastAddress << std::endl
+        if (cfg.name.isEmpty()) { cfg.name = QString("Runner %1").arg(runnerConfigs_.size() + 1); }
+
+        LOGDEBUG << "name: " << cfg.name << std::endl << "host: " << cfg.host << std::endl;
+
+        if (!hostNames_.contains(cfg.host)) { hostNames_.append(cfg.host); }
+
+        LOGDEBUG << "multicast: " << cfg.multicastAddress << std::endl
                  << "opts: " << cfg.opts << std::endl
                  << "scheduler: " << cfg.scheduler << std::endl
                  << "priority: " << cfg.priority << std::endl
                  << "cpu: " << cfg.cpuAffinity << std::endl;
 
-	// Create a new RunnerConfig object to represent the found attributes and objects
-	//
-	runnerConfigs_.append(new RunnerConfig(parent_, cfg));
+        // Create a new RunnerConfig object to represent the found attributes and objects
+        //
+        runnerConfigs_.append(new RunnerConfig(parent_, cfg));
 
-	// Move to the next <runner> element in the original document.
-	//
-	runner = runner.nextSiblingElement(kEntityRunner);
+        // Move to the next <runner> element in the original document.
+        //
+        runner = runner.nextSiblingElement(kEntityRunner);
 
-    } // Finished loading in runner configurations    
-    
-    if (runnerConfigs_.isEmpty()) {
-	return finishLoad(Loader::kMissingRunners);
-    }
-    
+    } // Finished loading in runner configurations
+
+    if (runnerConfigs_.isEmpty()) { return finishLoad(Loader::kMissingRunners); }
+
     return finishLoad(Loader::kOK);
 }
 
@@ -337,24 +307,19 @@ bool
 Loader::Private::getStreams(const QDir& dir, const QDomElement& runner, QList<QDomElement>& streams)
 {
     QDomElement stream = runner.namedItem(kEntityStream).toElement();
-    while(! stream.isNull()) {
-	if (stream.hasAttribute(kAttributeFile)) {
+    while (!stream.isNull()) {
+        if (stream.hasAttribute(kAttributeFile)) {
+            // Read in the <stream> stanza from another file.
+            //
+            QDomDocument doc;
+            QDomElement other = loadIncludeFile(dir.filePath(stream.attribute(kAttributeFile)), kEntityStream, doc);
+            if (other.isNull()) { return false; }
 
-	    // Read in the <stream> stanza from another file.
-	    //
-	    QDomDocument doc;
-	    QDomElement other = loadIncludeFile(dir.filePath(stream.attribute(kAttributeFile)), kEntityStream,
-                                                doc);
-	    if (other.isNull()) {
-		return false;
-            }
-
-	    streams.push_back(other);
-	}
-	else {
-	    streams.push_back(stream);
-	}
-	stream = stream.nextSiblingElement(kEntityStream);
+            streams.push_back(other);
+        } else {
+            streams.push_back(stream);
+        }
+        stream = stream.nextSiblingElement(kEntityStream);
     }
     return true;
 }
@@ -367,32 +332,31 @@ Loader::Private::loadIncludeFile(const QString& path, const QString& entity, QDo
 
     filePath_ = path;
     QFile file(path);
-    if (! file.open(QFile::ReadOnly | QFile::Text)) {
-	LOGERROR << "failed to open file '" << path << "'" << std::endl;
-	finishLoad(Loader::kFailedFileOpen);
-	return QDomElement();
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        LOGERROR << "failed to open file '" << path << "'" << std::endl;
+        finishLoad(Loader::kFailedFileOpen);
+        return QDomElement();
     }
 
     includePaths_.append(path);
 
-    if (! doc.setContent(&file, false, &errorText_, &errorLine_, &errorColumn_)) {
-	LOGERROR << "failed to parse XML file" << std::endl;
-	finishLoad(Loader::kFailedXMLParse);
-	return QDomElement();
+    if (!doc.setContent(&file, false, &errorText_, &errorLine_, &errorColumn_)) {
+        LOGERROR << "failed to parse XML file" << std::endl;
+        finishLoad(Loader::kFailedXMLParse);
+        return QDomElement();
     }
 
     QDomElement node = doc.namedItem(entity).toElement();
     if (node.isNull()) {
-	LOGERROR << "missing entity node" << std::endl;
-	finishLoad(Loader::kMissingEntityNode);
-	return QDomElement();
+        LOGERROR << "missing entity node" << std::endl;
+        finishLoad(Loader::kMissingEntityNode);
+        return QDomElement();
     }
 
     return node;
 }
 
-Loader::Loader()
-    : p_(new Private(*this))
+Loader::Loader() : p_(new Private(*this))
 {
     ;
 }

@@ -4,8 +4,8 @@
 
 #include "boost/bind.hpp"
 
-#include "Utils/Utils.h"
 #include "TimeStampRangeSet.h"
+#include "Utils/Utils.h"
 
 using namespace SideCar::Time;
 

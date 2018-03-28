@@ -4,9 +4,8 @@
 
 using namespace SideCar::Runner;
 
-LogCollector::LogCollector()
-    : Logger::Writers::Writer(0, false), mutex_(Threading::Mutex::Make()),
-      messages_(new XmlRpc::XmlRpcValue::ValueArray)
+LogCollector::LogCollector() :
+    Logger::Writers::Writer(0, false), mutex_(Threading::Mutex::Make()), messages_(new XmlRpc::XmlRpcValue::ValueArray)
 {
     ;
 }
@@ -39,11 +38,9 @@ LogCollector::dump()
     // Limit the number of log messages we write out.
     //
     if (rc->size() > kMaxLogMessages) {
-	size_t offset = rc->size() - kMaxLogMessages;
-	for (size_t index = 0; index < kMaxLogMessages; ++index) {
-	    (*rc)[index] = (*rc)[index + offset];
-        }
-	rc->resize(kMaxLogMessages);
+        size_t offset = rc->size() - kMaxLogMessages;
+        for (size_t index = 0; index < kMaxLogMessages; ++index) { (*rc)[index] = (*rc)[index + offset]; }
+        rc->resize(kMaxLogMessages);
     }
 
     return rc;

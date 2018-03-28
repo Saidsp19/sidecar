@@ -13,16 +13,12 @@ namespace Algorithms {
 /** Documentation for the algorithm Sum. This algorithm returns the sum of the range bin values for the last N
     messages.
 */
-class Sum : public Algorithm
-{
+class Sum : public Algorithm {
     using Super = Algorithm;
     using VideoMessageBuffer = std::deque<Messages::Video::Ref>;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -46,7 +42,6 @@ public:
     bool shutdown();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
     void bufferSizeChanged(const Parameter::PositiveIntValue& parameter);
 

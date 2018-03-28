@@ -11,15 +11,13 @@ using namespace SideCar::GUI::AScope;
 Logger::Log&
 HistoryControlWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("ascope.HistoryControlWindow");
+    static Logger::Log& log_ = Logger::Log::Find("ascope.HistoryControlWindow");
     return log_;
 }
 
-HistoryControlWindow::HistoryControlWindow(int shortcut,
-                                           const History* history)
-    : ToolWindowBase("HistoryControlWindow", "History Controls", shortcut),
-      Ui::HistoryControlWindow(), history_(history), historyPosition_(0)
+HistoryControlWindow::HistoryControlWindow(int shortcut, const History* history) :
+    ToolWindowBase("HistoryControlWindow", "History Controls", shortcut), Ui::HistoryControlWindow(), history_(history),
+    historyPosition_(0)
 {
     setupUi(this);
     installHistoryPosition(0);
@@ -38,28 +36,23 @@ HistoryControlWindow::activeMainWindowChanged(MainWindowBase* base)
 void
 HistoryControlWindow::installHistoryPosition(HistoryPosition* historyPosition)
 {
-    if (historyPosition_)
-	historyPosition_->disconnect(this);
+    if (historyPosition_) historyPosition_->disconnect(this);
 
     historyPosition_ = historyPosition;
 
     if (historyPosition_) {
-	int position = historyPosition->getPosition();
-	setPosition(position);
-	connect(historyPosition_,
-                SIGNAL(positionChanged(int, double)),
+        int position = historyPosition->getPosition();
+        setPosition(position);
+        connect(historyPosition_, SIGNAL(positionChanged(int, double)),
                 SLOT(historyPositionPositionChanged(int, double)));
-	connect(historyPosition_,
-                SIGNAL(viewChanged(const HistoryFrame*)),
+        connect(historyPosition_, SIGNAL(viewChanged(const HistoryFrame*)),
                 SLOT(historyPositionViewChanged(const HistoryFrame*)));
 
-	historyPositionViewChanged(history_->getFrame(position));
-	historyPositionPositionChanged(position,
-                                       historyPosition_->getAge());
-    }
-    else {
-	current_->setEnabled(false);
-	slider_->setEnabled(false);
+        historyPositionViewChanged(history_->getFrame(position));
+        historyPositionPositionChanged(position, historyPosition_->getAge());
+    } else {
+        current_->setEnabled(false);
+        slider_->setEnabled(false);
     }
 }
 
@@ -69,8 +62,7 @@ HistoryControlWindow::setPosition(int position)
     current_->setEnabled(position);
     int frameCount = history_->getFrameCount();
     slider_->setEnabled(history_->isEnabled() && frameCount);
-    if (position > frameCount)
-	position = frameCount;
+    if (position > frameCount) position = frameCount;
     slider_->setValue(position);
 }
 
@@ -94,26 +86,18 @@ HistoryControlWindow::on_slider__actionTriggered(int action)
 
     switch (action) {
     case QAbstractSlider::SliderSingleStepAdd:
-	if (position < frameCount)
-	    historyPosition_->showOlderBySequence();
-	break;
+        if (position < frameCount) historyPosition_->showOlderBySequence();
+        break;
 
     case QAbstractSlider::SliderSingleStepSub:
-	if (position > 0)
-	    historyPosition_->showNewerBySequence();
-	break;
+        if (position > 0) historyPosition_->showNewerBySequence();
+        break;
 
-    case QAbstractSlider::SliderPageStepAdd:
-	historyPosition_->showOlderByRotation();
-	break;
+    case QAbstractSlider::SliderPageStepAdd: historyPosition_->showOlderByRotation(); break;
 
-    case QAbstractSlider::SliderPageStepSub:
-	historyPosition_->showNewerByRotation();
-	break;
+    case QAbstractSlider::SliderPageStepSub: historyPosition_->showNewerByRotation(); break;
 
-    case QAbstractSlider::SliderMove:
-	historyPosition_->setPosition(slider_->sliderPosition());
-	break;
+    case QAbstractSlider::SliderMove: historyPosition_->setPosition(slider_->sliderPosition()); break;
     }
 }
 
@@ -141,12 +125,11 @@ HistoryControlWindow::historyPositionViewChanged(const HistoryFrame* frame)
     slider_->setEnabled(history_->isEnabled() && frameCount);
     if (frame->size() == 0) return;
     Messages::PRIMessage::Ref msg = frame->getLastMessage();
-    if (! msg) {
-	sequence_->setText("");
-	shaft_->setText("");
-    }
-    else {
-	sequence_->setText(QString::number(msg->getSequenceCounter()));
-	shaft_->setText(QString::number(msg->getShaftEncoding()));
+    if (!msg) {
+        sequence_->setText("");
+        shaft_->setText("");
+    } else {
+        sequence_->setText(QString::number(msg->getSequenceCounter()));
+        shaft_->setText(QString::number(msg->getShaftEncoding()));
     }
 }

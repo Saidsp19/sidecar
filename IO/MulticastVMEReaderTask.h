@@ -1,20 +1,22 @@
 #ifndef SIDECAR_IO_MULTICASTVMEREADERTASK_H // -*- C++ -*-
 #define SIDECAR_IO_MULTICASTVMEREADERTASK_H
 
-#include "IO/Readers.h"
 #include "IO/IOTask.h"
 #include "IO/Module.h"
+#include "IO/Readers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
 
 /** A socket reader task for multicast UDP messages.
  */
-class MulticastVMEReaderTask : public IOTask
-{
+class MulticastVMEReaderTask : public IOTask {
     using Super = IOTask;
+
 public:
     using Ref = boost::shared_ptr<MulticastVMEReaderTask>;
 
@@ -30,45 +32,40 @@ public:
     */
     static Ref Make();
 
-    void setBufferSize(int bufferSize)
-	{ bufferSize_ = bufferSize; }
+    void setBufferSize(int bufferSize) { bufferSize_ = bufferSize; }
 
     /** Open a connection to a remote host/port for UDP data.
 
-	\param host name of the host to subscribe to
+        \param host name of the host to subscribe to
 
         \param port the port of the remote host to connect to
 
-	\param bufferSize value to use for SO_RCVBUV request. Default is 256K.
+        \param bufferSize value to use for SO_RCVBUV request. Default is 256K.
 
         \return true if successful, false otherwise
     */
-    bool openAndInit(const std::string& host, uint16_t port,
-                     int bufferSize = 0,
-                     long threadFlags = kDefaultThreadFlags,
+    bool openAndInit(const std::string& host, uint16_t port, int bufferSize = 0, long threadFlags = kDefaultThreadFlags,
                      long threadPriority = ACE_DEFAULT_THREAD_PRIORITY);
 
     /** The service is being shutdown. Override of ACE_Task method. Close the socket connection.
 
-	\param flags if 1, signal service thread to shutdown; if 0, then the
-	thread is exiting
+        \param flags if 1, signal service thread to shutdown; if 0, then the
+        thread is exiting
 
         \return -1 if failure
     */
     int close(u_long flags = 0);
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
-	methods.
+        methods.
     */
     MulticastVMEReaderTask();
 
 private:
+    /**
 
-    /** 
-
-        \return 
+        \return
     */
     int svc();
 

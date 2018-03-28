@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_OSCFAR_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_OSCFAR_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_OSCFAR_H
 
 #include "Algorithms/Algorithm.h"
@@ -12,17 +12,9 @@ namespace Algorithms {
     thresholding of sample data by maintaining a sliding window of ordered samples and then using the N-th
     sample of the sliding window as the threshold value to use in the filter.
 */
-class OSCFAR : public Algorithm
-{
+class OSCFAR : public Algorithm {
 public:
-
-    enum InfoSlot {
-	kWindowSize = ControllerStatus::kNumSlots,
-	kThresholdIndex,
-	kAlpha,
-	kNumSlots
-    };
-
+    enum InfoSlot { kWindowSize = ControllerStatus::kNumSlots, kThresholdIndex, kAlpha, kNumSlots };
 
     /** Constructor.
 
@@ -43,26 +35,22 @@ public:
 
         \param windowSize new window size to use
     */
-    void setWindowSize(int windowSize)
-	{ windowSize_->setValue(windowSize); }
+    void setWindowSize(int windowSize) { windowSize_->setValue(windowSize); }
 
     /** Set the index of the window to use for threshold values. Must be >= 0 and < windowSize.
 
         \param thresholdIndex new threshold index to use
     */
-    void setThresholdIndex(int thresholdIndex)
-	{ thresholdIndex_->setValue(thresholdIndex); }
+    void setThresholdIndex(int thresholdIndex) { thresholdIndex_->setValue(thresholdIndex); }
 
     /** Scaling value for the filter threshold values. Multiplied with the sample value at the threshold index
         to create the threshold value.
 
         \param alpha new value to use
     */
-    void setAlpha(double alpha)
-        { alpha_->setValue(alpha); }
+    void setAlpha(double alpha) { alpha_->setValue(alpha); }
 
 private:
-
     /** Obtain the number of info slots found in status messages from this algorithm.
 
         \return kNumSlots

@@ -3,13 +3,15 @@
 
 #include "QtCore/QDateTime"
 #include "QtCore/QObject"
-#include "QtCore/QTimer"
 #include "QtCore/QString"
 #include "QtCore/QStringList"
+#include "QtCore/QTimer"
 
 #include "Configuration/Loader.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -24,20 +26,19 @@ class RunnerItem;
 /** Class that holds information about a particular configuration file. Also manages startup / shutdown for
     remote Runner processes.
 */
-class ConfigurationInfo : public QObject
-{
+class ConfigurationInfo : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Set of values for the ocnfiguration status.
      */
     enum Status {
-	kError,			///< Configuration has an error
-	kNotRunning,		///< Configuration is not running
-	kPartial,		///< Configuration is running but incomplete
-	kRunning,		///< Configuration is running and complete
-	kRecording
+        kError,      ///< Configuration has an error
+        kNotRunning, ///< Configuration is not running
+        kPartial,    ///< Configuration is running but incomplete
+        kRunning,    ///< Configuration is running and complete
+        kRecording
     };
 
     /** Log device for ConfigurationInfo instances
@@ -50,8 +51,7 @@ public:
 
         \param path location of the XML configuration file to load
     */
-    ConfigurationInfo(QObject* parent, ConfigurationModel* model,
-                      const QString& path);
+    ConfigurationInfo(QObject* parent, ConfigurationModel* model, const QString& path);
 
     /** Destructor.
      */
@@ -67,8 +67,7 @@ public:
 
         \return current status
     */
-    Status getStatus() const
-	{ return isRecording_ ? kRecording : status_; }
+    Status getStatus() const { return isRecording_ ? kRecording : status_; }
 
     /** Obtain the error text generated when the configuration file was loaded.
 
@@ -89,7 +88,7 @@ public:
         \return host name list
     */
     QStringList getHostNames() const { return loader_.getHostNames(); }
-    
+
     /** Obtain the list of files that the configuration file included during loading.
 
         \return include path list
@@ -113,30 +112,26 @@ public:
 
         \return directory path
     */
-    QString getLogsDirectory() const
-	{ return loader_.getLogsDirectory(); }
+    QString getLogsDirectory() const { return loader_.getLogsDirectory(); }
 
     /** Obtain the recording directory defined in the configuration file.
 
         \return directory path
     */
-    QString getRecordingsDirectory() const
-	{ return loader_.getRecordingsDirectory(); }
+    QString getRecordingsDirectory() const { return loader_.getRecordingsDirectory(); }
 
     /** Obtain the perentage of recording space in use.
 
         \return value between 0 and 100
     */
-    double getRecordingDirPercentUsed() const
-	{ return recordingDirPercentUsed_; }
+    double getRecordingDirPercentUsed() const { return recordingDirPercentUsed_; }
 
     /** Obtain the amount of free space in the recording path. Formatted as a numeric value followed by a unit,
         such as 'MB' or 'GB'.
 
         \return formatted disk space
     */
-    QString getRecordingDirFreeSpace() const
-	{ return recordingDirFreeSpace_; }
+    QString getRecordingDirFreeSpace() const { return recordingDirFreeSpace_; }
 
     /** Determine if the recording directory exists on the system.
 
@@ -171,7 +166,7 @@ public:
     void setStatus(Status status);
 
     /** Set a flag indicating that the configuration is shutting down. Inhibits the error prompt that shows up
-	when a remote process exits.
+        when a remote process exits.
     */
     void shuttingDown() { shuttingDown_ = true; }
 
@@ -226,7 +221,7 @@ public:
     /** The Master application detected that a remote Runner is no longer running. Update the status of this
         configuration.
 
-	\param runner name of the remote Runner that was found
+        \param runner name of the remote Runner that was found
     */
     void lostRunner(const QString& runner);
 
@@ -256,10 +251,9 @@ public:
 
     /** Determin if this configuration can record data.
 
-        \return 
+        \return
     */
-    bool canRecord() const
-	{ return isRecordable() && hasValidRecordingDirectory(); }
+    bool canRecord() const { return isRecordable() && hasValidRecordingDirectory(); }
 
     /** Obtain the current number of found remote Runner processes.
 
@@ -285,9 +279,9 @@ public slots:
 
 private slots:
 
-    /** 
+    /**
 
-        \param wasCanceled 
+        \param wasCanceled
     */
     void launcherDone(bool wasCanceled);
 
@@ -296,7 +290,6 @@ private slots:
     void partialNotify();
 
 private:
-
     void checkRunningCount();
 
     bool setLoadError(bool noPrompt, const QString& text);
@@ -319,7 +312,7 @@ private:
     bool recordable_;
     bool viewable_;
     bool started_;
-    
+
     static bool ShowError(const QString& title, const QString& text);
     static MainWindow* GetMainWindow();
 

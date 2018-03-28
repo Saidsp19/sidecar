@@ -8,28 +8,26 @@
 #include "GUI/Vertex.h"
 #include "Messages/PRIMessage.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
 namespace ESScope {
 
-class RadarSettings : public SettingsBlock
-{
+class RadarSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
 
-    RadarSettings(IntSetting* alphaScans, IntSetting* betaScans,
-                  IntSetting* rangeScans, DoubleSetting* alphaMinMin,
-                  DoubleSetting* alphaMaxMax, DoubleSetting* betaMinMin,
-                  DoubleSetting* betaMaxMax, DoubleSetting* rangeMinMin,
-                  DoubleSetting* rangeMaxMax, DoubleSetting* sampleRangeMin,
-                  DoubleSetting* sampleRangeFactor, DoubleSetting* tilt,
-                  DoubleSetting* rotation, IntSetting* firstSample,
-                  IntSetting* lastSample, BoolSetting* allynHack,
+    RadarSettings(IntSetting* alphaScans, IntSetting* betaScans, IntSetting* rangeScans, DoubleSetting* alphaMinMin,
+                  DoubleSetting* alphaMaxMax, DoubleSetting* betaMinMin, DoubleSetting* betaMaxMax,
+                  DoubleSetting* rangeMinMin, DoubleSetting* rangeMaxMax, DoubleSetting* sampleRangeMin,
+                  DoubleSetting* sampleRangeFactor, DoubleSetting* tilt, DoubleSetting* rotation,
+                  IntSetting* firstSample, IntSetting* lastSample, BoolSetting* allynHack,
                   BoolSetting* ignoreMessageRangeSettings);
 
     int getAlphaScans() const { return alphaScans_->getValue(); }
@@ -60,13 +58,11 @@ public:
 
     double getRangeFactor() const { return rangeFactor_; }
 
-    double getRange(int sample) const
-	{ return rangeFactor_ * sample + rangeMin_; }
+    double getRange(int sample) const { return rangeFactor_ * sample + rangeMin_; }
 
     int getRangeIndex(double range) const;
 
-    int getSampleRangeIndex(int sampleIndex) const
-	{ return getRangeIndex(getRange(sampleIndex)); }
+    int getSampleRangeIndex(int sampleIndex) const { return getRangeIndex(getRange(sampleIndex)); }
 
     double getTilt() const { return tilt_->getValue(); }
 
@@ -76,11 +72,9 @@ public:
 
     int getLastSample() const { return lastSample_->getValue(); }
 
-    void getAzimuthElevation(double alpha, double beta, double* azimuth,
-                             double* elevation) const;
+    void getAzimuthElevation(double alpha, double beta, double* azimuth, double* elevation) const;
 
-    void getAlphaBeta(double azimuth, double elevation, double* alpha,
-                      double* beta) const;
+    void getAlphaBeta(double azimuth, double elevation, double* alpha, double* beta) const;
 
     double getAlpha(const Messages::PRIMessage::Ref& msg) const;
 
@@ -133,7 +127,6 @@ private slots:
     void changeMessageRangeSettings(bool ignoreMessageRangeSettings);
 
 private:
-
     IntSetting* alphaScans_;
     IntSetting* betaScans_;
     IntSetting* rangeScans_;
@@ -165,7 +158,7 @@ private:
     double messageRangeFactor_;
 };
 
-} // end namespace EScope
+} // namespace ESScope
 } // end namespace GUI
 } // end namespace SideCar
 

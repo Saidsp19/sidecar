@@ -15,10 +15,8 @@ class App;
     objects (see GUI::StatusCollector for an example). Relies on Runner::fillStatus() method for status
     information.
 */
-class StatusEmitter : public IO::StatusEmitterBase
-{
+class StatusEmitter : public IO::StatusEmitterBase {
 public:
-
     using Ref = boost::shared_ptr<StatusEmitter>;
 
     /** Obtain the Zeroconf type for all StatusEmitter objects.
@@ -26,25 +24,31 @@ public:
         \return NULL-terminated C string
     */
     static const char* GetEmitterType()
-	{ return IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerStatusEmitter); }
+    {
+        return IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerStatusEmitter);
+    }
 
     /** Obtain the Zeroconf type for all StatusCollector objects associated with this StatusEmitter class.
 
         \return NULL-terminated C string
     */
     static const char* GetCollectorType()
-	{ return IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerStatusCollector); }
+    {
+        return IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kRunnerStatusCollector);
+    }
 
     static Ref Make(App& app, double updateRate = 2.0)
-        {Ref ref(new StatusEmitter(app, updateRate)); return ref;}
-    
-private:
+    {
+        Ref ref(new StatusEmitter(app, updateRate));
+        return ref;
+    }
 
+private:
     /** Constructor.
 
         \param algorithm the algorithm instance we represent
 
-	\param updateRate the number of seconds bbetween status updates
+        \param updateRate the number of seconds bbetween status updates
     */
     StatusEmitter(App& app, double updateRate);
 

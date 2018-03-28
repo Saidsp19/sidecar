@@ -9,12 +9,11 @@ namespace ConfigEditor {
 
 class ChannelItem;
 
-class ConnectionItem : public TreeItem
-{
+class ConnectionItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     ConnectionItem(ChannelItem* parent, ChannelItem* to);
 
     Type getType() const { return kConnection; }

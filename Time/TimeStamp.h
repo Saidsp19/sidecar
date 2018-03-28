@@ -8,28 +8,29 @@
 #include "IO/Printable.h"
 #include "Utils/Exception.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Time {
 
 /** Representation of a SideCar time value. Internally, uses ACE_Time_Value to store a time value.
  */
-class TimeStamp : public boost::totally_ordered<TimeStamp>, public boost::additive<TimeStamp>,
-		  public IO::CDRStreamable<TimeStamp>, public IO::Printable<TimeStamp>
-{
+class TimeStamp : public boost::totally_ordered<TimeStamp>,
+                  public boost::additive<TimeStamp>,
+                  public IO::CDRStreamable<TimeStamp>,
+                  public IO::Printable<TimeStamp> {
 public:
     static double const kSecondsPerMicro;
     static suseconds_t const kMicrosPerSecond;
 
-    struct IllegalTimeStamp : public Utils::Exception, public Utils::ExceptionInserter<IllegalTimeStamp>
-    {
-	IllegalTimeStamp(const std::string& err) : Utils::Exception(err) {}
+    struct IllegalTimeStamp : public Utils::Exception, public Utils::ExceptionInserter<IllegalTimeStamp> {
+        IllegalTimeStamp(const std::string& err) : Utils::Exception(err) {}
     };
 
-    struct InvalidSpecification : public Utils::Exception, public Utils::ExceptionInserter<InvalidSpecification>
-    {
-	InvalidSpecification(const std::string& err) : Utils::Exception(err) {}
+    struct InvalidSpecification : public Utils::Exception, public Utils::ExceptionInserter<InvalidSpecification> {
+        InvalidSpecification(const std::string& err) : Utils::Exception(err) {}
     };
 
     /** Obtain representation of minimum value that TimeStamp can represent. This is just 0 seconds.
@@ -117,8 +118,7 @@ public:
 
         \return double representation
     */
-    double asDouble() const
-	{ return getSeconds() + getMicro() * kSecondsPerMicro; }
+    double asDouble() const { return getSeconds() + getMicro() * kSecondsPerMicro; }
 
     /** Allow object to appear where ACE_Time_Value objects may appear.
 
@@ -160,7 +160,11 @@ public:
 
         \return reference to self
     */
-    TimeStamp& operator+=(const TimeStamp& rhs) { when_ += rhs.when_; return *this; }
+    TimeStamp& operator+=(const TimeStamp& rhs)
+    {
+        when_ += rhs.when_;
+        return *this;
+    }
 
     /** Subtract the seconds of another time value from this one.
 
@@ -168,7 +172,11 @@ public:
 
         \return reference to self
     */
-    TimeStamp& operator-=(const TimeStamp& rhs) { when_ -= rhs.when_; return *this; }
+    TimeStamp& operator-=(const TimeStamp& rhs)
+    {
+        when_ -= rhs.when_;
+        return *this;
+    }
 
     /** Multiply held time value by a scaling factor.
 
@@ -176,7 +184,11 @@ public:
 
         \return reference to self
     */
-    TimeStamp& operator*=(double scale) { when_ *= scale; return *this; }
+    TimeStamp& operator*=(double scale)
+    {
+        when_ *= scale;
+        return *this;
+    }
 
     /** Divide the held time value by a scaling factor.
 
@@ -184,7 +196,11 @@ public:
 
         \return reference to self
     */
-    TimeStamp& operator/=(double scale) { when_ *= (1.0 / scale); return *this; }
+    TimeStamp& operator/=(double scale)
+    {
+        when_ *= (1.0 / scale);
+        return *this;
+    }
 
     /** Acquire a new value from a input CDR stream
 

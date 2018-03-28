@@ -5,9 +5,8 @@
 
 using namespace SideCar::GUI;
 
-ManualWindow::ManualWindow(const QString& appName, const QString& manualPath)
-    : Super(appName, appName + " Manual"), gui_(new Ui::ManualWindow),
-      manualPath_(manualPath)
+ManualWindow::ManualWindow(const QString& appName, const QString& manualPath) :
+    Super(appName, appName + " Manual"), gui_(new Ui::ManualWindow), manualPath_(manualPath)
 {
     gui_->setupUi(this);
     setObjectName("ManualWindow");
@@ -22,10 +21,9 @@ ManualWindow::showEvent(QShowEvent* event)
     //
     QFile file(manualPath_);
     if (file.exists() && file.open(QIODevice::ReadOnly)) {
-	gui_->contents_->setHtml(QString(file.readAll()));
-    }
-    else {
-	gui_->contents_->setPlainText("The manual for this application is not "
+        gui_->contents_->setHtml(QString(file.readAll()));
+    } else {
+        gui_->contents_->setPlainText("The manual for this application is not "
                                       "installed.");
     }
 

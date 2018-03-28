@@ -21,10 +21,8 @@ using MessageVector = std::vector<Messages::PRIMessage::Ref>;
     renderInto() method. The rest of the API provides means to query and clear the message queue and point
     container.
 */
-class VertexGenerator
-{
+class VertexGenerator {
 public:
-
     VertexGenerator();
 
     virtual ~VertexGenerator();
@@ -37,20 +35,23 @@ public:
 
     void flushPoints() { points_.clear(); }
 
-    void flushAll() { flushQueue(); flushPoints(); }
+    void flushAll()
+    {
+        flushQueue();
+        flushPoints();
+    }
 
     bool isFinished() const { return queue_.empty(); }
 
-    bool hasData() const { return ! queue_.empty(); }
+    bool hasData() const { return !queue_.empty(); }
 
     void processQueue(int limit = 100);
 
-    bool hasPoints() const { return ! points_.empty(); }
+    bool hasPoints() const { return !points_.empty(); }
 
     void renderInto(OffscreenBuffer* buffer);
 
 protected:
-
     virtual void renderMessage(const Messages::PRIMessage::Ref& msg, VertexColorArray& points) = 0;
 
 private:

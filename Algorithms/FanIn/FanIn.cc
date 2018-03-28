@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -15,8 +15,7 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-FanIn::FanIn(Controller& controller, Logger::Log& log)
-    : Super(controller, log)
+FanIn::FanIn(Controller& controller, Logger::Log& log) : Super(controller, log)
 {
     ;
 }
@@ -30,17 +29,15 @@ FanIn::startup()
 {
     const IO::Channel& channel(getController().getInputChannel(0));
     if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-	for (size_t index = 0; index < getController().getNumInputChannels(); ++index) {
-	    registerProcessor<FanIn,Messages::Video>(index, &FanIn::processInputVideo);
-	}
-    }
-    else if (channel.getTypeKey() == Messages::BinaryVideo::GetMetaTypeInfo().getKey()) {
-	for (size_t index = 0; index < getController().getNumInputChannels(); ++index) {
-	    registerProcessor<FanIn,Messages::BinaryVideo>(index, &FanIn::processInputBinary);
-	}
-    }
-    else {
-	return false;
+        for (size_t index = 0; index < getController().getNumInputChannels(); ++index) {
+            registerProcessor<FanIn, Messages::Video>(index, &FanIn::processInputVideo);
+        }
+    } else if (channel.getTypeKey() == Messages::BinaryVideo::GetMetaTypeInfo().getKey()) {
+        for (size_t index = 0; index < getController().getNumInputChannels(); ++index) {
+            registerProcessor<FanIn, Messages::BinaryVideo>(index, &FanIn::processInputBinary);
+        }
+    } else {
+        return false;
     }
 
     return Super::startup();

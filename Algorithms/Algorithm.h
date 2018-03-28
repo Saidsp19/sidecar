@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "ace/svc_export.h"	// for ACE_Svc_Export definition
+#include "ace/svc_export.h" // for ACE_Svc_Export definition
 #include <vsip/initfin.hpp>
 
 #include "Algorithms/Controller.h"
@@ -11,7 +11,9 @@
 #include "Messages/Header.h"
 #include "Messages/MetaTypeInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Algorithms {
@@ -65,13 +67,11 @@ namespace Algorithms {
     return value from this method should be a string value that identifies the source of the XML-RPC data.
     Usually, this should be the same name as the algorithm.
 */
-class Algorithm
-{
+class Algorithm {
 public:
-
     /** Obtain a C-safe value for the given QString string. If string is empty, returns NULL. Otherwise,
         allocates a char buffer and fills it with UTF8-encoded contents of the string.
-        
+
         \param value string to encode
 
         \return NULL or pointer to heap array holding UTF8-encoded string
@@ -114,13 +114,13 @@ public:
     /** Obtain the name of the algorithm. This is the name assigned in the XML configuration file, and may be
         different than the DLL name.
 
-        \return 
+        \return
     */
     const std::string& getName() const { return controller_.getAlgorithmName(); }
 
     /** Add a configuration parameter to the runtime system. A parameter value may change during runtime via
         external messages to the processing module.
-        
+
         \param parameter object to add
 
         \return true if successful
@@ -133,8 +133,7 @@ public:
 
         \return true if successful
     */
-    bool unregisterParameter(const Parameter::Ref& parameter)
-        { return controller_.unregisterParameter(parameter); }
+    bool unregisterParameter(const Parameter::Ref& parameter) { return controller_.unregisterParameter(parameter); }
 
     /** Install a method to process a particular message type. Used by derived classes to install message
         processing methods. The two template parameters are
@@ -166,8 +165,10 @@ public:
         \param proc pointer to a method to invoke to process a message
     */
     template <typename A, typename M>
-    void registerProcessor(boost::function<bool(A*,typename M::Ref)> proc)
-	{ addProcessor(M::GetMetaTypeInfo(), new TProcessor<A,M>(static_cast<A*>(this), proc)); }
+    void registerProcessor(boost::function<bool(A*, typename M::Ref)> proc)
+    {
+        addProcessor(M::GetMetaTypeInfo(), new TProcessor<A, M>(static_cast<A*>(this), proc));
+    }
 
     /** Same as above method, but allows user to pick the channel by name. Useful when there are multiple inputs
         with the same message type.
@@ -177,8 +178,10 @@ public:
         \param proc pointer to a method to invoke to process a message
     */
     template <typename A, typename M>
-    void registerProcessor(const std::string& channelName, boost::function<bool(A*,typename M::Ref)> proc)
-	{ addProcessor(channelName, M::GetMetaTypeInfo(), new TProcessor<A,M>(static_cast<A*>(this), proc)); }
+    void registerProcessor(const std::string& channelName, boost::function<bool(A*, typename M::Ref)> proc)
+    {
+        addProcessor(channelName, M::GetMetaTypeInfo(), new TProcessor<A, M>(static_cast<A*>(this), proc));
+    }
 
     /** Same as above method, but allows user to pick the channel by index. Useful when there are multiple
         inputs with the same message type.
@@ -188,23 +191,27 @@ public:
         \param proc pointer to a method to invoke to process a message
     */
     template <typename A, typename M>
-    void registerProcessor(size_t channelIndex, boost::function<bool(A*,typename M::Ref)> proc)
-	{ addProcessor(channelIndex, M::GetMetaTypeInfo(), new TProcessor<A,M>(static_cast<A*>(this), proc)); }
+    void registerProcessor(size_t channelIndex, boost::function<bool(A*, typename M::Ref)> proc)
+    {
+        addProcessor(channelIndex, M::GetMetaTypeInfo(), new TProcessor<A, M>(static_cast<A*>(this), proc));
+    }
 
     template <typename A>
     void registerProcessor(const std::string& channelName, const Messages::MetaTypeInfo& metaTypeInfo,
-                           boost::function<bool(A*,typename Messages::Header::Ref)> proc)
-	{ addProcessor(channelName, metaTypeInfo,
-                       new TProcessor<A,Messages::Header>(static_cast<A*>(this), proc)); }
+                           boost::function<bool(A*, typename Messages::Header::Ref)> proc)
+    {
+        addProcessor(channelName, metaTypeInfo, new TProcessor<A, Messages::Header>(static_cast<A*>(this), proc));
+    }
 
     template <typename A>
     void registerProcessor(size_t channelIndex, const Messages::MetaTypeInfo& metaTypeInfo,
-                           boost::function<bool(A*,typename Messages::Header::Ref)> proc)
-	{ addProcessor(channelIndex, metaTypeInfo,
-                       new TProcessor<A,Messages::Header>(static_cast<A*>(this), proc)); }
+                           boost::function<bool(A*, typename Messages::Header::Ref)> proc)
+    {
+        addProcessor(channelIndex, metaTypeInfo, new TProcessor<A, Messages::Header>(static_cast<A*>(this), proc));
+    }
 
     /** Add a message processor for a channel. Locates the channel with a given name.
-        
+
         \param channelName name of the channel to locate
 
         \param metaTypeInfo message type to process
@@ -224,7 +231,7 @@ public:
 
     /** Add a message processor for a channel. Uses a specific channel obtained from Task::getInputChannel().
 
-	\param index position of the channel to use
+        \param index position of the channel to use
 
         \param metaTypeInfo message type to process
 
@@ -245,38 +252,39 @@ public:
 
         \return the index found
     */
-    size_t getOutputChannelIndex(const std::string& name) const
-        { return controller_.getOutputChannelIndex(name); }
+    size_t getOutputChannelIndex(const std::string& name) const { return controller_.getOutputChannelIndex(name); }
 
     /** Submit a message object to the controller for sending out on a given data channel. Assigns a unique
         sequence number to the message.
 
-	NOTE: once passed to the send() method, the algorithm must not change the message since other threads
+        NOTE: once passed to the send() method, the algorithm must not change the message since other threads
         will have access to it.
 
-	WARNING: this is not thread-safe; a multi-threaded algorithm must not call send() simultaneously from
+        WARNING: this is not thread-safe; a multi-threaded algorithm must not call send() simultaneously from
         multiple threads.
 
-	\param msg object to send
+        \param msg object to send
 
-	\return true if successful, false otherwise
+        \return true if successful, false otherwise
     */
     bool send(const Messages::Header::Ref& msg, size_t channelIndex = 0);
 
     /** Hand a message to the controller for sending out on a given data channel. Unlike send() above, this does
         not update the message sequence counter.
 
-	NOTE: once passed to the send() method, the algorithm must not change the message since other threads
+        NOTE: once passed to the send() method, the algorithm must not change the message since other threads
         will have access to it.
 
-	NOTE: unlike send() above, this method is thread-safe.
+        NOTE: unlike send() above, this method is thread-safe.
 
         \param msg object to send
 
         \return true if successful, false otherwise
     */
     bool sendAsIs(const Messages::Header::Ref& msg, size_t channelIndex = 0)
-        { return controller_.send(msg, channelIndex); }
+    {
+        return controller_.send(msg, channelIndex);
+    }
 
     /** Obtain the number of data slots found in the ControllerStatus XML array. Any custom Algorithm slots will
         appear after the last defined ControllerStatus slot. NOTE: implementations must be thread-safe, since
@@ -287,9 +295,9 @@ public:
     virtual size_t getNumInfoSlots() const { return ControllerStatus::kNumSlots; }
 
     /** Obtain custom status information from an algorithm. All algorithms report generic status information to
-	external entities via the ControllerStatus object. However, an algorithm with special reporting needs
-	can provide custom data by appending to array whatever values it wants. NOTE: implementations must be
-	thread-safe, since this routine will execute in the algorithm's StatusEmitter thread.
+        external entities via the ControllerStatus object. However, an algorithm with special reporting needs
+        can provide custom data by appending to array whatever values it wants. NOTE: implementations must be
+        thread-safe, since this routine will execute in the algorithm's StatusEmitter thread.
 
         \param array container to hold the custom status information
     */
@@ -297,13 +305,12 @@ public:
 
     /** Obtain the index of the input channel that last received a message for the algorithm to process. This
         value is valid until the process() method returns.
-        
+
         \return channel index
     */
     size_t getActiveChannelIndex() const { return activeChannelIndex_; }
 
 protected:
-    
     /** This method can be used by an Algorithm to schedule a periodic alarm to go off for itself.
      */
     void setAlarm(int secs);
@@ -376,14 +383,13 @@ protected:
     virtual void endParameterChanges() {}
 
     /** This method will get called whenever an alarm expires for this Algorithm. Derived classes can override
-	this method. If not, it's a no-op.
+        this method. If not, it's a no-op.
     */
     virtual void processAlarm() {}
 
 private:
-
     /** Process a data message. Dispatches to the registered procedure for the given channel index.
-        
+
         \param msg the message to process
 
         \param channelIndex channel associated with the message
@@ -392,8 +398,8 @@ private:
     */
     bool process(const Messages::Header::Ref& msg, size_t channelIndex);
 
-    Controller& controller_;	///< Controller for the processor
-    Logger::Log& log_;		///< Log device for log messages
+    Controller& controller_; ///< Controller for the processor
+    Logger::Log& log_;       ///< Log device for log messages
     ProcessorVector processors_;
     std::vector<Messages::MetaTypeInfo::SequenceType> sequenceNumbers_;
     size_t activeChannelIndex_;

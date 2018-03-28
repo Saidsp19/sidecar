@@ -7,16 +7,14 @@ namespace SideCar {
 namespace GUI {
 namespace RangeTruthEmitter {
 
-class AddressLineEdit : public QLineEdit
-{
+class AddressLineEdit : public QLineEdit {
     Q_OBJECT
     using Super = QLineEdit;
-public:
 
+public:
     AddressLineEdit(QWidget* parent) : Super(parent) {}
 
 private:
-
     void keyPressEvent(QKeyEvent* event);
 };
 

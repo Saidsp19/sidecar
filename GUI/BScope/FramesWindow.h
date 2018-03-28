@@ -10,7 +10,9 @@
 class QScrollArea;
 class QVBoxLayout;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace BScope {
@@ -20,12 +22,11 @@ class ImageScaler;
 class FramesListSettings;
 class FramesPositioner;
 
-class FramesWindow : public MainWindowBase
-{
+class FramesWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     FramesWindow(const QList<QImage>& past, int shortcut);
@@ -45,7 +46,7 @@ public slots:
     void frameAdded(int activeFrames);
 
     void showPhantomCursor(bool state);
-    
+
 private slots:
 
     void verticalScrollBarChanged(int value);
@@ -67,7 +68,6 @@ private slots:
     void positionerValueChanged(int value);
 
 private:
-
     void updateInfo();
 
     void keyReleaseEvent(QKeyEvent* event);

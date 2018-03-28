@@ -5,9 +5,13 @@
 #include "QtGui/QCheckBox"
 #include "QtGui/QComboBox"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
-namespace Configuration { class RunnerConfig; }
+namespace Configuration {
+class RunnerConfig;
+}
 namespace GUI {
 namespace Master {
 
@@ -17,12 +21,11 @@ class RunnerItem;
     The QComboBox contains the runner names, segmented by their configuration names. Selecting a runner name
     will show and bring to the front the LogViewWindow window for that runner.
 */
-class LogViewWindowManager : public QComboBox
-{
+class LogViewWindowManager : public QComboBox {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Obtain the log device for LogViewWindowManager objects
 
         \return Logger::Log device
@@ -67,7 +70,6 @@ private slots:
     void widgetActivated(int index);
 
 private:
-
     /** Add information about a particular remote runner process.
 
         \param name name of the remote runner
@@ -76,10 +78,8 @@ private:
 
         \param serviceName the service name the runner registered with Zeroconf
     */
-    void addLogInfo(const QString& name, const QString& configName,
-                    const QString& serviceName);
+    void addLogInfo(const QString& name, const QString& configName, const QString& serviceName);
 
-    
     /** Create the items for the QComboBox.
      */
     void makeItems();

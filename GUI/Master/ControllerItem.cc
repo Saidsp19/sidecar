@@ -2,8 +2,8 @@
 
 #include "GUI/Utils.h"
 
-#include "InfoFormatter.h"
 #include "ControllerItem.h"
+#include "InfoFormatter.h"
 #include "RunnerItem.h"
 #include "StreamItem.h"
 
@@ -11,20 +11,15 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::Master;
 
-ControllerItem::ControllerItem(const ControllerStatus& status,
-                               StreamItem* parent)
-    : Super(status, parent),
-      infoFormatter_(InfoFormatter::Find(
-                         QString::fromStdString(
-                             getStatus().getAlgorithmName())))
+ControllerItem::ControllerItem(const ControllerStatus& status, StreamItem* parent) :
+    Super(status, parent), infoFormatter_(InfoFormatter::Find(QString::fromStdString(getStatus().getAlgorithmName())))
 {
     ;
 }
 
 ControllerItem::~ControllerItem()
 {
-    if (infoFormatter_)
-	infoFormatter_->release();
+    if (infoFormatter_) infoFormatter_->release();
 }
 
 QVariant
@@ -42,33 +37,26 @@ ControllerItem::getRecordingDataValue(int role) const
 QVariant
 ControllerItem::getRateDataValue(int role) const
 {
-    if (role != Qt::DisplayRole)
-	return Super::getRateDataValue(role);
+    if (role != Qt::DisplayRole) return Super::getRateDataValue(role);
 
-    if (! isUsingData())
-	return "---";
+    if (!isUsingData()) return "---";
 
     double processingTime = getStatus().getAverageProcessingTime();
     double budget = 0.0;
     int messageRate = getMessageRate();
     int percentage = 0;
     if (messageRate > 0) {
-	budget = 1.0 / messageRate;
-	percentage = ::rint(processingTime / budget * 100);
+        budget = 1.0 / messageRate;
+        percentage = ::rint(processingTime / budget * 100);
     }
 
     QString output("0% of 0");
-    if (budget)
-	output = QString("%2% of %3")
-	    .arg(percentage)
-	    .arg(getFormattedProcessingTime(budget));
+    if (budget) output = QString("%2% of %3").arg(percentage).arg(getFormattedProcessingTime(budget));
 
     output += QString(" (%1/%2/%3)")
-	.arg(getFormattedProcessingTime(
-                 getStatus().getMinimumProcessingTime()))
-	.arg(getFormattedProcessingTime(processingTime))
-	.arg(getFormattedProcessingTime(
-                 getStatus().getMaximumProcessingTime()));
+                  .arg(getFormattedProcessingTime(getStatus().getMinimumProcessingTime()))
+                  .arg(getFormattedProcessingTime(processingTime))
+                  .arg(getFormattedProcessingTime(getStatus().getMaximumProcessingTime()));
 
     return output;
 }
@@ -76,33 +64,25 @@ ControllerItem::getRateDataValue(int role) const
 QString
 ControllerItem::getFormattedProcessingTime(double time) const
 {
-    if (time == 0.0)
-	return "0.0";
-    if (time < 1E-6)
-	return QString("%1 us").arg(time * 1E9, 0, 'f', 0);
-    if (time < 1E-3)
-	return QString("%1 ns").arg(time * 1E6, 0, 'f', 0);
-    if (time < 1.0)
-	return QString("%1 ms").arg(time * 1E3, 0, 'f', 1);
+    if (time == 0.0) return "0.0";
+    if (time < 1E-6) return QString("%1 us").arg(time * 1E9, 0, 'f', 0);
+    if (time < 1E-3) return QString("%1 ns").arg(time * 1E6, 0, 'f', 0);
+    if (time < 1.0) return QString("%1 ms").arg(time * 1E3, 0, 'f', 1);
     return QString("%1s").arg(time, 0, 'f', 1);
 }
 
 QVariant
 ControllerItem::getPendingCountValue(int role) const
 {
-    if (role != Qt::DisplayRole || ! isRecording())
-	return Super::getPendingCountValue(role);
-    return QString("%1 (%2)")
-	.arg(getPendingQueueCount())
-	.arg(getRecordingQueueCount());
+    if (role != Qt::DisplayRole || !isRecording()) return Super::getPendingCountValue(role);
+    return QString("%1 (%2)").arg(getPendingQueueCount()).arg(getRecordingQueueCount());
 }
 
 QVariant
 ControllerItem::getInfoDataValue(int role) const
 {
     QVariant value = infoFormatter_->format(getStatus(), role);
-    if (value.isValid())
-	return value;
+    if (value.isValid()) return value;
     return Super::getInfoDataValue(role);
 }
 
@@ -111,8 +91,7 @@ ControllerItem::afterUpdate()
 {
     Super::afterUpdate();
     QString other(QString::fromStdString(getStatus().getAlgorithmName()));
-    if (! infoFormatter_ || infoFormatter_->getName() != other)
-	infoFormatter_ = InfoFormatter::Find(other);
+    if (!infoFormatter_ || infoFormatter_->getName() != other) infoFormatter_ = InfoFormatter::Find(other);
 }
 
 bool

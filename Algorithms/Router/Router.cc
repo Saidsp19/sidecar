@@ -9,13 +9,11 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Router::Router(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      inputChannel_(ChannelParameter::Make("inputChannel", "Input Channel")),
-      inputChannelIndex_(kDefaultInputChannel),
-      outputChannel_(ChannelParameter::Make("outputChannel", "Output Channel")),
-      outputChannelIndex_(kDefaultOutputChannel)
+Router::Router(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    inputChannel_(ChannelParameter::Make("inputChannel", "Input Channel")), inputChannelIndex_(kDefaultInputChannel),
+    outputChannel_(ChannelParameter::Make("outputChannel", "Output Channel")),
+    outputChannelIndex_(kDefaultOutputChannel)
 {
     ;
 }
@@ -27,20 +25,20 @@ Router::startup()
     LOGINFO << std::endl;
 
     if (getController().getNumInputChannels() == 0) {
-	LOGERROR << "no input channels defined" << std::endl;
-	return false;
+        LOGERROR << "no input channels defined" << std::endl;
+        return false;
     }
 
     if (getController().getNumOutputChannels() == 0) {
-	LOGERROR << "no output channels defined" << std::endl;
-	return false;
+        LOGERROR << "no output channels defined" << std::endl;
+        return false;
     }
 
     for (size_t index = 0; index < getController().getNumInputChannels(); ++index) {
-	const IO::Channel& channel(getController().getInputChannel(index));
-	LOGERROR << "input channel " << index << " name: " << channel.getName() << std::endl;
-	inputChannel_->addEnumLabel(channel.getName());
-	registerProcessor<Router>(index, *channel.getMetaTypeInfo(), &Router::processInput);
+        const IO::Channel& channel(getController().getInputChannel(index));
+        LOGERROR << "input channel " << index << " name: " << channel.getName() << std::endl;
+        inputChannel_->addEnumLabel(channel.getName());
+        registerProcessor<Router>(index, *channel.getMetaTypeInfo(), &Router::processInput);
     }
 
     inputChannel_->setMinValue(Channel(0));
@@ -48,9 +46,9 @@ Router::startup()
     inputChannel_->setValue(Channel(kDefaultInputChannel));
 
     for (size_t index = 0; index < getController().getNumOutputChannels(); ++index) {
-	const IO::Channel& channel(getController().getOutputChannel(index));
-	LOGERROR << "output channel " << index << " name: " << channel.getName() << std::endl;
-	outputChannel_->addEnumLabel(channel.getName());
+        const IO::Channel& channel(getController().getOutputChannel(index));
+        LOGERROR << "output channel " << index << " name: " << channel.getName() << std::endl;
+        outputChannel_->addEnumLabel(channel.getName());
     }
 
     outputChannel_->setMinValue(Channel(0));
@@ -60,7 +58,7 @@ Router::startup()
     LOGERROR << "initialized output channel parameter" << std::endl;
 
     return registerParameter(enabled_) && registerParameter(inputChannel_) && registerParameter(outputChannel_) &&
-        Super::startup();
+           Super::startup();
 }
 
 bool
@@ -72,8 +70,7 @@ Router::shutdown()
 bool
 Router::processInput(const Messages::Header::Ref& msg)
 {
-    if (getActiveChannelIndex() == inputChannelIndex_)
-	return send(msg, outputChannelIndex_);
+    if (getActiveChannelIndex() == inputChannelIndex_) return send(msg, outputChannelIndex_);
     return true;
 }
 
@@ -96,12 +93,12 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[Router::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[Router::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     std::string inputChannel = status[Router::kInputChannel];
     std::string outputChannel = status[Router::kOutputChannel];
     return Algorithm::FormatInfoValue(QString("Input: %1  Output: %2")
-                                      .arg(QString::fromStdString(inputChannel))
-                                      .arg(QString::fromStdString(outputChannel)));
+                                          .arg(QString::fromStdString(inputChannel))
+                                          .arg(QString::fromStdString(outputChannel)));
 }
 
 // Factory function for the DLL that will create a new instance of the Router class. DO NOT CHANGE!

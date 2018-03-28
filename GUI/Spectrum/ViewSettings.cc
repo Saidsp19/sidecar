@@ -13,11 +13,10 @@ static const char* const kXMax = "XMax";
 static const char* const kYMin = "YMin";
 static const char* const kYMax = "YMax";
 
-int const ViewSettings::kMetaTypeId =
-    qRegisterMetaType<ViewSettings>("ViewSettings");
+int const ViewSettings::kMetaTypeId = qRegisterMetaType<ViewSettings>("ViewSettings");
 
-ViewSettings::ViewSettings(double xMin, double xMax, double yMin, double yMax)
-    : bounds_(), xMin_(xMin), xMax_(xMax), yMin_(yMin), yMax_(yMax)
+ViewSettings::ViewSettings(double xMin, double xMax, double yMin, double yMax) :
+    bounds_(), xMin_(xMin), xMax_(xMax), yMin_(yMin), yMax_(yMax)
 {
     updateBounds();
 }

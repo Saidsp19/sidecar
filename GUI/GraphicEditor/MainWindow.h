@@ -5,18 +5,17 @@
 
 class SidecarScene;
 
-class MainWindow : public QMainWindow, private Ui::MainWindow
-{
+class MainWindow : public QMainWindow, private Ui::MainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent=0);
+    MainWindow(QWidget* parent = 0);
 
 private:
-    SidecarScene *scene;
+    SidecarScene* scene;
 
-    private slots:
-        void handle_button_press(int id);
+private slots:
+    void handle_button_press(int id);
 };
 
 /** \file

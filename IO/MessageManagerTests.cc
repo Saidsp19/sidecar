@@ -9,45 +9,42 @@ using namespace SideCar;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-class Message : public Header
-{
+class Message : public Header {
 public:
     using Ref = boost::shared_ptr<Message>;
 
     static const MetaTypeInfo& GetMetaTypeInfo();
 
     static Ref Make(const std::string& value)
-	{
-	    Ref ref(new Message(value));
-	    return ref;
-	}
+    {
+        Ref ref(new Message(value));
+        return ref;
+    }
 
     static Header::Ref Loader(ACE_InputCDR& cdr)
-	{
-	    Ref ref(new Message(cdr));
-	    return ref;
-	}
+    {
+        Ref ref(new Message(cdr));
+        return ref;
+    }
 
     const std::string& getValue() const { return value_; }
 
     ACE_InputCDR& load(ACE_InputCDR& cdr)
-	{
-	    cdr >> value_;
-	    return cdr;
-	}
+    {
+        cdr >> value_;
+        return cdr;
+    }
 
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const
-	{
-	    cdr << value_;
-	    return cdr;
-	}
+    {
+        cdr << value_;
+        return cdr;
+    }
 
 private:
-    Message(ACE_InputCDR& cdr) : Header(GetMetaTypeInfo()), value_("")
-	{ load(cdr); }
+    Message(ACE_InputCDR& cdr) : Header(GetMetaTypeInfo()), value_("") { load(cdr); }
 
-    Message(const std::string& value)
-	: Header("test", GetMetaTypeInfo()), value_(value) {}
+    Message(const std::string& value) : Header("test", GetMetaTypeInfo()), value_(value) {}
 
     std::string value_;
 
@@ -62,8 +59,7 @@ Message::GetMetaTypeInfo()
     return metaTypeInfo_;
 }
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("MessageManager") {}
 
     void test();
@@ -81,8 +77,7 @@ Test::test()
     MessageManager mm(ref);
 
     assertEqual(2, ref.use_count());
-    assertTrue(mm.hasNativeMessageType(
-                   Message::GetMetaTypeInfo().getKey()));
+    assertTrue(mm.hasNativeMessageType(Message::GetMetaTypeInfo().getKey()));
     assertTrue(mm.hasNative());
     assertEqual(MessageManager::kMetaData, mm.getMessageType());
 
@@ -103,22 +98,18 @@ Test::test()
     assertEqual(2, ref.use_count());
 
     {
-	MessageManager mm2(ref);
-	assertEqual(3, ref.use_count());
-	assertTrue(mm2.hasNative());
-	assertFalse(mm2.hasEncoded());
+        MessageManager mm2(ref);
+        assertEqual(3, ref.use_count());
+        assertTrue(mm2.hasNative());
+        assertFalse(mm2.hasEncoded());
     }
 
     assertEqual(2, ref.use_count());
 
     std::vector<ACE_Message_Block*> blocks_;
-    for (int count = 0; count < 5000; ++count) {
-	blocks_.push_back(MessageManager::MakeMessageBlock(1024));
-    }
+    for (int count = 0; count < 5000; ++count) { blocks_.push_back(MessageManager::MakeMessageBlock(1024)); }
 
-    for (int count = 0; count < 5000; ++count) {
-	blocks_[count]->release();
-    }
+    for (int count = 0; count < 5000; ++count) { blocks_[count]->release(); }
 
     // !!! Uncomment to see debug messages even if all tests above succeed. assertFalse(true);
 }

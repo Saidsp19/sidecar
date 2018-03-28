@@ -23,7 +23,8 @@ namespace SideCar {
 /** Namespace for the GUI applications. Each application has its own namespace with the same name as the
     application. The application namespaces are listed below.
 */
-namespace GUI {}
+namespace GUI {
+}
 
 } // end namespace SideCar
 

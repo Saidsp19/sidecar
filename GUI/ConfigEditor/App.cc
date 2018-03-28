@@ -6,9 +6,7 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::ConfigEditor;
 
-App::App(int& argc, char** argv)
-    : Super("ConfigEditor", argc, argv), mainWindow_(0),
-      settings_(0), settingsWindow_(0)
+App::App(int& argc, char** argv) : Super("ConfigEditor", argc, argv), mainWindow_(0), settings_(0), settingsWindow_(0)
 {
     setVisibleWindowMenuNew(false);
     makeToolWindows();

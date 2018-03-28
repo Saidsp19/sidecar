@@ -22,9 +22,10 @@ Browser::Make(const MonitorFactory::Ref& monitorFactory, const std::string& type
 }
 
 Browser::Browser(const MonitorFactory::Ref& monitorFactory, const std::string& type, const std::string& domain,
-                 uint32_t interface)
-    : Super(monitorFactory->make()), monitorFactory_(monitorFactory), type_(type), domain_(domain),
-      interface_(interface), foundSignal_(), lostSignal_(), found_()
+                 uint32_t interface) :
+    Super(monitorFactory->make()),
+    monitorFactory_(monitorFactory), type_(type), domain_(domain), interface_(interface), foundSignal_(), lostSignal_(),
+    found_()
 {
     Logger::ProcLog log("Browser", Log());
     LOGINFO << std::endl;
@@ -48,8 +49,8 @@ Browser::start()
     auto err = ::DNSServiceBrowse(&getDNSServiceRef(), 0, interface_, type_.c_str(), domain_.c_str(),
                                   &Browser::BrowseCallback, this);
     if (err != kDNSServiceErr_NoError) {
-	LOGERROR << "failed DNSServiceBrowse - error: " << err << std::endl;
-	return false;
+        LOGERROR << "failed DNSServiceBrowse - error: " << err << std::endl;
+        return false;
     }
 
     // Notify the Transaction parent class that we've started an operation.
@@ -78,11 +79,11 @@ Browser::processResponse(DNSServiceErrorType err, const char* name, const char* 
                          uint32_t interface, bool added, bool moreToCome)
 {
     Logger::ProcLog log("processResponse", Log());
-    LOGINFO << "err: " << err << " name: " << name << " type: " << type << " domain: " << " interface: "
-            << interface << " added: " << added << " moreToCome: " << moreToCome << std::endl;
+    LOGINFO << "err: " << err << " name: " << name << " type: " << type << " domain: "
+            << " interface: " << interface << " added: " << added << " moreToCome: " << moreToCome << std::endl;
     if (err != kDNSServiceErr_NoError) {
-	LOGERROR << "failed DNSServiceBrowse request - " << err << std::endl;
-	return;
+        LOGERROR << "failed DNSServiceBrowse request - " << err << std::endl;
+        return;
     }
 
     std::ostringstream key("");
@@ -90,33 +91,31 @@ Browser::processResponse(DNSServiceErrorType err, const char* name, const char* 
     LOGDEBUG << "key: " << key.str() << std::endl;
 
     if (added) {
-	ServiceEntry::Ref ref = ServiceEntry::Make(monitorFactory_->make(), name, type, domain, interface);
-	found_[key.str()] = ref;
-	finding_.push_back(ref);
-	LOGDEBUG << "found " << ref->getName() << std::endl;
+        ServiceEntry::Ref ref = ServiceEntry::Make(monitorFactory_->make(), name, type, domain, interface);
+        found_[key.str()] = ref;
+        finding_.push_back(ref);
+        LOGDEBUG << "found " << ref->getName() << std::endl;
+    } else {
+        ServiceEntryMap::iterator pos = found_.find(key.str());
+        if (pos != found_.end()) {
+            ServiceEntry::Ref ref = pos->second;
+            LOGDEBUG << "losing " << ref->getName() << std::endl;
+            losing_.push_back(ref);
+            found_.erase(pos);
+        }
     }
-    else {
-	ServiceEntryMap::iterator pos = found_.find(key.str());
-	if (pos != found_.end()) {
-	    ServiceEntry::Ref ref = pos->second;
-	    LOGDEBUG << "losing " << ref->getName() << std::endl;
-	    losing_.push_back(ref);
-	    found_.erase(pos);
-	}
-    }
 
-    if (! moreToCome) {
+    if (!moreToCome) {
+        if (!losing_.empty()) {
+            LOGDEBUG << "notifying about " << losing_.size() << " lost items" << std::endl;
+            lostSignal_(losing_);
+            losing_.clear();
+        }
 
-	if (! losing_.empty()) {
-	    LOGDEBUG << "notifying about " << losing_.size() << " lost items" << std::endl;
-	    lostSignal_(losing_);
-	    losing_.clear();
-	}
-
-	if (! finding_.empty()) {
-	    LOGDEBUG << "notifying about " << finding_.size() << " new items" << std::endl;
-	    foundSignal_(finding_);
-	    finding_.clear();
-	}
+        if (!finding_.empty()) {
+            LOGDEBUG << "notifying about " << finding_.size() << " new items" << std::endl;
+            foundSignal_(finding_);
+            finding_.clear();
+        }
     }
 }

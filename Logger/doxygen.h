@@ -6,6 +6,7 @@
 
 /** Namespace for the Log logging device and support classes.
  */
-namespace Logger {}
+namespace Logger {
+}
 
 #endif

@@ -13,17 +13,11 @@ namespace Algorithms {
 /** Documentation for the algorithm GeoFilter. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class GeoFilter : public Algorithm
-{
+class GeoFilter : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-	kActiveFilterCount,
-	kConfigPath,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kActiveFilterCount, kConfigPath, kNumSlots };
 
     /** Constructor.
 
@@ -34,7 +28,6 @@ public:
     GeoFilter(Controller& controller, Logger::Log& log);
 
 private:
-
     bool startup();
 
     bool shutdown();

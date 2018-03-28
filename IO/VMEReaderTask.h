@@ -5,7 +5,9 @@
 #include "IO/Module.h"
 #include "IO/Readers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -14,8 +16,7 @@ namespace IO {
     ServerSocketReaderTask depending on which end of the connection is responsible for establishing a
     connection.
 */
-class VMEReaderTask : public IOTask
-{
+class VMEReaderTask : public IOTask {
 public:
     using Ref = boost::shared_ptr<VMEReaderTask>;
 
@@ -33,33 +34,30 @@ public:
 
     /** Open a connection to a remote host/port for UDP data.
 
-	\param interface name of the interface to listen on
+        \param interface name of the interface to listen on
 
         \param port the port of the remote host to connect to
 
         \return true if successful, false otherwise
     */
-    bool openAndInit(const std::string& host, uint16_t port,
-                     int bufferSize = 0);
+    bool openAndInit(const std::string& host, uint16_t port, int bufferSize = 0);
 
     /** The service is being shutdown. Override of ACE_Task method. Close the socket connection.
 
-	\param flags if 1, signal service thread to shutdown; if 0, then the
-	thread is exiting
+        \param flags if 1, signal service thread to shutdown; if 0, then the
+        thread is exiting
 
         \return -1 if failure
     */
     int close(u_long flags = 0);
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
-	methods.
+        methods.
     */
     VMEReaderTask();
 
 private:
-
     /** Implementation of Task::deliverDataMessage() method.
 
         \param data raw data to send

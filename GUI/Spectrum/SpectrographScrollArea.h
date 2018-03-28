@@ -3,7 +3,9 @@
 
 #include "QtGui/QScrollArea"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -12,12 +14,11 @@ namespace Spectrum {
 class FreqScaleWidget;
 class ScaleWidget;
 
-class SpectrographScrollArea : public QScrollArea
-{
+class SpectrographScrollArea : public QScrollArea {
     Q_OBJECT
     using Super = QScrollArea;
-public:
 
+public:
     static Logger::Log& Log();
 
     SpectrographScrollArea(QWidget* parent);
@@ -39,7 +40,6 @@ private slots:
     void historySizeChanged(int value);
 
 private:
-
     void resizeEvent(QResizeEvent* event);
 
     void setFrequencyScaleEnds(double value);
@@ -48,7 +48,6 @@ private:
     ScaleWidget* freqScale_;
     bool firstShow_;
 };
-
 
 } // end namespace Spectrum
 } // end namespace GUI

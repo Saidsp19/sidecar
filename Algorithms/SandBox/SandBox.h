@@ -1,9 +1,9 @@
-#ifndef SIDECAR_ALGORITHMS_SANDBOX_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_SANDBOX_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_SANDBOX_H
 
 #include "Algorithms/Algorithm.h"
-#include "Messages/Video.h"
 #include "Messages/BinaryVideo.h"
+#include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 
 namespace SideCar {
@@ -11,10 +11,8 @@ namespace Algorithms {
 
 /** A playground for for testing out algorithms. May change at any time.
  */
-class SandBox : public Algorithm
-{
+class SandBox : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -30,7 +28,6 @@ public:
     bool startup();
 
 private:
-
     bool processOne(const Messages::Video::Ref& msg);
     bool processTwo(const Messages::Video::Ref& msg);
     bool processThree(const Messages::Video::Ref& msg);
@@ -42,12 +39,12 @@ private:
     void notificationValueChanged(const Parameter::NotificationValue& value);
 
     /** Definition of the Bogus range. Since double values cannot be template parameters (unlike ints), the
-	Parameter::Defs::RangedDouble class requires a traits class that defines GetMinValue and GetMaxValue to
-	define the parameter value range.
+        Parameter::Defs::RangedDouble class requires a traits class that defines GetMinValue and GetMaxValue to
+        define the parameter value range.
     */
     struct Range {
-	static double GetMinValue() { return -1.0; }
-	static double GetMaxValue() { return  1.0; }
+        static double GetMinValue() { return -1.0; }
+        static double GetMaxValue() { return 1.0; }
     };
 
     size_t oneChannelIndex_;
@@ -57,7 +54,7 @@ private:
 
     Parameter::IntValue::Ref intValue_;
     Parameter::BoolValue::Ref boolValue_;
-    using DRange = Parameter::TValue<Parameter::Defs::RangedDouble<Range> >;
+    using DRange = Parameter::TValue<Parameter::Defs::RangedDouble<Range>>;
     DRange::Ref doubleRange_;
     Parameter::ReadPathValue::Ref pathValue_;
     Parameter::NotificationValue::Ref notificationValue_;

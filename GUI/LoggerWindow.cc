@@ -1,16 +1,15 @@
-#include "LoggerModel.h"
 #include "LoggerWindow.h"
-#include "modeltest.h"
+#include "LoggerModel.h"
 #include "PriorityWidget.h"
+#include "modeltest.h"
 
 #include "ui_LoggerWindow.h"
 
 using namespace SideCar;
 using namespace SideCar::GUI;
 
-LoggerWindow::LoggerWindow(int shortcut)
-    : Super("LoggerWindow", "Logger Configuration", shortcut),
-      gui_(new Ui::LoggerWindow), model_(new LoggerModel(this))
+LoggerWindow::LoggerWindow(int shortcut) :
+    Super("LoggerWindow", "Logger Configuration", shortcut), gui_(new Ui::LoggerWindow), model_(new LoggerModel(this))
 {
 #ifdef __DEBUG__
     new ModelTest(model_, this);

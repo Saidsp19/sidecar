@@ -5,7 +5,9 @@
 #include "QtCore/QString"
 #include "QtCore/QVariant"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -19,12 +21,10 @@ class PresetManager;
     The PresetManager class manages one or more Setting objects along with a
     set of preset values.
 */
-class Setting : public QObject
-{
+class Setting : public QObject {
     using Super = class QObject;
     Q_OBJECT
 public:
-
     /** Log device for Setting objects
 
         \return Log reference
@@ -37,7 +37,7 @@ public:
 
         \param name the name of the Setting object
 
-	\param global if true, register setting as a global setting
+        \param global if true, register setting as a global setting
     */
     Setting(PresetManager* mgr, const QString& name, bool global = false);
 
@@ -49,10 +49,9 @@ public:
 
         \param value the initial value of the Setting object
 
-	\param global if true, register setting as a global setting
+        \param global if true, register setting as a global setting
     */
-    Setting(PresetManager* mgr, const QString& name, const QVariant& value,
-            bool global = false);
+    Setting(PresetManager* mgr, const QString& name, const QVariant& value, bool global = false);
 
     /** Obtain the name of the Setting object
 
@@ -68,7 +67,7 @@ public:
 
     /** Set the Setting's value and emit the opaqueValueChanged() signal followed by the save() signal.
 
-        \param value 
+        \param value
     */
     void setOpaqueValue(const QVariant& value);
 
@@ -81,9 +80,9 @@ signals:
         or PresetManager::addGlobal() method, then this signal will invoke the PresetManager::settingSave() or
         PresetManager::globalSave() method respectively.
 
-	\param index value assigned by PresetManager
+        \param index value assigned by PresetManager
 
-	\param value new Setting value
+        \param value new Setting value
     */
     void save(int index, const QVariant& value);
 
@@ -100,9 +99,8 @@ public slots:
     void setEnabled(bool state);
 
 protected:
-
     /** Hook method used to detect when the internal value changes. Derived classes should override to perform
-	actions when the value changes.
+        actions when the value changes.
     */
     virtual void valueUpdated() {}
 
@@ -113,7 +111,6 @@ protected:
     void disconnectWidget(QWidget* widget);
 
 private:
-
     /** Set the Setting's value and emit the opaqueValueChanged() signal. This method is only used by Preset and
         PresetManager objects when restoring a Setting value from a QSetting object.
 

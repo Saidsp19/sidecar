@@ -1,4 +1,4 @@
-#include <algorithm>		// for std::copy
+#include <algorithm> // for std::copy
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -15,11 +15,12 @@ using namespace SideCar::Messages;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-ShiftBins::ShiftBins(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      shift_(Parameter::IntValue::Make("shift", "Amount to shift<br>" "> 0 shifts right - &lt; 0 shifts left",
-                                       kDefaultShift))
+ShiftBins::ShiftBins(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    shift_(Parameter::IntValue::Make("shift",
+                                     "Amount to shift<br>"
+                                     "> 0 shifts right - &lt; 0 shifts left",
+                                     kDefaultShift))
 {
     ;
 }
@@ -37,13 +38,11 @@ ShiftBins::startup()
     // Use the appropriate message handler depending on input type.
     //
     if (channel.getTypeKey() == Video::GetMetaTypeInfo().getKey()) {
-	registerProcessor<ShiftBins,Video>(index, &ShiftBins::processInputVideo);
-    }
-    else if (channel.getTypeKey() == BinaryVideo::GetMetaTypeInfo().getKey()) {
-	registerProcessor<ShiftBins,BinaryVideo>(index, &ShiftBins::processInputBinary);
-    }
-    else {
-	return false;
+        registerProcessor<ShiftBins, Video>(index, &ShiftBins::processInputVideo);
+    } else if (channel.getTypeKey() == BinaryVideo::GetMetaTypeInfo().getKey()) {
+        registerProcessor<ShiftBins, BinaryVideo>(index, &ShiftBins::processInputBinary);
+    } else {
+        return false;
     }
 
     return registerParameter(shift_) && registerParameter(enabled_) && Super::startup();
@@ -72,11 +71,9 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[ShiftBins::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[ShiftBins::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     int shift = status[ShiftBins::kShift];
-    return Algorithm::FormatInfoValue(QString("Shift %1 %2")
-                                      .arg(shift < 0 ? "left" : "right")
-                                      .arg(::abs(shift)));
+    return Algorithm::FormatInfoValue(QString("Shift %1 %2").arg(shift < 0 ? "left" : "right").arg(::abs(shift)));
 }
 
 // Factory function for the DLL that will create a new instance of the ShiftBins class. DO NOT CHANGE!

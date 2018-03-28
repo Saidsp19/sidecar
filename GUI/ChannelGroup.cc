@@ -20,11 +20,10 @@ ChannelGroup::Log()
     return log_;
 }
 
-ChannelGroup::ChannelGroup(QObject* parent, const std::string& typeName, QComboBox* found)
-    : QObject(parent), typeName_(typeName), 
-      browser_(new ServiceBrowser(this, QString::fromStdString(MakeTwinZeroconfType(typeName_)))),
-      activeServiceEntry_(0), found_(found), subscriber_(new Subscriber(this)),
-      settingsKey_(QString::fromStdString(typeName_))
+ChannelGroup::ChannelGroup(QObject* parent, const std::string& typeName, QComboBox* found) :
+    QObject(parent), typeName_(typeName),
+    browser_(new ServiceBrowser(this, QString::fromStdString(MakeTwinZeroconfType(typeName_)))), activeServiceEntry_(0),
+    found_(found), subscriber_(new Subscriber(this)), settingsKey_(QString::fromStdString(typeName_))
 {
     static Logger::ProcLog log("ChannelGroup", Log());
     LOGINFO << typeName_ << std::endl;
@@ -62,12 +61,11 @@ ChannelGroup::setAvailableServices(const ServiceEntryHash& services)
     // it as we load the new service names.
     //
     if (found_->currentIndex() < 1) {
-	QSettings settings;
-	current = settings.value(settingsKey_).toString();
-	LOGDEBUG << "previous current: " << current << std::endl;
-    }
-    else {
-	current = found_->currentText();
+        QSettings settings;
+        current = settings.value(settingsKey_).toString();
+        LOGDEBUG << "previous current: " << current << std::endl;
+    } else {
+        current = found_->currentText();
     }
 
     LOGDEBUG << "current: " << current << std::endl;
@@ -84,11 +82,11 @@ ChannelGroup::setAvailableServices(const ServiceEntryHash& services)
     //
     found_->addItem(" ");
     for (int index = 0; index < keys.size(); ++index) {
-	if (keys[index] == current) active = index + 1;
-	found_->addItem(keys[index]);
+        if (keys[index] == current) active = index + 1;
+        found_->addItem(keys[index]);
     }
 
-    found_->setEnabled(! keys.empty());
+    found_->setEnabled(!keys.empty());
     found_->setCurrentIndex(active);
     changeChannels(active);
 }
@@ -110,14 +108,12 @@ void
 ChannelGroup::changeChannels(int index)
 {
     ServiceEntry* serviceEntry = 0;
-    if (index) {
-	serviceEntry = browser_->getServiceEntry(found_->currentText());
-    }
+    if (index) { serviceEntry = browser_->getServiceEntry(found_->currentText()); }
 
     if (activeServiceEntry_ != serviceEntry) {
-	subscriber_->useServiceEntry(serviceEntry);
-	activeServiceEntry_ = serviceEntry;
-	emit channelChanged();
+        subscriber_->useServiceEntry(serviceEntry);
+        activeServiceEntry_ = serviceEntry;
+        emit channelChanged();
     }
 }
 

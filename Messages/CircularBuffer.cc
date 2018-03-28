@@ -4,39 +4,35 @@
 
 using namespace SideCar::Messages;
 
-Threading::Mutex::Ref CircularBuffer::collectionMutex_ =
-    Threading::Mutex::Make();
+Threading::Mutex::Ref CircularBuffer::collectionMutex_ = Threading::Mutex::Make();
 CircularBuffer::CircularBufferMap* CircularBuffer::collection_ = 0;
 
 Logger::Log&
 CircularBuffer::Log()
 {
-    static Logger::Log& log =
-	Logger::Log::Find("SideCar.Algorithms.CircularBuffer");
+    static Logger::Log& log = Logger::Log::Find("SideCar.Algorithms.CircularBuffer");
     return log;
 }
 
 const CircularBuffer*
-CircularBuffer::Get(const std::string& name,
-                    const Messages::MetaTypeInfo& typeInfo)
+CircularBuffer::Get(const std::string& name, const Messages::MetaTypeInfo& typeInfo)
 {
     static Logger::ProcLog log("Get", Log());
     LOGINFO << name << ' ' << typeInfo.getKey() << std::endl;
 
     Threading::Locker lock(collectionMutex_);
 
-    if (! collection_) {
-	Utils::Exception ex("CircularBuffer with name '");
-	ex << name << "' does not exist";
-	log.thrower(ex);
+    if (!collection_) {
+        Utils::Exception ex("CircularBuffer with name '");
+        ex << name << "' does not exist";
+        log.thrower(ex);
     }
 
     CircularBufferMap::iterator pos = collection_->find(name);
-    if (pos == collection_->end() ||
-        pos->second->getType() != typeInfo.getKey()) {
-	Utils::Exception ex("CircularBuffer with name '");
-	ex << name << "' does not exist";
-	log.thrower(ex);
+    if (pos == collection_->end() || pos->second->getType() != typeInfo.getKey()) {
+        Utils::Exception ex("CircularBuffer with name '");
+        ex << name << "' does not exist";
+        log.thrower(ex);
     }
 
     return pos->second;
@@ -50,23 +46,21 @@ CircularBuffer::Install(const std::string& name, CircularBuffer* buffer)
 
     Threading::Locker lock(collectionMutex_);
 
-    if (! collection_)
-	collection_ = new CircularBufferMap;
+    if (!collection_) collection_ = new CircularBufferMap;
 
     CircularBufferMap::iterator pos = collection_->find(name);
     if (pos != collection_->end()) {
-	delete buffer;
-	Utils::Exception ex("CircularBuffer with name '");
-	ex << name << "' already exists";
-	log.thrower(ex);
+        delete buffer;
+        Utils::Exception ex("CircularBuffer with name '");
+        ex << name << "' already exists";
+        log.thrower(ex);
     }
 
     (*collection_)[name] = buffer;
 }
 
-CircularBuffer::CircularBuffer(const Messages::MetaTypeInfo& typeInfo)
-    : buffer_(), type_(typeInfo.getKey()), oldest_(0),
-      last_(1)
+CircularBuffer::CircularBuffer(const Messages::MetaTypeInfo& typeInfo) :
+    buffer_(), type_(typeInfo.getKey()), oldest_(0), last_(1)
 {
     static Logger::ProcLog log("CircularBuffer", Log());
     LOGINFO << std::endl;
@@ -96,28 +90,26 @@ CircularBuffer::add(const MessageRef& msg)
     LOGINFO << std::endl;
 
     if (msg->getMetaTypeInfo().getKey() != type_) {
-	Utils::Exception ex("Attempt to add message type ");
-	ex << msg->getMetaTypeInfo().getName() << " to buffer containing "
-	   << Messages::MetaTypeInfo::Find(type_)->getName() << " messages.";
-	log.thrower(ex);
+        Utils::Exception ex("Attempt to add message type ");
+        ex << msg->getMetaTypeInfo().getName() << " to buffer containing "
+           << Messages::MetaTypeInfo::Find(type_)->getName() << " messages.";
+        log.thrower(ex);
     }
 
     size_t shaft = msg->getShaftEncoding();
     LOGDEBUG << "shaft: " << shaft << std::endl;
     if (shaft >= buffer_.size()) {
-	buffer_.resize(shaft + 1);
-	LOGDEBUG << "resizing buffer: " << (shaft + 1) << std::endl;
+        buffer_.resize(shaft + 1);
+        LOGDEBUG << "resizing buffer: " << (shaft + 1) << std::endl;
     }
 
     size_t index = last_ + 1;
     if (shaft < index) {
-	for (; index < buffer_.size(); ++index)
-	    buffer_[index].reset();
-	index = 0;
+        for (; index < buffer_.size(); ++index) buffer_[index].reset();
+        index = 0;
     }
 
-    for (; index < shaft; ++index)
-	buffer_[index].reset();
+    for (; index < shaft; ++index) buffer_[index].reset();
 
     buffer_[index] = msg;
     last_ = index;
@@ -182,22 +174,20 @@ void
 CircularBufferIterator::moveToNewer(int offset)
 {
     if (offset < 0) {
-	moveToOlder(-offset);
-	return;
+        moveToOlder(-offset);
+        return;
     }
 
-    while (! atNewest() && offset-- > 0)
-	index_ = buffer_->increment(index_);
+    while (!atNewest() && offset-- > 0) index_ = buffer_->increment(index_);
 }
 
 void
 CircularBufferIterator::moveToOlder(int offset)
 {
     if (offset < 0) {
-	moveToNewer(-offset);
-	return;
+        moveToNewer(-offset);
+        return;
     }
 
-    while (! atOldest() && offset-- > 0)
-	index_ = buffer_->decrement(index_);
+    while (!atOldest() && offset-- > 0) index_ = buffer_->decrement(index_);
 }

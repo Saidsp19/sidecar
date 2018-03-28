@@ -10,11 +10,10 @@ namespace Algorithms {
 
 /** Simple algorithm that transforms simply converts data from RIU format into normal PRI format.
  */
-class RawPRI : public Algorithm
-{
+class RawPRI : public Algorithm {
     using Super = Algorithm;
-public:
 
+public:
     /** Constructor.
 
         \param controller object that controls us
@@ -26,7 +25,6 @@ public:
     bool startup();
 
 private:
-    
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process

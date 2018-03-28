@@ -11,7 +11,9 @@
 #include "Utils/Utils.h"
 #include "XMLRPC/XmlRpcValue.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -38,8 +40,7 @@ namespace IO {
     on the Utils::Pool class. The MessageManager class method GetAllocationStats() returns a snapshot of the
     allocation statistics for all of the custom allocators.
 */
-class MessageManager : public Utils::Uncopyable
-{
+class MessageManager : public Utils::Uncopyable {
 public:
     using Ref = boost::shared_ptr<MessageManager>;
 
@@ -56,8 +57,8 @@ public:
         kMetaData,
 
         /** Control message. NOTE: must be the last message type, since MessageManager adds the
-	    ControlMessage::Type value of the message to this value (see IsControlMessage() and
-	    GetControlMessageType())
+            ControlMessage::Type value of the message to this value (see IsControlMessage() and
+            GetControlMessageType())
         */
         kControl = ACE_Message_Block::MB_USER
     };
@@ -65,21 +66,20 @@ public:
     /** Internal class that contains the channel ID the message belongs to and a reference to a SideCar message
         object if one was set.
     */
-    struct MetaData
-    {
+    struct MetaData {
         /** Constructor.
          */
         MetaData() : native() {}
 
-	/** Shared reference to a native message object, one that has either been decoded from the network or
-	    file, or one that was given to an MessageManager constructor.
-	*/
+        /** Shared reference to a native message object, one that has either been decoded from the network or
+            file, or one that was given to an MessageManager constructor.
+        */
         Messages::Header::Ref native;
 
-	/** Number of bytes represented by the contents of the MetaData. For encoded messages given to the
-	    MessageManager, this is the value from ACE_Message_Block::total_length(). For native messages, this
-	    is the value from the Messages::Header::getSize() virtual method.
-	*/
+        /** Number of bytes represented by the contents of the MetaData. For encoded messages given to the
+            MessageManager, this is the value from ACE_Message_Block::total_length(). For native messages, this
+            is the value from the Messages::Header::getSize() virtual method.
+        */
         size_t size;
     };
 
@@ -90,21 +90,20 @@ public:
     static Logger::Log& Log();
 
     /** Collection of statistics that describe how much memory is allocated by the Utils::Pool objects used
-	internally by MessageManager instances.
+        internally by MessageManager instances.
     */
     struct AllocationStats {
-
-	/** Stats for ACE_Message_Block objects created by MessageManager
+        /** Stats for ACE_Message_Block objects created by MessageManager
          */
-	Utils::Pool::AllocationStats messageBlocks;
+        Utils::Pool::AllocationStats messageBlocks;
 
-	/** Stats for ACE_Data_Block objects created by MessageManager
+        /** Stats for ACE_Data_Block objects created by MessageManager
          */
-	Utils::Pool::AllocationStats dataBlocks;
+        Utils::Pool::AllocationStats dataBlocks;
 
-	/** Stats for MetaData objects created by MessageManager
+        /** Stats for MetaData objects created by MessageManager
          */
-	Utils::Pool::AllocationStats metaData;
+        Utils::Pool::AllocationStats metaData;
     };
 
     /** Class method that returns information about memory allocation performed by internal MesageManager memory
@@ -171,10 +170,9 @@ public:
         \return ControlMessage::Type value
     */
     static ControlMessage::Type GetControlMessageType(ACE_Message_Block* data)
-        {
-            return IsControlMessage(data) ? ControlMessage::Type(data->msg_type() - kControl) :
-                ControlMessage::kInvalid;
-        }
+    {
+        return IsControlMessage(data) ? ControlMessage::Type(data->msg_type() - kControl) : ControlMessage::kInvalid;
+    }
 
     /** Constructor that takes raw data from an ACE_Message_Block object. Takes ownership of the data block.
 
@@ -239,22 +237,25 @@ public:
 
         \return true if so
     */
-    bool isParametersChangeRequest() const
-        { return getControlMessageType() == ControlMessage::kParametersChange; }
+    bool isParametersChangeRequest() const { return getControlMessageType() == ControlMessage::kParametersChange; }
 
     /** Determine if held data message is a ProcessingStateChangeRequest control message.
 
         \return true if so
     */
     bool isProcessingStateChangeRequest() const
-        { return getControlMessageType() == ControlMessage::kProcessingStateChange; }
+    {
+        return getControlMessageType() == ControlMessage::kProcessingStateChange;
+    }
 
     /** Determine if held data message is a RecordingStateChangeRequest control message.
 
         \return true if so
     */
     bool isRecordingStateChangeRequest() const
-        { return getControlMessageType() == ControlMessage::kRecordingStateChange; }
+    {
+        return getControlMessageType() == ControlMessage::kRecordingStateChange;
+    }
 
     /** Determine if held data message is a ShutdownRequest control message.
 
@@ -280,8 +281,9 @@ public:
         \return current message type key, kInvalid if not a valid message
     */
     Messages::MetaTypeInfo::Value getNativeMessageType() const
-        { return hasNative() ? getNative()->getMetaTypeInfo().getKey() :
-                Messages::MetaTypeInfo::Value::kInvalid; }
+    {
+        return hasNative() ? getNative()->getMetaTypeInfo().getKey() : Messages::MetaTypeInfo::Value::kInvalid;
+    }
 
     /** Determine if the held message has a given message type key.
 
@@ -304,7 +306,7 @@ public:
         only contain pointers and offset into an ACE_Data_Block, which is not replicated but shared among
         ACE_Message_Block instances.
 
-	\return new ACE_Message_Block object
+        \return new ACE_Message_Block object
     */
     ACE_Message_Block* getMessage() { return data_->duplicate(); }
 
@@ -318,17 +320,17 @@ public:
         of the held message is not compatible with the type requested in the template call (or there is no
         native message held by the MessageManager)
 
-	\param checked if true and the cast fails, throws std::bad_cast
+        \param checked if true and the cast fails, throws std::bad_cast
 
         \return shared reference to held native SideCar message
     */
     template <typename T>
     typename boost::shared_ptr<T> getNative(bool checked = true) const
-        {
-	    boost::shared_ptr<T> ref(boost::dynamic_pointer_cast<T>(metaData_->native));
-	    if (! ref && checked) throw std::bad_cast();
-	    return ref;
-	}
+    {
+        boost::shared_ptr<T> ref(boost::dynamic_pointer_cast<T>(metaData_->native));
+        if (!ref && checked) throw std::bad_cast();
+        return ref;
+    }
 
     /** Obtain a reference to the native SideCar message. Only valid if hasNative() returns true.
 
@@ -342,10 +344,12 @@ public:
         \return ControlMessage instance
     */
     template <typename T>
-    T getControlMessage() const { return T(data_->duplicate()); }
+    T getControlMessage() const
+    {
+        return T(data_->duplicate());
+    }
 
 private:
-
     /** Initialize the internal state.
      */
     void makeMetaData(ACE_Message_Block* data);

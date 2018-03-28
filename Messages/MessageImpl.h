@@ -15,10 +15,8 @@ class MetaTypeInfo;
     message: its type, creator, and time of creation and emission. Message implementations must provide
     definitions for the abstract virtual functions below.
 */
-class BaseMessageImpl
-{
+class BaseMessageImpl {
 public:
-
     virtual ~BaseMessageImpl() {}
 
     virtual const MetaTypeInfo& getMessageMetaTypeInfo() const = 0;
@@ -54,11 +52,9 @@ public:
     Derived type-specific sampling messages provide access to the actual sample
     values.
 */
-class SamplingMessageImpl : public BaseMessageImpl
-{
+class SamplingMessageImpl : public BaseMessageImpl {
 public:
-
-    virtual uint32_t getSamplingFlags() const  = 0;
+    virtual uint32_t getSamplingFlags() const = 0;
 
     virtual uint32_t getSamplingTimeStamp() const = 0;
 
@@ -76,17 +72,14 @@ public:
 
     virtual size_t getSamplingSize() const = 0;
 
-    double getRangeAt(size_t index) const
-	{ return index * getSamplingRangeFactor() + getSamplingRangeMin(); }
+    double getRangeAt(size_t index) const { return index * getSamplingRangeFactor() + getSamplingRangeMin(); }
 };
 
 /** Template interface that provides access to sample values of a sampling message.
  */
 template <typename TDatumType>
-class TSamplingMessageImpl : public SamplingMessageImpl
-{
+class TSamplingMessageImpl : public SamplingMessageImpl {
 public:
-
     using DatumType = TDatumType;
 
     virtual TDatumType* getSamples() = 0;

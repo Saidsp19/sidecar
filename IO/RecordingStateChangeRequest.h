@@ -13,10 +13,8 @@ namespace IO {
     is used to start and stop a recording. The only difference between the two is that a start request contains
     a fully-qualified path of a directory into which recording files are created.
 */
-class RecordingStateChangeRequest : public ControlMessage
-{
+class RecordingStateChangeRequest : public ControlMessage {
 public:
-
     /** Constructor for a new control message.
 
         \param path the path of the recording directory, or an empty string to stop a recording

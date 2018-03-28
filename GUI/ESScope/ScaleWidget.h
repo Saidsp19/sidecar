@@ -9,7 +9,9 @@
 #include "QtGui/QPen"
 #include "QtGui/QWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,15 +20,13 @@ namespace ESScope {
 /** Widget that draws tick marks and value labels. Supports horizontal and vertical drawing. Also draws grid
     lines and an triangle indicator showing horizontal or vertical position of the cursor.
 */
-class ScaleWidget : public QWidget
-{
+class ScaleWidget : public QWidget {
     using Super = QWidget;
     Q_OBJECT
 public:
     static Logger::Log& Log();
 
-    ScaleWidget(QWidget* parent = 0,
-                Qt::Orientation orientation = Qt::Horizontal);
+    ScaleWidget(QWidget* parent = 0, Qt::Orientation orientation = Qt::Horizontal);
 
     void setLabel(const QString& label);
 
@@ -36,8 +36,7 @@ public:
 
     void setSpan(int span);
 
-    int getSpan() const
-	{ return orientation_ == Qt::Horizontal ? width() : height(); }
+    int getSpan() const { return orientation_ == Qt::Horizontal ? width() : height(); }
 
     void setAutoDivide(bool autoDivide);
     bool getAutoDivide() const { return autoDivide_; }
@@ -73,11 +72,9 @@ public:
 
     void setCursorValue(double value);
 
-    double getValueAt(int index) const
-	{ return range_ * index / double(getSpan() - 1) + start_; }
+    double getValueAt(int index) const { return range_ * index / double(getSpan() - 1) + start_; }
 
-    virtual QString formatTickTag(double value)
-	{ return QString::number(value); }
+    virtual QString formatTickTag(double value) { return QString::number(value); }
 
     std::vector<float> getMajorTickPositions() const;
 
@@ -125,7 +122,7 @@ private:
     QVector<QString> labelTexts_;
 
     QMatrix transform_;
-    
+
     int cursorPosition_;
     bool autoDivide_;
 };

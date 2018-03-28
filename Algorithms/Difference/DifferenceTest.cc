@@ -15,49 +15,51 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("Difference") {}
     void test();
     bool testOutput(const Video::Ref& output);
 };
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log()
-        {
-            static Logger::Log& log_ = Logger::Log::Find("DifferenceTest.Sink");
-            return log_;
-        }
+    {
+        static Logger::Log& log_ = Logger::Log::Find("DifferenceTest.Sink");
+        return log_;
+    }
 
-    static auto Make() { Ref ref(new Sink); return ref; }
+    static auto Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), test_(0) {}
 
     void setTest(Test* test) { test_ = test; }
 
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
-        {
-            Logger::ProcLog log("deliverDataMessage", Log());
-            LOGERROR << std::endl;
+    {
+        Logger::ProcLog log("deliverDataMessage", Log());
+        LOGERROR << std::endl;
 
-            MessageManager mgr(data);
-            if (mgr.hasNative()) {
-                LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-                if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-                    Video::Ref msg(mgr.getNative<Video>());
-                    LOGERROR << msg->dataPrinter() << std::endl;
-                    if (test_->testOutput(msg)) {
-                        LOGINFO << "shutting down server" << std::endl;
-                        ACE_Reactor::instance()->end_reactor_event_loop();
-                    }
+        MessageManager mgr(data);
+        if (mgr.hasNative()) {
+            LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+            if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+                Video::Ref msg(mgr.getNative<Video>());
+                LOGERROR << msg->dataPrinter() << std::endl;
+                if (test_->testOutput(msg)) {
+                    LOGINFO << "shutting down server" << std::endl;
+                    ACE_Reactor::instance()->end_reactor_event_loop();
                 }
             }
-
-            return true;
         }
+
+        return true;
+    }
 
     Test* test_;
 };
@@ -66,7 +68,7 @@ void
 Test::test()
 {
     Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug);
-    
+
     Stream::Ref stream(Stream::Make("test"));
 
     // Create a task that will look at the output of the algorithm
@@ -99,7 +101,7 @@ Test::test()
 
     assertTrue(controller->injectProcessingStateChange(ProcessingState::kRun));
 
-    int16_t init[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int16_t init[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     for (int index = 0; index < 2; ++index) {
         VMEDataMessage vme;
         vme.header.azimuth = index;

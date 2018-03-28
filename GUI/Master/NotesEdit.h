@@ -9,11 +9,9 @@ namespace Master {
 
 /** Derivation of a QTextEdit that containes a context-menu with actions to insert timestamps.
  */
-class NotesEdit : public QTextEdit
-{
+class NotesEdit : public QTextEdit {
     Q_OBJECT
 public:
-
     NotesEdit(QWidget* parent) : QTextEdit(parent), contextMenu_(0) {}
 
     ~NotesEdit();
@@ -21,7 +19,6 @@ public:
     void setNotesWindowActions(QAction* insertNow, QAction* insertElapsed);
 
 private:
-
     void contextMenuEvent(QContextMenuEvent* event);
 
     QMenu* contextMenu_;

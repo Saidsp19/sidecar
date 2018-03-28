@@ -8,7 +8,9 @@
 #include "IO/IOTask.h"
 #include "IO/Readers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -17,8 +19,7 @@ namespace IO {
     ServerSocketReaderTask depending on which end of the connection is responsible for establishing a
     connection.
 */
-class UDPSocketReaderTask : public IOTask
-{
+class UDPSocketReaderTask : public IOTask {
 public:
     using Ref = boost::shared_ptr<UDPSocketReaderTask>;
 
@@ -36,7 +37,7 @@ public:
 
     /** Open a connection to a remote host/port for UDP data.
 
-	\param key message type key of data coming in
+        \param key message type key of data coming in
 
         \param port the port to on the local host to read from
 
@@ -46,22 +47,20 @@ public:
 
     /** The service is being shutdown. Override of ACE_Task method. Close the socket connection.
 
-	\param flags if 1, signal service thread to shutdown; if 0, then the
-	thread is exiting
+        \param flags if 1, signal service thread to shutdown; if 0, then the
+        thread is exiting
 
         \return -1 if failure
     */
     int close(u_long flags = 0);
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
-	methods.
+        methods.
     */
     UDPSocketReaderTask(size_t messageSize);
 
 private:
-
     /** Implementation of Task::deliverDataMessage() method.
 
         \param data raw data to send

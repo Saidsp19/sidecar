@@ -7,7 +7,9 @@
 #include "GUI/OpacitySetting.h"
 #include "GUI/PathSetting.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -17,24 +19,22 @@ namespace PPIDisplay {
     on the Qt QImage class to do most of the work. The QImage class supports a variety of image formats,
     including JPEG, PNG, and XPM.
 */
-class BackgroundImageSettings : public OnOffSettingsBlock
-{
+class BackgroundImageSettings : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     /** Constructor.
 
-        \param enabled 
+        \param enabled
 
-        \param path 
+        \param path
 
-        \param opacity 
+        \param opacity
     */
-    BackgroundImageSettings(BoolSetting* enabled, PathSetting* path,
-                            OpacitySetting* opacity);
+    BackgroundImageSettings(BoolSetting* enabled, PathSetting* path, OpacitySetting* opacity);
 
     /** Obtain the current image file path. May be empty if not set.
 
@@ -67,7 +67,7 @@ private slots:
     /** Notification handler invoked when the image file path changes. Attempts to load in the new file as a
         QImage. Emits the imageChanged() signal.
 
-        \param path 
+        \param path
     */
     void pathChanged(const QString& path);
 

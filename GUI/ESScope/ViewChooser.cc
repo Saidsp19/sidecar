@@ -1,13 +1,12 @@
-#include "QtGui/QComboBox"
 #include "QtGui/QBoxLayout"
+#include "QtGui/QComboBox"
 
 #include "ViewChooser.h"
 #include "ViewEditor.h"
 
 using namespace SideCar::GUI::ESScope;
 
-ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent)
-    : Super(parent)
+ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent) : Super(parent)
 {
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     layout->setMargin(0);
@@ -24,14 +23,11 @@ ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent)
     layout->addSpacing(6);
     layout->addStretch(1);
 
-    connect(chooser_, SIGNAL(activated(int)),
-            viewEditor, SLOT(applyPreset(int)));
+    connect(chooser_, SIGNAL(activated(int)), viewEditor, SLOT(applyPreset(int)));
 
-    connect(viewEditor, SIGNAL(activePreset(int)),
-            chooser_, SLOT(setCurrentIndex(int)));
+    connect(viewEditor, SIGNAL(activePreset(int)), chooser_, SLOT(setCurrentIndex(int)));
 
-    connect(viewEditor, SIGNAL(presetNamesChanged(const QStringList&)),
-            SLOT(presetNamesChanged(const QStringList&)));
+    connect(viewEditor, SIGNAL(presetNamesChanged(const QStringList&)), SLOT(presetNamesChanged(const QStringList&)));
 }
 
 void

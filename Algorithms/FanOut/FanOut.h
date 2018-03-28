@@ -2,8 +2,8 @@
 #define SIDECAR_ALGORITHMS_FANOUT_H
 
 #include "Algorithms/Algorithm.h"
-#include "Messages/Video.h"
 #include "Messages/BinaryVideo.h"
+#include "Messages/Video.h"
 
 namespace SideCar {
 namespace Algorithms {
@@ -11,11 +11,10 @@ namespace Algorithms {
 /** Documentation for the algorithm FanOut. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class FanOut : public Algorithm
-{
+class FanOut : public Algorithm {
     using Super = Algorithm;
-public:
 
+public:
     /** Constructor.
 
         \param controller object that controls us
@@ -38,7 +37,6 @@ public:
     bool shutdown();
 
 private:
-
     /** Process messages from channel
 
         \param msg the input message to process

@@ -4,7 +4,9 @@
 #include "IO/Module.h"
 #include "IO/Task.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Algorithms {
@@ -12,10 +14,8 @@ namespace Algorithms {
 /** Simple task that watches for MB_STOP messages in its message queue, and calls ACE_Reactor::end_event_loop()
     when it sees one.
 */
-class ShutdownMonitor : public IO::Task
-{
+class ShutdownMonitor : public IO::Task {
 public:
-
     ShutdownMonitor();
 
     /** Obtain log device to use
@@ -33,7 +33,6 @@ public:
     int close(u_long flags);
 
 protected:
-
     /** Override of ACE_Task method. Takes a block of raw data read in from a file, and pass it to the algorithm
         under our control.
 

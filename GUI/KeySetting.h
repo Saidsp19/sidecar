@@ -13,20 +13,28 @@ class KeySetting {
 public:
     static void Load(KeySetting* begin, size_t sizeOfArray, QSettings& group);
 
-    KeySetting(const char* settingName, const char* menuText, int defaultKey, bool isToggle)
-	: settingName_(settingName), menuText_(menuText), keySeq_(defaultKey), isToggle_(isToggle)
-        { normalize(); }
+    KeySetting(const char* settingName, const char* menuText, int defaultKey, bool isToggle) :
+        settingName_(settingName), menuText_(menuText), keySeq_(defaultKey), isToggle_(isToggle)
+    {
+        normalize();
+    }
 
-    KeySetting(const char* menuText, int defaultKey, bool isToggle)
-	: settingName_(menuText), menuText_(menuText), keySeq_(defaultKey), isToggle_(isToggle)
-	{ settingName_.remove(' '); normalize(); }
+    KeySetting(const char* menuText, int defaultKey, bool isToggle) :
+        settingName_(menuText), menuText_(menuText), keySeq_(defaultKey), isToggle_(isToggle)
+    {
+        settingName_.remove(' ');
+        normalize();
+    }
 
-    KeySetting(const char* menuText, int defaultKey)
-	: settingName_(menuText), menuText_(menuText), keySeq_(defaultKey), isToggle_(false)
-	{ settingName_.remove(' '); normalize(); }
+    KeySetting(const char* menuText, int defaultKey) :
+        settingName_(menuText), menuText_(menuText), keySeq_(defaultKey), isToggle_(false)
+    {
+        settingName_.remove(' ');
+        normalize();
+    }
 
     const QString& getSettingName() const { return settingName_; }
-    
+
     const QString& getMenuText() const { return menuText_; }
 
     const QKeySequence& getKeySequuence() const { return keySeq_.getKeySequence(); }
@@ -48,8 +56,8 @@ private:
     bool isToggle_;
 };
 
-}
-}
+} // namespace GUI
+} // namespace SideCar
 
 /** \file
  */

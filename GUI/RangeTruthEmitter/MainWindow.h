@@ -22,12 +22,11 @@ namespace RangeTruthEmitter {
 
 class SegmentModel;
 
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     MainWindow();
@@ -73,7 +72,6 @@ private slots:
     void flagDirtyWindow();
 
 private:
-
     void startTimer();
     void stopTimer();
     void setTimerInterval(double hz);

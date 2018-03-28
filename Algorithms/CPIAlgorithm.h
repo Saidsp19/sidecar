@@ -4,9 +4,9 @@
 #include <deque>
 
 #include "Algorithms/Algorithm.h"
+#include "Messages/BinaryVideo.h"
 #include "Messages/PRIMessage.h"
 #include "Messages/Video.h"
-#include "Messages/BinaryVideo.h"
 #include "Parameter/Parameter.h"
 #include "Time/TimeStamp.h"
 
@@ -16,15 +16,11 @@ namespace Algorithms {
 /** Documentation for the algorithm CPIAlgorithm. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class CPIAlgorithm : public Algorithm
-{
+class CPIAlgorithm : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     static QString GetFormattedStats(const IO::StatusBase& status);
 
@@ -34,8 +30,7 @@ public:
 
         \param log device used for log messages
     */
-    CPIAlgorithm(Controller& controller, Logger::Log& log,
-                 bool enabled, int span);
+    CPIAlgorithm(Controller& controller, Logger::Log& log, bool enabled, int span);
 
     /** Implementation of the Algorithm::startup interface. Register runtime parameters and data processors.
 
@@ -53,20 +48,18 @@ public:
     size_t maxMsgSize() const { return maxMsgSize_; }
 
 protected:
-    
     using MessageQueue = std::deque<Messages::PRIMessage::Ref>;
-    
+
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
-    
+
     Parameter::PositiveIntValue::Ref cpiSpan_;
     MessageQueue buffer_;
-    
+
     virtual bool processCPI() = 0;
 
 private:
-
     virtual bool cpiSpanChanged(const Parameter::PositiveIntValue& parameter) = 0;
 
     /** Process messages from channel
@@ -78,7 +71,7 @@ private:
     bool processInput(const Messages::PRIMessage::Ref& msg);
     bool processInputVideo(const Messages::Video::Ref& msg);
     bool processInputBinary(const Messages::BinaryVideo::Ref& msg);
- 
+
     uint32_t current_prf_code_;
     Time::TimeStamp beginProcessingCPI_;
 

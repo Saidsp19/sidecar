@@ -12,24 +12,20 @@ namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class PlayerSettings : public SettingsBlock
-{
+class PlayerSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
-    PlayerSettings(QComboBoxSetting* playbackRate,
-                   QSpinBoxSetting* scalingPower, QCheckBoxSetting* looping);
+public:
+    PlayerSettings(QComboBoxSetting* playbackRate, QSpinBoxSetting* scalingPower, QCheckBoxSetting* looping);
 
     void connectPlayer(QComboBox* playbackRate, QCheckBox* loop);
 
-    int getPlaybackRate() const
-	{ return GetPlaybackRate(playbackRate_->getValue()); }
+    int getPlaybackRate() const { return GetPlaybackRate(playbackRate_->getValue()); }
 
     int getScalingPower() const { return scalingPower_->getValue(); }
 
-    double getScale() const
-	{ return GetScale(scalingPower_->getValue()); }
+    double getScale() const { return GetScale(scalingPower_->getValue()); }
 
     bool isLooping() const { return looping_->getValue(); }
 
@@ -48,12 +44,9 @@ private slots:
     void changeScale(int power);
 
 private:
+    static int GetPlaybackRate(int index) { return int(::rint(1000 * ::pow(2.0, index - 2))); }
 
-    static int GetPlaybackRate(int index)
-	{ return int(::rint(1000 * ::pow(2.0, index - 2))); }
-
-    static double GetScale(int power)
-	{ return ::pow(1.25, power); }
+    static double GetScale(int power) { return ::pow(1.25, power); }
 
     QComboBoxSetting* playbackRate_;
     QSpinBoxSetting* scalingPower_;

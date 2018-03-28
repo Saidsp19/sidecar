@@ -3,8 +3,7 @@
 
 using namespace SideCar::Messages;
 
-MetaTypeInfo Complex::metaTypeInfo_(MetaTypeInfo::Value::kComplex, "Complex", &Complex::CDRLoader,
-                                    &Complex::XMLLoader);
+MetaTypeInfo Complex::metaTypeInfo_(MetaTypeInfo::Value::kComplex, "Complex", &Complex::CDRLoader, &Complex::XMLLoader);
 
 const MetaTypeInfo&
 Complex::GetMetaTypeInfo()
@@ -20,14 +19,11 @@ Complex::Make(const std::string& producer, const VMEDataMessage& vme, size_t cou
 }
 
 Complex::Ref
-Complex::Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first,
-              const DatumType* end)
+Complex::Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first, const DatumType* end)
 {
     Ref ref(new Complex(producer, vme, end - first));
     Container& c(ref->getData());
-    while (first != end) {
-        c.push_back(*first++);
-    }
+    while (first != end) { c.push_back(*first++); }
     return ref;
 }
 
@@ -67,32 +63,30 @@ Complex::XMLLoader(const std::string& producer, XmlStreamReader& xsr)
     return ref;
 }
 
-Complex::Complex()
-    : Super(GetMetaTypeInfo())
+Complex::Complex() : Super(GetMetaTypeInfo())
 {
     ;
 }
 
-Complex::Complex(const std::string& producer)
-    : Super(producer, GetMetaTypeInfo())
+Complex::Complex(const std::string& producer) : Super(producer, GetMetaTypeInfo())
 {
     ;
 }
 
-Complex::Complex(const std::string& producer, const VMEDataMessage& vme, size_t size)
-    : Super(producer, GetMetaTypeInfo(), vme, size)
+Complex::Complex(const std::string& producer, const VMEDataMessage& vme, size_t size) :
+    Super(producer, GetMetaTypeInfo(), vme, size)
 {
     ;
 }
 
-Complex::Complex(const std::string& producer, const VMEDataMessage& vme, const Container& data)
-    : Super(producer, GetMetaTypeInfo(), vme, data)
+Complex::Complex(const std::string& producer, const VMEDataMessage& vme, const Container& data) :
+    Super(producer, GetMetaTypeInfo(), vme, data)
 {
     ;
 }
 
-Complex::Complex(const std::string& producer, const PRIMessage::Ref& basis)
-    : Super(producer, GetMetaTypeInfo(), basis, basis->size())
+Complex::Complex(const std::string& producer, const PRIMessage::Ref& basis) :
+    Super(producer, GetMetaTypeInfo(), basis, basis->size())
 {
     ;
 }

@@ -7,7 +7,9 @@
 
 #include "GUI/ServiceBrowser.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,30 +26,29 @@ class Visualizer;
     any time). The model supplies the data for display by a ChannelConnectionView view, and it implements most
     of the controller aspects of the MVC paradigm.
 */
-class ChannelConnectionModel : public QAbstractTableModel
-{
+class ChannelConnectionModel : public QAbstractTableModel {
     Q_OBJECT
     using Super = QAbstractTableModel;
-public:
 
+public:
     /** Mapping of VideoChannel objects to their name.
      */
-    using VideoChannelHash = QHash<QString,VideoChannel*>;
+    using VideoChannelHash = QHash<QString, VideoChannel*>;
 
     /** Indices of the data columns provided by the model.
      */
     enum Columns {
-	kName = 0,
-	kColor,
-	kSampleMin,
-	kSampleMax,
-	kVoltageMin,
-	kVoltageMax,
-	kVisible,
-	kFrozen,
-	kShowPeakBars,
-	kDisplayCount,
-	kNumColumns
+        kName = 0,
+        kColor,
+        kSampleMin,
+        kSampleMax,
+        kVoltageMin,
+        kVoltageMax,
+        kVisible,
+        kFrozen,
+        kShowPeakBars,
+        kDisplayCount,
+        kNumColumns
     };
 
     /** Obtain the log device for instances of this class.
@@ -93,7 +94,7 @@ public:
 
         \param name data channel name
 
-	\return true if successful, false otherwise
+        \return true if successful, false otherwise
     */
     bool makeConnection(const QString& name);
 
@@ -101,7 +102,7 @@ public:
 
         \param index index of the ChannelConnection object to remove
 
-	\return ServiceEntry of the connection that was removed if still
+        \return ServiceEntry of the connection that was removed if still
         available, or NULL if service is no longer present
     */
     ServiceEntry* removeConnection(int index);
@@ -145,8 +146,7 @@ public:
 
         \return value to use for the given purpose
     */
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     /** Implementation of QAbstractItemModel method. Change the data in the model at a particular location and
         display purpose.
@@ -159,8 +159,7 @@ public:
 
         \return true if the value was successfully set, false otherwise.
     */
-    bool setData(const QModelIndex& index, const QVariant& value,
-                 int role = Qt::EditRole);
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
     /** Implementation of QAbstractItemModel method. Obtain the display flags for a particular location. All
         elements have Qt::ItemIsEnabled set, and the kVisible column has Qt::ItemIsUserCheckable set.
@@ -186,23 +185,22 @@ public:
     /** Write current VideoChannel settings the to application's settings file.
      */
     void saveVideoChannelSettings();
-				   
+
 private slots:
-    
+
     /** Notification from a VideoChannel object that its connection status has changed.
      */
     void channelConnectionChanged();
-    
+
     /** Notification from a ServiceBrowser object of a new set of active ServiceEntry objects.
 
-        \param services 
+        \param services
     */
     void setAvailableServices(const ServiceEntryHash& services);
 
     void peakBarSettingsEnabledChanged(bool state);
 
 private:
-
     /** Find the VideoChannel object with a given channel \a name.
 
         \param name the name to look for

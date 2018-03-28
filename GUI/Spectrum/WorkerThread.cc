@@ -1,7 +1,7 @@
 #include "GUI/LogUtils.h"
 
-#include "WorkerThread.h"
 #include "WorkRequest.h"
+#include "WorkerThread.h"
 
 using namespace SideCar::GUI::Spectrum;
 
@@ -12,12 +12,10 @@ WorkerThread::Log()
     return log_;
 }
 
-WorkerThread::WorkerThread(WorkRequest* workRequest)
-    : Super(), workRequest_(workRequest)
+WorkerThread::WorkerThread(WorkRequest* workRequest) : Super(), workRequest_(workRequest)
 {
     moveToThread(this);
-    connect(this, SIGNAL(threadSubmit()), this, SLOT(threadProcess()),
-            Qt::QueuedConnection);
+    connect(this, SIGNAL(threadSubmit()), this, SLOT(threadProcess()), Qt::QueuedConnection);
     start();
 }
 
@@ -33,8 +31,8 @@ WorkerThread::threadProcess()
     static Logger::ProcLog log("threadProcess", Log());
     LOGINFO << this << std::endl;
     if (workRequest_) {
-	workRequest_->execute();
-	emit finished();
+        workRequest_->execute();
+        emit finished();
     }
 }
 

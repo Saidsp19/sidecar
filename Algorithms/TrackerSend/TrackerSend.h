@@ -2,27 +2,24 @@
 #define SIDECAR_ALGORITHMS_SCAN_CORRELATOR_H
 
 #include "Algorithms/Algorithm.h"
-#include "Messages/Video.h"
 #include "Messages/Extraction.h"
+#include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 
+#include <cmath>
 #include <list>
 #include <vector>
-#include <cmath>
 
 // VIADS
 #include <Client.h>
 
-
 namespace SideCar {
 namespace Algorithms {
-
 
 /**
    \ingroup Algorithms
 */
-class TrackerSend : public Algorithm
-{
+class TrackerSend : public Algorithm {
 public:
     // Algorithm interface
     //
@@ -45,13 +42,12 @@ public:
     bool startup();
 
 private:
-    Client *client;
+    Client* client;
     bool ppiInfoSent;
 };
 
-}} // namespaces
-
-
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

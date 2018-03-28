@@ -13,9 +13,9 @@ main(int argc, char* argv[])
 
     // Must have OpenGL to do anything useful
     //
-    if (! QGLFormat::hasOpenGL()) {
-	qWarning("This system has no OpenGL support.");
-	return -1;
+    if (!QGLFormat::hasOpenGL()) {
+        qWarning("This system has no OpenGL support.");
+        return -1;
     }
 
     app->restoreWindows();

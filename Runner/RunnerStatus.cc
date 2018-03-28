@@ -1,5 +1,5 @@
-#include <unistd.h>
 #include <iostream>
+#include <unistd.h>
 
 #include "Configuration/RunnerConfig.h"
 #include "RunnerStatus.h"
@@ -10,8 +10,7 @@ using namespace SideCar::Runner;
 void
 RunnerStatus::Make(XmlRpc::XmlRpcValue& status, const RunnerConfig& runnerConfig,
                    std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> streamStatus,
-                   std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> logMessages,
-                   double memoryUsed)
+                   std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> logMessages, double memoryUsed)
 {
     StatusBase::Make(status, kNumSlots, GetClassName(), runnerConfig.getRunnerName().toStdString());
     status[kConfigName] = runnerConfig.getConfigurationName().toStdString();
@@ -19,10 +18,9 @@ RunnerStatus::Make(XmlRpc::XmlRpcValue& status, const RunnerConfig& runnerConfig
 
     char buffer[256];
     if (::gethostname(buffer, sizeof(buffer)) == -1) {
-	status[kHostName] = runnerConfig.getHostName().toStdString();
-    }
-    else {
-	status[kHostName] = buffer;
+        status[kHostName] = runnerConfig.getHostName().toStdString();
+    } else {
+        status[kHostName] = buffer;
     }
 
     status[kLogPath] = runnerConfig.getLogPath().toStdString();

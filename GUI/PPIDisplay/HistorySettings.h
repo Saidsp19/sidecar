@@ -8,12 +8,11 @@ namespace SideCar {
 namespace GUI {
 namespace PPIDisplay {
 
-class HistorySettings : public OnOffSettingsBlock
-{
+class HistorySettings : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
-public:
 
+public:
     HistorySettings(BoolSetting* enabled, IntSetting* retentionSize);
 
     int getRetentionSize() const { return retentionSize_->getValue(); }

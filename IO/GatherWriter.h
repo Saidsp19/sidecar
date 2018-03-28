@@ -3,7 +3,9 @@
 
 #include "IO/Writers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -18,10 +20,8 @@ namespace IO {
     If neither limit is set, or both are set to zero, then the collector will simply write each message as it
     receives them.
 */
-class GatherWriter
-{
+class GatherWriter {
 public:
-
     /** Log device to use for GatherWriter object messages. Has the name "SideCar.IO.GatherWriter.
 
         \return log device to use
@@ -65,7 +65,7 @@ public:
         \return count limit
     */
     size_t getCountLimit() const { return countLimit_; }
-    
+
     /** Change the message count limit.
 
         \param countLimit new count limit
@@ -95,29 +95,28 @@ public:
         \return held message byte count
     */
     size_t getSize() const { return size_; }
-    
+
     /** Obtain the current accumulated message count.
 
         \return held message count
     */
     size_t getCount() const { return count_; }
-    
+
 private:
-    
     /** Determine if the limits have been met/passed.
 
-        \return 
+        \return
     */
     bool needFlush() const;
 
-    Writer& writer_;		///< Writer device that does the writing
-    size_t sizeLimit_;		///< Amount to gather in bytes
-    size_t countLimit_;		///< Amount to gather in message count
-    ACE_Message_Block* first_;	///< First message to write
-    ACE_Message_Block* last_;	///< Last message to write
-    size_t size_;		///< Current number of bytes gathered
-    size_t count_;		///< Current number of messages gathered
-    bool ok_;			///< Set to false on first failure to write
+    Writer& writer_;           ///< Writer device that does the writing
+    size_t sizeLimit_;         ///< Amount to gather in bytes
+    size_t countLimit_;        ///< Amount to gather in message count
+    ACE_Message_Block* first_; ///< First message to write
+    ACE_Message_Block* last_;  ///< Last message to write
+    size_t size_;              ///< Current number of bytes gathered
+    size_t count_;             ///< Current number of messages gathered
+    bool ok_;                  ///< Set to false on first failure to write
 };
 
 } // end namespace IO

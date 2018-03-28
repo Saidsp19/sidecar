@@ -10,16 +10,13 @@ namespace ESScope {
 
 /** Extension of the ChannelImaging class for the display of grids
  */
-class GridImaging : public ChannelImaging
-{
+class GridImaging : public ChannelImaging {
     Q_OBJECT
     using Super = ChannelImaging;
-public:
 
-    GridImaging(BoolSetting* enabled, ColorButtonSetting* color,
-                DoubleSetting* lineWidth, OpacitySetting* opacity,
-                IntSetting* alphaMajor, IntSetting* alphaMinor,
-                IntSetting* betaMajor, IntSetting* betaMinor,
+public:
+    GridImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* lineWidth, OpacitySetting* opacity,
+                IntSetting* alphaMajor, IntSetting* alphaMinor, IntSetting* betaMajor, IntSetting* betaMinor,
                 IntSetting* rangeMajor, IntSetting* rangeMinor);
 
     int getAlphaMajor() const { return alphaMajor_->getValue(); }

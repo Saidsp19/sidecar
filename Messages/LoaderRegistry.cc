@@ -11,23 +11,22 @@ VoidLoaderRegistry::Log()
     return log_;
 }
 
-VoidLoaderRegistry::VoidLoaderRegistry(VersionType version, VoidLoader loader)
-    : loaders_()
+VoidLoaderRegistry::VoidLoaderRegistry(VersionType version, VoidLoader loader) : loaders_()
 {
     static Logger::ProcLog log("VoidLoaderRegistry", Log());
     LOGINFO << std::endl;
     addVoidLoader(version, loader);
 }
 
-VoidLoaderRegistry::VoidLoaderRegistry(const VersionedVoidLoader* first, size_t count) throw(Utils::Exception)
-    : loaders_() 
+VoidLoaderRegistry::VoidLoaderRegistry(const VersionedVoidLoader* first, size_t count) throw(Utils::Exception) :
+    loaders_()
 {
     static Logger::ProcLog log("VoidLoaderRegistry", Log());
     LOGINFO << count << std::endl;
 
-    if (! count) {
-	Utils::Exception ex("called with zero loaders");
-	log.thrower(ex);
+    if (!count) {
+        Utils::Exception ex("called with zero loaders");
+        log.thrower(ex);
     }
 
     // We *could* have filled the vector directly in the constructor, using two iterators, and then sort it.
@@ -35,9 +34,9 @@ VoidLoaderRegistry::VoidLoaderRegistry(const VersionedVoidLoader* first, size_t 
     // as we go along.
     //
     loaders_.reserve(count);
-    while (count--  > 0) {
-	addVoidLoader(first->version_, first->loader_);
-	++first;
+    while (count-- > 0) {
+        addVoidLoader(first->version_, first->loader_);
+        ++first;
     }
 }
 
@@ -49,8 +48,8 @@ VoidLoaderRegistry::dump() const
     VersionedVoidLoaderVector::const_iterator pos(loaders_.begin());
     VersionedVoidLoaderVector::const_iterator end(loaders_.end());
     while (pos != end) {
-	LOGDEBUG << pos->version_ << ' ' << ptrdiff_t(pos->loader_) << std::endl;
-	++pos;
+        LOGDEBUG << pos->version_ << ' ' << ptrdiff_t(pos->loader_) << std::endl;
+        ++pos;
     }
 }
 
@@ -67,12 +66,12 @@ VoidLoaderRegistry::addVoidLoader(VersionType version, VoidLoader loader) throw(
     //
     VersionedVoidLoader newEntry(version, loader);
     if (loaders_.empty() || version > loaders_.back().version_) {
-	loaders_.push_back(newEntry);
-	latestLoader_ = loader;
-	currentVersion_ = version;
-	LOGINFO << "*** new ***" << std::endl;
-	dump();
-	return;
+        loaders_.push_back(newEntry);
+        latestLoader_ = loader;
+        currentVersion_ = version;
+        LOGINFO << "*** new ***" << std::endl;
+        dump();
+        return;
     }
 
     // Search for the position in the set of existing loaders where an insertion would not change the ordering
@@ -82,18 +81,17 @@ VoidLoaderRegistry::addVoidLoader(VersionType version, VoidLoader loader) throw(
     //
     VersionedVoidLoaderVector::iterator pos(std::upper_bound(loaders_.begin(), loaders_.end(), newEntry));
     if (pos != loaders_.begin() && (pos - 1)->version_ == version) {
-	Utils::Exception ex("loader already registered for version ");
-	ex << version << " for message type ";
-	log.thrower(ex);
+        Utils::Exception ex("loader already registered for version ");
+        ex << version << " for message type ";
+        log.thrower(ex);
     }
 
     if (pos != loaders_.end()) {
-	loaders_.insert(pos, newEntry);
-    }
-    else {
-	loaders_.push_back(newEntry);
-	latestLoader_ = loader;
-	currentVersion_ = version;
+        loaders_.insert(pos, newEntry);
+    } else {
+        loaders_.push_back(newEntry);
+        latestLoader_ = loader;
+        currentVersion_ = version;
     }
 
     LOGDEBUG << "latest: " << latestLoader_ << " currentVersion: " << currentVersion_ << std::endl;
@@ -112,9 +110,9 @@ VoidLoaderRegistry::getVoidLoader(VersionType version) const throw(Utils::Except
     // one registration.
     //
     if (loaders_.empty()) {
-	Utils::Exception ex("no loaders registered version ");
-	ex << version;
-	log.thrower(ex);
+        Utils::Exception ex("no loaders registered version ");
+        ex << version;
+        log.thrower(ex);
     }
 
     // Quick check to see if we want the latest loader.
@@ -122,12 +120,11 @@ VoidLoaderRegistry::getVoidLoader(VersionType version) const throw(Utils::Except
     if (version == currentVersion_) return latestLoader_;
 
     VersionedVoidLoaderVector::const_iterator pos(
-	std::lower_bound(loaders_.begin(), loaders_.end(),
-                         VersionedVoidLoader(version, 0)));
+        std::lower_bound(loaders_.begin(), loaders_.end(), VersionedVoidLoader(version, 0)));
     LOGDEBUG << "std::lower_bound offset: " << (pos - loaders_.begin()) << std::endl;
     if (pos == loaders_.end()) {
-	--pos;
-	LOGWARNING << "version " << version << " is greater than version of last loader " << currentVersion_
+        --pos;
+        LOGWARNING << "version " << version << " is greater than version of last loader " << currentVersion_
                    << std::endl;
     }
 

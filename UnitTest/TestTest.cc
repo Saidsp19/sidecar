@@ -6,8 +6,7 @@
 
 #include "UnitTest.h"
 
-struct TestTestObj : public UnitTest::TestObj
-{
+struct TestTestObj : public UnitTest::TestObj {
     TestTestObj() : TestObj("UnitTest::TestObj") {}
     virtual void test();
 };
@@ -18,16 +17,15 @@ TestTestObj::test()
     assertTrue(true);
 }
 
-struct TestMulti : public UnitTest::ProcSuite<TestMulti>
-{
+struct TestMulti : public UnitTest::ProcSuite<TestMulti> {
     TestMulti() : UnitTest::ProcSuite<TestMulti>(this, "UnitTest::TestMulti")
-	{
-	    add("assertTrue", &TestMulti::testTrue);
-	    add("assertFalse", &TestMulti::testFalse);
-	    add("assertEqual", &TestMulti::testEqual);
-	    add("error", &TestMulti::testError);
-	    add("unknown", &TestMulti::testUnknown);
-	}
+    {
+        add("assertTrue", &TestMulti::testTrue);
+        add("assertFalse", &TestMulti::testFalse);
+        add("assertEqual", &TestMulti::testEqual);
+        add("error", &TestMulti::testError);
+        add("unknown", &TestMulti::testUnknown);
+    }
 
     void testTrue();
     void testFalse();
@@ -41,11 +39,10 @@ TestMulti::testTrue()
 {
     assertTrue(true);
     try {
-	assertTrue(false);
-	throw "expected assertTrue to throw";
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertTrue(false);
+        throw "expected assertTrue to throw";
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 }
 
@@ -54,11 +51,10 @@ TestMulti::testFalse()
 {
     assertFalse(false);
     try {
-	assertFalse(true);
-	throw "expected assertFalse to throw";
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertFalse(true);
+        throw "expected assertFalse to throw";
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 }
 
@@ -70,19 +66,17 @@ TestMulti::testEqual()
     assertNotEqual(-2, a);
 
     try {
-	assertEqual(-2, a);
-	assertTrue(false);
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertEqual(-2, a);
+        assertTrue(false);
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 
     try {
-	assertNotEqual(-1, a);
-	assertTrue(false);
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertNotEqual(-1, a);
+        assertTrue(false);
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 
     std::string c("abc");
@@ -101,9 +95,9 @@ TestMulti::testEqual()
     assertNotEqual("abc", "defg");
 
     const char* c1 = ::strdup("foo");
-    char const c2[100] = { 'f', 'o', 'o', 0 };
+    char const c2[100] = {'f', 'o', 'o', 0};
     char* c3 = ::strdup("foo");
-    char c4[100] = { 'f', 'o', 'o', 0 };
+    char c4[100] = {'f', 'o', 'o', 0};
     std::string c5("foo");
     assertEqual(c1, c1);
     assertEqual(c1, c2);
@@ -116,44 +110,42 @@ TestMulti::testEqual()
     assertEqual(c2, c3);
     assertEqual(c2, c4);
     assertEqual(c2, c5);
-    
+
     assertEqual(c3, c1);
     assertEqual(c3, c2);
     assertEqual(c3, c3);
     assertEqual(c3, c4);
     assertEqual(c3, c5);
-    
+
     assertEqual(c4, c1);
     assertEqual(c4, c2);
     assertEqual(c4, c3);
     assertEqual(c4, c4);
     assertEqual(c4, c5);
-    
+
     assertEqual(c5, c1);
     assertEqual(c5, c2);
     assertEqual(c5, c3);
     assertEqual(c5, c4);
     assertEqual(c5, c5);
-    
+
     double b = 3.14159;
     assertEqual(3.14159, b);
     try {
-	assertEqual(2.1818, b);
-	assertTrue(false);
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertEqual(2.1818, b);
+        assertTrue(false);
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 
     double b2 = b;
     b += 2 * std::numeric_limits<double>::epsilon();
     assertNotEqual(b2, b);
     try {
-	assertEqual(b2, b);
-	assertTrue(false);
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertEqual(b2, b);
+        assertTrue(false);
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 
     double x = 1.0 / 3.0;
@@ -161,14 +153,13 @@ TestMulti::testEqual()
     assertEqualEpsilon(0.2, x, 0.15);
     assertNotEqualEpsilon(0.2, x, 0.01);
     try {
-	assertEqualEpsilon(0.2, x, 0.10);
-	assertTrue(false);
-    }
-    catch (const UnitTest::UnitTestException&) {
-	;
+        assertEqualEpsilon(0.2, x, 0.10);
+        assertTrue(false);
+    } catch (const UnitTest::UnitTestException&) {
+        ;
     }
 }
-    
+
 void
 TestMulti::testError()
 {
@@ -199,8 +190,7 @@ main(int, const char**)
     const int expectedBad = 2;
 
     if (rr.numBad() == expectedBad) {
-	std::cout << "\n--- UnitTest testing was successful - expected to see "
-		  << expectedBad << " errors\n";
+        std::cout << "\n--- UnitTest testing was successful - expected to see " << expectedBad << " errors\n";
     }
 
     return rr.numBad() == expectedBad ? EXIT_SUCCESS : EXIT_FAILURE;

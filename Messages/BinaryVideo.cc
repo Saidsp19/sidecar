@@ -4,8 +4,7 @@
 
 using namespace SideCar::Messages;
 
-MetaTypeInfo BinaryVideo::metaTypeInfo_(MetaTypeInfo::Value::kBinaryVideo, "BinaryVideo",
-                                        &BinaryVideo::CDRLoader,
+MetaTypeInfo BinaryVideo::metaTypeInfo_(MetaTypeInfo::Value::kBinaryVideo, "BinaryVideo", &BinaryVideo::CDRLoader,
                                         &BinaryVideo::XMLLoader);
 
 const MetaTypeInfo&
@@ -44,8 +43,7 @@ BinaryVideo::Make(ACE_InputCDR& cdr)
 }
 
 BinaryVideo::Ref
-BinaryVideo::Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first,
-                  const DatumType* end)
+BinaryVideo::Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first, const DatumType* end)
 {
     Ref ref(new BinaryVideo(producer, vme, end - first));
     Container& c(ref->getData());
@@ -67,32 +65,30 @@ BinaryVideo::XMLLoader(const std::string& producer, XmlStreamReader& xsr)
     return ref;
 }
 
-BinaryVideo::BinaryVideo()
-    : Super(GetMetaTypeInfo())
+BinaryVideo::BinaryVideo() : Super(GetMetaTypeInfo())
 {
     ;
 }
 
-BinaryVideo::BinaryVideo(const std::string& producer, const VMEDataMessage& vme, size_t size)
-    : Super(producer, GetMetaTypeInfo(), vme, size)
+BinaryVideo::BinaryVideo(const std::string& producer, const VMEDataMessage& vme, size_t size) :
+    Super(producer, GetMetaTypeInfo(), vme, size)
 {
     ;
 }
 
-BinaryVideo::BinaryVideo(const std::string& producer, const Video::Ref& basis)
-    : Super(producer, GetMetaTypeInfo(), basis, basis->size())
+BinaryVideo::BinaryVideo(const std::string& producer, const Video::Ref& basis) :
+    Super(producer, GetMetaTypeInfo(), basis, basis->size())
 {
     ;
 }
 
-BinaryVideo::BinaryVideo(const std::string& producer, const BinaryVideo::Ref& basis)
-    : Super(producer, GetMetaTypeInfo(), basis, basis->size())
+BinaryVideo::BinaryVideo(const std::string& producer, const BinaryVideo::Ref& basis) :
+    Super(producer, GetMetaTypeInfo(), basis, basis->size())
 {
     ;
 }
 
-BinaryVideo::BinaryVideo(const std::string& producer)
-    : Super(producer, GetMetaTypeInfo())
+BinaryVideo::BinaryVideo(const std::string& producer) : Super(producer, GetMetaTypeInfo())
 {
     ;
 }
@@ -109,12 +105,12 @@ BinaryVideo::getVideoBasis() const
     Header::Ref basis(getBasis());
     Video::Ref video;
     while (basis) {
-	LOGDEBUG << basis.get() << std::endl;
-	if (basis->getMetaTypeInfo().isa(Messages::MetaTypeInfo::Value::kVideo)) {
-	    video = boost::dynamic_pointer_cast<Video>(basis);
-	    break;
-	}
-	basis = basis->getBasis();
+        LOGDEBUG << basis.get() << std::endl;
+        if (basis->getMetaTypeInfo().isa(Messages::MetaTypeInfo::Value::kVideo)) {
+            video = boost::dynamic_pointer_cast<Video>(basis);
+            break;
+        }
+        basis = basis->getBasis();
     }
 
     return video;

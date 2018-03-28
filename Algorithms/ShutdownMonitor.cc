@@ -22,8 +22,7 @@ ShutdownMonitor::Make()
     return ref;
 }
 
-ShutdownMonitor::ShutdownMonitor()
-    : IO::Task(), staleCount_(0)
+ShutdownMonitor::ShutdownMonitor() : IO::Task(), staleCount_(0)
 {
     setTaskName("ShutdownMonitor");
     reactor(ACE_Reactor::instance());
@@ -60,21 +59,19 @@ ShutdownMonitor::handle_timeout(const ACE_Time_Value& now, const void* act)
     int index = 0;
     while (1) {
         IO::Stream::Ref stream = getStream().lock();
-	IO::Task::Ref task;
+        IO::Task::Ref task;
         if (stream) task = stream->getTask(index);
 
-	if (! task) {
-	    if (++staleCount_ == 5)
-		reactor()->end_event_loop();
-	    return 0;
-	}
-	else if (task->msg_queue()->message_count() > 0) {
-	    LOGWARNING << "task " << index << " has pending data" << std::endl;
-	    staleCount_ = 0;
-	    return 0;
-	}
+        if (!task) {
+            if (++staleCount_ == 5) reactor()->end_event_loop();
+            return 0;
+        } else if (task->msg_queue()->message_count() > 0) {
+            LOGWARNING << "task " << index << " has pending data" << std::endl;
+            staleCount_ = 0;
+            return 0;
+        }
 
-	++index;
+        ++index;
     }
 
     return 0;

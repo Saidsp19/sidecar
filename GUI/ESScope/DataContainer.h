@@ -7,8 +7,7 @@ namespace SideCar {
 namespace GUI {
 namespace ESScope {
 
-class DataContainer 
-{
+class DataContainer {
 public:
     using DatumType = Messages::Video::DatumType;
     using Container = Messages::Video::Container;
@@ -17,19 +16,15 @@ public:
 
     DataContainer() : data_() {}
 
-    DataContainer(size_t count)
-	: data_(count, GetMinValue()) {}
+    DataContainer(size_t count) : data_(count, GetMinValue()) {}
 
-    DataContainer(size_t count, DatumType init)
-	: data_(count, init) {}
+    DataContainer(size_t count, DatumType init) : data_(count, init) {}
 
     virtual ~DataContainer() {}
 
-    void resize(size_t size)
-	{ data_.resize(size, GetMinValue()); }
+    void resize(size_t size) { data_.resize(size, GetMinValue()); }
 
-    void resize(size_t size, const DatumType& init)
-	{ data_.resize(size, init); }
+    void resize(size_t size, const DatumType& init) { data_.resize(size, init); }
 
     const Container& getValues() const { return data_; }
 
@@ -44,7 +39,6 @@ public:
     bool empty() const { return data_.empty(); }
 
 protected:
-
     Container data_;
 
 private:

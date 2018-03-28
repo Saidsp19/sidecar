@@ -5,9 +5,7 @@
 using namespace SideCar::GUI::RangeTruthEmitter;
 
 QWidget*
-AccelerationEditor::createEditor(QWidget* parent,
-                                 const QStyleOptionViewItem& option,
-                                 const QModelIndex& index) const
+AccelerationEditor::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
     editor->setRange(-999.0, 999.0);
@@ -18,8 +16,7 @@ AccelerationEditor::createEditor(QWidget* parent,
 }
 
 void
-AccelerationEditor::setEditorData(QWidget* editor, const QModelIndex& index)
-    const
+AccelerationEditor::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
     double value = index.model()->data(index, Qt::EditRole).toDouble();
     QDoubleSpinBox* w = static_cast<QDoubleSpinBox*>(editor);
@@ -28,8 +25,7 @@ AccelerationEditor::setEditorData(QWidget* editor, const QModelIndex& index)
 }
 
 void
-AccelerationEditor::setModelData(QWidget* editor, QAbstractItemModel* model,
-                                 const QModelIndex& index) const
+AccelerationEditor::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
     QDoubleSpinBox* e = static_cast<QDoubleSpinBox*>(editor);
     e->interpretText();
@@ -38,8 +34,7 @@ AccelerationEditor::setModelData(QWidget* editor, QAbstractItemModel* model,
 }
 
 void
-AccelerationEditor::updateEditorGeometry(QWidget* editor,
-                                         const QStyleOptionViewItem& option,
+AccelerationEditor::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
                                          const QModelIndex& index) const
 {
     editor->setGeometry(option.rect);

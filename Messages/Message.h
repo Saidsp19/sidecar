@@ -17,11 +17,10 @@ class MetaTypeInfo;
     requests to the held BaseMessageImpl object. Type-specific Derived classes must define
     getMessageMetaTypeInfo() to return the type-specific meta data.
 */
-class BaseMessage : public IO::CDRStreamable<BaseMessage>, public IO::Printable<BaseMessage>
-{
+class BaseMessage : public IO::CDRStreamable<BaseMessage>, public IO::Printable<BaseMessage> {
     using Impl = BaseMessageImpl;
-public:
 
+public:
     /** Default constructor. Creates a 'null' instance with no backing implementation.
      */
     BaseMessage() : impl_() {}
@@ -36,12 +35,11 @@ public:
 
         \return reference to Messages::MetaTypeInfo object
     */
-    virtual const Messages::MetaTypeInfo& getMessageMetaTypeInfo() const
-	{ return impl_->getMessageMetaTypeInfo(); }
+    virtual const Messages::MetaTypeInfo& getMessageMetaTypeInfo() const { return impl_->getMessageMetaTypeInfo(); }
 
     /** Obtain the name of the entity that created this message; usually the name of an algorithm.
 
-        \return creator name 
+        \return creator name
     */
     const std::string& getMessageProducer() const { return impl_->getMessageProducer(); }
 
@@ -107,7 +105,6 @@ public:
     std::ostream& print(std::ostream& os) const { return impl_->print(os); }
 
 protected:
-
     /** Constructor. Restrict access to derived classes in order to guarantee type-safety while using getImpl()
         type-cast methods.
 
@@ -118,21 +115,26 @@ protected:
     /** Template type-cast operator to obtain a modifiable reference type derived from BaseMessageImpl. NOTE:
         should cause code to abort if the held pointer is NULL.
 
-	\return modifiable reference to held object of type T
+        \return modifiable reference to held object of type T
     */
     template <typename T>
-    T& getTImpl() { return *dynamic_cast<T*>(impl_.get()); }
+    T& getTImpl()
+    {
+        return *dynamic_cast<T*>(impl_.get());
+    }
 
     /** Template type-cast operator to obtain a read-only reference type derived from BaseMessageImpl. NOTE:
         should cause code to abort if the held pointer is NULL.
 
-	\return read-only reference to held object of type T
+        \return read-only reference to held object of type T
     */
     template <typename T>
-    const T& getTImpl() const { return *dynamic_cast<const T*>(impl_.get()); }
+    const T& getTImpl() const
+    {
+        return *dynamic_cast<const T*>(impl_.get());
+    }
 
 private:
-
     /** Implementation object that provides the actual data.
      */
     boost::shared_ptr<BaseMessageImpl> impl_;
@@ -142,12 +144,11 @@ private:
     SamplingMessageImpl, but simply forwards requests to the held SamplingMessageImpl object. Provides
     additional convenience methods for working with sampling data.
 */
-class SamplingMessage : public BaseMessage
-{
+class SamplingMessage : public BaseMessage {
     using Super = BaseMessage;
     using Impl = SamplingMessageImpl;
-public:
 
+public:
     /** Optain the state flags from the sampling system.
 
         \return state flags
@@ -202,8 +203,7 @@ public:
 
         \return range value
     */
-    double getSamplingRangeAt(size_t index) const
-        { return index * getSamplingRangeFactor() + getSamplingRangeMin(); }
+    double getSamplingRangeAt(size_t index) const { return index * getSamplingRangeFactor() + getSamplingRangeMin(); }
 
     /** Obtain the number of sample values in the message.
 
@@ -226,7 +226,6 @@ public:
     double getAzimuthEnd() const;
 
 protected:
-
     /** Constructor. Restrict access to derived classes in order to guarantee type-safety while using getImpl()
         type-cast methods.
 
@@ -235,16 +234,15 @@ protected:
     SamplingMessage(Impl* impl) : Super(impl) {}
 
 private:
-
     /** Type-cast operator to obtain a modifiable reference type derived from SamplingMessageImpl.
 
-	\return modifiable reference to held object of type SamplingMessageImpl
+        \return modifiable reference to held object of type SamplingMessageImpl
     */
     Impl& getImpl() { return getTImpl<Impl>(); }
 
     /** Type-cast operator to obtain a read-oonly reference type derived from SamplingMessageImpl.
 
-	\return read-only reference to held object of type SamplingMessageImpl
+        \return read-only reference to held object of type SamplingMessageImpl
     */
     const Impl& getImpl() const { return getTImpl<Impl>(); }
 };
@@ -253,14 +251,11 @@ private:
     create mutable or read-only iterators depending on the value of TDatumType.
 */
 template <typename TDatumType>
-class TSamplingMessageIterator :
-        public boost::iterator_facade<TSamplingMessageIterator<TDatumType>,
-                                      TDatumType,
-                                      boost::bidirectional_traversal_tag>
-{
+class TSamplingMessageIterator : public boost::iterator_facade<TSamplingMessageIterator<TDatumType>, TDatumType,
+                                                               boost::bidirectional_traversal_tag> {
     using Self = TSamplingMessageIterator<TDatumType>;
-public:
 
+public:
     /** Default constructor.
      */
     TSamplingMessageIterator() : ptr_(0) {}
@@ -275,14 +270,14 @@ public:
         corresponding TDatumType template types are compatible; a compile failure will result for incompatible
         types
 
-	\param rhs iterator to convert
+        \param rhs iterator to convert
     */
     template <typename TOther>
-    TSamplingMessageIterator(TSamplingMessageIterator<TOther> const& rhs)
-	: ptr_(rhs.ptr_) {}
+    TSamplingMessageIterator(TSamplingMessageIterator<TOther> const& rhs) : ptr_(rhs.ptr_)
+    {
+    }
 
 private:
-
     /** Grant friend access so that boost iterator methods can access our implementation methods below.
      */
     friend class boost::iterator_core_access;
@@ -300,7 +295,10 @@ private:
         \return true if the same
     */
     template <typename TOther>
-    bool equal(const TSamplingMessageIterator<TOther>& rhs) const { return ptr_ == rhs.ptr_; }
+    bool equal(const TSamplingMessageIterator<TOther>& rhs) const
+    {
+        return ptr_ == rhs.ptr_;
+    }
 
     /** Move the iterator to the next value position
      */
@@ -326,21 +324,21 @@ private:
 
     /** Grant friend access to other TSamplingMessageIterator derivations so they can access our ptr_ attribute.
      */
-    template <typename> friend class TSamplingMessageIterator;
+    template <typename>
+    friend class TSamplingMessageIterator;
 
-    TDatumType* ptr_;		///< Pointer to sequence elements
+    TDatumType* ptr_; ///< Pointer to sequence elements
 };
 
 /** Template class for all type-specific sampling messages. Supports iterator and indexed access to underlying
     sample data. Attempts to model std::vector in functionality.
 */
 template <typename TDatumType>
-class TSamplingMessage : public SamplingMessage
-{
+class TSamplingMessage : public SamplingMessage {
     using Super = SamplingMessage;
     using Impl = TSamplingMessageImpl<TDatumType>;
-public:
 
+public:
     using iterator = TSamplingMessageIterator<TDatumType>;
     using const_iterator = TSamplingMessageIterator<TDatumType const>;
 
@@ -379,32 +377,34 @@ public:
 
     /** Obtain mutable iterator that points to the first sample in the sequence.
 
-	\return mutable iterator at sample 0
+        \return mutable iterator at sample 0
     */
     iterator begin() { return iterator(getSamples()); }
 
     /** Obtain mutable iterator that points to the location following the last sample in the sequence.
 
-	\return mutable iterator at (non-existant) sample N
+        \return mutable iterator at (non-existant) sample N
     */
     iterator end() { return iterator(getSamples() + getSamplingSize()); }
 
     /** Obtain read-only iterator that points to the first sample in the sequence.
 
-	\return read-only iterator at sample 0
+        \return read-only iterator at sample 0
     */
     const_iterator begin() const { return const_iterator(getSamples()); }
 
     /** Obtain read-only iterator that points to the location following the last sample in the sequence.
 
-	\return read-only iterator at (non-existant) sample N
+        \return read-only iterator at (non-existant) sample N
     */
     const_iterator end() const { return const_iterator(getSamples() + getSamplingSize()); }
 
-    void append(const_iterator begin, const_iterator end) { while (begin != end) push_back(*begin++); }
+    void append(const_iterator begin, const_iterator end)
+    {
+        while (begin != end) push_back(*begin++);
+    }
 
 protected:
-
     /** Obtain a pointer to the first sample value. NOTE: use with caution!
 
         \return pointer to first sample
@@ -418,26 +418,23 @@ protected:
     const TDatumType* getSamples() const { return getImpl().getSamples(); }
 
 private:
-
     /** Type-cast operator to obtain a modifiable reference type derived from TSamplingMessageImpl<TDatumType>.
 
-	\return modifiable reference to held object of type TSamplingMessageImpl<TDatumType>
+        \return modifiable reference to held object of type TSamplingMessageImpl<TDatumType>
     */
     Impl& getImpl() { return getTImpl<Impl>(); }
 
     /** Type-cast operator to obtain a read-only reference type derived from TSamplingMessageImpl<TDatumType>.
 
-	\return read-only reference to held object of type TSamplingMessageImpl<TDatumType>
+        \return read-only reference to held object of type TSamplingMessageImpl<TDatumType>
     */
     const Impl& getImpl() const { return getTImpl<Impl>(); }
 };
 
 /** Derivation of TSamplingMessage for messages with 16-bit values.
  */
-class ShortSequence : public TSamplingMessage<short>
-{
+class ShortSequence : public TSamplingMessage<short> {
 public:
-
     const MetaTypeInfo& GetMetaTypeInfo();
 
     ShortSequence(const std::string& producer, const MetaTypeInfo& implType);
@@ -450,10 +447,8 @@ private:
 
 /** Derivation of TSamplingMessage for messages with 2-tuple (complex) 16-bit values.
  */
-class IQSequence : public TSamplingMessage<short>
-{
+class IQSequence : public TSamplingMessage<short> {
 public:
-
     const MetaTypeInfo& GetMetaTypeInfo();
 
     IQSequence(const std::string& producer, const MetaTypeInfo& implType);
@@ -467,14 +462,12 @@ private:
 /** Derivation of TSamplingMessage for messages with 8-bit (boolean) values, where zero is false and non-zero is
     true. Using 8-bit booleans for simplicity.
 */
-class BooleanSequence : public TSamplingMessage<char>
-{
+class BooleanSequence : public TSamplingMessage<char> {
 public:
-
     const MetaTypeInfo& GetMetaTypeInfo();
 
     BooleanSequence(const std::string& producer, const MetaTypeInfo& implType);
-    
+
     BooleanSequence(const std::string& producer, const SamplingMessage& basis);
 
 private:

@@ -7,7 +7,9 @@
 #include "Messages/Header.h"
 #include "Messages/MetaTypeInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,12 +22,11 @@ class ServiceEntry;
     Manages two MessageList objects, one that is active for incoming data, and one that was active but can safely be
     used by another thread to obtain received data.
 */
-class MessageReader : public QObject
-{
+class MessageReader : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Obtain the log device for MessageReader objects
 
         \return Logger::Log reference
@@ -55,7 +56,7 @@ public:
     const Messages::MetaTypeInfo* getMetaTypeInfo() const { return metaTypeInfo_; }
 
 signals:
-    
+
     /** Notification that the reader has connected to a publisher
      */
     void connected();
@@ -69,10 +70,9 @@ signals:
     void disconnected();
 
 protected:
-    
     /** Constructor. Prohibits direct instantiation of this class. Use the class Make() methods instead.
 
-	\param metaTypeInfo message type descriptor for data being read
+        \param metaTypeInfo message type descriptor for data being read
     */
     MessageReader(const Messages::MetaTypeInfo* metaTypeInfo);
 
@@ -85,7 +85,6 @@ protected:
     void addRawData(ACE_Message_Block* raw);
 
 private:
-    
     const Messages::MetaTypeInfo* metaTypeInfo_;
 };
 

@@ -35,7 +35,7 @@ using namespace SideCar;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::BScope;
 
-static int kUpdateRate = 33;	// msecs between update() calls (~30 FPS)
+static int kUpdateRate = 33; // msecs between update() calls (~30 FPS)
 
 Logger::Log&
 PPIWidget::Log()
@@ -57,19 +57,14 @@ PPIWidget::GetGLFormat()
     return format;
 }
 
-PPIWidget::PPIWidget(QWidget* parent)
-    : Super(GetGLFormat(), parent),
-      lastAzimuth_(-M_PI * 4), azimuthScaling_(1.0), viewSettings_(0),
-      videoImaging_(0), binaryImaging_(0), extractionsImaging_(0),
-      rangeTruthsImaging_(0), bugPlotsImaging_(0), rangeMapImaging_(0),
-      rangeRingsImaging_(0), phantomCursorImaging_(0),
-      bugPlotEmitterSettings_(0), rangeMap_(new RangeMap), history_(0),
-      videoBuffer_(0), videoVertexGenerator_(new VideoVertexGenerator),
-      binaryBuffer_(0), binaryVertexGenerator_(new BinaryVertexGenerator),
-      displayLists_(0), updateTimer_(), mouse_(), info_(), settingsKey_(),
-      magnifiers_(), cursorPosition_(), rubberBanding_(false),
-      showPhantomCursor_(true), showCursorPosition_(true),
-      trimVideo_(true), trimBinary_(true)
+PPIWidget::PPIWidget(QWidget* parent) :
+    Super(GetGLFormat(), parent), lastAzimuth_(-M_PI * 4), azimuthScaling_(1.0), viewSettings_(0), videoImaging_(0),
+    binaryImaging_(0), extractionsImaging_(0), rangeTruthsImaging_(0), bugPlotsImaging_(0), rangeMapImaging_(0),
+    rangeRingsImaging_(0), phantomCursorImaging_(0), bugPlotEmitterSettings_(0), rangeMap_(new RangeMap), history_(0),
+    videoBuffer_(0), videoVertexGenerator_(new VideoVertexGenerator), binaryBuffer_(0),
+    binaryVertexGenerator_(new BinaryVertexGenerator), displayLists_(0), updateTimer_(), mouse_(), info_(),
+    settingsKey_(), magnifiers_(), cursorPosition_(), rubberBanding_(false), showPhantomCursor_(true),
+    showCursorPosition_(true), trimVideo_(true), trimBinary_(true)
 {
     Logger::ProcLog log("PPIWidget", Log());
     LOGINFO << std::endl;
@@ -97,9 +92,9 @@ void
 PPIWidget::deleteVideoBuffer()
 {
     if (videoBuffer_) {
-	makeCurrent();
-	delete videoBuffer_;
-	videoBuffer_ = 0;
+        makeCurrent();
+        delete videoBuffer_;
+        videoBuffer_ = 0;
     }
 }
 
@@ -109,10 +104,9 @@ PPIWidget::makeVideoBuffer()
     deleteVideoBuffer();
 
     makeCurrent();
-    videoBuffer_ = new OffscreenBuffer(videoImaging_, viewSettings_, width(),
-                                       height());
-    if (! videoBuffer_->isValid())
-	QMessageBox::critical(window(), "Bad Format",
+    videoBuffer_ = new OffscreenBuffer(videoImaging_, viewSettings_, width(), height());
+    if (!videoBuffer_->isValid())
+        QMessageBox::critical(window(), "Bad Format",
                               "Failed to create offscreen texture to display "
                               "Video message data.");
     makeCurrent();
@@ -123,9 +117,9 @@ void
 PPIWidget::deleteBinaryBuffer()
 {
     if (binaryBuffer_) {
-	makeCurrent();
-	delete binaryBuffer_;
-	binaryBuffer_ = 0;
+        makeCurrent();
+        delete binaryBuffer_;
+        binaryBuffer_ = 0;
     }
 }
 
@@ -133,11 +127,10 @@ void
 PPIWidget::makeBinaryBuffer()
 {
     deleteBinaryBuffer();
-    
-    binaryBuffer_ = new OffscreenBuffer(binaryImaging_, viewSettings_, width(),
-                                        height());
-    if (! binaryBuffer_->isValid())
-	QMessageBox::critical(window(), "Bad Format",
+
+    binaryBuffer_ = new OffscreenBuffer(binaryImaging_, viewSettings_, width(), height());
+    if (!binaryBuffer_->isValid())
+        QMessageBox::critical(window(), "Bad Format",
                               "Failed to create offscreen texture to display "
                               "BinaryVideo message data.");
     makeCurrent();
@@ -148,8 +141,7 @@ void
 PPIWidget::makeRenderTextureList(ListIndex index, const Texture& texture)
 {
     Logger::ProcLog log("makeRenderTextureList", Log());
-    LOGERROR << "index: " << index << " texture: " << texture.getId()
-	     << std::endl;
+    LOGERROR << "index: " << index << " texture: " << texture.getId() << std::endl;
 
     double azimuthMin = viewSettings_->getAzimuthMin();
     double azimuthMax = viewSettings_->getAzimuthMax();
@@ -158,21 +150,21 @@ PPIWidget::makeRenderTextureList(ListIndex index, const Texture& texture)
 
     GLEC(glNewList(getDisplayList(index), GL_COMPILE));
     {
-	GLEC(glColor4f(1.0, 1.0, 1.0, 1.0));
-	GLEC(glEnable(texture.getType()));
-	GLEC(glBindTexture(texture.getType(), texture.getId()));
-	GLEC(glBegin(GL_QUADS));
-	GLEC(glTexCoord2f(texture.getXMin(), texture.getYMin()));
-	GLEC(glVertex2f(azimuthMin, rangeMin));
-	GLEC(glTexCoord2f(texture.getXMax(), texture.getYMin()));
-	GLEC(glVertex2f(azimuthMax, rangeMin));
-	GLEC(glTexCoord2f(texture.getXMax(), texture.getYMax()));
-	GLEC(glVertex2f(azimuthMax, rangeMax));
-	GLEC(glTexCoord2f(texture.getXMin(), texture.getYMax()));
-	GLEC(glVertex2f(azimuthMin, rangeMax));
-	GLEC(glEnd());
-	GLEC(glBindTexture(texture.getType(), 0));
-	GLEC(glDisable(texture.getType()));
+        GLEC(glColor4f(1.0, 1.0, 1.0, 1.0));
+        GLEC(glEnable(texture.getType()));
+        GLEC(glBindTexture(texture.getType(), texture.getId()));
+        GLEC(glBegin(GL_QUADS));
+        GLEC(glTexCoord2f(texture.getXMin(), texture.getYMin()));
+        GLEC(glVertex2f(azimuthMin, rangeMin));
+        GLEC(glTexCoord2f(texture.getXMax(), texture.getYMin()));
+        GLEC(glVertex2f(azimuthMax, rangeMin));
+        GLEC(glTexCoord2f(texture.getXMax(), texture.getYMax()));
+        GLEC(glVertex2f(azimuthMax, rangeMax));
+        GLEC(glTexCoord2f(texture.getXMin(), texture.getYMax()));
+        GLEC(glVertex2f(azimuthMin, rangeMax));
+        GLEC(glEnd());
+        GLEC(glBindTexture(texture.getType(), 0));
+        GLEC(glDisable(texture.getType()));
     }
     GLEC(glEndList());
 }
@@ -232,16 +224,16 @@ PPIWidget::initializeGL()
     LOGINFO << std::endl;
 
     if (displayLists_) {
-	LOGERROR << "*** initializeGL called again ***" << std::endl;
-	return;
+        LOGERROR << "*** initializeGL called again ***" << std::endl;
+        return;
     }
-    
+
     // Create kNumLists Open/GL compiled display list identifiers.
     //
     displayLists_ = glGenLists(kNumLists);
     if (displayLists_ == 0) {
-	Utils::Exception ex("failed to allocate OpenGL display lists");
-	log.thrower(ex);
+        Utils::Exception ex("failed to allocate OpenGL display lists");
+        log.thrower(ex);
     }
 
     initializeContext();
@@ -249,97 +241,70 @@ PPIWidget::initializeGL()
     // Receive phantom cursor updates from the singleton App instance.
     //
     App* app = App::GetApp();
-    connect(this, SIGNAL(currentCursorPosition(const QPointF&)),
-            app, SLOT(setPhantomCursor(const QPointF&)));
-    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)),
-            SLOT(setPhantomCursor(const QPointF&)));
+    connect(this, SIGNAL(currentCursorPosition(const QPointF&)), app, SLOT(setPhantomCursor(const QPointF&)));
+    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)), SLOT(setPhantomCursor(const QPointF&)));
 
     // Now that our Open/GL state is adequately setup, install the various configuration and imaging objects.
     //
     Configuration* configuration = app->getConfiguration();
     bugPlotEmitterSettings_ = configuration->getBugPlotEmitterSettings();
-    
+
     // Connect the video channel notifications.
     //
-    connect(configuration->getVideoChannel(),
-            SIGNAL(incoming(const MessageList&)),
+    connect(configuration->getVideoChannel(), SIGNAL(incoming(const MessageList&)),
             SLOT(processVideo(const MessageList&)));
-    connect(configuration->getVideoChannel(),
-            SIGNAL(valueChanged(int)),
-            SLOT(videoChannelChanged(int)));
+    connect(configuration->getVideoChannel(), SIGNAL(valueChanged(int)), SLOT(videoChannelChanged(int)));
 
     // Connect the binary video channel notifications.
     //
-    connect(configuration->getBinaryChannel(),
-            SIGNAL(incoming(const MessageList&)),
+    connect(configuration->getBinaryChannel(), SIGNAL(incoming(const MessageList&)),
             SLOT(processBinary(const MessageList&)));
-    connect(configuration->getBinaryChannel(),
-            SIGNAL(valueChanged(int)),
-            SLOT(binaryChannelChanged(int)));
+    connect(configuration->getBinaryChannel(), SIGNAL(valueChanged(int)), SLOT(binaryChannelChanged(int)));
 
     // Connect the extractions channel notifications.
     //
-    connect(configuration->getExtractionsChannel(),
-            SIGNAL(incoming(const MessageList&)),
+    connect(configuration->getExtractionsChannel(), SIGNAL(incoming(const MessageList&)),
             SLOT(processExtractions(const MessageList&)));
-    connect(configuration->getExtractionsChannel(),
-            SIGNAL(valueChanged(int)),
-            SLOT(extractionsChannelChanged(int)));
+    connect(configuration->getExtractionsChannel(), SIGNAL(valueChanged(int)), SLOT(extractionsChannelChanged(int)));
 
     // Connect the range truths channel notifications.
     //
-    connect(configuration->getRangeTruthsChannel(),
-            SIGNAL(incoming(const MessageList&)),
+    connect(configuration->getRangeTruthsChannel(), SIGNAL(incoming(const MessageList&)),
             SLOT(processRangeTruths(const MessageList&)));
-    connect(configuration->getRangeTruthsChannel(),
-            SIGNAL(valueChanged(int)),
-            SLOT(rangeTruthsChannelChanged(int)));
+    connect(configuration->getRangeTruthsChannel(), SIGNAL(valueChanged(int)), SLOT(rangeTruthsChannelChanged(int)));
 
     // Connect the user bug plot channel notifications.
     //
-    connect(configuration->getBugPlotsChannel(),
-            SIGNAL(incoming(const MessageList&)),
+    connect(configuration->getBugPlotsChannel(), SIGNAL(incoming(const MessageList&)),
             SLOT(processBugPlots(const MessageList&)));
-    connect(configuration->getBugPlotsChannel(),
-            SIGNAL(valueChanged(int)),
-            SLOT(bugPlotsChannelChanged(int)));
+    connect(configuration->getBugPlotsChannel(), SIGNAL(valueChanged(int)), SLOT(bugPlotsChannelChanged(int)));
 
     // When gain or min/max cutoff sliders change, redraw the video display.
     //
-    connect(configuration->getVideoSampleCountTransform(),
-            SIGNAL(settingChanged()), SLOT(redisplayVideo()));
+    connect(configuration->getVideoSampleCountTransform(), SIGNAL(settingChanged()), SLOT(redisplayVideo()));
 
     // When the use pans or zooms, adjust the viewport and redraw.
     //
     viewSettings_ = configuration->getViewSettings();
-    connect(viewSettings_, SIGNAL(settingChanged()),
-            SLOT(viewSettingsChanged()));
+    connect(viewSettings_, SIGNAL(settingChanged()), SLOT(viewSettingsChanged()));
 
     historySettings_ = configuration->getHistorySettings();
 
     // Detect changes to the video imaging settings
     //
     videoImaging_ = configuration->getVideoImaging();
-    connect(videoImaging_, SIGNAL(settingChanged()),
-            SLOT(redisplayVideo()));
-    connect(videoImaging_, SIGNAL(colorChanged()),
-            SLOT(redisplayVideo()));
-    connect(videoImaging_, SIGNAL(alphaChanged()),
-            SLOT(redisplayVideo()));
-    connect(videoImaging_, SIGNAL(decimationChanged(int)), 
-            SLOT(redisplayVideo()));
+    connect(videoImaging_, SIGNAL(settingChanged()), SLOT(redisplayVideo()));
+    connect(videoImaging_, SIGNAL(colorChanged()), SLOT(redisplayVideo()));
+    connect(videoImaging_, SIGNAL(alphaChanged()), SLOT(redisplayVideo()));
+    connect(videoImaging_, SIGNAL(decimationChanged(int)), SLOT(redisplayVideo()));
 
     // Detect changes to the binary video imaging settings
     //
     binaryImaging_ = configuration->getBinaryImaging();
-    connect(binaryImaging_, SIGNAL(sizeChanged()),
-            SLOT(redisplayBinary()));
-    connect(binaryImaging_, SIGNAL(colorChanged()),
-            SLOT(redisplayBinary()));
-    connect(binaryImaging_, SIGNAL(alphaChanged()),
-            SLOT(redisplayBinary()));
-    connect(binaryImaging_, SIGNAL(decimationChanged(int)),
-            SLOT(redisplayBinary()));
+    connect(binaryImaging_, SIGNAL(sizeChanged()), SLOT(redisplayBinary()));
+    connect(binaryImaging_, SIGNAL(colorChanged()), SLOT(redisplayBinary()));
+    connect(binaryImaging_, SIGNAL(alphaChanged()), SLOT(redisplayBinary()));
+    connect(binaryImaging_, SIGNAL(decimationChanged(int)), SLOT(redisplayBinary()));
 
     // Detect changes to the extraction target imaging settings.
     //
@@ -356,14 +321,12 @@ PPIWidget::initializeGL()
     // Detect changes to the range map imaging settings.
     //
     rangeMapImaging_ = configuration->getRangeMapImaging();
-    connect(rangeMapImaging_, SIGNAL(settingChanged()),
-            SLOT(remakeRangeMap()));
+    connect(rangeMapImaging_, SIGNAL(settingChanged()), SLOT(remakeRangeMap()));
 
     // Detect changes to the range rings imaging settings.
     //
     rangeRingsImaging_ = configuration->getRangeRingsImaging();
-    connect(rangeRingsImaging_, SIGNAL(settingChanged()),
-            SLOT(remakeRangeRings()));
+    connect(rangeRingsImaging_, SIGNAL(settingChanged()), SLOT(remakeRangeRings()));
 
     // Detect changes to the phantom cursor imaging settings.
     //
@@ -391,9 +354,9 @@ PPIWidget::makeRangeMapList()
 {
     glNewList(getDisplayList(kRangeMap), GL_COMPILE);
     {
-	rangeMapImaging_->getColor().use();
-	glLineWidth(rangeMapImaging_->getSize());
-	rangeMap_->render();
+        rangeMapImaging_->getColor().use();
+        glLineWidth(rangeMapImaging_->getSize());
+        rangeMap_->render();
     }
     glEndList();
 }
@@ -420,8 +383,7 @@ PPIWidget::makeRangeRingsList()
     // int rangeTicks = rangeRingsImaging_->getRangeTicks();
     // int azimuthTicks = rangeRingsImaging_->getAzimuthTicks();
 
-    double azimuthSpacing = Utils::degreesToRadians(
-	rangeRingsImaging_->getAzimuthSpacing());
+    double azimuthSpacing = Utils::degreesToRadians(rangeRingsImaging_->getAzimuthSpacing());
     // double azimuthTickSpacing = azimuthSpacing / azimuthTicks;
     // double rangeTickSpacing = rangeRingSpacing / rangeTicks;
 
@@ -432,29 +394,25 @@ PPIWidget::makeRangeRingsList()
 
     // Draw the range lines.
     //
-    for (double range = rangeRingSpacing; range < rangeMax;
-         range += rangeRingSpacing) {
-	points.push_back(Vertex(azimuthMin, range));
-	points.push_back(Vertex(azimuthMax, range));
+    for (double range = rangeRingSpacing; range < rangeMax; range += rangeRingSpacing) {
+        points.push_back(Vertex(azimuthMin, range));
+        points.push_back(Vertex(azimuthMax, range));
     }
 
     // Draw the azimuth lines.
     //
     double tickExtent = lineWidth * azimuthScaling_;
-    LOGDEBUG << "lineWidth: " << lineWidth << " azimuthScale: "
-	     << azimuthScaling_ << " tickExtent: " << tickExtent << std::endl;
+    LOGDEBUG << "lineWidth: " << lineWidth << " azimuthScale: " << azimuthScaling_ << " tickExtent: " << tickExtent
+             << std::endl;
 
-    for (double azimuth = azimuthSpacing; azimuth < azimuthMax;
-         azimuth += azimuthSpacing) {
-	points.push_back(Vertex(azimuth, rangeMin));
-	points.push_back(Vertex(azimuth, rangeMax));
-
+    for (double azimuth = azimuthSpacing; azimuth < azimuthMax; azimuth += azimuthSpacing) {
+        points.push_back(Vertex(azimuth, rangeMin));
+        points.push_back(Vertex(azimuth, rangeMax));
     }
 
-    for (double azimuth = 0.0; azimuth >= azimuthMin;
-         azimuth -= azimuthSpacing) {
-	points.push_back(Vertex(azimuth, rangeMin));
-	points.push_back(Vertex(azimuth, rangeMax));
+    for (double azimuth = 0.0; azimuth >= azimuthMin; azimuth -= azimuthSpacing) {
+        points.push_back(Vertex(azimuth, rangeMin));
+        points.push_back(Vertex(azimuth, rangeMax));
     }
 
     points.draw(GL_LINES);
@@ -469,45 +427,39 @@ PPIWidget::processVideo(const MessageList& data)
     static Logger::ProcLog log("processVideo", Log());
     LOGINFO << "data->size: " << data.size() << std::endl;
 
-    if (! updateTimer_.isActive() || ! videoBuffer_)
-	return;
+    if (!updateTimer_.isActive() || !videoBuffer_) return;
 
     size_t index = 0;
     if (trimVideo_) {
-	trimVideo_ = false;
-	index = data.size() - 1;
-	LOGWARNING << "dropping " << (data.size() - 1) << " messages"
-		   << std::endl;
+        trimVideo_ = false;
+        index = data.size() - 1;
+        LOGWARNING << "dropping " << (data.size() - 1) << " messages" << std::endl;
     }
 
     for (; index < data.size(); ++index) {
-	Messages::Video::Ref msg(
-	    boost::dynamic_pointer_cast<Messages::Video>(data[index]));
-	LOGDEBUG << msg->getSequenceCounter() << std::endl;
-	if (std::abs(viewSettings_->getRangeFactor() -
-                     msg->getRangeFactor()) > 0.001) {
-	    viewSettings_->setRangeFactorAndMax(msg->getRangeFactor(),
-                                                msg->getRangeMax());
-	}
+        Messages::Video::Ref msg(boost::dynamic_pointer_cast<Messages::Video>(data[index]));
+        LOGDEBUG << msg->getSequenceCounter() << std::endl;
+        if (std::abs(viewSettings_->getRangeFactor() - msg->getRangeFactor()) > 0.001) {
+            viewSettings_->setRangeFactorAndMax(msg->getRangeFactor(), msg->getRangeMax());
+        }
 
-	info_ = msg;
+        info_ = msg;
 
-	double azimuth = viewSettings_->normalizedAzimuth(
-	    msg->getAzimuthStart());
+        double azimuth = viewSettings_->normalizedAzimuth(msg->getAzimuthStart());
 
-	if (lastAzimuth_ > azimuth + Utils::kCircleRadians * 0.9) {
-	    LOGINFO << "seq: " << msg->getSequenceCounter() << " lastAzimuth: "
-		    << lastAzimuth_ << " azimuth: " << azimuth << std::endl;
-	    makeCurrent();
-	    renderScene(this, kCaptureBuffer);
-	    QImage frame = grabFrameBuffer();
-	    App::GetApp()->addFrame(frame); 
-	    history_->wrap();
-	}
+        if (lastAzimuth_ > azimuth + Utils::kCircleRadians * 0.9) {
+            LOGINFO << "seq: " << msg->getSequenceCounter() << " lastAzimuth: " << lastAzimuth_
+                    << " azimuth: " << azimuth << std::endl;
+            makeCurrent();
+            renderScene(this, kCaptureBuffer);
+            QImage frame = grabFrameBuffer();
+            App::GetApp()->addFrame(frame);
+            history_->wrap();
+        }
 
-	lastAzimuth_ = azimuth;
-	history_->addVideo(msg);
-	videoVertexGenerator_->add(msg);
+        lastAzimuth_ = azimuth;
+        history_->addVideo(msg);
+        videoVertexGenerator_->add(msg);
     }
 }
 
@@ -516,8 +468,7 @@ PPIWidget::repaintVideo(const History::MessageVector& video)
 {
     Logger::ProcLog log("repaintVideo", Log());
     LOGINFO << "video.size(): " << video.size() << std::endl;
-    if (! updateTimer_.isActive() || ! videoBuffer_)
-	return;
+    if (!updateTimer_.isActive() || !videoBuffer_) return;
     if (video.empty()) return;
     videoVertexGenerator_->add(video);
 }
@@ -528,27 +479,21 @@ PPIWidget::processBinary(const MessageList& data)
     static Logger::ProcLog log("processBinary", Log());
     LOGDEBUG << data.size() << std::endl;
 
-    if (! updateTimer_.isActive() || ! binaryBuffer_)
-	return;
+    if (!updateTimer_.isActive() || !binaryBuffer_) return;
 
     size_t index = 0;
     if (trimBinary_) {
-	trimBinary_ = false;
-	index = data.size() - 1;
-	LOGWARNING << "dropping " << (data.size() - 1) << " messages"
-		   << std::endl;
+        trimBinary_ = false;
+        index = data.size() - 1;
+        LOGWARNING << "dropping " << (data.size() - 1) << " messages" << std::endl;
     }
 
     for (; index < data.size(); ++index) {
-	Messages::BinaryVideo::Ref msg(
-	    boost::dynamic_pointer_cast<Messages::BinaryVideo>(
-		data[index]));
-	double azimuth = viewSettings_->normalizedAzimuth(
-	    msg->getAzimuthStart());
-	if (! viewSettings_->viewingAzimuth(azimuth))
-	    continue;
-	history_->addBinary(msg);
-	binaryVertexGenerator_->add(msg);
+        Messages::BinaryVideo::Ref msg(boost::dynamic_pointer_cast<Messages::BinaryVideo>(data[index]));
+        double azimuth = viewSettings_->normalizedAzimuth(msg->getAzimuthStart());
+        if (!viewSettings_->viewingAzimuth(azimuth)) continue;
+        history_->addBinary(msg);
+        binaryVertexGenerator_->add(msg);
     }
 }
 
@@ -557,8 +502,7 @@ PPIWidget::repaintBinary(const History::MessageVector& binary)
 {
     Logger::ProcLog log("repaintBinary", Log());
     LOGINFO << "binary.size(): " << binary.size() << std::endl;
-    if (! updateTimer_.isActive() || ! binaryBuffer_)
-	return;
+    if (!updateTimer_.isActive() || !binaryBuffer_) return;
     if (binary.empty()) return;
     binaryVertexGenerator_->add(binary);
 }
@@ -569,14 +513,11 @@ PPIWidget::processExtractions(const MessageList& data)
     static Logger::ProcLog log("processExtractions", Log());
     LOGINFO << std::endl;
 
-    if (! updateTimer_.isActive())
-	return;
+    if (!updateTimer_.isActive()) return;
 
     for (size_t index = 0; index < data.size(); ++index) {
-	Messages::Extractions::Ref msg(
-	    boost::dynamic_pointer_cast<Messages::Extractions>(
-		data[index]));
-	history_->addExtractions(msg);
+        Messages::Extractions::Ref msg(boost::dynamic_pointer_cast<Messages::Extractions>(data[index]));
+        history_->addExtractions(msg);
     }
 }
 
@@ -586,17 +527,13 @@ PPIWidget::processRangeTruths(const MessageList& data)
     static Logger::ProcLog log("processRangeTruths", Log());
     LOGINFO << std::endl;
 
-    if (! updateTimer_.isActive())
-	return;
+    if (!updateTimer_.isActive()) return;
 
     for (size_t index = 0; index < data.size(); ++index) {
-	Messages::TSPI::Ref msg(
-	    boost::dynamic_pointer_cast<Messages::TSPI>(data[index]));
-	LOGERROR << "range: " << msg->getRange()
-		 << " azimuth: " << msg->getAzimuth()
-		 << " elevation: " << msg->getElevation()
-		 << std::endl;
-	history_->addRangeTruth(msg);
+        Messages::TSPI::Ref msg(boost::dynamic_pointer_cast<Messages::TSPI>(data[index]));
+        LOGERROR << "range: " << msg->getRange() << " azimuth: " << msg->getAzimuth()
+                 << " elevation: " << msg->getElevation() << std::endl;
+        history_->addRangeTruth(msg);
     }
 }
 
@@ -606,14 +543,12 @@ PPIWidget::processBugPlots(const MessageList& data)
     static Logger::ProcLog log("processBugPlots", Log());
     LOGINFO << std::endl;
 
-    if (! updateTimer_.isActive())
-	return;
+    if (!updateTimer_.isActive()) return;
 
     for (size_t index = 0; index < data.size(); ++index) {
-	Messages::BugPlot::Ref msg(
-	    boost::dynamic_pointer_cast<Messages::BugPlot>(data[index]));
-	
-	history_->addBugPlot(msg);
+        Messages::BugPlot::Ref msg(boost::dynamic_pointer_cast<Messages::BugPlot>(data[index]));
+
+        history_->addBugPlot(msg);
     }
 }
 
@@ -621,24 +556,21 @@ void
 PPIWidget::drawExtractions(QWidget* widget)
 {
     const TargetPlotList& extractions(history_->getExtractions());
-    if (! extractions.empty())
-	extractionsImaging_->render(widget, extractions);
+    if (!extractions.empty()) extractionsImaging_->render(widget, extractions);
 }
 
 void
 PPIWidget::drawRangeTruths(QWidget* widget)
 {
     const TargetPlotListList& rangeTruths(history_->getRangeTruths());
-    if (! rangeTruths.empty())
-	rangeTruthsImaging_->render(widget, rangeTruths);
+    if (!rangeTruths.empty()) rangeTruthsImaging_->render(widget, rangeTruths);
 }
 
 void
 PPIWidget::drawBugPlots(QWidget* widget)
 {
     const TargetPlotList& bugPlots(history_->getBugPlots());
-    if (! bugPlots.empty())
-	bugPlotsImaging_->render(widget, bugPlots);
+    if (!bugPlots.empty()) bugPlotsImaging_->render(widget, bugPlots);
 }
 
 void
@@ -646,11 +578,9 @@ PPIWidget::paintGL()
 {
     static Logger::ProcLog log("paintGL", Log());
 
-    if (! videoBuffer_)
-	makeVideoBuffer();
+    if (!videoBuffer_) makeVideoBuffer();
 
-    if (! binaryBuffer_)
-	makeBinaryBuffer();
+    if (!binaryBuffer_) makeBinaryBuffer();
 
     renderScene(this, kMainWindow);
 
@@ -673,30 +603,28 @@ PPIWidget::paintGL()
     glLineWidth(1.0);
 
     if (sweep >= azimuthMin && sweep < azimuthMax) {
-	glBegin(GL_LINES);
-	glVertex2f(sweep, rangeMin - 10.0);
-	glVertex2f(sweep, rangeMax + 10.0);
-	glEnd();
+        glBegin(GL_LINES);
+        glVertex2f(sweep, rangeMin - 10.0);
+        glVertex2f(sweep, rangeMax + 10.0);
+        glEnd();
     }
 
     if (rubberBanding_) {
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(magStartX_, magStartY_);
-	glVertex2f(magEndX_, magStartY_);
-	glVertex2f(magEndX_, magEndY_);
-	glVertex2f(magStartX_, magEndY_);
-	glEnd();
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(magStartX_, magStartY_);
+        glVertex2f(magEndX_, magStartY_);
+        glVertex2f(magEndX_, magEndY_);
+        glVertex2f(magStartX_, magEndY_);
+        glEnd();
     }
 
     for (int index = 0; index < magnifiers_.size(); ++index) {
-	MagnifierWindow* magnifier = magnifiers_[index];
-	if (magnifier->showOutline()) {
-	    magnifier->drawFrame();
-	}
+        MagnifierWindow* magnifier = magnifiers_[index];
+        if (magnifier->showOutline()) { magnifier->drawFrame(); }
     }
 
-    if (! isActiveWindow() && ! underMouse() && showPhantomCursor_)
-	phantomCursorImaging_->drawCursor(phantomCursor_, xScale_, yScale_);
+    if (!isActiveWindow() && !underMouse() && showPhantomCursor_)
+        phantomCursorImaging_->drawCursor(phantomCursor_, xScale_, yScale_);
 
     glDisable(GL_BLEND);
 }
@@ -709,18 +637,17 @@ PPIWidget::renderScene(QGLWidget* widget, RenderType renderType)
     bool capturing = renderType == kCaptureBuffer;
 
     if (renderType != kMagnifierWindow) {
+        if (videoVertexGenerator_->hasData()) {
+            videoVertexGenerator_->processQueue(capturing ? -1 : 100);
+            videoVertexGenerator_->renderInto(videoBuffer_);
+            videoVertexGenerator_->flushPoints();
+        }
 
-	if (videoVertexGenerator_->hasData()) {
-	    videoVertexGenerator_->processQueue(capturing ? -1 : 100);
-	    videoVertexGenerator_->renderInto(videoBuffer_);
-	    videoVertexGenerator_->flushPoints();
-	}
-
-	if (binaryVertexGenerator_->hasData()) {
-	    binaryVertexGenerator_->processQueue(capturing ? -1 : 100);
-	    binaryVertexGenerator_->renderInto(binaryBuffer_);
-	    binaryVertexGenerator_->flushPoints();
-	}
+        if (binaryVertexGenerator_->hasData()) {
+            binaryVertexGenerator_->processQueue(capturing ? -1 : 100);
+            binaryVertexGenerator_->renderInto(binaryBuffer_);
+            binaryVertexGenerator_->flushPoints();
+        }
     }
 
     glDisable(GL_BLEND);
@@ -735,27 +662,26 @@ PPIWidget::renderScene(QGLWidget* widget, RenderType renderType)
     //
     bool showingVideo = videoImaging_->isEnabled();
     if (showingVideo) {
-	GLEC(glCallList(getDisplayList(kRenderVideoTexture)));
-	glEnable(GL_BLEND);
+        GLEC(glCallList(getDisplayList(kRenderVideoTexture)));
+        glEnable(GL_BLEND);
     }
 
     // Render on top any binary imaging.
     //
     if (binaryImaging_->isEnabled()) {
-	if (showingVideo) {
-
-	    // Enable the following to properly draw the binary texture ontop of the of the normal video data
-	    // such that only binary true values appear in the mix. If we are not showing the video data, then
-	    // there is no need for the additional work.
-	    //
-	    glEnable(GL_ALPHA_TEST);
-	    glEnable(GL_COLOR_LOGIC_OP);
-	}
-	GLEC(glCallList(getDisplayList(kRenderBinaryTexture)));
-	if (showingVideo) {
-	    glDisable(GL_COLOR_LOGIC_OP);
-	    glDisable(GL_ALPHA_TEST);
-	}
+        if (showingVideo) {
+            // Enable the following to properly draw the binary texture ontop of the of the normal video data
+            // such that only binary true values appear in the mix. If we are not showing the video data, then
+            // there is no need for the additional work.
+            //
+            glEnable(GL_ALPHA_TEST);
+            glEnable(GL_COLOR_LOGIC_OP);
+        }
+        GLEC(glCallList(getDisplayList(kRenderBinaryTexture)));
+        if (showingVideo) {
+            glDisable(GL_COLOR_LOGIC_OP);
+            glDisable(GL_ALPHA_TEST);
+        }
     }
 
     glEnable(GL_BLEND);
@@ -766,33 +692,28 @@ PPIWidget::renderScene(QGLWidget* widget, RenderType renderType)
     // each overlay.
     //
     {
-	StencilBufferState stencilState;
-	if (rangeMapImaging_->isEnabled() &&
-            (! capturing || historySettings_->getFrameHasRangeMap())) {
-	    stencilState.use();
-	    glCallList(getDisplayList(kRangeMap));
-	}
+        StencilBufferState stencilState;
+        if (rangeMapImaging_->isEnabled() && (!capturing || historySettings_->getFrameHasRangeMap())) {
+            stencilState.use();
+            glCallList(getDisplayList(kRangeMap));
+        }
 
-	if (rangeRingsImaging_->isEnabled() &&
-            (! capturing || historySettings_->getFrameHasGrid())) {
-	    stencilState.use();
-	    glCallList(getDisplayList(kRangeRings));
-	}
-    }
-    
-    if (extractionsImaging_->isEnabled() &&
-        (! capturing || historySettings_->getFrameHasExtractions())) {
-	drawExtractions(widget);
+        if (rangeRingsImaging_->isEnabled() && (!capturing || historySettings_->getFrameHasGrid())) {
+            stencilState.use();
+            glCallList(getDisplayList(kRangeRings));
+        }
     }
 
-    if (rangeTruthsImaging_->isEnabled() &&
-        (! capturing || historySettings_->getFrameHasRangeTruths())) {
-	drawRangeTruths(widget);
+    if (extractionsImaging_->isEnabled() && (!capturing || historySettings_->getFrameHasExtractions())) {
+        drawExtractions(widget);
     }
 
-    if (bugPlotsImaging_->isEnabled() &&
-        (! capturing || historySettings_->getFrameHasBugPlots())) {
-	drawBugPlots(widget);
+    if (rangeTruthsImaging_->isEnabled() && (!capturing || historySettings_->getFrameHasRangeTruths())) {
+        drawRangeTruths(widget);
+    }
+
+    if (bugPlotsImaging_->isEnabled() && (!capturing || historySettings_->getFrameHasBugPlots())) {
+        drawBugPlots(widget);
     }
 
     glDisable(GL_BLEND);
@@ -831,8 +752,8 @@ PPIWidget::setViewTransform()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(viewSettings_->getAzimuthMin(), viewSettings_->getAzimuthMax(),
-            viewSettings_->getRangeMin(), viewSettings_->getRangeMax(), -1.0, 1.0);
+    glOrtho(viewSettings_->getAzimuthMin(), viewSettings_->getAzimuthMax(), viewSettings_->getRangeMin(),
+            viewSettings_->getRangeMax(), -1.0, 1.0);
 
     xScale_ = viewSettings_->getAzimuthSpan() / width();
     yScale_ = viewSettings_->getRangeSpan() / height();
@@ -855,8 +776,7 @@ PPIWidget::redisplayAll()
 {
     makeCurrent();
     repaintVideo(history_->getVideo());
-    if (binaryImaging_->isEnabled())
-	repaintBinary(history_->getBinary());
+    if (binaryImaging_->isEnabled()) repaintBinary(history_->getBinary());
 }
 
 void
@@ -873,8 +793,7 @@ PPIWidget::clearVideoBuffer()
 {
     makeCurrent();
     videoVertexGenerator_->flushAll();
-    if (videoBuffer_)
-	videoBuffer_->clearBuffer();
+    if (videoBuffer_) videoBuffer_->clearBuffer();
 }
 
 void
@@ -882,8 +801,7 @@ PPIWidget::clearBinaryBuffer()
 {
     makeCurrent();
     binaryVertexGenerator_->flushAll();
-    if (binaryBuffer_)
-	binaryBuffer_->clearBuffer();
+    if (binaryBuffer_) binaryBuffer_->clearBuffer();
 }
 
 void
@@ -905,8 +823,7 @@ PPIWidget::clearBugPlots()
 }
 
 void
-PPIWidget::localToRealWorld(int x, int y, GLdouble& azimuth, GLdouble& range)
-    const
+PPIWidget::localToRealWorld(int x, int y, GLdouble& azimuth, GLdouble& range) const
 {
     static Logger::ProcLog log("localToRealWorld", Log());
     azimuth = x * xScale_ + viewSettings_->getAzimuthMin();
@@ -917,20 +834,16 @@ void
 PPIWidget::updateCursorPosition(CursorPosition& pos)
 {
     if (history_) {
-	bool isValid = false;
+        bool isValid = false;
 
-	if (videoImaging_->isEnabled()) {
-	    Messages::Video::DatumType datum = history_->getVideoValue(
-		pos.getAzimuth(), pos.getRange(), isValid);
-	    if (isValid)
-		pos.setSampleValue(QString::number(datum));
-	}
-	else if (binaryImaging_->isEnabled()) {
-	    Messages::BinaryVideo::DatumType datum = history_->getBinaryValue(
-		pos.getAzimuth(), pos.getRange(), isValid);
-	    if (isValid)
-		pos.setSampleValue(datum ? "T" : "F");
-	}
+        if (videoImaging_->isEnabled()) {
+            Messages::Video::DatumType datum = history_->getVideoValue(pos.getAzimuth(), pos.getRange(), isValid);
+            if (isValid) pos.setSampleValue(QString::number(datum));
+        } else if (binaryImaging_->isEnabled()) {
+            Messages::BinaryVideo::DatumType datum =
+                history_->getBinaryValue(pos.getAzimuth(), pos.getRange(), isValid);
+            if (isValid) pos.setSampleValue(datum ? "T" : "F");
+        }
     }
 }
 
@@ -939,9 +852,8 @@ PPIWidget::showCursorInfo()
 {
     GLdouble azimuth, range;
     localToRealWorld(mouse_.x(), mouse_.y(), azimuth, range);
-    CursorPosition pos(viewSettings_->azimuthToParametric(azimuth),
-                       viewSettings_->rangeToParametric(range),
-                       azimuth, range);
+    CursorPosition pos(viewSettings_->azimuthToParametric(azimuth), viewSettings_->rangeToParametric(range), azimuth,
+                       range);
     updateCursorPosition(pos);
     setCursorPosition(pos.getToolTip());
 
@@ -954,24 +866,24 @@ PPIWidget::timerEvent(QTimerEvent* event)
     static Logger::ProcLog log("timerEvent", Log());
 
     if (event->timerId() != updateTimer_.timerId()) {
-	event->ignore();
-	Super::timerEvent(event);
-	return;
+        event->ignore();
+        Super::timerEvent(event);
+        return;
     }
 
     updateGL();
 
     if (underMouse()) {
-	QPoint newMouse = mapFromGlobal(QCursor::pos());
-	if (newMouse != mouse_) {
-	    mouse_ = newMouse;
-	    showCursorInfo();
-	}
+        QPoint newMouse = mapFromGlobal(QCursor::pos());
+        if (newMouse != mouse_) {
+            mouse_ = newMouse;
+            showCursorInfo();
+        }
     }
 
     if (info_) {
-	emit currentMessage(info_);
-	info_.reset();
+        emit currentMessage(info_);
+        info_.reset();
     }
 }
 
@@ -980,8 +892,7 @@ PPIWidget::showEvent(QShowEvent* event)
 {
     Logger::ProcLog log("showEvent", Log());
     LOGINFO << std::endl;
-    if (! updateTimer_.isActive())
-	updateTimer_.start(kUpdateRate, this);
+    if (!updateTimer_.isActive()) updateTimer_.start(kUpdateRate, this);
     Super::showEvent(event);
 }
 
@@ -990,8 +901,7 @@ PPIWidget::closeEvent(QCloseEvent* event)
 {
     Logger::ProcLog log("closeEvent", Log());
     LOGINFO << std::endl;
-    if (updateTimer_.isActive())
-	updateTimer_.stop();
+    if (updateTimer_.isActive()) updateTimer_.stop();
     Super::closeEvent(event);
 }
 
@@ -999,8 +909,8 @@ void
 PPIWidget::videoChannelChanged(int index)
 {
     if (index) {
-	history_->clearVideo();
-	clearVideoBuffer();
+        history_->clearVideo();
+        clearVideoBuffer();
     }
 }
 
@@ -1008,38 +918,34 @@ void
 PPIWidget::binaryChannelChanged(int index)
 {
     if (index) {
-	history_->clearBinary();
-	clearBinaryBuffer();
+        history_->clearBinary();
+        clearBinaryBuffer();
     }
 }
 
 void
 PPIWidget::extractionsChannelChanged(int index)
 {
-    if (index)
-	history_->clearExtractions();
+    if (index) history_->clearExtractions();
 }
 
 void
 PPIWidget::rangeTruthsChannelChanged(int index)
 {
-    if (index)
-	history_->clearRangeTruths();
+    if (index) history_->clearRangeTruths();
 }
 
 void
 PPIWidget::bugPlotsChannelChanged(int index)
 {
-    if (index)
-	history_->clearBugPlots();
+    if (index) history_->clearBugPlots();
 }
 
 void
 PPIWidget::setPhantomCursor(const QPointF& pos)
 {
-    phantomCursor_ = QPointF(
-	viewSettings_->azimuthFromParametric(pos.x()),
-	viewSettings_->rangeFromParametric(pos.y()));
+    phantomCursor_ =
+        QPointF(viewSettings_->azimuthFromParametric(pos.x()), viewSettings_->rangeFromParametric(pos.y()));
 }
 
 void
@@ -1059,33 +965,28 @@ PPIWidget::leaveEvent(QEvent* event)
 {
     phantomCursor_ = PhantomCursorImaging::InvalidCursor();
     Super::leaveEvent(event);
-    if (rubberBanding_) {
-	rubberBanding_ = false;
-    }
+    if (rubberBanding_) { rubberBanding_ = false; }
 }
 
 void
 PPIWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	if (event->modifiers() == 0) {
-	    event->accept();
-	    magStartPos_ = event->pos();
-	    localToRealWorld(event->x(), event->y(), magStartX_, magStartY_);
-	    magEndX_ = magStartX_;
-	    magEndY_ = magStartY_;
-	    rubberBanding_ = true;
-	}
-	else if (event->modifiers() == Qt::ControlModifier) {
-	    event->accept();
-	    GLdouble range, azimuth;
-	    localToRealWorld(event->x(), event->y(), azimuth, range);
-	    azimuth = Utils::normalizeRadians(azimuth);
-	    Messages::BugPlot::Ref msg =
-		bugPlotEmitterSettings_->addBugPlot(range, azimuth);
-	    if (msg)
-		history_->addBugPlot(msg);
-	}
+        if (event->modifiers() == 0) {
+            event->accept();
+            magStartPos_ = event->pos();
+            localToRealWorld(event->x(), event->y(), magStartX_, magStartY_);
+            magEndX_ = magStartX_;
+            magEndY_ = magStartY_;
+            rubberBanding_ = true;
+        } else if (event->modifiers() == Qt::ControlModifier) {
+            event->accept();
+            GLdouble range, azimuth;
+            localToRealWorld(event->x(), event->y(), azimuth, range);
+            azimuth = Utils::normalizeRadians(azimuth);
+            Messages::BugPlot::Ref msg = bugPlotEmitterSettings_->addBugPlot(range, azimuth);
+            if (msg) history_->addBugPlot(msg);
+        }
     }
     Super::mousePressEvent(event);
 }
@@ -1093,9 +994,7 @@ PPIWidget::mousePressEvent(QMouseEvent* event)
 void
 PPIWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    if (rubberBanding_) {
-	localToRealWorld(event->x(), event->y(), magEndX_, magEndY_);
-    }
+    if (rubberBanding_) { localToRealWorld(event->x(), event->y(), magEndX_, magEndY_); }
 }
 
 void
@@ -1105,22 +1004,19 @@ PPIWidget::mouseReleaseEvent(QMouseEvent* event)
     LOGINFO << std::endl;
 
     if (event->button() == Qt::LeftButton) {
-	if (rubberBanding_) {
-	    event->accept();
-	    rubberBanding_ = false;
-	    if (std::abs(magStartPos_.x() - event->x()) > 20 &&
-                std::abs(magStartPos_.y() - event->y()) > 20) {
-		MagnifierWindow* magnifier = new MagnifierWindow(this);
-		magnifier->initialize();
-		localToRealWorld(event->x(), event->y(), magEndX_, magEndY_);
-		magnifier->setBounds(std::min(magStartX_, magEndX_),
-                                     std::min(magStartY_, magEndY_),
-                                     std::abs(magStartX_ - magEndX_),
-                                     std::abs(magStartY_ - magEndY_),
-                                     xScale_, yScale_);
-		magnifier->showAndRaise();
-	    }
-	}
+        if (rubberBanding_) {
+            event->accept();
+            rubberBanding_ = false;
+            if (std::abs(magStartPos_.x() - event->x()) > 20 && std::abs(magStartPos_.y() - event->y()) > 20) {
+                MagnifierWindow* magnifier = new MagnifierWindow(this);
+                magnifier->initialize();
+                localToRealWorld(event->x(), event->y(), magEndX_, magEndY_);
+                magnifier->setBounds(std::min(magStartX_, magEndX_), std::min(magStartY_, magEndY_),
+                                     std::abs(magStartX_ - magEndX_), std::abs(magStartY_ - magEndY_), xScale_,
+                                     yScale_);
+                magnifier->showAndRaise();
+            }
+        }
     }
 
     Super::mouseReleaseEvent(event);
@@ -1135,8 +1031,7 @@ PPIWidget::addMagnifier(MagnifierWindow* magnifier)
 void
 PPIWidget::removeMagnifier(MagnifierWindow* magnifier)
 {
-    if (! magnifier)
-	magnifier = static_cast<MagnifierWindow*>(sender());
+    if (!magnifier) magnifier = static_cast<MagnifierWindow*>(sender());
     magnifiers_.removeAll(magnifier);
     phantomCursor_ = phantomCursorImaging_->InvalidCursor();
     update();
@@ -1146,12 +1041,11 @@ void
 PPIWidget::saveMagnifiers(QSettings& settings) const
 {
     Logger::ProcLog log("saveMagnifiers", Log());
-    LOGERROR << "count: " << magnifiers_.size() << " group: "
-	     << settings.group() << std::endl;
+    LOGERROR << "count: " << magnifiers_.size() << " group: " << settings.group() << std::endl;
     settings.beginWriteArray("Magnifiers", magnifiers_.size());
     for (int index = 0; index < magnifiers_.size(); ++index) {
-	settings.setArrayIndex(index);
-	magnifiers_[index]->save(settings);
+        settings.setArrayIndex(index);
+        magnifiers_[index]->save(settings);
     }
     settings.endArray();
 }
@@ -1171,11 +1065,11 @@ PPIWidget::restoreMagnifiers()
     int count = settings.beginReadArray("Magnifiers");
     LOGERROR << "count: " << count << std::endl;
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	MagnifierWindow* magnifier = new MagnifierWindow(this);
-	magnifier->initialize();
-	magnifier->restore(settings);
-	makeCurrent();
+        settings.setArrayIndex(index);
+        MagnifierWindow* magnifier = new MagnifierWindow(this);
+        magnifier->initialize();
+        magnifier->restore(settings);
+        makeCurrent();
     }
     settings.endArray();
 }
@@ -1191,8 +1085,8 @@ PPIWidget::raiseMagnifiers()
 {
     Logger::ProcLog log("raiseMagnifiers", Log());
     LOGINFO << std::endl;
-    foreach(MagnifierWindow* mag, magnifiers_)
-	mag->showAndRaise();
+    foreach (MagnifierWindow* mag, magnifiers_)
+        mag->showAndRaise();
 }
 
 void
@@ -1200,20 +1094,17 @@ PPIWidget::setShowCursorPosition(bool state)
 {
     showCursorPosition_ = state;
     setToolTip("");
-    if (state)
-	setToolTip(cursorPosition_);
+    if (state) setToolTip(cursorPosition_);
 }
 
 void
 PPIWidget::setCursorPosition(const QString& value)
 {
     if (value != cursorPosition_) {
-	cursorPosition_ = value;
-	if (showCursorPosition_)
-	    setToolTip(cursorPosition_);
-    }
-    else {
-	setToolTip("");
-	setToolTip(value);
+        cursorPosition_ = value;
+        if (showCursorPosition_) setToolTip(cursorPosition_);
+    } else {
+        setToolTip("");
+        setToolTip(value);
     }
 }

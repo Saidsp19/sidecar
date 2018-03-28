@@ -12,10 +12,8 @@ namespace Spectrum {
 
 /** User-defined view setting.
  */
-class ViewSettings
-{
+class ViewSettings {
 public:
-
     ViewSettings() {}
 
     ViewSettings(double xMin, double xMax, double yMin, double yMax);
@@ -40,11 +38,9 @@ public:
 
     bool operator==(const ViewSettings& rhs) const;
 
-    bool operator!=(const ViewSettings& rhs) const
-	{ return ! operator==(rhs); }
+    bool operator!=(const ViewSettings& rhs) const { return !operator==(rhs); }
 
 private:
-
     void updateBounds();
 
     QRectF bounds_;

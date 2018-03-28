@@ -12,15 +12,14 @@ QVariant
 RawPRIItem::getInfoDataValue(int role) const
 {
     if (dupeCount_ || dropCount_) {
-	if (role == Qt::ForegroundRole)
-	    return GetFailureColor();
+        if (role == Qt::ForegroundRole) return GetFailureColor();
 
-	if (role == Qt::DisplayRole)
-	    return QString("Dupes: %1 (%2)  Drops: %3 (%4)")
-		.arg(dupeCount_)
-		.arg(recordingDupeCount_)
-		.arg(dropCount_)
-		.arg(recordingDropCount_);
+        if (role == Qt::DisplayRole)
+            return QString("Dupes: %1 (%2)  Drops: %3 (%4)")
+                .arg(dupeCount_)
+                .arg(recordingDupeCount_)
+                .arg(dropCount_)
+                .arg(recordingDropCount_);
     }
 
     return Super::getInfoDataValue(role);

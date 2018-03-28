@@ -24,27 +24,20 @@ HistoryPosition::Log()
     return log_;
 }
 
-HistoryPosition::HistoryPosition(Visualizer* parent,
-                                 AzimuthLatch* azimuthLatch)
-    : QObject(parent), parent_(parent), azimuthLatch_(azimuthLatch),
-      history_(App::GetApp()->getHistory()), position_(0),
-      viewingPast_(false), synchronized_(true), infoReporter_(false)
+HistoryPosition::HistoryPosition(Visualizer* parent, AzimuthLatch* azimuthLatch) :
+    QObject(parent), parent_(parent), azimuthLatch_(azimuthLatch), history_(App::GetApp()->getHistory()), position_(0),
+    viewingPast_(false), synchronized_(true), infoReporter_(false)
 {
     static Logger::ProcLog log("HistoryPosition", Log());
     LOGINFO << std::endl;
-    connect(parent_,
-            SIGNAL(channelConnectionsChanged(const QSet<QString>&)),
+    connect(parent_, SIGNAL(channelConnectionsChanged(const QSet<QString>&)),
             SLOT(channelNamesChanged(const QSet<QString>&)));
-    connect(&history_, SIGNAL(liveFrameChanged()),
-            SLOT(liveFrameChanged()));
+    connect(&history_, SIGNAL(liveFrameChanged()), SLOT(liveFrameChanged()));
     connect(&history_, SIGNAL(pastFrozen()), SLOT(pastFrozen()));
     connect(&history_, SIGNAL(pastThawed()), SLOT(pastThawed()));
 
-    connect(azimuthLatch_,
-            SIGNAL(configurationChanged(bool, double, bool,
-                                        const QString&)),
-            SLOT(azimuthLatchChanged(bool, double, bool,
-                                     const QString&)));
+    connect(azimuthLatch_, SIGNAL(configurationChanged(bool, double, bool, const QString&)),
+            SLOT(azimuthLatchChanged(bool, double, bool, const QString&)));
 
     azLatchEnabled_ = false;
     azLatchAzimuth_ = azimuthLatch->getAzimuth();
@@ -61,22 +54,19 @@ HistoryPosition::liveFrameChanged()
 {
     static Logger::ProcLog log("liveFrameChanged", Log());
     LOGINFO << std::endl;
-    if (! viewingPast_) {
+    if (!viewingPast_) {
+        bool show = checkAzimuthLatch();
 
-	bool show = checkAzimuthLatch();
+        if (show) {
+            if (caught_) {
+                LOGDEBUG << "caught azimuth" << std::endl;
+                pastFrame_ = history_.getLiveFrame();
+            }
 
-	if (show) {
-	    if (caught_) {
-		LOGDEBUG << "caught azimuth" << std::endl;
-		pastFrame_ = history_.getLiveFrame();
-	    }
-	    
-	    emit viewChanged();
+            emit viewChanged();
 
-	    if (infoReporter_) {
-		emit infoUpdate(history_.getLiveFrame().getSomeMessage());
-	    }
-	}
+            if (infoReporter_) { emit infoUpdate(history_.getLiveFrame().getSomeMessage()); }
+        }
     }
 }
 
@@ -86,12 +76,11 @@ HistoryPosition::setInfoReporter(bool state)
     if (infoReporter_ == state) return;
     infoReporter_ = state;
     if (state) {
-	if (caught_ || viewingPast_)
-	    emit infoUpdate(pastFrame_.getSomeMessage());
-	else
-	    emit infoUpdate(history_.getLiveFrame().getSomeMessage());
-	azimuthLatch_->setConfiguration(azLatchEnabled_, azLatchAzimuth_,
-                                        azLatchRelatch_, caught_, names_,
+        if (caught_ || viewingPast_)
+            emit infoUpdate(pastFrame_.getSomeMessage());
+        else
+            emit infoUpdate(history_.getLiveFrame().getSomeMessage());
+        azimuthLatch_->setConfiguration(azLatchEnabled_, azLatchAzimuth_, azLatchRelatch_, caught_, names_,
                                         azLatchChannel_);
     }
 }
@@ -106,8 +95,7 @@ HistoryPosition::pastFrozen()
     // could be true if we overrode a thaw in the pastThawed() slot, in which case we do not want to change the
     // position value.
     //
-    if (! viewingPast_)
-	position_ = 0;
+    if (!viewingPast_) position_ = 0;
 }
 
 void
@@ -119,10 +107,9 @@ HistoryPosition::pastThawed()
     // Someone asked that the past be thawed. However, if we are still viewing the past, override the request.
     //
     if (viewingPast_) {
-	history_.freezePast(true);
-    }
-    else {
-	position_ = 0;
+        history_.freezePast(true);
+    } else {
+        position_ = 0;
     }
 }
 
@@ -131,28 +118,25 @@ HistoryPosition::setPosition(int position)
 {
     static Logger::ProcLog log("setPosition", Log());
     LOGINFO << position << std::endl;
-    if (! viewingPast_) return;
+    if (!viewingPast_) return;
     if (position == position_) return;
-    if (sender() && ! synchronized_) return;
+    if (sender() && !synchronized_) return;
     position_ = position;
     pastFrame_ = history_.getPastFrame(position_);
     emit viewChanged();
-    if (infoReporter_)
-	emit infoUpdate(pastFrame_.getSomeMessage());
+    if (infoReporter_) emit infoUpdate(pastFrame_.getSomeMessage());
 }
 
 void
 HistoryPosition::viewingPast(bool state)
 {
     if (viewingPast_ != state) {
-	viewingPast_ = state;
-	history_.freezePast(state);
-	if (state)
-	    pastFrame_ = history_.getPastFrame(position_);
-	emit viewChanged();
-	emit viewingPastChanged(state);
-	if (infoReporter_)
-	    emit infoUpdate(pastFrame_.getSomeMessage());
+        viewingPast_ = state;
+        history_.freezePast(state);
+        if (state) pastFrame_ = history_.getPastFrame(position_);
+        emit viewChanged();
+        emit viewingPastChanged(state);
+        if (infoReporter_) emit infoUpdate(pastFrame_.getSomeMessage());
     }
 }
 
@@ -161,12 +145,10 @@ HistoryPosition::getMessage(int slot) const
 {
     static Logger::ProcLog log("getMessage", Log());
     LOGINFO << "position: " << position_ << " slot: " << slot << std::endl;
-    return (caught_ || viewingPast_) ?
-	pastFrame_.getMessage(history_.getSlotIndex(slot)) :
-	history_.getLiveMessage(slot);
+    return (caught_ || viewingPast_) ? pastFrame_.getMessage(history_.getSlotIndex(slot))
+                                     : history_.getLiveMessage(slot);
 }
 
-    
 void
 HistoryPosition::setSynchronized(bool synchronized)
 {
@@ -178,94 +160,82 @@ HistoryPosition::checkAzimuthLatch()
 {
     static Logger::ProcLog log("checkAzimuthLatch", Log());
 
-    if (! latchChannel_) return true;
+    if (!latchChannel_) return true;
 
     int slot = latchChannel_->getHistorySlot();
-    if (slot == -1)
-	return true;
+    if (slot == -1) return true;
 
     Messages::PRIMessage::Ref msg(history_.getLiveMessage(slot));
 
     double azimuth = msg->getAzimuthStart();
 
-    if (! azLatchEnabled_ || lastAzimuth_ < 0.0) {
-	lastAzimuth_ = azimuth;
-	return true;
+    if (!azLatchEnabled_ || lastAzimuth_ < 0.0) {
+        lastAzimuth_ = azimuth;
+        return true;
     }
 
     bool caught = false;
 
-    if (azimuth == lastAzimuth_) {
-	return ! caught_;
-    }
+    if (azimuth == lastAzimuth_) { return !caught_; }
 
     if (azimuth > lastAzimuth_) {
-	caught = lastAzimuth_ < latch_ && azimuth >= latch_;
-	LOGDEBUG << "test 1: " << caught << std::endl;
-    }
-    else {
-	caught = (lastAzimuth_ < latch_ &&
-                  azimuth + Utils::kCircleRadians >= latch_) ||
-	    (lastAzimuth_ - Utils::kCircleRadians < latch_ &&
-             azimuth >= latch_);
-	LOGDEBUG << "test 2: " << caught << std::endl;
+        caught = lastAzimuth_ < latch_ && azimuth >= latch_;
+        LOGDEBUG << "test 1: " << caught << std::endl;
+    } else {
+        caught = (lastAzimuth_ < latch_ && azimuth + Utils::kCircleRadians >= latch_) ||
+                 (lastAzimuth_ - Utils::kCircleRadians < latch_ && azimuth >= latch_);
+        LOGDEBUG << "test 2: " << caught << std::endl;
     }
 
     lastAzimuth_ = azimuth;
 
     if (caught) {
+        LOGDEBUG << "caught " << azimuth << ' ' << msg->getSequenceCounter() << std::endl;
 
-	LOGDEBUG << "caught " << azimuth <<  ' ' << msg->getSequenceCounter()
-		 << std::endl;
+        // Caught an azimuth.
+        //
+        if (!caught_) {
+            caught_ = true;
+            if (infoReporter_) azimuthLatch_->latch();
+            return true;
+        }
 
-	// Caught an azimuth.
-	//
-	if (! caught_) {
-	    caught_ = true;
-	    if (infoReporter_)
-		azimuthLatch_->latch();
-	    return true;
-	}
-
-	// If relatching is enabled, let this one thru.
-	//
-	if (azLatchRelatch_) {
-	    LOGDEBUG << "relatched" << std::endl;
-	    return true;
-	}
+        // If relatching is enabled, let this one thru.
+        //
+        if (azLatchRelatch_) {
+            LOGDEBUG << "relatched" << std::endl;
+            return true;
+        }
     }
 
-    return ! caught_;
+    return !caught_;
 }
 
 void
-HistoryPosition::azimuthLatchChanged(bool enabled, double azimuth,
-                                     bool relatching, const QString& name)
+HistoryPosition::azimuthLatchChanged(bool enabled, double azimuth, bool relatching, const QString& name)
 {
-    if (! infoReporter_) return;
+    if (!infoReporter_) return;
 
     if (azLatchEnabled_ != enabled) {
-	caught_ = false;
-	lastAzimuth_ = -1.0;
-	azimuthLatch_->reset();
+        caught_ = false;
+        lastAzimuth_ = -1.0;
+        azimuthLatch_->reset();
     }
 
-    if (! name.isEmpty()) {
+    if (!name.isEmpty()) {
+        if (name != azLatchChannel_) {
+            azLatchChannel_ = name;
+            caught_ = false;
+            lastAzimuth_ = -1.0;
+            azimuthLatch_->reset();
+        }
 
-	if (name != azLatchChannel_) {
-	    azLatchChannel_ = name;
-	    caught_ = false;
-	    lastAzimuth_ = -1.0;
-	    azimuthLatch_->reset();
-	}
-
-	if (! latchChannel_)
-	    latchChannel_ = parent_->getChannelConnection(azLatchChannel_);
+        if (!latchChannel_) latchChannel_ = parent_->getChannelConnection(azLatchChannel_);
     }
-    
+
     if (azLatchAzimuth_ != azimuth) {
-	azLatchAzimuth_ = azimuth;
-	latch_ = Utils::degreesToRadians(azimuth);
+        azLatchAzimuth_ = azimuth;
+        latch_ = Utils::degreesToRadians(azimuth);
     }
 
     azLatchEnabled_ = enabled;
@@ -296,12 +266,11 @@ HistoryPosition::restoreFromSettings(QSettings& settings)
 void
 HistoryPosition::channelNamesChanged(const QSet<QString>& names)
 {
-    if (! names.contains(azLatchChannel_)) {
-	latchChannel_ = 0;
-	caught_ = false;
+    if (!names.contains(azLatchChannel_)) {
+        latchChannel_ = 0;
+        caught_ = false;
     }
     names_ = names.toList();
-    azimuthLatch_->setConfiguration(azLatchEnabled_, azLatchAzimuth_,
-                                    azLatchRelatch_, caught_, names_,
+    azimuthLatch_->setConfiguration(azLatchEnabled_, azLatchAzimuth_, azLatchRelatch_, caught_, names_,
                                     azLatchChannel_);
 }

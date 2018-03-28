@@ -7,25 +7,19 @@ namespace SideCar {
 namespace GUI {
 namespace RangeTruthEmitter {
 
-class VelocityEditor : public QItemDelegate
-{
+class VelocityEditor : public QItemDelegate {
     Q_OBJECT
-    
-public:
 
+public:
     VelocityEditor(QObject* parent = 0) : QItemDelegate(parent) {}
 
-    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
-                          const QModelIndex& index) const;
+    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
     void setEditorData(QWidget* editor, const QModelIndex& index) const;
 
-    void setModelData(QWidget* editor, QAbstractItemModel* model,
-                      const QModelIndex& index) const;
+    void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 
-    void updateEditorGeometry(QWidget* editor,
-                              const QStyleOptionViewItem& option,
-                              const QModelIndex& index) const;
+    void updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 };
 
 } // end namespace RangeTruthEmitter

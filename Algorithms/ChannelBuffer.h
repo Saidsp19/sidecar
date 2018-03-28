@@ -26,10 +26,8 @@ class ManyInAlgorithm;
     ChannelBuffer places a new message in its queue, it calls the ManyInAlgorithm::processMessageReceived()
     method to notify the ManyInAlgorithm object of new data.
 */
-class ChannelBuffer
-{
+class ChannelBuffer {
 public:
-
     using Container = std::deque<Messages::PRIMessage::Ref>;
     using const_iterator = Container::const_iterator;
 
@@ -98,7 +96,7 @@ public:
     /** Obtain the sequence counter of the first message in the queue. NOTE: if the queue is empty, this returns
         0.
 
-	\return sequence counter
+        \return sequence counter
     */
     uint32_t getNextSequenceCounter() const { return nextSequenceCounter_; }
 
@@ -109,7 +107,7 @@ public:
         \return true if the buffer has a message with the given sequence counter
     */
     bool pruneToSequenceCounter(uint32_t sequenceCounter);
-    
+
     /** Change the maximum number of messages to hold.
 
         \param maxBufferSize new value
@@ -144,7 +142,7 @@ public:
 
         \param msg the message to process
 
-	\return true if successful
+        \return true if successful
     */
     bool addData(const Messages::PRIMessage::Ref& msg);
 
@@ -157,9 +155,9 @@ public:
 
     /** Create a runtime parameter to control the channel enabled state.
 
-        \param shortName 
+        \param shortName
 
-        \param longName 
+        \param longName
 
         \return true if successful
     */
@@ -186,17 +184,16 @@ public:
     /** Remove the oldest message in the queue. NOTE: only call if the queue is not empty.
      */
     Messages::PRIMessage::Ref popFront()
-	{
-	    if (isEmpty()) return Messages::PRIMessage::Ref();
-	    Messages::PRIMessage::Ref msg(getFront());
-	    popFrontInternal();
-	    return msg;
-	}
+    {
+        if (isEmpty()) return Messages::PRIMessage::Ref();
+        Messages::PRIMessage::Ref msg(getFront());
+        popFrontInternal();
+        return msg;
+    }
 
 protected:
-
     /** Remove the oldest message from the queue. Updates the nextSequenceCounter_ value. NOTE: only call if the
-	queue is not empty.
+        queue is not empty.
     */
     void popFrontInternal();
 
@@ -225,10 +222,8 @@ private:
     by their sequence number.`
 */
 template <typename T>
-class TChannelBuffer : public ChannelBuffer, public TProcessor<TChannelBuffer<T>, T>
-{
+class TChannelBuffer : public ChannelBuffer, public TProcessor<TChannelBuffer<T>, T> {
 public:
-
     /** Constructor. Registers ourselves with the owner as the processor for the channel.
 
         \param master the algorithm doing the processing
@@ -244,27 +239,27 @@ public:
         \return T reference
     */
     typename T::Ref getFront() const
-	{
-	    if (isEmpty()) return typename T::Ref();
-	    return boost::dynamic_pointer_cast<T>(ChannelBuffer::getFront());
-	}
+    {
+        if (isEmpty()) return typename T::Ref();
+        return boost::dynamic_pointer_cast<T>(ChannelBuffer::getFront());
+    }
 
     /** Remove the oldest message in the queue return it. NOTE: only call if the queue is not empty.
 
         \return T reference
     */
     typename T::Ref popFront()
-	{
-	    if (isEmpty()) return typename T::Ref();
-	    typename T::Ref msg(getFront());
-	    popFrontInternal();
-	    return msg;
-	}
+    {
+        if (isEmpty()) return typename T::Ref();
+        typename T::Ref msg(getFront());
+        popFrontInternal();
+        return msg;
+    }
 
     /** Obtain a slide of the data, copying it into a VSIPL vector. NOTE: only valid if isEmpty() is false.
         Always works on the first message in the FIFO queue. Implementation of ChannelBuffer API.
 
-	Treats the message data as interleved I/Q data. Creates complex values
+        Treats the message data as interleved I/Q data. Creates complex values
         from subsequent values and adds them to the given VSIPL vector
         container. If the message is too short to accomodate the span
         parameter, pads the VSIPL vector with 0,0 complex values.
@@ -279,36 +274,32 @@ public:
         working with it
     */
     void getSlice(int offset, int span, VsipComplexVector& slice, bool doPop)
-	{
-	    if (isEmpty()) return;
+    {
+        if (isEmpty()) return;
 
-	    // NOTE: important to hold reference to message in case we pop it from the deque.
-	    //
-	    typename T::Ref msg(getFront());
-	    typename T::Container& container(msg->getData());
-	    if (doPop) popFront();
+        // NOTE: important to hold reference to message in case we pop it from the deque.
+        //
+        typename T::Ref msg(getFront());
+        typename T::Container& container(msg->getData());
+        if (doPop) popFront();
 
-	    // Make sure that offset + span is no greater than the size of the message.
-	    //
-	    int limit = span;
-	    if ((offset + span) * 2 > int(container.size())) {
-		limit = container.size() / 2 - offset;
-		if (limit < 0) limit = 0;
-	    }
+        // Make sure that offset + span is no greater than the size of the message.
+        //
+        int limit = span;
+        if ((offset + span) * 2 > int(container.size())) {
+            limit = container.size() / 2 - offset;
+            if (limit < 0) limit = 0;
+        }
 
-	    // Now copy over the data as complex values.
-	    //
-	    typename T::DatumType* ptr = &container[offset * 2];
-	    for (int index = 0; index < limit; ++index, ptr += 2) {
-		slice.put(index, ComplexType(*ptr, *(ptr + 1)));
-            }
+        // Now copy over the data as complex values.
+        //
+        typename T::DatumType* ptr = &container[offset * 2];
+        for (int index = 0; index < limit; ++index, ptr += 2) { slice.put(index, ComplexType(*ptr, *(ptr + 1))); }
 
-	    // Make sure that the slices we return are of the requested size, even if our message is too short.
-	    //
-	    while (limit < span) {
-		slice.put(limit++, ComplexType());
-            }
-	}
+        // Make sure that the slices we return are of the requested size, even if our message is too short.
+        //
+        while (limit < span) { slice.put(limit++, ComplexType()); }
+    }
 };
 
 } // end namespace Algorithms
@@ -320,9 +311,8 @@ namespace SideCar {
 namespace Algorithms {
 
 template <typename _T>
-TChannelBuffer<_T>::TChannelBuffer(ManyInAlgorithm& owner, size_t channelIndex, size_t maxBufferSize)
-    : ChannelBuffer(owner, channelIndex, maxBufferSize),
-      TProcessor<TChannelBuffer<_T>,_T>(this, &ChannelBuffer::addData)
+TChannelBuffer<_T>::TChannelBuffer(ManyInAlgorithm& owner, size_t channelIndex, size_t maxBufferSize) :
+    ChannelBuffer(owner, channelIndex, maxBufferSize), TProcessor<TChannelBuffer<_T>, _T>(this, &ChannelBuffer::addData)
 {
     owner.addProcessor(channelIndex, _T::GetMetaTypeInfo(), this);
 }

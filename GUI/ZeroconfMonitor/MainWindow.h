@@ -12,7 +12,9 @@
 
 #include "ui_MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,19 +22,18 @@ namespace ZeroconfMonitor {
 
 /** Main window for the ZeroconfMonitor application.
  */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
         \param history application history buffer for all Video messages.
 
-	\param basis DisplayView to duplicate
+        \param basis DisplayView to duplicate
     */
     MainWindow();
 };

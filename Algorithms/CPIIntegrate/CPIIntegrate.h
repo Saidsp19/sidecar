@@ -1,8 +1,8 @@
 #ifndef SIDECAR_ALGORITHMS_CPIINTEGRATE_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_CPIINTEGRATE_H
 
-#include <vector>
 #include <deque>
+#include <vector>
 
 #include "Algorithms/CPIAlgorithm.h"
 #include "Messages/Video.h"
@@ -14,11 +14,10 @@ namespace Algorithms {
 /** Documentation for the algorithm CPIIntegrate. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class CPIIntegrate : public CPIAlgorithm
-{
+class CPIIntegrate : public CPIAlgorithm {
     using Super = CPIAlgorithm;
-public:
 
+public:
     /** Constructor.
 
         \param controller object that controls us
@@ -26,7 +25,7 @@ public:
         \param log device used for log messages
     */
     CPIIntegrate(Controller& controller, Logger::Log& log);
- 
+
     /** Implementation of the Algorithm::startup interface. Register runtime parameters and data processors.
 
         \return true if successful, false otherwise
@@ -50,7 +49,6 @@ public:
     bool reset();
 
 private:
-
     // Add attributes here
     //
     /** Number of CPIs to integrate over
@@ -59,11 +57,10 @@ private:
 
     /** Buffer to hold CPIs as they arrive in piecemeal as PRIs
      */
-    std::deque< MessageQueue* > cpis_;
+    std::deque<MessageQueue*> cpis_;
     /** Running 2D buffer of sums for computing the averages
      */
-    std::vector< std::vector<float> > vals_;
-
+    std::vector<std::vector<float>> vals_;
 };
 
 } // end namespace Algorithms

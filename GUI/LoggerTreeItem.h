@@ -5,12 +5,13 @@
 #include "QtCore/QObject"
 #include "QtCore/QVariant"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
-class LoggerTreeItem : public QObject
-{
+class LoggerTreeItem : public QObject {
     Q_OBJECT
 public:
     using Children = QList<LoggerTreeItem*>;
@@ -28,9 +29,7 @@ public:
 
     QVariant getData(int column, int role) const;
 
-    int getIndex() const
-	{ return parent_ ? parent_->children_.indexOf(
-		const_cast<LoggerTreeItem*>(this)) : 0; }
+    int getIndex() const { return parent_ ? parent_->children_.indexOf(const_cast<LoggerTreeItem*>(this)) : 0; }
 
     bool canExpand() const { return getNumChildren() > 0; }
 
@@ -38,8 +37,7 @@ public:
 
     void insertChild(int row, LoggerTreeItem* child);
 
-    LoggerTreeItem* getChild(int row) const
-	{ return children_.value(row); }
+    LoggerTreeItem* getChild(int row) const { return children_.value(row); }
 
     int getNumChildren() const { return children_.size(); }
 

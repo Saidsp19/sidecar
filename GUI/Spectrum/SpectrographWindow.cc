@@ -27,13 +27,11 @@ using namespace SideCar::GUI::Spectrum;
 Logger::Log&
 SpectrographWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("spectrum.SpectrographWindow");
+    static Logger::Log& log_ = Logger::Log::Find("spectrum.SpectrographWindow");
     return log_;
 }
 
-SpectrographWindow::SpectrographWindow(int shortcut)
-    : Super(), Ui::SpectrographWindow()
+SpectrographWindow::SpectrographWindow(int shortcut) : Super(), Ui::SpectrographWindow()
 {
     setupUi(this);
     setObjectName("SpectrographWindow");
@@ -47,28 +45,24 @@ SpectrographWindow::SpectrographWindow(int shortcut)
     display_ = new SpectrographWidget(centralwidget);
     scrollArea->setWidget(display_);
     scrollArea->setWidgetResizable(true);
-    
-    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)),
-            scrollArea,
+
+    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)), scrollArea,
             SLOT(currentCursorPositionChanged(const QPointF&)));
-    connect(scrollArea,
-            SIGNAL(currentCursorPosition(const QString&, const QString&)),
+    connect(scrollArea, SIGNAL(currentCursorPosition(const QString&, const QString&)),
             SLOT(showCursorPosition(const QString&, const QString&)));
 
     App* app = App::GetApp();
     Configuration* configuration = app->getConfiguration();
 
-    actionViewPause_->setData(QStringList() << "Freeze" << "Unfreeze");
+    actionViewPause_->setData(QStringList() << "Freeze"
+                                            << "Unfreeze");
     actionViewPause_->setIcon(QIcon(":/unfreeze.png"));
-    connect(actionViewPause_, SIGNAL(triggered(bool)), app,
-            SLOT(updateToggleAction(bool)));
+    connect(actionViewPause_, SIGNAL(triggered(bool)), app, SLOT(updateToggleAction(bool)));
 
     Settings* settings = configuration->getSettings();
     ChannelSetting* channelSetting = settings->getInputChannel();
-    connect(channelSetting, SIGNAL(valueChanged(const QString&)),
-            SLOT(channelChanged(const QString&)));
-    if (channelSetting->isConnected())
-	channelChanged(channelSetting->getValue());
+    connect(channelSetting, SIGNAL(valueChanged(const QString&)), SLOT(channelChanged(const QString&)));
+    if (channelSetting->isConnected()) channelChanged(channelSetting->getValue());
 
     // Cursor info widget in the status bar
     //
@@ -87,27 +81,22 @@ SpectrographWindow::SpectrographWindow(int shortcut)
     // Create a toolbar to select the colormap to use
     //
 #if 0
-    toolBar = makeToolBar("Color Map Selection", Qt::TopToolBarArea);
-    toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    toolBar->addWidget(new QLabel("Mapping: ", toolBar));
-    toolBar->addWidget(imaging->duplicateColorMapType(toolBar));
+  toolBar = makeToolBar("Color Map Selection", Qt::TopToolBarArea);
+  toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
+  toolBar->addWidget(new QLabel("Mapping: ", toolBar));
+  toolBar->addWidget(imaging->duplicateColorMapType(toolBar));
 #endif
-    
+
     // Create a toolbar to display the colormap
     //
     toolBar = makeToolBar("Color Map", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    ColorMapWidget* colorMapWidget =
-	new ColorMapWidget(imaging->getMinCutoff(), imaging->getMaxCutoff(),
-                           toolBar);
+    ColorMapWidget* colorMapWidget = new ColorMapWidget(imaging->getMinCutoff(), imaging->getMaxCutoff(), toolBar);
     toolBar->addWidget(colorMapWidget);
 
-    connect(imaging, SIGNAL(minCutoffChanged(double)), colorMapWidget,
-            SLOT(setMinCutoff(double)));
-    connect(imaging, SIGNAL(maxCutoffChanged(double)), colorMapWidget,
-            SLOT(setMaxCutoff(double)));
-    connect(imaging, SIGNAL(colorMapChanged(const QImage&)),
-            colorMapWidget, SLOT(setColorMap(const QImage&)));
+    connect(imaging, SIGNAL(minCutoffChanged(double)), colorMapWidget, SLOT(setMinCutoff(double)));
+    connect(imaging, SIGNAL(maxCutoffChanged(double)), colorMapWidget, SLOT(setMaxCutoff(double)));
+    connect(imaging, SIGNAL(colorMapChanged(const QImage&)), colorMapWidget, SLOT(setColorMap(const QImage&)));
     colorMapWidget->setColorMap(imaging->getColorMap());
 
     // Min/max cutoff toolbar
@@ -126,8 +115,7 @@ SpectrographWindow::SpectrographWindow(int shortcut)
 void
 SpectrographWindow::showCursorPosition(const QString& x, const QString& y)
 {
-    cursorWidget_->showCursorPosition(
-	QString("X: %1 Y: %2").arg(x).arg(y));
+    cursorWidget_->showCursorPosition(QString("X: %1 Y: %2").arg(x).arg(y));
 }
 
 void

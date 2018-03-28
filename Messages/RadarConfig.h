@@ -1,14 +1,16 @@
 #ifndef SIDECAR_MESSAGES_RADARCONFIG_H // -*- C++ -*-
 #define SIDECAR_MESSAGES_RADARCONFIG_H
 
-#include <inttypes.h>
 #include <cmath>
+#include <inttypes.h>
 #include <string>
 
 class QDomElement;
 class QString;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace Messages {
 
@@ -34,10 +36,8 @@ class RadarConfigFileWatcher;
     NOTE: the rationale for having RadarConfig done this way versus a singleton is lost to history. Perhaps
     backwards capability with some other system?
 */
-class RadarConfig
-{
+class RadarConfig {
 public:
-
     /** Log device for RadarConfig messages
 
         \return Log device
@@ -76,8 +76,8 @@ public:
 
         \param beamWidth width of radar beam for one PRI
     */
-    static void Load(const std::string& name, uint32_t gateCountMax, uint32_t shaftEncodingMax,
-                     double rotationRate, double rangeMin, double rangeMax, double beamWidth);
+    static void Load(const std::string& name, uint32_t gateCountMax, uint32_t shaftEncodingMax, double rotationRate,
+                     double rangeMin, double rangeMax, double beamWidth);
 
     /** Obtain the current radar configuration name
 
@@ -129,7 +129,7 @@ public:
 
     /** Obtain the number radials in one revolution of the radar. This is an upper bound.
 
-        \return 
+        \return
     */
     static uint32_t GetRadialCount() { return uint32_t(::ceil(2.0 * M_PI / GetBeamWidth())); }
 
@@ -140,7 +140,9 @@ public:
         \return range in kilometers
     */
     static double GetRangeAt_deprecated(uint32_t gateIndex)
-	{ return gateIndex * GetRangeFactor_deprecated() + GetRangeMin_deprecated(); }
+    {
+        return gateIndex * GetRangeFactor_deprecated() + GetRangeMin_deprecated();
+    }
 
     /** Obtain an azimuth reading in radians from a shaft encoding value
 
@@ -149,7 +151,9 @@ public:
         \return azimuth in radians
     */
     static double GetAzimuth(uint32_t shaftEncoding)
-        { return M_PI * 2.0 * shaftEncoding / (GetShaftEncodingMax() + 1); }
+    {
+        return M_PI * 2.0 * shaftEncoding / (GetShaftEncodingMax() + 1);
+    }
 
     /** Obtain the duration in seconds of one rotation of the radar.
 
@@ -176,7 +180,6 @@ public:
     static double GetSiteHeight();
 
 private:
-    
     /** Prohibit instances of RadarConfig class.
      */
     RadarConfig();
@@ -191,13 +194,12 @@ private:
     static double CalculateRangeFactor();
 
     /** Internal initializer class that starts/stops a configuration file monitor (RadarConfigFileWatcher),
-	using RAII principle.
+        using RAII principle.
     */
-    struct Initializer
-    {
-	Initializer();
-	~Initializer();
-	bool setConfigurationFilePath(const std::string& path);
+    struct Initializer {
+        Initializer();
+        ~Initializer();
+        bool setConfigurationFilePath(const std::string& path);
     };
 
     static Initializer initializer_;
@@ -210,12 +212,12 @@ private:
     static double rangeMax_;
     static double rangeFactor_;
     static double beamWidth_;
-    static double latitude_;	///< Radar site longitude (degrees)
-    static double longitude_;	///< Radar site latitude (degrees)
-    static double height_;	///< Radar site height (meters)
+    static double latitude_;  ///< Radar site longitude (degrees)
+    static double longitude_; ///< Radar site latitude (degrees)
+    static double height_;    ///< Radar site height (meters)
 };
 
-} // end namespace Message
+} // namespace Messages
 } // end namespace SideCar
 
 /** \file

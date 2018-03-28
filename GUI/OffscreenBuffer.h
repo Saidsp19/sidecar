@@ -7,7 +7,9 @@
 
 class QGLFramebufferObject;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,11 +20,9 @@ class SampleImaging;
 
     Uses an QGLFramebufferObject to do the OpenGL dirty work.
 */
-class OffscreenBuffer : public QObject
-{
+class OffscreenBuffer : public QObject {
     Q_OBJECT
 public:
-
     /** Obtain Log device to use for OffscreenBuffer messages
 
         \return Log device
@@ -35,9 +35,8 @@ public:
         \param imaging collection of settings that control how imaging is
         perfomed
     */
-    OffscreenBuffer(const SampleImaging* imaging, double xMin, double xMax,
-                    double yMin, double yMax, int width, int height,
-                    int textureType = -1);
+    OffscreenBuffer(const SampleImaging* imaging, double xMin, double xMax, double yMin, double yMax, int width,
+                    int height, int textureType = -1);
 
     /** Destructor. Destroys the created OpenGL framebuffer and 2D texture objects.
      */
@@ -80,8 +79,9 @@ public:
     double getYMax() const { return yMax_; }
 
     bool contains(double x, double y) const
-	{ return x >= getXMin() && x <= getXMax() &&
-		y >= getYMin() && y <= getYMax(); }
+    {
+        return x >= getXMin() && x <= getXMax() && y >= getYMin() && y <= getYMax();
+    }
 
     bool intersects(double x0, double y0, double x1, double y1) const;
 
@@ -94,15 +94,9 @@ public slots:
     void remakeDisplayLists();
 
 private:
+    enum ListIndex { kBeginRender, kEndRender, kNumLists };
 
-    enum ListIndex {
-	kBeginRender,
-	kEndRender,
-	kNumLists
-    };
-
-    GLuint getDisplayList(int index) const
-	{ return displayLists_ + index; }
+    GLuint getDisplayList(int index) const { return displayLists_ + index; }
 
     void makeDisplayLists();
 

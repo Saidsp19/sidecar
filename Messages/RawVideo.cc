@@ -1,5 +1,5 @@
-#include <netinet/in.h>
 #include <iomanip>
+#include <netinet/in.h>
 
 #include "Logger/Log.h"
 
@@ -92,9 +92,8 @@ RawVideo::printData(std::ostream& os) const
     const char* ptr = raw_->rd_ptr();
     os << std::hex;
     while (count) {
-	for (int index = 0; index < 26 && count; ++index, --count)
-	    os << std::setw(2) << int(*ptr++) << ' ';
-	os << '\n';
+        for (int index = 0; index < 26 && count; ++index, --count) os << std::setw(2) << int(*ptr++) << ' ';
+        os << '\n';
     }
     return os << std::dec;
 }
@@ -107,15 +106,14 @@ RawVideo::convert(const std::string& producer) const
 
     // ACE_CDR_BYTE_ORDER == 0 for PowerPC (big-endian) ACE_CDR_BYTE_ORDER == 1 for Intel (little-endian)
     //
-    if (! raw_) {
-	LOGERROR << "NULL raw_ attribute" << std::endl;
-	return Video::Ref();
+    if (!raw_) {
+        LOGERROR << "NULL raw_ attribute" << std::endl;
+        return Video::Ref();
     }
 
     // Fetch the raw msgDesc value. It is always in network-byte order.
     //
-    VMEDataMessage* rawPtr =
-	reinterpret_cast<VMEDataMessage*>(raw_->rd_ptr());
+    VMEDataMessage* rawPtr = reinterpret_cast<VMEDataMessage*>(raw_->rd_ptr());
     uint32_t msgDesc = ntohl(rawPtr->header.msgDesc);
     bool isLittleEndian = (msgDesc & VMEHeader::kEndianessMask);
 
@@ -135,54 +133,48 @@ RawVideo::convert(const std::string& producer) const
     //
     size_t count = vme.numSamples;
     bool isComplex = vme.header.getFormat() == VMEHeader::kPackedIQ;
-    if (isComplex)
-	count *= 2;
+    if (isComplex) count *= 2;
 
     // Make sure we have enough bytes in the input CDR stream. If not, then process what we can, but raise a
     // stink about it. Most likely, we have a endianess or format issue with the VME code.
     //
     size_t available = cdr.length() / 2;
     if (count > available) {
-	LOGERROR << vme << std::hex << msgDesc << std::dec << " numSamples ("
-		 << count << ") != available (" << available << ")"
-		 << std::endl;
-	count = available;
-	LOGDEBUG << "reduced count: " << count << std::endl;
+        LOGERROR << vme << std::hex << msgDesc << std::dec << " numSamples (" << count << ") != available ("
+                 << available << ")" << std::endl;
+        count = available;
+        LOGDEBUG << "reduced count: " << count << std::endl;
     }
 
     LOGDEBUG << "count: " << count << std::endl;
 
-    if (! isComplex) {
-	Video::Ref ref(Video::Make(producer, vme, count));
+    if (!isComplex) {
+        Video::Ref ref(Video::Make(producer, vme, count));
 
-	// The VME system will emit data in two formats: inverted * 4 integers, and normal integers. The
-	// inverted * 4 values require a bit-wise inversion followed by a right shift of 2 bits (dividing by 4).
-	// The other format simply requires us to take the values from the ACE CDR, which handles any
-	// byte-swapping that may be necessary. NOTE: the VME also emits kPackedReal data that is NOT inverted *
-	// 4; thus the additional check for the data being in little-endian format.
-	//
-	if ((vme.header.getFormat() == VMEHeader::kPackedReal &&
-             isLittleEndian) ||
+        // The VME system will emit data in two formats: inverted * 4 integers, and normal integers. The
+        // inverted * 4 values require a bit-wise inversion followed by a right shift of 2 bits (dividing by 4).
+        // The other format simply requires us to take the values from the ACE CDR, which handles any
+        // byte-swapping that may be necessary. NOTE: the VME also emits kPackedReal data that is NOT inverted *
+        // 4; thus the additional check for the data being in little-endian format.
+        //
+        if ((vme.header.getFormat() == VMEHeader::kPackedReal && isLittleEndian) ||
             vme.header.getFormat() == VMEHeader::kUnpackedReal) {
-
-	    LOGDEBUG << "handling kPackedReal/kUnpackedReal" << std::endl;
-	    Video::DatumType value;
-	    Video::Container& data(ref->getData());
-	    while (count--) {
-		cdr >> value;
-		data.push_back((~value) >> 2);
-	    }
-	}
-	else {
-	    ref->resize(count);
-	    cdr.read_short_array(&ref[0], count);
-	}
-	return ref;
-    }
-    else {
-	Video::Ref ref(Video::Make(producer, vme, count));
-	ref->resize(count);
-	cdr.read_short_array(reinterpret_cast<int16_t*>(&ref[0]), count);
-	return ref;
+            LOGDEBUG << "handling kPackedReal/kUnpackedReal" << std::endl;
+            Video::DatumType value;
+            Video::Container& data(ref->getData());
+            while (count--) {
+                cdr >> value;
+                data.push_back((~value) >> 2);
+            }
+        } else {
+            ref->resize(count);
+            cdr.read_short_array(&ref[0], count);
+        }
+        return ref;
+    } else {
+        Video::Ref ref(Video::Make(producer, vme, count));
+        ref->resize(count);
+        cdr.read_short_array(reinterpret_cast<int16_t*>(&ref[0]), count);
+        return ref;
     }
 }

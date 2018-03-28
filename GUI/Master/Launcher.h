@@ -6,10 +6,14 @@
 #include "QtCore/QThread"
 #include "QtGui/QProgressDialog"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Configuration { class Loader; }
+namespace Configuration {
+class Loader;
+}
 namespace GUI {
 namespace Master {
 
@@ -17,12 +21,11 @@ class ConfigurationInfo;
 
 /** Starts the 'runner' processes associated with a given configuration file.
  */
-class Launcher : public QObject
-{
+class Launcher : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor. Creates a QProgressDialog to show the launching progress and a LauncherThread to do the
@@ -48,16 +51,15 @@ signals:
 private slots:
 
     /** Signal handler invoked when the user clicks on the 'Cancel' button in the QProgressDialog window. Simply
-	invokes the finishedAll() method.
+        invokes the finishedAll() method.
     */
     void canceled();
 
 private:
-
     void timerEvent(QTimerEvent* event);
 
     const Configuration::Loader& loader_;
-    QProgressDialog* dialog_;	///< Dialog that shows the launching progress
+    QProgressDialog* dialog_; ///< Dialog that shows the launching progress
     size_t index_;
     int timerId_;
 };

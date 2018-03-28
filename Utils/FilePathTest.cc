@@ -1,8 +1,7 @@
-#include "UnitTest/UnitTest.h"
 #include "FilePath.h"
+#include "UnitTest/UnitTest.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("FilePath") {}
 
     void test();
@@ -32,22 +31,22 @@ Test::test()
 
     std::string keep("");
     {
-	// Create a unique temporary file.
-	//
-	Utils::TemporaryFilePath fp4;
-	keep = fp4.getFilePath().filePath();
+        // Create a unique temporary file.
+        //
+        Utils::TemporaryFilePath fp4;
+        keep = fp4.getFilePath().filePath();
 
-	// The TemporaryFilePath class uses ::mkstemp to generate unique file names. It gives ::mkstemp a
-	// template of '/tmp/tmp.XXXXXX' Verify that the path starts with '/tmp/tmp.'
-	//
-	assertEqual(size_t(0), keep.find("/tmp/TemporaryFilePath."));
+        // The TemporaryFilePath class uses ::mkstemp to generate unique file names. It gives ::mkstemp a
+        // template of '/tmp/tmp.XXXXXX' Verify that the path starts with '/tmp/tmp.'
+        //
+        assertEqual(size_t(0), keep.find("/tmp/TemporaryFilePath."));
 
-	// Write out some data, close the file, before TemporaryFilePath goes out of scope and the file
-	// disappears.
-	//
-	int fd = fp4.getFileDescriptor();
-	assertEqual(5, ::write(fd, "1234", 5));
-	::close(fd);
+        // Write out some data, close the file, before TemporaryFilePath goes out of scope and the file
+        // disappears.
+        //
+        int fd = fp4.getFileDescriptor();
+        assertEqual(5, ::write(fd, "1234", 5));
+        ::close(fd);
     }
 
     // Verify that the temporary file no longer exists.

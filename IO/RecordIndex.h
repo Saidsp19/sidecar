@@ -3,15 +3,20 @@
 
 #include <string>
 
-namespace Logger { class Log; }
-namespace Utils { class FilePath; }
+namespace Logger {
+class Log;
+}
+namespace Utils {
+class FilePath;
+}
 
 namespace SideCar {
-namespace Messages { class MetaTypeInfo; }
+namespace Messages {
+class MetaTypeInfo;
+}
 namespace IO {
 
-class RecordIndex
-{
+class RecordIndex {
 public:
     using const_iterator = const off_t*;
 
@@ -38,10 +43,9 @@ public:
     const_iterator end() const { return array_ + size_; }
 
 private:
-
     /** Load an index file.
 
-	\param path location of the index file
+        \param path location of the index file
     */
     void load(const Utils::FilePath& path);
 

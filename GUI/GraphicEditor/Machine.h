@@ -1,9 +1,7 @@
 /**
    Handles algorithm instantiation on (remote) machines.
 */
-class Machine
-{
+class Machine {
 private:
     QString hostname;
-
 }

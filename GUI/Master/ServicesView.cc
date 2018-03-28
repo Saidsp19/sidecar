@@ -2,8 +2,8 @@
 #include "QtCore/QSignalMapper"
 #include "QtGui/QAction"
 #include "QtGui/QContextMenuEvent"
-#include "QtGui/QHBoxLayout"
 #include "QtGui/QFrame"
+#include "QtGui/QHBoxLayout"
 #include "QtGui/QHeaderView"
 #include "QtGui/QItemDelegate"
 #include "QtGui/QMenu"
@@ -34,34 +34,29 @@ ServicesView::Log()
 /** Item delegate for the "Name" column. Takes into account installed indexWidget() widgets when calculating
  * sizeHint() values.
  */
-struct NameItemDelegate : public QItemDelegate
-{
+struct NameItemDelegate : public QItemDelegate {
     using Super = QItemDelegate;
-    
+
     NameItemDelegate(ServicesView* view) : Super(view), view_(view) {}
 
-    QSize sizeHint(const QStyleOptionViewItem& option,
-                   const QModelIndex& index) const;
+    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
     ServicesView* view_;
 };
 
 QSize
-NameItemDelegate::sizeHint(const QStyleOptionViewItem& option,
-                           const QModelIndex& index) const
+NameItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     QWidget* w = view_->indexWidget(index);
     if (w)
-	return w->sizeHint();
+        return w->sizeHint();
     else
-	return Super::sizeHint(option, index);
+        return Super::sizeHint(option, index);
 }
 
-ServicesView::ServicesView(QWidget* parent)
-    : Super(parent), columnVisibility_(ServicesModel::kNumColumns, true),
-      contextMenu_(new QMenu(this)),
-      contextMenuMapper_(new QSignalMapper(this)), adjustmentTimer_(),
-      known_(), visible_(), filter_(""), dirtyColumns_()
+ServicesView::ServicesView(QWidget* parent) :
+    Super(parent), columnVisibility_(ServicesModel::kNumColumns, true), contextMenu_(new QMenu(this)),
+    contextMenuMapper_(new QSignalMapper(this)), adjustmentTimer_(), known_(), visible_(), filter_(""), dirtyColumns_()
 {
     Logger::ProcLog log("ServicesView", Log());
 
@@ -70,50 +65,44 @@ ServicesView::ServicesView(QWidget* parent)
 
     dirtyColumns_.resize(ServicesModel::kNumColumns);
 
-    connect(&adjustmentTimer_, SIGNAL(timeout()),
-            SLOT(doAdjustColumnSizes()));
+    connect(&adjustmentTimer_, SIGNAL(timeout()), SLOT(doAdjustColumnSizes()));
 
-    connect(this, SIGNAL(expanded(const QModelIndex&)),
-            SLOT(itemExpanded(const QModelIndex&)));
+    connect(this, SIGNAL(expanded(const QModelIndex&)), SLOT(itemExpanded(const QModelIndex&)));
 
-    connect(this, SIGNAL(collapsed(const QModelIndex&)),
-            SLOT(itemCollapsed(const QModelIndex&)));
+    connect(this, SIGNAL(collapsed(const QModelIndex&)), SLOT(itemCollapsed(const QModelIndex&)));
 
     // Install delegate for the "Name" column that will take into account any indexWidget() widgets when
     // calculating item sizeHint() values.
     //
-    setItemDelegateForColumn(ServicesModel::kName,
-                             new NameItemDelegate(this));
+    setItemDelegateForColumn(ServicesModel::kName, new NameItemDelegate(this));
 
 #if 0
-    header()->setStyleSheet(
-	"QHeaderView::section {"
-	"background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 "
-	"#616161, stop: 0.5 #505050, stop: 0.6 #434343, stop: 1 #656565);"
-	"color: #CCFFCC;"
-	"border: 1px solid #6c6c6c;"
-	"}");
+  header()->setStyleSheet(
+                          "QHeaderView::section {"
+                          "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 "
+                          "#616161, stop: 0.5 #505050, stop: 0.6 #434343, stop: 1 #656565);"
+                          "color: #CCFFCC;"
+                          "border: 1px solid #6c6c6c;"
+                          "}");
 #endif
 
     // header()->setResizeMode(QHeaderView::ResizeToContents);
 
     QSettings settings;
-    columnVisibility_ =
-	settings.value("ColumnVisibility", columnVisibility_).toBitArray();
+    columnVisibility_ = settings.value("ColumnVisibility", columnVisibility_).toBitArray();
 
-    connect(contextMenuMapper_, SIGNAL(mapped(int)),
-            SLOT(toggleColumnVisibility(int)));
+    connect(contextMenuMapper_, SIGNAL(mapped(int)), SLOT(toggleColumnVisibility(int)));
 }
 
 void
 ServicesView::setModel(QAbstractItemModel* model)
 {
-    Logger::ProcLog log("setModel", Log()); 
+    Logger::ProcLog log("setModel", Log());
 
     Super::setModel(model);
     for (int index = 0; index < ServicesModel::kNumColumns; ++index) {
-	bool isVisible = columnVisibility_.testBit(index);
-	setColumnHidden(index, ! isVisible);
+        bool isVisible = columnVisibility_.testBit(index);
+        setColumnHidden(index, !isVisible);
     }
 
     QAction* action;
@@ -170,15 +159,14 @@ ServicesView::setModel(QAbstractItemModel* model)
 
     QMenu* menu = new QMenu("Column Visibility", contextMenu_);
     for (int index = 0; index < ServicesModel::kNumColumns; ++index) {
-	bool isVisible = columnVisibility_.testBit(index);
-	LOGDEBUG << index << ' ' << isVisible << std::endl;
-	action = new QAction(ServicesModel::GetColumnName(index), this);
-	action->setCheckable(true);
-	action->setChecked(isVisible);
-	contextMenuMapper_->setMapping(action, index);
-	connect(action, SIGNAL(toggled(bool)), contextMenuMapper_,
-                SLOT(map()));
-	menu->addAction(action);
+        bool isVisible = columnVisibility_.testBit(index);
+        LOGDEBUG << index << ' ' << isVisible << std::endl;
+        action = new QAction(ServicesModel::GetColumnName(index), this);
+        action->setCheckable(true);
+        action->setChecked(isVisible);
+        contextMenuMapper_->setMapping(action, index);
+        connect(action, SIGNAL(toggled(bool)), contextMenuMapper_, SLOT(map()));
+        menu->addAction(action);
     }
 
     contextMenu_->addMenu(menu);
@@ -189,17 +177,16 @@ ServicesView::traverseAndSet(const QModelIndex& index, bool expand)
 {
     static Logger::ProcLog log("traverseAndSet", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    if (! item) return;
+    if (!item) return;
 
-    LOGINFO << "item: " << item->getFullName() << ' ' << item->canExpand()
-	    << std::endl;
+    LOGINFO << "item: " << item->getFullName() << ' ' << item->canExpand() << std::endl;
     if (item->canExpand()) {
-	setExpanded(index, expand);
-	QModelIndex child = index.child(0, 0);
-	while (child.isValid()) {
-	    traverseAndSet(child, expand);
-	    child = child.sibling(child.row() + 1, 0);
-	}
+        setExpanded(index, expand);
+        QModelIndex child = index.child(0, 0);
+        while (child.isValid()) {
+            traverseAndSet(child, expand);
+            child = child.sibling(child.row() + 1, 0);
+        }
     }
 }
 
@@ -208,41 +195,37 @@ ServicesView::initializeRow(const QModelIndex& index)
 {
     static Logger::ProcLog log("traverseAndExpand", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    if (! item) return;
+    if (!item) return;
 
-    LOGINFO << "item: " << item->getFullName() << ' ' << item->canExpand()
-	    << std::endl;
+    LOGINFO << "item: " << item->getFullName() << ' ' << item->canExpand() << std::endl;
 
     if (item->canExpand()) {
-	setAnimated(false);
-	if (getWasExpanded(index))
-	    setExpanded(index, true);
-	else
-	    setExpanded(index, false);
-	setAnimated(true);
-	QModelIndex child = index.child(0, 0);
-	while (child.isValid()) {
-	    initializeRow(child);
-	    child = child.sibling(child.row() + 1, 0);
-	}
+        setAnimated(false);
+        if (getWasExpanded(index))
+            setExpanded(index, true);
+        else
+            setExpanded(index, false);
+        setAnimated(true);
+        QModelIndex child = index.child(0, 0);
+        while (child.isValid()) {
+            initializeRow(child);
+            child = child.sibling(child.row() + 1, 0);
+        }
     }
 
-    if (item->canEdit() && ! indexWidget(index)) {
+    if (item->canEdit() && !indexWidget(index)) {
+        // Create a new push button for the algorithm that when clicked will show a dialog box with the current
+        // runtime parammeter values.
+        //
+        QToolButton* button = new QToolButton(this);
+        button->setObjectName("paramEditor");
+        button->setText(item->getName());
+        setIndexWidget(index, button);
 
-	// Create a new push button for the algorithm that when clicked will show a dialog box with the current
-	// runtime parammeter values.
-	//
-	QToolButton* button = new QToolButton(this);
-	button->setObjectName("paramEditor");
-	button->setText(item->getName());
-	setIndexWidget(index, button);
-
-	// Connect the button to a new ParamEditor object.
-	//
-	ParamEditor* editor = new ParamEditor(
-	    qobject_cast<MainWindow*>(window()),
-	    qobject_cast<ControllerItem*>(item));
-	connect(button, SIGNAL(clicked()), editor, SLOT(beginEdit()));
+        // Connect the button to a new ParamEditor object.
+        //
+        ParamEditor* editor = new ParamEditor(qobject_cast<MainWindow*>(window()), qobject_cast<ControllerItem*>(item));
+        connect(button, SIGNAL(clicked()), editor, SLOT(beginEdit()));
     }
 }
 
@@ -250,8 +233,7 @@ void
 ServicesView::rowsInserted(const QModelIndex& parent, int start, int end)
 {
     static Logger::ProcLog log("rowsInserted", Log());
-    LOGINFO << "parent.isValid: " << parent.isValid()
-	    << " start: " << start << " end: " << end << std::endl;
+    LOGINFO << "parent.isValid: " << parent.isValid() << " start: " << start << " end: " << end << std::endl;
 
     // Let the super class handle view adjustments before we start mucking with the expansion state of the new
     // entries.
@@ -261,26 +243,22 @@ ServicesView::rowsInserted(const QModelIndex& parent, int start, int end)
     // Iterate over the new rows, and expand the new row and its children (streams).
     //
     for (; start <= end; ++start) {
-	QModelIndex index(model()->index(start, 0, parent));
-	LOGDEBUG << "index.isValid: " << index.isValid() << std::endl;
-	TreeViewItem* item = ServicesModel::GetModelData(index);
-	Q_ASSERT(item);
-	LOGDEBUG << "item: " << item->getFullName() << std::endl;
-	ConfigurationItem* cfg = qobject_cast<ConfigurationItem*>(item);
-	initializeRow(index);
-	if (cfg)
-	    setRowHidden(start, parent,
-                         getConfigurationIsHidden(index, cfg));
+        QModelIndex index(model()->index(start, 0, parent));
+        LOGDEBUG << "index.isValid: " << index.isValid() << std::endl;
+        TreeViewItem* item = ServicesModel::GetModelData(index);
+        Q_ASSERT(item);
+        LOGDEBUG << "item: " << item->getFullName() << std::endl;
+        ConfigurationItem* cfg = qobject_cast<ConfigurationItem*>(item);
+        initializeRow(index);
+        if (cfg) setRowHidden(start, parent, getConfigurationIsHidden(index, cfg));
     }
 }
 
 void
-ServicesView::dataChanged(const QModelIndex& topLeft,
-                          const QModelIndex& bottomRight)
+ServicesView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
     Super::dataChanged(topLeft, bottomRight);
-    for (int index = topLeft.column(); index < bottomRight.column(); ++index)
-	dirtyColumns_[index] = true;
+    for (int index = topLeft.column(); index < bottomRight.column(); ++index) dirtyColumns_[index] = true;
     adjustColumnSizes(false);
 }
 
@@ -291,7 +269,7 @@ ServicesView::toggleColumnVisibility(int index)
     columnVisibility_.toggleBit(index);
     bool isVisible = columnVisibility_.testBit(index);
     LOGINFO << index << ' ' << isVisible << std::endl;
-    setColumnHidden(index, ! isVisible);
+    setColumnHidden(index, !isVisible);
     QSettings settings;
     settings.setValue("ColumnVisibility", columnVisibility_);
 }
@@ -302,8 +280,7 @@ ServicesView::contextMenuEvent(QContextMenuEvent* event)
     Logger::ProcLog log("contextMenuEvent", Log());
     LOGINFO << std::endl;
     contextMenuItem_ = indexAt(event->pos());
-    const TreeViewItem* obj = contextMenuItem_.isValid() ?
-	ServicesModel::GetModelData(contextMenuItem_) : 0;
+    const TreeViewItem* obj = contextMenuItem_.isValid() ? ServicesModel::GetModelData(contextMenuItem_) : 0;
 
     // The first two entries in the context menu are only valid for RunnerItem objects. A QModelIndex for a
     // RunnerItem does not have a valid grandparent index.
@@ -311,13 +288,13 @@ ServicesView::contextMenuEvent(QContextMenuEvent* event)
     QList<QAction*> actions = contextMenu_->actions();
 
     bool enabled;
-    if (! contextMenuItem_.parent().isValid())
-	enabled = false;
-    else if (! contextMenuItem_.parent().parent().isValid())
-	enabled = true;
+    if (!contextMenuItem_.parent().isValid())
+        enabled = false;
+    else if (!contextMenuItem_.parent().parent().isValid())
+        enabled = true;
     else
-	enabled = false;
-    
+        enabled = false;
+
     actions[0]->setEnabled(obj && enabled);
     actions[1]->setEnabled(obj && enabled);
 
@@ -333,34 +310,29 @@ ServicesView::contextMenuEvent(QContextMenuEvent* event)
 void
 ServicesView::showRunnerLog()
 {
-    RunnerItem* runnerItem = qobject_cast<RunnerItem*>(
-	ServicesModel::GetModelData(contextMenuItem_));
+    RunnerItem* runnerItem = qobject_cast<RunnerItem*>(ServicesModel::GetModelData(contextMenuItem_));
     if (runnerItem) {
-	RunnerLog* log = RunnerLog::Find(runnerItem->getServiceName());
-	if (log) log->showWindow();
+        RunnerLog* log = RunnerLog::Find(runnerItem->getServiceName());
+        if (log) log->showWindow();
     }
 }
 
 void
 ServicesView::shutdownRunner()
 {
-    RunnerItem* runnerItem = qobject_cast<RunnerItem*>(
-	ServicesModel::GetModelData(contextMenuItem_));
-    if (! runnerItem) return;
+    RunnerItem* runnerItem = qobject_cast<RunnerItem*>(ServicesModel::GetModelData(contextMenuItem_));
+    if (!runnerItem) return;
 
-    if (QMessageBox::question(
-            qApp->activeWindow(), "Runner Shutdown",
-	    QString("<p>Are you sure you want to shut down the runner "
-                    "<b>%1</b>? Doing so will leave the configuration "
-                    "'%2' in an partial state.</p>")
-            .arg(runnerItem->getName())
-            .arg(runnerItem->getConfigName()),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) ==
-        QMessageBox::Yes) {
-
-	XmlRpc::XmlRpcValue args;
-	XmlRpc::XmlRpcValue result;
-	runnerItem->executeRequest("shutdown", args, result);
+    if (QMessageBox::question(qApp->activeWindow(), "Runner Shutdown",
+                              QString("<p>Are you sure you want to shut down the runner "
+                                      "<b>%1</b>? Doing so will leave the configuration "
+                                      "'%2' in an partial state.</p>")
+                                  .arg(runnerItem->getName())
+                                  .arg(runnerItem->getConfigName()),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+        XmlRpc::XmlRpcValue args;
+        XmlRpc::XmlRpcValue result;
+        runnerItem->executeRequest("shutdown", args, result);
     }
 }
 
@@ -381,9 +353,8 @@ ServicesView::expandConfigurations()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	if (! isExpanded(index))
-	    setExpanded(index, true);
-	index = index.sibling(index.row() + 1, 0);
+        if (!isExpanded(index)) setExpanded(index, true);
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -392,9 +363,8 @@ ServicesView::collapseConfigurations()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	if (isExpanded(index))
-	    setExpanded(index, false);
-	index = index.sibling(index.row() + 1, 0);
+        if (isExpanded(index)) setExpanded(index, false);
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -403,13 +373,12 @@ ServicesView::expandRunners()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	QModelIndex child(index.child(0, 0));
-	while (child.isValid()) {
-	    if (! isExpanded(child))
-		setExpanded(child, true);
-	    child = child.sibling(child.row() + 1, 0);
-	}
-	index = index.sibling(index.row() + 1, 0);
+        QModelIndex child(index.child(0, 0));
+        while (child.isValid()) {
+            if (!isExpanded(child)) setExpanded(child, true);
+            child = child.sibling(child.row() + 1, 0);
+        }
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -418,13 +387,12 @@ ServicesView::collapseRunners()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	QModelIndex child(index.child(0, 0));
-	while (child.isValid()) {
-	    if (isExpanded(child))
-		setExpanded(child, false);
-	    child = child.sibling(child.row() + 1, 0);
-	}
-	index = index.sibling(index.row() + 1, 0);
+        QModelIndex child(index.child(0, 0));
+        while (child.isValid()) {
+            if (isExpanded(child)) setExpanded(child, false);
+            child = child.sibling(child.row() + 1, 0);
+        }
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -433,17 +401,16 @@ ServicesView::expandStreams()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	QModelIndex child(index.child(0, 0));
-	while (child.isValid()) {
-	    QModelIndex grandChild(child.child(0, 0));
-	    while (grandChild.isValid()) {
-		if (! isExpanded(grandChild))
-		    setExpanded(grandChild, true);
-		grandChild = grandChild.sibling(grandChild.row() + 1, 0);
-	    }
-	    child = child.sibling(child.row() + 1, 0);
-	}
-	index = index.sibling(index.row() + 1, 0);
+        QModelIndex child(index.child(0, 0));
+        while (child.isValid()) {
+            QModelIndex grandChild(child.child(0, 0));
+            while (grandChild.isValid()) {
+                if (!isExpanded(grandChild)) setExpanded(grandChild, true);
+                grandChild = grandChild.sibling(grandChild.row() + 1, 0);
+            }
+            child = child.sibling(child.row() + 1, 0);
+        }
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -452,17 +419,16 @@ ServicesView::collapseStreams()
 {
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	QModelIndex child(index.child(0, 0));
-	while (child.isValid()) {
-	    QModelIndex grandChild(child.child(0, 0));
-	    while (grandChild.isValid()) {
-		if (isExpanded(grandChild))
-		    setExpanded(grandChild, false);
-		grandChild = grandChild.sibling(grandChild.row() + 1, 0);
-	    }
-	    child = child.sibling(child.row() + 1, 0);
-	}
-	index = index.sibling(index.row() + 1, 0);
+        QModelIndex child(index.child(0, 0));
+        while (child.isValid()) {
+            QModelIndex grandChild(child.child(0, 0));
+            while (grandChild.isValid()) {
+                if (isExpanded(grandChild)) setExpanded(grandChild, false);
+                grandChild = grandChild.sibling(grandChild.row() + 1, 0);
+            }
+            child = child.sibling(child.row() + 1, 0);
+        }
+        index = index.sibling(index.row() + 1, 0);
     }
 }
 
@@ -473,12 +439,11 @@ ServicesView::adjustColumnSizes(bool all)
     LOGINFO << std::endl;
 
     if (all) {
-	dirtyColumns_.clear();
-	dirtyColumns_.resize(ServicesModel::kNumColumns, true);
+        dirtyColumns_.clear();
+        dirtyColumns_.resize(ServicesModel::kNumColumns, true);
     }
 
-    if (! adjustmentTimer_.isActive())
-	adjustmentTimer_.start();
+    if (!adjustmentTimer_.isActive()) adjustmentTimer_.start();
 }
 
 void
@@ -487,12 +452,11 @@ ServicesView::doAdjustColumnSizes()
     static Logger::ProcLog log("doAdjustColumnSizes", Log());
     LOGINFO << std::endl;
     for (int index = 0; index < ServicesModel::kNumColumns; ++index) {
-	if (dirtyColumns_[index]) {
-	    resizeColumnToContents(index);
-	    dirtyColumns_[index] = false;
-	    if (index == ServicesModel::kName)
-		setColumnWidth(index, columnWidth(index) + 20);
-	}
+        if (dirtyColumns_[index]) {
+            resizeColumnToContents(index);
+            dirtyColumns_[index] = false;
+            if (index == ServicesModel::kName) setColumnWidth(index, columnWidth(index) + 20);
+        }
     }
 }
 
@@ -501,9 +465,8 @@ ServicesView::itemExpanded(const QModelIndex& index)
 {
     static Logger::ProcLog log("itemExpanded", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    if (! item) return;
-    LOGINFO << "row: " << index.row() << " item: " << item
-	    << " name: " << item->getFullName() << std::endl;
+    if (!item) return;
+    LOGINFO << "row: " << index.row() << " item: " << item << " name: " << item->getFullName() << std::endl;
     QSettings settings;
     settings.setValue(item->getFullName(), true);
     item->setExpanded(true);
@@ -515,9 +478,8 @@ ServicesView::itemCollapsed(const QModelIndex& index)
 {
     static Logger::ProcLog log("itemCollapsed", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    if (! item) return;
-    LOGINFO << "row: " << index.row() << " item: " << item
-	    << " name: " << item->getFullName() << std::endl;
+    if (!item) return;
+    LOGINFO << "row: " << index.row() << " item: " << item << " name: " << item->getFullName() << std::endl;
     QSettings settings;
     settings.setValue(item->getFullName(), false);
     item->setExpanded(false);
@@ -529,9 +491,8 @@ ServicesView::getWasExpanded(const QModelIndex& index) const
 {
     static Logger::ProcLog log("getWasExpanded", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    if (! item) return false;
-    LOGINFO << "row: " << index.row() << " item: " << item
-            << " name: " << item->getFullName() << std::endl;
+    if (!item) return false;
+    LOGINFO << "row: " << index.row() << " item: " << item << " name: " << item->getFullName() << std::endl;
     QSettings settings;
     bool value = settings.value(item->getFullName(), true).toBool();
     LOGDEBUG << "name: " << item->getFullName() << ' ' << value << std::endl;
@@ -539,9 +500,7 @@ ServicesView::getWasExpanded(const QModelIndex& index) const
 }
 
 void
-ServicesView::setConfigurationVisibleFilter(const QStringList& known,
-                                            const QStringList& visible,
-                                            const QString& filter)
+ServicesView::setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible, const QString& filter)
 {
     static Logger::ProcLog log("setConfigurationVisibleFilter", Log());
     LOGINFO << "filter: " << filter << std::endl;
@@ -554,14 +513,14 @@ ServicesView::setConfigurationVisibleFilter(const QStringList& known,
     //
     QModelIndex index(model()->index(0, 0));
     while (index.isValid()) {
-	TreeViewItem* item = ServicesModel::GetModelData(index);
-	ConfigurationItem* cfg = qobject_cast<ConfigurationItem*>(item);
-	Q_ASSERT(cfg);
+        TreeViewItem* item = ServicesModel::GetModelData(index);
+        ConfigurationItem* cfg = qobject_cast<ConfigurationItem*>(item);
+        Q_ASSERT(cfg);
 
-	bool isHidden = getConfigurationIsHidden(index, cfg);
-	setRowHidden(index.row(), index.parent(), isHidden);
+        bool isHidden = getConfigurationIsHidden(index, cfg);
+        setRowHidden(index.row(), index.parent(), isHidden);
 
-	index = index.sibling(index.row() + 1, 0);
+        index = index.sibling(index.row() + 1, 0);
     }
 
     adjustColumnSizes(true);
@@ -573,8 +532,8 @@ ServicesView::showTreeViewItem(const QModelIndex& index)
     setRowHidden(index.row(), index.parent(), false);
     QModelIndex child(index.child(0, 0));
     while (child.isValid()) {
-	showTreeViewItem(child);
-	child = child.sibling(child.row() + 1, 0);
+        showTreeViewItem(child);
+        child = child.sibling(child.row() + 1, 0);
     }
 }
 
@@ -583,26 +542,25 @@ ServicesView::getTreeViewItemIsHidden(const QModelIndex& index)
 {
     static Logger::ProcLog log("getTreeViewItemIsHidden", Log());
     TreeViewItem* item = ServicesModel::GetModelData(index);
-    LOGINFO << "filter: " << filter_ << " index: " << index.row() << ','
-	    << index.column() << " name: " << item->getName() << std::endl;
+    LOGINFO << "filter: " << filter_ << " index: " << index.row() << ',' << index.column()
+            << " name: " << item->getName() << std::endl;
 
     bool isHidden = true;
     if (item->isFiltered(filter_)) {
-	LOGDEBUG << "matched" << std::endl;
-	showTreeViewItem(index);
-	isHidden = false;
-    }
-    else {
-	QModelIndex child(index.child(0, 0));
-	while (child.isValid()) {
-	    bool hide = getTreeViewItemIsHidden(child);
-	    if (! hide) {
-		LOGDEBUG << "child " << child.row() << " matched" << std::endl;
-		isHidden = false;
-	    }
-	    setRowHidden(child.row(), index, hide);
-	    child = child.sibling(child.row() + 1, 0);
-	}
+        LOGDEBUG << "matched" << std::endl;
+        showTreeViewItem(index);
+        isHidden = false;
+    } else {
+        QModelIndex child(index.child(0, 0));
+        while (child.isValid()) {
+            bool hide = getTreeViewItemIsHidden(child);
+            if (!hide) {
+                LOGDEBUG << "child " << child.row() << " matched" << std::endl;
+                isHidden = false;
+            }
+            setRowHidden(child.row(), index, hide);
+            child = child.sibling(child.row() + 1, 0);
+        }
     }
 
     LOGDEBUG << "returning " << isHidden << std::endl;
@@ -610,16 +568,13 @@ ServicesView::getTreeViewItemIsHidden(const QModelIndex& index)
 }
 
 bool
-ServicesView::getConfigurationIsHidden(const QModelIndex& index,
-                                       const ConfigurationItem* item)
+ServicesView::getConfigurationIsHidden(const QModelIndex& index, const ConfigurationItem* item)
 {
     QString name(item->getName());
 
     // If there is a configuration file, but the configuration does not have its visible bit set, then hide it.
     //
-    if (filter_.isEmpty() && known_.contains(name) &&
-        ! visible_.contains(name))
-	return true;
+    if (filter_.isEmpty() && known_.contains(name) && !visible_.contains(name)) return true;
     return getTreeViewItemIsHidden(index);
 }
 

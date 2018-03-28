@@ -11,8 +11,7 @@ using namespace SideCar::IO;
 Logger::Log&
 TCPInputHandler::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.IO.TCPInputHandler");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.IO.TCPInputHandler");
     return log_;
 }
 
@@ -28,8 +27,8 @@ TCPInputHandler::open(void* arg)
 
     int value = connector_->getMaxSocketBufferSize();
     if (value) {
-	LOGDEBUG << "before peer().set_option()" << std::endl;
-	peer().set_option(SOL_SOCKET, SO_RCVBUF, &value, sizeof(value));
+        LOGDEBUG << "before peer().set_option()" << std::endl;
+        peer().set_option(SOL_SOCKET, SO_RCVBUF, &value, sizeof(value));
     }
 
     // Setup the socket reader to use our socket connection
@@ -60,17 +59,14 @@ TCPInputHandler::close(u_long flags)
     // ACE_Connector class calls our close() method after each failed connection attempt.
     //
     if (connector_) {
-	LOGDEBUG << "removing handler" << std::endl;
+        LOGDEBUG << "removing handler" << std::endl;
 
-	// Forget our connector, so we won't attempt to reconnect when our handle_close() method gets called due
-	// to the remove_handler() call below.
-	//
-	connector_ = 0;
-	rc = reactor()->remove_handler(this, ACE_Event_Handler::READ_MASK);
-	if (rc == -1) {
-	    LOGERROR << "failed remove_handler() - " << Utils::showErrno()
-		     << std::endl;
-	}
+        // Forget our connector, so we won't attempt to reconnect when our handle_close() method gets called due
+        // to the remove_handler() call below.
+        //
+        connector_ = 0;
+        rc = reactor()->remove_handler(this, ACE_Event_Handler::READ_MASK);
+        if (rc == -1) { LOGERROR << "failed remove_handler() - " << Utils::showErrno() << std::endl; }
     }
 
     return rc;
@@ -84,14 +80,13 @@ TCPInputHandler::handle_input(ACE_HANDLE handle)
 
     // If we fail, return -1 to call our handle_close() method, which will attempt to reestablish a connection.
     //
-    if (! reader_.fetchInput()) {
+    if (!reader_.fetchInput()) {
         LOGERROR << "failed to read data from socket" << std::endl;
-	task_->setError("Failed to read from publisher");
+        task_->setError("Failed to read from publisher");
         return -1;
     }
 
-    if (! reader_.isMessageAvailable())
-        return 0;
+    if (!reader_.isMessageAvailable()) return 0;
 
     // Got a valid message. Give to the task.
     //
@@ -103,8 +98,7 @@ TCPInputHandler::handle_input(ACE_HANDLE handle)
     // call us again before doing another ::select().
     //
     int available = 0;
-    if (ACE_OS::ioctl (handle, FIONREAD, &available) == 0 &&
-        available) {
+    if (ACE_OS::ioctl(handle, FIONREAD, &available) == 0 && available) {
         LOGDEBUG << "more to come" << std::endl;
         return 1;
     }

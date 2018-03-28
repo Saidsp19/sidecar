@@ -32,33 +32,23 @@ class PlotPositionFunctor;
 class VideoImaging;
 class ViewSettings;
 
-class Configuration : public PresetManager
-{
+class Configuration : public PresetManager {
 public:
+    Configuration(ChannelSelectorWindow* gui1, ConfigurationWindow* gui2, ControlsWindow* gui3, History* history);
 
-    Configuration(ChannelSelectorWindow* gui1, ConfigurationWindow* gui2,
-                  ControlsWindow* gui3, History* history);
+    ChannelSetting* getVideoChannel() const { return videoChannel_; }
 
-    ChannelSetting* getVideoChannel() const
-	{ return videoChannel_; }
+    ChannelSetting* getBinaryChannel() const { return binaryChannel_; }
 
-    ChannelSetting* getBinaryChannel() const
-	{ return binaryChannel_; }
+    ChannelSetting* getExtractionsChannel() const { return extractionsChannel_; }
 
-    ChannelSetting* getExtractionsChannel() const
-	{ return extractionsChannel_; }
+    ChannelSetting* getRangeTruthsChannel() const { return rangeTruthsChannel_; }
 
-    ChannelSetting* getRangeTruthsChannel() const
-	{ return rangeTruthsChannel_; }
+    ChannelSetting* getBugPlotsChannel() const { return bugPlotsChannel_; }
 
-    ChannelSetting* getBugPlotsChannel() const
-	{ return bugPlotsChannel_; }
+    ViewSettings* getViewSettings() const { return viewSettings_; }
 
-    ViewSettings* getViewSettings() const
-	{ return viewSettings_; }
-
-    VideoImaging* getVideoImaging() const
-	{ return videoImaging_; }
+    VideoImaging* getVideoImaging() const { return videoImaging_; }
 
     QSliderSetting* getGainSetting() const { return gainSetting_; }
 
@@ -66,47 +56,33 @@ public:
 
     QSliderSetting* getCutoffMaxSetting() const { return cutoffMaxSetting_; }
 
-    VideoSampleCountTransform* getVideoSampleCountTransform() const
-	{ return videoSampleCountTransform_; }
+    VideoSampleCountTransform* getVideoSampleCountTransform() const { return videoSampleCountTransform_; }
 
-    SampleImaging* getBinaryImaging() const
-	{ return binaryImaging_; }
+    SampleImaging* getBinaryImaging() const { return binaryImaging_; }
 
-    TargetPlotImaging* getExtractionsImaging() const
-	{ return extractionsImaging_; }
+    TargetPlotImaging* getExtractionsImaging() const { return extractionsImaging_; }
 
-    TargetPlotImaging* getRangeTruthsImaging() const
-	{ return rangeTruthsImaging_; }
+    TargetPlotImaging* getRangeTruthsImaging() const { return rangeTruthsImaging_; }
 
-    TargetPlotImaging* getBugPlotsImaging() const
-	{ return bugPlotsImaging_; }
+    TargetPlotImaging* getBugPlotsImaging() const { return bugPlotsImaging_; }
 
-    ChannelImaging* getRangeMapImaging() const
-	{ return rangeMapImaging_; }
+    ChannelImaging* getRangeMapImaging() const { return rangeMapImaging_; }
 
-    RangeRingsImaging* getRangeRingsImaging() const
-	{ return rangeRingsImaging_; }
+    RangeRingsImaging* getRangeRingsImaging() const { return rangeRingsImaging_; }
 
-    PhantomCursorImaging* getPhantomCursorImaging() const
-	{ return phantomCursorImaging_; }
+    PhantomCursorImaging* getPhantomCursorImaging() const { return phantomCursorImaging_; }
 
-    HistorySettings* getHistorySettings() const
-	{ return historySettings_; }
+    HistorySettings* getHistorySettings() const { return historySettings_; }
 
-    PlayerSettings* getPlayerSettings() const
-	{ return playerSettings_; }
+    PlayerSettings* getPlayerSettings() const { return playerSettings_; }
 
-    FramesListSettings* getFramesListSettings() const
-	{ return framesListSettings_; }
+    FramesListSettings* getFramesListSettings() const { return framesListSettings_; }
 
-    OnOffSettingsBlock* getShowCursorPositionSetting() const
-	{ return showCursorPositionSetting_; }
+    OnOffSettingsBlock* getShowCursorPositionSetting() const { return showCursorPositionSetting_; }
 
-    OnOffSettingsBlock* getShowPhantomCursorSetting() const
-	{ return showPhantomCursorSetting_; }
+    OnOffSettingsBlock* getShowPhantomCursorSetting() const { return showPhantomCursorSetting_; }
 
-    BugPlotEmitterSettings* getBugPlotEmitterSettings() const
-	{ return bugPlotEmitterSettings_; }
+    BugPlotEmitterSettings* getBugPlotEmitterSettings() const { return bugPlotEmitterSettings_; }
 
 private:
     ChannelSetting* videoChannel_;

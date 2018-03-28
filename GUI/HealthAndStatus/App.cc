@@ -17,17 +17,15 @@ App::Log()
     return log_;
 }
 
-App::App(int& argc, char** argv)
-    : AppBase("HealthAndStatus", argc, argv),
-      presetManager_(new PresetManager("HealthAndStatus", this)),
-      configurationWindow_(0), mainWindow_(0)
+App::App(int& argc, char** argv) :
+    AppBase("HealthAndStatus", argc, argv), presetManager_(new PresetManager("HealthAndStatus", this)),
+    configurationWindow_(0), mainWindow_(0)
 {
     static Logger::ProcLog log("App", Log());
     LOGINFO << std::endl;
 
     setVisibleWindowMenuNew(false);
-    configurationWindow_ = new ConfigurationWindow(
-	Qt::CTRL + Qt::Key_1 + kShowConfigurationWindow);
+    configurationWindow_ = new ConfigurationWindow(Qt::CTRL + Qt::Key_1 + kShowConfigurationWindow);
     configurationWindow_->useDefaultSettings();
 
     addToolWindow(kShowConfigurationWindow, configurationWindow_);

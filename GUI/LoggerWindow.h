@@ -5,8 +5,12 @@
 
 #include "GUI/ToolWindowBase.h"
 
-namespace Logger { class Log; }
-namespace Ui { class LoggerWindow; }
+namespace Logger {
+class Log;
+}
+namespace Ui {
+class LoggerWindow;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -15,12 +19,11 @@ class LoggerModel;
 /** Floating tool window that shows the various Logger::Log devices in use by a GUI program. Lets the user
     change priority levels for the devices.
 */
-class LoggerWindow : public ToolWindowBase
-{
+class LoggerWindow : public ToolWindowBase {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Constructor. Creates and initializes window widgets.
 
         \param shortcut the key sequence that controls window visibility

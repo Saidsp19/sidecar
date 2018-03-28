@@ -5,7 +5,9 @@
 #include "GUI/StringSetting.h"
 #include "Messages/BugPlot.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,12 +15,11 @@ namespace GUI {
 class ChannelSetting;
 class UDPMessageWriter;
 
-class BugPlotEmitterSettings : public OnOffSettingsBlock
-{
+class BugPlotEmitterSettings : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
 
     BugPlotEmitterSettings(BoolSetting* enabled, StringSetting* serviceName, StringSetting* address,
@@ -38,7 +39,6 @@ private slots:
     void needUpdate();
 
 private:
-
     void addWriter();
     void removeWriter();
 

@@ -16,18 +16,11 @@ namespace IO {
     The base collection contains the class name of the status collection, and the name of the object that filled
     in the status.
 */
-class StatusBase : public Printable<StatusBase>
-{
+class StatusBase : public Printable<StatusBase> {
 public:
-
     /** Indices for status elements managed by this class.
      */
-    enum Index {
-	kVersion = 0,
-	kClassName,
-	kName,
-	kNumSlots
-    };
+    enum Index { kVersion = 0, kClassName, kName, kNumSlots };
 
     static std::string GetCompiledVersion() { return "2.0"; }
 
@@ -106,7 +99,7 @@ public:
 
         \return true if so
     */
-    bool operator!=(const StatusBase& rhs) const { return ! operator==(rhs.status_); }
+    bool operator!=(const StatusBase& rhs) const { return !operator==(rhs.status_); }
 
     /** Print out an XML representation of the held status values.
 
@@ -117,7 +110,6 @@ public:
     std::ostream& print(std::ostream& os) const { return os << status_.toXml(); }
 
 private:
-
     XmlRpc::XmlRpcValue status_;
 };
 

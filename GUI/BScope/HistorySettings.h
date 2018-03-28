@@ -9,18 +9,13 @@ namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class HistorySettings : public SettingsBlock
-{
+class HistorySettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
-    HistorySettings(IntSetting* frameCount,
-                    BoolSetting* frameHasGrid,
-                    BoolSetting* frameHasRangeMap,
-                    BoolSetting* frameHasExtractions,
-                    BoolSetting* frameHasRangeTruths,
-                    BoolSetting* frameHasBugPlots);
+public:
+    HistorySettings(IntSetting* frameCount, BoolSetting* frameHasGrid, BoolSetting* frameHasRangeMap,
+                    BoolSetting* frameHasExtractions, BoolSetting* frameHasRangeTruths, BoolSetting* frameHasBugPlots);
 
     int getFrameCount() const { return frameCount_->getValue(); }
 
@@ -28,11 +23,9 @@ public:
 
     bool getFrameHasRangeMap() const { return frameHasRangeMap_->getValue(); }
 
-    bool getFrameHasExtractions() const
-	{ return frameHasExtractions_->getValue(); }
+    bool getFrameHasExtractions() const { return frameHasExtractions_->getValue(); }
 
-    bool getFrameHasRangeTruths() const
-	{ return frameHasRangeTruths_->getValue(); }
+    bool getFrameHasRangeTruths() const { return frameHasRangeTruths_->getValue(); }
 
     bool getFrameHasBugPlots() const { return frameHasBugPlots_->getValue(); }
 
@@ -41,7 +34,6 @@ signals:
     void frameCountChanged(int size);
 
 private:
-
     IntSetting* frameCount_;
     BoolSetting* frameHasGrid_;
     BoolSetting* frameHasRangeMap_;

@@ -13,33 +13,26 @@ using namespace SideCar::GUI::Master;
 static QChar kBullet = QChar(0x2713);
 static QChar kSpace = QChar(0x0020);
 
-RecordingInfo::RecordingInfo(RecordingController& controller,
-                             const QString& name, const QTime& duration)
-    : configurationNames_(), recordingDirs_(), name_(name), duration_(0),
-      start_(QDateTime::currentDateTime().toUTC()), elapsed_("00:00:00"),
-      remaining_(""), notesWindow_(0), dropCount_(0), 
-      dupeCount_(0), hasDuration_(duration.isValid()), done_(false)
+RecordingInfo::RecordingInfo(RecordingController& controller, const QString& name, const QTime& duration) :
+    configurationNames_(), recordingDirs_(), name_(name), duration_(0), start_(QDateTime::currentDateTime().toUTC()),
+    elapsed_("00:00:00"), remaining_(""), notesWindow_(0), dropCount_(0), dupeCount_(0),
+    hasDuration_(duration.isValid()), done_(false)
 {
     if (hasDuration_) {
-        duration_ = duration.hour() * 3600 + duration.minute() * 60 +
-	    duration.second();
-	remaining_ = duration.toString(" -hh:mm:ss");
+        duration_ = duration.hour() * 3600 + duration.minute() * 60 + duration.second();
+        remaining_ = duration.toString(" -hh:mm:ss");
     }
 
     notesWindow_ = new NotesWindow(controller, *this);
     notesWindow_->initialize();
 }
 
-RecordingInfo::RecordingInfo(RecordingController& controller,
-                             const QDir& recordingDir)
-    : configurationNames_(), recordingDirs_(), name_(recordingDir.dirName()),
-      duration_(0), start_(), elapsed_(), notesWindow_(0), dropCount_(0),
-      dupeCount_(0), hasDuration_(false), done_(true)
+RecordingInfo::RecordingInfo(RecordingController& controller, const QDir& recordingDir) :
+    configurationNames_(), recordingDirs_(), name_(recordingDir.dirName()), duration_(0), start_(), elapsed_(),
+    notesWindow_(0), dropCount_(0), dupeCount_(0), hasDuration_(false), done_(true)
 {
     QStringList bits = recordingDir.dirName().split("-");
-    if (bits.size() > 1)
-	start_ = QDateTime::fromString(bits[0] + "-" + bits[1],
-                                       "yyyyMMdd-HHmmss");
+    if (bits.size() > 1) start_ = QDateTime::fromString(bits[0] + "-" + bits[1], "yyyyMMdd-HHmmss");
     recordingDirs_.append(recordingDir.absolutePath());
     notesWindow_ = new NotesWindow(controller, *this);
     notesWindow_->initialize();
@@ -56,45 +49,41 @@ void
 RecordingInfo::loadFromFile()
 {
     for (int index = 0; index < recordingDirs_.size(); ++index) {
-	QDir dir(recordingDirs_[index]);
-	QFile file(dir.filePath("notes.txt"));
-	if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	    QByteArray data;
-	    QList<QByteArray> bits;
+        QDir dir(recordingDirs_[index]);
+        QFile file(dir.filePath("notes.txt"));
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QByteArray data;
+            QList<QByteArray> bits;
 
-	    // Read in the configurations
-	    //
-	    data = file.readLine().trimmed();
-	    bits = data.split(' ');
-	    for (int index = 1; index < bits.size(); ++index)
-		configurationNames_.append(bits[index]);
+            // Read in the configurations
+            //
+            data = file.readLine().trimmed();
+            bits = data.split(' ');
+            for (int index = 1; index < bits.size(); ++index) configurationNames_.append(bits[index]);
 
-	    // Read in the elapsed time
-	    //
-	    data = file.readLine().trimmed();
-	    bits = data.split(' ');
-	    if (bits.size() > 1)
-		elapsed_ = bits[1];
+            // Read in the elapsed time
+            //
+            data = file.readLine().trimmed();
+            bits = data.split(' ');
+            if (bits.size() > 1) elapsed_ = bits[1];
 
-	    // Read in the drop count
-	    //
-	    data = file.readLine().trimmed();
-	    bits = data.split(' ');
-	    if (bits.size() > 2)
-		dropCount_ = bits[2].toInt();
+            // Read in the drop count
+            //
+            data = file.readLine().trimmed();
+            bits = data.split(' ');
+            if (bits.size() > 2) dropCount_ = bits[2].toInt();
 
-	    // Read in the dupe count
-	    //
-	    data = file.readLine().trimmed();
-	    bits = data.split(' ');
-	    if (bits.size() > 2)
-		dupeCount_ = bits[2].toInt();
+            // Read in the dupe count
+            //
+            data = file.readLine().trimmed();
+            bits = data.split(' ');
+            if (bits.size() > 2) dupeCount_ = bits[2].toInt();
 
-	    // Parse the rest inside the notes window.
-	    // 
-	    notesWindow_->loadFromFile(file);
-	    return;
-	}
+            // Parse the rest inside the notes window.
+            //
+            notesWindow_->loadFromFile(file);
+            return;
+        }
     }
 }
 
@@ -108,8 +97,7 @@ void
 RecordingInfo::addRecordingDirectory(const QDir& dir)
 {
     QString path(dir.absolutePath());
-    if (! recordingDirs_.contains(path))
-	recordingDirs_.append(path);
+    if (!recordingDirs_.contains(path)) recordingDirs_.append(path);
 }
 
 void
@@ -145,15 +133,13 @@ RecordingInfo::hasDurationPassed(const QString& now)
 
     int elapsed = start_.secsTo(QDateTime::currentDateTime());
     if (hasDuration_) {
-	int remaining = duration_ - elapsed;
-	if (remaining <= 0) {
-	    done_ = true;
-	    remaining_ = "";
-	}
-	else {
-	    remaining_ = QTime(0, 0).addSecs(
-		remaining).toString(" -hh:mm:ss");
-	}
+        int remaining = duration_ - elapsed;
+        if (remaining <= 0) {
+            done_ = true;
+            remaining_ = "";
+        } else {
+            remaining_ = QTime(0, 0).addSecs(remaining).toString(" -hh:mm:ss");
+        }
     }
 
     elapsed_ = QTime(0, 0).addSecs(elapsed).toString("hh:mm:ss");
@@ -176,9 +162,7 @@ RecordingInfo::getBoolAsString(bool value) const
 QString
 RecordingInfo::getRadarFreqency() const
 {
-    return wasRadarTransmitting() ?
-	QString::number(notesWindow_->getRadarFrequency()) :
-	QString("");
+    return wasRadarTransmitting() ? QString::number(notesWindow_->getRadarFrequency()) : QString("");
 }
 
 bool
@@ -190,9 +174,7 @@ RecordingInfo::wasRadarRotating() const
 QString
 RecordingInfo::getRadarRotationRate() const
 {
-    return wasRadarRotating() ?
-	QString::number(notesWindow_->getRadarRotationRate()) :
-	QString("");
+    return wasRadarRotating() ? QString::number(notesWindow_->getRadarRotationRate()) : QString("");
 }
 
 bool
@@ -213,17 +195,16 @@ RecordingInfo::updateStats(int dropCount, int dupeCount)
 {
     bool changed = false;
     if (dropCount_ == -1 || dropCount_ != dropCount) {
-	dropCount_ = dropCount;
-	changed = true;
+        dropCount_ = dropCount;
+        changed = true;
     }
 
     if (dupeCount_ == -1 || dupeCount_ != dupeCount) {
-	dupeCount_ = dupeCount;
-	changed = true;
+        dupeCount_ = dupeCount;
+        changed = true;
     }
 
-    if (changed)
-	emit statsChanged();
+    if (changed) emit statsChanged();
 }
 
 void

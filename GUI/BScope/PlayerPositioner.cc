@@ -3,8 +3,7 @@
 
 using namespace SideCar::GUI::BScope;
 
-PlayerPositioner::PlayerPositioner(PlayerSettings* settings, QWidget* parent)
-    : Super(parent), Ui::PlayerPositioner()
+PlayerPositioner::PlayerPositioner(PlayerSettings* settings, QWidget* parent) : Super(parent), Ui::PlayerPositioner()
 {
     setupUi(this);
     position_->setValue(0);
@@ -44,7 +43,7 @@ PlayerPositioner::stop()
     startStop_->setToolTip("Start playback");
     startStop_->setChecked(false);
 }
-    
+
 void
 PlayerPositioner::updateInfo()
 {
@@ -64,12 +63,11 @@ void
 PlayerPositioner::on_startStop__clicked()
 {
     if (startStop_->isChecked()) {
-	start();
-	emit started();
-    }
-    else {
-	stop();
-	emit stopped();
+        start();
+        emit started();
+    } else {
+        stop();
+        emit stopped();
     }
 }
 
@@ -83,6 +81,5 @@ PlayerPositioner::on_position__valueChanged(int value)
 void
 PlayerPositioner::on_loop__toggled(bool state)
 {
-    loop_->setToolTip(state ? "Clear to stop playback at last frame" :
-                      "Set to loop around at last frame");
+    loop_->setToolTip(state ? "Clear to stop playback at last frame" : "Set to loop around at last frame");
 }

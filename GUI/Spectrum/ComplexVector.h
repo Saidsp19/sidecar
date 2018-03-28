@@ -11,7 +11,7 @@ namespace GUI {
 namespace Spectrum {
 
 using Complex = std::complex<float>;
-using ComplexVector = std::vector<Complex,FFTWAllocator<Complex> >;
+using ComplexVector = std::vector<Complex, FFTWAllocator<Complex>>;
 
 } // end namespace Spectrum
 } // end namespace GUI

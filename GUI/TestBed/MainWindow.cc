@@ -13,8 +13,7 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::TestBed()
+MainWindow::MainWindow() : MainWindowBase(), Ui::TestBed()
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -26,7 +25,6 @@ MainWindow::MainWindow()
 #else
     setWindowTitle("TestBed");
 #endif
-
 }
 
 void

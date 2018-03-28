@@ -28,7 +28,7 @@ namespace Algorithms {
     \code
     map[i] = (1 - alpha) * map[i] + alpha * PRI
     \endcode
-    
+
     where \c i is the partition index calculated from the PRI shaft encoding
     value.
 
@@ -58,16 +58,9 @@ namespace Algorithms {
     - \c remaining contains the number of scans remainging before the map transitions from learning to frozen
     state.
 */
-class ClutterMap : public Algorithm
-{
+class ClutterMap : public Algorithm {
 public:
-
-    enum InfoSlot {
-	kLearning = ControllerStatus::kNumSlots,
-	kRemaining,
-	kEnabled,
-	kNumSlots
-    };
+    enum InfoSlot { kLearning = ControllerStatus::kNumSlots, kRemaining, kEnabled, kNumSlots };
 
     /** Constructor.
 
@@ -95,29 +88,25 @@ public:
 
         \param value new value to use
     */
-    void setLearningScanCount(int value)
-	{ learningScanCount_->setValue(value); }
+    void setLearningScanCount(int value) { learningScanCount_->setValue(value); }
 
     /** Set the number of radials in the map buffer.
 
         \param value new value to use
     */
-    void setRadialPartitionCount(int value)
-	{ radialPartitionCount_->setValue(value); }
+    void setRadialPartitionCount(int value) { radialPartitionCount_->setValue(value); }
 
     /** Load a previously-saved clutter map from a system file.
 
         \param path location of the file
     */
-    void setLoadFilePath(const std::string& path)
-	{ loadFilePath_->setValue(path); }
+    void setLoadFilePath(const std::string& path) { loadFilePath_->setValue(path); }
 
     /** Save a frozen clutter map to a system file.
 
         \param path location of the file
     */
-    void setSaveFilePath(const std::string& path)
-	{ saveFilePath_->setValue(path); }
+    void setSaveFilePath(const std::string& path) { saveFilePath_->setValue(path); }
 
     size_t getNumInfoSlots() const { return kNumSlots; }
 
@@ -142,7 +131,6 @@ public:
     bool saveMap(const std::string& path);
 
 private:
-
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process
@@ -153,8 +141,7 @@ private:
 
     void alphaChanged(const Parameter::DoubleValue& value);
 
-    void radialPartitionCountChanged(
-	const Parameter::PositiveIntValue& value);
+    void radialPartitionCountChanged(const Parameter::PositiveIntValue& value);
 
     void loadFilePathChanged(const Parameter::ReadPathValue& value);
 
@@ -184,7 +171,7 @@ private:
     boost::scoped_ptr<MapBuffer> mapBuffer_;
 };
 
-}
-}
+} // namespace Algorithms
+} // namespace SideCar
 
 #endif

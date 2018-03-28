@@ -7,15 +7,12 @@ using namespace SideCar::GUI;
 Logger::Log&
 QComboBoxSetting::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.QComboBoxSetting");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.QComboBoxSetting");
     return log_;
 }
 
-QComboBoxSetting::QComboBoxSetting(PresetManager* mgr, QComboBox* widget,
-                                   bool global)
-    : Super(mgr, widget->objectName(), widget->currentIndex(), global),
-      first_(widget)
+QComboBoxSetting::QComboBoxSetting(PresetManager* mgr, QComboBox* widget, bool global) :
+    Super(mgr, widget->objectName(), widget->currentIndex(), global), first_(widget)
 {
     connectWidget(widget);
 }

@@ -10,12 +10,11 @@ namespace ConfigEditor {
 class RootItem;
 class RunnerItem;
 
-class ConfigurationItem : public TreeItem
-{
+class ConfigurationItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
+
 public:
-    
     ConfigurationItem(RootItem* parent, const QString& name);
 
     RootItem* getParent() const;

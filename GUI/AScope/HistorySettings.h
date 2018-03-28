@@ -4,19 +4,20 @@
 #include "GUI/IntSetting.h"
 #include "GUI/OnOffSettingsBlock.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace AScope {
 
 /** Collection of settings that configure the application's History object.
  */
-class HistorySettings : public OnOffSettingsBlock
-{
+class HistorySettings : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
-public:
 
+public:
     /** Obtain Log device for ViewSetting objects
 
         \return Log device

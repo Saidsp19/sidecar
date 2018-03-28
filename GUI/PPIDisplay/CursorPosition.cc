@@ -7,11 +7,11 @@
 using namespace SideCar::GUI::PPIDisplay;
 
 struct CursorPosition::Private {
-    Private(double x, double y)
-	: x_(x), y_(y),
-	  azimuth_(Utils::normalizeRadians(::atan2(x, y))),
-	  range_(::sqrt(x * x + y * y)), sampleValue_("NA"), toolTip_(),
-	  widgetText_() {}
+    Private(double x, double y) :
+        x_(x), y_(y), azimuth_(Utils::normalizeRadians(::atan2(x, y))), range_(::sqrt(x * x + y * y)),
+        sampleValue_("NA"), toolTip_(), widgetText_()
+    {
+    }
 
     double x_;
     double y_;
@@ -23,8 +23,7 @@ struct CursorPosition::Private {
     mutable QString widgetText_;
 };
 
-CursorPosition::CursorPosition(double x, double y)
-    : Super(0), p_(new Private(x, y))
+CursorPosition::CursorPosition(double x, double y) : Super(0), p_(new Private(x, y))
 {
     ;
 }
@@ -35,16 +34,28 @@ CursorPosition::~CursorPosition()
 }
 
 double
-CursorPosition::getX() const { return p_->x_; }
+CursorPosition::getX() const
+{
+    return p_->x_;
+}
 
 double
-CursorPosition::getY() const { return p_->y_; }
+CursorPosition::getY() const
+{
+    return p_->y_;
+}
 
 double
-CursorPosition::getAzimuth() const { return p_->azimuth_; }
+CursorPosition::getAzimuth() const
+{
+    return p_->azimuth_;
+}
 
 double
-CursorPosition::getRange() const { return p_->range_; }
+CursorPosition::getRange() const
+{
+    return p_->range_;
+}
 
 void
 CursorPosition::setSampleValue(const QString& sampleValue)
@@ -55,20 +66,18 @@ CursorPosition::setSampleValue(const QString& sampleValue)
 void
 CursorPosition::clearCache()
 {
-    if (! p_->toolTip_.isNull())
-	p_->toolTip_ = QString();
-    if (! p_->widgetText_.isNull())
-	p_->widgetText_ = QString();
+    if (!p_->toolTip_.isNull()) p_->toolTip_ = QString();
+    if (!p_->widgetText_.isNull()) p_->widgetText_ = QString();
 }
 
 const QString&
 CursorPosition::getToolTip() const
 {
     if (p_->toolTip_.isNull())
-	p_->toolTip_ = QString("%1 %2 [%3]")
-	    .arg(App::GetApp()->getFormattedAngleRadians(p_->azimuth_))
-	    .arg(App::GetApp()->getFormattedDistance(p_->range_))
-	    .arg(p_->sampleValue_);
+        p_->toolTip_ = QString("%1 %2 [%3]")
+                           .arg(App::GetApp()->getFormattedAngleRadians(p_->azimuth_))
+                           .arg(App::GetApp()->getFormattedDistance(p_->range_))
+                           .arg(p_->sampleValue_);
     return p_->toolTip_;
 }
 
@@ -76,9 +85,9 @@ const QString&
 CursorPosition::getWidgetText() const
 {
     if (p_->widgetText_.isNull())
-	p_->widgetText_ = QString("Az: %1 Range: %2 [%3]")
-	    .arg(App::GetApp()->getFormattedAngleRadians(p_->azimuth_))
-	    .arg(App::GetApp()->getFormattedDistance(p_->range_))
-	    .arg(p_->sampleValue_);
+        p_->widgetText_ = QString("Az: %1 Range: %2 [%3]")
+                              .arg(App::GetApp()->getFormattedAngleRadians(p_->azimuth_))
+                              .arg(App::GetApp()->getFormattedDistance(p_->range_))
+                              .arg(p_->sampleValue_);
     return p_->widgetText_;
 }

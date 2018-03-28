@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_NOOP_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_NOOP_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_NOOP_H
 
 #include "Algorithms/Algorithm.h"
@@ -9,10 +9,8 @@ namespace Algorithms {
 
 /** An algorithm which does nothing but reads in a Video message type only to immediately write it out.
  */
-class NOOP : public Algorithm
-{
+class NOOP : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -28,7 +26,6 @@ public:
     bool startup();
 
 private:
-
     /** Input message processor.
 
         \param msg message to process

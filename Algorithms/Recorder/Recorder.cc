@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -10,8 +10,7 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Recorder::Recorder(Controller& controller, Logger::Log& log)
-    : Super(controller, log)
+Recorder::Recorder(Controller& controller, Logger::Log& log) : Super(controller, log)
 {
     ;
 }
@@ -21,13 +20,11 @@ Recorder::startup()
 {
     const IO::Channel& channel(getController().getInputChannel(0));
     if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-	registerProcessor<Recorder,Messages::Video>(&Recorder::processInputVideo);
-    }
-    else if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-	registerProcessor<Recorder,Messages::BinaryVideo>(&Recorder::processInputBinary);
-    }
-    else {
-	return false;
+        registerProcessor<Recorder, Messages::Video>(&Recorder::processInputVideo);
+    } else if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
+        registerProcessor<Recorder, Messages::BinaryVideo>(&Recorder::processInputBinary);
+    } else {
+        return false;
     }
 
     return Super::startup();
@@ -40,7 +37,6 @@ Recorder::shutdown()
     //
     return Super::shutdown();
 }
-
 
 bool
 Recorder::processInputVideo(const Messages::Video::Ref& msg)

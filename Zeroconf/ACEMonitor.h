@@ -5,7 +5,9 @@
 
 #include "Zeroconf/Monitor.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Zeroconf {
@@ -18,10 +20,8 @@ namespace Zeroconf {
     there is data available from the file descriptor or socket managed by the
     ACEMonitor.
 */
-class ACEMonitor : public ::ACE_Event_Handler, public Monitor
-{
+class ACEMonitor : public ::ACE_Event_Handler, public Monitor {
 public:
-
     /** Obtain the log device for ACEMonitor objects
 
         \return log device
@@ -37,16 +37,15 @@ public:
     ~ACEMonitor();
 
 private:
-
     /** Implementation of abstract Monitor method. Notification from the monitored object that a service has
-	started. Registers ourselves in the ACE framework to receive notifications when data is available on the
-	IPC descriptor of the monitored Zerconf object.
+        started. Registers ourselves in the ACE framework to receive notifications when data is available on the
+        IPC descriptor of the monitored Zerconf object.
     */
     void serviceStarted();
 
     /** Implementation of abstract Monitor method. Notification from the monitored object that a service is
-	stopping. Removes ourselves from the ACE framework so we no longer receive notifications when data is
-	available on the IPC descriptor of the monitored Zerconf object.
+        stopping. Removes ourselves from the ACE framework so we no longer receive notifications when data is
+        available on the IPC descriptor of the monitored Zerconf object.
     */
     void serviceStopping();
 
@@ -69,8 +68,7 @@ private:
 /** Factory of ACEMonitor objects. The Browser object requires a monitor factory so that the browser can give an
     ACEMonitor to each ServiceEntry objects the it creates.
 */
-class ACEMonitorFactory : public MonitorFactory
-{
+class ACEMonitorFactory : public MonitorFactory {
 public:
     using Ref = boost::shared_ptr<MonitorFactory>;
 
@@ -87,14 +85,13 @@ public:
     Monitor* make() { return new ACEMonitor; }
 
 private:
-
     /** Constructor. Use Make() factory method to create new ACEMonitorFactory objects.
      */
     ACEMonitorFactory() : MonitorFactory() {}
 };
 
-}
-}
+} // namespace Zeroconf
+} // namespace SideCar
 
 /** \file
  */

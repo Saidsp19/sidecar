@@ -11,43 +11,28 @@ static const int kColorMapHeight = 10;
 Logger::Log&
 SpectrographImaging::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("spectrum.SpectrographImaging");
+    static Logger::Log& log_ = Logger::Log::Find("spectrum.SpectrographImaging");
     return log_;
 }
 
-SpectrographImaging::SpectrographImaging(BoolSetting* enabled,
-                                         ColorButtonSetting* color,
-                                         DoubleSetting* pointSize,
-                                         OpacitySetting* opacity,
-                                         BoolSetting* colorMapEnabled,
-                                         QComboBoxSetting* colorMapType,
-                                         QDoubleSpinBoxSetting* minCutoff,
-                                         QDoubleSpinBoxSetting* maxCutoff,
-                                         IntSetting* historySize)
-: Super(enabled, color, pointSize, opacity),
-  colorMapEnabled_(colorMapEnabled), colorMap_(),
-  clut_(CLUT::kBlueSaturated), colorMapType_(colorMapType),
-  minCutoff_(minCutoff), maxCutoff_(maxCutoff),
-  historySize_(historySize)
+SpectrographImaging::SpectrographImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* pointSize,
+                                         OpacitySetting* opacity, BoolSetting* colorMapEnabled,
+                                         QComboBoxSetting* colorMapType, QDoubleSpinBoxSetting* minCutoff,
+                                         QDoubleSpinBoxSetting* maxCutoff, IntSetting* historySize) :
+    Super(enabled, color, pointSize, opacity),
+    colorMapEnabled_(colorMapEnabled), colorMap_(), clut_(CLUT::kBlueSaturated), colorMapType_(colorMapType),
+    minCutoff_(minCutoff), maxCutoff_(maxCutoff), historySize_(historySize)
 {
-    connect(colorMapEnabled, SIGNAL(valueChanged(bool)),
-            SLOT(setColorMapEnabled(bool)));
-    connect(colorMapType, SIGNAL(valueChanged(int)),
-            SLOT(setColorMapType(int)));
+    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), SLOT(setColorMapEnabled(bool)));
+    connect(colorMapType, SIGNAL(valueChanged(int)), SLOT(setColorMapType(int)));
 
-    connect(minCutoff, SIGNAL(valueChanged(double)),
-            SIGNAL(minCutoffChanged(double)));
-    connect(maxCutoff, SIGNAL(valueChanged(double)),
-            SIGNAL(maxCutoffChanged(double)));
+    connect(minCutoff, SIGNAL(valueChanged(double)), SIGNAL(minCutoffChanged(double)));
+    connect(maxCutoff, SIGNAL(valueChanged(double)), SIGNAL(maxCutoffChanged(double)));
 
-    connect(minCutoff, SIGNAL(valueChanged(double)),
-            SLOT(updateDbColorTransform()));
-    connect(maxCutoff, SIGNAL(valueChanged(double)),
-            SLOT(updateDbColorTransform()));
+    connect(minCutoff, SIGNAL(valueChanged(double)), SLOT(updateDbColorTransform()));
+    connect(maxCutoff, SIGNAL(valueChanged(double)), SLOT(updateDbColorTransform()));
 
-    connect(historySize, SIGNAL(valueChanged(int)),
-            SIGNAL(historySizeChanged(int)));
+    connect(historySize, SIGNAL(valueChanged(int)), SIGNAL(historySizeChanged(int)));
 
     updateDbColorTransform();
     updateColorMapImage();
@@ -74,14 +59,12 @@ SpectrographImaging::setColorMapType(int value)
 void
 SpectrographImaging::updateColorMapImage()
 {
-    if (colorMap_.isNull())
-	colorMap_ = QImage(256, 10, QImage::Format_RGB32);
+    if (colorMap_.isNull()) colorMap_ = QImage(256, 10, QImage::Format_RGB32);
 
     if (getColorMapEnabled()) {
-	clut_.makeColorMapImage(colorMap_, true);
-    }
-    else {
-	clut_.makeGradiantImage(colorMap_, Super::getColor(), true);
+        clut_.makeColorMapImage(colorMap_, true);
+    } else {
+        clut_.makeGradiantImage(colorMap_, Super::getColor(), true);
     }
 
     emit colorMapChanged(colorMap_);
@@ -101,14 +84,15 @@ SpectrographImaging::getColor(double db) const
     LOGINFO << "db: " << db << std::endl;
 
     double normalized = (db - offset_) * scaling_;
-    if (normalized < 0.0) normalized = 0.0;
-    else if (normalized > 1.0) normalized = 1.0;
+    if (normalized < 0.0)
+        normalized = 0.0;
+    else if (normalized > 1.0)
+        normalized = 1.0;
 
     if (getColorMapEnabled()) {
-	return clut_.getColor(normalized);
-    }
-    else {
-	Color tmp(Super::getColor());
-	return tmp *= normalized;
+        return clut_.getColor(normalized);
+    } else {
+        Color tmp(Super::getColor());
+        return tmp *= normalized;
     }
 }

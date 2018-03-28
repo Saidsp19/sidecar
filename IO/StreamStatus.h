@@ -7,14 +7,9 @@
 namespace SideCar {
 namespace IO {
 
-class StreamStatus : public StatusBase
-{
+class StreamStatus : public StatusBase {
 public:
-
-    enum {
-	kTaskStatus = StatusBase::kNumSlots,
-	kNumSlots
-    };
+    enum { kTaskStatus = StatusBase::kNumSlots, kNumSlots };
 
     static const char* GetClassName() { return "StreamStatus"; }
 
@@ -24,8 +19,7 @@ public:
 
     int getTaskCount() const { return getSlot(kTaskStatus).size(); }
 
-    TaskStatus getTaskStatus(int index) const
-	{ return TaskStatus(getSlot(kTaskStatus)[index]); }
+    TaskStatus getTaskStatus(int index) const { return TaskStatus(getSlot(kTaskStatus)[index]); }
 };
 
 } // end namespace IO

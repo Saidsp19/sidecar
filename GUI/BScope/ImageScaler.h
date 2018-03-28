@@ -8,11 +8,9 @@ namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class ImageScaler : public QObject
-{
+class ImageScaler : public QObject {
     Q_OBJECT
 public:
-
     ImageScaler(QObject* parent = 0);
 
     ~ImageScaler();

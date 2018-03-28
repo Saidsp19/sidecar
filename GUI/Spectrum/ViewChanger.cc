@@ -3,15 +3,14 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-ViewChanger::ViewChanger(SpectrumWidget* spectrumWidget, const QPoint& start)
-    : spectrumWidget_(spectrumWidget), start_(start)
+ViewChanger::ViewChanger(SpectrumWidget* spectrumWidget, const QPoint& start) :
+    spectrumWidget_(spectrumWidget), start_(start)
 {
     ;
 }
 
-PanningViewChanger::PanningViewChanger(SpectrumWidget* spectrumWidget,
-                                       const QPoint& start)
-    : ViewChanger(spectrumWidget, start)
+PanningViewChanger::PanningViewChanger(SpectrumWidget* spectrumWidget, const QPoint& start) :
+    ViewChanger(spectrumWidget, start)
 {
     spectrumWidget->dupView();
 }
@@ -31,13 +30,11 @@ PanningViewChanger::mouseMoved(const QPoint& pos)
 void
 PanningViewChanger::finished(const QPoint& pos)
 {
-    spectrumWidget_  = 0;
+    spectrumWidget_ = 0;
 }
 
-ZoomingViewChanger::ZoomingViewChanger(SpectrumWidget* spectrumWidget,
-                                       const QPoint& start)
-    : ViewChanger(spectrumWidget, start),
-      rubberBand_(QRubberBand::Rectangle, spectrumWidget)
+ZoomingViewChanger::ZoomingViewChanger(SpectrumWidget* spectrumWidget, const QPoint& start) :
+    ViewChanger(spectrumWidget, start), rubberBand_(QRubberBand::Rectangle, spectrumWidget)
 {
     rubberBand_.setGeometry(QRect(start, QSize()));
     rubberBand_.show();
@@ -54,7 +51,7 @@ ZoomingViewChanger::finished(const QPoint& pos)
 {
     rubberBand_.hide();
     if (pos.x() != start_.x() && pos.y() != start_.y()) {
-	spectrumWidget_->dupView();
-	spectrumWidget_->zoom(start_, pos);
+        spectrumWidget_->dupView();
+        spectrumWidget_->zoom(start_, pos);
     }
 }

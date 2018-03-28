@@ -9,35 +9,28 @@
 #include "GUI/QCheckBoxSetting.h"
 #include "GUI/QComboBoxSetting.h"
 #include "GUI/QDoubleSpinBoxSetting.h"
-#include "GUI/QSpinBoxSetting.h"
 #include "GUI/QRadioButtonSetting.h"
+#include "GUI/QSpinBoxSetting.h"
 #include "GUI/SettingsBlock.h"
 
 namespace SideCar {
 namespace GUI {
 namespace Spectrum {
 
-class Settings : public SettingsBlock
-{
+class Settings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
-    enum DrawingMode {
-	kPoints = 0,
-	kLines
-    };
-    
-    Settings(QDoubleSpinBoxSetting* sampleFrequencyValue,
-             QComboBoxSetting* sampleFrequencyScale,
-             ChannelSetting* videoChannel, ColorButtonSetting* color,
-             QCheckBoxSetting* showGrid, QComboBoxSetting* drawingMode,
-             QSpinBoxSetting* powerMax);
+public:
+    enum DrawingMode { kPoints = 0, kLines };
+
+    Settings(QDoubleSpinBoxSetting* sampleFrequencyValue, QComboBoxSetting* sampleFrequencyScale,
+             ChannelSetting* videoChannel, ColorButtonSetting* color, QCheckBoxSetting* showGrid,
+             QComboBoxSetting* drawingMode, QSpinBoxSetting* powerMax);
 
     double getSampleFrequency() const { return sampleFrequency_; }
 
-    double getSampleFrequencyScaling() const
-	{ return sampleFrequencyScaling_; }
+    double getSampleFrequencyScaling() const { return sampleFrequencyScaling_; }
 
     ChannelSetting* getInputChannel() const { return inputChannel_; }
 
@@ -49,8 +42,7 @@ public:
 
     bool getShowGrid() const { return showGrid_->getValue(); }
 
-    DrawingMode getDrawingMode() const
-	{ return DrawingMode(drawingMode_->getValue()); }
+    DrawingMode getDrawingMode() const { return DrawingMode(drawingMode_->getValue()); }
 
 signals:
 
@@ -75,7 +67,6 @@ private slots:
     void handleColorChanged(const QColor& color);
 
 private:
-
     QDoubleSpinBoxSetting* sampleFrequencyValue_;
     QComboBoxSetting* sampleFrequencyScale_;
     ChannelSetting* inputChannel_;

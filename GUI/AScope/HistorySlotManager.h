@@ -3,7 +3,9 @@
 
 #include <vector>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -19,16 +21,13 @@ class HistoryBuffer;
     HistoryFrame. When a channel connection goes away, the index it used is removed, and the set of active
     indices in the allocated_ member is adjusted so that there are no gaps in future HistoryFrame objects.
 */
-class HistorySlotManager 
-{
+class HistorySlotManager {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor.
      */
-    HistorySlotManager(HistoryBuffer& buffer)
-	: buffer_(buffer), active_(0), allocated_() {}
+    HistorySlotManager(HistoryBuffer& buffer) : buffer_(buffer), active_(0), allocated_() {}
 
     size_t getNumAllocated() const { return allocated_.size(); }
 
@@ -59,8 +58,7 @@ public:
 
         \return assigned HistoryFrame index value
     */
-    int getIndexForSlot(size_t slot) const
-	{ return allocated_[slot]; }
+    int getIndexForSlot(size_t slot) const { return allocated_[slot]; }
 
 private:
     HistoryBuffer& buffer_;

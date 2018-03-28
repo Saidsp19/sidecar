@@ -5,8 +5,8 @@
 #include "WorkRequest.h"
 
 #include <vsip/domain.hpp>
-#include <vsip/solvers.hpp>
 #include <vsip/math.hpp>
+#include <vsip/solvers.hpp>
 
 using namespace SideCar;
 using namespace SideCar::Algorithms;
@@ -15,8 +15,7 @@ using namespace SideCar::Algorithms::MatchedFilterUtils;
 Logger::Log&
 WorkRequest::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.Algorithms.MatchedFilter.WorkRequest");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.Algorithms.MatchedFilter.WorkRequest");
     return log_;
 }
 
@@ -27,8 +26,7 @@ WorkRequest::FromMessageBlock(ACE_Message_Block* data)
 }
 
 ACE_Message_Block*
-WorkRequest::Make(VsipComplexVector* txPulseVec, int numFFTThreads,
-                  int fftSize)
+WorkRequest::Make(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize)
 {
     Logger::ProcLog log("Make", Log());
 
@@ -43,8 +41,7 @@ WorkRequest::Make(VsipComplexVector* txPulseVec, int numFFTThreads,
     // doing this, we must manually call the WorkRequest destructor when we are done with the WorkRequest object
     // or else we will leak memory. See the Destroy() class method.
     //
-    WorkRequest* tmp = new(data->base())
-	WorkRequest(txPulseVec, numFFTThreads, fftSize);
+    WorkRequest* tmp = new (data->base()) WorkRequest(txPulseVec, numFFTThreads, fftSize);
 
     return data;
 }
@@ -63,9 +60,8 @@ WorkRequest::Destroy(ACE_Message_Block* data)
     data->release();
 }
 
-WorkRequest::WorkRequest(VsipComplexVector* txPulseVec, int numFFTThreads,
-                         int fftSize)
-    : input_(), output_(), offset_(0), rxVec_(), fwdFFT_(), invFFT_()
+WorkRequest::WorkRequest(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize) :
+    input_(), output_(), offset_(0), rxVec_(), fwdFFT_(), invFFT_()
 {
     Logger::ProcLog log("WorkRequest", Log());
     LOGDEBUG << this << std::endl;
@@ -79,8 +75,7 @@ WorkRequest::~WorkRequest()
 }
 
 void
-WorkRequest::reconfigure(VsipComplexVector* txPulseVec, int numFFTThreads,
-                         int fftSize)
+WorkRequest::reconfigure(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize)
 {
     txPulseVec_ = txPulseVec;
     fftSize_ = fftSize;
@@ -100,8 +95,7 @@ WorkRequest::reconfigure(VsipComplexVector* txPulseVec, int numFFTThreads,
 }
 
 void
-WorkRequest::beginRequest(const Messages::Video::Ref& input,
-                          const Messages::Video::Ref& output, size_t offset)
+WorkRequest::beginRequest(const Messages::Video::Ref& input, const Messages::Video::Ref& output, size_t offset)
 {
     input_ = input;
     output_ = output;
@@ -120,21 +114,18 @@ WorkRequest::process()
     Messages::Video::const_iterator inputPos = input_->begin() + offset_;
     Messages::Video::const_iterator inputEnd = input_->end();
     size_t inputSize = inputEnd - inputPos;
-    if (inputSize > fftSize_ * 2)
-	inputEnd = inputPos + fftSize_ * 2;
+    if (inputSize > fftSize_ * 2) inputEnd = inputPos + fftSize_ * 2;
 
     int index = 0;
     while (inputPos < inputEnd) {
-	float i = *inputPos++;
-	float q = *inputPos++;
-	rxVec_->put(index++, ComplexType(i, q));
+        float i = *inputPos++;
+        float q = *inputPos++;
+        rxVec_->put(index++, ComplexType(i, q));
     }
 
     // If necessary, pad the end with zeros.
     //
-    while (index < fftSize_) {
-	rxVec_->put(index++, ComplexType(0.0, 0.0));
-    }
+    while (index < fftSize_) { rxVec_->put(index++, ComplexType(0.0, 0.0)); }
 
     // Filter the data in-place.
     //
@@ -146,15 +137,12 @@ WorkRequest::process()
     Messages::Video::iterator outputPos = output_->begin() + offset_;
     Messages::Video::iterator outputEnd = output_->end();
     size_t outputSize = outputEnd - outputPos;
-    if (outputSize > fftSize_ * 2)
-	outputEnd = outputPos + fftSize_ * 2;
+    if (outputSize > fftSize_ * 2) outputEnd = outputPos + fftSize_ * 2;
 
     index = 0;
     while (outputPos < outputEnd) {
-	*outputPos++ = Messages::Video::DatumType(
-	    rxVec_->get(index).real());
-	*outputPos++ = Messages::Video::DatumType(
-	    rxVec_->get(index).imag());
-	++index;
+        *outputPos++ = Messages::Video::DatumType(rxVec_->get(index).real());
+        *outputPos++ = Messages::Video::DatumType(rxVec_->get(index).imag());
+        ++index;
     }
 }

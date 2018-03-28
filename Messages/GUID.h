@@ -8,7 +8,9 @@
 #include "Messages/LoaderRegistry.h"
 #include "Messages/MetaTypeInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
@@ -16,10 +18,8 @@ namespace Messages {
 /** Definition of a globally-unique message ID. When a message is first created, it is assigned a GUID value
     that is unique for all hosts and applications running in the SideCar system.
 */
-class GUID : public IO::CDRStreamable<GUID>, public IO::Printable<GUID>
-{
+class GUID : public IO::CDRStreamable<GUID>, public IO::Printable<GUID> {
 public:
-
     static Logger::Log& Log();
 
     GUID();
@@ -68,7 +68,6 @@ public:
     std::ostream& print(std::ostream& os) const;
 
 private:
-
     GUID(const GUID& rhs);
 
     GUID& operator=(const GUID& rhs);

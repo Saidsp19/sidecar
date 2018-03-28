@@ -21,9 +21,7 @@ FrameWidget::Log()
     return log_;
 }
 
-FrameWidget::FrameWidget(QWidget* parent, const QImage& image,
-                         const QSize& size)
-    : Super(parent)
+FrameWidget::FrameWidget(QWidget* parent, const QImage& image, const QSize& size) : Super(parent)
 {
     Logger::ProcLog log("FrameWidget", Log());
     LOGINFO << "size: " << image.size() << std::endl;
@@ -47,18 +45,13 @@ FrameWidget::FrameWidget(QWidget* parent, const QImage& image,
     layout->addWidget(rangeScale_, 0, 0, 1, 1);
 
     App* app = App::GetApp();
-    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)),
-            SLOT(setPhantomCursor(const QPointF&)));
-    RangeRingsImaging* imaging =
-	app->getConfiguration()->getRangeRingsImaging();
-    connect(imaging, SIGNAL(tickSettingsChanged()),
-            SLOT(updateScaleTicks()));
+    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)), SLOT(setPhantomCursor(const QPointF&)));
+    RangeRingsImaging* imaging = app->getConfiguration()->getRangeRingsImaging();
+    connect(imaging, SIGNAL(tickSettingsChanged()), SLOT(updateScaleTicks()));
     updateScaleTicks();
 
-    ViewSettings* viewSettings = 
-	app->getConfiguration()->getViewSettings();
-    connect(viewSettings, SIGNAL(settingChanged()),
-            SLOT(updateScaleRanges()));
+    ViewSettings* viewSettings = app->getConfiguration()->getViewSettings();
+    connect(viewSettings, SIGNAL(settingChanged()), SLOT(updateScaleRanges()));
 
     updateScaleRanges();
 }
@@ -66,31 +59,22 @@ FrameWidget::FrameWidget(QWidget* parent, const QImage& image,
 void
 FrameWidget::updateScaleTicks()
 {
-    ViewSettings* viewSettings =
-	App::GetApp()->getConfiguration()->getViewSettings();
-    RangeRingsImaging* imaging =
-	App::GetApp()->getConfiguration()->getRangeRingsImaging();
-    
-    int azimuthMajorTicks = int(
-	::rint(360.0 / imaging->getAzimuthSpacing()));
-    azimuthScale_->setMajorAndMinorTickDivisions(azimuthMajorTicks,
-                                                 imaging->getAzimuthTicks());
+    ViewSettings* viewSettings = App::GetApp()->getConfiguration()->getViewSettings();
+    RangeRingsImaging* imaging = App::GetApp()->getConfiguration()->getRangeRingsImaging();
 
-    int rangeMajorTicks = int(
-	::rint(viewSettings->getRangeMax() / imaging->getRangeSpacing()));
-    rangeScale_->setMajorAndMinorTickDivisions(rangeMajorTicks,
-                                               imaging->getRangeTicks());
-}    
+    int azimuthMajorTicks = int(::rint(360.0 / imaging->getAzimuthSpacing()));
+    azimuthScale_->setMajorAndMinorTickDivisions(azimuthMajorTicks, imaging->getAzimuthTicks());
+
+    int rangeMajorTicks = int(::rint(viewSettings->getRangeMax() / imaging->getRangeSpacing()));
+    rangeScale_->setMajorAndMinorTickDivisions(rangeMajorTicks, imaging->getRangeTicks());
+}
 
 void
 FrameWidget::updateScaleRanges()
 {
-    ViewSettings* viewSettings =
-	App::GetApp()->getConfiguration()->getViewSettings();
-    azimuthScale_->setStartAndEnd(viewSettings->getAzimuthMin(),
-                                  viewSettings->getAzimuthMax());
-    rangeScale_->setStartAndEnd(viewSettings->getRangeMin(),
-                                viewSettings->getRangeMax());
+    ViewSettings* viewSettings = App::GetApp()->getConfiguration()->getViewSettings();
+    azimuthScale_->setStartAndEnd(viewSettings->getAzimuthMin(), viewSettings->getAzimuthMax());
+    rangeScale_->setStartAndEnd(viewSettings->getRangeMin(), viewSettings->getRangeMax());
 }
 
 void
@@ -118,9 +102,7 @@ FrameWidget::setImage(const QImage& image)
 {
     QSize oldSize(frame_->size());
     frame_->setImage(image);
-    if (frame_->size() != oldSize) {
-	updateMinMaxSizes(oldSize);
-    }
+    if (frame_->size() != oldSize) { updateMinMaxSizes(oldSize); }
 }
 
 void
@@ -128,9 +110,7 @@ FrameWidget::setImageSize(const QSize& size)
 {
     QSize oldSize(frame_->size());
     frame_->setImageSize(size);
-    if (frame_->size() != oldSize) {
-	updateMinMaxSizes(oldSize);
-    }
+    if (frame_->size() != oldSize) { updateMinMaxSizes(oldSize); }
 }
 
 void

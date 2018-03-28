@@ -8,10 +8,14 @@
 #include "IO/Readers.h"
 #include "IO/ZeroconfRegistry.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Zeroconf { class Publisher; }
+namespace Zeroconf {
+class Publisher;
+}
 namespace GUI {
 
 /** Derivation of MessageReader that obtains messages over a UDP multicast socket. Use the Make() class method
@@ -24,11 +28,10 @@ namespace GUI {
     method hands off to the MessageReader::addRawData() method to add to the
     active message list.
 */
-class MulticastMessageReader : public MessageReader,
-			       public IO::ZeroconfTypes::Subscriber
-{
+class MulticastMessageReader : public MessageReader, public IO::ZeroconfTypes::Subscriber {
     Q_OBJECT
     using Super = MessageReader;
+
 public:
     using ZeroconfPublisherRef = boost::shared_ptr<Zeroconf::Publisher>;
 
@@ -73,18 +76,17 @@ private slots:
     void beatHeart();
 
 private:
-
     /** Constructor.
      */
     MulticastMessageReader(const Messages::MetaTypeInfo* metaTypeInfo);
 
     /** Attempt to open a UDP socket to receive data from the given host/port.
 
-        \param host 
+        \param host
 
-        \param port 
+        \param port
 
-        \return 
+        \return
     */
     bool open(const ServiceEntry* service);
 
@@ -92,7 +94,7 @@ private:
         changed to an enumerated message type in a separate message class. However, since we are moving to DDS,
         this will become obsolete anyway.
 
-        \param msg 
+        \param msg
     */
     void sendHeartBeat(const char* msg);
 
@@ -106,7 +108,7 @@ private:
     bool connected_;
 };
 
-} // end namespace IO
+} // namespace GUI
 } // end namespace SideCar
 
 /** \file

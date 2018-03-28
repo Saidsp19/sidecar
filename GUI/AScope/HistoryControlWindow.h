@@ -6,7 +6,9 @@
 
 #include "ui_HistoryControlWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,25 +26,23 @@ class HistoryPosition;
     History object, only reports information about it. It will change the active MainWindow's HistoryPosition
     when the user adjusts the history position slider.
 */
-class HistoryControlWindow : public ToolWindowBase,
-			     private Ui::HistoryControlWindow
-{
+class HistoryControlWindow : public ToolWindowBase, private Ui::HistoryControlWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor. Creates and initializes window widgets.
 
-	\param shortcut key sequence to change window visibility
+        \param shortcut key sequence to change window visibility
 
-	\param history application History object to work with
+        \param history application History object to work with
     */
     HistoryControlWindow(int shortcut, const History* history);
 
 public slots:
-    
+
     /** Signal handler invoked when the active MainWindow changes.
 
         \param window new active window
@@ -57,7 +57,7 @@ private slots:
 
     /** Action handler for the slider widget
 
-        \param action 
+        \param action
     */
     void on_slider__actionTriggered(int action);
 
@@ -77,14 +77,13 @@ private slots:
     void historyPositionPositionChanged(int position, double age);
 
 private:
-    
     /** Change the position held by the active HistoryPosition object. Called in response to a slider event or
         the current push button.
 
         \param position new position value
     */
     void setPosition(int position);
-    
+
     /** Setup the connection to the active HistoryPosition object.
 
         \param historyPosition active HistoryPosition object to use

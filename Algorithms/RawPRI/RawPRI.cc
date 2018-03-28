@@ -12,8 +12,7 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-RawPRI::RawPRI(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log)
+RawPRI::RawPRI(Controller& controller, Logger::Log& log) : Algorithm(controller, log)
 {
     ;
 }
@@ -21,7 +20,7 @@ RawPRI::RawPRI(Controller& controller, Logger::Log& log)
 bool
 RawPRI::startup()
 {
-    registerProcessor<RawPRI,Messages::RawVideo>(&RawPRI::process);
+    registerProcessor<RawPRI, Messages::RawVideo>(&RawPRI::process);
     return Algorithm::startup();
 }
 

@@ -7,11 +7,9 @@
 namespace SideCar {
 namespace GUI {
 
-class SvgIconMaker : public QObject
-{
+class SvgIconMaker : public QObject {
     Q_OBJECT
 public:
-
     SvgIconMaker(QObject* parent = 0);
 
     ~SvgIconMaker();

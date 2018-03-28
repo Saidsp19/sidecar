@@ -13,15 +13,11 @@ namespace Algorithms {
 /** Documentation for the algorithm ProcessTracks This task simply receives track messages and passes them
     along.
 */
-class ComposeExtractions : public Algorithm
-{
+class ComposeExtractions : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -48,10 +44,7 @@ public:
 
     int timerCount_;
 
- 
-
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -62,18 +55,13 @@ private:
 
         \returns true if no error; false otherwise
     */
-    //bool processInput(const Messages::Track::Ref& msg);
+    // bool processInput(const Messages::Track::Ref& msg);
 
     bool setupAlarm();
 
     // Add attributes here
     //
     Parameter::BoolValue::Ref enabled_;
-
-  
-    
- 
-
 };
 
 } // end namespace Algorithms

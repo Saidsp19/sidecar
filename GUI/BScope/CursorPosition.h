@@ -11,12 +11,11 @@ namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class CursorPosition : public QObject
-{
+class CursorPosition : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     CursorPosition(double x, double y, double azimuth, double range);
 
     ~CursorPosition();
@@ -39,7 +38,7 @@ private:
     boost::shared_ptr<Private> p_;
 };
 
-} // end namespace PPIDisplay
+} // namespace BScope
 } // end namespace GUI
 } // end namespace SideCar
 

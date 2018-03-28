@@ -22,52 +22,51 @@ using namespace SideCar::Messages;
  */
 struct TestData {
     enum {
-	kNumInputs = 2,		// Number of inputs
-	kNumSamples = 8,	// Number of samples in the test data
-	kNumCopies = 1000,	// Number of copies to make of the sample data
-	kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
-	kNumIterations = 1000		     // Number times to use
-    }; 
-    
+        kNumInputs = 2,                      // Number of inputs
+        kNumSamples = 8,                     // Number of samples in the test data
+        kNumCopies = 1000,                   // Number of copies to make of the sample data
+        kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
+        kNumIterations = 1000                // Number times to use
+    };
+
     DynamicThreshold::Operator op; // Parameter setting for the algorithm
 
     int16_t inputs[kNumInputs][kNumSamples]; // Input data
-    int16_t output[kNumSamples];		   // Expected output data
+    int16_t output[kNumSamples];             // Expected output data
 };
 
 TestData data[] = {
     {
-	DynamicThreshold::kLessThan,
-	{ {  0,  1,  2,  3,  4,  5,  6,  7 },	// samples
-	  {  2,  2,  2,  2,  2,  2,  2,  2 } }, // thresholds
-        {  1,  1,  0,  0,  0,  0,  0,  0 }	// output
+        DynamicThreshold::kLessThan,
+        {{0, 1, 2, 3, 4, 5, 6, 7},  // samples
+         {2, 2, 2, 2, 2, 2, 2, 2}}, // thresholds
+        {1, 1, 0, 0, 0, 0, 0, 0}    // output
     },
     {
-	DynamicThreshold::kLessThanEqualTo,
-	{ {  0,  1,  2,  3,  4,  5,  6,  7 },	// samples
-	  {  2,  2,  2,  2,  2,  2,  2,  2 } }, // thresholds
-        {  1,  1,  1,  0,  0,  0,  0,  0 }	// output
+        DynamicThreshold::kLessThanEqualTo,
+        {{0, 1, 2, 3, 4, 5, 6, 7},  // samples
+         {2, 2, 2, 2, 2, 2, 2, 2}}, // thresholds
+        {1, 1, 1, 0, 0, 0, 0, 0}    // output
     },
     {
-	DynamicThreshold::kEqualTo,
-	{ {  0,  1,  2,  3,  4,  5,  6,  7 },	// samples
-	  {  2,  2,  2,  2,  2,  2,  2,  2 } }, // thresholds
-        {  0,  0,  1,  0,  0,  0,  0,  0 }	// output
+        DynamicThreshold::kEqualTo,
+        {{0, 1, 2, 3, 4, 5, 6, 7},  // samples
+         {2, 2, 2, 2, 2, 2, 2, 2}}, // thresholds
+        {0, 0, 1, 0, 0, 0, 0, 0}    // output
     },
     {
-	DynamicThreshold::kGreaterThanEqualTo,
-	{ {  0,  1,  2,  3,  4,  5,  6,  7 },	// samples
-	  {  2,  2,  2,  2,  2,  2,  2,  2 } }, // thresholds
-        {  0,  0,  1,  1,  1,  1,  1,  1 }	// output
+        DynamicThreshold::kGreaterThanEqualTo,
+        {{0, 1, 2, 3, 4, 5, 6, 7},  // samples
+         {2, 2, 2, 2, 2, 2, 2, 2}}, // thresholds
+        {0, 0, 1, 1, 1, 1, 1, 1}    // output
     },
     {
-	DynamicThreshold::kGreaterThan,
-	{ {  0,  1,  2,  3,  4,  5,  6,  7 },	// samples
-	  {  2,  2,  2,  2,  2,  2,  2,  2 } }, // thresholds
-        {  0,  0,  0,  1,  1,  1,  1,  1 }	// output
+        DynamicThreshold::kGreaterThan,
+        {{0, 1, 2, 3, 4, 5, 6, 7},  // samples
+         {2, 2, 2, 2, 2, 2, 2, 2}}, // thresholds
+        {0, 0, 0, 1, 1, 1, 1, 1}    // output
     },
 };
-
 
 /** TestObj derivative that performs the DynamicThreshold unit tests. The test() method creates a Stream with
     two Task objects, the first hosting the DynamicThreshold algorithm followed by a Sink object used to fetch
@@ -77,26 +76,24 @@ TestData data[] = {
     stop its processing loop, which cleanly shuts down the Stream and its held Task objects. Otherwise, it
     invokes generateInput() to feed another set of messages to the DynamicThreshold algorithm.
 */
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum {
 
-	// Number of messages defined in the TestData container above.
-	//
-	kNumTestDefinitions = sizeof(data) / sizeof(TestData),
-	kNumTests = kNumTestDefinitions * TestData::kNumIterations,
+        // Number of messages defined in the TestData container above.
+        //
+        kNumTestDefinitions = sizeof(data) / sizeof(TestData),
+        kNumTests = kNumTestDefinitions * TestData::kNumIterations,
     };
 
     static Logger::Log& Log();
-    
+
     /** Constructor.
      */
-    Test() : UnitTest::TestObj("DynamicThreshold"), controller_(),
-	     iteration_(0) {}
+    Test() : UnitTest::TestObj("DynamicThreshold"), controller_(), iteration_(0) {}
 
     /** Implementation of TestObj interface. Creates the processing Stream object, its internal Task objects,
-	properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
-	signals the event loop to exit.
+        properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
+        signals the event loop to exit.
     */
     void test();
 
@@ -113,7 +110,6 @@ struct Test : public UnitTest::TestObj
     void testOutput(size_t counter, const BinaryVideo::Ref& output);
 
 private:
-
     Controller::Ref controller_;
     int iteration_;
 };
@@ -129,8 +125,7 @@ Test::Log()
     knows when the algorithm ahead of it in the stream emitted an output message. For data messages,
     deliverDataMessage() invokes the Test::testOutput() method.
 */
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
@@ -139,7 +134,11 @@ struct Sink : public Task
 
         \return new Sink object
     */
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     /** Install a reference to the active Test object so that deliverDataMessage() may invoke its testOutput()
         method.
@@ -159,7 +158,6 @@ struct Sink : public Task
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
 private:
-
     Sink() : Task(true), counter_(0), test_(0) {}
 
     int counter_;
@@ -182,15 +180,14 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     // Use a MessageManager to obtain info about the given raw data.
     //
     MessageManager mgr(data);
-    LOGDEBUG << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGDEBUG << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
-	    BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
+            BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -250,8 +247,7 @@ Test::test()
 
     std::clog << "duration: " << delta.asDouble() << " seconds" << std::endl;
 
-    double timePerSample = delta.asDouble() /
-	(kNumTests * TestData::kOutSize);
+    double timePerSample = delta.asDouble() / (kNumTests * TestData::kOutSize);
     std::clog << " time per sample: " << timePerSample << std::endl;
 
     // Uncomment the following to fail the test and see the log results. assertTrue(false);
@@ -274,30 +270,28 @@ Test::generateInput()
 
     // Update the algorithm with the settings appropriate for this message set.
     //
-    DynamicThreshold* alg =
-	dynamic_cast<DynamicThreshold*>(controller_->getAlgorithm());
+    DynamicThreshold* alg = dynamic_cast<DynamicThreshold*>(controller_->getAlgorithm());
     assertTrue(alg);
     alg->setOperation(testData.op);
 
     // Generate a message for each input channel.
     //
     for (size_t input = 0; input < TestData::kNumInputs; ++input) {
-	Video::Ref msg(Video::Make("test", vme, TestData::kOutSize));
-	msg->setMessageSequenceNumber(iteration_);
+        Video::Ref msg(Video::Make("test", vme, TestData::kOutSize));
+        msg->setMessageSequenceNumber(iteration_);
 
-	// Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
-	// simulate real-world message sizes.
-	//
-	for (size_t count = 0; count < TestData::kNumCopies; ++count) {
-	    std::copy(testData.inputs[input],
-                      testData.inputs[input] + TestData::kNumSamples,
+        // Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
+        // simulate real-world message sizes.
+        //
+        for (size_t count = 0; count < TestData::kNumCopies; ++count) {
+            std::copy(testData.inputs[input], testData.inputs[input] + TestData::kNumSamples,
                       std::back_inserter(msg->getData()));
-	}
-	LOGDEBUG << msg->dataPrinter() << std::endl;
+        }
+        LOGDEBUG << msg->dataPrinter() << std::endl;
 
-	// Post the input message to the appropriate algorithm input channel
-	//
-	assertTrue(controller_->putInChannel(msg, input));
+        // Post the input message to the appropriate algorithm input channel
+        //
+        assertTrue(controller_->putInChannel(msg, input));
     }
 }
 
@@ -317,9 +311,8 @@ Test::testOutput(size_t counter, const BinaryVideo::Ref& msg)
     // in the TestData container.
     //
     for (size_t index = 0; index < TestData::kNumSamples; ++index) {
-	LOGINFO << index << " expected: " << int(testData.output[index])
-		<< std::endl;
-	assertEqual(testData.output[index], bool(msg[index]));
+        LOGINFO << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(testData.output[index], bool(msg[index]));
     }
 
     LOGDEBUG << "iteration: " << iteration_ << std::endl;
@@ -327,10 +320,9 @@ Test::testOutput(size_t counter, const BinaryVideo::Ref& msg)
     // See if we are done with the test.
     //
     if (iteration_ == kNumTests) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

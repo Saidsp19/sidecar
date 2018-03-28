@@ -10,12 +10,9 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Scale::Scale(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled",
-                                          kDefaultEnabled)),
-      scale_(Parameter::DoubleValue::Make("scale", "Scale",
-                                          kDefaultScale))
+Scale::Scale(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    scale_(Parameter::DoubleValue::Make("scale", "Scale", kDefaultScale))
 {
     ;
 }
@@ -23,10 +20,8 @@ Scale::Scale(Controller& controller, Logger::Log& log)
 bool
 Scale::startup()
 {
-    registerProcessor<Scale,Messages::Video>(&Scale::process);
-    return registerParameter(enabled_) &&
-	registerParameter(scale_) &&
-	Algorithm::startup();
+    registerProcessor<Scale, Messages::Video>(&Scale::process);
+    return registerParameter(enabled_) && registerParameter(scale_) && Algorithm::startup();
 }
 
 bool
@@ -34,8 +29,7 @@ Scale::process(const Messages::Video::Ref& msg)
 {
     static Logger::ProcLog log("process", getLog());
 
-    if (! enabled_->getValue())
-	return send(msg);
+    if (!enabled_->getValue()) return send(msg);
 
     // Obtain a new message to use for our output values.
     //
@@ -47,15 +41,15 @@ Scale::process(const Messages::Video::Ref& msg)
     VsipVector<Messages::Video> vMsg(*msg);
     VsipVector<Messages::Video> vOut(*out);
 
-    vMsg.admit(true);		// Tell VSIPL to use data from msg
-    vOut.admit(false);	// Tell VSIPL to ignore data from out
+    vMsg.admit(true);  // Tell VSIPL to use data from msg
+    vOut.admit(false); // Tell VSIPL to ignore data from out
 
     // Perform the scaling.
     //
     vOut.v = scale_->getValue() * vMsg.v;
 
-    vMsg.release(false);	// Don't flush data from VSIPL to msg
-    vOut.release(true);	// Do flush data from VSIPL to out
+    vMsg.release(false); // Don't flush data from VSIPL to msg
+    vOut.release(true);  // Do flush data from VSIPL to out
 
     // Send out on the default output channel, and return the result to the controller.
     //

@@ -1,11 +1,10 @@
 #include <algorithm>
 #include <iterator>
 
-#include "UnitTest/UnitTest.h"
 #include "QuickSelect.h"
+#include "UnitTest/UnitTest.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("QuickSelect") {}
 
     void test();
@@ -18,8 +17,7 @@ Test::test()
     //
     const size_t count = 10000;
     std::vector<int> a;
-    for (size_t index = 0; index < count; ++index)
-	a.push_back(::random() % count);
+    for (size_t index = 0; index < count; ++index) a.push_back(::random() % count);
 
     // Create a duplicate of the above array, and sort it using std::sort.
     //
@@ -38,8 +36,7 @@ Test::test()
     // Now fill the array with the same value. Just for fun.
     //
     a.clear();
-    for (size_t index = 0; index < count; ++index)
-	a.push_back(1);
+    for (size_t index = 0; index < count; ++index) a.push_back(1);
     median = ::Utils::QuickSelect(a.begin(), a.end(), count / 2);
     std::clog << "median: " << median << std::endl;
 
@@ -48,8 +45,7 @@ Test::test()
     // Just lots of zeros and ones.
     //
     a.clear();
-    for (size_t index = 0; index < count; ++index)
-	a.push_back(::random() % 2);
+    for (size_t index = 0; index < count; ++index) a.push_back(::random() % 2);
     b = a;
     std::sort(b.begin(), b.end());
 

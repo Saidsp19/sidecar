@@ -7,8 +7,12 @@
 
 #include "CollectionItem.h"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -22,12 +26,11 @@ class RunnerItem;
 
 /** TreeViewItem that represents a configuration file, which contains a collection of runner processes.
  */
-class ConfigurationItem : public CollectionItem
-{
+class ConfigurationItem : public CollectionItem {
     Q_OBJECT
     using Super = CollectionItem;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor for a new configuration collection
@@ -50,7 +53,7 @@ public:
 
         \param index chld to obtain
 
-        \return RunnerItem object 
+        \return RunnerItem object
     */
     RunnerItem* getChild(int index) const;
 
@@ -66,15 +69,13 @@ public:
 
         \return true if successfully executed
     */
-    bool executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args)
-	const;
+    bool executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args) const;
 
     int getStreamCount() const { return streamCount_; }
 
     bool getChangedParameters(QStringList& changes) const;
 
 private:
-
     void childAdded(TreeViewItem* child);
 
     void childRemoved(TreeViewItem* child);

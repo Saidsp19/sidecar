@@ -12,8 +12,8 @@ LoaderThread::Log()
     return log_;
 }
 
-LoaderThread::LoaderThread(Emitter* emitter, const QFileInfo& fileInfo)
-    : Super(), emitter_(emitter), fileInfo_(fileInfo)
+LoaderThread::LoaderThread(Emitter* emitter, const QFileInfo& fileInfo) :
+    Super(), emitter_(emitter), fileInfo_(fileInfo)
 {
     Logger::ProcLog log("LoaderThread", Log());
     LOGINFO << emitter->getName() << std::endl;

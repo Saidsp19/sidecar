@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI::ESScope;
 
-const DataContainer::DatumType DataContainer::minValue_ = 
-    std::numeric_limits<DataContainer::DatumType>::min();
+const DataContainer::DatumType DataContainer::minValue_ = std::numeric_limits<DataContainer::DatumType>::min();
 
 DataContainer::DatumType
 DataContainer::GetMinValue()

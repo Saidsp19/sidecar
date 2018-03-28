@@ -12,15 +12,11 @@ namespace Algorithms {
 /** Documentation for the algorithm CPIMarker. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class CPIMarker : public Algorithm
-{
+class CPIMarker : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -44,7 +40,6 @@ public:
     bool shutdown();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -62,9 +57,9 @@ private:
     // Add attributes here
     //
 
-    Parameter::BoolValue::Ref          enabled_;
-    Parameter::PositiveIntValue::Ref   scale_;
-    Parameter::DoubleValue::Ref        freqMHz_;
+    Parameter::BoolValue::Ref enabled_;
+    Parameter::PositiveIntValue::Ref scale_;
+    Parameter::DoubleValue::Ref freqMHz_;
 };
 
 } // end namespace Algorithms

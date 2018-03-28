@@ -1,13 +1,13 @@
-#ifndef UTILS_UTILS_H		// -*- C++ -*-
+#ifndef UTILS_UTILS_H // -*- C++ -*-
 #define UTILS_UTILS_H
 
-#include <cmath>		// for std::floor
-#include <inttypes.h>		// for uint32_t and siblings
-#include <iostream>
+#include <cmath> // for std::floor
 #include <fstream>
+#include <inttypes.h> // for uint32_t and siblings
+#include <iostream>
 #include <string>
 
-#include "Utils/Exception.h"	// for Utils::Exception
+#include "Utils/Exception.h" // for Utils::Exception
 
 namespace Utils {
 
@@ -21,8 +21,8 @@ namespace Utils {
 
     \return elevation in radians
 */
-double el_from_range_and_alt(double range, double altitude,double refLatitudeRadians);
-  
+double el_from_range_and_alt(double range, double altitude, double refLatitudeRadians);
+
 /** Calculate the greatest common divisor for two integral numbers.
 
     \param x first number
@@ -52,7 +52,7 @@ template <typename T>
 constexpr T
 LCM(T x, T y)
 {
-    return x / GCD(x, y) * y;		// GCD should always return >= 1
+    return x / GCD(x, y) * y; // GCD should always return >= 1
 }
 
 extern double const kCircleRadians;
@@ -61,41 +61,49 @@ extern double const kCircleRadians;
     it is used. Assumes, but does not check, that path ends in a '/'.
 
     \param path value for path to file
-    
+
     \param file value for the file name
 
     \return path + file
 */
-extern std::string
-makePath(const std::string& path, const std::string& file);
+extern std::string makePath(const std::string& path, const std::string& file);
 
 inline double
-radiansToDegrees(double value) { return value * 180.0 / M_PI; }
+radiansToDegrees(double value)
+{
+    return value * 180.0 / M_PI;
+}
 
 inline double
-degreesToRadians(double value) { return value * M_PI / 180.0; }
+degreesToRadians(double value)
+{
+    return value * M_PI / 180.0;
+}
 
-double
-normalizeRadians(double value);
+double normalizeRadians(double value);
 
-double
-normalizeDegrees(double value);
+double normalizeDegrees(double value);
 
-uint32_t
-leastPowerOf2(uint32_t value);
-
-inline double
-feetToMeters(double value) { return value * 0.3048; }
+uint32_t leastPowerOf2(uint32_t value);
 
 inline double
-metersToFeet(double value) { return value * 3.2808399; }
+feetToMeters(double value)
+{
+    return value * 0.3048;
+}
+
+inline double
+metersToFeet(double value)
+{
+    return value * 3.2808399;
+}
 
 /** Simple class that prohibits derived classes from begin copied.
  */
-class Uncopyable
-{
+class Uncopyable {
 protected:
     Uncopyable() {}
+
 private:
     Uncopyable(const Uncopyable&);
     Uncopyable& operator=(const Uncopyable&);
@@ -104,9 +112,8 @@ private:
 /** Meta-program that calculates 2**M from within the compiler.
  */
 template <unsigned int M>
-struct PowerOf2 : public PowerOf2<M-1>
-{
-    enum { kValue = 2 * PowerOf2<M-1>::kValue };
+struct PowerOf2 : public PowerOf2<M - 1> {
+    enum { kValue = 2 * PowerOf2<M - 1>::kValue };
     static int GetValue() { return kValue; }
 };
 
@@ -114,8 +121,7 @@ struct PowerOf2 : public PowerOf2<M-1>
     above.
 */
 template <>
-struct PowerOf2<0>
-{
+struct PowerOf2<0> {
     enum { kValue = 1 };
     static int GetValue() { return kValue; }
 };
@@ -124,29 +130,30 @@ struct PowerOf2<0>
     iterator. The first template argument identifies the type of the iterator used to fetch values. The second
     is a functor that must define an operator() method which does the conversion from one type to another.
 */
-template <typename _Iterator, typename _Converter> 
-class ConverterAdapter : public std::iterator<std::forward_iterator_tag, typename _Converter::argument_type>
-{
+template <typename _Iterator, typename _Converter>
+class ConverterAdapter : public std::iterator<std::forward_iterator_tag, typename _Converter::argument_type> {
 public:
-
     /** Constructor
 
-        \param __x 
+        \param __x
 
-        \param __y 
+        \param __y
     */
     ConverterAdapter(const _Iterator& __x, const _Converter& __y) : it(__x), co(__y) {}
 
-    ConverterAdapter<_Iterator,_Converter>
-    operator=(const typename _Converter::argument_type& __x)
-	{
-	    it = co(__x);
-	    return *this;
-	}
+    ConverterAdapter<_Iterator, _Converter> operator=(const typename _Converter::argument_type& __x)
+    {
+        it = co(__x);
+        return *this;
+    }
 
-    ConverterAdapter<_Iterator,_Converter> operator*() { return *this; }
-    ConverterAdapter<_Iterator,_Converter> operator++() { ++it; return *this; }
-    ConverterAdapter<_Iterator,_Converter> operator++(int) { return ConverterAdapter(it++, co); }
+    ConverterAdapter<_Iterator, _Converter> operator*() { return *this; }
+    ConverterAdapter<_Iterator, _Converter> operator++()
+    {
+        ++it;
+        return *this;
+    }
+    ConverterAdapter<_Iterator, _Converter> operator++(int) { return ConverterAdapter(it++, co); }
 
 protected:
     _Iterator it;
@@ -159,33 +166,36 @@ protected:
 
     \param __co functor to use
 
-    \return 
+    \return
 */
-template <typename _Operation, typename _Converter> inline ConverterAdapter<_Operation,_Converter>
+template <typename _Operation, typename _Converter>
+inline ConverterAdapter<_Operation, _Converter>
 converterAdapter(const _Operation& __fn, const _Converter& __co)
 {
-    return ConverterAdapter<_Operation,_Converter>(__fn, __co);
+    return ConverterAdapter<_Operation, _Converter>(__fn, __co);
 }
 
 /** Iterator adapter that attempts to convert std::string values into other types.
  */
-template <class _Iterator> 
-class StringConverterAdapter : public std::iterator<std::forward_iterator_tag,std::string>
-{
+template <class _Iterator>
+class StringConverterAdapter : public std::iterator<std::forward_iterator_tag, std::string> {
 public:
     StringConverterAdapter(const _Iterator& __x) : it(__x) {}
 
-    StringConverterAdapter<_Iterator>
-    operator=(const std::string& __x)
-	{
-	    typename _Iterator::container_type::value_type __y;
-	    __x >> __y;
-	    it = __y;
-	    return  *this;
-	}
+    StringConverterAdapter<_Iterator> operator=(const std::string& __x)
+    {
+        typename _Iterator::container_type::value_type __y;
+        __x >> __y;
+        it = __y;
+        return *this;
+    }
 
     StringConverterAdapter<_Iterator> operator*() { return *this; }
-    StringConverterAdapter<_Iterator> operator++() { ++it; return *this; }
+    StringConverterAdapter<_Iterator> operator++()
+    {
+        ++it;
+        return *this;
+    }
     StringConverterAdapter<_Iterator> operator++(int) { return StringConverterAdapter(it++); }
 
 protected:
@@ -213,8 +223,12 @@ namespace std {
 
    \return state of std::istringstream after conversion
 */
-template <class T> inline bool
-operator>>(const std::string& s, T& v) throw() { return (std::istringstream(s) >> v).good(); }
+template <class T>
+inline bool
+operator>>(const std::string& s, T& v) throw()
+{
+    return (std::istringstream(s) >> v).good();
+}
 
 } // namespace std
 

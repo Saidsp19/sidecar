@@ -13,25 +13,24 @@ class TreeItem;
 
 using TreeItemList = QList<TreeItem*>;
 
-class TreeItem : public QObject
-{
+class TreeItem : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     enum Type {
-	kRoot = 0,
-	kConfiguration,
-	kRunner,
-	kStream,
-	kTask,
-	kChannelList,
-	kChannel,
-	kConnection,
-	kAlgorithm,
-	kParameterList,
-	kParameter,
-	kNumTypes
+        kRoot = 0,
+        kConfiguration,
+        kRunner,
+        kStream,
+        kTask,
+        kChannelList,
+        kChannel,
+        kConnection,
+        kAlgorithm,
+        kParameterList,
+        kParameter,
+        kNumTypes
     };
 
     virtual ~TreeItem();
@@ -50,13 +49,11 @@ public:
 
     virtual QVariant getConnections(int role) const { return QVariant(); }
 
-    int getIndexOf(const TreeItem* child) const
-	{ return children_.indexOf(const_cast<TreeItem*>(child)); }
+    int getIndexOf(const TreeItem* child) const { return children_.indexOf(const_cast<TreeItem*>(child)); }
 
-    int getMyIndex() const
-	{ return parent_ ? parent_->getIndexOf(this) : 0; }
+    int getMyIndex() const { return parent_ ? parent_->getIndexOf(this) : 0; }
 
-    TreeItem *getParent() const { return parent_; }
+    TreeItem* getParent() const { return parent_; }
 
     TreeItem* getChild(int index) const { return children_[index]; }
 
@@ -77,7 +74,6 @@ signals:
     void modified();
 
 protected:
-
     TreeItem(QObject* parent);
 
     TreeItem(TreeItem* parent, const QString& name);

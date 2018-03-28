@@ -11,7 +11,9 @@
 
 class QGridLayout;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -27,17 +29,16 @@ class PastImage;
 class PPIWidget;
 class ScaleWidget;
 
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
+
 public:
-    
     static Logger::Log& Log();
 
     /** Constructor. Creates all of the widgets connects signals and slots.
 
-        \param parent 
+        \param parent
     */
     MainWindow();
 
@@ -70,7 +71,6 @@ private slots:
     void on_actionViewClearBugPlots__triggered();
 
 private:
-
     void timerEvent(QTimerEvent* event);
     void showEvent(QShowEvent* event);
     void closeEvent(QCloseEvent* event);

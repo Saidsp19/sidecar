@@ -6,7 +6,9 @@
 #include "GUI/Color.h"
 #include "GUI/Vertex.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -14,12 +16,9 @@ namespace GUI {
 /** Combination of Vertex and Color objects.
  */
 struct VertexColor {
+    VertexColor(const Vertex& v) : vertex(v) {}
 
-    VertexColor(const Vertex& v)
-	: vertex(v) {}
-
-    VertexColor(const Vertex& v, const Color& c)
-	: vertex(v), color(c) {}
+    VertexColor(const Vertex& v, const Color& c) : vertex(v), color(c) {}
 
     Vertex vertex;
     Color color;
@@ -28,10 +27,8 @@ struct VertexColor {
 /** Resizable array of Vertex/Color pairs, interleaved in hopes of getting the best performance out of
     glVertexPointer and glColorPointer operations.
 */
-class VertexColorArray 
-{
+class VertexColorArray {
 public:
-
     /** Log device to use for VertexColorArray messages.
 
         \return Log device
@@ -40,7 +37,7 @@ public:
 
     /** Constructor
 
-        \param capacity initial capacity for the vector. 
+        \param capacity initial capacity for the vector.
     */
     VertexColorArray();
 
@@ -74,8 +71,7 @@ public:
 
         \param color Color object to store
     */
-    void push_back(const Vertex& vertex)
-	{ vertices_.push_back(VertexColor(vertex)); }
+    void push_back(const Vertex& vertex) { vertices_.push_back(VertexColor(vertex)); }
 
     /** Append a new VertexColor object with the given values
 
@@ -83,11 +79,9 @@ public:
 
         \param color Color object to store
     */
-    void push_back(const Vertex& vertex, const Color& color)
-	{ vertices_.push_back(VertexColor(vertex, color)); }
+    void push_back(const Vertex& vertex, const Color& color) { vertices_.push_back(VertexColor(vertex, color)); }
 
-    VertexColor& operator[](size_t index)
-	{ return vertices_[index]; }
+    VertexColor& operator[](size_t index) { return vertices_[index]; }
 
 private:
     std::vector<VertexColor> vertices_;

@@ -1,5 +1,5 @@
-#include "Messages/Video.h"
 #include "Messages/VMEHeader.h"
+#include "Messages/Video.h"
 #include "UnitTest/UnitTest.h"
 
 #include "PastBuffer.h"
@@ -7,8 +7,7 @@
 using namespace SideCar::Messages;
 using namespace SideCar::Algorithms;
 
-class PastBufferTest : public UnitTest::TestObj
-{
+class PastBufferTest : public UnitTest::TestObj {
 public:
     PastBufferTest() : TestObj("PastBuffer") {}
 
@@ -27,9 +26,9 @@ PastBufferTest::test()
     VMEDataMessage vme;
     vme.header.azimuth = 0;
     {
-	int16_t init[] = { 1, 2, 3 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 3));
-	buffer.add(msg);
+        int16_t init[] = {1, 2, 3};
+        Video::Ref msg(Video::Make("test", vme, init, init + 3));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(1), buffer.size());
@@ -39,9 +38,9 @@ PastBufferTest::test()
     assertFalse(buffer.empty());
 
     {
-	int16_t init[] = { 4, 5, 6, 7 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 4));
-	buffer.add(msg);
+        int16_t init[] = {4, 5, 6, 7};
+        Video::Ref msg(Video::Make("test", vme, init, init + 4));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(2), buffer.size());
@@ -52,9 +51,9 @@ PastBufferTest::test()
     assertFalse(buffer.empty());
 
     {
-	int16_t init[] = { 8, 9 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 2));
-	buffer.add(msg);
+        int16_t init[] = {8, 9};
+        Video::Ref msg(Video::Make("test", vme, init, init + 2));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(3), buffer.size());
@@ -66,9 +65,9 @@ PastBufferTest::test()
     assertFalse(buffer.empty());
 
     {
-	int16_t init[] = { 10, 11, 12 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 3));
-	buffer.add(msg);
+        int16_t init[] = {10, 11, 12};
+        Video::Ref msg(Video::Make("test", vme, init, init + 3));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(3), buffer.size());

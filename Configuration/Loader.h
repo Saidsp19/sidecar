@@ -20,10 +20,8 @@ class RunnerConfig;
 
     Uses the Qt XML library (QtXml) to parse the whole configuration file.
 */
-class Loader
-{
+class Loader {
 public:
-
     /** Container type for the list of RunnerConfig objects
      */
     using RunnerConfigList = QList<RunnerConfig*>;
@@ -31,17 +29,17 @@ public:
     /** Result codes from the last load() operation. Obtained from getLastLoadResult().
      */
     enum LoadResult {
-	kOK = 0,		///< The load succeeded
-	kFailedFileOpen,	///< Unable to open the configuration file
-	kFailedXMLParse,	///< Failed to parse the configuration file
-	kMissingEntityNode,	///< Missing a required/expected entity node
-	kMissingSidecarNode,	///< Missing a <sidecar> entity node
-	kMissingRadarNode,	///< Missing a <radar> entity node
-	kInvalidRadarNode,	///< Invalid <radar> entity node
-	kMissingDPNode,		///< Missing a <dp> entity node
-	kMissingStreams,	///< Missing a <stream> entity node
-	kMissingRunners,	///< Missing a <runner> entity node
-	kNotLoaded		///< The load() method has not been called
+        kOK = 0,             ///< The load succeeded
+        kFailedFileOpen,     ///< Unable to open the configuration file
+        kFailedXMLParse,     ///< Failed to parse the configuration file
+        kMissingEntityNode,  ///< Missing a required/expected entity node
+        kMissingSidecarNode, ///< Missing a <sidecar> entity node
+        kMissingRadarNode,   ///< Missing a <radar> entity node
+        kInvalidRadarNode,   ///< Invalid <radar> entity node
+        kMissingDPNode,      ///< Missing a <dp> entity node
+        kMissingStreams,     ///< Missing a <stream> entity node
+        kMissingRunners,     ///< Missing a <runner> entity node
+        kNotLoaded           ///< The load() method has not been called
     };
 
     /** Constructor. Intializes instance but does nothing else.
@@ -169,7 +167,7 @@ private:
     boost::scoped_ptr<Private> p_;
 };
 
-} // end namespace Config
+} // namespace Configuration
 } // end namespace SideCar
 
 #endif

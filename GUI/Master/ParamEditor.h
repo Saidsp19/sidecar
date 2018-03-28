@@ -19,7 +19,9 @@ class QSpinBox;
 class QStatusBar;
 class QVBoxLayout;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -33,16 +35,12 @@ class RootItem;
     dependent on the type of the parameter being edited. Defines the interface that all typed editors must
     define.
 */
-class ParamBase : public QObject
-{
+class ParamBase : public QObject {
     Q_OBJECT
 public:
+    static QString GetString(const std::string& value) { return QString::fromStdString(value); }
 
-    static QString GetString(const std::string& value)
-	{ return QString::fromStdString(value); }
-
-    static QString GetQuotedString(const QString& value)
-	{ return QString("'%1'").arg(value); }
+    static QString GetQuotedString(const QString& value) { return QString("'%1'").arg(value); }
 
     /** Constructor. Creates a layout into which the label and (future) editor widget reside.
 
@@ -82,9 +80,9 @@ public:
     virtual void revertToOriginal() = 0;
 
     /** If the editor has a changed value, update the held parameter value, and add XML data that will update
-	the parameter with a new value.
+        the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     void addIfChanged(XmlRpc::XmlRpcValue& values, QStringList& changes);
 
@@ -99,19 +97,18 @@ public:
 signals:
 
     /** Notification sent out by the editor when it holds a value that is different from the parameter's current
-	value.
+        value.
     */
     void valueChanged();
 
 public slots:
-    
+
     void setVisible(bool state);
 
 protected:
-
     /** Add XML data that will update the parameter with a new value. Derived classes must define.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     virtual QString fillInChange(XmlRpc::XmlRpcValue& values) = 0;
 
@@ -128,10 +125,8 @@ private:
 
 /** Integer parameter editor. Uses a QSpinBox to perform the value editing.
  */
-class IntParam : public ParamBase
-{
+class IntParam : public ParamBase {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor. Creates a layout into which the label and QSpinBox reside.
@@ -166,10 +161,9 @@ public:
     void revertToOriginal();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -180,10 +174,8 @@ private:
 
 /** Double parameter editor. Uses a QLineEdit plus a validator to perform the value editing.
  */
-class DoubleParam : public ParamBase
-{
+class DoubleParam : public ParamBase {
 public:
-    
     /** Constructor. Creates a layout into which the label and QLineEdit reside.
 
         \param parentLayout the layout to add to
@@ -216,10 +208,9 @@ public:
     void revertToOriginal();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -230,10 +221,8 @@ private:
 
 /** String parameter editor. Uses a QLineEdit to perform the value editing.
  */
-class StringParam : public ParamBase
-{
+class StringParam : public ParamBase {
 public:
-
     /** Constructor. Creates a layout into which the label and QLineEdit reside.
 
         \param parentLayout the layout to add to
@@ -266,10 +255,9 @@ public:
     void revertToOriginal();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -281,15 +269,10 @@ private:
 /** File path parameter editor. Shows a QPushButton, which when clicked, shows a QFileDialog to select a new
     file path.
 */
-class PathParam : public ParamBase
-{
+class PathParam : public ParamBase {
     Q_OBJECT
 public:
-
-    enum PathType {
-	kReadPath = 0,
-	kWritePath
-    };
+    enum PathType { kReadPath = 0, kWritePath };
 
     /** Constructor. Creates a layout into which the label and QPushButton reside.
 
@@ -297,8 +280,7 @@ public:
 
         \param entry definition of the parameter being edited.
     */
-    PathParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry,
-              PathType pathType);
+    PathParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry, PathType pathType);
 
     void setValue(const XmlRpc::XmlRpcValue& value);
 
@@ -330,15 +312,14 @@ private slots:
     void editPath();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
     void updateWidgets();
-    
+
     QString value_;
     QString original_;
     QFileInfo fileInfo_;
@@ -349,10 +330,8 @@ private:
 
 /** Enumeration parameter editor. Uses a QComboBox to perform the value editing.
  */
-class EnumParam : public ParamBase
-{
+class EnumParam : public ParamBase {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor. Creates a layout into which the label and QComboBox reside.
@@ -387,10 +366,9 @@ public:
     void revertToOriginal();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -402,10 +380,8 @@ private:
 
 /** Boolean value parameter editor. Uses a QCheckBox to perform the value editing.
  */
-class BoolParam : public ParamBase
-{
+class BoolParam : public ParamBase {
 public:
-    
     /** Constructor. Creates a layout into which the label and QCheckBox reside.
 
         \param parentLayout the layout to add to
@@ -438,10 +414,9 @@ public:
     void revertToOriginal();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -453,19 +428,16 @@ private:
 /** Notification parameter 'editor'. Shows a QPushButton, which when clicked, emits a parameter change request.
     Used for push buttons such as "Reset" or "Rewind".
 */
-class NotificationParam : public ParamBase
-{
+class NotificationParam : public ParamBase {
     Q_OBJECT
 public:
-
     /** Constructor. Creates a layout into which the label and QPushButton reside.
 
         \param parentLayout the layout to add to
 
         \param entry definition of the parameter being edited.
     */
-    NotificationParam(QVBoxLayout* parentLayout,
-                      const XmlRpc::XmlRpcValue& entry);
+    NotificationParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry);
 
     void setValue(const XmlRpc::XmlRpcValue& value);
 
@@ -497,10 +469,9 @@ private slots:
     void doNotification();
 
 private:
-
     /** Add XML data that will update the parameter with a new value.
 
-	\param values an XML array that holds the changes
+        \param values an XML array that holds the changes
     */
     QString fillInChange(XmlRpc::XmlRpcValue& values);
 
@@ -516,19 +487,12 @@ private:
     parameter editors to their original values and keep the editor open. - Close -- close the editor, ignoring
     any changes.
 */
-class ParamEditor : public QDialog
-{
+class ParamEditor : public QDialog {
     Q_OBJECT
 public:
     static Logger::Log& Log();
 
-    enum DialogCode {
-	Rejected = QDialog::Rejected,
-	Accepted = QDialog::Accepted,
-	Applied,
-	AppliedOriginal,
-	Undone
-    };
+    enum DialogCode { Rejected = QDialog::Rejected, Accepted = QDialog::Accepted, Applied, AppliedOriginal, Undone };
 
     ParamEditor(MainWindow* window, ControllerItem* controllerItem);
 
@@ -555,7 +519,6 @@ private slots:
     void done(int r);
 
 private:
-
     void buildDialog();
     bool buildParameters();
     bool updateParameters();

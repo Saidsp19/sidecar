@@ -4,7 +4,9 @@
 #include "QtCore/QObject"
 #include "QtCore/QSize"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -17,12 +19,11 @@ namespace HealthAndStatus {
 
 class ChannelPlotSettings;
 
-class ChannelConnection : public QObject
-{
+class ChannelConnection : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     ChannelConnection(const QString& name, QObject* parent = 0);

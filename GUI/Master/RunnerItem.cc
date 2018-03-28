@@ -21,8 +21,8 @@ RunnerItem::Log()
     return log_;
 }
 
-RunnerItem::RunnerItem(const RunnerStatus& status, ConfigurationItem* parent)
-    : Super(status, parent), serviceEntry_(0), log_(0)
+RunnerItem::RunnerItem(const RunnerStatus& status, ConfigurationItem* parent) :
+    Super(status, parent), serviceEntry_(0), log_(0)
 {
     Logger::ProcLog log("RunnerItem", Log());
     LOGINFO << std::endl;
@@ -30,15 +30,14 @@ RunnerItem::RunnerItem(const RunnerStatus& status, ConfigurationItem* parent)
     int streamCount = status.getStreamCount();
     LOGDEBUG << "streamCount: " << streamCount << std::endl;
     for (int index = 0; index < streamCount; ++index) {
-	StreamItem* child = new StreamItem(
-	    getStatus().getStreamStatus(index), this);
-	int row = getInsertionPoint(child->getName());
-	LOGDEBUG << "row: " << row << std::endl;
-	insertChild(row, child);
-	for (size_t mapIndex = 0; mapIndex < streamIndexMapping_.size(); ++mapIndex) {
-	    if (streamIndexMapping_[mapIndex] >= row) ++streamIndexMapping_[mapIndex];
+        StreamItem* child = new StreamItem(getStatus().getStreamStatus(index), this);
+        int row = getInsertionPoint(child->getName());
+        LOGDEBUG << "row: " << row << std::endl;
+        insertChild(row, child);
+        for (size_t mapIndex = 0; mapIndex < streamIndexMapping_.size(); ++mapIndex) {
+            if (streamIndexMapping_[mapIndex] >= row) ++streamIndexMapping_[mapIndex];
         }
-	streamIndexMapping_.push_back(row);
+        streamIndexMapping_.push_back(row);
     }
 }
 
@@ -48,10 +47,10 @@ RunnerItem::updateChildren()
     Logger::ProcLog log("updateChildren", Log());
     LOGINFO << "self: " << getIndex() << std::endl;
     for (int index = 0; index < getNumChildren(); ++index) {
-	int row = streamIndexMapping_[index];
-	LOGDEBUG << "child index: " << index << " row: " << row << std::endl;
-	StreamItem* child = getChild(row);
-	child->update(getStatus().getStreamStatus(index));
+        int row = streamIndexMapping_[index];
+        LOGDEBUG << "child index: " << index << " row: " << row << std::endl;
+        StreamItem* child = getChild(row);
+        child->update(getStatus().getStreamStatus(index));
     }
 }
 
@@ -59,10 +58,9 @@ QVariant
 RunnerItem::getHostDataValue(int role) const
 {
     if (role == Qt::ToolTipRole) {
-	return QString("Port %1").arg(serviceEntry_ ? serviceEntry_->getPort() : -1);
-    }
-    else if (role == Qt::DisplayRole) {
-	return getHostName();
+        return QString("Port %1").arg(serviceEntry_ ? serviceEntry_->getPort() : -1);
+    } else if (role == Qt::DisplayRole) {
+        return getHostName();
     }
     return Super::getHostDataValue(role);
 }
@@ -72,15 +70,14 @@ RunnerItem::getInfoDataValue(int role) const
 {
     double memoryUsed = getStatus().getMemoryUsed();
     if (role == Qt::ForegroundRole) {
-	static double warning = 500.0 * 1024 * 1024; // 500M
-	static double danger = 1000.0 * 1024 * 1024; // 1G
-	if (memoryUsed >= danger) return GetFailureColor();
-	if (memoryUsed >= warning) return GetWarningColor();
-	return GetOKColor();
+        static double warning = 500.0 * 1024 * 1024; // 500M
+        static double danger = 1000.0 * 1024 * 1024; // 1G
+        if (memoryUsed >= danger) return GetFailureColor();
+        if (memoryUsed >= warning) return GetWarningColor();
+        return GetOKColor();
     }
 
-    if (role == Qt::DisplayRole)
-	return QString("Mem: ") + ByteAmountToString(memoryUsed, 1);
+    if (role == Qt::DisplayRole) return QString("Mem: ") + ByteAmountToString(memoryUsed, 1);
 
     return Super::getInfoDataValue(role);
 }
@@ -91,14 +88,12 @@ RunnerItem::executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args, Xml
     static Logger::ProcLog log("executeRequest", Log());
     LOGINFO << "cmd: " << cmd << std::endl;
 
-    if (! serviceEntry_) {
-	LOGERROR << "unresolved runner - service: " << getServiceName() << " host: " << getHostName()
-                 << std::endl;
-	return true;
+    if (!serviceEntry_) {
+        LOGERROR << "unresolved runner - service: " << getServiceName() << " host: " << getHostName() << std::endl;
+        return true;
     }
 
-    LOGDEBUG << "cmd: " << cmd << " host: " << getHostName() << " port: " << serviceEntry_->getPort()
-	     << std::endl;
+    LOGDEBUG << "cmd: " << cmd << " host: " << getHostName() << " port: " << serviceEntry_->getPort() << std::endl;
 
     XmlRpc::XmlRpcClient client(getHostName().toStdString(), serviceEntry_->getPort());
     return client.execute(cmd, args, result);
@@ -135,20 +130,20 @@ RunnerItem::getChangedParameters(QStringList& changes) const
     XmlRpc::XmlRpcValue args;
     args.setSize(0);
     XmlRpc::XmlRpcValue result;
-    
+
     bool rc = executeRequest("getChangedParameters", args, result);
-    if (! rc) {
-	LOGERROR << "failed XML-RPC for changed parameters" << std::endl;
-	changes.append("*** failed XML-RPC for changed parameters ***\n");
-	return false;
+    if (!rc) {
+        LOGERROR << "failed XML-RPC for changed parameters" << std::endl;
+        changes.append("*** failed XML-RPC for changed parameters ***\n");
+        return false;
     }
 
     LOGDEBUG << "result: " << result.toXml() << std::endl;
     for (int index = 0; index < getNumChildren(); ++index) {
-	int row = streamIndexMapping_[index];
-	const XmlRpc::XmlRpcValue& streamChanges(result[index]);
-	LOGDEBUG << index << " streamChanges: " << streamChanges.toXml() << std::endl;
-	getChild(row)->formatChangedParameters(streamChanges, changes);
+        int row = streamIndexMapping_[index];
+        const XmlRpc::XmlRpcValue& streamChanges(result[index]);
+        LOGDEBUG << index << " streamChanges: " << streamChanges.toXml() << std::endl;
+        getChild(row)->formatChangedParameters(streamChanges, changes);
     }
 
     return true;
@@ -167,10 +162,9 @@ RunnerItem::setServiceEntry(ServiceEntry* serviceEntry)
     LOGINFO << getServiceName() << ' ' << serviceEntry_ << ' ' << serviceEntry << std::endl;
     serviceEntry_ = serviceEntry;
     if (serviceEntry_) {
-	log_ = RunnerLog::Find(serviceEntry->getName());
-    }
-    else {
-	log_ = 0;
+        log_ = RunnerLog::Find(serviceEntry->getName());
+    } else {
+        log_ = 0;
     }
 }
 
@@ -182,12 +176,12 @@ RunnerItem::afterUpdate()
     QString name(QString::fromStdString(getStatus().getName()));
     LOGDEBUG << "our name: " << getName() << " status name: " << name << std::endl;
     if (getName() != name) {
-	setName(name);
-	LOGWARNING << "name changed: " << name << std::endl;
+        setName(name);
+        LOGWARNING << "name changed: " << name << std::endl;
     }
 
     Super::afterUpdate();
 
-    if (! log_) log_ = RunnerLog::Find(getServiceName());
+    if (!log_) log_ = RunnerLog::Find(getServiceName());
     if (log_) log_->appendLogMessages(getStatus().getLogMessages());
 }

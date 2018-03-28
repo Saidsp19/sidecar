@@ -11,25 +11,19 @@ namespace Algorithms {
 /** Documentation for the algorithm EdgeDetector. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class EdgeDetector : public Algorithm
-{
+class EdgeDetector : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEdge = ControllerStatus::kNumSlots,
-	kDetectedCount,
-	kExaminedCount,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEdge = ControllerStatus::kNumSlots, kDetectedCount, kExaminedCount, kNumSlots };
 
     /** Edge
      */
     enum Edge {
-	kMinValue,
-	kLeading = kMinValue,
-	kTrailing,
-	kMaxValue = kTrailing,
+        kMinValue,
+        kLeading = kMinValue,
+        kTrailing,
+        kMaxValue = kTrailing,
     };
 
     /** Constructor.
@@ -51,7 +45,6 @@ public:
     void setDetectionType(Edge type);
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -67,10 +60,10 @@ private:
     /** Definition of the enum range for the processWindow parameter.
      */
     struct EdgeEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Edge;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = Edge;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using EdgeParameter = Parameter::TValue<Parameter::Defs::Enum<EdgeEnumTraits>>;

@@ -15,10 +15,8 @@ namespace Time {
     containers, such as std::set or std::map. The class TimeStampRangeSet is an enhanced std:set container for
     TimeStampRanges.
 */
-class TimeStampRange
-{
+class TimeStampRange {
 public:
-
     /** Factory method that converts a range specification in a string into a TimeStampRange object. A
         specification may be in one of the following formats: - START-END - create a range of spanning START and
         END times - END - create a range from TimeStamp::Min() to END - START- - create a range from START to
@@ -32,9 +30,8 @@ public:
 
     /** Exception thrown if a range is invalid (start > end).
      */
-    struct InvalidRange : public Utils::Exception, public Utils::ExceptionInserter<InvalidRange>
-    {
-	InvalidRange(const std::string& err) : Utils::Exception(err), Utils::ExceptionInserter<InvalidRange>() {}
+    struct InvalidRange : public Utils::Exception, public Utils::ExceptionInserter<InvalidRange> {
+        InvalidRange(const std::string& err) : Utils::Exception(err), Utils::ExceptionInserter<InvalidRange>() {}
     };
 
     /** Constructor.
@@ -52,8 +49,10 @@ public:
 
         \return true if less than given value
     */
-    bool operator <(const TimeStampRange& rhs) const
-	{ return start_ < rhs.start_ || (start_ == rhs.start_ && end_ < rhs.end_); }
+    bool operator<(const TimeStampRange& rhs) const
+    {
+        return start_ < rhs.start_ || (start_ == rhs.start_ && end_ < rhs.end_);
+    }
 
     /** Obtain the start time of the range.
 
@@ -76,8 +75,8 @@ public:
     bool contains(const TimeStamp& when) const { return when >= start_ && when <= end_; }
 
 private:
-    TimeStamp start_;		///< Beginning of the range
-    TimeStamp end_;		///< End of the range
+    TimeStamp start_; ///< Beginning of the range
+    TimeStamp end_;   ///< End of the range
 };
 
 } // end namespace Time

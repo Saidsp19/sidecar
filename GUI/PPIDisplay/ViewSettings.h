@@ -5,7 +5,9 @@
 #include "GUI/IntSetting.h"
 #include "GUI/SettingsBlock.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace PPIDisplay {
@@ -15,12 +17,11 @@ namespace PPIDisplay {
     a zoom factor that magnifies the data; and a maximum visible range value that limits the samples used for
     the display.
 */
-class ViewSettings : public SettingsBlock
-{
+class ViewSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     /** Obtain Log device for ViewSetting objects
 
         \return Log device
@@ -31,19 +32,18 @@ public:
 
         \param rangeMaxMax
 
-        \param rangeMax 
+        \param rangeMax
 
-        \param x 
+        \param x
 
-        \param y 
+        \param y
 
-        \param zoomPower 
+        \param zoomPower
 
-        \param zoomFactor 
+        \param zoomFactor
     */
-    ViewSettings(DoubleSetting* rangeMaxMax, DoubleSetting* rangeMax,
-                 DoubleSetting* x, DoubleSetting* y, IntSetting* zoomPower,
-                 DoubleSetting* zoomFactor);
+    ViewSettings(DoubleSetting* rangeMaxMax, DoubleSetting* rangeMax, DoubleSetting* x, DoubleSetting* y,
+                 IntSetting* zoomPower, DoubleSetting* zoomFactor);
 
     /** Obtain the last rangeFactor value given in a setRangeFactorAndMax() call.
 
@@ -94,11 +94,11 @@ public:
     */
     double getZoom() const { return zoom_; }
 
-    /** 
+    /**
 
-        \param power 
+        \param power
 
-        \return 
+        \return
     */
     double getZoom(int power) const;
 
@@ -109,9 +109,9 @@ public slots:
         one or more gate values due to timing accuracy. NOTE: this routine will change the internal rangeMax_
         value if it is larger than then new max range value.
 
-	\param rangeFactor new gate-to-gate range factor to record
+        \param rangeFactor new gate-to-gate range factor to record
 
-	\param rangeMaxMax new maximum range value to record
+        \param rangeMaxMax new maximum range value to record
     */
     void setRangeFactorAndMax(double rangeFactor, double rangeMaxMax);
 
@@ -150,7 +150,7 @@ signals:
 private slots:
 
     /** Notification handler invoked when the zoomPower_ or zoomFactor_ settings change. Calculates a new zoom_
-	magnification factor and emits a valueChanged() signal.
+        magnification factor and emits a valueChanged() signal.
     */
     void updateZoom();
 

@@ -1,6 +1,6 @@
+#include "LogStreamBuf.h"
 #include "Log.h"
 #include "Priority.h"
-#include "LogStreamBuf.h"
 
 using namespace Logger;
 

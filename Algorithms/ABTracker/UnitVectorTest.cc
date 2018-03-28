@@ -2,13 +2,12 @@
 #include "UnitTest/UnitTest.h"
 #include "Utils/Utils.h"
 
-#include "Vector.h"
 #include "UnitVector.h"
+#include "Vector.h"
 
 using namespace SideCar::Geometry;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("UnitVector") {}
     void test();
 };

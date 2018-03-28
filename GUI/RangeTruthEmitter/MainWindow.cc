@@ -14,10 +14,10 @@
 #include "QtGui/QMessageBox"
 #include "QtGui/QStatusBar"
 
-#include "GeoStars/geoStars.h"
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"
 #include "GUI/Writers.h"
+#include "GeoStars/geoStars.h"
 #include "IO/MessageManager.h"
 #include "IO/Writers.h"
 #include "Messages/RadarConfig.h"
@@ -42,11 +42,10 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), writer_(0),
-      timer_(new QTimer(this)), model_(new SegmentModel(this)),
-      elapsedTime_(0.0), activeSegment_(-1), xyz_(3, 0.0), lastFile_(),
-      tcnMsg_(new ACE_Message_Block(20)), reportCounter_(0)
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), writer_(0), timer_(new QTimer(this)), model_(new SegmentModel(this)),
+    elapsedTime_(0.0), activeSegment_(-1), xyz_(3, 0.0), lastFile_(), tcnMsg_(new ACE_Message_Block(20)),
+    reportCounter_(0)
 {
     Logger::ProcLog log("MainWindow", Log());
 
@@ -57,20 +56,20 @@ MainWindow::MainWindow()
     segments_->setModel(model_);
 
 #if 0
-    VelocityEditor* ve = new VelocityEditor(segments_);
-    segments_->setItemDelegateForColumn(SegmentModel::kXVel, ve);
-    segments_->setItemDelegateForColumn(SegmentModel::kYVel, ve);
-    segments_->setItemDelegateForColumn(SegmentModel::kZVel, ve);
+  VelocityEditor* ve = new VelocityEditor(segments_);
+  segments_->setItemDelegateForColumn(SegmentModel::kXVel, ve);
+  segments_->setItemDelegateForColumn(SegmentModel::kYVel, ve);
+  segments_->setItemDelegateForColumn(SegmentModel::kZVel, ve);
 
-    AccelerationEditor* ae = new AccelerationEditor(segments_);
-    segments_->setItemDelegateForColumn(SegmentModel::kXAcc, ae);
-    segments_->setItemDelegateForColumn(SegmentModel::kYAcc, ae);
-    segments_->setItemDelegateForColumn(SegmentModel::kZAcc, ae);
+  AccelerationEditor* ae = new AccelerationEditor(segments_);
+  segments_->setItemDelegateForColumn(SegmentModel::kXAcc, ae);
+  segments_->setItemDelegateForColumn(SegmentModel::kYAcc, ae);
+  segments_->setItemDelegateForColumn(SegmentModel::kZAcc, ae);
 
-    DurationEditor* de = new DurationEditor(segments_);
-    segments_->setItemDelegateForColumn(SegmentModel::kDuration, de);
+  DurationEditor* de = new DurationEditor(segments_);
+  segments_->setItemDelegateForColumn(SegmentModel::kDuration, de);
 #endif
-    
+
     QHeaderView* header = segments_->horizontalHeader();
     header->setResizeMode(QHeaderView::Stretch);
 
@@ -84,9 +83,9 @@ MainWindow::MainWindow()
     lastAddress_ = "237.1.2.3";
     address_->setText(settings.value("Address", lastAddress_).toString());
     if (address_->text().isEmpty())
-	address_->setText(lastAddress_);
+        address_->setText(lastAddress_);
     else
-	lastAddress_ = address_->text();
+        lastAddress_ = address_->text();
 
     // address_->selectAll();
     port_->setValue(settings.value("Port", 5123).toInt());
@@ -104,16 +103,13 @@ MainWindow::MainWindow()
     setTimerInterval(rate_->value());
 
     QItemSelectionModel* selectionModel = segments_->selectionModel();
-    connect(selectionModel,
-            SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
-            SLOT(updateButtons()));
+    connect(selectionModel, SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)), SLOT(updateButtons()));
 
     for (int index = 0; index < kMaxRecentFiles; ++index) {
-	QAction* action = recentFiles_[index] = new QAction(this);
-	action->setShortcut(
-	    QKeySequence(QString("CTRL+%1").arg(index + 1)));
-	connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
-	menuRecentFiles_->addAction(action);
+        QAction* action = recentFiles_[index] = new QAction(this);
+        action->setShortcut(QKeySequence(QString("CTRL+%1").arg(index + 1)));
+        connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+        menuRecentFiles_->addAction(action);
     }
 
     menuRecentFiles_->addSeparator();
@@ -186,11 +182,10 @@ MainWindow::on_actionSend__triggered()
 void
 MainWindow::on_startStop__clicked()
 {
-    if (! timer_->isActive()) {
-	startTimer();
-    }
-    else {
-	stopTimer();
+    if (!timer_->isActive()) {
+        startTimer();
+    } else {
+        stopTimer();
     }
 }
 
@@ -203,11 +198,11 @@ MainWindow::on_actionStart__triggered()
 void
 MainWindow::startTimer()
 {
-    if (elapsedTime_ && ! model_->getActiveSegment(elapsedTime_)) {
-	elapsedTime_ = 0.0;
-	elapsed_->setText("0.0");
-	reportCounter_ = 0;
-	model_->rewind();
+    if (elapsedTime_ && !model_->getActiveSegment(elapsedTime_)) {
+        elapsedTime_ = 0.0;
+        elapsed_->setText("0.0");
+        reportCounter_ = 0;
+        model_->rewind();
     }
 
     timer_->start();
@@ -215,9 +210,9 @@ MainWindow::startTimer()
     actionStart_->setText("Stop");
     model_->getActiveSegment(elapsedTime_);
     if (elapsedTime_)
-	updateTargetPositionXYZ(true);
+        updateTargetPositionXYZ(true);
     else
-	updateTargetPositionRAE(true);
+        updateTargetPositionRAE(true);
 
     updateButtons();
     statusBar()->showMessage("Started");
@@ -286,11 +281,11 @@ MainWindow::on_moveUp__clicked()
     QItemSelectionModel* selectionModel = segments_->selectionModel();
     QModelIndex index = selectionModel->currentIndex();
     if (index.isValid()) {
-	int row = index.row();
-	model_->moveUp(row);
-	segments_->setCurrentIndex(model_->index(row - 1, index.column()));
-	setWindowModified(true);
-	updateButtons();
+        int row = index.row();
+        model_->moveUp(row);
+        segments_->setCurrentIndex(model_->index(row - 1, index.column()));
+        setWindowModified(true);
+        updateButtons();
     }
 }
 
@@ -300,11 +295,11 @@ MainWindow::on_moveDown__clicked()
     QItemSelectionModel* selectionModel = segments_->selectionModel();
     QModelIndex index = selectionModel->currentIndex();
     if (index.isValid()) {
-	int row = index.row();
-	model_->moveDown(row);
-	segments_->setCurrentIndex(model_->index(row + 1, index.column()));
-	setWindowModified(true);
-	updateButtons();
+        int row = index.row();
+        model_->moveDown(row);
+        segments_->setCurrentIndex(model_->index(row + 1, index.column()));
+        setWindowModified(true);
+        updateButtons();
     }
 }
 
@@ -314,9 +309,9 @@ MainWindow::on_removeSegment__clicked()
     QItemSelectionModel* selectionModel = segments_->selectionModel();
     QModelIndex index = selectionModel->currentIndex();
     if (index.isValid()) {
-	model_->deleteRow(index.row());
-	setWindowModified(true);
-	updateButtons();
+        model_->deleteRow(index.row());
+        setWindowModified(true);
+        updateButtons();
     }
 }
 
@@ -328,9 +323,9 @@ MainWindow::simulatorTimeout()
     elapsed_->setText(QString::number(elapsedTime_, 'f', 3));
 
     Segment* segment = model_->getActiveSegment(elapsedTime_);
-    if (! segment) {
-	stopTimer();
-	return;
+    if (!segment) {
+        stopTimer();
+        return;
     }
 
     // Calculate the number of seconds under acceleration for this segment.
@@ -347,31 +342,26 @@ void
 MainWindow::updateTargetPositionRAE(bool send)
 {
     Messages::TSPI::Ref msg = Messages::TSPI::MakeRAE(
-	"RangeTruthEmitter",
-	Messages::TSPI::GetSystemIdTag(systemId_->value()),
-	Time::TimeStamp::Now().asDouble(), manualRange_->value() * 1000.0,
-	Utils::degreesToRadians(manualAzimuth_->value()),
-	Utils::degreesToRadians(manualElevation_->value()));
+        "RangeTruthEmitter", Messages::TSPI::GetSystemIdTag(systemId_->value()), Time::TimeStamp::Now().asDouble(),
+        manualRange_->value() * 1000.0, Utils::degreesToRadians(manualAzimuth_->value()),
+        Utils::degreesToRadians(manualElevation_->value()));
     updateTargetPosition(msg, send);
 }
 
 void
 MainWindow::updateTargetPositionXYZ(bool send)
 {
-    Messages::TSPI::Ref msg = Messages::TSPI::MakeXYZ(
-	"RangeTruthEmitter",
-	Messages::TSPI::GetSystemIdTag(systemId_->value()),
-	Time::TimeStamp::Now().asDouble(), xyz_[0], xyz_[1], xyz_[2]);
+    Messages::TSPI::Ref msg =
+        Messages::TSPI::MakeXYZ("RangeTruthEmitter", Messages::TSPI::GetSystemIdTag(systemId_->value()),
+                                Time::TimeStamp::Now().asDouble(), xyz_[0], xyz_[1], xyz_[2]);
     updateTargetPosition(msg, send);
 }
 
 void
 MainWindow::updateTargetPosition(const Messages::TSPI::Ref& msg, bool send)
 {
-    latitude_->setText(QString("%1 deg").arg(
-                           Utils::radiansToDegrees(msg->getLatitude())));
-    longitude_->setText(QString("%1 deg").arg(
-                            Utils::radiansToDegrees(msg->getLongitude())));
+    latitude_->setText(QString("%1 deg").arg(Utils::radiansToDegrees(msg->getLatitude())));
+    longitude_->setText(QString("%1 deg").arg(Utils::radiansToDegrees(msg->getLongitude())));
     height_->setText(QString("%1 m").arg(msg->getHeight()));
 
     e_->setText(QString::number(msg->getE()));
@@ -379,10 +369,8 @@ MainWindow::updateTargetPosition(const Messages::TSPI::Ref& msg, bool send)
     g_->setText(QString::number(msg->getG()));
 
     range_->setText(QString("%1 km").arg(msg->getRange() / 1000.0));
-    azimuth_->setText(QString("%1 deg").arg(
-                          Utils::radiansToDegrees(msg->getAzimuth())));
-    elevation_->setText(QString("%1 deg").arg(
-                            Utils::radiansToDegrees(msg->getElevation())));
+    azimuth_->setText(QString("%1 deg").arg(Utils::radiansToDegrees(msg->getAzimuth())));
+    elevation_->setText(QString("%1 deg").arg(Utils::radiansToDegrees(msg->getElevation())));
 
     xyz_ = msg->getXYZ();
     x_->setText(QString("%1 m").arg(xyz_[0]));
@@ -390,33 +378,32 @@ MainWindow::updateTargetPosition(const Messages::TSPI::Ref& msg, bool send)
     z_->setText(QString("%1 m").arg(xyz_[2]));
 
     if (writer_ && send) {
-	sendMessage(msg);
+        sendMessage(msg);
 
-	QString txt = QString("Sent report %1").arg(++reportCounter_);
-	if (timer_->isActive()) {
-	    double dt = timer_->interval() / 1000.0;
-	    txt += QString(" - next in %1 seconds").arg(dt);
-	}
+        QString txt = QString("Sent report %1").arg(++reportCounter_);
+        if (timer_->isActive()) {
+            double dt = timer_->interval() / 1000.0;
+            txt += QString(" - next in %1 seconds").arg(dt);
+        }
 
-	statusBar()->showMessage(txt, 5000);
+        statusBar()->showMessage(txt, 5000);
     }
 }
 
 void
 MainWindow::sendMessage(const Messages::TSPI::Ref& msg)
 {
-    if (! writer_)
-	return;
+    if (!writer_) return;
 
-    if (! rangeFormat_->isChecked()) {
-	IO::MessageManager mgr(msg);
-	writer_->writeMessage(mgr);
-	return;
+    if (!rangeFormat_->isChecked()) {
+        IO::MessageManager mgr(msg);
+        writer_->writeMessage(mgr);
+        return;
     }
 
     union {
-	int32_t full;
-	unsigned char byte[1];
+        int32_t full;
+        unsigned char byte[1];
     } converter;
 
     tcnMsg_->reset();
@@ -431,21 +418,17 @@ MainWindow::sendMessage(const Messages::TSPI::Ref& msg)
 
     double value = msg->getE();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) 
-	ptr[index + 5] = converter.byte[index];
+    for (size_t index = 0; index < 4; ++index) ptr[index + 5] = converter.byte[index];
 
     value = msg->getF();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) 
-	ptr[index + 9] = converter.byte[index];
+    for (size_t index = 0; index < 4; ++index) ptr[index + 9] = converter.byte[index];
 
     value = msg->getG();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) 
-	ptr[index + 13] = converter.byte[index];
+    for (size_t index = 0; index < 4; ++index) ptr[index + 13] = converter.byte[index];
 
-    for (size_t index = 0; index < 3; ++index) 
-	ptr[index + 17] = 0x0;
+    for (size_t index = 0; index < 3; ++index) ptr[index + 17] = 0x0;
 
     tcnMsg_->wr_ptr(20);
 
@@ -456,43 +439,39 @@ void
 MainWindow::closeEvent(QCloseEvent* event)
 {
     if (isWindowModified()) {
-	QMessageBox::StandardButton button =
-	    QMessageBox::question(this, "Unsaved Changes",
+        QMessageBox::StandardButton button =
+            QMessageBox::question(this, "Unsaved Changes",
                                   "<p><b>Do you want to save the changes to "
                                   "this configuration before closing?</b></p>"
                                   "<p>If you don't save, your changes will be "
                                   "lost.</p>",
-                                  QMessageBox::Cancel |
-                                  QMessageBox::Save |
-                                  QMessageBox::Discard);
+                                  QMessageBox::Cancel | QMessageBox::Save | QMessageBox::Discard);
 
-	if (button == QMessageBox::Cancel) {
-	    event->ignore();
-	    return;
-	}
+        if (button == QMessageBox::Cancel) {
+            event->ignore();
+            return;
+        }
 
-	if (button == QMessageBox::Save) {
-	    QString path = lastFile_;
-	    if (path.isEmpty()) {
-		path = QFileDialog::getSaveFileName(
-		    this, "File to save", "", "Data (*.txt *.dat)");
-		if (path.isEmpty()) {
-		    event->ignore();
-		    return;
-		}
-	    }
+        if (button == QMessageBox::Save) {
+            QString path = lastFile_;
+            if (path.isEmpty()) {
+                path = QFileDialog::getSaveFileName(this, "File to save", "", "Data (*.txt *.dat)");
+                if (path.isEmpty()) {
+                    event->ignore();
+                    return;
+                }
+            }
 
-	    saveFile(path);
-	}
+            saveFile(path);
+        }
 
-	setWindowModified(false);
-	updateButtons();
+        setWindowModified(false);
+        updateButtons();
     }
 
     event->accept();
 
-    if (timer_->isActive())
-	stopTimer();
+    if (timer_->isActive()) stopTimer();
 
     QSettings settings;
     settings.setValue("Address", address_->text());
@@ -516,7 +495,7 @@ MainWindow::updateButtons()
     rewind_->setEnabled(enabled && elapsedTime_);
     actionRewind_->setEnabled(enabled && elapsedTime_);
 
-    enabled = ! timer_->isActive();
+    enabled = !timer_->isActive();
     address_->setEnabled(enabled);
     port_->setEnabled(enabled);
     send_->setEnabled(enabled);
@@ -530,7 +509,7 @@ MainWindow::updateButtons()
     actionLoad_->setEnabled(enabled);
     actionSaveAs_->setEnabled(enabled);
     actionSave_->setEnabled(isWindowModified());
-    actionRevert_->setEnabled(isWindowModified() && ! lastFile_.isEmpty());
+    actionRevert_->setEnabled(isWindowModified() && !lastFile_.isEmpty());
 
     QItemSelectionModel* selectionModel = segments_->selectionModel();
     QModelIndex index = selectionModel->currentIndex();
@@ -544,14 +523,13 @@ void
 MainWindow::on_actionLoad__triggered()
 {
     checkBeforeLoad();
-    if (! isWindowModified()) {
-	QString path = QFileDialog::getOpenFileName(
-	    this, "Choose a segment file", lastFile_, "Data (*.txt *.dat)");
-	if (path.isEmpty()) {
-	    statusBar()->showMessage("Load canceled", 5000);
-	    return;
-	}
-	openFile(path);
+    if (!isWindowModified()) {
+        QString path = QFileDialog::getOpenFileName(this, "Choose a segment file", lastFile_, "Data (*.txt *.dat)");
+        if (path.isEmpty()) {
+            statusBar()->showMessage("Load canceled", 5000);
+            return;
+        }
+        openFile(path);
     }
 }
 
@@ -560,11 +538,11 @@ MainWindow::openRecentFile()
 {
     QAction* action = qobject_cast<QAction*>(sender());
     if (action) {
-	checkBeforeLoad();
-	if (! isWindowModified()) {
-	    QString path(action->data().toString());
-	    openFile(path);
-	}
+        checkBeforeLoad();
+        if (!isWindowModified()) {
+            QString path(action->data().toString());
+            openFile(path);
+        }
     }
 }
 
@@ -572,36 +550,29 @@ void
 MainWindow::checkBeforeLoad()
 {
     if (isWindowModified()) {
-	QMessageBox::StandardButton button =
-	    QMessageBox::question(this, "Unsaved Changes",
+        QMessageBox::StandardButton button =
+            QMessageBox::question(this, "Unsaved Changes",
                                   "<p><b>Do you want to save the changes to "
                                   "this configuration before loading a "
                                   "new one?</b></p>"
                                   "<p>If you don't save, your changes will be "
                                   "lost.</p>",
-                                  QMessageBox::Cancel |
-                                  QMessageBox::Save |
-                                  QMessageBox::Discard);
+                                  QMessageBox::Cancel | QMessageBox::Save | QMessageBox::Discard);
 
-	if (button == QMessageBox::Cancel) {
-	    return;
-	}
-	else if (button == QMessageBox::Save) {
-	    QString path = lastFile_;
-	    if (path.isEmpty()) {
-		path = QFileDialog::getSaveFileName(
-		    this, "File to save", "", "Data (*.txt *.dat)");
-		if (path.isEmpty()) {
-		    return;
-		}
-	    }
+        if (button == QMessageBox::Cancel) {
+            return;
+        } else if (button == QMessageBox::Save) {
+            QString path = lastFile_;
+            if (path.isEmpty()) {
+                path = QFileDialog::getSaveFileName(this, "File to save", "", "Data (*.txt *.dat)");
+                if (path.isEmpty()) { return; }
+            }
 
-	    saveFile(path);
-	}
-	else {
-	    setWindowModified(false);
-	    updateButtons();
-	}
+            saveFile(path);
+        } else {
+            setWindowModified(false);
+            updateButtons();
+        }
     }
 }
 
@@ -611,34 +582,31 @@ MainWindow::openFile(const QString& path)
     Logger::ProcLog log("openFile", Log());
     LOGINFO << "path: " << path << std::endl;
 
-    if (timer_->isActive())
-	stopTimer();
+    if (timer_->isActive()) stopTimer();
 
     QFile file(path);
-    if (! file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	statusBar()->showMessage("Failed to open file!");
-	return;
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        statusBar()->showMessage("Failed to open file!");
+        return;
     }
 
     QByteArray line(file.readLine());
     if (line.isEmpty()) {
-	statusBar()->showMessage("Empty file!");
-	return;
+        statusBar()->showMessage("Empty file!");
+        return;
     }
 
     QTextStream in(line);
     int port, systemId, rangeFormat;
     double rate, range, azimuth, elevation;
     QString address;
-    in >> address >> port >> systemId >> rangeFormat >> range >> azimuth
-       >> elevation >> rate;
-    
+    in >> address >> port >> systemId >> rangeFormat >> range >> azimuth >> elevation >> rate;
+
     port_->setValue(port);
     systemId_->setValue(systemId);
     rate_->setValue(rate);
     rangeFormat_->setChecked(rangeFormat);
-    if (! address.isEmpty())
-	address_->setText(address);
+    if (!address.isEmpty()) address_->setText(address);
 
     manualRange_->setValue(range);
     manualAzimuth_->setValue(azimuth);
@@ -646,31 +614,26 @@ MainWindow::openFile(const QString& path)
 
     model_->clear();
     while (1) {
-	QByteArray line(file.readLine());
-	if (line.isEmpty())
-	    break;
+        QByteArray line(file.readLine());
+        if (line.isEmpty()) break;
 
-	QTextStream in(line);
+        QTextStream in(line);
 
-	Segment* segment = new Segment;
-	in >> segment->xVel_ >> segment->xAcc_
-	   >> segment->yVel_ >> segment->yAcc_
-	   >> segment->zVel_ >> segment->zAcc_
-	   >> segment->duration_;
+        Segment* segment = new Segment;
+        in >> segment->xVel_ >> segment->xAcc_ >> segment->yVel_ >> segment->yAcc_ >> segment->zVel_ >>
+            segment->zAcc_ >> segment->duration_;
 
-	model_->addRow(segment);
+        model_->addRow(segment);
     }
 
     lastFile_ = path;
-    setWindowTitle(QString("RangeTruthEmitter - %1[*]").arg(
-                       strippedName(path)));
+    setWindowTitle(QString("RangeTruthEmitter - %1[*]").arg(strippedName(path)));
 
     QSettings settings;
     QStringList files = settings.value("RecentFileList").toStringList();
     files.removeAll(path);
     files.prepend(path);
-    while (files.size() > kMaxRecentFiles)
-	files.removeLast();
+    while (files.size() > kMaxRecentFiles) files.removeLast();
 
     settings.setValue("RecentFileList", files);
     updateRecentFileActions();
@@ -684,22 +647,20 @@ void
 MainWindow::on_actionSave__triggered()
 {
     if (lastFile_.isEmpty()) {
-	on_actionSaveAs__triggered();
-    }
-    else {
-	saveFile(lastFile_);
+        on_actionSaveAs__triggered();
+    } else {
+        saveFile(lastFile_);
     }
 }
 
 void
 MainWindow::on_actionSaveAs__triggered()
 {
-    QString path = QFileDialog::getSaveFileName(
-        this, "File to save", lastFile_, "Data (*.txt *.dat)");
+    QString path = QFileDialog::getSaveFileName(this, "File to save", lastFile_, "Data (*.txt *.dat)");
 
     if (path.isEmpty()) {
-	statusBar()->showMessage("Save canceled", 5000);
-	return;
+        statusBar()->showMessage("Save canceled", 5000);
+        return;
     }
 
     saveFile(path);
@@ -712,32 +673,26 @@ MainWindow::saveFile(const QString& path)
     LOGINFO << "path: " << path << std::endl;
 
     QFile file(path);
-    if (! file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-	statusBar()->showMessage("Failed to open file!");
-	return;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        statusBar()->showMessage("Failed to open file!");
+        return;
     }
 
     QTextStream out(&file);
-    out << address_->text() << ' ' << port_->value() << ' '
-	<< systemId_->value() << ' '
-	<< (rangeFormat_->isChecked() ? 1 : 0) << ' '
-	<< manualRange_->value() << ' '
-	<< manualAzimuth_->value() << ' '
-	<< manualElevation_->value() << ' '
-	<< rate_->value() << '\n';
+    out << address_->text() << ' ' << port_->value() << ' ' << systemId_->value() << ' '
+        << (rangeFormat_->isChecked() ? 1 : 0) << ' ' << manualRange_->value() << ' ' << manualAzimuth_->value() << ' '
+        << manualElevation_->value() << ' ' << rate_->value() << '\n';
 
     model_->save(out);
 
     lastFile_ = path;
-    setWindowTitle(QString("RangeTruthEmitter - %1[*]").arg(
-                       strippedName(path)));
+    setWindowTitle(QString("RangeTruthEmitter - %1[*]").arg(strippedName(path)));
 
     QSettings settings;
     QStringList files = settings.value("RecentFileList").toStringList();
     files.removeAll(path);
     files.prepend(path);
-    while (files.size() > kMaxRecentFiles)
-	files.removeLast();
+    while (files.size() > kMaxRecentFiles) files.removeLast();
 
     settings.setValue("RecentFileList", files);
     updateRecentFileActions();
@@ -754,16 +709,13 @@ MainWindow::updateRecentFileActions()
     QStringList files = settings.value("RecentFileList").toStringList();
 
     for (int index = 0; index < files.size(); ++index) {
-	QString text(QString("&%1 %2")
-                     .arg(index + 1)
-                     .arg(strippedName(files[index])));
-	recentFiles_[index]->setText(text);
-	recentFiles_[index]->setData(files[index]);
-	recentFiles_[index]->setVisible(true);
+        QString text(QString("&%1 %2").arg(index + 1).arg(strippedName(files[index])));
+        recentFiles_[index]->setText(text);
+        recentFiles_[index]->setData(files[index]);
+        recentFiles_[index]->setVisible(true);
     }
 
-    for (int index = files.size(); index < kMaxRecentFiles; ++index)
-	recentFiles_[index]->setVisible(false);
+    for (int index = files.size(); index < kMaxRecentFiles; ++index) recentFiles_[index]->setVisible(false);
 
     menuRecentFiles_->setEnabled(files.size() > 0);
 }
@@ -780,21 +732,17 @@ void
 MainWindow::on_actionRevert__triggered()
 {
     if (isWindowModified()) {
-	QMessageBox::StandardButton button =
-	    QMessageBox::question(this, "Reverting Changes",
-                                  "<p><b>Do you want to revert to the last "
-                                  "saved version of this file?</b></p> "
-                                  "<p>If you do, your current changes will be "
-                                  "lost.</p>",
-                                  QMessageBox::No |
-                                  QMessageBox::Yes);
+        QMessageBox::StandardButton button = QMessageBox::question(this, "Reverting Changes",
+                                                                   "<p><b>Do you want to revert to the last "
+                                                                   "saved version of this file?</b></p> "
+                                                                   "<p>If you do, your current changes will be "
+                                                                   "lost.</p>",
+                                                                   QMessageBox::No | QMessageBox::Yes);
 
-	if (button == QMessageBox::No) {
-	    return;
-	}
+        if (button == QMessageBox::No) { return; }
 
-	openFile(lastFile_);
-	statusBar()->showMessage("Reverted to saved file", 5000);
+        openFile(lastFile_);
+        statusBar()->showMessage("Reverted to saved file", 5000);
     }
 }
 
@@ -807,9 +755,9 @@ MainWindow::strippedName(const QString& path) const
 void
 MainWindow::flagDirtyWindow()
 {
-    if (! lastFile_.isEmpty()) {
-	setWindowModified(true);
-	updateButtons();
+    if (!lastFile_.isEmpty()) {
+        setWindowModified(true);
+        updateButtons();
     }
 }
 
@@ -818,27 +766,25 @@ MainWindow::on_address__editingFinished()
 {
     Logger::ProcLog log("on_address__editingFinished", Log());
     QString address = address_->text();
-    
+
     if (address.isEmpty()) {
-	address_->setText(lastAddress_);
-	return;
+        address_->setText(lastAddress_);
+        return;
     }
 
     if (lastAddress_ != address) {
-	makeWriter();
-	if (! writer_) {
-	    QString msg = QString("Invalid multicast address %1/%2")
-		.arg(address_->text())
-		.arg(port_->value());
-	    address_->setText(lastAddress_);
-	    makeWriter();
-	    statusBar()->showMessage(msg, 5000);
-	    return;
-	}
-	    
-	lastAddress_ = address;
-	QSettings settings;
-	settings.setValue("Address", address);
+        makeWriter();
+        if (!writer_) {
+            QString msg = QString("Invalid multicast address %1/%2").arg(address_->text()).arg(port_->value());
+            address_->setText(lastAddress_);
+            makeWriter();
+            statusBar()->showMessage(msg, 5000);
+            return;
+        }
+
+        lastAddress_ = address;
+        QSettings settings;
+        settings.setValue("Address", address);
     }
 }
 
@@ -846,15 +792,12 @@ void
 MainWindow::makeWriter()
 {
     if (writer_) removeWriter();
-    writer_ = UDPMessageWriter::Make(
-	"RangeTruthEmitter", Messages::TSPI::GetMetaTypeInfo().getName(),
-	address_->text(), port_->value());
+    writer_ = UDPMessageWriter::Make("RangeTruthEmitter", Messages::TSPI::GetMetaTypeInfo().getName(), address_->text(),
+                                     port_->value());
     if (writer_) {
-	writer_->start();
-	statusBar()->showMessage(
-	    QString("TSPI writer active at %1/%2")
-	    .arg(address_->text())
-	    .arg(port_->value()), 5000);
+        writer_->start();
+        statusBar()->showMessage(QString("TSPI writer active at %1/%2").arg(address_->text()).arg(port_->value()),
+                                 5000);
     }
 }
 
@@ -862,7 +805,7 @@ void
 MainWindow::removeWriter()
 {
     if (writer_) {
-	delete writer_;
-	writer_ = 0;
+        delete writer_;
+        writer_ = 0;
     }
 }

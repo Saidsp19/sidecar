@@ -13,13 +13,12 @@ namespace Algorithms {
     bin i with offset = -(n+1) and windowSize = n, a window of size n where bin i is the middle with offset =
     -n/2 and windowSize = n, or the next n bins of i with offset = 1 and windowSize = n. The available
     operations are listed below.
-   
-*/
-class SlidingOp : public Algorithm
-{
-    using Super = Algorithm;
-public:
 
+*/
+class SlidingOp : public Algorithm {
+    using Super = Algorithm;
+
+public:
     enum InfoSlot {
         kEnabled = ControllerStatus::kNumSlots,
         kInitialOffset,
@@ -33,7 +32,7 @@ public:
      */
     enum Operation {
         kMinValue,
-        kSumOp = kMinValue, 
+        kSumOp = kMinValue,
         kProdOp,
         kAverageOp,
         kMedianOp,
@@ -61,7 +60,6 @@ public:
     void setOperation(Operation value) { operation_->setValue(value); }
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -87,10 +85,10 @@ private:
 
     // Runtime attributes
     //
-    Parameter::BoolValue::Ref enabled_; ///< If false, just pass on msgs
-    Parameter::IntValue::Ref initialOffset_;	  ///< Offset for first window
+    Parameter::BoolValue::Ref enabled_;           ///< If false, just pass on msgs
+    Parameter::IntValue::Ref initialOffset_;      ///< Offset for first window
     Parameter::PositiveIntValue::Ref windowSize_; ///< # samples in window
-    Parameter::IntValue::Ref emptyValue_;	  ///< Non-existent value
+    Parameter::IntValue::Ref emptyValue_;         ///< Non-existent value
 
     /** Run-time parameter that determines the operation to perform within each window.
      */

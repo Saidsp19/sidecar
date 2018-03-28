@@ -3,11 +3,11 @@
 #include "ace/Stream.h"
 
 #include "Algorithms/ShutdownMonitor.h"
-#include "IO/Readers.h"
 #include "IO/FileWriterTask.h"
 #include "IO/MessageManager.h"
 #include "IO/Module.h"
 #include "IO/ProcessingStateChangeRequest.h"
+#include "IO/Readers.h"
 #include "IO/ShutdownRequest.h"
 #include "IO/Stream.h"
 
@@ -23,8 +23,7 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum { kIterationLimit = 8 };
 
     static Logger::Log& Log();
@@ -48,13 +47,16 @@ Test::Log()
     return log_;
 }
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), counter_(0), test_(0) {}
 
@@ -82,16 +84,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGERROR << "data: " << data << " test: " << test_ << std::endl;
 
     MessageManager mgr(data);
-    LOGERROR << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGERROR << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -150,60 +151,60 @@ struct TestData {
 
 TestData data[Test::kIterationLimit] = {
     {
-	0,
-	0,
-	false,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
+        0,
+        0,
+        false,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {1, 2, 3, 4, 5, 6, 7, 8},
     },
     {
-	0,
-	0,
-	true,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
+        0,
+        0,
+        true,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {1, 2, 3, 4, 5, 6, 7, 8},
     },
     {
-	0,
-	1,
-	false,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 1 },
+        0,
+        1,
+        false,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {1},
     },
     {
-	0,
-	1,
-	true,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 1, 2 },
+        0,
+        1,
+        true,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {1, 2},
     },
     {
-	1,
-	1,
-	false,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 2 },
+        1,
+        1,
+        false,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {2},
     },
     {
-	1,
-	1,
-	true,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 3, 4 },
+        1,
+        1,
+        true,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {3, 4},
     },
     {
-	1,
-	2,
-	false,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 2, 3},
+        1,
+        2,
+        false,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {2, 3},
     },
     {
-	1,
-	2,
-	true,
-	{ 1, 2, 3, 4, 5, 6, 7, 8 },
-	{ 3, 4, 5, 6 },
+        1,
+        2,
+        true,
+        {1, 2, 3, 4, 5, 6, 7, 8},
+        {3, 4, 5, 6},
     },
 };
 
@@ -226,9 +227,7 @@ Test::generateInput()
     alg->setMaxSampleCount(testData.maxSampleCount);
     alg->setComplexSamples(testData.complexSamples);
 
-    Video::Ref msg(Video::Make("test", vme,
-                               testData.input,
-                               testData.input + TestData::kNumSamples));
+    Video::Ref msg(Video::Make("test", vme, testData.input, testData.input + TestData::kNumSamples));
     LOGERROR << msg->dataPrinter() << std::endl;
     assertTrue(controller_->putInChannel(msg, 0));
 }
@@ -242,26 +241,22 @@ Test::testOutput(size_t counter, const Video::Ref& msg)
 
     const TestData& testData(data[counter]);
     size_t expectedSize = testData.maxSampleCount;
-    if (testData.complexSamples)
-	expectedSize *= 2;
-    if (expectedSize == 0)
-	expectedSize = TestData::kNumSamples;
+    if (testData.complexSamples) expectedSize *= 2;
+    if (expectedSize == 0) expectedSize = TestData::kNumSamples;
 
     assertEqual(expectedSize, msg->size());
 
     for (size_t index = 0; index < msg->size(); ++index) {
-	LOGERROR << index << " expected: " << int(testData.output[index])
-		 << std::endl;
-	assertEqual(int(testData.output[index]), int(msg[index]));
+        LOGERROR << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(int(testData.output[index]), int(msg[index]));
     }
 
     LOGERROR << "iteration: " << iteration_ << std::endl;
 
     if (iteration_ == kIterationLimit) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

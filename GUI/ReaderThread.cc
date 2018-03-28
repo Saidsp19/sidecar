@@ -1,11 +1,12 @@
 #include "GUI/LogUtils.h"
 
-#include "QtMonitor.h"
 #include "MessageReader.h"
+#include "QtMonitor.h"
 #include "ReaderThread.h"
 #include "ServiceEntry.h"
 
-using namespace SideCar::GUI;;
+using namespace SideCar::GUI;
+;
 
 Logger::Log&
 ReaderThread::Log()
@@ -14,8 +15,7 @@ ReaderThread::Log()
     return log_;
 }
 
-ReaderThread::ReaderThread()
-    : QThread(), serviceEntry_(0), messages_(), active_(0), mutex_()
+ReaderThread::ReaderThread() : QThread(), serviceEntry_(0), messages_(), active_(0), mutex_()
 {
     Logger::ProcLog log("ReaderThread", Log());
     LOGINFO << std::endl;
@@ -36,8 +36,7 @@ ReaderThread::~ReaderThread()
 {
     Logger::ProcLog log("~ReaderThread", Log());
     LOGINFO << this << std::endl;
-    if (isRunning())
-	stop();
+    if (isRunning()) stop();
 }
 
 void
@@ -46,15 +45,13 @@ ReaderThread::useServiceEntry(const ServiceEntry* serviceEntry)
     Logger::ProcLog log("useServiceEntry", Log());
     LOGINFO << this << " serviceEntry: " << serviceEntry << std::endl;
 
-    if (isRunning())
-	stop();
+    if (isRunning()) stop();
 
     if (serviceEntry) {
-
-	// Create a duplicate of the given ServiceEntry since we don't know its lifetime.
-	//
-	serviceEntry_.reset(serviceEntry->duplicate());
-	start();
+        // Create a duplicate of the given ServiceEntry since we don't know its lifetime.
+        //
+        serviceEntry_.reset(serviceEntry->duplicate());
+        start();
     }
 }
 
@@ -64,8 +61,8 @@ ReaderThread::stop()
     Logger::ProcLog log("stop", Log());
     LOGINFO << this << std::endl;
     if (isRunning()) {
-	quit();
-	wait();
+        quit();
+        wait();
     }
 
     serviceEntry_.reset();
@@ -108,8 +105,8 @@ ReaderThread::received(const Messages::Header::Ref& msg)
     // of flooding another thread's event queue.
     //
     if (doSend) {
-	LOGDEBUG << "data available" << std::endl;
-	emit dataAvailable();
+        LOGDEBUG << "data available" << std::endl;
+        emit dataAvailable();
     }
 }
 
@@ -122,15 +119,13 @@ ReaderThread::run()
     // Create a new MessageReader object for the thread to use to read in data from the publisher described by
     // our ServiceEntry object.
     //
-    boost::scoped_ptr<MessageReader> reader(
-	MessageReader::Make(serviceEntry_.get()));
+    boost::scoped_ptr<MessageReader> reader(MessageReader::Make(serviceEntry_.get()));
 
     // The reader belongs to our thread, so we can connect to it without queuing signals. Also, we must delete
     // it before we and our thread exits.
     //
     connect(reader.get(), SIGNAL(connected()), SIGNAL(connected()));
-    connect(reader.get(), SIGNAL(received(const Messages::Header::Ref&)),
-            SLOT(received(const Messages::Header::Ref&)));
+    connect(reader.get(), SIGNAL(received(const Messages::Header::Ref&)), SLOT(received(const Messages::Header::Ref&)));
     connect(reader.get(), SIGNAL(disconnected()), SIGNAL(disconnected()));
 
     // Run this thread's event loop so we can respond to signals from our MessageReader.

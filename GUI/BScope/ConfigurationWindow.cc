@@ -14,14 +14,12 @@ using namespace SideCar::GUI::BScope;
 Logger::Log&
 ConfigurationWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("bscope.ConfigurationWindow");
+    static Logger::Log& log_ = Logger::Log::Find("bscope.ConfigurationWindow");
     return log_;
 }
 
-ConfigurationWindow::ConfigurationWindow(int shortcut)
-    : ToolWindowBase("ConfigurationWindow", "Settings", shortcut),
-      Ui::ConfigurationWindow()
+ConfigurationWindow::ConfigurationWindow(int shortcut) :
+    ToolWindowBase("ConfigurationWindow", "Settings", shortcut), Ui::ConfigurationWindow()
 {
     setupUi(this);
     setFixedSize();
@@ -31,8 +29,7 @@ ConfigurationWindow::ConfigurationWindow(int shortcut)
     rangeRingsAzimuthMajor_->setSuffix(degreeSuffix);
 
     updateDistanceUnits(QString(' ') + getApp()->getDistanceUnits());
-    connect(getApp(), SIGNAL(distanceUnitsChanged(const QString&)),
-            SLOT(updateDistanceUnits(const QString&)));
+    connect(getApp(), SIGNAL(distanceUnitsChanged(const QString&)), SLOT(updateDistanceUnits(const QString&)));
 
     CLUT::AddTypeNames(videoColorMap_);
 }
@@ -40,33 +37,25 @@ ConfigurationWindow::ConfigurationWindow(int shortcut)
 void
 ConfigurationWindow::on_distanceUnitsKm__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setDistanceUnits("km");
-    }
+    if (enabled) { getApp()->setDistanceUnits("km"); }
 }
 
 void
 ConfigurationWindow::on_distanceUnitsNm__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setDistanceUnits("nm");
-    }
+    if (enabled) { getApp()->setDistanceUnits("nm"); }
 }
 
 void
 ConfigurationWindow::on_angleFormatMinSec__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setAngleFormatting(AppBase::kDegreesMinutesSeconds);
-    }
+    if (enabled) { getApp()->setAngleFormatting(AppBase::kDegreesMinutesSeconds); }
 }
 
 void
 ConfigurationWindow::on_angleFormatDecimal__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setAngleFormatting(AppBase::kDecimal);
-    }
+    if (enabled) { getApp()->setAngleFormatting(AppBase::kDecimal); }
 }
 
 void
@@ -80,12 +69,11 @@ ConfigurationWindow::updateDistanceUnits(const QString& units)
 void
 ConfigurationWindow::on_videoColorMapEnabled__toggled(bool enabled)
 {
-    videoColor_->setEnabled(! enabled);
+    videoColor_->setEnabled(!enabled);
 }
 
 void
 ConfigurationWindow::on_videoColorMap__currentIndexChanged(int index)
 {
-    videoDesaturateEnabled_->setEnabled(
-	CLUT::HasSaturation(CLUT::Type(index)));
+    videoDesaturateEnabled_->setEnabled(CLUT::HasSaturation(CLUT::Type(index)));
 }

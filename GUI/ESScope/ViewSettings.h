@@ -14,42 +14,36 @@ namespace ESScope {
 class RadarSettings;
 
 struct ViewBounds {
-
     ViewBounds() {}
 
-    ViewBounds(double x1, double x2, double y1, double y2)
-	: xMin(x1), xMax(x2), yMin(y1), yMax(y2) {}
+    ViewBounds(double x1, double x2, double y1, double y2) : xMin(x1), xMax(x2), yMin(y1), yMax(y2) {}
 
-    bool viewingX(double value) const
-	{ return value >= xMin && value <= xMax; }
+    bool viewingX(double value) const { return value >= xMin && value <= xMax; }
 
-    bool viewingY(double value) const
-	{ return value >= yMin && value <= yMax; }
+    bool viewingY(double value) const { return value >= yMin && value <= yMax; }
 
     bool operator==(const ViewBounds& rhs) const
-	{ return xMin == rhs.xMin && xMax == rhs.xMax &&
-		yMin == rhs.yMin && yMax == rhs.yMax; }
+    {
+        return xMin == rhs.xMin && xMax == rhs.xMax && yMin == rhs.yMin && yMax == rhs.yMax;
+    }
 
-    bool operator!=(const ViewBounds& rhs) const
-	{ return ! operator==(rhs); }
+    bool operator!=(const ViewBounds& rhs) const { return !operator==(rhs); }
 
     double xMin, xMax, yMin, yMax;
 };
 
-class ViewSettings : public QObject
-{
+class ViewSettings : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     using ViewBoundsStack = std::vector<ViewBounds>;
 
     void setViewBounds(const ViewBounds& viewBounds);
 
     void push(const ViewBounds& viewBounds);
 
-    void push(double xMin, double xMax, double yMin, double yMax)
-	{ push(ViewBounds(xMin, xMax, yMin, yMax)); } 
+    void push(double xMin, double xMax, double yMin, double yMax) { push(ViewBounds(xMin, xMax, yMin, yMax)); }
 
     const ViewBounds& getViewBounds() const { return stack_.back(); }
 
@@ -58,26 +52,25 @@ public:
     double getXMax() const { return stack_.back().xMax; }
 
     double getXSpan() const { return getXMax() - getXMin(); }
-    
+
     double getYMin() const { return stack_.back().yMin; }
 
     double getYMax() const { return stack_.back().yMax; }
 
     double getYSpan() const { return getYMax() - getYMin(); }
-    
+
     bool viewingX(double x) const { return stack_.back().viewingX(x); }
 
     bool viewingY(double y) const { return stack_.back().viewingY(y); }
 
-    bool canPop() const
-	{ return stack_.size() > 1 || stack_.back() != home_ ; }
+    bool canPop() const { return stack_.size() > 1 || stack_.back() != home_; }
 
 signals:
 
     void viewChanged();
 
 public slots:
-    
+
     void pop();
 
     void popAll();
@@ -89,14 +82,11 @@ private slots:
     void radarSettingsChanged();
 
 protected:
-
-    ViewSettings(QObject* parent, const RadarSettings* radarSettings,
-                 const ViewBounds& initView);
+    ViewSettings(QObject* parent, const RadarSettings* radarSettings, const ViewBounds& initView);
 
     const RadarSettings* radarSettings_;
 
 private:
-
     virtual bool updateViewBounds(ViewBounds& viewBounds) = 0;
 
     ViewBoundsStack stack_;

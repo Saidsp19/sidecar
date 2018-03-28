@@ -18,9 +18,9 @@ RadarInfoWidget::Log()
     return log_;
 }
 
-RadarInfoWidget::RadarInfoWidget(QWidget* parent)
-    : Super(parent), gui_(new Ui::RadarInfoWidget), app_(AppBase::GetApp()), updateTimer_(), irigTime_(0.0),
-      createdTime_(0.0), azimuth_(0.0), hasIRIGTime_(true), updateTime_(true), updateAzimuth_(true)
+RadarInfoWidget::RadarInfoWidget(QWidget* parent) :
+    Super(parent), gui_(new Ui::RadarInfoWidget), app_(AppBase::GetApp()), updateTimer_(), irigTime_(0.0),
+    createdTime_(0.0), azimuth_(0.0), hasIRIGTime_(true), updateTime_(true), updateAzimuth_(true)
 {
     gui_->setupUi(this);
     gui_->value_->setTextFormat(Qt::PlainText);
@@ -32,34 +32,33 @@ RadarInfoWidget::RadarInfoWidget(QWidget* parent)
 void
 RadarInfoWidget::showMessageInfo(const Messages::PRIMessage::Ref& msg)
 {
-    if (! msg) return;
+    if (!msg) return;
 
     if (msg->hasIRIGTime()) {
-	if (! hasIRIGTime_) {
-	    hasIRIGTime_ = true;
-	    updateTime_ = true;
-	}
+        if (!hasIRIGTime_) {
+            hasIRIGTime_ = true;
+            updateTime_ = true;
+        }
 
-	if (irigTime_ != msg->getRIUInfo().irigTime) {
-	    irigTime_ = msg->getRIUInfo().irigTime;
-	    updateTime_ = true;
-	}
-    }
-    else  {
-	if (hasIRIGTime_) {
-	    hasIRIGTime_ = false;
-	    updateTime_ = true;
-	}
+        if (irigTime_ != msg->getRIUInfo().irigTime) {
+            irigTime_ = msg->getRIUInfo().irigTime;
+            updateTime_ = true;
+        }
+    } else {
+        if (hasIRIGTime_) {
+            hasIRIGTime_ = false;
+            updateTime_ = true;
+        }
 
-	if (createdTime_ != msg->getCreatedTimeStamp()) {
-	    createdTime_ = msg->getCreatedTimeStamp();
-	    updateTime_ = true;
-	}
+        if (createdTime_ != msg->getCreatedTimeStamp()) {
+            createdTime_ = msg->getCreatedTimeStamp();
+            updateTime_ = true;
+        }
     }
 
     if (azimuth_ != msg->getAzimuthStart()) {
-	azimuth_ = msg->getAzimuthStart();
-	updateAzimuth_ = true;
+        azimuth_ = msg->getAzimuthStart();
+        updateAzimuth_ = true;
     }
 }
 
@@ -79,21 +78,20 @@ RadarInfoWidget::makeLabel()
     LOGINFO << std::endl;
 
     if (updateAzimuth_) {
-	updateAzimuth_ = false;
-	azimuthText_ = QString("Az: ") + app_->getFormattedAngleRadians(azimuth_);
+        updateAzimuth_ = false;
+        azimuthText_ = QString("Az: ") + app_->getFormattedAngleRadians(azimuth_);
     }
 
     if (updateTime_) {
-	updateTime_ = false;
-	if (hasIRIGTime_) {
-	    time_t when = static_cast<time_t>(::floor(irigTime_));
-	    QDateTime dateTime;
-	    dateTime.setTime_t(when);
-	    timeText_ = QString(" IRIG: ") + dateTime.toString("hh:mm:ss UTC");
-	}
-	else {
-	    timeText_ = QString(" Local: ") + QString::fromStdString(createdTime_.hhmmss(2));
-	}
+        updateTime_ = false;
+        if (hasIRIGTime_) {
+            time_t when = static_cast<time_t>(::floor(irigTime_));
+            QDateTime dateTime;
+            dateTime.setTime_t(when);
+            timeText_ = QString(" IRIG: ") + dateTime.toString("hh:mm:ss UTC");
+        } else {
+            timeText_ = QString(" Local: ") + QString::fromStdString(createdTime_.hhmmss(2));
+        }
     }
 
     return azimuthText_ + timeText_;
@@ -105,12 +103,9 @@ RadarInfoWidget::timerEvent(QTimerEvent* event)
     static Logger::ProcLog log("timerEvent", Log());
 
     if (event->timerId() == updateTimer_.timerId()) {
-	if (needUpdate()) {
-	    refresh();
-	}
-    }
-    else {
-	Super::timerEvent(event);
+        if (needUpdate()) { refresh(); }
+    } else {
+        Super::timerEvent(event);
     }
 }
 

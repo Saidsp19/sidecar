@@ -9,16 +9,12 @@ namespace SideCar {
 namespace Algorithms {
 
 /** Simple algorithm that sets an alarm for every 10 seconds which invokes processAlarm().
-*/
-class Alarmer : public Algorithm
-{
+ */
+class Alarmer : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -46,13 +42,12 @@ public:
     void processAlarm();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
 
     /** Process messages from channel
-        
+
         \param msg the input message to process
 
         \returns true if no error; false otherwise

@@ -9,10 +9,14 @@
 
 #include "GUI/MessageList.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Messages { class MetaTypeInfo; }
+namespace Messages {
+class MetaTypeInfo;
+}
 namespace GUI {
 
 class ServiceEntry;
@@ -23,14 +27,13 @@ class ServiceEntry;
     method, which creates a new MessageReader object, hooks up its signals to the reader* slots below, and then
     starts up a new Qt event loop.
 */
-class ReaderThread : public QThread
-{
+class ReaderThread : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     /** Constructor. Initializes state. NOTE: changes thread ownership from the main thread to the this QThead
         object. Any signal/slot connections to this object will be handled by queued events.
     */
@@ -52,8 +55,7 @@ public:
 
         \return sub-type value
     */
-    const Messages::MetaTypeInfo* getMetaTypeInfo() const
-	{ return metaTypeInfo_; }
+    const Messages::MetaTypeInfo* getMetaTypeInfo() const { return metaTypeInfo_; }
 
     /** Obtain the list of data messages received from the internal MessageReader object.
      */
@@ -84,9 +86,8 @@ signals:
     void disconnected();
 
 protected:
-    
     /** Method run in a separate process. Implements QThread interface. Creates a new MessageReader object to do
-	the reading, and starts a new Qt event loop. The thread runs until stopped by the stop() method.
+        the reading, and starts a new Qt event loop. The thread runs until stopped by the stop() method.
     */
     void run();
 

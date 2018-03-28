@@ -10,7 +10,9 @@
 
 class QTimer;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -36,23 +38,14 @@ class MainWindow;
     The model manages playback start and stop for all of the held Emitter objects, and it maintains a playback clock
     which sends out wall time updates via the currentTime() signal.
 */
-class FileModel : public QAbstractTableModel
-{
+class FileModel : public QAbstractTableModel {
     Q_OBJECT
     using Super = QAbstractTableModel;
-public:
 
+public:
     /** Indices of the data columns provided by the model.
      */
-    enum Columns {
-	kEmitting = 0,
-	kName,
-	kStartTime,
-	kEndTime,
-	kDuration,
-	kSubscriberCount,
-	kNumColumns
-    };
+    enum Columns { kEmitting = 0, kName, kStartTime, kEndTime, kDuration, kSubscriberCount, kNumColumns };
 
     /** Log device for instances of this class.
 
@@ -76,7 +69,7 @@ public:
 
         \param path location of the recording directory to process
 
-	\return true if at least one Emitter object is valid
+        \return true if at least one Emitter object is valid
     */
     void beginLoad(const QString& path);
 
@@ -94,7 +87,7 @@ public:
 
         \return number of rows
     */
-    int rowCount( const QModelIndex& parent = QModelIndex()) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     /** Implementation of QAbstractItemModel method. Obtain a piece of data from the model for a particular
         location (row,column) and purpose.
@@ -119,8 +112,7 @@ public:
 
         \return value to use for the given purpose
     */
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     /** Implementation of QAbstractItemModel method. Change the data in the model at a particular location and
         display purpose.
@@ -133,8 +125,7 @@ public:
 
         \return true if the value was successfully set, false otherwise.
     */
-    bool setData(const QModelIndex& index, const QVariant& value,
-                 int role = Qt::EditRole);
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
     /** Implementation of QAbstractItemModel method. Obtain the display flags for a particular location. All
         elements have Qt::ItemIsEnabled set, and the kVisible column has Qt::ItemIsUserCheckable set.
@@ -147,13 +138,13 @@ public:
 
     /** Obtain the earliest start time for all Emitter objects.
 
-	\return earliest Time::TimeStamp value
+        \return earliest Time::TimeStamp value
     */
     const Time::TimeStamp& getStartTime() const { return startTime_; }
 
     /** Obtain the latest end time for all Emitter objects.
 
-	\return Time::TimeStamp value
+        \return Time::TimeStamp value
     */
     const Time::TimeStamp& getEndTime() const { return endTime_; }
 
@@ -188,7 +179,7 @@ private:
     QDir dir_;
 };
 
-} // end namespace AScope
+} // namespace Playback
 } // end namespace GUI
 } // end namespace SideCar
 

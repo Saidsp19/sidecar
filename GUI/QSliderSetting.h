@@ -6,17 +6,18 @@
 
 #include "GUI/IntSetting.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
-class QSliderSetting : public IntSetting
-{
+class QSliderSetting : public IntSetting {
     Q_OBJECT
     using Super = IntSetting;
-public:
 
+public:
     static Logger::Log& Log();
 
     QSliderSetting(PresetManager* mgr, QSlider* widget, bool global = false);
@@ -30,11 +31,9 @@ private slots:
     void rangeChanged(int min, int max);
 
 protected:
-    
     virtual QString makeToolTip() const;
 
 private:
-
     void valueUpdated();
 
     bool eventFilter(QObject* object, QEvent* event);

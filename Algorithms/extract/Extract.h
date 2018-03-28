@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_EXTRACT_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_EXTRACT_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_EXTRACT_H
 
 #include <list>
@@ -7,8 +7,8 @@
 #include "boost/shared_ptr.hpp"
 
 #include "Algorithms/Algorithm.h"
-#include "Parameter/Parameter.h"
 #include "Messages/BinaryVideo.h"
+#include "Parameter/Parameter.h"
 
 namespace SideCar {
 namespace Algorithms {
@@ -18,8 +18,7 @@ namespace Algorithms {
     of detections.
 
 */
-class Extract : public Algorithm
-{
+class Extract : public Algorithm {
 public:
     class Target;
     using TargetRef = boost::shared_ptr<Target>;
@@ -41,9 +40,8 @@ public:
     bool startup();
 
     bool reset();
-    
-private:
 
+private:
     /** Input processor for algorithm
 
         \param mgr object containing the encoded or native data to process
@@ -53,7 +51,7 @@ private:
     bool process(const Messages::BinaryVideo::Ref& msg);
 
     /** List of pending target extractions. An pending target is one whose end azimuth has not yet been
-	identified.
+        identified.
     */
     TargetList pending_;
 

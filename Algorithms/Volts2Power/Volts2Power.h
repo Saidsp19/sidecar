@@ -11,10 +11,8 @@ namespace Algorithms {
 /** Documentation for the algorithm. Please describe what the algorithm does, in layman's terms, and if desired,
     mathematical terms.
 */
-class Volts2Power : public Algorithm
-{
+class Volts2Power : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -30,7 +28,6 @@ public:
     bool startup();
 
 private:
-
     /** Example of a message processor that takes in Video data.
 
         \param msg the message to process

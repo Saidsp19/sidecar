@@ -17,10 +17,14 @@ class QAbstractSocket;
 class QTcpServer;
 class QTcpSocket;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Zeroconf { class Publisher; }
+namespace Zeroconf {
+class Publisher;
+}
 namespace GUI {
 
 class ServiceBrowser;
@@ -29,10 +33,8 @@ class ServiceEntry;
 /** SideCar data network writer that uses a QAbstractSocket to to the actual writing. Conforms to the interface
     required by the IO::TWriter template. Allows QAbstractSocket objects to be used in the SideCar IO framework.
 */
-class SocketWriterDevice
-{
+class SocketWriterDevice {
 public:
-
     /** Constructor.
      */
     SocketWriterDevice() : device_(0) {}
@@ -54,7 +56,6 @@ public:
     QAbstractSocket* getDevice() const { return device_; }
 
 protected:
-    
     /** Implementation of IO::TWriter API that performs writes to the network device.
 
         \param iov pointer to Unix iovec structure that contains data pointers and sizes to write
@@ -71,8 +72,7 @@ private:
 
 /** Derivation of an IO::TWriter class that uses QAbstractSocket objects to perform data writes.
  */
-class SocketWriter : public IO::TWriter<SocketWriterDevice>
-{
+class SocketWriter : public IO::TWriter<SocketWriterDevice> {
 public:
     using Super = IO::TWriter<SocketWriterDevice>;
 
@@ -82,12 +82,11 @@ public:
 /** Abstract base class for Qt data publishers. Manages a Zeroconf::Publisher to broadcast publishing
     information. Derived classes must implement the writeMessage() method.
 */
-class MessageWriter : public QObject
-{
+class MessageWriter : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Obtain the Log device to use for MessageWriter objects
 
         \return Log device
@@ -95,7 +94,7 @@ public:
     static Logger::Log& Log();
 
     ~MessageWriter();
-    
+
     /** Set the service name to publish under
 
         \param serviceName the name to publish
@@ -159,7 +158,7 @@ signals:
     void published(const QString& serviceName, const QString& serviceAddress, uint16_t port);
 
     /** Notification sent out when the MessageWriter encounters a failure. Currently this is only sent out if
-	publishing fails.
+        publishing fails.
     */
     void failure();
 
@@ -171,7 +170,6 @@ signals:
     void subscriberCountChanged(size_t count);
 
 protected:
-
     /** Constructor. Restricted to derived classes.
 
         \param serviceName name of the service to publish
@@ -205,9 +203,8 @@ protected:
     boost::shared_ptr<Zeroconf::Publisher> getPublisher() const { return publisher_; }
 
 private:
-
     /** Notification from Zeroconf::Publisher that the publish action has finished.
-        
+
         \param state true if the publishing was successful, false otherwise.
     */
     void publishedNotification(bool state);
@@ -228,20 +225,19 @@ private:
 
     Uses QTcpServer to manage socket connections. Each connection to a subscriber has its own QTcpSocket instance.
 */
-class TCPMessageWriter : public MessageWriter, public IO::ZeroconfTypes::Publisher
-{
+class TCPMessageWriter : public MessageWriter, public IO::ZeroconfTypes::Publisher {
     Q_OBJECT
     using Super = MessageWriter;
-public:
 
+public:
     /** Obtain the log device to use for TCPMessageWriter objects
-        
+
         \return Log device
     */
     static Logger::Log& Log();
 
     /** Factory method used to creates a new, initialized TCPMessageWriter.
-        
+
         \param serviceName name to publish under
 
         \param subType message type of the messages to write
@@ -251,7 +247,7 @@ public:
     static TCPMessageWriter* Make(const QString& serviceName, const std::string& subType);
 
     /** Start the QTcpServer and publish connection information.
-        
+
         \return true if successful
     */
     bool start();
@@ -284,9 +280,8 @@ private slots:
     void subscriberDisconnected();
 
 private:
-
     /** Constructor. Prohibited. Use the Make() factory method to create new instances.
-        
+
         \param serviceName name to publish under
 
         \param subType message type of the messages to write
@@ -302,36 +297,35 @@ using ServiceEntryList = QList<ServiceEntry*>;
 /** Qt message writer that uses IO::UDPSocketWriter to do the writing. Unlike TCPMessageWriter, there is nothing
     gained by using a Qt QUdpSocket to handle the data writing.
 */
-class UDPMessageWriter : public MessageWriter, public IO::ZeroconfTypes::Publisher
-{
+class UDPMessageWriter : public MessageWriter, public IO::ZeroconfTypes::Publisher {
     Q_OBJECT
     using Super = MessageWriter;
-public:
 
+public:
     /** Obtain the log device to use for objects of this class
-        
+
         \return Logger::Log reference
     */
     static Logger::Log& Log();
 
     /** Factory method used to create a new, initialized UDPMessageWriter object.
-        
+
         \param serviceName name to publish under
 
         \param subType type of the message to write
 
         \param address multicast address to use
 
-	\param port optional port value to use
+        \param port optional port value to use
 
-        \return 
+        \return
     */
     static UDPMessageWriter* Make(const QString& serviceName, const std::string& subType,
                                   const QString& multicastAddress, uint16_t port = 0);
 
     /** Implementation of the MessageWriter API. Sends the message held by the given IO::MessageManager out onto
         the network with the configured multicast address.
-        
+
         \param mgr container holding the message to write
 
         \return true if successful
@@ -352,7 +346,6 @@ private slots:
     void checkHeartBeats();
 
 private:
-
     /** Constructor. Prohibited. Use the Make() factory method to create new instances.
 
         \param serviceName name to publish under
@@ -373,13 +366,13 @@ private:
 
     IO::UDPSocketWriter writer_;
     QUdpSocket* heartBeatReader_;
-    using HeartBeatMap = std::map<QString,QTime>;
+    using HeartBeatMap = std::map<QString, QTime>;
     HeartBeatMap heartBeats_;
     size_t active_;
     QTimer* timer_;
 };
 
-} // end namespace IO
+} // namespace GUI
 } // end namespace SideCar
 
 /** \file

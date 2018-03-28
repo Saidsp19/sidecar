@@ -14,8 +14,9 @@ namespace SideCar {
 
     Parameter objects support reading and writting to/from files and sockets, in both binary and XML format.
 */
-namespace Parameter {}
+namespace Parameter {
+}
 
-} /// end namespace SideCar
+} // namespace SideCar
 
 #endif

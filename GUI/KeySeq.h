@@ -1,4 +1,4 @@
-#ifndef SIDECAR_GUI_KEYSEQ_H	// -*- C++ -*-
+#ifndef SIDECAR_GUI_KEYSEQ_H // -*- C++ -*-
 #define SIDECAR_GUI_KEYSEQ_H
 
 #include "QtCore/QMetaType"
@@ -12,10 +12,8 @@ namespace GUI {
 /** A wrapper around QKeySequence that better handles conversions to a QString than that found in QKeySequence
     when run on OS X.
 */
-class KeySeq
-{
+class KeySeq {
 public:
-
     /** Default constructor. No defined key sequence.
      */
     KeySeq();
@@ -59,13 +57,13 @@ public:
     QString asString() const;
 
 private:
-    QKeySequence key_;		///< Wrapped QKeySequence object
+    QKeySequence key_; ///< Wrapped QKeySequence object
 
     static int kMetaTypeId_;
 };
 
-}
-}
+} // namespace GUI
+} // namespace SideCar
 
 Q_DECLARE_METATYPE(SideCar::GUI::KeySeq)
 

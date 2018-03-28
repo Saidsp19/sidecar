@@ -9,8 +9,8 @@
 
 using namespace SideCar::GUI;
 
-ChannelInfoWidget::ChannelInfoWidget(QWidget* parent)
-    : Super(parent), gui_(new Ui::ChannelInfoWidget), mapper_(new QSignalMapper(this)), values_()
+ChannelInfoWidget::ChannelInfoWidget(QWidget* parent) :
+    Super(parent), gui_(new Ui::ChannelInfoWidget), mapper_(new QSignalMapper(this)), values_()
 {
     gui_->setupUi(this);
     gui_->value_->setTextFormat(Qt::PlainText);
@@ -46,13 +46,11 @@ void
 ChannelInfoWidget::setTagValue(int index, const ChannelSetting* channelSetting)
 {
     QString value;
-    if (! channelSetting->hasChannels()) {
-	value = "N/A";
-    }
-    else {
-	value = channelSetting->getValue();
-	if (value.trimmed().size() == 0)
-	    value = "-";
+    if (!channelSetting->hasChannels()) {
+        value = "N/A";
+    } else {
+        value = channelSetting->getValue();
+        if (value.trimmed().size() == 0) value = "-";
     }
 
     values_[index] = value;

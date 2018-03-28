@@ -35,40 +35,41 @@ Header::GetMessageMetaTypeInfo(ACE_InputCDR& cdr)
     return MetaTypeInfo::Find(tmp.guid_.getMessageTypeKey());
 }
 
-Header::Header(ACE_InputCDR& cdr)
-    : metaTypeInfo_(*MetaTypeInfo::Find(MetaTypeInfo::Value::kVideo)), guid_(), createdTimeStamp_(),
-      emittedTimeStamp_(), basis_()
+Header::Header(ACE_InputCDR& cdr) :
+    metaTypeInfo_(*MetaTypeInfo::Find(MetaTypeInfo::Value::kVideo)), guid_(), createdTimeStamp_(), emittedTimeStamp_(),
+    basis_()
 {
     load(cdr);
 }
 
-Header::Header(const std::string& producer, const MetaTypeInfo& metaTypeInfo)
-    : metaTypeInfo_(metaTypeInfo), guid_(producer, metaTypeInfo), createdTimeStamp_(Time::TimeStamp::Now()),
-      emittedTimeStamp_(), basis_()
+Header::Header(const std::string& producer, const MetaTypeInfo& metaTypeInfo) :
+    metaTypeInfo_(metaTypeInfo), guid_(producer, metaTypeInfo), createdTimeStamp_(Time::TimeStamp::Now()),
+    emittedTimeStamp_(), basis_()
 {
     static Logger::ProcLog log("Header(0)", Log());
     LOGTIN << std::endl;
 }
 
-Header::Header(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const Ref& basis)
-    : metaTypeInfo_(metaTypeInfo), guid_(producer, metaTypeInfo), createdTimeStamp_(Time::TimeStamp::Now()),
-      emittedTimeStamp_(), basis_(basis)
+Header::Header(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const Ref& basis) :
+    metaTypeInfo_(metaTypeInfo), guid_(producer, metaTypeInfo), createdTimeStamp_(Time::TimeStamp::Now()),
+    emittedTimeStamp_(), basis_(basis)
 {
     static Logger::ProcLog log("Header(1)", Log());
     LOGTIN << std::endl;
 }
 
 Header::Header(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const Ref& basis,
-               MetaTypeInfo::SequenceType sequenceNumber)
-    : metaTypeInfo_(metaTypeInfo), guid_(producer, metaTypeInfo, sequenceNumber),
-      createdTimeStamp_(Time::TimeStamp::Now()), emittedTimeStamp_(), basis_(basis)
+               MetaTypeInfo::SequenceType sequenceNumber) :
+    metaTypeInfo_(metaTypeInfo),
+    guid_(producer, metaTypeInfo, sequenceNumber), createdTimeStamp_(Time::TimeStamp::Now()), emittedTimeStamp_(),
+    basis_(basis)
 {
     static Logger::ProcLog log("Header(2)", Log());
     LOGTIN << std::endl;
 }
 
-Header::Header(const MetaTypeInfo& metaTypeInfo)
-    : metaTypeInfo_(metaTypeInfo), guid_(), createdTimeStamp_(), emittedTimeStamp_(), basis_()
+Header::Header(const MetaTypeInfo& metaTypeInfo) :
+    metaTypeInfo_(metaTypeInfo), guid_(), createdTimeStamp_(), emittedTimeStamp_(), basis_()
 {
     static Logger::ProcLog log("Header(3)", Log());
     LOGTIN << std::endl;
@@ -143,9 +144,8 @@ Header::write(ACE_OutputCDR& cdr) const
 std::ostream&
 Header::printHeader(std::ostream& os) const
 {
-    return os << "GUID: " << guid_.getRepresentation()
-	      << " CTime: " << createdTimeStamp_
-	      << " ETime: " << emittedTimeStamp_;
+    return os << "GUID: " << guid_.getRepresentation() << " CTime: " << createdTimeStamp_
+              << " ETime: " << emittedTimeStamp_;
 }
 
 std::ostream&
@@ -171,10 +171,8 @@ Header::print(std::ostream& os) const
 std::ostream&
 Header::printXML(std::ostream& os) const
 {
-    os << "<msg id=\"" << guid_.getMessageSequenceNumber()
-       << "\" ctime=\"" << createdTimeStamp_
-       << "\" etime=\"" << emittedTimeStamp_
-       << "\">\n";
+    os << "<msg id=\"" << guid_.getMessageSequenceNumber() << "\" ctime=\"" << createdTimeStamp_ << "\" etime=\""
+       << emittedTimeStamp_ << "\">\n";
     printDataXML(os);
     return os << "</msg>";
 }
@@ -186,8 +184,8 @@ Header::loadXML(XmlStreamReader& xsr)
 
     int id = xsr.getAttribute("id").toInt();
     guid_.setMessageSequenceNumber(id);
-    createdTimeStamp_ = Time::TimeStamp::ParseSpecification(xsr.getAttribute("ctime").toStdString(),
-                                                            Time::TimeStamp::Min());
-    emittedTimeStamp_ = Time::TimeStamp::ParseSpecification(xsr.getAttribute("etime").toStdString(),
-                                                            Time::TimeStamp::Min());
+    createdTimeStamp_ =
+        Time::TimeStamp::ParseSpecification(xsr.getAttribute("ctime").toStdString(), Time::TimeStamp::Min());
+    emittedTimeStamp_ =
+        Time::TimeStamp::ParseSpecification(xsr.getAttribute("etime").toStdString(), Time::TimeStamp::Min());
 }

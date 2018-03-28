@@ -1,6 +1,6 @@
 #include "QtCore/QSettings"
-#include "QtGui/QApplication"
 #include "QtGui/QAction"
+#include "QtGui/QApplication"
 #include "QtGui/QDesktopWidget"
 #include "QtGui/QHBoxLayout"
 #include "QtGui/QKeyEvent"
@@ -38,12 +38,9 @@ PlayerWindow::Log()
     return log_;
 }
 
-PlayerWindow::PlayerWindow(const QList<QImage>& past, const QImage& blank,
-                           int shortcut)
-    : Super(), past_(past), scaled_(), frame_(), positioner_(0),
-      imageScaler_(new ImageScaler(this)), playTimer_(), scale_(0.0),
-      rescalingIndex_(0), panning_(false), needUpdateMaxSize_(true),
-      rescalingAll_(false)
+PlayerWindow::PlayerWindow(const QList<QImage>& past, const QImage& blank, int shortcut) :
+    Super(), past_(past), scaled_(), frame_(), positioner_(0), imageScaler_(new ImageScaler(this)), playTimer_(),
+    scale_(0.0), rescalingIndex_(0), panning_(false), needUpdateMaxSize_(true), rescalingAll_(false)
 {
     Ui::PlayerWindow gui;
     gui.setupUi(this);
@@ -57,10 +54,8 @@ PlayerWindow::PlayerWindow(const QList<QImage>& past, const QImage& blank,
 
     Configuration* configuration = App::GetApp()->getConfiguration();
     playerSettings_ = configuration->getPlayerSettings();
-    connect(playerSettings_, SIGNAL(playbackRateChanged(int)),
-            SLOT(playbackRateChanged(int)));
-    connect(playerSettings_, SIGNAL(scaleChanged(double)),
-            SLOT(setScale(double)));
+    connect(playerSettings_, SIGNAL(playbackRateChanged(int)), SLOT(playbackRateChanged(int)));
+    connect(playerSettings_, SIGNAL(scaleChanged(double)), SLOT(setScale(double)));
 
     QVBoxLayout* layout = new QVBoxLayout(centralWidget());
     layout->setMargin(0);
@@ -93,14 +88,12 @@ PlayerWindow::PlayerWindow(const QList<QImage>& past, const QImage& blank,
     toolBar->addWidget(positioner_);
     connect(positioner_, SIGNAL(started()), SLOT(start()));
     connect(positioner_, SIGNAL(stopped()), SLOT(stop()));
-    connect(positioner_, SIGNAL(positionChanged(int)),
-            SLOT(positionerValueChanged(int)));
+    connect(positioner_, SIGNAL(positionChanged(int)), SLOT(positionerValueChanged(int)));
 
-    connect(actionViewTogglePhantomCursor_, SIGNAL(toggled(bool)),
-            frame_->getPastImage(), SLOT(showPhantomCursor(bool)));
+    connect(actionViewTogglePhantomCursor_, SIGNAL(toggled(bool)), frame_->getPastImage(),
+            SLOT(showPhantomCursor(bool)));
 
-    connect(imageScaler_, SIGNAL(done(const QImage&, int)),
-            SLOT(imageScalerDone(const QImage&, int)));
+    connect(imageScaler_, SIGNAL(done(const QImage&, int)), SLOT(imageScalerDone(const QImage&, int)));
 
     setScale(playerSettings_->getScale());
 }
@@ -109,8 +102,7 @@ void
 PlayerWindow::setNormalSize(const QSize& newSize)
 {
     Logger::ProcLog log("setNormalSize", Log());
-    LOGINFO << "newSize: " << newSize.width() << 'x' << newSize.height()
-	    << std::endl;
+    LOGINFO << "newSize: " << newSize.width() << 'x' << newSize.height() << std::endl;
     normalSize_ = newSize;
     setScale(scale_);
 }
@@ -124,18 +116,16 @@ PlayerWindow::setScale(double scale)
     scale_ = scale;
     scaledSize_ = normalSize_;
     scaledSize_ *= scale_;
-    LOGDEBUG << "scaledSize: " << scaledSize_.width() << 'x'
-	     << scaledSize_.height() << std::endl;
+    LOGDEBUG << "scaledSize: " << scaledSize_.width() << 'x' << scaledSize_.height() << std::endl;
 
     frame_->setImageSize(scaledSize_);
 
-    if (! past_.empty())
-	rescaleImage(0, true);
+    if (!past_.empty()) rescaleImage(0, true);
 
     if (isVisible())
-	updateMaxSize();
+        updateMaxSize();
     else
-	needUpdateMaxSize_ = true;
+        needUpdateMaxSize_ = true;
 }
 
 void
@@ -144,36 +134,32 @@ PlayerWindow::imageScalerDone(const QImage& image, int index)
     // If the given index is larger than the current rescaling index, just forget it since it is a result from a
     // stale rescaling.
     //
-    if (index > rescalingIndex_)
-	return;
+    if (index > rescalingIndex_) return;
 
     // Be careful: the ImageScaler thread may emit a scaled image for an entry that no longer exists.
     //
     if (index >= scaled_.size()) {
-	rescalingAll_ = false;
-	return;
+        rescalingAll_ = false;
+        return;
     }
 
     // Save new scaled image, and update the view if user was looking at the old image.
     //
     scaled_[index] = image;
     int viewingIndex = positioner_->getPosition();
-    if (viewingIndex < 0)
-	viewingIndex = 0;
-    if (viewingIndex == index)
-	frame_->setImage(image);
+    if (viewingIndex < 0) viewingIndex = 0;
+    if (viewingIndex == index) frame_->setImage(image);
 
     // Scale more images until done.
     //
     if (rescalingAll_) {
-	++index;
-	if (index < scaled_.size()) {
-	    rescaleImage(index, true);
-	}
-	else {
-	    rescalingIndex_ = 0;
-	    rescalingAll_ = false;
-	}
+        ++index;
+        if (index < scaled_.size()) {
+            rescaleImage(index, true);
+        } else {
+            rescalingIndex_ = 0;
+            rescalingAll_ = false;
+        }
     }
 }
 
@@ -184,23 +170,22 @@ PlayerWindow::setFrameCount(int frameCount)
     LOGINFO << "frameCount: " << frameCount << std::endl;
 
     if (frameCount < scaled_.size()) {
-	do {
-	    scaled_.pop_back();
-	} while (frameCount < scaled_.size());
+        do {
+            scaled_.pop_back();
+        } while (frameCount < scaled_.size());
     }
 
     while (frameCount > scaled_.size()) {
-	int index = scaled_.size();
-	scaled_.push_back(past_[index]);
-	rescaleImage(index, false);
+        int index = scaled_.size();
+        scaled_.push_back(past_[index]);
+        rescaleImage(index, false);
     }
 
     if (frameCount <= positioner_->getMaximum()) {
-	positioner_->setMaximum(frameCount - 1);
-	frame_->setImage(scaled_[positioner_->getPosition()]);
-    }
-    else {
-	positioner_->setPosition(0);
+        positioner_->setMaximum(frameCount - 1);
+        frame_->setImage(scaled_[positioner_->getPosition()]);
+    } else {
+        positioner_->setPosition(0);
     }
 }
 
@@ -215,9 +200,9 @@ PlayerWindow::frameAdded(int activeFrames)
     rescaleImage(0, false);
     int viewingIndex = positioner_->getPosition();
     if (viewingIndex == -1)
-	positioner_->setPosition(0);
+        positioner_->setPosition(0);
     else
-	frame_->setImage(scaled_[positioner_->getPosition()]);
+        frame_->setImage(scaled_[positioner_->getPosition()]);
 }
 
 void
@@ -226,19 +211,19 @@ PlayerWindow::rescaleImage(int index, bool all)
     rescalingIndex_ = index;
     rescalingAll_ = all;
     if (past_[index].size() == scaledSize_)
-	imageScalerDone(past_[index], index);
+        imageScalerDone(past_[index], index);
     else
-	imageScaler_->scaleImage(past_[index], scaledSize_, index);
+        imageScaler_->scaleImage(past_[index], scaledSize_, index);
 }
 
 void
 PlayerWindow::start()
 {
-    if (! playTimer_.isActive()) {
-	if (positioner_->getPosition() != positioner_->getMaximum())
-	    positioner_->setPosition(positioner_->getMaximum());
-	playTimer_.start(playerSettings_->getPlaybackRate(), this);
-	positioner_->start();
+    if (!playTimer_.isActive()) {
+        if (positioner_->getPosition() != positioner_->getMaximum())
+            positioner_->setPosition(positioner_->getMaximum());
+        playTimer_.start(playerSettings_->getPlaybackRate(), this);
+        positioner_->start();
     }
 }
 
@@ -246,16 +231,15 @@ void
 PlayerWindow::stop()
 {
     if (playTimer_.isActive()) {
-	playTimer_.stop();
-	positioner_->stop();
+        playTimer_.stop();
+        positioner_->stop();
     }
 }
 
 void
 PlayerWindow::updateInfo()
 {
-    frame_->getPastImage()->setLabel(
-	QString("T - %1").arg(positioner_->getPosition() + 1));
+    frame_->getPastImage()->setLabel(QString("T - %1").arg(positioner_->getPosition() + 1));
 }
 
 void
@@ -263,12 +247,11 @@ PlayerWindow::playbackRateChanged(int rate)
 {
     bool restart = false;
     if (playTimer_.isActive()) {
-	playTimer_.stop();
-	restart = true;
+        playTimer_.stop();
+        restart = true;
     }
 
-    if (restart)
-	playTimer_.start(playerSettings_->getPlaybackRate(), this);
+    if (restart) playTimer_.start(playerSettings_->getPlaybackRate(), this);
 }
 
 void
@@ -324,22 +307,19 @@ void
 PlayerWindow::timerEvent(QTimerEvent* event)
 {
     if (event->timerId() == playTimer_.timerId()) {
-	event->accept();
-	int position = positioner_->getPosition() - 1;
-	if (position == -1) {
-	    if (positioner_->isLooping()) {
-		positioner_->setPosition(positioner_->getMaximum());
-	    }
-	    else {
-		stop();
-	    }
-	}
-	else {
-	    positioner_->setPosition(position);
-	}
-    }
-    else {
-	Super::timerEvent(event);
+        event->accept();
+        int position = positioner_->getPosition() - 1;
+        if (position == -1) {
+            if (positioner_->isLooping()) {
+                positioner_->setPosition(positioner_->getMaximum());
+            } else {
+                stop();
+            }
+        } else {
+            positioner_->setPosition(position);
+        }
+    } else {
+        Super::timerEvent(event);
     }
 }
 
@@ -347,8 +327,7 @@ void
 PlayerWindow::showEvent(QShowEvent* event)
 {
     Super::showEvent(event);
-    if (needUpdateMaxSize_)
-	updateMaxSize();
+    if (needUpdateMaxSize_) updateMaxSize();
 }
 
 void
@@ -362,12 +341,12 @@ void
 PlayerWindow::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	event->accept();
-	setCursor(Qt::ClosedHandCursor);
-	frame_->getPastImage()->setCursor(Qt::ClosedHandCursor);
-	update();
-	panFrom_ = event->pos();
-	panning_ = true;
+        event->accept();
+        setCursor(Qt::ClosedHandCursor);
+        frame_->getPastImage()->setCursor(Qt::ClosedHandCursor);
+        update();
+        panFrom_ = event->pos();
+        panning_ = true;
     }
 
     Super::mousePressEvent(event);
@@ -377,12 +356,12 @@ void
 PlayerWindow::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	event->accept();
-	if (panning_) {
-	    panning_ = false;
-	    setCursor(Qt::ArrowCursor);
-	    frame_->getPastImage()->setCursor(Qt::CrossCursor);
-	}
+        event->accept();
+        if (panning_) {
+            panning_ = false;
+            setCursor(Qt::ArrowCursor);
+            frame_->getPastImage()->setCursor(Qt::CrossCursor);
+        }
     }
     Super::mouseReleaseEvent(event);
 }
@@ -391,16 +370,16 @@ void
 PlayerWindow::mouseMoveEvent(QMouseEvent* event)
 {
     if (panning_) {
-	setCursor(Qt::ClosedHandCursor);
-	frame_->getPastImage()->setCursor(Qt::ClosedHandCursor);
-	QPoint panTo(event->pos());
-	int dx = panTo.x() - panFrom_.x();
-	QScrollBar* scrollBar = scrollArea_->horizontalScrollBar();
-	scrollBar->setValue(scrollBar->value() - dx);
-	int dy = panTo.y() - panFrom_.y();
-	scrollBar = scrollArea_->verticalScrollBar();
-	scrollBar->setValue(scrollBar->value() - dy);
-	panFrom_ = panTo;
+        setCursor(Qt::ClosedHandCursor);
+        frame_->getPastImage()->setCursor(Qt::ClosedHandCursor);
+        QPoint panTo(event->pos());
+        int dx = panTo.x() - panFrom_.x();
+        QScrollBar* scrollBar = scrollArea_->horizontalScrollBar();
+        scrollBar->setValue(scrollBar->value() - dx);
+        int dy = panTo.y() - panFrom_.y();
+        scrollBar = scrollArea_->verticalScrollBar();
+        scrollBar->setValue(scrollBar->value() - dy);
+        panFrom_ = panTo;
     }
 }
 
@@ -446,26 +425,23 @@ PlayerWindow::updateMaxSize()
     // If expanding, grow our window as well.
     //
     if (delta.width() > 0 || delta.height() > 0) {
+        // To be nice to users, only grow our window if the resulting growth is still on the desktop.
+        //
+        QDesktopWidget* desktop = QApplication::desktop();
+        QRect available = desktop->availableGeometry();
+        int right = frameGeometry().right();
+        if (right + delta.width() > available.right()) delta.setWidth(std::max(0, available.right() - right));
 
-	// To be nice to users, only grow our window if the resulting growth is still on the desktop.
-	//
-	QDesktopWidget* desktop = QApplication::desktop();
-	QRect available = desktop->availableGeometry();
-	int right = frameGeometry().right();
-	if (right + delta.width() > available.right())
-	    delta.setWidth(std::max(0, available.right() - right));
+        int bottom = frameGeometry().bottom();
+        if (bottom + delta.height() > available.bottom()) delta.setHeight(std::max(0, available.bottom() - bottom));
 
-	int bottom = frameGeometry().bottom();
-	if (bottom + delta.height() > available.bottom())
-	    delta.setHeight(std::max(0, available.bottom() - bottom));
-
-	if (delta.width() > 0 || delta.height() > 0) {
-	    QSize newSize(size());
-	    newSize += delta;
-	    LOGDEBUG << "resize: " << newSize << std::endl;
-	    resize(newSize);
-	    LOGDEBUG << "new size: " << size() << std::endl;
-	}
+        if (delta.width() > 0 || delta.height() > 0) {
+            QSize newSize(size());
+            newSize += delta;
+            LOGDEBUG << "resize: " << newSize << std::endl;
+            resize(newSize);
+            LOGDEBUG << "new size: " << size() << std::endl;
+        }
     }
 }
 
@@ -473,8 +449,7 @@ void
 PlayerWindow::saveToSettings(QSettings& settings)
 {
     Super::saveToSettings(settings);
-    settings.setValue("showPhantomCursor",
-                      actionViewTogglePhantomCursor_->isChecked());
+    settings.setValue("showPhantomCursor", actionViewTogglePhantomCursor_->isChecked());
 }
 
 void

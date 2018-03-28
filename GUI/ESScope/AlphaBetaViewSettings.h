@@ -7,16 +7,13 @@ namespace SideCar {
 namespace GUI {
 namespace ESScope {
 
-class AlphaBetaViewSettings : public ViewSettings
-{
+class AlphaBetaViewSettings : public ViewSettings {
     using Super = ViewSettings;
-public:
 
-    AlphaBetaViewSettings(QObject* parent,
-                          const RadarSettings* radarSettings);
+public:
+    AlphaBetaViewSettings(QObject* parent, const RadarSettings* radarSettings);
 
 private:
-
     bool updateViewBounds(ViewBounds& viewBounds);
 };
 

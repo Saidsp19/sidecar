@@ -1,5 +1,5 @@
-#include <iostream>
 #include "Writers.h"
+#include <iostream>
 
 using namespace Logger;
 using namespace Logger::Writers;

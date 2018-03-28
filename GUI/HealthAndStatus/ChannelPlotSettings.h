@@ -8,7 +8,9 @@
 
 class QDialog;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace HealthAndStatus {
@@ -16,28 +18,24 @@ namespace HealthAndStatus {
 class ChannelPlotWidget;
 class ConfigurationWindow;
 
-class ChannelPlotSettings : public SettingsBlock
-{
+class ChannelPlotSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
 
-    ChannelPlotSettings(PresetManager* presetManager, QObject* parent,
-                        const QString& name);
+    ChannelPlotSettings(PresetManager* presetManager, QObject* parent, const QString& name);
 
     const QString& getName() const { return name_; }
 
     void connectToWidget(ChannelPlotWidget* widget);
 
-    const QColor& getSamplesColor() const
-	{ return samplesColor_.getValue(); }
+    const QColor& getSamplesColor() const { return samplesColor_.getValue(); }
 
     int getAlgorithm() const { return algorithm_.getValue(); }
 
-    int getRunningMedianWindowSize() const
-	{ return runningMedianWindowSize_.getValue(); }
+    int getRunningMedianWindowSize() const { return runningMedianWindowSize_.getValue(); }
 
     int getMessageDecimation() const { return messageDecimation_.getValue(); }
 

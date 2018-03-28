@@ -9,10 +9,8 @@
 using namespace SideCar;
 using namespace SideCar::GUI::PPIDisplay;
 
-VideoOffscreenBuffer::VideoOffscreenBuffer(double rangeMax, int width,
-                                           int height, int textureType)
-    : Super(App::GetApp()->getConfiguration()->getVideoImaging(), rangeMax,
-            width, height, textureType)
+VideoOffscreenBuffer::VideoOffscreenBuffer(double rangeMax, int width, int height, int textureType) :
+    Super(App::GetApp()->getConfiguration()->getVideoImaging(), rangeMax, width, height, textureType)
 {
     ;
 }

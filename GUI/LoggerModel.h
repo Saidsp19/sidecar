@@ -5,22 +5,23 @@
 #include "QtCore/QHash"
 #include "QtCore/QString"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
 class LoggerTreeItem;
 
-class LoggerModel : public QAbstractItemModel
-{
+class LoggerModel : public QAbstractItemModel {
     Q_OBJECT
     using Super = QAbstractItemModel;
-public:
 
-    using ItemHash = QHash<QString,LoggerTreeItem*>;
+public:
+    using ItemHash = QHash<QString, LoggerTreeItem*>;
 
     static Logger::Log& Log();
-    
+
     LoggerModel(QObject* parent = 0);
 
     ~LoggerModel();
@@ -31,18 +32,15 @@ public:
 
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     QVariant data(const QModelIndex& index, int role) const;
 
     Qt::ItemFlags flags(const QModelIndex& index) const;
 
-    bool setData(const QModelIndex& index, const QVariant& value,
-                 int role = Qt::EditRole);
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex& parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
 
     QModelIndex parent(const QModelIndex& index) const;
 
@@ -55,9 +53,8 @@ signals:
 private slots:
 
     void doRecordNewDevice(const QString& fulllName);
-    
-private:
 
+private:
     LoggerTreeItem* getTreeItem(const QModelIndex& index) const;
 
     LoggerTreeItem* addDevice(const std::string& name);

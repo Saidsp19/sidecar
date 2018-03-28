@@ -13,10 +13,9 @@ namespace Zeroconf {
     ServiceEntry::resolve(). This queries the multicast DNS server running locally, which returns the host/port
     connection pair.
 */
-class ResolvedEntry
-{
+class ResolvedEntry {
 public:
-    using StringMap = std::map<std::string,std::string>;
+    using StringMap = std::map<std::string, std::string>;
 
     /** Constructor. Fills in a new ResolvedEntry object with information from the mdns server.
 
@@ -38,7 +37,7 @@ public:
         \return full name
     */
     const std::string& getFullName() const { return fullName_; }
-    
+
     const std::string& getNativeHost() const { return nativeHost_; }
 
     /** Obtain the host where the service is running
@@ -58,7 +57,7 @@ public:
         \return read-only string map
     */
     const StringMap& getTextEntries() const { return textEntries_; }
-    
+
     /** Determine if a key exist in the TXT record
 
         \param key the value to search for
@@ -68,7 +67,7 @@ public:
         \return true if key found, false otherwise
     */
     bool hasTextEntry(const std::string& key, std::string* value = 0) const;
-    
+
     /** Obtain the value in a TXT record for a given key.
 
         \param key the value to search for
@@ -78,7 +77,6 @@ public:
     std::string getTextEntry(const std::string& key) const;
 
 private:
-
     /** Recreate the textEntries_ attribute with values from a resolved callback.
 
         \param textSize number of bytes in the TXT record

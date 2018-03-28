@@ -8,11 +8,9 @@
 namespace SideCar {
 namespace GUI {
 
-class QGroupBoxSetting : public BoolSetting
-{
+class QGroupBoxSetting : public BoolSetting {
 public:
-    QGroupBoxSetting(PresetManager* mgr, QGroupBox* widget,
-                     bool global = false);
+    QGroupBoxSetting(PresetManager* mgr, QGroupBox* widget, bool global = false);
 };
 
 } // end namespace GUI

@@ -4,8 +4,8 @@
 #include "QtCore/QTimerEvent"
 
 #include "GUI/BugPlotEmitterSettings.h"
-#include "GUI/PhantomCursorImaging.h"
 #include "GUI/LogUtils.h"
+#include "GUI/PhantomCursorImaging.h"
 
 #include "App.h"
 #include "Configuration.h"
@@ -17,7 +17,7 @@
 
 using namespace SideCar::GUI::BScope;
 
-static int kUpdateRate = 33;	// msecs between update() calls (~30 FPS)
+static int kUpdateRate = 33; // msecs between update() calls (~30 FPS)
 
 Logger::Log&
 MagnifierView::Log()
@@ -26,43 +26,36 @@ MagnifierView::Log()
     return log_;
 }
 
-MagnifierView::MagnifierView(PPIWidget* contents, QWidget* parent)
-    : QGLWidget(parent, contents), contents_(contents), updateTimer_(),
-      zoomPower_(0), cursorPosition_(), panning_(false),
-      showPhantomCursor_(true), showCursorPosition_(true)
+MagnifierView::MagnifierView(PPIWidget* contents, QWidget* parent) :
+    QGLWidget(parent, contents), contents_(contents), updateTimer_(), zoomPower_(0), cursorPosition_(), panning_(false),
+    showPhantomCursor_(true), showCursorPosition_(true)
 {
     App* app = App::GetApp();
     setCursor(Qt::CrossCursor);
     setAttribute(Qt::WA_OpaquePaintEvent, true);
     setFocusPolicy(Qt::ClickFocus);
 
-    phantomCursorImaging_ =
-	app->getConfiguration()->getPhantomCursorImaging();
-    bugPlotEmitterSettings_ =
-	app->getConfiguration()->getBugPlotEmitterSettings();
+    phantomCursorImaging_ = app->getConfiguration()->getPhantomCursorImaging();
+    bugPlotEmitterSettings_ = app->getConfiguration()->getBugPlotEmitterSettings();
 
-    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)),
-            SLOT(setPhantomCursor(const QPointF&)));
-    connect(this, SIGNAL(currentCursorPosition(const QPointF&)), app,
-            SLOT(setPhantomCursor(const QPointF&)));
+    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)), SLOT(setPhantomCursor(const QPointF&)));
+    connect(this, SIGNAL(currentCursorPosition(const QPointF&)), app, SLOT(setPhantomCursor(const QPointF&)));
     viewSettings_ = app->getConfiguration()->getViewSettings();
 }
 
 void
 MagnifierView::setPhantomCursor(const QPointF& pos)
 {
-    phantomCursor_ = QPointF(
-	viewSettings_->azimuthFromParametric(pos.x()),
-	viewSettings_->rangeFromParametric(pos.y()));
+    phantomCursor_ =
+        QPointF(viewSettings_->azimuthFromParametric(pos.x()), viewSettings_->rangeFromParametric(pos.y()));
 }
 
 void
-MagnifierView::setBounds(double xCenter, double yCenter, double xScale,
-                         double yScale)
+MagnifierView::setBounds(double xCenter, double yCenter, double xScale, double yScale)
 {
     Logger::ProcLog log("setBounds", Log());
-    LOGINFO << "xCenter: " << xCenter << " yCenter: " << yCenter << " xScale: "
-            << xScale << " yScale: " << yScale << std::endl;
+    LOGINFO << "xCenter: " << xCenter << " yCenter: " << yCenter << " xScale: " << xScale << " yScale: " << yScale
+            << std::endl;
     xCenter_ = xCenter;
     yCenter_ = yCenter;
     xScale_ = xScale;
@@ -113,8 +106,8 @@ MagnifierView::paintGL()
     glLoadIdentity();
     glOrtho(xMin_, xMax_, yMin_, yMax_, -1.0, 1.0);
     contents_->renderScene(this, PPIWidget::kMagnifierWindow);
-    if (! underMouse() && ! panning_ && showPhantomCursor_)
-	phantomCursorImaging_->drawCursor(phantomCursor_, xZoom_, yZoom_);
+    if (!underMouse() && !panning_ && showPhantomCursor_)
+        phantomCursorImaging_->drawCursor(phantomCursor_, xZoom_, yZoom_);
 }
 
 void
@@ -122,8 +115,7 @@ MagnifierView::showEvent(QShowEvent* event)
 {
     Logger::ProcLog log("showEvent", Log());
     LOGINFO << std::endl;
-    if (! updateTimer_.isActive())
-	updateTimer_.start(kUpdateRate, this);
+    if (!updateTimer_.isActive()) updateTimer_.start(kUpdateRate, this);
     Super::showEvent(event);
 }
 
@@ -132,8 +124,7 @@ MagnifierView::closeEvent(QCloseEvent* event)
 {
     Logger::ProcLog log("closeEvent", Log());
     LOGINFO << std::endl;
-    if (updateTimer_.isActive())
-	updateTimer_.stop();
+    if (updateTimer_.isActive()) updateTimer_.stop();
     Super::closeEvent(event);
 }
 
@@ -141,22 +132,21 @@ void
 MagnifierView::timerEvent(QTimerEvent* event)
 {
     if (event->timerId() == updateTimer_.timerId()) {
-	update();
-	if (underMouse()) {
-	    phantomCursor_ = phantomCursorImaging_->InvalidCursor();
-	    QPoint newMouse = mapFromGlobal(QCursor::pos());
-	    if (newMouse != lastMouse_) {
-		lastMouse_ = newMouse;
-		double rx = xMin_ + lastMouse_.x() * xZoom_;
-		double ry = yMax_ - lastMouse_.y() * yZoom_;
-		CursorPosition pos(viewSettings_->azimuthToParametric(rx),
-                                   viewSettings_->rangeToParametric(ry),
-                                   rx, ry);
-		contents_->updateCursorPosition(pos);
-		setCursorPosition(pos.getToolTip());
-		emit currentCursorPosition(pos.getXY());
-	    }
-	}
+        update();
+        if (underMouse()) {
+            phantomCursor_ = phantomCursorImaging_->InvalidCursor();
+            QPoint newMouse = mapFromGlobal(QCursor::pos());
+            if (newMouse != lastMouse_) {
+                lastMouse_ = newMouse;
+                double rx = xMin_ + lastMouse_.x() * xZoom_;
+                double ry = yMax_ - lastMouse_.y() * yZoom_;
+                CursorPosition pos(viewSettings_->azimuthToParametric(rx), viewSettings_->rangeToParametric(ry), rx,
+                                   ry);
+                contents_->updateCursorPosition(pos);
+                setCursorPosition(pos.getToolTip());
+                emit currentCursorPosition(pos.getXY());
+            }
+        }
     }
     Super::timerEvent(event);
 }
@@ -265,21 +255,18 @@ void
 MagnifierView::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	if (event->modifiers() == Qt::ShiftModifier) {
-	    event->accept();
-	    setCursor(Qt::ClosedHandCursor);
-	    panFrom_ = event->pos();
-	    panning_ = true;
-	}
-	else if (event->modifiers() == Qt::ControlModifier) {
-	    event->accept();
-	    double azimuth = xMin_ + event->x() * xZoom_;
-	    double range = yMax_ - event->y() * yZoom_;
-	    Messages::BugPlot::Ref msg = bugPlotEmitterSettings_->addBugPlot(
-		range, azimuth, 0.0);
-	    if (msg)
-		App::GetApp()->getHistory()->addBugPlot(msg);
-	}
+        if (event->modifiers() == Qt::ShiftModifier) {
+            event->accept();
+            setCursor(Qt::ClosedHandCursor);
+            panFrom_ = event->pos();
+            panning_ = true;
+        } else if (event->modifiers() == Qt::ControlModifier) {
+            event->accept();
+            double azimuth = xMin_ + event->x() * xZoom_;
+            double range = yMax_ - event->y() * yZoom_;
+            Messages::BugPlot::Ref msg = bugPlotEmitterSettings_->addBugPlot(range, azimuth, 0.0);
+            if (msg) App::GetApp()->getHistory()->addBugPlot(msg);
+        }
     }
 
     Super::mousePressEvent(event);
@@ -288,17 +275,15 @@ MagnifierView::mousePressEvent(QMouseEvent* event)
 void
 MagnifierView::mouseMoveEvent(QMouseEvent* event)
 {
-    if (event->modifiers() == Qt::ShiftModifier && ! panning_) {
-	setCursor(Qt::OpenHandCursor);
-    }
+    if (event->modifiers() == Qt::ShiftModifier && !panning_) { setCursor(Qt::OpenHandCursor); }
 
     if (panning_) {
-	setCursor(Qt::ClosedHandCursor);
-	QPoint panTo(event->pos());
-	double dx = (panTo.x() - panFrom_.x()) * xZoom_;
-	double dy = (panTo.y() - panFrom_.y()) * yZoom_;
-	panFrom_ = panTo;
-	pan(-dx, dy);
+        setCursor(Qt::ClosedHandCursor);
+        QPoint panTo(event->pos());
+        double dx = (panTo.x() - panFrom_.x()) * xZoom_;
+        double dy = (panTo.y() - panFrom_.y()) * yZoom_;
+        panFrom_ = panTo;
+        pan(-dx, dy);
     }
 
     Super::mouseMoveEvent(event);
@@ -308,13 +293,12 @@ void
 MagnifierView::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-	setCursor(Qt::CrossCursor);
-	event->accept();
-	if (panning_) {
-	    panning_ = false;
-	    if (event->modifiers() == Qt::ShiftModifier)
-		setCursor(Qt::OpenHandCursor);
-	}
+        setCursor(Qt::CrossCursor);
+        event->accept();
+        if (panning_) {
+            panning_ = false;
+            if (event->modifiers() == Qt::ShiftModifier) setCursor(Qt::OpenHandCursor);
+        }
     }
     Super::mouseReleaseEvent(event);
 }
@@ -339,13 +323,11 @@ void
 MagnifierView::keyPressEvent(QKeyEvent* event)
 {
     if (QApplication::mouseButtons() == Qt::LeftButton) {
-	setCursor(Qt::ClosedHandCursor);
-    }
-    else if (event->key() == Qt::Key_Shift) {
-	setCursor(Qt::OpenHandCursor);
-    }
-    else {
-	setCursor(Qt::CrossCursor);
+        setCursor(Qt::ClosedHandCursor);
+    } else if (event->key() == Qt::Key_Shift) {
+        setCursor(Qt::OpenHandCursor);
+    } else {
+        setCursor(Qt::CrossCursor);
     }
     Super::keyPressEvent(event);
 }
@@ -354,9 +336,9 @@ void
 MagnifierView::keyReleaseEvent(QKeyEvent* event)
 {
     if (QApplication::mouseButtons() == Qt::LeftButton)
-	setCursor(Qt::ClosedHandCursor);
+        setCursor(Qt::ClosedHandCursor);
     else
-	setCursor(Qt::CrossCursor);
+        setCursor(Qt::CrossCursor);
     Super::keyPressEvent(event);
 }
 
@@ -366,7 +348,6 @@ MagnifierView::setShowPhantomCursor(bool state)
     showPhantomCursor_ = state;
     update();
 }
-
 
 void
 MagnifierView::leaveEvent(QEvent* event)
@@ -380,20 +361,17 @@ MagnifierView::setShowCursorPosition(bool state)
 {
     showCursorPosition_ = state;
     setToolTip("");
-    if (state)
-	setToolTip(cursorPosition_);
+    if (state) setToolTip(cursorPosition_);
 }
 
 void
 MagnifierView::setCursorPosition(const QString& value)
 {
     if (value != cursorPosition_) {
-	cursorPosition_ = value;
-	if (showCursorPosition_)
-	    setToolTip(cursorPosition_);
-    }
-    else {
-	setToolTip("");
-	setToolTip(value);
+        cursorPosition_ = value;
+        if (showCursorPosition_) setToolTip(cursorPosition_);
+    } else {
+        setToolTip("");
+        setToolTip(value);
     }
 }

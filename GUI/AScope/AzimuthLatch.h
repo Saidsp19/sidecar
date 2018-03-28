@@ -14,16 +14,14 @@ namespace GUI {
 
 namespace AScope {
 
-class AzimuthLatch : public QWidget, private Ui_AzimuthLatch
-{
+class AzimuthLatch : public QWidget, private Ui_AzimuthLatch {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     AzimuthLatch(QWidget* parent = 0);
 
-    void setConfiguration(bool enabled, double azimuth, bool relatch,
-                          bool caught, const QStringList& channels,
+    void setConfiguration(bool enabled, double azimuth, bool relatch, bool caught, const QStringList& channels,
                           const QString& active);
 
     bool isEnabled() const { return enabled_->isChecked(); }
@@ -38,15 +36,13 @@ public:
 
 signals:
 
-    void configurationChanged(bool enabled, double azimuth, bool relatch,
-                              const QString& channel);
+    void configurationChanged(bool enabled, double azimuth, bool relatch, const QString& channel);
 
 private slots:
 
     void handleChange();
 
 private:
-
     void updateCaughtIndicator(bool caught);
 
     double lastAzimuth_;

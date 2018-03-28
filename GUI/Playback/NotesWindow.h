@@ -12,15 +12,14 @@ namespace Playback {
 /** Simple window which shows the contents of the 'notes.txt' file from a recording directory. Presents a
     read-only version of the file.
 */
-class NotesWindow : public QWidget, private Ui::NotesWindow
-{
+class NotesWindow : public QWidget, private Ui::NotesWindow {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     /** Constructor. Initializes the window and loads in the 'notes.txt' file.
 
-	\param recordingDir the directory where the notes file is located
+        \param recordingDir the directory where the notes file is located
     */
     NotesWindow(const QString& recordingDir);
 };

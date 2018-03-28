@@ -11,12 +11,11 @@ namespace ESScope {
 
 class AlphaBetaWidget;
 
-class AlphaBetaView : public XYView
-{
+class AlphaBetaView : public XYView {
     Q_OBJECT
     using Super = XYView;
-public:
 
+public:
     AlphaBetaView(QWidget* parent, ViewSettings* viewSettings);
 
     AlphaBetaWidget* getDisplay() const;

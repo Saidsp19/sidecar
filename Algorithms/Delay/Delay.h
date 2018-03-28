@@ -4,9 +4,9 @@
 #include "boost/scoped_ptr.hpp"
 
 #include "Algorithms/Algorithm.h"
+#include "Messages/BinaryVideo.h"
 #include "Messages/PRIMessage.h"
 #include "Messages/Video.h"
-#include "Messages/BinaryVideo.h"
 #include "Parameter/Parameter.h"
 
 #include <deque>
@@ -17,16 +17,12 @@ namespace Algorithms {
 /** Documentation for the algorithm Delay. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class Delay : public Algorithm
-{
+class Delay : public Algorithm {
     using Super = Algorithm;
     using MessageQueue = std::deque<Messages::PRIMessage::Ref>;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -50,7 +46,6 @@ public:
     bool shutdown();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);

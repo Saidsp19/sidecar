@@ -1,7 +1,7 @@
 #include "boost/bind.hpp"
 
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -17,10 +17,10 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-RGBConverter::RGBConverter(Controller& controller, Logger::Log& log)
-    : Super(controller, log, kDefaultEnabled, kDefaultCpiSpan),
-      min_(Parameter::PositiveIntValue::Make("min", "Minimum value of range to normalize on<br>", kDefaultMin)), 
-      max_(Parameter::PositiveIntValue::Make("max", "Maximum value of range to normalize on<br>", kDefaultMax))
+RGBConverter::RGBConverter(Controller& controller, Logger::Log& log) :
+    Super(controller, log, kDefaultEnabled, kDefaultCpiSpan),
+    min_(Parameter::PositiveIntValue::Make("min", "Minimum value of range to normalize on<br>", kDefaultMin)),
+    max_(Parameter::PositiveIntValue::Make("max", "Maximum value of range to normalize on<br>", kDefaultMax))
 {
     cpiSpan_->connectChangedSignalTo(boost::bind(&RGBConverter::cpiSpanChanged, this, _1));
 }
@@ -47,7 +47,7 @@ RGBConverter::shutdown()
 // values composing this CPI.
 //
 bool
-RGBConverter::processCPI() 
+RGBConverter::processCPI()
 {
     static Logger::ProcLog log("processCPI", getLog());
     LOGINFO << std::endl;
@@ -60,9 +60,9 @@ RGBConverter::processCPI()
         return true;
     }
 
-    std::deque< Messages::Video::Ref > msg_buffer_;
-    for(size_t i = 0; i < buffer_.size(); i++) {
-	msg_buffer_.push_back(boost::dynamic_pointer_cast<Messages::Video>(buffer_[i]));
+    std::deque<Messages::Video::Ref> msg_buffer_;
+    for (size_t i = 0; i < buffer_.size(); i++) {
+        msg_buffer_.push_back(boost::dynamic_pointer_cast<Messages::Video>(buffer_[i]));
     }
 
     size_t msg_size = msg_buffer_.front()->size();
@@ -84,9 +84,9 @@ RGBConverter::processCPI()
 
     // Compute where to center the windows for the RGB calculations
     //
-    int K   = int(::ceil(cpiSpan / 3));
-    int R   = int(::floor(K / 2));
-    int len = 2*R + 1;
+    int K = int(::ceil(cpiSpan / 3));
+    int R = int(::floor(K / 2));
+    int len = 2 * R + 1;
 
     uint16_t encoded;
     uint16_t r_short;
@@ -97,27 +97,26 @@ RGBConverter::processCPI()
     //
     int pR = K;
     int pG = 0;
-    int pB = int(::ceil(2.0*cpiSpan / 3.0));
- 
+    int pB = int(::ceil(2.0 * cpiSpan / 3.0));
+
     bool rc = true;
 
     // Compute the summations
     //
     for (size_t i = 0; i < msg_size; i++) {
+        r = g = b = 0.0;
 
-	r = g = b = 0.0;
-	
         // Handle special case where pivot point is zero and thus wraps around the buffer
         //
         g = msg_buffer_[pG][i];
-        for(int j = 0; j < R; j++) {
+        for (int j = 0; j < R; j++) {
             g += msg_buffer_[cpiSpan - 1 - j][i];
             g += msg_buffer_[1 + j][i];
         }
 
         // Compute summations for other R and B windows
         //
-        for(int j = 0; j < len; j++) {
+        for (int j = 0; j < len; j++) {
             r += msg_buffer_[pR - R + j][i];
             b += msg_buffer_[pB - R + j][i];
         }
@@ -133,14 +132,14 @@ RGBConverter::processCPI()
         r = 20.0 * ::log10(r);
         g = 20.0 * ::log10(g);
         b = 20.0 * ::log10(b);
-   
+
         // Normalize the values, capping vals that fall below/above the min/max user-specified values
         //
         r -= min;
         g -= min;
         b -= min;
-    
-	r /= span;
+
+        r /= span;
         g /= span;
         b /= span;
 
@@ -169,8 +168,8 @@ RGBConverter::processCPI()
 
     // Send the output message out
     //
-    rc = send(out); 
-  
+    rc = send(out);
+
     return rc;
 }
 
@@ -184,7 +183,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[CPIAlgorithm::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[CPIAlgorithm::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 
@@ -195,4 +194,3 @@ RGBConverterMake(Controller& controller, Logger::Log& log)
 {
     return new RGBConverter(controller, log);
 }
-

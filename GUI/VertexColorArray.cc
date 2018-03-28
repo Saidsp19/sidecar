@@ -1,27 +1,23 @@
-#include "LogUtils.h"
 #include "VertexColorArray.h"
+#include "LogUtils.h"
 
 using namespace SideCar::GUI;
 
 Logger::Log&
 VertexColorArray::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.VertexColorArray");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.VertexColorArray");
     return log_;
 }
 
-VertexColorArray::VertexColorArray()
-    : vertices_(), stride_(0)
+VertexColorArray::VertexColorArray() : vertices_(), stride_(0)
 {
     static Logger::ProcLog log("VertexColorArray", Log());
     vertices_.reserve(4096);
     vertices_.push_back(Vertex(0, 0));
     vertices_.push_back(Vertex(0, 0));
-    stride_ = reinterpret_cast<char*>(&vertices_[1]) -
-	reinterpret_cast<char*>(&vertices_[0]);
-    LOGINFO << "stride: " << stride_ << " sizeof(VertexColor): "
-	    << sizeof(VertexColor) << std::endl;
+    stride_ = reinterpret_cast<char*>(&vertices_[1]) - reinterpret_cast<char*>(&vertices_[0]);
+    LOGINFO << "stride: " << stride_ << " sizeof(VertexColor): " << sizeof(VertexColor) << std::endl;
     vertices_.clear();
 }
 
@@ -29,33 +25,28 @@ void
 VertexColorArray::checkCapacity(size_t request)
 {
     static Logger::ProcLog log("checkCapacity", Log());
-    LOGINFO << "request: " << request << " capacity: " << vertices_.capacity()
-	    << " size: " << vertices_.size() << std::endl;
+    LOGINFO << "request: " << request << " capacity: " << vertices_.capacity() << " size: " << vertices_.size()
+            << std::endl;
 
     // Verify that we can handle the request.
     //
     request += vertices_.size();
     size_t capacity = vertices_.capacity();
     if (request > capacity) {
+        // If we have no capacity, resize to just handle the request.
+        //
+        if (capacity == 0) {
+            capacity = request;
+        } else {
+            // Double capacity until it handles the size.
+            //
+            while (request > capacity) capacity *= 2;
+        }
 
-	// If we have no capacity, resize to just handle the request.
-	//
-	if (capacity == 0) {
-	    capacity = request;
-	}
-	else {
+        LOGDEBUG << "expanding: " << request << " old capacity: " << vertices_.capacity()
+                 << " new capacity: " << capacity << std::endl;
 
-	    // Double capacity until it handles the size.
-	    //
-	    while (request > capacity)
-		capacity *= 2;
-	}
-
-	LOGDEBUG << "expanding: " << request << " old capacity: "
-		 << vertices_.capacity() << " new capacity: " << capacity
-		 << std::endl;
-
-	vertices_.reserve(capacity);
+        vertices_.reserve(capacity);
     }
 }
 

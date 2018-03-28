@@ -8,9 +8,7 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-AzimuthLatch::AzimuthLatch(QWidget* parent)
-    : QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0),
-      caught_(false)
+AzimuthLatch::AzimuthLatch(QWidget* parent) : QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0), caught_(false)
 {
     setupUi(this);
     azimuth_->setSuffix(DegreeSymbol());
@@ -20,8 +18,7 @@ AzimuthLatch::AzimuthLatch(QWidget* parent)
     cfg->getAzLatchAzimuth()->connectWidget(azimuth_);
     cfg->getAzLatchRelatch()->connectWidget(relatch_);
 
-    connect(cfg->getAzLatchEnabled(), SIGNAL(valueChanged(bool)),
-            SLOT(handleEnabledChanged(bool)));
+    connect(cfg->getAzLatchEnabled(), SIGNAL(valueChanged(bool)), SLOT(handleEnabledChanged(bool)));
 
     enabled_->setEnabled(true);
     azimuth_->setEnabled(true);
@@ -31,52 +28,47 @@ AzimuthLatch::AzimuthLatch(QWidget* parent)
 bool
 AzimuthLatch::check(double azimuth)
 {
-    if (! enabled_->isChecked() || lastAzimuth_ < 0.0) {
-	lastAzimuth_ = azimuth;
-	return true;
+    if (!enabled_->isChecked() || lastAzimuth_ < 0.0) {
+        lastAzimuth_ = azimuth;
+        return true;
     }
 
     double trigger = Utils::degreesToRadians(azimuth_->value());
     bool caught = false;
 
     if (lastAzimuth_ > azimuth) {
-	if (lastAzimuth_ - azimuth > Utils::kCircleRadians * .90) {
-	    if (lastAzimuth_ < trigger) {
-		double tmp = azimuth + Utils::kCircleRadians;
-		caught = tmp >= trigger;
-	    }
-	    else {
-		double tmp = lastAzimuth_ - Utils::kCircleRadians;
-		caught = tmp < trigger && azimuth >= trigger;
-	    }
-	}
-    }
-    else {
-	caught = lastAzimuth_ < trigger && azimuth >= trigger;
+        if (lastAzimuth_ - azimuth > Utils::kCircleRadians * .90) {
+            if (lastAzimuth_ < trigger) {
+                double tmp = azimuth + Utils::kCircleRadians;
+                caught = tmp >= trigger;
+            } else {
+                double tmp = lastAzimuth_ - Utils::kCircleRadians;
+                caught = tmp < trigger && azimuth >= trigger;
+            }
+        }
+    } else {
+        caught = lastAzimuth_ < trigger && azimuth >= trigger;
     }
 
     lastAzimuth_ = azimuth;
 
     if (caught) {
+        // Caught an azimuth. Update the widget to show that this is so, and return true to let this value thru.
+        //
+        if (!caught_) {
+            caught_ = true;
+            updateCaughtIndicator();
+            return true;
+        }
 
-	// Caught an azimuth. Update the widget to show that this is so, and return true to let this value thru.
-	//
-	if (! caught_) {
-	    caught_ = true;
-	    updateCaughtIndicator();
-	    return true;
-	}
-
-	// If retriggering is enabled, let this one thru.
-	//
-	if (relatch_->isChecked()) {
-	    return true;
-	}
+        // If retriggering is enabled, let this one thru.
+        //
+        if (relatch_->isChecked()) { return true; }
     }
 
-    // 
     //
-    return ! caught_;
+    //
+    return !caught_;
 }
 
 void

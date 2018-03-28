@@ -6,6 +6,5 @@ using namespace SideCar::GUI::BScope;
 SideCar::GUI::Vertex
 PlotPositionFunctor::getPosition(const SideCar::GUI::TargetPlot& plot) const
 {
-    return Vertex(viewSettings_.normalizedAzimuth(plot.getAzimuth()),
-                  plot.getRange());
+    return Vertex(viewSettings_.normalizedAzimuth(plot.getAzimuth()), plot.getRange());
 }

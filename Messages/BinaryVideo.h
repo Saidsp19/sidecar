@@ -9,8 +9,7 @@ namespace Messages {
 /** Collection of gate values for one PRI message from a radar. The gate values are boolean, representing a
     true/false or pass/fail condition as the result of an algorithm.
 */
-class BinaryVideo : public TPRIMessage<Traits::Bool>
-{
+class BinaryVideo : public TPRIMessage<Traits::Bool> {
 public:
     using Super = TPRIMessage<Traits::Bool>;
     using Ref = TPRIMessageRef<BinaryVideo>;
@@ -38,7 +37,7 @@ public:
 
     /** Class factory method used to create a BinaryVideo object from a Video object.
 
-	\param producer name of the entity that is creating the new object
+        \param producer name of the entity that is creating the new object
 
         \param video video object to use
 
@@ -48,7 +47,7 @@ public:
 
     /** Class factory method used to create a BinaryVideo object from another BinaryVideo object.
 
-	\param producer name of the entity that is creating the new object
+        \param producer name of the entity that is creating the new object
 
         \param video binary video object to use
 
@@ -56,15 +55,15 @@ public:
     */
     static Ref Make(const std::string& producer, const BinaryVideo::Ref& video);
 
-    /** 
+    /**
 
-        \param producer 
+        \param producer
 
-        \param vmeHeader 
+        \param vmeHeader
 
-        \param count 
+        \param count
 
-        \return 
+        \return
     */
     static Ref Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first,
                     const DatumType* end);
@@ -92,7 +91,6 @@ public:
     Ref getBinaryBasis() const { return getBasis<BinaryVideo>(); }
 
 private:
-
     BinaryVideo();
 
     BinaryVideo(const std::string& producer, const VMEDataMessage& vme, size_t size);
@@ -117,15 +115,16 @@ private:
 
         \return reference to new BinaryVideo object
     */
-    static Header::Ref XMLLoader(const std::string& producer,
-                                 XmlStreamReader& xsr);
+    static Header::Ref XMLLoader(const std::string& producer, XmlStreamReader& xsr);
 
     static MetaTypeInfo metaTypeInfo_;
 };
 
 inline std::ostream&
 operator<<(std::ostream& os, const BinaryVideo::Ref& ref)
-{ return ref->print(os); }
+{
+    return ref->print(os);
+}
 
 } // end namespace Messages
 } // end namespace SideCar

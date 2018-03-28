@@ -1,12 +1,12 @@
-#include "ChannelGroup.h"
 #include "ChannelSelectorWindow.h"
+#include "ChannelGroup.h"
 
 #include "ui_ChannelSelectorWindow.h"
 
 using namespace SideCar::GUI;
 
-ChannelSelectorWindow::ChannelSelectorWindow(int shortcut)
-    : ToolWindowBase("ChannelSelectorWindow", "Channels", shortcut)
+ChannelSelectorWindow::ChannelSelectorWindow(int shortcut) :
+    ToolWindowBase("ChannelSelectorWindow", "Channels", shortcut)
 {
     Ui::ChannelSelectorWindow init;
     init.setupUi(this);

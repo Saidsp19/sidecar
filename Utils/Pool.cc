@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include "Utils/Utils.h"	// for LCM
 #include "Utils/Pool.h"
+#include "Utils/Utils.h" // for LCM
 
 using namespace Utils;
 
@@ -26,9 +26,9 @@ Pool::SetObjectSizeWarning(bool flag)
     return prev;
 }
 
-Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::invalid_argument)
-    : free_(0), blocks_(), objectSize_(objectSize), chunkSize_(Utils::LCM(objectSize, sizeof(FreeStore))),
-      chunksPerBlock_(objectsPerBlock), blockSize_(chunkSize_ * objectsPerBlock), numInUse_(0)
+Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::invalid_argument) :
+    free_(0), blocks_(), objectSize_(objectSize), chunkSize_(Utils::LCM(objectSize, sizeof(FreeStore))),
+    chunksPerBlock_(objectsPerBlock), blockSize_(chunkSize_ * objectsPerBlock), numInUse_(0)
 {
     if (objectSize < 1) throw std::invalid_argument("objectSize");
     if (objectsPerBlock < 1) throw std::invalid_argument("objectsPerBlock");
@@ -36,21 +36,21 @@ Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::inval
 
 Pool::~Pool() throw()
 {
-    std::for_each(blocks_.begin(), blocks_.end(), [](auto b){delete [] b;});
+    std::for_each(blocks_.begin(), blocks_.end(), [](auto b) { delete[] b; });
 }
 
 void*
 Pool::allocate(std::size_t size) throw(std::bad_alloc)
 {
     if (size != objectSize_) {
-	if (objectSizeWarning_) {
-	    std::clog << "Pool::allocate: size asked for does not match pool " << "size - " << size << ' '
-                      << objectSize_ << '\n';
+        if (objectSizeWarning_) {
+            std::clog << "Pool::allocate: size asked for does not match pool "
+                      << "size - " << size << ' ' << objectSize_ << '\n';
         }
-	return ::operator new(size);
+        return ::operator new(size);
     }
 
-    if (! free_) newBlock();
+    if (!free_) newBlock();
 
     // Unlink chunk from free list and return.
     //
@@ -63,18 +63,18 @@ Pool::allocate(std::size_t size) throw(std::bad_alloc)
 void
 Pool::release(void* ptr, std::size_t size) throw()
 {
-    if (! ptr) return;
+    if (!ptr) return;
     if (size != objectSize_) {
-	if (objectSizeWarning_)
-	    std::clog << "Pool::release: size of object does not match pool " << "size - " << size << ' '
-                      << objectSize_ << '\n';
-	::operator delete(ptr);
-	return;
+        if (objectSizeWarning_)
+            std::clog << "Pool::release: size of object does not match pool "
+                      << "size - " << size << ' ' << objectSize_ << '\n';
+        ::operator delete(ptr);
+        return;
     }
 
     // If configured to do so, Check that pointer was actually given out by the allocate method.
     //
-    if (validateRelease_ && ! isPoolObject(ptr)) abort();
+    if (validateRelease_ && !isPoolObject(ptr)) abort();
 
     // Add chunk to free list.
     //
@@ -95,19 +95,18 @@ Pool::newBlock() throw(std::bad_alloc)
     // Point to first chunk in the allocated block, and add the objects to the free store.
     //
     for (size_t count = 0; count < chunksPerBlock_; ++count) {
-	reinterpret_cast<FreeStore*>(raw)->next = free_;
-	free_ = reinterpret_cast<FreeStore*>(raw);
-	raw += chunkSize_;
+        reinterpret_cast<FreeStore*>(raw)->next = free_;
+        free_ = reinterpret_cast<FreeStore*>(raw);
+        raw += chunkSize_;
     }
 }
 
 bool
 Pool::isPoolObject(void* ptr) const
 {
-    return std::find_if(blocks_.begin(), blocks_.end(),
-                        [ptr, blockSize = blockSize_](auto b) {
-                            return ptr >= b && ptr < (b + blockSize);
-                        }) != blocks_.end();
+    return std::find_if(blocks_.begin(), blocks_.end(), [ptr, blockSize = blockSize_](auto b) {
+               return ptr >= b && ptr < (b + blockSize);
+           }) != blocks_.end();
 }
 
 Pool::AllocationStats

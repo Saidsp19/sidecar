@@ -8,7 +8,9 @@
 
 class QComboBox;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,17 +26,15 @@ class Subscriber;
     Originally, this was a part of the PPIDisplay program, but was hoisted to the GUI directory with hopes that
     it would be useful in other programs. That has not proved the case; it should go back to PPIDisplay.
 */
-class ChannelGroup : public QObject, public IO::ZeroconfTypes::Subscriber
-{
+class ChannelGroup : public QObject, public IO::ZeroconfTypes::Subscriber {
     Q_OBJECT
 public:
-
     /** Log device for objects of this class
 
         \return log device
     */
     static Logger::Log& Log();
-    
+
     /** Constructor.
 
         \param parent owner of this object (for destruction)
@@ -46,7 +46,7 @@ public:
     ChannelGroup(QObject* parent, const std::string& typeName, QComboBox* found);
 
 signals:
-    
+
     /** Notification sent out when the channel has data.
 
         \param messages list of Messages::Header::Ref objects
@@ -83,7 +83,6 @@ private slots:
     void dataAvailable();
 
 private:
-    
     /** Change to the channel indicated by the given index
 
         \param index the channel to use

@@ -1,10 +1,12 @@
 #ifndef SIDECAR_UTILS_CDRSTREAMABLE_H // -*- C++ -*-
 #define SIDECAR_UTILS_CDRSTREAMABLE_H
 
-#include <string>
 #include "ace/CDR_Stream.h"
+#include <string>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -35,10 +37,8 @@ namespace IO {
     \endcode
 */
 template <typename T>
-class CDRStreamable
-{
+class CDRStreamable {
 public:
-
     /** Invoke the load() method of a given object to read in data from an ACE CDR input stream
 
         \param cdr CDR input stream to read from

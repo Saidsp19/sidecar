@@ -14,8 +14,8 @@ RemoteClient::Log()
     return log_;
 }
 
-RemoteClient::RemoteClient(RecordingController& parent, QTcpSocket& socket)
-    : Super(&parent), parent_(parent), socket_(socket), buffer_()
+RemoteClient::RemoteClient(RecordingController& parent, QTcpSocket& socket) :
+    Super(&parent), parent_(parent), socket_(socket), buffer_()
 {
     Logger::ProcLog log("RemoteClient", Log());
     LOGINFO << std::endl;
@@ -28,12 +28,12 @@ RemoteClient::readyRead()
 {
     Logger::ProcLog log("readyRead", Log());
     LOGINFO << std::endl;
-    
+
     QByteArray data = socket_.readAll();
     if (data.size() == 0) {
-	LOGDEBUG << "EOF - closing client" << std::endl;
-	close();
-	return;
+        LOGDEBUG << "EOF - closing client" << std::endl;
+        close();
+        return;
     }
 
     buffer_.append(data);
@@ -42,8 +42,8 @@ RemoteClient::readyRead()
     if (index == -1) return;
 
     if (index < 1) {
-	buffer_ = buffer_.mid(index + 1);
-	return;
+        buffer_ = buffer_.mid(index + 1);
+        return;
     }
 
     QByteArray command(buffer_.mid(0, index));
@@ -53,20 +53,18 @@ RemoteClient::readyRead()
 
     QByteArray response;
     if (command == "start") {
-	RecordingController::Status status = parent_.start();
-	setError(response, status);
-	if (status == RecordingController::kOK) {
-	    response.append(' ');
-	    response.append(parent_.getActiveRecording()->getName());
-	}
-    }
-    else if (command == "stop") {
-	setError(response, parent_.stop());
-    }
-    else {
-	response.append("*** Unkown command: '");
-	response.append(command);
-	response.append("'");
+        RecordingController::Status status = parent_.start();
+        setError(response, status);
+        if (status == RecordingController::kOK) {
+            response.append(' ');
+            response.append(parent_.getActiveRecording()->getName());
+        }
+    } else if (command == "stop") {
+        setError(response, parent_.stop());
+    } else {
+        response.append("*** Unkown command: '");
+        response.append(command);
+        response.append("'");
     }
 
     LOGDEBUG << "response: " << response.data() << std::endl;
@@ -87,24 +85,20 @@ void
 RemoteClient::setError(QByteArray& buffer, RecordingController::Status status)
 {
     switch (status) {
-    case RecordingController::kOK:
-	buffer.append("OK");
-	break;
+    case RecordingController::kOK: buffer.append("OK"); break;
 
-    case RecordingController::kNoLoadedConfig:
-	buffer.append("*** No configuration file loaded in Master");
-	break;
+    case RecordingController::kNoLoadedConfig: buffer.append("*** No configuration file loaded in Master"); break;
 
     case RecordingController::kFailedCreateDirectory:
-	buffer.append("*** Failed to create new recording directory");
-	break;
+        buffer.append("*** Failed to create new recording directory");
+        break;
 
     case RecordingController::kFailedRecordingSetup:
-	buffer.append("*** Failed to initialize new recording directory");
-	break;
+        buffer.append("*** Failed to initialize new recording directory");
+        break;
 
     case RecordingController::kFailedPostRecordingStateChange:
-	buffer.append("*** Failed to command runners to new recording state");
-	break;
+        buffer.append("*** Failed to command runners to new recording state");
+        break;
     }
 }

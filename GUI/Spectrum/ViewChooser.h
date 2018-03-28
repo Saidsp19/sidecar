@@ -11,12 +11,11 @@ namespace Spectrum {
 
 class ViewEditor;
 
-class ViewChooser : public QWidget
-{
+class ViewChooser : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     ViewChooser(ViewEditor* viewEditor, QWidget* parent = 0);
 
 private slots:

@@ -11,10 +11,8 @@ class Vector;
 /** Tuple representing a unit vector in 3-D space. A unit vector always has a magnitude of 1. Borrowed from RWSL
     project. Calculates on demand component (X,Y,Z) values.
 */
-class UnitVector
-{
+class UnitVector {
 public:
-
     /** Default constructor.
      */
     UnitVector();
@@ -67,21 +65,16 @@ public:
     double getZ() const;
 
 private:
-
     /** Internal flags that indicate which cache attributes are valid
      */
-    enum Flags {
-	kHasX = (1 << 0),
-	kHasY = (1 << 1),
-	kHasZ = (1 << 2)
-    };
+    enum Flags { kHasX = (1 << 0), kHasY = (1 << 1), kHasZ = (1 << 2) };
 
-    mutable uint32_t flags_;	///< Cache validity flags
-    double direction_;		///< Direction component (radians)
-    double elevation_;		///< Elevation component (radians)
-    mutable double x_;		///< Cached X component
-    mutable double y_;		///< Cached Y component
-    mutable double z_;		///< Cached Z component
+    mutable uint32_t flags_; ///< Cache validity flags
+    double direction_;       ///< Direction component (radians)
+    double elevation_;       ///< Elevation component (radians)
+    mutable double x_;       ///< Cached X component
+    mutable double y_;       ///< Cached Y component
+    mutable double z_;       ///< Cached Z component
 };
 
 /** Declaration of UnitVector * scalar

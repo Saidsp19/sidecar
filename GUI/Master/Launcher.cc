@@ -16,9 +16,8 @@ Launcher::Log()
     return log_;
 }
 
-Launcher::Launcher(QWidget* parent, const Loader& loader)
-    : QObject(parent), loader_(loader),
-      dialog_(new QProgressDialog(parent)), index_(0), timerId_(0)
+Launcher::Launcher(QWidget* parent, const Loader& loader) :
+    QObject(parent), loader_(loader), dialog_(new QProgressDialog(parent)), index_(0), timerId_(0)
 {
     Logger::ProcLog log("Launcher", Log());
     LOGINFO << std::endl;
@@ -49,13 +48,13 @@ Launcher::canceled()
     LOGINFO << std::endl;
 
     if (dialog_) {
-	QProgressDialog* tmp = dialog_;
-	dialog_ = 0;
-	tmp->disconnect(this);
-	tmp->close();
-	tmp->deleteLater();
-	killTimer(timerId_);
-	timerId_ = 0;
+        QProgressDialog* tmp = dialog_;
+        dialog_ = 0;
+        tmp->disconnect(this);
+        tmp->close();
+        tmp->deleteLater();
+        killTimer(timerId_);
+        timerId_ = 0;
     }
 
     emit finished(true);
@@ -68,53 +67,50 @@ Launcher::timerEvent(QTimerEvent* event)
     Logger::ProcLog log("timerEvent", Log());
     LOGINFO << std::endl;
 
-    if (! timerId_) {
-	LOGERROR << "no timer" << std::endl;
-	return;
+    if (!timerId_) {
+        LOGERROR << "no timer" << std::endl;
+        return;
     }
 
-    if (! dialog_) {
-	LOGERROR << "no dialog window" << std::endl;
-	return;
+    if (!dialog_) {
+        LOGERROR << "no dialog window" << std::endl;
+        return;
     }
 
-    LOGINFO << "index: " << index_
-	    << " numRunners: " << loader_.getNumRunnerConfigs()
-	    << std::endl;
+    LOGINFO << "index: " << index_ << " numRunners: " << loader_.getNumRunnerConfigs() << std::endl;
 
     if (index_ < loader_.getNumRunnerConfigs()) {
-	const RunnerConfig* config = loader_.getRunnerConfig(index_++);
-	dialog_->setLabelText(
-	    QString("Launching runner '%1' on %2...\n[%3 of %4]")
-	    .arg(config->getRunnerName())
-	    .arg(config->getHostName())
-	    .arg(index_)
-	    .arg(loader_.getNumRunnerConfigs()));
+        const RunnerConfig* config = loader_.getRunnerConfig(index_++);
+        dialog_->setLabelText(QString("Launching runner '%1' on %2...\n[%3 of %4]")
+                                  .arg(config->getRunnerName())
+                                  .arg(config->getHostName())
+                                  .arg(index_)
+                                  .arg(loader_.getNumRunnerConfigs()));
 
-	// !!! Protect against reentrancy by temporarily setting dialog_ to NULL before we call its setValue()
-	// !!! method. Close reading of the QProgressDialog documentation tells us that if QProgressDialog is
-	// !!! modal (it is here), calling its setValue() method will invoke QApp::processEvents() method, which
-	// !!! may call this routine while we are in it.
-	//
-	{
-	    QProgressDialog* tmp = 0;
-	    std::swap(tmp, dialog_);
-	    tmp->setValue(index_);
-	    std::swap(tmp, dialog_);
-	}
+        // !!! Protect against reentrancy by temporarily setting dialog_ to NULL before we call its setValue()
+        // !!! method. Close reading of the QProgressDialog documentation tells us that if QProgressDialog is
+        // !!! modal (it is here), calling its setValue() method will invoke QApp::processEvents() method, which
+        // !!! may call this routine while we are in it.
+        //
+        {
+            QProgressDialog* tmp = 0;
+            std::swap(tmp, dialog_);
+            tmp->setValue(index_);
+            std::swap(tmp, dialog_);
+        }
 
-	QString cmd(config->getRemoteCommand());
-	LOGWARNING << "executing '" << cmd << "'" << std::endl;
-	::system(cmd.toStdString().c_str());
+        QString cmd(config->getRemoteCommand());
+        LOGWARNING << "executing '" << cmd << "'" << std::endl;
+        ::system(cmd.toStdString().c_str());
 
-	return;
+        return;
     }
 
     QProgressDialog* tmp = dialog_;
     dialog_ = 0;
     if (tmp) {
-	tmp->disconnect(this); // !!! Do this or else canceled() gets called
-	delete tmp;
+        tmp->disconnect(this); // !!! Do this or else canceled() gets called
+        delete tmp;
     }
 
     killTimer(timerId_);
@@ -122,5 +118,5 @@ Launcher::timerEvent(QTimerEvent* event)
 
     emit finished(false);
 
-    LOGINFO << "done"<< std::endl;
+    LOGINFO << "done" << std::endl;
 }

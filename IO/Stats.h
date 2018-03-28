@@ -1,10 +1,12 @@
-#ifndef SIDECAR_IO_STATS_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_STATS_H // -*- C++ -*-
 #define SIDECAR_IO_STATS_H
 
 #include "Time/TimeStamp.h"
 #include <vector>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -12,10 +14,8 @@ namespace IO {
 /** General processing statistics of an IO::Task. Records object and byte counts, and provides for calculating
     throughput rates in terms of messages and bytes.
 */
-class Stats
-{
+class Stats {
 public:
-
     /** Obtain the log device to use for Stats objects.
 
         \return Log device
@@ -42,7 +42,7 @@ public:
 
         \param byteCount number of bytes processed
 
-	\param sequenceNumber
+        \param sequenceNumber
     */
     void updateInputCounters(size_t byteCount, uint32_t sequenceNumber);
 

@@ -26,8 +26,7 @@ namespace Algorithms {
    Specifies what threshold must be met to declare a detection.
    \endcode
 */
-class PRISegmentation : public Algorithm
-{
+class PRISegmentation : public Algorithm {
 public:
     PRISegmentation(Controller& controller, Logger::Log& log);
 
@@ -41,7 +40,8 @@ private:
     bool busy_;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

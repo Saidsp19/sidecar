@@ -1,4 +1,4 @@
-#ifndef SIDECAR_IO_PROCESSINGSTAT_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_PROCESSINGSTAT_H // -*- C++ -*-
 #define SIDECAR_IO_PROCESSINGSTAT_H
 
 #include <vector>
@@ -13,10 +13,8 @@ namespace Algorithms {
     time just before entering its message displatch routines, to when it outputs a message. Maintains a vector
     of the last 1000 processing times, and returns their average.
 */
-class ProcessingStat
-{
+class ProcessingStat {
 public:
-
     /** Constructor.
      */
     ProcessingStat(size_t size = 1000) : orderedStats_(size) { reset(); }

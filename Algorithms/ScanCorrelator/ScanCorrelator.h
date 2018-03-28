@@ -2,23 +2,21 @@
 #define SIDECAR_ALGORITHMS_SCAN_CORRELATOR_H
 
 #include "Algorithms/Algorithm.h"
-#include "Messages/Video.h"
 #include "Messages/Extraction.h"
+#include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 
+#include <cmath>
 #include <list>
 #include <vector>
-#include <cmath>
 
 namespace SideCar {
 namespace Algorithms {
 
-
 /**
    \ingroup Algorithms
 */
-class ScanCorrelator : public Algorithm
-{
+class ScanCorrelator : public Algorithm {
 public:
     // Algorithm interface
     //
@@ -39,7 +37,6 @@ public:
     bool reset();
 
 private:
-
     void init();
 
     /**
@@ -53,41 +50,39 @@ private:
     using time_t = long;
     using Extraction = SideCar::Messages::Extraction;
 
-    struct Data
-    {
+    struct Data {
         time_t time;
         SideCar::Messages::Extraction extraction;
     };
 
     using Entry = std::list<Data>;
-    std::vector<std::vector<Entry> > buffer; // [x][y]
+    std::vector<std::vector<Entry>> buffer; // [x][y]
     size_t indexOffset;
 
-    void corrCell(Data &, Entry& candidates);
-    void corr(Extraction &ext, time_t t);
+    void corrCell(Data&, Entry& candidates);
+    void corr(Extraction& ext, time_t t);
 
-    double rMax; 
+    double rMax;
     size_t numBins;
 
     Parameter::DoubleValue::Ref param_searchRadius;
 
-    void on_searchRadius_changed(const Parameter::DoubleValue &);
+    void on_searchRadius_changed(const Parameter::DoubleValue&);
 
     Parameter::IntValue::Ref param_scanTime;
 
-    void on_scanTime_changed(const Parameter::IntValue &);
+    void on_scanTime_changed(const Parameter::IntValue&);
 
     Parameter::IntValue::Ref param_numScans;
 
-    float searchRadius; // the maximum gating size for correlation to occur
+    float searchRadius;  // the maximum gating size for correlation to occur
     float searchRadius2; // = searchRadius^2
 
     time_t t_new, t_old, t_veryold;
 };
 
-}} // namespaces
-
-
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

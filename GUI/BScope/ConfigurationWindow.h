@@ -5,17 +5,18 @@
 
 #include "ui_ConfigurationWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class ConfigurationWindow : public ToolWindowBase,
-			    public Ui::ConfigurationWindow
-{
+class ConfigurationWindow : public ToolWindowBase, public Ui::ConfigurationWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
+
 public:
     static Logger::Log& Log();
 

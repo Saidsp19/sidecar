@@ -12,15 +12,13 @@ namespace Spectrum {
 
 class Settings;
 
-class FFTSettings : public SettingsBlock
-{
+class FFTSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
-    FFTSettings(QComboBoxSetting* fftSizePower, QSpinBoxSetting* gateStart,
-                QComboBoxSetting* windowType, QCheckBoxSetting* zeroPad,
-                QSpinBoxSetting* workerThreadCount, QSpinBoxSetting* smoothing,
+public:
+    FFTSettings(QComboBoxSetting* fftSizePower, QSpinBoxSetting* gateStart, QComboBoxSetting* windowType,
+                QCheckBoxSetting* zeroPad, QSpinBoxSetting* workerThreadCount, QSpinBoxSetting* smoothing,
                 Settings* settings);
 
     double getFrequencyMin() const { return frequencyMin_; }
@@ -39,11 +37,9 @@ public:
 
     bool getZeroPad() const { return zeroPad_->getValue(); }
 
-    QComboBox* duplicateFFTSizePower(QWidget* parent = 0) const
-	{ return fftSizePower_->duplicate(parent); }
+    QComboBox* duplicateFFTSizePower(QWidget* parent = 0) const { return fftSizePower_->duplicate(parent); }
 
-    QComboBox* duplicateWindowType(QWidget* parent = 0) const
-	{ return windowType_->duplicate(parent); }
+    QComboBox* duplicateWindowType(QWidget* parent = 0) const { return windowType_->duplicate(parent); }
 
 signals:
 
@@ -68,7 +64,6 @@ private slots:
     void sampleFrequencyChanged(double sampleFrequency);
 
 private:
-
     QComboBoxSetting* fftSizePower_;
     QSpinBoxSetting* gateStart_;
     QComboBoxSetting* windowType_;

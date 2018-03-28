@@ -8,12 +8,10 @@
 namespace SideCar {
 namespace GUI {
 
-class QLineEditSetting : public StringSetting
-{
+class QLineEditSetting : public StringSetting {
     Q_OBJECT
 public:
-    QLineEditSetting(PresetManager* mgr, QLineEdit* widget,
-                     bool global = false);
+    QLineEditSetting(PresetManager* mgr, QLineEdit* widget, bool global = false);
 
 private slots:
     void widgetChanged();

@@ -14,12 +14,11 @@ class VideoSampleCountTransform;
 /** Floating tool window that shows the message time for the data shown in a PPIWidget, and the range/azimuth
     values for the cursor. The message values may be current or historical.
 */
-class ColorMapWidget : public QWidget
-{
+class ColorMapWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     /** Constructor. Creates and initializes window widgets.
      */
     ColorMapWidget(VideoSampleCountTransform* transform, QWidget* parent = 0);
@@ -41,7 +40,6 @@ private slots:
     void emitChangeColorMapType();
 
 private:
-
     void mouseDoubleClickEvent(QMouseEvent* event);
 
     class GUI;

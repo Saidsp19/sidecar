@@ -9,7 +9,9 @@
 #include "IO/ZeroconfRegistry.h"
 #include "Zeroconf/Publisher.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -17,9 +19,9 @@ namespace IO {
 /** Subscriber of data using the UDP multicast transport. Relies on a MulticastSocketReader object to do the
     receiving. This class manages the connection state based on Zeroconf information.
 */
-class MulticastDataSubscriber : public DataSubscriber, public ZeroconfTypes::Subscriber
-{
+class MulticastDataSubscriber : public DataSubscriber, public ZeroconfTypes::Subscriber {
     using Super = DataSubscriber;
+
 public:
     using Ref = boost::shared_ptr<MulticastDataSubscriber>;
 
@@ -40,12 +42,12 @@ public:
     ~MulticastDataSubscriber();
 
     /** Prepare to subscribe to a data publisher with a given service name. Starts a Zeroconf::Browser to watch
-	for DataPublisher objects bearing the service name. Only after a DataPublisher object is found and
-	resolved is the ClientSocketReaderTask::open() method invoked.
+        for DataPublisher objects bearing the service name. Only after a DataPublisher object is found and
+        resolved is the ClientSocketReaderTask::open() method invoked.
 
-	\param key message type key of data coming in
+        \param key message type key of data coming in
 
-	\param serviceName Zeroconf name of service publishing the data
+        \param serviceName Zeroconf name of service publishing the data
 
         \return true if successful, false otherwise
     */
@@ -68,19 +70,17 @@ public:
     void setUsingData(bool state);
 
 protected:
-
     /** Constructor.
      */
     MulticastDataSubscriber();
 
     /** Override of DataSubscriber method. Updates the task name with the service name.
 
-        \param serviceName 
+        \param serviceName
     */
     void setServiceName(const std::string& serviceName);
 
 private:
-
     /** Implementation of DataSubscriber API. Notification that a ServiceEntry has host/port connection
         information. Updates the address_ attribute with the information, and attempts to join to the multicast
         channel.
@@ -90,13 +90,13 @@ private:
     void resolvedService(const Zeroconf::ServiceEntry::Ref& service);
 
     /** Implementation of DataSubscriber API. Notification that a service that was used for a multicast
-	connection is no longer available. Shuts down the connection.
+        connection is no longer available. Shuts down the connection.
     */
     void lostService();
-    
+
     /** Attempt to join the multicast channel indicated by the last resolvedService() call.
 
-	\return true if successful
+        \return true if successful
     */
     void attemptConnection();
 

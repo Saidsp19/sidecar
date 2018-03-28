@@ -5,7 +5,9 @@
 
 #include "ui_ControlsWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -16,14 +18,13 @@ namespace ESScope {
 class Configuration;
 class ConfigurationWindow;
 
-class ControlsWindow  : public ToolWindowBase, public Ui::ControlsWindow
-{
+class ControlsWindow : public ToolWindowBase, public Ui::ControlsWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     ControlsWindow(int shortcut);
 
     void setConfiguration(const Configuration* configuration);

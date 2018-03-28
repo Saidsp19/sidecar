@@ -1,5 +1,5 @@
-#include "QtGui/QPrinter"
 #include "QtGui/QMessageBox"
+#include "QtGui/QPrinter"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"
@@ -26,8 +26,7 @@ App::Log()
     return log_;
 }
 
-App::App(int& argc, char** argv)
-    : AppBase("AScope", argc, argv), history_(new History(this)), windowCounter_(0)
+App::App(int& argc, char** argv) : AppBase("AScope", argc, argv), history_(new History(this)), windowCounter_(0)
 {
     static Logger::ProcLog log("App", Log());
     LOGINFO << std::endl;

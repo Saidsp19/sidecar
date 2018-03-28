@@ -19,20 +19,18 @@ ViewSettings::Log()
     return log_;
 }
 
-ViewSettings::ViewSettings(IntSetting* azimuthZero, IntSetting* azimuthSpan,
-                           DoubleSetting* rangeMin, DoubleSetting* rangeMax)
-    : Super(), azimuthZero_(azimuthZero), azimuthSpan_(azimuthSpan),
-      rangeMin_(rangeMin), rangeMax_(rangeMax), rangeFactor_(-1.0),
-      rangeMaxMax_(-1.0)
+ViewSettings::ViewSettings(IntSetting* azimuthZero, IntSetting* azimuthSpan, DoubleSetting* rangeMin,
+                           DoubleSetting* rangeMax) :
+    Super(),
+    azimuthZero_(azimuthZero), azimuthSpan_(azimuthSpan), rangeMin_(rangeMin), rangeMax_(rangeMax), rangeFactor_(-1.0),
+    rangeMaxMax_(-1.0)
 {
     azimuthZero_->setEnabled(true);
     restore();
     add(rangeMin);
     add(rangeMax);
-    connect(azimuthZero_, SIGNAL(valueChanged(int)),
-            SLOT(recalculateAzimuthMinMax()));
-    connect(azimuthSpan_, SIGNAL(valueChanged(int)),
-            SLOT(recalculateAzimuthMinMax()));
+    connect(azimuthZero_, SIGNAL(valueChanged(int)), SLOT(recalculateAzimuthMinMax()));
+    connect(azimuthSpan_, SIGNAL(valueChanged(int)), SLOT(recalculateAzimuthMinMax()));
     recalculateAzimuthMinMax();
 }
 
@@ -41,18 +39,14 @@ ViewSettings::recalculateAzimuthMinMax()
 {
     Logger::ProcLog log("recalculateAzimuthMinMax", Log());
     double zero = Utils::degreesToRadians(double(azimuthZero_->getValue()));
-    LOGINFO << "zero: " << azimuthZero_->getValue()
-	    << " span: " << azimuthSpan_->getValue() << std::endl;
+    LOGINFO << "zero: " << azimuthZero_->getValue() << " span: " << azimuthSpan_->getValue() << std::endl;
 
     azimuthMin_ = -zero;
 
-    azimuthMax_ = Utils::degreesToRadians(azimuthSpan_->getValue() -
-                                          azimuthZero_->getValue());
+    azimuthMax_ = Utils::degreesToRadians(azimuthSpan_->getValue() - azimuthZero_->getValue());
 
-    LOGDEBUG << "azimuthMin: " << azimuthMin_ << ' '
-	     << Utils::radiansToDegrees(azimuthMin_)
-	     << " azimuthMax: " << azimuthMax_ << ' '
-	     << Utils::radiansToDegrees(azimuthMax_) << std::endl;
+    LOGDEBUG << "azimuthMin: " << azimuthMin_ << ' ' << Utils::radiansToDegrees(azimuthMin_)
+             << " azimuthMax: " << azimuthMax_ << ' ' << Utils::radiansToDegrees(azimuthMax_) << std::endl;
 
     postSettingChanged();
 }
@@ -61,22 +55,17 @@ double
 ViewSettings::normalizedAzimuth(double radians) const
 {
     static Logger::ProcLog log("normalizedAzimuth", Log());
-    LOGINFO << "input: " << radians << ' ' << Utils::radiansToDegrees(radians)
-	    << std::endl;
-    
+    LOGINFO << "input: " << radians << ' ' << Utils::radiansToDegrees(radians) << std::endl;
+
     if (radians >= azimuthMax_) {
-	double tmp = radians - Utils::kCircleRadians;
-	if (tmp >= azimuthMin_)
-	    radians = tmp;
-    }
-    else if (radians < azimuthMin_) {
-	double tmp = radians + Utils::kCircleRadians;
-	if (tmp < azimuthMax_)
-	    radians = tmp;
+        double tmp = radians - Utils::kCircleRadians;
+        if (tmp >= azimuthMin_) radians = tmp;
+    } else if (radians < azimuthMin_) {
+        double tmp = radians + Utils::kCircleRadians;
+        if (tmp < azimuthMax_) radians = tmp;
     }
 
-    LOGINFO << "output: " << radians << ' '
-	    << Utils::radiansToDegrees(radians) << std::endl;
+    LOGINFO << "output: " << radians << ' ' << Utils::radiansToDegrees(radians) << std::endl;
 
     return radians;
 }
@@ -84,28 +73,25 @@ ViewSettings::normalizedAzimuth(double radians) const
 double
 ViewSettings::azimuthToParametric(double radians) const
 {
-    return (radians - azimuthMin_) / (azimuthMax_ - azimuthMin_) ;
+    return (radians - azimuthMin_) / (azimuthMax_ - azimuthMin_);
 }
 
 double
 ViewSettings::azimuthFromParametric(double value) const
 {
-    return Utils::normalizeRadians(value * (azimuthMax_ - azimuthMin_) +
-                                   azimuthMin_);
+    return Utils::normalizeRadians(value * (azimuthMax_ - azimuthMin_) + azimuthMin_);
 }
 
 double
 ViewSettings::rangeToParametric(double value) const
 {
-    return (value - rangeMin_->getValue()) /
-	(rangeMax_->getValue() - rangeMin_->getValue());
+    return (value - rangeMin_->getValue()) / (rangeMax_->getValue() - rangeMin_->getValue());
 }
 
 double
 ViewSettings::rangeFromParametric(double value) const
 {
-    return value * (rangeMax_->getValue() - rangeMin_->getValue()) +
-	rangeMin_->getValue();
+    return value * (rangeMax_->getValue() - rangeMin_->getValue()) + rangeMin_->getValue();
 }
 
 void

@@ -13,12 +13,11 @@ namespace GUI {
 
 class QSliderSetting;
 
-class ControlsWidget : public QWidget
-{
+class ControlsWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     ControlsWidget(QToolBar* parent);
 
     Qt::Orientation getOrientation() const;
@@ -30,7 +29,6 @@ public slots:
     void changeOrientation(Qt::Orientation orientation);
 
 private:
-
     void updateOrientation(Qt::Orientation orientation, QSlider* control);
 
     QList<QSlider*> controls_;

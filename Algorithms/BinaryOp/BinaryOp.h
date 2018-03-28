@@ -11,29 +11,25 @@ namespace Algorithms {
 /** Documentation for the algorithm BinaryOp. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class BinaryOp : public ManyInAlgorithm
-{
+class BinaryOp : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
     using BinaryChannelBuffer = TChannelBuffer<Messages::BinaryVideo>;
-public:
 
-    enum InfoSlots {
-	kOperator = Super::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kOperator = Super::kNumSlots, kNumSlots };
 
     /** Op options available via the Master GUI application.
      */
     enum Operator {
-	kAndOp,
-	kOrOp,
-	kXorOp,
-	kNotOp,
-	kNotAndOp,
-	kNotOrOp,
-	kNotXorOp,
-	kMinValue = kAndOp,
-	kMaxValue = kNotXorOp,
+        kAndOp,
+        kOrOp,
+        kXorOp,
+        kNotOp,
+        kNotAndOp,
+        kNotOrOp,
+        kNotXorOp,
+        kMinValue = kAndOp,
+        kMaxValue = kNotXorOp,
     };
 
     /** Constructor.
@@ -51,7 +47,6 @@ public:
     void setOperation(Operator op) { operator_->setValue(op); }
 
 private:
-
     /** Create a new ChannelBuffer object for Video messages. Also creates and registers a BoolParameter object
         for runtime editing of the enabled state of the ChannelBuffer object.
 
@@ -61,13 +56,12 @@ private:
 
         \return new ChannelBuffer object
     */
-    ChannelBuffer* makeChannelBuffer(int channelIndex, const std::string& name,
-                                     size_t maxBufferSize);
+    ChannelBuffer* makeChannelBuffer(int channelIndex, const std::string& name, size_t maxBufferSize);
 
     /** Implementation of ManyInAlgorithm::processChannels() method. Creates a mesage with summed sample values
         and emits it.
 
-        \return 
+        \return
     */
     bool processChannels();
 
@@ -84,10 +78,10 @@ private:
     /** Definition of the enum range for the domain_ parameter.
      */
     struct OperatorEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Operator;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = Operator;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using OperatorParameter = Parameter::TValue<Parameter::Defs::Enum<OperatorEnumTraits>>;

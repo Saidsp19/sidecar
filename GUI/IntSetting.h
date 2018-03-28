@@ -11,12 +11,11 @@ namespace GUI {
 
 /** Derivation of the Setting class that manages integer values.
  */
-class IntSetting : public Setting
-{
+class IntSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
+
 public:
-    
     /** Constructor with no default value.
 
         \param mgr PresetManager object that records this setting
@@ -34,13 +33,12 @@ public:
 
         \param name the name of the setting
 
-	\param value initial value to use for the setting if one is not recorded
+        \param value initial value to use for the setting if one is not recorded
 
         \param global if true, this is a global setting, not associated with a
         specific Preset.
     */
-    IntSetting(PresetManager* mgr, const QString& name, int value,
-               bool global = false);
+    IntSetting(PresetManager* mgr, const QString& name, int value, bool global = false);
 
     /** Obtain the current setting value
 
@@ -70,13 +68,11 @@ signals:
     void valueChanged(int value);
 
 protected:
-
     /** Override of Setting::valueUpdated() method. Records the new value and emits the valueChanged() signal.
      */
     void valueUpdated();
 
 private:
-
     int value_;
 };
 

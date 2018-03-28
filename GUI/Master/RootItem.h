@@ -12,12 +12,11 @@ class ConfigurationItem;
 /** The root item of a QTreeView view. A RootItem object has no parent, and all children are of class
     ConfigurationItem.
 */
-class RootItem : public CollectionItem
-{
+class RootItem : public CollectionItem {
     Q_OBJECT
     using Super = CollectionItem;
-public:
 
+public:
     /** Constructor.
      */
     RootItem() : Super() {}
@@ -33,7 +32,6 @@ public:
     ConfigurationItem* getChild(int index) const;
 
 private:
-
     void updateChildren() {}
 };
 

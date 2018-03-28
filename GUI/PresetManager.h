@@ -8,7 +8,9 @@
 #include "QtCore/QStringList"
 #include "QtCore/QVariant"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -21,12 +23,10 @@ class Setting;
     the PresetManager saves the new setting value in a QSettings file. When the active Preset object changes due
     to a call to applyPreset(), all Setting objects receive new values from the active Preset object.
 */
-class PresetManager : public QObject
-{
+class PresetManager : public QObject {
     using Super = QObject;
     Q_OBJECT
 public:
-
     static Logger::Log& Log();
 
     /** Constructor.
@@ -42,16 +42,14 @@ public:
 
         \param setting the Setting object to register
 
-	\param global if true, register as a global setting
+        \param global if true, register as a global setting
 
         \return internal index of the Setting object that may be used in a
         later getSetting() call.
     */
     size_t addSetting(Setting* setting, bool global = false);
 
-    virtual QVariant upgradeSetting(const QString& name,
-                                    const QVariant& value)
-	{ return value; }
+    virtual QVariant upgradeSetting(const QString& name, const QVariant& value) { return value; }
 
     /** Obtain a preset Setting object at a given index
 
@@ -59,14 +57,13 @@ public:
 
         \return Setting object
     */
-    Setting* getSetting(int index) const
-	{ return settings_[index]; }
+    Setting* getSetting(int index) const { return settings_[index]; }
 
     /** Obtain a preset Setting object with a given name.
 
-        \param name 
+        \param name
 
-        \return 
+        \return
     */
     Setting* getSetting(const QString& name) const;
 
@@ -76,8 +73,7 @@ public:
 
         \return Setting object
     */
-    Setting* getGlobal(int index) const
-	{ return globals_[index]; }
+    Setting* getGlobal(int index) const { return globals_[index]; }
 
     Setting* getGlobal(const QString& name) const;
 
@@ -126,7 +122,7 @@ public:
 
     /** Obtain the index of the active preset.
 
-        \return 
+        \return
     */
     int getActivePresetIndex() const { return activePresetIndex_; }
 
@@ -135,14 +131,14 @@ public:
         \param index which index to check
 
         \return true if so
-	\sa getAnyIsDirty()
+        \sa getAnyIsDirty()
     */
     bool getPresetIsDirty(int index) const;
 
     /** Determine if any preset has changed since it was last saved to disk.
 
         \return true if so
-	\sa getPresetIsDirty()
+        \sa getPresetIsDirty()
     */
     bool getAnyIsDirty() const;
 
@@ -150,10 +146,9 @@ public:
         is saved in the QSettings file.
 
         \return if so
-	\sa getPresetIsDirty(), getAnyIsDirty()
+        \sa getPresetIsDirty(), getAnyIsDirty()
     */
-    bool getActiveIsDirty() const
-	{ return getPresetIsDirty(activePresetIndex_); }
+    bool getActiveIsDirty() const { return getPresetIsDirty(activePresetIndex_); }
 
     virtual int getCurrentVersion() const { return 1; }
 
@@ -219,9 +214,7 @@ protected slots:
     void globalSave(int index, const QVariant& value);
 
 protected:
-
 private:
-
     /** Restore a given global Setting object. Invoked whenever addSetting() executes after restoreAllPresets().
 
         \param setting the global Setting object to restore

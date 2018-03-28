@@ -14,10 +14,8 @@ class UnitVector;
     NOTE: not sure if elevation and Z axis are handled properly. Need to be
     vetted.
 */
-class Vector : public IO::Printable<Vector>
-{
+class Vector : public IO::Printable<Vector> {
 public:
-
     /** Default constructor.
      */
     Vector();
@@ -59,7 +57,7 @@ public:
         \return length along Y axis
     */
     double getY() const { return y_; }
-	
+
     /** Obtain the Z component
 
         \return length along Z axis
@@ -132,24 +130,23 @@ public:
     std::ostream& print(std::ostream& os) const;
 
 private:
-
     /** Internal flags that indicate which cache attributes are valid
      */
     enum Flags {
-	kHasMagnitudeSquared = (1 << 0),
-	kHasMagnitude = (1 << 1),
-	kHasDirection = (1 << 2),
-	kHasElevation = (1 << 3)
+        kHasMagnitudeSquared = (1 << 0),
+        kHasMagnitude = (1 << 1),
+        kHasDirection = (1 << 2),
+        kHasElevation = (1 << 3)
     };
 
-    mutable uint32_t flags_;	///< Cache validity flags
-    double x_;			///< X component
-    double y_;			///< Y component
-    double z_;			///< Z component
+    mutable uint32_t flags_;          ///< Cache validity flags
+    double x_;                        ///< X component
+    double y_;                        ///< Y component
+    double z_;                        ///< Z component
     mutable double magnitudeSquared_; ///< Cached magnitude^2 value
-    mutable double magnitude_;	      ///< Cached magnitude value
-    mutable double direction_;	      ///< Cached direction angle
-    mutable double elevation_;	      ///< Cached elevation angle
+    mutable double magnitude_;        ///< Cached magnitude value
+    mutable double direction_;        ///< Cached direction angle
+    mutable double elevation_;        ///< Cached elevation angle
 };
 
 /** Definintion of Vector + Vector
@@ -190,8 +187,7 @@ operator-(const Vector& lhs, const Vector& rhs)
 
     \return Vector * scalar
 */
-inline Vector
-operator*(const Vector& lhs, double rhs)
+inline Vector operator*(const Vector& lhs, double rhs)
 {
     Vector tmp(lhs);
     return tmp *= rhs;
@@ -205,8 +201,7 @@ operator*(const Vector& lhs, double rhs)
 
     \return scalar * Vector
 */
-inline Vector
-operator*(double lhs, const Vector& rhs)
+inline Vector operator*(double lhs, const Vector& rhs)
 {
     Vector tmp(rhs);
     return tmp *= lhs;
@@ -227,7 +222,7 @@ operator/(const Vector& lhs, double rhs)
     return tmp /= rhs;
 }
 
-} // end namespace Algorithms
+} // namespace Geometry
 } // end namespace SideCar
 
 #endif

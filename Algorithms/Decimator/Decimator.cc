@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -15,11 +15,10 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-Decimator::Decimator(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      isIQ_(Parameter::BoolValue::Make("isIQ", "Is the data composed of IQ values", kDefaultIsIQ)),
-      factor_(Parameter::PositiveIntValue::Make("factor", "Decimation factor", kDefaultFactor))
+Decimator::Decimator(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    isIQ_(Parameter::BoolValue::Make("isIQ", "Is the data composed of IQ values", kDefaultIsIQ)),
+    factor_(Parameter::PositiveIntValue::Make("factor", "Decimation factor", kDefaultFactor))
 {
     ;
 }
@@ -31,12 +30,9 @@ Decimator::Decimator(Controller& controller, Logger::Log& log)
 bool
 Decimator::startup()
 {
-    registerProcessor<Decimator,Messages::Video>(&Decimator::processInput);
+    registerProcessor<Decimator, Messages::Video>(&Decimator::processInput);
     bool ok = true;
-    ok = ok 
-	&& registerParameter(isIQ_)
-	&& registerParameter(factor_)
-	&& registerParameter(enabled_);
+    ok = ok && registerParameter(isIQ_) && registerParameter(factor_) && registerParameter(enabled_);
 
     return ok && Super::startup();
 }
@@ -56,9 +52,7 @@ Decimator::processInput(const Messages::Video::Ref& msg)
 
     // If not enabled, simply pass message.
     //
-    if (! enabled_->getValue()) {
-	return send(msg);
-    }
+    if (!enabled_->getValue()) { return send(msg); }
 
     // Create a new message to hold the output of what we do. Note that although we pass in the input message, the new
     // message does not contain any data.
@@ -73,18 +67,17 @@ Decimator::processInput(const Messages::Video::Ref& msg)
     // Perform the actual decimation.
     //
     if (isIQ) {
-	int inc = step * 2 - 1;
-	while (pos < end) {
-	    out->push_back(*pos++);
-	    out->push_back(*pos);
-	    pos += inc;
-	}
-    }
-    else {
-	while (pos < end) {
-	    out->push_back(*pos);
-	    pos += step;
-	}
+        int inc = step * 2 - 1;
+        while (pos < end) {
+            out->push_back(*pos++);
+            out->push_back(*pos);
+            pos += inc;
+        }
+    } else {
+        while (pos < end) {
+            out->push_back(*pos);
+            pos += step;
+        }
     }
 
     // Update the range factor for the decimated message to reflect the new distance between range bins.
@@ -108,7 +101,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[Decimator::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[Decimator::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI::Master;
 
-ConfigurationSettings::ConfigurationSettings(StringListSetting* configPaths)
-    : Super(), configPaths_(configPaths)
+ConfigurationSettings::ConfigurationSettings(StringListSetting* configPaths) : Super(), configPaths_(configPaths)
 {
     add(configPaths);
 }

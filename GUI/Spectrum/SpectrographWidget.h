@@ -10,7 +10,9 @@
 
 class QGLFramebufferObject;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -23,12 +25,11 @@ class Configuration;
 class FFTSettings;
 class SpectrographImaging;
 
-class SpectrographWidget :  public QGLWidget
-{
+class SpectrographWidget : public QGLWidget {
     Q_OBJECT
     using Super = QGLWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Obtain the OpenGL configuration we want to use.
@@ -64,19 +65,17 @@ private slots:
     void sizeChanged();
 
 private:
-
     enum ListIndex {
-	kBeginUpdate = 0,
-	kBeginPaint,
-	kCopyPrevious0,
-	kCopyPrevious1,
-	kPaintTexture0,
-	kPaintTexture1,
-	kNumLists
+        kBeginUpdate = 0,
+        kBeginPaint,
+        kCopyPrevious0,
+        kCopyPrevious1,
+        kPaintTexture0,
+        kPaintTexture1,
+        kNumLists
     };
 
-    GLuint getDisplayList(int index) const
-	{ return displayLists_ + index; }
+    GLuint getDisplayList(int index) const { return displayLists_ + index; }
 
     /** Initialize the OpenGL environment.
      */
@@ -116,7 +115,7 @@ private:
     bool frozen_;
 };
 
-} // End namespace BScope
+} // namespace Spectrum
 } // end namespace GUI
 } // end namespace SideCar
 

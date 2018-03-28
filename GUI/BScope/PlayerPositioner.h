@@ -9,12 +9,11 @@ namespace BScope {
 
 class PlayerSettings;
 
-class PlayerPositioner : public QWidget, private Ui::PlayerPositioner
-{
+class PlayerPositioner : public QWidget, private Ui::PlayerPositioner {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     PlayerPositioner(PlayerSettings* settings, QWidget* parent = 0);
 
     void updateButtons();

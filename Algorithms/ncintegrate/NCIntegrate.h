@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_NCINTEGRATE_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_NCINTEGRATE_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_NCINTEGRATE_H
 
 #include <vector>
@@ -16,17 +16,12 @@ namespace Algorithms {
     pri's at the output.
 
 */
-class NCIntegrate : public Algorithm
-{
+class NCIntegrate : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
     using RunningAverageVector = std::vector<int32_t>;
 
-    enum InfoSlot {
-	kNumPRIs = ControllerStatus::kNumSlots,
-	kIQValues,
-	kNumSlots
-    };
+    enum InfoSlot { kNumPRIs = ControllerStatus::kNumSlots, kIQValues, kNumSlots };
 
     /** Constructor.
 
@@ -59,7 +54,6 @@ public:
     bool reset();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     /** Override of Algorithm::setInfoSlots(). Stores XML representation of cancellation statistics ino the

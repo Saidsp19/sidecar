@@ -15,8 +15,7 @@ App::Log()
     return log_;
 }
 
-App::App(int& argc, char** argv)
-    : AppBase("zcm", argc, argv)
+App::App(int& argc, char** argv) : AppBase("zcm", argc, argv)
 {
     Logger::ProcLog log("App", Log());
     LOGINFO << std::endl;
@@ -29,7 +28,6 @@ App::makeNewMainWindow(const QString& objectName)
     LOGINFO << "objectName: " << objectName << std::endl;
     return new MainWindow;
 }
-
 
 void
 App::showAbout()

@@ -4,7 +4,9 @@
 #include "QtGui/QPen"
 #include "QtGui/QWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,23 +15,21 @@ namespace BScope {
 /** Widget that draws tick marks and value labels. Supports horizontal and vertical drawing. Also draws grid
     lines and an triangle indicator showing horizontal or vertical position of the cursor.
 */
-class ScaleWidget : public QWidget
-{
+class ScaleWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
+
 public:
     static Logger::Log& Log();
 
-    ScaleWidget(QWidget* parent = 0,
-                Qt::Orientation orientation = Qt::Horizontal);
+    ScaleWidget(QWidget* parent = 0, Qt::Orientation orientation = Qt::Horizontal);
 
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
 
     void setSpan(int value);
 
-    int getSpan() const
-	{ return orientation_ == Qt::Horizontal ? width() : height(); }
+    int getSpan() const { return orientation_ == Qt::Horizontal ? width() : height(); }
 
     int getMajorTickHeight() const { return majorTickHeight_; }
     int getMinorTickHeight() const { return minorTickHeight_; }
@@ -69,16 +69,13 @@ public:
     void render(QPainter& painter, int width, int height);
 
 protected:
-    virtual QString formatTickTag(double value)
-	{ return QString::number(value); }
+    virtual QString formatTickTag(double value) { return QString::number(value); }
 
 private:
     void recalculateTickIntervals(int width, int height);
     void paintEvent(QPaintEvent* event);
-    void drawHorizontalGridLines(QPainter& painter, int width, int height)
-	const;
-    void drawVerticalGridLines(QPainter& painter, int width, int height)
-	const;
+    void drawHorizontalGridLines(QPainter& painter, int width, int height) const;
+    void drawVerticalGridLines(QPainter& painter, int width, int height) const;
     void dirtyCursorPosition(int position);
     void drawCursorPosition(QPainter& painter, int position);
     void drawHorizontalTicks(QPainter& painter, int span, int tagOfffset);
@@ -111,12 +108,12 @@ private:
     bool autoDivide_;
 };
 
-class DegreesScaleWidget : public ScaleWidget
-{
+class DegreesScaleWidget : public ScaleWidget {
 public:
-    DegreesScaleWidget(QWidget* parent = 0,
-                       Qt::Orientation orientation = Qt::Horizontal)
-	: ScaleWidget(parent, orientation) {}
+    DegreesScaleWidget(QWidget* parent = 0, Qt::Orientation orientation = Qt::Horizontal) :
+        ScaleWidget(parent, orientation)
+    {
+    }
 
 private:
     QString formatTickTag(double value);

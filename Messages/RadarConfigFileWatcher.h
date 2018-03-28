@@ -9,8 +9,7 @@ namespace Messages {
 /** A file watcher for SideCar XML configuration files. Reloads the configuration when the file changes. NOTE:
     this behavior has been disabled by the overloading of start().
 */
-class RadarConfigFileWatcher : public Utils::FileWatcher
-{
+class RadarConfigFileWatcher : public Utils::FileWatcher {
 public:
     RadarConfigFileWatcher() : Utils::FileWatcher() {}
 

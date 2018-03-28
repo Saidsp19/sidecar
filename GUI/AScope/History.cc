@@ -10,10 +10,7 @@ using namespace Utils;
 using namespace SideCar;
 using namespace SideCar::GUI::AScope;
 
-enum SlotMappingTokens {
-    kSlotUnallocated = -2,
-    kSlotNeedsIndex = -1
-};
+enum SlotMappingTokens { kSlotUnallocated = -2, kSlotNeedsIndex = -1 };
 
 Logger::Log&
 History::Log()
@@ -22,9 +19,9 @@ History::Log()
     return log_;
 }
 
-History::History(QObject* parent)
-    : QObject(parent), liveFrame_(), buffers_(), frameCount_(0),
-      slotMapping_(), duration_(30), enabled_(false), pastFrozen_(false)
+History::History(QObject* parent) :
+    QObject(parent), liveFrame_(), buffers_(), frameCount_(0), slotMapping_(), duration_(30), enabled_(false),
+    pastFrozen_(false)
 {
     ;
 }
@@ -39,11 +36,11 @@ History::allocateSlot()
     // data channel. First, try looking for an available entry in the slot map.
     //
     for (int index = 0; index < slotMapping_.size(); ++index) {
-	if (slotMapping_[index] == kSlotUnallocated) {
-	    slotMapping_[index] = kSlotNeedsIndex;
-	    LOGDEBUG << "allocated " << index << std::endl;
-	    return index;
-	}
+        if (slotMapping_[index] == kSlotUnallocated) {
+            slotMapping_[index] = kSlotNeedsIndex;
+            LOGDEBUG << "allocated " << index << std::endl;
+            return index;
+        }
     }
 
     // No available entry found above.
@@ -57,48 +54,42 @@ void
 History::releaseSlot(int slot)
 {
     static Logger::ProcLog log("releaseSlot", Log());
-    LOGINFO << "slot: " << slot << " buffers.size: " << buffers_.size()
-	    << " slotMapping.size: " << slotMapping_.size() << std::endl;
+    LOGINFO << "slot: " << slot << " buffers.size: " << buffers_.size() << " slotMapping.size: " << slotMapping_.size()
+            << std::endl;
 
     // If the slot was assigned a buffer for past data, we need to remove the buffer and possibly update the
     // slot map.
     //
     int oldIndex = slotMapping_[slot];
     if (oldIndex >= 0) {
+        // Forget the history buffer assigned to the slot and recalculate the overall size.
+        //
+        delete buffers_.takeAt(oldIndex);
+        frameCount_ = 0;
+        foreach (MessageBuffer* buffer, buffers_) {
+            if (buffer->size() > frameCount_) frameCount_ = buffer->size();
+        }
 
-	// Forget the history buffer assigned to the slot and recalculate the overall size.
-	//
-	delete buffers_.takeAt(oldIndex);
-	frameCount_ = 0;
-	foreach (MessageBuffer* buffer, buffers_) {
-	    if (buffer->size() > frameCount_)
-		frameCount_ = buffer->size();
-	}
+        // Need to adjust entries in the slot map with indices smaller than the one we just removed.
+        //
+        for (int index = 0; index < slotMapping_.size(); ++index) {
+            if (slotMapping_[index] >= oldIndex) slotMapping_[index] -= 1;
+        }
 
-	// Need to adjust entries in the slot map with indices smaller than the one we just removed.
-	//
-	for (int index = 0; index < slotMapping_.size(); ++index) {
-	    if (slotMapping_[index] >= oldIndex)
-		slotMapping_[index] -= 1;
-	}
-
-	// We were using an entry in the live frame, but not any more.
-	//
-	liveFrame_.shrink();
+        // We were using an entry in the live frame, but not any more.
+        //
+        liveFrame_.shrink();
     }
 
     // Remove the index from the slot mapping. If removing the last entry in the map, try collapsing the vector
     // by removing other entries with kSlotUnallocated values.
     //
     if (slot == slotMapping_.size() - 1) {
-	do {
-	    slotMapping_.pop_back();
-	}
-	while (! slotMapping_.empty() &&
-               slotMapping_.back() == kSlotUnallocated);
-    }
-    else {
-	slotMapping_[slot] = kSlotUnallocated;
+        do {
+            slotMapping_.pop_back();
+        } while (!slotMapping_.empty() && slotMapping_.back() == kSlotUnallocated);
+    } else {
+        slotMapping_[slot] = kSlotUnallocated;
     }
 }
 
@@ -113,25 +104,22 @@ History::update(int slot, const MessageList& data)
     //
     int bufferIndex = slotMapping_[slot];
     if (bufferIndex == kSlotNeedsIndex) {
-	bufferIndex = buffers_.size();
-	slotMapping_[slot] = bufferIndex;
-	buffers_.append(new MessageBuffer);
-	liveFrame_.expand();
+        bufferIndex = buffers_.size();
+        slotMapping_[slot] = bufferIndex;
+        buffers_.append(new MessageBuffer);
+        liveFrame_.expand();
     }
 
     LOGDEBUG << "bufferIndex: " << bufferIndex << std::endl;
 
-    Messages::PRIMessage::Ref msg =
-	boost::dynamic_pointer_cast<Messages::PRIMessage>(data.back());
+    Messages::PRIMessage::Ref msg = boost::dynamic_pointer_cast<Messages::PRIMessage>(data.back());
 
     liveFrame_.update(bufferIndex, msg);
     emit liveFrameChanged();
 
-    if (! enabled_)
-	return;
+    if (!enabled_) return;
 
-    if (pastFrozen_)
-	return;
+    if (pastFrozen_) return;
 
     // Prune old messages from all of the message buffers. Take out messages that are older than the time of the
     // last message - duration.
@@ -141,40 +129,33 @@ History::update(int slot, const MessageList& data)
     limit -= duration_;
     MessageBuffer* buffer;
     foreach (buffer, buffers_) {
+        // The beginning of the buffer contains the oldest message. Locate the first message from the start that
+        // is wanted.
+        //
+        MessageBuffer::iterator pos = buffer->begin();
+        while (pos != buffer->end() && (*pos)->getEmittedTimeStamp() < limit) {
+            pos->reset();
+            ++pos;
+        }
 
-	// The beginning of the buffer contains the oldest message. Locate the first message from the start that
-	// is wanted.
-	//
-	MessageBuffer::iterator pos = buffer->begin();
-	while (pos != buffer->end() &&
-               (*pos)->getEmittedTimeStamp() < limit) {
-	    pos->reset();
-	    ++pos;
-	}
+        // Remove them.
+        //
+        if (pos != buffer->begin()) { buffer->erase(buffer->begin(), pos); }
 
-	// Remove them.
-	//
-	if (pos != buffer->begin()) {
-	    buffer->erase(buffer->begin(), pos);
-	}
-
-	// Keep track of the largest buffer size.
-	//
-	if (frameCount_ < buffer->size())
-	    frameCount_ = buffer->size();
+        // Keep track of the largest buffer size.
+        //
+        if (frameCount_ < buffer->size()) frameCount_ = buffer->size();
     }
 
     // Append the incoming messages to the proper buffer.
     //
     buffer = buffers_[bufferIndex];
     for (size_t index = 0; index < data.size(); ++index) {
-	msg = boost::dynamic_pointer_cast<Messages::PRIMessage>(
-	    data[index]);
-	buffer->append(msg);
+        msg = boost::dynamic_pointer_cast<Messages::PRIMessage>(data[index]);
+        buffer->append(msg);
     }
 
-    if (frameCount_ < buffer->size())
-	frameCount_ = buffer->size();
+    if (frameCount_ < buffer->size()) frameCount_ = buffer->size();
 }
 
 void
@@ -183,22 +164,22 @@ History::setEnabled(bool enabled)
     static Logger::ProcLog log("setEnabled", Log());
     LOGINFO << enabled << std::endl;
     enabled_ = enabled;
-    if (! enabled) {
-	foreach (MessageBuffer* buffer, buffers_) {
-	    buffer->clear();
-	}
+    if (!enabled) {
+        foreach (MessageBuffer* buffer, buffers_) {
+            buffer->clear();
+        }
     }
 }
 
 void
 History::freezePast(bool state)
 {
-    if (pastFrozen_  != state) {
-	pastFrozen_ = state;
-	if (state)
-	    emit pastFrozen();
-	else
-	    emit pastThawed();
+    if (pastFrozen_ != state) {
+        pastFrozen_ = state;
+        if (state)
+            emit pastFrozen();
+        else
+            emit pastThawed();
     }
 }
 
@@ -207,9 +188,7 @@ History::setDuration(int duration)
 {
     static Logger::ProcLog log("setDuration", Log());
     LOGINFO << duration << std::endl;
-    if (duration_ != duration) {
-	duration_ = duration;
-    }
+    if (duration_ != duration) { duration_ = duration; }
 }
 
 HistoryFrame
@@ -222,10 +201,9 @@ History::getPastFrame(int position) const
     int index = frameCount_ - position - 1;
 
     foreach (MessageBuffer* buffer, buffers_) {
-
-	// Using QList::value() to always get a value, even for an invalid position.
-	//
-	frame.append(buffer->value(index));
+        // Using QList::value() to always get a value, even for an invalid position.
+        //
+        frame.append(buffer->value(index));
     }
 
     return frame;

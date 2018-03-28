@@ -1,7 +1,7 @@
 #include "boost/bind.hpp"
 
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -17,9 +17,9 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-SpreadMofN::SpreadMofN(Controller& controller, Logger::Log& log)
-    : Super(controller, log, kDefaultEnabled, kDefaultCpiSpan),
-      M_(Parameter::PositiveIntValue::Make("M", "Number of positive values to pass<br>", kDefaultM))
+SpreadMofN::SpreadMofN(Controller& controller, Logger::Log& log) :
+    Super(controller, log, kDefaultEnabled, kDefaultCpiSpan),
+    M_(Parameter::PositiveIntValue::Make("M", "Number of positive values to pass<br>", kDefaultM))
 {
     cpiSpan_->connectChangedSignalTo(boost::bind(&SpreadMofN::cpiSpanChanged, this, _1));
 }
@@ -46,7 +46,7 @@ SpreadMofN::shutdown()
 // Doppler-range in the CPI to merit a "hit" for the entire Doppler-range bin.
 //
 bool
-SpreadMofN::processCPI() 
+SpreadMofN::processCPI()
 {
     static Logger::ProcLog log("processCPI", getLog());
     LOGINFO << std::endl;
@@ -61,8 +61,8 @@ SpreadMofN::processCPI()
         return true;
     }
 
-    std::vector< Messages::BinaryVideo::Ref > msg_buffer_;
-    for(Super::MessageQueue::iterator itr = buffer_.begin(); itr != buffer_.end(); itr++) {
+    std::vector<Messages::BinaryVideo::Ref> msg_buffer_;
+    for (Super::MessageQueue::iterator itr = buffer_.begin(); itr != buffer_.end(); itr++) {
         msg_buffer_.push_back(boost::dynamic_pointer_cast<Messages::BinaryVideo>(*itr));
     }
 
@@ -71,21 +71,17 @@ SpreadMofN::processCPI()
     Messages::BinaryVideo::Container& outputData(out->getData());
     outputData.resize(msg_buffer_[0]->size(), 0);
 
-    // Count only Doppler bins in interval [2, cpiSpan - 1] 
+    // Count only Doppler bins in interval [2, cpiSpan - 1]
     //
-    for(size_t i = 2; i < cpiSpan - 1; i++) {
+    for (size_t i = 2; i < cpiSpan - 1; i++) {
         for (size_t j = 0; j < msg_size; j++) {
-            if (msg_buffer_[i][j]) {
-                ++outputData[j];
-            }
+            if (msg_buffer_[i][j]) { ++outputData[j]; }
         }
     }
 
     // Check if enough hits were detected
     //
-    for (size_t i = 0; i < msg_size; i++) {
-        outputData[i] = (outputData[i] >= M);
-    }
+    for (size_t i = 0; i < msg_size; i++) { outputData[i] = (outputData[i] >= M); }
 
     msg_buffer_.clear();
     bool rc = send(out);
@@ -103,7 +99,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[CPIAlgorithm::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[CPIAlgorithm::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

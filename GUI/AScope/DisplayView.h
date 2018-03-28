@@ -5,7 +5,9 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,12 +22,11 @@ class Visualizer;
     scales next to the Visualizer object. Provides the Visualizer with its background QImage that shows the grid
     lines created by the ScaleWidget objects.
 */
-class DisplayView : public QFrame
-{
+class DisplayView : public QFrame {
     Q_OBJECT
     using Super = QFrame;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Create a new view with initial sprite visibility settings taken from a configuration file.
@@ -43,13 +44,13 @@ public:
         \param settings the file to write to
     */
     void saveToSettings(QSettings& settings);
-    
+
     /** Read view settings from a configuration settings file created by a previous run of the AScope program.
 
         \param settings file to read from
     */
     void restoreFromSettings(QSettings& settings);
-    
+
     /** Duplicate the view settings of another DisplayView object.
 
         \param displayView the view to copy
@@ -81,7 +82,7 @@ public:
     bool isShowingGrid() const;
 
     bool isFrozen() const;
-    
+
     /** Determine if the gridlines of the plot are shown.
 
         \return true if so
@@ -89,12 +90,12 @@ public:
     bool isShowingPeakBars() const;
 
     /** Make this DisplayView the active DisplayView object, the one that has focus and whose channel
-	connections are visible in the ChannelConnectionWindow.
+        connections are visible in the ChannelConnectionWindow.
     */
     void setActiveDisplayView();
 
 signals:
-    
+
     /** Notification sent out when the active DisplayView widget changes.
 
         \param displayView the new active widget
@@ -102,7 +103,7 @@ signals:
     void activeDisplayViewChanged(DisplayView* displayView);
 
 public slots:
-    
+
     /** Action handler to adjust the visibility of the horizontal scale widget.
 
         \param value visibility value
@@ -122,7 +123,7 @@ public slots:
     void setShowGrid(bool state);
 
     void setFrozen(bool state);
-    
+
     /** Action handler to control whether grid lines are drawn in the Visualizer background.
 
         \param state true if so
@@ -130,12 +131,12 @@ public slots:
     void setShowPeakBars(bool state);
 
 private slots:
-    
+
     /** Notification from the held Visualizer object that its transform has changed. Updates the horizontal and
      * vertical scale widgets.
      */
     void visualizerTransformChanged();
-    
+
     /** Notification from the held Visualizer that the cursor moved. Contains new cursor coordinates in local
         and real-world unit.
 
@@ -150,11 +151,11 @@ private:
     void resizeEvent(QResizeEvent* event);
     void updateActiveDisplayViewIndicator(bool on);
     void makeBackground();
-    
+
     Visualizer* visualizer_;
     ScaleWidget* horizontalScale_;
     ScaleWidget* verticalScale_;
-    
+
     static DisplayView* activeDisplayView_;
 };
 

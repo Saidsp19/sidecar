@@ -7,8 +7,7 @@
 namespace SideCar {
 namespace GUI {
 
-class QDESIGNER_WIDGET_EXPORT Potentiometer : public QWidget
-{
+class QDESIGNER_WIDGET_EXPORT Potentiometer : public QWidget {
     Q_OBJECT
 
     Q_PROPERTY(double mininum READ getMininum WRITE setMininum);
@@ -24,7 +23,6 @@ class QDESIGNER_WIDGET_EXPORT Potentiometer : public QWidget
     Q_PROPERTY(bool showValue READ getShowValue WRITE setShowValue);
 
 public:
-
     Potentiometer(QWidget* parent = 0);
 
     QSize minimumSizeHint() const;
@@ -42,7 +40,7 @@ public:
     int getTickCount() const { return tickCount_; }
 
     int getPrecision() const { return precision_; }
-    
+
     QColor getStartColor() const { return startColor_; }
 
     QColor getEndColor() const { return endColor_; }
@@ -82,7 +80,6 @@ public slots:
     void setShowValue(bool value);
 
 protected:
-
     void paintEvent(QPaintEvent* event);
 
     void wheelEvent(QWheelEvent* event);
@@ -90,7 +87,6 @@ protected:
     void keyPressEvent(QKeyEvent* event);
 
 private:
-
     void paintBorder(QPainter& painter);
 
     void paintKnob(QPainter& painter);
@@ -117,7 +113,7 @@ private:
     bool showValue_;
 };
 
-}
-}
+} // namespace GUI
+} // namespace SideCar
 
 #endif

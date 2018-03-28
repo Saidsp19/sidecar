@@ -11,8 +11,8 @@
 #include "QtGui/QRegExpValidator"
 #include "QtGui/QStatusBar"
 
-#include "GUI/Writers.h"
 #include "GUI/LogUtils.h"
+#include "GUI/Writers.h"
 #include "IO/MessageManager.h"
 #include "IO/Readers.h"
 #include "IO/Writers.h"
@@ -34,10 +34,9 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), writer_(0),
-      model_(new ViewModel(this)),
-      entryChanger_(new ViewModelChanger(this))
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), writer_(0), model_(new ViewModel(this)),
+    entryChanger_(new ViewModelChanger(this))
 {
     setupUi(this);
     setFixedSize();
@@ -54,12 +53,8 @@ MainWindow::MainWindow()
 
     entryChanger_->initialize(model_, range_, azimuth_);
 
-    connect(pending_->selectionModel(),
-            SIGNAL(currentRowChanged(const QModelIndex&,
-                                     const QModelIndex&)),
-            this,
-            SLOT(pendingCurrentChanged(const QModelIndex&,
-                                       const QModelIndex&)));
+    connect(pending_->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this,
+            SLOT(pendingCurrentChanged(const QModelIndex&, const QModelIndex&)));
 
     // The following should match valid IP addresses and host names.
     //
@@ -70,36 +65,30 @@ MainWindow::MainWindow()
                     "(\\b([A-Za-z][-A-Za-z0-9]*\\.?){1,}\\b)");
 
     if (pattern.isValid()) {
-	QRegExpValidator* validator = new QRegExpValidator(pattern, this);
-	hostName_->setValidator(validator);
+        QRegExpValidator* validator = new QRegExpValidator(pattern, this);
+        hostName_->setValidator(validator);
+    } else {
+        QMessageBox::information(this, "Invalid Host Name Pattern", pattern.errorString(), QMessageBox::Ok);
     }
-    else {
-	QMessageBox::information(this, "Invalid Host Name Pattern",
-                                 pattern.errorString(),
-                                 QMessageBox::Ok);
-    }
-    
+
     QSettings settings;
     name_->setText(settings.value("Name", "Extractions").toString());
 
-    connectionType_->setCurrentIndex(
-	settings.value("ConnectionType", kTCP).toInt());
+    connectionType_->setCurrentIndex(settings.value("ConnectionType", kTCP).toInt());
 
-    hostName_->setText(
-	settings.value("HostName", "237.1.2.100").toString());
+    hostName_->setText(settings.value("HostName", "237.1.2.100").toString());
     lastHostName_ = hostName_->text();
 
-    if (! writer_) makeWriter();
+    if (!writer_) makeWriter();
 }
 
 void
 MainWindow::on_connectionType__currentIndexChanged(int index)
 {
     if (index == kMulticast) {
-	connections_->setText("Connections: N/A");
-    }
-    else {
-	connections_->setText("Connections: 0");
+        connections_->setText("Connections: N/A");
+    } else {
+        connections_->setText("Connections: 0");
     }
 
     hostName_->setEnabled(index == kMulticast);
@@ -114,13 +103,13 @@ MainWindow::on_hostName__editingFinished()
 {
     QString newName = hostName_->text();
     if (newName.isEmpty()) {
-	hostName_->setText(lastHostName_);
-	return;
+        hostName_->setText(lastHostName_);
+        return;
     }
 
     if (lastHostName_ != newName) {
-	lastHostName_ = newName;
-	makeWriter();
+        lastHostName_ = newName;
+        makeWriter();
     }
 
     QSettings settings;
@@ -133,27 +122,22 @@ MainWindow::makeWriter()
     if (writer_) removeWriter();
 
     if (connectionType_->currentIndex() == kTCP) {
-	writer_ = TCPMessageWriter::Make(
-	    name_->text(), Messages::Extractions::GetMetaTypeInfo().getName());
-    }
-    else {
-	writer_ = UDPMessageWriter::Make(
-	    name_->text(), Messages::Extractions::GetMetaTypeInfo().getName(),
-	    hostName_->text());
+        writer_ = TCPMessageWriter::Make(name_->text(), Messages::Extractions::GetMetaTypeInfo().getName());
+    } else {
+        writer_ = UDPMessageWriter::Make(name_->text(), Messages::Extractions::GetMetaTypeInfo().getName(),
+                                         hostName_->text());
     }
 
-    connect(writer_,
-            SIGNAL(published(const QString&, const QString&, uint16_t)),
-            SLOT(writerPublished(const QString&, const QString&,
-                                 uint16_t)));
+    connect(writer_, SIGNAL(published(const QString&, const QString&, uint16_t)),
+            SLOT(writerPublished(const QString&, const QString&, uint16_t)));
 }
 
 void
 MainWindow::removeWriter()
 {
     if (writer_) {
-	delete writer_;
-	writer_ = 0;
+        delete writer_;
+        writer_ = 0;
     }
 }
 
@@ -164,20 +148,15 @@ MainWindow::writerSubscriberCountChanged(size_t size)
 }
 
 void
-MainWindow::pendingCurrentChanged(const QModelIndex& current,
-                                  const QModelIndex& previous)
+MainWindow::pendingCurrentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     static Logger::ProcLog log("pendingCurrentChanged", Log());
-    LOGDEBUG << current.row() << '/' << current.column() << ' '
-	     << previous.row() << '/' << previous.column() << std::endl;
+    LOGDEBUG << current.row() << '/' << current.column() << ' ' << previous.row() << '/' << previous.column()
+             << std::endl;
 
-    if (previous.isValid() && previous.row() < model_->rowCount()) {
-	entryChanger_->setRow(QModelIndex().row());
-    }
+    if (previous.isValid() && previous.row() < model_->rowCount()) { entryChanger_->setRow(QModelIndex().row()); }
 
-    if (current.isValid() && current.row() < model_->rowCount()) {
-	entryChanger_->setRow(current.row());
-    }
+    if (current.isValid() && current.row() < model_->rowCount()) { entryChanger_->setRow(current.row()); }
 }
 
 void
@@ -186,18 +165,14 @@ MainWindow::on_editName__clicked()
     Logger::ProcLog log("on_editName__clicked", Log());
     QString oldName(name_->text());
     bool ok;
-    QString newName(QInputDialog::getText(this,
-                                          "Channel Name",
-                                          "Enter new channel name:",
-                                          QLineEdit::Normal,
-                                          oldName,
-                                          &ok));
-    if (ok && ! newName.isEmpty()) {
-	LOGDEBUG << newName << std::endl;
-	QSettings settings;
-	settings.setValue("Name", newName);
-	name_->setText(newName);
-	writer_->setServiceName(newName);
+    QString newName(
+        QInputDialog::getText(this, "Channel Name", "Enter new channel name:", QLineEdit::Normal, oldName, &ok));
+    if (ok && !newName.isEmpty()) {
+        LOGDEBUG << newName << std::endl;
+        QSettings settings;
+        settings.setValue("Name", newName);
+        name_->setText(newName);
+        writer_->setServiceName(newName);
     }
 }
 
@@ -243,16 +218,11 @@ MainWindow::on_send__clicked()
 
     Messages::Extractions::Ref msg;
     if (model_->rowCount() == 0) {
-	msg = Messages::Extractions::Make("ExractionEmitter",
-                                          Messages::Header::Ref());
-	msg->push_back(Messages::Extraction(Time::TimeStamp::Now(),
-                                            range_->value(),
-                                            azimuth_->value() * M_PI / 180.0,
-                                            0.0));
-    }
-    else {
-	msg = model_->getEntries();
-
+        msg = Messages::Extractions::Make("ExractionEmitter", Messages::Header::Ref());
+        msg->push_back(
+            Messages::Extraction(Time::TimeStamp::Now(), range_->value(), azimuth_->value() * M_PI / 180.0, 0.0));
+    } else {
+        msg = model_->getEntries();
     }
 
     IO::MessageManager mgr(msg);
@@ -260,21 +230,17 @@ MainWindow::on_send__clicked()
 }
 
 void
-MainWindow::writerPublished(const QString& serviceName, const QString& host,
-                            uint16_t port)
+MainWindow::writerPublished(const QString& serviceName, const QString& host, uint16_t port)
 {
     static Logger::ProcLog log("writerPublished", Log());
     LOGDEBUG << serviceName << std::endl;
-    statusBar()->showMessage(QString("Server started on %1/%2")
-                             .arg(host).arg(port));
+    statusBar()->showMessage(QString("Server started on %1/%2").arg(host).arg(port));
     if (serviceName != name_->text()) {
-	name_->setText(serviceName);
-	QMessageBox::information(
-	    this,
-	    "Name Conflict",
-	    QString(
-		"The name requested for the service is already in use by "
-		"another service. The new name is '%1'").arg(serviceName),
-	    QMessageBox::Ok);
+        name_->setText(serviceName);
+        QMessageBox::information(this, "Name Conflict",
+                                 QString("The name requested for the service is already in use by "
+                                         "another service. The new name is '%1'")
+                                     .arg(serviceName),
+                                 QMessageBox::Ok);
     }
 }

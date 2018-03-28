@@ -37,29 +37,24 @@ namespace Algorithms {
     file that has a matching output type, or else the algorithm will fail to
     start up.
 */
-class IQFilter : public Algorithm
-{
+class IQFilter : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlot {
-	kFilterType = ControllerStatus::kNumSlots,
-	kEnabled,
-	kNumSlots
-    };
+public:
+    enum InfoSlot { kFilterType = ControllerStatus::kNumSlots, kEnabled, kNumSlots };
 
     /** Filtering options available via the Master GUI application.
      */
     enum FilterType {
-	kMinValue = 0,
-	kLogSqrtSumIQSquared = kMinValue,
-	kSqrtSumIQSquared,
-	kSumIQSquared,
-	kISamples,
-	kQSamples,
-	kPhaseAngle,
-	kMaxValue = kPhaseAngle,
-	kNumFilterTypes
+        kMinValue = 0,
+        kLogSqrtSumIQSquared = kMinValue,
+        kSqrtSumIQSquared,
+        kSumIQSquared,
+        kISamples,
+        kQSamples,
+        kPhaseAngle,
+        kMaxValue = kPhaseAngle,
+        kNumFilterTypes
     };
 
     /** Constructor.
@@ -70,8 +65,7 @@ public:
     */
     IQFilter(Controller& controller, Logger::Log& log);
 
-    void setFilterType(int filterType)
-	{ filterType_->setValue(FilterType(filterType)); }
+    void setFilterType(int filterType) { filterType_->setValue(FilterType(filterType)); }
 
     /** Implementation of the Algorithm::startup interface. Register run-time parameters with the controller.
 
@@ -84,7 +78,6 @@ public:
     void setInfoSlots(IO::StatusBase& status);
 
 private:
-
     /** Processor for Messages::Video messages. This exists for backwards capability.
 
         \param msg input message
@@ -96,16 +89,16 @@ private:
     /** Definition of the enum range for the filterType_ parameter.
      */
     struct FilterTypeEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = FilterType;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = FilterType;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using FilterTypeParameter = Parameter::TValue<Parameter::Defs::Enum<FilterTypeEnumTraits>>;
 
     /** Run-time parameter that determines which filter to use when converting the input message into an output
-	message.
+        message.
     */
     FilterTypeParameter::Ref filterType_;
 

@@ -1,12 +1,12 @@
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
 
 #include "Utils/Wrapper.h"
 
 using namespace Utils;
 
-Wrapper::Wrapper(const std::string& data, int width, int cursor, const std::string& prefix)
-    : data_(data), prefix_(prefix), width_(width), cursor_(cursor)
+Wrapper::Wrapper(const std::string& data, int width, int cursor, const std::string& prefix) :
+    data_(data), prefix_(prefix), width_(width), cursor_(cursor)
 {
     if (width < 1) throw std::runtime_error("Wrapper: width");
 }
@@ -23,22 +23,20 @@ Wrapper::print(std::ostream& os) const
     // Read words until string has been processed
     //
     while (is >> word) {
+        // We will write out a word + a space. Can we?
+        //
+        auto size = word.size() + 1;
+        if (cursor && size + cursor >= width_) {
+            // Write out newline + continuation prefix
+            //
+            os << '\n' << prefix_;
+            cursor = prefix_.size();
+        }
 
-	// We will write out a word + a space. Can we?
-	//
-	auto size = word.size() + 1;
-	if (cursor && size + cursor >= width_) {
-
-	    // Write out newline + continuation prefix
-	    //
-	    os << '\n' << prefix_;
-	    cursor = prefix_.size();
-	}
-
-	// Write out word + space
-	//
-	os << word << ' ';
-	cursor += size;
+        // Write out word + space
+        //
+        os << word << ' ';
+        cursor += size;
     }
 
     return os;

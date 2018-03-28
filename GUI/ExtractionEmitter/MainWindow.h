@@ -8,7 +8,9 @@
 #include "ui_MainWindow.h"
 
 namespace SideCar {
-namespace Zeroconf { class Publisher; }
+namespace Zeroconf {
+class Publisher;
+}
 namespace GUI {
 
 class MessageWriter;
@@ -18,18 +20,14 @@ namespace ExtractionEmitter {
 class ViewModel;
 class ViewModelChanger;
 
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** NOTE: the entries here must match the order of the entries in the connectionType_ QComboBox widget.
      */
-    enum ConnectionType {
-	kTCP,
-	kMulticast
-    };
+    enum ConnectionType { kTCP, kMulticast };
 
     static Logger::Log& Log();
 
@@ -57,13 +55,11 @@ private slots:
 
     void pendingCurrentChanged(const QModelIndex&, const QModelIndex&);
 
-    void writerPublished(const QString& serviceName, const QString& host,
-                         uint16_t port);
+    void writerPublished(const QString& serviceName, const QString& host, uint16_t port);
 
     void writerSubscriberCountChanged(size_t count);
 
 private:
-
     void makeWriter();
 
     void removeWriter();

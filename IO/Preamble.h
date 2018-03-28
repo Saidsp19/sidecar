@@ -1,9 +1,11 @@
-#ifndef SIDECAR_IO_PREAMBLE_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_PREAMBLE_H // -*- C++ -*-
 #define SIDECAR_IO_PREAMBLE_H
 
 #include "ace/CDR_Stream.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -19,36 +21,34 @@ namespace IO {
     byte-ordering of the incoming message, ACE_InputCDR will perform the byte-swapping necessary to properly
     read the data of the message.
 */
-class Preamble
-{
+class Preamble {
 public:
-
     /** Log device for Preamble objects
-        
+
         \return log device
     */
     static Logger::Log& Log();
 
     enum {
-	kCDRStreamSize = sizeof(int32_t) * 2, ///< Number of bytes in preamble
-	kMagicTag = 0xAAAA                    ///< Magic value at start of msg
+        kCDRStreamSize = sizeof(int32_t) * 2, ///< Number of bytes in preamble
+        kMagicTag = 0xAAAA                    ///< Magic value at start of msg
     };
 
     /** Constructor. Acquires the ACE CDR byte order for the running architecture. Initial size is set to zero.
-	Used when writing new records to disk or network.
+        Used when writing new records to disk or network.
     */
-    Preamble()
-	: magicTag_(kMagicTag),
-	  byteOrder_(ACE_CDR_BYTE_ORDER ? 0xFFFF : 0x0000), size_(0) {}
+    Preamble() : magicTag_(kMagicTag), byteOrder_(ACE_CDR_BYTE_ORDER ? 0xFFFF : 0x0000), size_(0) {}
 
     /** Primary constructor. Acquires the ACE CDR byte order for the running architecture by default.
 
-	\param size size to hold
+        \param size size to hold
 
-	\param byteOrder little-endian (non-zero) or big-endian byte order
+        \param byteOrder little-endian (non-zero) or big-endian byte order
     */
-    Preamble(uint32_t size, int byteOrder = ACE_CDR_BYTE_ORDER)
-	: magicTag_(kMagicTag), byteOrder_(byteOrder ? 0xFFFF : 0x0000), size_(size) {}
+    Preamble(uint32_t size, int byteOrder = ACE_CDR_BYTE_ORDER) :
+        magicTag_(kMagicTag), byteOrder_(byteOrder ? 0xFFFF : 0x0000), size_(size)
+    {
+    }
 
     /** Conversion constructor for ACE_InputCDR objects. Reads in the magicTag_ and byteOrder_ attributes from
         the CDR object, and potentially changes the ACE_InputCDR to new byte ordering.
@@ -61,8 +61,7 @@ public:
 
         \return true if so
     */
-    bool isValid() const
-	{ return magicTag_ == kMagicTag && (byteOrder_ == 0xFFFF || byteOrder_ == 0x0000); }
+    bool isValid() const { return magicTag_ == kMagicTag && (byteOrder_ == 0xFFFF || byteOrder_ == 0x0000); }
 
     /** Obtain the 'magic' tag of the preamble.
 
@@ -100,12 +99,12 @@ public:
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
 
 private:
-    uint16_t magicTag_;			///< 0xAAAA 0b1010101010101010
-    uint16_t byteOrder_;		///< Byte order in effect
-    uint32_t size_;			///< Size of message body in bytes
+    uint16_t magicTag_;  ///< 0xAAAA 0b1010101010101010
+    uint16_t byteOrder_; ///< Byte order in effect
+    uint32_t size_;      ///< Size of message body in bytes
 };
 
-} // end namespace Messages
+} // namespace IO
 } // end namespace SideCar
 
 /** \file

@@ -11,14 +11,13 @@ class ChannelListItem;
 class ConnectionItem;
 class MessageType;
 
-class ChannelItem : public TreeItem
-{
+class ChannelItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
-    ChannelItem(ChannelListItem* parent, const QString& name,
-                const QString& mappedName, const MessageType* messageType);
+public:
+    ChannelItem(ChannelListItem* parent, const QString& name, const QString& mappedName,
+                const MessageType* messageType);
 
     Type getType() const { return kChannel; }
 

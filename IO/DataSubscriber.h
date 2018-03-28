@@ -4,7 +4,9 @@
 #include "IO/IOTask.h"
 #include "Zeroconf/Browser.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -16,9 +18,9 @@ namespace IO {
     DataPublisher quits, its Zeroconf information becomes invalidated, and the Zeroconf::Browser object informs
     its DataSubscriber that the service is no longer available.
 */
-class DataSubscriber : public IOTask
-{
+class DataSubscriber : public IOTask {
     using Super = IOTask;
+
 public:
     using Ref = boost::shared_ptr<DataSubscriber>;
     using ServiceEntryVector = Zeroconf::Browser::ServiceEntryVector;
@@ -30,12 +32,12 @@ public:
     static Logger::Log& Log();
 
     /** Prepare to subscribe to a data publisher with a given service name. Starts a Zeroconf::Browser to watch
-	for DataPublisher objects bearing the service name. Only after a DataPublisher object is found and
-	resolved is the ClientSocketReaderTask::open() method invoked.
+        for DataPublisher objects bearing the service name. Only after a DataPublisher object is found and
+        resolved is the ClientSocketReaderTask::open() method invoked.
 
         \param key message type key of data coming in
 
-	\param serviceName Zeroconf name of service publishing the data
+        \param serviceName Zeroconf name of service publishing the data
 
         \return true if successful, false otherwise
     */
@@ -43,7 +45,7 @@ public:
                      int interface = 0);
 
     /** Shut down the subscriber. Override of Task::close(). Stops the Zeroconf publisher browser.
-        
+
         \param flags non-zero if task is shutting down
 
         \return 0 if successful, -1 otherwise
@@ -51,24 +53,23 @@ public:
     int close(u_long flags = 0) override;
 
     /** Obtain information about the publisher we are trying to subscribed to. NOTE: this may return an invalid
-	reference if there is no service available.
-        
+        reference if there is no service available.
+
         \return Zeroconf::ServiceEntry reference
     */
     Zeroconf::ServiceEntry::Ref getServiceEntry() const { return service_; }
 
     /** Obtain the service name of the current publisher we are subscribed to.
-        
+
         \return service name
     */
     const std::string& getServiceName() const { return serviceName_; }
-    
+
     /** Restart the service and the Zeroconf browser that looks for publishers to connect to.
-    */
+     */
     void restartBrowser();
 
 protected:
-
     /** Constructor.
      */
     DataSubscriber();
@@ -101,7 +102,6 @@ protected:
     virtual void setServiceName(const std::string& serviceName);
 
 protected:
-
     /** Override of ACE_Event_Handler method. Invoked by ACE_Reactor when a scheduled timer times out. Starts
         the Zeroconf::Browser.
 
@@ -114,7 +114,6 @@ protected:
     int handle_timeout(const ACE_Time_Value& duration, const void* arg) override;
 
 private:
-
     /** Notification from a Zeroconf::Browser that one or more DataPublisher objects have come alive.
 
         \param services vector of services that have been found
@@ -143,7 +142,9 @@ private:
         \return 0 if successful, -1 otherwise
     */
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout = 0) override
-        { return put_next(data, timeout) != -1; }
+    {
+        return put_next(data, timeout) != -1;
+    }
 
     Zeroconf::Browser::Ref browser_;
     std::string serviceName_;

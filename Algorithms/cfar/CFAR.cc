@@ -8,9 +8,8 @@ using namespace SideCar;
 using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 
-CFAR::CFAR(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log), alpha_(Parameter::DoubleValue::Make("alpha", "Alpha", kDefaultAlpha)),
-      videoBuffer_(100)
+CFAR::CFAR(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), alpha_(Parameter::DoubleValue::Make("alpha", "Alpha", kDefaultAlpha)), videoBuffer_(100)
 {
     reset();
 }
@@ -18,8 +17,8 @@ CFAR::CFAR(Controller& controller, Logger::Log& log)
 bool
 CFAR::startup()
 {
-    registerProcessor<CFAR,Video>("estimate", &CFAR::processEstimate);
-    registerProcessor<CFAR,Video>("video", &CFAR::processVideo);
+    registerProcessor<CFAR, Video>("estimate", &CFAR::processEstimate);
+    registerProcessor<CFAR, Video>("video", &CFAR::processVideo);
     return registerParameter(alpha_) && Algorithm::startup();
 }
 
@@ -39,29 +38,27 @@ CFAR::processEstimate(const Video::Ref& estMsg)
     LOGINFO << sequenceCounter << std::endl;
 
     Video::Ref vidMsg;
-    while (! videoBuffer_.empty()) {
-	Video::Ref tmp(videoBuffer_.back());
-	videoBuffer_.pop_back();
-	if (tmp->getSequenceCounter() == sequenceCounter) {
-	    vidMsg = tmp;
-	    break;
-	}
+    while (!videoBuffer_.empty()) {
+        Video::Ref tmp(videoBuffer_.back());
+        videoBuffer_.pop_back();
+        if (tmp->getSequenceCounter() == sequenceCounter) {
+            vidMsg = tmp;
+            break;
+        }
     }
 
-    if (! vidMsg)
-	return true;
+    if (!vidMsg) return true;
 
     // Normalize the size of the messages.
     //
     size_t vidSize = vidMsg->size();
     size_t estSize = estMsg->size();
     if (vidSize < estSize) {
-	vidMsg->resize(estSize);
-	vidSize = estSize;
-    }
-    else if (estSize < vidSize) {
-	estMsg->resize(vidSize);
-	estSize = vidSize;
+        vidMsg->resize(estSize);
+        vidSize = estSize;
+    } else if (estSize < vidSize) {
+        estMsg->resize(vidSize);
+        estSize = vidSize;
     }
 
     // Create the output message.
@@ -73,8 +70,8 @@ CFAR::processEstimate(const Video::Ref& estMsg)
     //
     double alpha = alpha_->getValue();
     for (size_t index = 0; index < vidSize; ++index) {
-	double threshold = alpha * estMsg[index];
-	outMsg[index] = (vidMsg[index] > threshold) ? true : false;
+        double threshold = alpha * estMsg[index];
+        outMsg[index] = (vidMsg[index] > threshold) ? true : false;
     }
 
     bool rc = send(outMsg);

@@ -11,17 +11,11 @@ namespace Algorithms {
 /** This algorithm "clamps" sample values to a given range [min, max]. If a sample value falls below the min, it
     is set to the min. If a sample value falls above the max, it is set to the max.
 */
-class Clamp : public Algorithm
-{
+class Clamp : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-	kMin,
-	kMax,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kMin, kMax, kNumSlots };
 
     /** Constructor.
 
@@ -58,7 +52,6 @@ public:
     void setMaxValue(int value);
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);

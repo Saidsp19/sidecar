@@ -27,12 +27,11 @@ namespace Algorithms {
    \par Run-time Parameters:
    none
 */
-class IQ2AmplitudePhase : public Algorithm
-{
+class IQ2AmplitudePhase : public Algorithm {
     // Algorithm interface
     //
 public:
-    IQ2AmplitudePhase(Controller& controller, Logger::Log &log);
+    IQ2AmplitudePhase(Controller& controller, Logger::Log& log);
     bool startup();
     bool process(Messages::Video::Ref, uint port);
 
@@ -43,7 +42,8 @@ private:
     std::list<SideCar::Messages::Video::Ref> Q;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

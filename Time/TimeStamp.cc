@@ -44,9 +44,7 @@ TimeStamp::ParseSpecification(const std::string& spec, const TimeStamp& zero)
     Logger::ProcLog log("ParseSpecification", Log());
     LOGINFO << spec << ' ' << zero << std::endl;
 
-    if (! spec.size()) {
-	throw InvalidSpecification("empty specification");
-    }
+    if (!spec.size()) { throw InvalidSpecification("empty specification"); }
 
     // +[MM:]SS.SSS or SS:UU
     //
@@ -57,46 +55,40 @@ TimeStamp::ParseSpecification(const std::string& spec, const TimeStamp& zero)
     LOGDEBUG << "indexIn: " << re.indexIn(z) << std::endl;
     LOGDEBUG << "matchedLength: " << re.matchedLength() << std::endl;
 
-    if (! re.exactMatch(z)) {
-	InvalidSpecification err("invalid specification - ");
-	err << spec;
-	throw err;
+    if (!re.exactMatch(z)) {
+        InvalidSpecification err("invalid specification - ");
+        err << spec;
+        throw err;
     }
 
     double seconds = 0.0;
     QStringList bits = re.capturedTexts();
 
-    LOGDEBUG << "1: '" << bits[1].toStdString()
-	     << "' 2: '" << bits[2].toStdString()
-	     << "' 3: '" << bits[3].toStdString()
-	     << "' 4: '" << bits[4].toStdString()
-	     << "' 5: '" << bits[5].toStdString() << "'" << std::endl;
+    LOGDEBUG << "1: '" << bits[1].toStdString() << "' 2: '" << bits[2].toStdString() << "' 3: '"
+             << bits[3].toStdString() << "' 4: '" << bits[4].toStdString() << "' 5: '" << bits[5].toStdString() << "'"
+             << std::endl;
 
     TimeStamp rc;
 
     // If absolute time, extract the seconds and microseconds values and use to build a TimeStamp value.
     //
     if (bits[1].isEmpty()) {
-	LOGDEBUG << "absolute time" << std::endl;
-	long s = bits[3].toLong();
-	long u = bits[5].toLong();
-	rc = TimeStamp(s, u);
-    }
-    else {
+        LOGDEBUG << "absolute time" << std::endl;
+        long s = bits[3].toLong();
+        long u = bits[5].toLong();
+        rc = TimeStamp(s, u);
+    } else {
+        rc = zero;
 
-	rc = zero;
+        // Relative time here. Convert any minutes into seconds
+        //
+        if (!bits[3].isEmpty()) seconds += bits[3].toDouble() * 60.0;
 
-	// Relative time here. Convert any minutes into seconds
-	//
-	if (! bits[3].isEmpty())
-	    seconds += bits[3].toDouble() * 60.0;
+        // Add seconds and fractional seconds to given base value.
+        //
+        if (!bits[4].isEmpty()) seconds += bits[4].toDouble();
 
-	// Add seconds and fractional seconds to given base value.
-	//
-	if (! bits[4].isEmpty())
-	    seconds += bits[4].toDouble();
-
-	rc += seconds;
+        rc += seconds;
     }
 
     return rc;
@@ -109,15 +101,14 @@ TimeStamp::Log()
     return log_;
 }
 
-TimeStamp::TimeStamp(double when)
-    : when_()
+TimeStamp::TimeStamp(double when) : when_()
 {
     static Logger::ProcLog log("TimeStamp(double)", Log());
 
     LOGDEBUG << when << std::endl;
     if (when > std::numeric_limits<long>::max()) {
-	IllegalTimeStamp ex("TimeStamp::TimeStamp(double): value too large - ");
-	log.thrower(ex << when);
+        IllegalTimeStamp ex("TimeStamp::TimeStamp(double): value too large - ");
+        log.thrower(ex << when);
     }
 
     when_.set(when);
@@ -154,17 +145,14 @@ TimeStamp::hhmmss(int showMicroPlaces) const
     hrs = hrs % 24;
 
     std::ostringstream os("");
-    os << std::fixed << std::setfill('0')
-       << std::setw(2) << std::setprecision(2) << hrs << ':'
-       << std::setw(2) << std::setprecision(2) << mins << ':';
+    os << std::fixed << std::setfill('0') << std::setw(2) << std::setprecision(2) << hrs << ':' << std::setw(2)
+       << std::setprecision(2) << mins << ':';
 
     if (showMicroPlaces > 0) {
-	os << std::setw(3 + showMicroPlaces)
-	   << std::setprecision(showMicroPlaces)
-	   << ((kSecondsPerMicro * when_.usec()) + secs);
-    }
-    else {
-	os << std::setw(2) << std::setprecision(2) << secs;
+        os << std::setw(3 + showMicroPlaces) << std::setprecision(showMicroPlaces)
+           << ((kSecondsPerMicro * when_.usec()) + secs);
+    } else {
+        os << std::setw(2) << std::setprecision(2) << secs;
     }
 
     return os.str();

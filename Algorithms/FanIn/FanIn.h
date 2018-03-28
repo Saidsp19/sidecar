@@ -12,11 +12,10 @@ namespace Algorithms {
 /** Documentation for the algorithm FanIn. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class FanIn : public Algorithm
-{
+class FanIn : public Algorithm {
     using Super = Algorithm;
-public:
 
+public:
     /** Constructor.
 
         \param controller object that controls us
@@ -39,7 +38,6 @@ public:
     bool shutdown();
 
 private:
-
     /** Process messages from channel
 
         \param msg the input message to process

@@ -16,16 +16,14 @@ namespace Spectrum {
     Extractions publisher to connect to for data. Most of the work is done from inside the ChannelGroup class;
     this class simply establishes connections between the GUI and the ChannelGroup instances.
 */
-class ChannelSelectorWindow : public ToolWindowBase,
-			      public Ui::ChannelSelectorWindow
-{
+class ChannelSelectorWindow : public ToolWindowBase, public Ui::ChannelSelectorWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Constructor.
 
-	\param shutdown key sequence to toggle window visibility
+        \param shutdown key sequence to toggle window visibility
     */
     ChannelSelectorWindow(int shortcut);
 };

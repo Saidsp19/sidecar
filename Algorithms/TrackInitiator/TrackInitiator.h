@@ -1,10 +1,10 @@
 #ifndef SIDECAR_ALGORITHMS_TRACK_INITIATOR_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_TRACK_INITIATOR_H
 
-#include <time.h>		// for time_t and friends
-#include <list>
-#include <vector>
 #include <cmath>
+#include <list>
+#include <time.h> // for time_t and friends
+#include <vector>
 
 #include "Algorithms/Algorithm.h"
 #include "Messages/Extraction.h"
@@ -17,10 +17,8 @@ namespace Algorithms {
 /**
    \ingroup Algorithms
 */
-class TrackInitiator : public Algorithm
-{
+class TrackInitiator : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -38,7 +36,6 @@ public:
     bool reset();
 
 private:
-
     void init();
 
     /**
@@ -52,48 +49,48 @@ private:
     using Extraction = SideCar::Messages::Extraction;
 
     struct Data {
-	Data(const Messages::Extraction& extraction)
-	    : when_(extraction.getWhen().asDouble()),
-	      extraction_(extraction), velocity_() {}
-	double when_;
+        Data(const Messages::Extraction& extraction) :
+            when_(extraction.getWhen().asDouble()), extraction_(extraction), velocity_()
+        {
+        }
+        double when_;
         Messages::Extraction extraction_;
-	Messages::Track::Coord velocity_;
+        Messages::Track::Coord velocity_;
     };
 
     using Entry = std::list<Data>;
-    std::vector<std::vector<Entry> > buffer_; // [x][y]
+    std::vector<std::vector<Entry>> buffer_; // [x][y]
     size_t indexOffset_;
 
     void corrCell(Data&, Entry& candidates);
     void corr(Data&);
 
-    double rMax_; 
+    double rMax_;
     size_t numBins_;
 
     Parameter::DoubleValue::Ref param_searchRadius;
 
-    void on_searchRadius_changed(const Parameter::DoubleValue &);
+    void on_searchRadius_changed(const Parameter::DoubleValue&);
 
     Parameter::IntValue::Ref param_scanTime;
 
-    void on_scanTime_changed(const Parameter::IntValue &);
+    void on_scanTime_changed(const Parameter::IntValue&);
 
     Parameter::IntValue::Ref param_numScans;
 
-    float searchRadius_;    // the maximum gating size for correlation to occur
-    float searchRadius2_;   // = searchRadius^2
+    float searchRadius_;  // the maximum gating size for correlation to occur
+    float searchRadius2_; // = searchRadius^2
 
     Parameter::DoubleValue::Ref param_assumedAltitude;
     Parameter::DoubleValue::Ref param_minRange;
 
     double t_new_, t_old_, t_veryold_;
 
-    int currentTrackNum_; //ELY,G	
+    int currentTrackNum_; // ELY,G
 };
 
-}} // namespaces
-
-
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

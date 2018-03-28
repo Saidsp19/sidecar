@@ -15,17 +15,14 @@ class ViewSettings;
 /** Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color values
     from SideCar BinaryVideo messages.
 */
-class BinaryVertexGenerator : public VertexGenerator
-{
+class BinaryVertexGenerator : public VertexGenerator {
     using Super = VertexGenerator;
-public:
 
+public:
     BinaryVertexGenerator();
 
 private:
-
-    void renderMessage(const Messages::PRIMessage::Ref& msg,
-                       VertexColorArray& points);
+    void renderMessage(const Messages::PRIMessage::Ref& msg, VertexColorArray& points);
 
     SampleImaging* imaging_;
     ViewSettings* viewSettings_;

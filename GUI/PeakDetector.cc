@@ -24,20 +24,16 @@ PeakDetector::add(float value)
     bool changed = value > peakValue;
 
     if (changed || value == peakValue) {
-	peakIndex_ = 0;
-    }
-    else if (peakIndex_ < values_.size() - 1) {
-	++peakIndex_;
-    }
-    else {
-	peakIndex_ = std::max_element(values_.begin(), values_.end()) -
-	    values_.begin();
-	value = getValue();
-	changed = value < peakValue;
+        peakIndex_ = 0;
+    } else if (peakIndex_ < values_.size() - 1) {
+        ++peakIndex_;
+    } else {
+        peakIndex_ = std::max_element(values_.begin(), values_.end()) - values_.begin();
+        value = getValue();
+        changed = value < peakValue;
     }
 
-    if (changed)
-	emit newPeak(value);
+    if (changed) emit newPeak(value);
 
     return changed;
 }

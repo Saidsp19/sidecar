@@ -5,18 +5,19 @@
 
 class QComboBox;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
 class PresetManager;
 
-class PresetChooser : public QComboBox
-{
+class PresetChooser : public QComboBox {
     Q_OBJECT
     using Super = QComboBox;
-public:
 
+public:
     static Logger::Log& Log();
 
     PresetChooser(PresetManager* presetManager, QWidget* parent = 0);
@@ -30,9 +31,8 @@ private slots:
     void setDirtyState(int index, bool state);
 
 private:
-
     void mousePressEvent(QMouseEvent* event);
-    
+
     PresetManager* presetManager_;
 };
 

@@ -4,12 +4,12 @@
 
 using namespace SideCar::GUI::RangeTruthEmitter;
 
-AddressValidator::AddressValidator(QLineEdit* widget)
-    : QRegExpValidator(
+AddressValidator::AddressValidator(QLineEdit* widget) :
+    QRegExpValidator(
 
-	// The following should match valid IP addresses and host names. NOTE: we also accept an empty string.
-	//
-	QRegExp("^("
+        // The following should match valid IP addresses and host names. NOTE: we also accept an empty string.
+        //
+        QRegExp("^("
                 // 250-255 | 200-249 | 0-199 '.' (three times)
                 //
                 "("
@@ -22,9 +22,9 @@ AddressValidator::AddressValidator(QLineEdit* widget)
                 // Alphanumeric names with optional domain(s)
                 //
                 "(([A-Za-z][-A-Za-z0-9]*\\.?){1,})"
-                ")?$"), widget),
-      widget_(widget),
-      normalColor_(widget->palette().color(QPalette::Text))
+                ")?$"),
+        widget),
+    widget_(widget), normalColor_(widget->palette().color(QPalette::Text))
 {
     widget_->setValidator(this);
 }
@@ -39,9 +39,8 @@ AddressValidator::validate(QString& input, int& pos) const
     //
 #if 1
     QPalette p = widget_->palette();
-    
-    p.setColor(QPalette::Text,
-               (state == Acceptable) ? normalColor_ : Qt::red);
+
+    p.setColor(QPalette::Text, (state == Acceptable) ? normalColor_ : Qt::red);
     widget_->setPalette(p);
 #endif
     return state;

@@ -1,6 +1,6 @@
 #include <cmath>
-#include <map>
 #include <iomanip>
+#include <map>
 
 #include "Logger/Log.h"
 #include "Utils/Utils.h"
@@ -15,8 +15,7 @@ Track::LoaderRegistry::VersionedLoaderVector
 Track::DefineLoaders()
 {
     LoaderRegistry::VersionedLoaderVector loaders;
-    loaders.push_back(
-	LoaderRegistry::VersionedLoader(1, &Track::LoadV1));
+    loaders.push_back(LoaderRegistry::VersionedLoader(1, &Track::LoadV1));
     return loaders;
 }
 
@@ -45,7 +44,7 @@ Track::Make(ACE_InputCDR& cdr)
     return ref;
 }
 
-Track::Ref 
+Track::Ref
 Track::Make(const std::string& producer)
 {
     Ref ref(new Track(producer));
@@ -53,8 +52,8 @@ Track::Make(const std::string& producer)
 }
 
 /** Copy constructor */
-Track::Ref 
-Track::Make(const std::string& producer, const Messages::Track::Ref &report)
+Track::Ref
+Track::Make(const std::string& producer, const Messages::Track::Ref& report)
 {
     Ref ref(new Track(producer));
     ref->setWhen(report->getWhen());
@@ -88,20 +87,16 @@ Track::XMLLoader(const std::string& producer, XmlStreamReader& xsr)
     return ref;
 }
 
-Track::Track(const std::string& producer)
-    : Super(producer, GetMetaTypeInfo()), batchNum_(0),
-      totalInBatch_(0), trackNum_(0), aer_extraction_(), extractionTime_(0.0),
-      llh_prediction_(), predictionTime_(0.0), type_(0), startTime_(0),
-      confirmedTime_(0)
+Track::Track(const std::string& producer) :
+    Super(producer, GetMetaTypeInfo()), batchNum_(0), totalInBatch_(0), trackNum_(0), aer_extraction_(),
+    extractionTime_(0.0), llh_prediction_(), predictionTime_(0.0), type_(0), startTime_(0), confirmedTime_(0)
 {
     ;
 }
 
-Track::Track()
-    : Super(GetMetaTypeInfo()), batchNum_(0),
-      totalInBatch_(0), trackNum_(0), aer_extraction_(), extractionTime_(0.0),
-      llh_prediction_(), predictionTime_(0.0), type_(0), startTime_(0),
-      confirmedTime_(0)
+Track::Track() :
+    Super(GetMetaTypeInfo()), batchNum_(0), totalInBatch_(0), trackNum_(0), aer_extraction_(), extractionTime_(0.0),
+    llh_prediction_(), predictionTime_(0.0), type_(0), startTime_(0), confirmedTime_(0)
 {
     ;
 }
@@ -126,7 +121,7 @@ Track::loadV1(ACE_InputCDR& cdr)
 
     cdr >> batchNum_;
     cdr >> totalInBatch_;
-    cdr >> trackNum_; 
+    cdr >> trackNum_;
 
     // current state estimate for position
     cdr >> llh_[GEO_LAT];
@@ -148,11 +143,11 @@ Track::loadV1(ACE_InputCDR& cdr)
 
     // most recent prediction
     cdr >> llh_prediction_[GEO_LAT];
-    cdr >> llh_prediction_[GEO_LON] ;
+    cdr >> llh_prediction_[GEO_LON];
     cdr >> llh_prediction_[GEO_HGT];
     cdr >> predictionTime_;
 
-    cdr >> flags_; 
+    cdr >> flags_;
     cdr >> type_;
     cdr >> startTime_;
     cdr >> confirmedTime_;
@@ -168,15 +163,15 @@ Track::write(ACE_OutputCDR& cdr) const
 
     cdr << batchNum_;
     cdr << totalInBatch_;
-    cdr << trackNum_ ;
+    cdr << trackNum_;
 
     // current state estimate
-    cdr << llh_ [GEO_LAT];
-    cdr << llh_ [GEO_LON];
-    cdr << llh_ [GEO_HGT];
-    cdr << llh_velocity_ [GEO_LAT];
-    cdr << llh_velocity_ [GEO_LON];
-    cdr << llh_velocity_ [GEO_HGT];
+    cdr << llh_[GEO_LAT];
+    cdr << llh_[GEO_LON];
+    cdr << llh_[GEO_HGT];
+    cdr << llh_velocity_[GEO_LAT];
+    cdr << llh_velocity_[GEO_LON];
+    cdr << llh_velocity_[GEO_HGT];
 
     cdr << when_;
 
@@ -188,9 +183,9 @@ Track::write(ACE_OutputCDR& cdr) const
     cdr << extractionNum_;
 
     // most recent prediction
-    cdr << llh_prediction_ [GEO_LAT];
-    cdr << llh_prediction_ [GEO_LON] ;
-    cdr << llh_prediction_ [GEO_HGT];
+    cdr << llh_prediction_[GEO_LAT];
+    cdr << llh_prediction_[GEO_LON];
+    cdr << llh_prediction_[GEO_HGT];
     cdr << predictionTime_;
 
     cdr << flags_;
@@ -202,32 +197,23 @@ Track::write(ACE_OutputCDR& cdr) const
     return cdr;
 }
 
-
 std::ostream&
 Track::printData(std::ostream& os) const
 {
-    os << "Track: " << trackNum_ << " When: " << std::setprecision (15) << 
-	when_ << " LLH: "
-       << Utils::radiansToDegrees(llh_[GEO_LAT]) << "/" << 
-	Utils::radiansToDegrees(llh_[GEO_LON])  << "/"
+    os << "Track: " << trackNum_ << " When: " << std::setprecision(15) << when_
+       << " LLH: " << Utils::radiansToDegrees(llh_[GEO_LAT]) << "/" << Utils::radiansToDegrees(llh_[GEO_LON]) << "/"
        << llh_[GEO_HGT] << " Flags: " << flags_ << std::endl;
 
-    os << "Prediction at time " << std::setprecision(15) <<
-	predictionTime_ << ": " << 
-	Utils::radiansToDegrees(llh_prediction_[GEO_LAT]) << "/" << 
-	Utils::radiansToDegrees(llh_prediction_[GEO_LON]) << "/"
-       << llh_prediction_[GEO_HGT] << std::endl;
+    os << "Prediction at time " << std::setprecision(15) << predictionTime_ << ": "
+       << Utils::radiansToDegrees(llh_prediction_[GEO_LAT]) << "/" << Utils::radiansToDegrees(llh_prediction_[GEO_LON])
+       << "/" << llh_prediction_[GEO_HGT] << std::endl;
 
-    os << "Extraction at time " << std::setprecision(15) <<
-	extractionTime_ << ": " << 
-	Utils::radiansToDegrees(aer_extraction_[GEO_AZ]) << "/" << 
-	Utils::radiansToDegrees(aer_extraction_[GEO_EL]) << "/"
-       << aer_extraction_[GEO_RNG] << std::endl;
+    os << "Extraction at time " << std::setprecision(15) << extractionTime_ << ": "
+       << Utils::radiansToDegrees(aer_extraction_[GEO_AZ]) << "/" << Utils::radiansToDegrees(aer_extraction_[GEO_EL])
+       << "/" << aer_extraction_[GEO_RNG] << std::endl;
 
-    os << "Velocity: " << 
-	Utils::radiansToDegrees(llh_velocity_[GEO_LAT]) << "/" << 
-	Utils::radiansToDegrees(llh_velocity_[GEO_LON]) << "/"
-       << llh_velocity_[GEO_HGT] << std::endl;
+    os << "Velocity: " << Utils::radiansToDegrees(llh_velocity_[GEO_LAT]) << "/"
+       << Utils::radiansToDegrees(llh_velocity_[GEO_LON]) << "/" << llh_velocity_[GEO_HGT] << std::endl;
 
     return os;
 }
@@ -235,13 +221,8 @@ Track::printData(std::ostream& os) const
 std::ostream&
 Track::printDataXML(std::ostream& os) const
 {
-    return os << "<plot track=\"" << trackNum_
-	      << "\" when=\"" << when_
-	      << "\" lat=\"" << getLatitude()
-	      << "\" lon=\"" << getLongitude()
-	      << "\" height=\"" << getHeight()
-	      << "\" flags=\"" << flags_
-	      << "\" />";
+    return os << "<plot track=\"" << trackNum_ << "\" when=\"" << when_ << "\" lat=\"" << getLatitude() << "\" lon=\""
+              << getLongitude() << "\" height=\"" << getHeight() << "\" flags=\"" << flags_ << "\" />";
 }
 
 void
@@ -250,8 +231,7 @@ Track::loadXML(XmlStreamReader& xsr)
     std::cerr << "loadXML" << std::endl;
 
     Header::loadXML(xsr);
-    if (! xsr.readNextEntityAndValidate("plot"))
-	::abort();
+    if (!xsr.readNextEntityAndValidate("plot")) ::abort();
 
     when_ = xsr.getAttribute("when").toDouble();
     llh_[GEO_LAT] = xsr.getAttribute("latitude").toDouble();
@@ -264,10 +244,8 @@ void
 Track::dump() const
 {
     static Logger::ProcLog log("dump", Log());
-    LOGERROR << "Track: " << trackNum_ << " When: " <<  when_ << std::endl;
-   
-    LOGERROR << "LLH: " << Utils::radiansToDegrees(getLatitude()) << ' '
-	     << Utils::radiansToDegrees(getLongitude()) << ' '
-	     << getHeight() <<  std::endl;
-   
+    LOGERROR << "Track: " << trackNum_ << " When: " << when_ << std::endl;
+
+    LOGERROR << "LLH: " << Utils::radiansToDegrees(getLatitude()) << ' ' << Utils::radiansToDegrees(getLongitude())
+             << ' ' << getHeight() << std::endl;
 }

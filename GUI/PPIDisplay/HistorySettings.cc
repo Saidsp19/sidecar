@@ -2,10 +2,8 @@
 
 using namespace SideCar::GUI::PPIDisplay;
 
-HistorySettings::HistorySettings(BoolSetting* enabled,
-                                 IntSetting* retentionSize)
-    : Super(enabled), retentionSize_(retentionSize)
+HistorySettings::HistorySettings(BoolSetting* enabled, IntSetting* retentionSize) :
+    Super(enabled), retentionSize_(retentionSize)
 {
-    connect(retentionSize, SIGNAL(valueChanged(int)),
-            SIGNAL(retentionSizeChanged(int)));
+    connect(retentionSize, SIGNAL(valueChanged(int)), SIGNAL(retentionSizeChanged(int)));
 }

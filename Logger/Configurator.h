@@ -1,4 +1,4 @@
-#ifndef LOGGER_CONFIGURATOR_H	// -*- C++ -*-
+#ifndef LOGGER_CONFIGURATOR_H // -*- C++ -*-
 #define LOGGER_CONFIGURATOR_H
 
 #include <iosfwd>
@@ -36,12 +36,12 @@ namespace Logger {
    (and all other) StreamWriter object is
 
    <tt>[flush]</tt>
-   
+
    which controls whether the stream's flush method is called after each log message write.</DD>
 
    <DT>\c clog </DT>
    <DD>Same as above except the StreamWriter object uses std::clog for its output stream</DD>
-   
+
    <DT>\c cerr </DT>
    <DD>Same as above except the StreamWriter object uses std::cerr for its output stream</DD>
 
@@ -70,7 +70,7 @@ namespace Logger {
    arguments to a SyslogWriter are:
 
    <tt>IDENT [facility F]</tt>
-   
+
    where \c IDENT is the required identification string given to openlog and found in all log messages generated
    by syslog. \c F is an optional facility specification as defined by the syslog implementation.</DD>
 
@@ -98,140 +98,163 @@ namespace Logger {
    \par Test Cases:
    see ConfiguratorTests.cc
 */
-class Configurator
-{
+class Configurator {
 public:
-
     /** Top-level exception class used by all Configurator exceptions.
      */
     template <typename T>
-    struct ConfiguratorException : public LoggerException<T>
-    {
-	/** Constructor.
-
-	    \param routine name of the routine that throwing the exception
-
-	    \param err text of the error
-	*/
-	ConfiguratorException(const char* routine, const char* err)
-	    : LoggerException<T>("Configurator", routine) { *this << err; }
-
-	/** Constructor.
+    struct ConfiguratorException : public LoggerException<T> {
+        /** Constructor.
 
             \param routine name of the routine that throwing the exception
 
-	    \param err text of the error
+            \param err text of the error
+        */
+        ConfiguratorException(const char* routine, const char* err) : LoggerException<T>("Configurator", routine)
+        {
+            *this << err;
+        }
 
-	    \param log log device being configured at the time of the exception
-	*/
-	ConfiguratorException(const char* routine, const char* err, const Log& log)
-	    : LoggerException<T>("Configurator", routine)
-	    { *this << err << log.name(); }
+        /** Constructor.
+
+            \param routine name of the routine that throwing the exception
+
+            \param err text of the error
+
+            \param log log device being configured at the time of the exception
+        */
+        ConfiguratorException(const char* routine, const char* err, const Log& log) :
+            LoggerException<T>("Configurator", routine)
+        {
+            *this << err << log.name();
+        }
     };
 
     /** Exception thrown if no name found for Log instance.
      */
-    struct MissingLoggerName : public ConfiguratorException<MissingLoggerName> { MissingLoggerName(); };
+    struct MissingLoggerName : public ConfiguratorException<MissingLoggerName> {
+        MissingLoggerName();
+    };
 
     /** Exception thrown if no writer type found.
      */
-    struct MissingWriterType : public ConfiguratorException<MissingWriterType>
-    { MissingWriterType(const Log& log); };
+    struct MissingWriterType : public ConfiguratorException<MissingWriterType> {
+        MissingWriterType(const Log& log);
+    };
 
     /** Exception thrown if command is not \c writer or \c priority
      */
-    struct InvalidCommand : public ConfiguratorException<InvalidCommand>
-    { InvalidCommand(const std::string& cmd); };
+    struct InvalidCommand : public ConfiguratorException<InvalidCommand> {
+        InvalidCommand(const std::string& cmd);
+    };
 
     /** Exception thrown if \c priority command does not have a value.
      */
-    struct MissingPriorityName : public ConfiguratorException<MissingPriorityName>
-    { MissingPriorityName(const Log& log); };
+    struct MissingPriorityName : public ConfiguratorException<MissingPriorityName> {
+        MissingPriorityName(const Log& log);
+    };
 
     /** Exception thrown if a closing single- or double-quote is not found in a configuration line.
      */
-    struct UnterminatedString : public ConfiguratorException<UnterminatedString>
-    { UnterminatedString(const std::string& line); };
+    struct UnterminatedString : public ConfiguratorException<UnterminatedString> {
+        UnterminatedString(const std::string& line);
+    };
 
     /** Exception thrown if \c writer command does not have a valid type value
      */
-    struct InvalidWriterType : public ConfiguratorException<InvalidWriterType>
-    { InvalidWriterType(const Log& log, const std::string& type); };
+    struct InvalidWriterType : public ConfiguratorException<InvalidWriterType> {
+        InvalidWriterType(const Log& log, const std::string& type);
+    };
 
     /** Exception thrown if \c formatter command does not have a type value.
      */
-    struct MissingFormatterType : public ConfiguratorException<MissingFormatterType>
-    { MissingFormatterType(const Log& log); };
+    struct MissingFormatterType : public ConfiguratorException<MissingFormatterType> {
+        MissingFormatterType(const Log& log);
+    };
 
     /** Exception thrown if \c formatter command does not have a valid type value.
      */
-    struct InvalidFormatterType : public ConfiguratorException<InvalidFormatterType>
-    { InvalidFormatterType(const Log& log, const std::string& type); };
+    struct InvalidFormatterType : public ConfiguratorException<InvalidFormatterType> {
+        InvalidFormatterType(const Log& log, const std::string& type);
+    };
 
     /** Exception thrown if \c formatter \c pattern does not have a format specifier string.
      */
-    struct MissingFormatterPattern : public ConfiguratorException<MissingFormatterPattern>
-    { MissingFormatterPattern(const Log& log); };
+    struct MissingFormatterPattern : public ConfiguratorException<MissingFormatterPattern> {
+        MissingFormatterPattern(const Log& log);
+    };
 
     /** Exception thrown if StreamWriter definition has an invalid option name.
      */
-    struct InvalidStreamFlag : public ConfiguratorException<InvalidStreamFlag>
-    { InvalidStreamFlag(const Log& log, const std::string& flag); };
+    struct InvalidStreamFlag : public ConfiguratorException<InvalidStreamFlag> {
+        InvalidStreamFlag(const Log& log, const std::string& flag);
+    };
 
     /** Exception thrown if FileWriter definition does not have a file path value.
      */
-    struct MissingFilePath : public ConfiguratorException<MissingFilePath>
-    { MissingFilePath(const Log& log); };
+    struct MissingFilePath : public ConfiguratorException<MissingFilePath> {
+        MissingFilePath(const Log& log);
+    };
 
     /** Exception thrown if FileWriter definition has an invalid option name.
      */
-    struct InvalidFileFlag : public ConfiguratorException<InvalidFileFlag>
-    { InvalidFileFlag(const Log& log, const std::string& flag); };
+    struct InvalidFileFlag : public ConfiguratorException<InvalidFileFlag> {
+        InvalidFileFlag(const Log& log, const std::string& flag);
+    };
 
     /** Exception thrown if FileWriter definition has the \c mode option, but does not have a \c mode value.
      */
-    struct MissingFileMode : public ConfiguratorException<MissingFileMode>
-    { MissingFileMode(const Log& log); };
+    struct MissingFileMode : public ConfiguratorException<MissingFileMode> {
+        MissingFileMode(const Log& log);
+    };
 
     /** Exception thrown if RollingWriter definition has the \c versions option, but no \c versions value.
      */
-    struct MissingNumVersions : public ConfiguratorException<MissingNumVersions>
-    { MissingNumVersions(const Log& log); };
+    struct MissingNumVersions : public ConfiguratorException<MissingNumVersions> {
+        MissingNumVersions(const Log& log);
+    };
 
     /** Exception thrown if RollingWriter definition has the \c size option, but no \c size value.
      */
-    struct MissingMaxSize : public ConfiguratorException<MissingMaxSize>
-    { MissingMaxSize(const Log& log); };
+    struct MissingMaxSize : public ConfiguratorException<MissingMaxSize> {
+        MissingMaxSize(const Log& log);
+    };
 
     /** Exception thrown if SyslogWriter definition does not have an ident value.
      */
-    struct MissingIdent : public ConfiguratorException<MissingIdent>
-    { MissingIdent(const Log& log); };
+    struct MissingIdent : public ConfiguratorException<MissingIdent> {
+        MissingIdent(const Log& log);
+    };
 
     /** Exception thrown if SyslogWriter definition has the \c facility option, but no \c facility value.
      */
-    struct MissingFacility : public ConfiguratorException<MissingFacility>
-    { MissingFacility(const Log& log); };
+    struct MissingFacility : public ConfiguratorException<MissingFacility> {
+        MissingFacility(const Log& log);
+    };
 
     /** Exception thrown if SyslogWriter definition has an invalid option name.
      */
-    struct InvalidSyslogFlag : public ConfiguratorException<InvalidSyslogFlag>
-    { InvalidSyslogFlag(const Log& log, const std::string& flag); };
+    struct InvalidSyslogFlag : public ConfiguratorException<InvalidSyslogFlag> {
+        InvalidSyslogFlag(const Log& log, const std::string& flag);
+    };
 
     /** Exception thrown if RemoteSyslogWriter does not have a host name value.
      */
-    struct MissingRemoteHost : public ConfiguratorException<MissingRemoteHost>
-    { MissingRemoteHost(const Log& log); };
+    struct MissingRemoteHost : public ConfiguratorException<MissingRemoteHost> {
+        MissingRemoteHost(const Log& log);
+    };
 
     /** Exception thrown if RemoteSyslogWriter definition has the \c port option, but no \c port value
      */
-    struct MissingRemotePort : public ConfiguratorException<MissingRemotePort>
-    { MissingRemotePort(const Log& log); };
+    struct MissingRemotePort : public ConfiguratorException<MissingRemotePort> {
+        MissingRemotePort(const Log& log);
+    };
 
     /** Exception thrown if RemoteSyslogWriter definition has an invalid option name.
      */
-    struct InvalidRemoteSyslogFlag : public ConfiguratorException<InvalidRemoteSyslogFlag>
-    { InvalidRemoteSyslogFlag(const Log& log, const std::string& flag); };
+    struct InvalidRemoteSyslogFlag : public ConfiguratorException<InvalidRemoteSyslogFlag> {
+        InvalidRemoteSyslogFlag(const Log& log, const std::string& flag);
+    };
 
     /** Default constructor. No configuration is loaded.
      */
@@ -239,31 +262,29 @@ public:
 
     /** Constructor. Load configuration from a stream
 
-	\param is C++ standard input stream to read from
+        \param is C++ standard input stream to read from
     */
     Configurator(std::istream& is);
 
     /** Read configuration settings from a stream.
 
-	\param is C++ standard input stream to read from
+        \param is C++ standard input stream to read from
     */
     void load(std::istream& is);
 
 protected:
-
     /** Accessor for the set of Log objects created by Configurator::load
 
-	\return set of managed Log objects
+        \return set of managed Log objects
     */
     const std::set<Log*>& managed() const { return managed_; }
 
 private:
-
     /** Read a priority setting and use to set the priority of a Log object.
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void setPriorityLimit(std::istream& is, Log& log) const;
 
@@ -283,9 +304,9 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
 
-	\return new Formatter object
+        \return new Formatter object
     */
     Formatters::Formatter::Ref makeFormatter(std::istream& is, Log& log) const;
 
@@ -293,7 +314,7 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void addWriter(std::istream& is, Log& log) const;
 
@@ -301,9 +322,9 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
 
-	\param os C++ output stream to provide StreamWriter
+        \param os C++ output stream to provide StreamWriter
     */
     void addStreamWriter(std::istream& is, Log& log, std::ostream& os) const;
 
@@ -311,7 +332,7 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void addFileWriter(std::istream& is, Log& log) const;
 
@@ -319,7 +340,7 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void addRollingWriter(std::istream& is, Log& log) const;
 
@@ -327,7 +348,7 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void addSyslogWriter(std::istream& is, Log& log) const;
 
@@ -335,14 +356,14 @@ private:
 
         \param is stream to read from
 
-	\param log Log object to manipulate
+        \param log Log object to manipulate
     */
     void addRemoteSyslogWriter(std::istream& is, Log& log) const;
 
-    std::string currentLine_;	///< Current configuration line being processed
-    std::set<Log*> managed_;	///< Collection of Log objects we created
+    std::string currentLine_; ///< Current configuration line being processed
+    std::set<Log*> managed_;  ///< Collection of Log objects we created
 
-};				// class Configurator
+}; // class Configurator
 } // end namespace Logger
 
 /** \file

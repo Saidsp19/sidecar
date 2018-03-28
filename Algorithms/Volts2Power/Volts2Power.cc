@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Logger/Log.h"
 
@@ -12,8 +12,7 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur
 // in the startup() method.
 //
-Volts2Power::Volts2Power(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log)
+Volts2Power::Volts2Power(Controller& controller, Logger::Log& log) : Algorithm(controller, log)
 {
     ;
 }
@@ -27,7 +26,7 @@ Volts2Power::startup()
 {
     // Register message processor. Change as needed.
     //
-    registerProcessor<Volts2Power,Messages::Video>(&Volts2Power::process);
+    registerProcessor<Volts2Power, Messages::Video>(&Volts2Power::process);
 
     return true;
 }
@@ -43,10 +42,10 @@ Volts2Power::process(const Messages::Video::Ref& msg)
     Messages::Video::const_iterator end = msg->end();
 
     while (pos < end) {
-	float r = *pos++;
-	float i = *pos++;
-	float v = 10.0 * ::log10((r * r + i * i) * 2.5);
-	out->push_back(Messages::Video::DatumType(::rintf(v)));
+        float r = *pos++;
+        float i = *pos++;
+        float v = 10.0 * ::log10((r * r + i * i) * 2.5);
+        out->push_back(Messages::Video::DatumType(::rintf(v)));
     };
 
     bool rc = send(out);

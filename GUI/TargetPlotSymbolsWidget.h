@@ -3,7 +3,9 @@
 
 #include "QtGui/QWidget"
 
-namespace Ui { class TargetPlotSymbolsWidget; }
+namespace Ui {
+class TargetPlotSymbolsWidget;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -12,12 +14,11 @@ class TargetPlotImaging;
 /** Widget that shows the current plot symbols for the extractions (E), range truths (T) and user pick (P)
     imaging sources.
 */
-class TargetPlotSymbolsWidget : public QWidget
-{
+class TargetPlotSymbolsWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     /** Constructor.
 
         \param parent parent for auto-destruction
@@ -43,7 +44,6 @@ public:
     void connectBugPlotsSymbolType(TargetPlotImaging* setting);
 
 private:
-
     Ui::TargetPlotSymbolsWidget* gui_;
 };
 

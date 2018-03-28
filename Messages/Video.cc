@@ -1,7 +1,7 @@
 #include <algorithm>
 
-#include "Video.h"
 #include "VMEHeader.h"
+#include "Video.h"
 
 using namespace SideCar::Messages;
 
@@ -69,32 +69,30 @@ Video::XMLLoader(const std::string& producer, XmlStreamReader& xsr)
     return ref;
 }
 
-Video::Video(const std::string& producer, const VMEDataMessage& vme, size_t size)
-    : Super(producer, GetMetaTypeInfo(), vme, size)
+Video::Video(const std::string& producer, const VMEDataMessage& vme, size_t size) :
+    Super(producer, GetMetaTypeInfo(), vme, size)
 {
     ;
 }
 
-Video::Video(const std::string& producer, const VMEDataMessage& vme, const Container& data)
-    : Super(producer, GetMetaTypeInfo(), vme, data)
+Video::Video(const std::string& producer, const VMEDataMessage& vme, const Container& data) :
+    Super(producer, GetMetaTypeInfo(), vme, data)
 {
     ;
 }
 
-Video::Video(const std::string& producer, const PRIMessage::Ref& basis)
-    : Super(producer, GetMetaTypeInfo(), basis, basis->size())
+Video::Video(const std::string& producer, const PRIMessage::Ref& basis) :
+    Super(producer, GetMetaTypeInfo(), basis, basis->size())
 {
     ;
 }
 
-Video::Video(const std::string& producer)
-    : Super(producer, GetMetaTypeInfo())
+Video::Video(const std::string& producer) : Super(producer, GetMetaTypeInfo())
 {
     ;
 }
 
-Video::Video()
-    : Super(GetMetaTypeInfo())
+Video::Video() : Super(GetMetaTypeInfo())
 {
     ;
 }

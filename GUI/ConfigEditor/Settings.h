@@ -11,12 +11,11 @@ class SettingsWindow;
 
 /** Settings that persist between executions of the ConfigEditor application.
  */
-class Settings : public PresetManager
-{
+class Settings : public PresetManager {
     Q_OBJECT
     using Super = PresetManager;
-public:
 
+public:
     Settings(SettingsWindow& gui);
 
 private:

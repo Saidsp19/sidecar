@@ -17,12 +17,11 @@ namespace Master {
     Emits the finishedHost() signal after each 'killall' command completes, and
     a finished() signal when it has finished processing all hosts.
 */
-class CleanerThread : public QThread
-{
+class CleanerThread : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     /** Constructor
 
         \param hosts names of the hosts to connect to and clean
@@ -42,14 +41,13 @@ signals:
     void finishedHost(QString host);
 
 private:
-    
     /** Implementation of QThread::run() method. Loops over the set of host names given in the constructor, and
-	executes a 'killall' command on each to terminate active 'runner' and 'tail' processes.
+        executes a 'killall' command on each to terminate active 'runner' and 'tail' processes.
     */
     void run();
 
-    QSet<QString> hosts_;	///< Names of hosts to processes
-    volatile bool stop_;	///< Flag to signal running thread to stop
+    QSet<QString> hosts_; ///< Names of hosts to processes
+    volatile bool stop_;  ///< Flag to signal running thread to stop
 };
 
 /** Terminates active 'runner' and 'tail' processes on a set of hosts that are running under the current user's
@@ -57,12 +55,11 @@ private:
     circumstances, a process may fail to terminate properly, in which case a Cleaner instance will do the job,
     indiscriminately and with gusto.
 */
-class Cleaner : public QObject
-{
+class Cleaner : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Constructor. Creates a QProgressDialog to show the cleaning progress and a CleanerThread to do the
         cleaning. Note that it does not start the CleanerThread; call the start() method when ready to do so.
 
@@ -74,7 +71,7 @@ public:
     Cleaner(QWidget* parent, const QSet<QString>& hosts);
 
     /** Destructor. Stop and destroy the cleaning thread if it exists. Close and destroy the QProgressDialog if
-	it still exists.
+        it still exists.
     */
     ~Cleaner();
 
@@ -97,19 +94,19 @@ private slots:
     void finishedHost(QString host);
 
     /** Signal handler that is invoked when the CleanerThread thread exits its CleanerThread::run() method.
-	Reaps the thread and deletes it, and tears down the progress dialog window and deletes it. Emits the
-	finished() signal.
+        Reaps the thread and deletes it, and tears down the progress dialog window and deletes it. Emits the
+        finished() signal.
     */
     void finishedAll();
 
     /** Signal handler invoked when the user clicks on the 'Cancel' button in the QProgressDialog window. Simply
-	invokes the finishedAll() method.
+        invokes the finishedAll() method.
     */
     void canceled();
 
 private:
-    CleanerThread* thread_;	///< Worker thread that does the cleaning
-    QProgressDialog* dialog_;	///< Dialog that shows the cleaning progress
+    CleanerThread* thread_;   ///< Worker thread that does the cleaning
+    QProgressDialog* dialog_; ///< Dialog that shows the cleaning progress
 };
 
 } // end namespace Master

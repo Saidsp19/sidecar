@@ -7,7 +7,9 @@
 
 #include "Messages/Video.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,12 +20,11 @@ class WeightWindow;
 /** Representation of an FFT processing step. Accumulates input data that will be used for an FFT, as well as
     the results of an FFT calculation.
 */
-class WorkRequest : public QObject
-{
+class WorkRequest : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Log device to use for WorkRequest log messages.
 
         \return Log device
@@ -78,7 +79,6 @@ public slots:
     void setZeroPad(bool value) { zeroPad_ = value; }
 
 private:
-
     void initialize();
 
     const WeightWindow& weightWindow_;

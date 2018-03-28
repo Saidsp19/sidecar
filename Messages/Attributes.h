@@ -5,8 +5,8 @@
 
 #include "IO/CDRStreamable.h"
 #include "IO/Printable.h"
-#include "XMLRPC/XmlRpcValue.h"
 #include "Utils/Exception.h"
+#include "XMLRPC/XmlRpcValue.h"
 
 namespace SideCar {
 namespace Messages {
@@ -15,25 +15,21 @@ namespace Messages {
     to/from network or disk. Currently, the Extraction and BugPlot messages support attributes. If enough
     messsage classes do, it may make sense to have Header acquire an Attributes slot.
 */
-class Attributes : public IO::CDRStreamable<Attributes>, public IO::Printable<Attributes>
-{
+class Attributes : public IO::CDRStreamable<Attributes>, public IO::Printable<Attributes> {
 public:
-
     /** Exception thrown when a duplicate attribute name is detected.
      */
     class DuplicateAttribute : public Utils::Exception, public Utils::ExceptionInserter<DuplicateAttribute> {
     public:
+        /** Constructor.
 
-	/** Constructor.
-
-	    \param name name of the parameter that rejected the value
-	*/
-	DuplicateAttribute(const std::string& name);
+            \param name name of the parameter that rejected the value
+        */
+        DuplicateAttribute(const std::string& name);
     };
 
-    
     /** Constructor. Initialize empty container of attributes.
-    */
+     */
     Attributes();
 
     /** Add a new attribute to the container. Throws DuplicateAttribute exception if one already exists with the
@@ -43,7 +39,7 @@ public:
 
         \param value the attribute value
     */
-    void add(const std::string& name, const XmlRpc::XmlRpcValue& value) throw(DuplicateAttribute);
+    void add(const std::string& name, const XmlRpc::XmlRpcValue& value);
 
     /** Determines if there is an attribute with the given name.
 
@@ -54,7 +50,7 @@ public:
     bool contains(const std::string& name) const { return attributes_.hasMember(name); }
 
     /** Find an attribute with the given name.
-        
+
         \param name the attribute name
 
         \return attribute value if found; 'invalid' XMLRPC value if not.
@@ -62,7 +58,7 @@ public:
     const XmlRpc::XmlRpcValue& find(const std::string& name) const { return attributes_[name]; }
 
     /** Obtain an attribute with the given name.
-        
+
         \param name the attribute name
 
         \return attribute value if found; 'invalid' XMLRPC value if not.
@@ -70,7 +66,7 @@ public:
     const XmlRpc::XmlRpcValue& operator[](const std::string& name) const { return find(name); }
 
     /** Build an Attributes container from an ACE CDR stream.
-        
+
         \param cdr stream to read from
 
         \return stream read from

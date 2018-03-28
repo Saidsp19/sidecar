@@ -5,8 +5,7 @@
 using namespace SideCar;
 using namespace SideCar::IO;
 
-struct GrowlTests : public UnitTest::TestObj
-{
+struct GrowlTests : public UnitTest::TestObj {
     GrowlTests() : TestObj("Growl") {}
     void test();
 };

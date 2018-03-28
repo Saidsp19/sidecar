@@ -1,4 +1,4 @@
-#ifndef LOGGER_LOG_H		// -*- C++ -*-
+#ifndef LOGGER_LOG_H // -*- C++ -*-
 #define LOGGER_LOG_H
 
 #include <iostream>
@@ -10,12 +10,14 @@
 #include "boost/function.hpp"
 #include "boost/shared_ptr.hpp"
 
-#include "Logger/Priority.h"
 #include "Logger/LogStreamBuf.h"
+#include "Logger/Priority.h"
 #include "Logger/Writers.h"
 #include "Threading/Threading.h" // for Threading::Mutex
 
-namespace Utils { class Exception; }
+namespace Utils {
+class Exception;
+}
 namespace Logger {
 
 class ClockSource;
@@ -31,7 +33,7 @@ class Msg;
     NOTE: most methods below are <b>not</b> thread-safe. The sole exception are Find() and Root(), which rely on
     a mutex in MakeObj to guarantee that there is a one-to-one correlation between a log device name, and a Log
     object.
-   
+
     Each Log instance has a parent, which is also a Log instance (the only exception to this is the top-level
     `root' Log instance.) A log message posted to a child will also propagate up the inheritance hierarchy to
     each parent.
@@ -89,41 +91,39 @@ class Msg;
     LOGDEBUG << "hi mom!" << std::endl;
     \endcode
 */
-class Log
-{
+class Log {
 public:
-
     /** Change the source of timestamps used in messages. NOTE: not thread-safe!
 
-	\param clock ClockSource to install
+        \param clock ClockSource to install
 
-	\return previous clock source object
+        \return previous clock source object
     */
     using ClockSourceRef = boost::shared_ptr<ClockSource>;
     static ClockSourceRef SetClockSource(const ClockSourceRef& clock);
 
     /** Get the source of timestamps used in messages. If there is not a clock source available, a
-	SystemClockSource object will be created and returned. NOTE: not thread-safe!
+        SystemClockSource object will be created and returned. NOTE: not thread-safe!
 
         \return active clock source
     */
     static ClockSourceRef GetClockSource();
 
     /** Class method that locates/creates a Log instance under a given name. The name consists of zero or more
-	parent names, separated by `.' characters. If there are no parent names, the Log instance is assigned as
-	a child to the top-level `root' object.
-        
-	\param name the name to search for
+        parent names, separated by `.' characters. If there are no parent names, the Log instance is assigned as
+        a child to the top-level `root' object.
 
-	\param hidden if true and a new log device is created, it will not appear in the output of GetNames()
+        \param name the name to search for
 
-	\return Log instance found/created
+        \param hidden if true and a new log device is created, it will not appear in the output of GetNames()
+
+        \return Log instance found/created
     */
     static Log& Find(const std::string& name, bool hidden = false);
 
     /** Class method that locates/creates the top-level Log instance.
 
-	\return top-level Log instance
+        \return top-level Log instance
     */
     static Log& Root();
 
@@ -203,14 +203,14 @@ public:
 
     /** Obtain current priority limit of log device.
 
-	\return priority level
+        \return priority level
     */
     Priority::Level getPriorityLimit() const { return priorityLimit_; }
 
     /** Obtain max priority limit of the log device, which is defined as the max of getPriorityLimit() and
-	getParent().getMaxPriorityLimit().
+        getParent().getMaxPriorityLimit().
 
-	\return priority level
+        \return priority level
     */
     Priority::Level getMaxPriorityLimit() const { return maxPriorityLimit_; }
 
@@ -218,19 +218,19 @@ public:
 
         \param priority priority level to check for
 
-	\return true if accepted
+        \return true if accepted
     */
     bool isAccepting(Priority::Level priority) const { return priority <= maxPriorityLimit_; }
 
     /** Obtain the parent of this log device.
 
-	\return parent Log object, or NULL if this is the root Log device.
+        \return parent Log object, or NULL if this is the root Log device.
     */
     Log* getParent() const { return parent_; }
 
     /** Add a new Writer instance to the set of log message writers.
 
-	\param writer instance to add
+        \param writer instance to add
     */
     void addWriter(const Writers::Writer::Ref& writer);
 
@@ -253,75 +253,75 @@ public:
     void flushWriters();
 
     /** Submit a log message to all of the assigned LogWriters. Does nothing if the given message level is
-	greater than the priority setting of this instance or any parent priority settings.
-        
-	\param priority severity level of the log message
+        greater than the priority setting of this instance or any parent priority settings.
 
-	\param msg text of the log message
+        \param priority severity level of the log message
+
+        \param msg text of the log message
     */
     void post(Priority::Level priority, const std::string& msg) const;
 
     /** Determine if a `fatal' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsFatal() const { return isAccepting(Priority::kFatal); }
 
     /** Determine if a `error' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsError() const { return isAccepting(Priority::kError); }
 
     /** Determine if a `warning' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsWarning() const { return isAccepting(Priority::kWarning); }
 
     /** Determine if an 'info' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsInfo() const { return isAccepting(Priority::kInfo); }
-    
+
     /** Determine if an 'traceIn' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsTraceIn() const { return isAccepting(Priority::kTraceIn); }
-    
+
     /** Determine if an 'traceOut' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsTraceOut() const { return isAccepting(Priority::kTraceOut); }
-    
+
     /** Determine if a 'debug1' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsDebug1() const { return isAccepting(Priority::kDebug1); }
 
     /** Determine if a 'debug2' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsDebug2() const { return isAccepting(Priority::kDebug2); }
 
     /** Determine if a 'debug3' log message would reach a log device.
-        
-	\return true if so
+
+        \return true if so
     */
     bool showsDebug3() const { return isAccepting(Priority::kDebug3); }
 
     /** Obtain an output stream to use for a message of a certain priority level. All Log instances in the same
-	thread share the same output stream. If no log device would write out a message at the given priority
-	level, an `null' output stream is returned, one that is setup to not do any writing.
+        thread share the same output stream. If no log device would write out a message at the given priority
+        level, an `null' output stream is returned, one that is setup to not do any writing.
 
         \param level priority level of the next log message written to the stream.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& getStream(Priority::Level priority);
 
@@ -333,74 +333,77 @@ public:
 
     /** Obtain output stream for `error' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& error() { return getStream(Priority::kError); }
 
     /** Obtain output stream for `warning' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& warning() { return getStream(Priority::kWarning); }
 
     /** Obtain output stream for `info' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& info() { return getStream(Priority::kInfo); }
 
     /** Obtain output stream for `trace' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& traceIn() { return getStream(Priority::kTraceIn); }
 
     /** Obtain output stream for `trace' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& traceOut() { return getStream(Priority::kTraceOut); }
 
     /** Obtain output stream for `debug1' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& debug1() { return getStream(Priority::kDebug1); }
 
     /** Obtain output stream for `debug2' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& debug2() { return getStream(Priority::kDebug2); }
 
     /** Obtain output stream for `debug3' log messages.
 
-	\return output stream
+        \return output stream
     */
     std::ostream& debug3() { return getStream(Priority::kDebug3); }
 
     /** Generate a `fatal' log message from a exception object, and throw the exception object. As such, it will
-	not return...
+        not return...
 
         \param ex exception to log and throw
     */
     template <typename T>
-    void thrower(const T& ex) { fatal() << ex.err() << std::endl; throw ex; }
+    void thrower(const T& ex)
+    {
+        fatal() << ex.err() << std::endl;
+        throw ex;
+    }
 
 private:
-
     /** Constructor. Only visible to the FindObj class method, which creates new Log instances.
-        
-	\param name name of the Log instance
 
-	\param fullName full name of the Log instance, including the parent
-	hierarchy.
+        \param name name of the Log instance
 
-	\param parent Log instance that is the parent to this one. Only the
-	top-level `root' instance has NULL for this value.
+        \param fullName full name of the Log instance, including the parent
+        hierarchy.
 
-	\param priority Priority level used to limit which log messages are
-	posted.
+        \param parent Log instance that is the parent to this one. Only the
+        top-level `root' instance has NULL for this value.
+
+        \param priority Priority level used to limit which log messages are
+        posted.
     */
     Log(const std::string& name, const std::string& fullName, Log* parent, Priority::Level priority, bool hidden);
 
@@ -410,13 +413,13 @@ private:
 
     /** Assignment operator. Prohibited.
      */
-    Log& operator =(const Log&);
+    Log& operator=(const Log&);
 
     void initialize();
 
     /** Private method used by the Log::post to send the log message to registered Writer instances.
-        
-	\param msg Msg instance to send
+
+        \param msg Msg instance to send
     */
     void postMsg(const Msg& msg) const;
 
@@ -466,7 +469,7 @@ private:
 
     /** Create the root object. Install a formatter and log writer using std::cerr.
 
-        \return 
+        \return
     */
     static Log* MakeRoot();
 
@@ -498,15 +501,13 @@ private:
     The above assumes that the class Foo defined a (class) method called Log() which returned the general log
     device to use for all Foo-related log messages.
 */
-class ProcLog
-{
+class ProcLog {
 public:
-
     /** Constructor.
 
         \param name routine name to prepend to log messages
 
-	\param log device to send log messages to
+        \param log device to send log messages to
     */
     ProcLog(const char* name, Log& log);
 
@@ -514,21 +515,25 @@ public:
 
         \param name routine name to prepend to log messages
 
-	\param log device to send log messages to
+        \param log device to send log messages to
     */
     ProcLog(const std::string& name, Log& log);
 
     /** Generate a `fatal' log message from an Utils::Exception object, and throw the exception object. As such,
-	it will not return...
+        it will not return...
 
         \param ex exception to log and throw
     */
     template <typename T>
-    void thrower(const T& ex) { log_.fatal() << ex.err() << std::endl; throw ex; }
+    void thrower(const T& ex)
+    {
+        log_.fatal() << ex.err() << std::endl;
+        throw ex;
+    }
 
     /** Determine if a 'fatal' log message would reach a log device.
 
-	\return true if so
+        \return true if so
     */
     bool showsFatal() const { return log_.showsFatal(); }
 
@@ -635,48 +640,58 @@ public:
     std::ostream& debug3() { return log_.debug3(); }
 
 protected:
-    Log& log_;			///< device to use for log messages
+    Log& log_; ///< device to use for log messages
 };
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug3 messages.
  */
-#define LOGDEBUG3 if (log.showsDebug3()) log.debug3()
+#define LOGDEBUG3                                                                                                      \
+    if (log.showsDebug3()) log.debug3()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug2 messages.
  */
-#define LOGDEBUG2 if (log.showsDebug2()) log.debug2()
+#define LOGDEBUG2                                                                                                      \
+    if (log.showsDebug2()) log.debug2()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug1 messages.
  */
-#define LOGDEBUG1 if (log.showsDebug1()) log.debug1()
+#define LOGDEBUG1                                                                                                      \
+    if (log.showsDebug1()) log.debug1()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug1 messages.
  */
-#define LOGDEBUG if (log.showsDebug1()) log.debug1()
+#define LOGDEBUG                                                                                                       \
+    if (log.showsDebug1()) log.debug1()
 
 /** Macro to conditionally obtain a log stream if log device is accepting trace messages.
  */
-#define LOGTOUT if (log.showsTraceOut()) log.traceOut()
+#define LOGTOUT                                                                                                        \
+    if (log.showsTraceOut()) log.traceOut()
 
 /** Macro to conditionally obtain a log stream if log device is accepting trace messages.
  */
-#define LOGTIN if (log.showsTraceIn()) log.traceIn()
+#define LOGTIN                                                                                                         \
+    if (log.showsTraceIn()) log.traceIn()
 
 /** Macro to conditionally obtain a log stream if log device is accepting info messages.
  */
-#define LOGINFO if (log.showsInfo()) log.info()
+#define LOGINFO                                                                                                        \
+    if (log.showsInfo()) log.info()
 
 /** Macro to conditionally obtain a log stream if log device is accepting warning messages.
  */
-#define LOGWARNING if (log.showsWarning()) log.warning()
+#define LOGWARNING                                                                                                     \
+    if (log.showsWarning()) log.warning()
 
 /** Macro to conditionally obtain a log stream if log device is accepting error messages.
  */
-#define LOGERROR if (log.showsError()) log.error()
+#define LOGERROR                                                                                                       \
+    if (log.showsError()) log.error()
 
 /** Macro to conditionally obtain a log stream if log device is accepting fatal messages.
  */
-#define LOGFATAL if (log.showsFatal()) log.fatal()
+#define LOGFATAL                                                                                                       \
+    if (log.showsFatal()) log.fatal()
 
 } // namespace Logger
 

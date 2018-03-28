@@ -9,19 +9,14 @@ namespace ConfigEditor {
 
 class ParameterListItem;
 
-class AlgorithmItem : public TaskItem
-{
+class AlgorithmItem : public TaskItem {
     Q_OBJECT
     using Super = TaskItem;
+
 public:
+    enum ChildrenIndices { kParameters = Super::kNumChildren, kNumChildren };
 
-    enum ChildrenIndices {
-	kParameters = Super::kNumChildren,
-	kNumChildren
-    };
-
-    AlgorithmItem(StreamItem* parent, const QString& name,
-                  const QString& dllName);
+    AlgorithmItem(StreamItem* parent, const QString& name, const QString& dllName);
 
     Type getType() const { return kAlgorithm; }
 

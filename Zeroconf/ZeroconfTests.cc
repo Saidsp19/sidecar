@@ -14,27 +14,25 @@
 
 using namespace SideCar::Zeroconf;
 
-struct Test : public UnitTest::TestObj, public ACE_Event_Handler
-{
+struct Test : public UnitTest::TestObj, public ACE_Event_Handler {
     using ServiceEntryVector = Browser::ServiceEntryVector;
 
     static Logger::Log& Log()
-	{
-	    static Logger::Log& log = Logger::Log::Find("ZeroconfTests.Test");
-	    return log;
-	}
+    {
+        static Logger::Log& log = Logger::Log::Find("ZeroconfTests.Test");
+        return log;
+    }
 
-    Test()
-	: TestObj("Zeroconf"), ACE_Event_Handler(ACE_Reactor::instance()),
-	  name_(""), port_(::getpid()), wasPublished_(false),
-	  found_(false)
-	{
-	    char hostName[1024];
-	    ::gethostname(hostName, 1024);
-	    std::ostringstream os("");
-	    os << "ZCT_" << hostName << '_' << ::getpid();
-	    name_ = os.str();
-	}
+    Test() :
+        TestObj("Zeroconf"), ACE_Event_Handler(ACE_Reactor::instance()), name_(""), port_(::getpid()),
+        wasPublished_(false), found_(false)
+    {
+        char hostName[1024];
+        ::gethostname(hostName, 1024);
+        std::ostringstream os("");
+        os << "ZCT_" << hostName << '_' << ::getpid();
+        name_ = os.str();
+    }
 
     void test();
 
@@ -58,8 +56,8 @@ Test::publishedNotification(bool state)
 
     wasPublished_ = state;
     if (state && found_) {
-	LOGINFO << "shutting down" << std::endl;
-	ACE_Reactor::instance()->end_reactor_event_loop();
+        LOGINFO << "shutting down" << std::endl;
+        ACE_Reactor::instance()->end_reactor_event_loop();
     }
 }
 
@@ -67,17 +65,17 @@ void
 Test::foundServiceNotification(const ServiceEntryVector& services)
 {
     Logger::ProcLog log("foundServiceNotification", Log());
-    for (size_t index = 0; index < services.size() && ! found_; ++index) {
-	LOGINFO << "found " << services[index]->getName() << std::endl;
-	if (services[index]->getName() == name_) {
-	    LOGINFO << "found" << std::endl;
-	    found_ = true;
-	}
+    for (size_t index = 0; index < services.size() && !found_; ++index) {
+        LOGINFO << "found " << services[index]->getName() << std::endl;
+        if (services[index]->getName() == name_) {
+            LOGINFO << "found" << std::endl;
+            found_ = true;
+        }
     }
 
     if (wasPublished_ && found_) {
-	LOGINFO << "shutting down" << std::endl;
-	ACE_Reactor::instance()->end_reactor_event_loop();
+        LOGINFO << "shutting down" << std::endl;
+        ACE_Reactor::instance()->end_reactor_event_loop();
     }
 }
 

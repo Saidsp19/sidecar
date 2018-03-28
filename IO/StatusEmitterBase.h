@@ -6,8 +6,12 @@
 #include "ace/Sched_Params.h"
 #include "boost/shared_ptr.hpp"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace IO {
@@ -25,10 +29,8 @@ namespace IO {
     fillStatus() method adds the name/value pairs to an existing XML-RPC struct value. This result is what the
     Emitter helper class uses when it emits status information to registered listeners.
 */
-class StatusEmitterBase
-{
+class StatusEmitterBase {
 public:
-
     using Ref = boost::shared_ptr<StatusEmitterBase>;
 
     /** Obtain the log device used by StatusEmitter objects.
@@ -39,7 +41,7 @@ public:
 
     /** Constructor.
 
-	\param name of the Zeroconf service to publish
+        \param name of the Zeroconf service to publish
 
         \param updateRate the number of seconds between status emissions.
     */
@@ -53,7 +55,7 @@ public:
 
         \return true if successful
     */
-    bool open(long threadFlags = THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED ,
+    bool open(long threadFlags = THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED,
               long priority = ACE_DEFAULT_THREAD_PRIORITY);
 
     /** Close the datagram socket and shutdown Zeroconf publisher.
@@ -75,7 +77,6 @@ public:
     void emitStatus();
 
 protected:
-
     /** Fill in an XML-RPC struct value with name/value pairs that describe the current status of the Algorithm
         we represent. Derived classes should override this method to provide their own status.
 
@@ -93,7 +94,7 @@ private:
     std::unique_ptr<Emitter> emitter_;
 };
 
-} // end namespace Algorithms
+} // namespace IO
 } // end namespace SideCar
 
 /** \file

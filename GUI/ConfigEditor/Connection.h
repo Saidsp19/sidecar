@@ -9,12 +9,11 @@ namespace ConfigEditor {
 
 class ChannelItem;
 
-class Connection : public QObject
-{
+class Connection : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     Connection(ChannelItem* from, ChannelItem* to);
 
     ~Connection();

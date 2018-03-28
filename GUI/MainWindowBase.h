@@ -7,7 +7,9 @@ class QAction;
 class QMenu;
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,12 +22,11 @@ class ToolBar;
     minimization, mazimization, and full-screen mode using a common window menu, managed by the application's
     WindowManager object.
 */
-class MainWindowBase : public QMainWindow
-{
+class MainWindowBase : public QMainWindow {
     Q_OBJECT
     using Super = QMainWindow;
-public:
 
+public:
     /** Log device for instances of this class.
 
         \return log device
@@ -41,8 +42,8 @@ public:
     ~MainWindowBase();
 
     /** Complete widget initialization. As this is a virtual method, derived classes should override this to
-	implement their custom initialization. The constructor is not a good place for some initialization
-	because virtual methods are not honored there.
+        implement their custom initialization. The constructor is not a good place for some initialization
+        because virtual methods are not honored there.
     */
     virtual void initialize();
 
@@ -56,7 +57,7 @@ public:
     /** Configure the window so that the user may not resize it.
      */
     void setFixedSize();
-    
+
     /** Obtain the application object.
 
         \return AppBase object
@@ -78,7 +79,7 @@ public:
     /** Shadow of QWidget::setWindowTitle() method. Informs the AppBase object managing the window of the title
         change.
 
-        \param windowTitle 
+        \param windowTitle
     */
     void setWindowTitle(const QString& windowTitle);
 
@@ -110,8 +111,7 @@ public:
 
         \param state new state to use
     */
-    void setRestorable(bool state)
-	{ restorable_ = state; }
+    void setRestorable(bool state) { restorable_ = state; }
 
     /** Determine of the window is restorable.
 
@@ -124,8 +124,7 @@ public:
 
         \param state new state to use
     */
-    void setVisibleAfterRestore(bool state)
-	{ visibleAfterRestore_ = state; }
+    void setVisibleAfterRestore(bool state) { visibleAfterRestore_ = state; }
 
     /** Determine if the window should be visible when the application relaunches.
 
@@ -136,12 +135,11 @@ public:
 public slots:
 
     /** Convenience slot method that shows our window, raises it to the top of the window layer, and then
-	activates it.
+        activates it.
     */
     virtual void showAndRaise();
 
 protected:
-
     /** Install a QMenu object to use for the window's 'Window' menu. Should be invoked prior to initialize().
 
         \param menu the QMenu to use
@@ -149,19 +147,19 @@ protected:
     void setWindowMenu(QMenu* menu) { windowMenu_ = menu; }
 
     /** Install a QMenu object to use for the window's context menu (the menu that pops up when the user
-	right-clicks (or CTRL+click on Mac) inside the window.
+        right-clicks (or CTRL+click on Mac) inside the window.
 
         \param menu the QMenu to use
     */
     void setContextMenu(QMenu* menu) { contextMenu_ = menu; }
 
     /** Create the window's QMenuBar object. Populates it with QMenu objects. This implementation creates or
-	uses the following menus:
+        uses the following menus:
 
-	- Tools
-	- Window
-	- Logging
-	- Help
+        - Tools
+        - Window
+        - Logging
+        - Help
     */
     virtual void makeMenuBar();
 
@@ -173,12 +171,12 @@ protected:
     virtual void fillContextMenu(QMenu* menu);
 
     /** Create a new QAction that controls our visibility. Invoked from getShowAction(). The default behavior is
-	to create a new QAction with no key shortcut. Derived classes can override this, and provide a different
-	shortcut value.
+        to create a new QAction with no key shortcut. Derived classes can override this, and provide a different
+        shortcut value.
 
-	\param shortcut key shortcut to use for the QAction
+        \param shortcut key shortcut to use for the QAction
 
-	\return new QAction object
+        \return new QAction object
     */
     virtual QAction* makeShowAction(int shortcut = 0);
 
@@ -193,8 +191,7 @@ protected:
 
         \return new QAction object
     */
-    QAction* makeMenuAction(const QString& title, const char* slot = 0,
-                            int shortcut = 0);
+    QAction* makeMenuAction(const QString& title, const char* slot = 0, int shortcut = 0);
 
     /** Create a new QToolBar object with a given title and initial position. Add a visibility QAction object to
         the internal toolbar menu to control toolbar visibility.
@@ -205,15 +202,14 @@ protected:
 
         \return new QToolBar object
     */
-    virtual ToolBar* makeToolBar(const QString& title,
-                                 Qt::ToolBarArea area = Qt::TopToolBarArea);
+    virtual ToolBar* makeToolBar(const QString& title, Qt::ToolBarArea area = Qt::TopToolBarArea);
 
     bool event(QEvent* event);
-    
+
     /** Called in response to a user request to show a context menu. Displays one if a derived class overrides
         getContextMenu() to return a non-NULL value. Override of QWidget method.
 
-	\param event event descriptor
+        \param event event descriptor
     */
     void contextMenuEvent(QContextMenuEvent* event);
 
@@ -234,7 +230,7 @@ protected:
     /** Looks for QEvent::WindowStateChange events to detect when entering/exiting full-screen mode in order to
         hide/show the menu and status bars. Override of QWidget method.
 
-	\param event event descriptor
+        \param event event descriptor
     */
     void changeEvent(QEvent* event);
 

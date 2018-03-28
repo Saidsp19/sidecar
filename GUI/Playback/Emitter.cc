@@ -1,4 +1,4 @@
-#include <fcntl.h>		// for ::open
+#include <fcntl.h> // for ::open
 
 #include "boost/bind.hpp"
 
@@ -30,12 +30,10 @@ Emitter::Log()
     return log_;
 }
 
-Emitter::Emitter(MainWindow* mainWindow, const QFileInfo& fileInfo, int row,
-                 bool emitting)
-    : QThread(), clock_(mainWindow->getClock()), name_(fileInfo.baseName()), address_(mainWindow->getAddress()),
-      suffix_(mainWindow->getSuffix()), metaTypeInfo_(0), reader_(), timeIndex_(0), writer_(0), pending_(0),
-      loadPercentage_(0.0), subscriberCount_(0), row_(row), emitting_(emitting), valid_(false),
-      running_(false)
+Emitter::Emitter(MainWindow* mainWindow, const QFileInfo& fileInfo, int row, bool emitting) :
+    QThread(), clock_(mainWindow->getClock()), name_(fileInfo.baseName()), address_(mainWindow->getAddress()),
+    suffix_(mainWindow->getSuffix()), metaTypeInfo_(0), reader_(), timeIndex_(0), writer_(0), pending_(0),
+    loadPercentage_(0.0), subscriberCount_(0), row_(row), emitting_(emitting), valid_(false), running_(false)
 {
     static Logger::ProcLog log("Emitter", Log());
     LOGINFO << "baseName: " << fileInfo.baseName() << std::endl;
@@ -45,8 +43,8 @@ Emitter::~Emitter()
 {
     stop();
     if (writer_) {
-	writer_->stop();
-	delete writer_;
+        writer_->stop();
+        delete writer_;
     }
 }
 
@@ -63,19 +61,15 @@ Emitter::load(const QFileInfo& fileInfo)
     std::string path(fileInfo.absoluteFilePath().toStdString());
     Utils::FilePath fp(path);
     fp.setExtension(IO::TimeIndex::GetIndexFileSuffix());
-    if (! fp.exists()) {
-	IO::IndexMaker::Status status = IO::IndexMaker::Make(
-	    path, 15, boost::bind(&Emitter::indexMakerUpdate, this, _1));
-	if (status != IO::IndexMaker::kOK) {
-	    return;
-	}
+    if (!fp.exists()) {
+        IO::IndexMaker::Status status =
+            IO::IndexMaker::Make(path, 15, boost::bind(&Emitter::indexMakerUpdate, this, _1));
+        if (status != IO::IndexMaker::kOK) { return; }
     }
 
     timeIndex_ = new IO::TimeIndex(fp);
     int fd = ::open(path.c_str(), O_RDONLY);
-    if (fd == -1) {
-	return;
-    }
+    if (fd == -1) { return; }
 
     IO::FileReader reader;
     reader.getDevice().set_handle(fd);
@@ -85,9 +79,7 @@ Emitter::load(const QFileInfo& fileInfo)
     // meta-types.
     //
     Messages::Header header(*Messages::MetaTypeInfo::Find(Messages::MetaTypeInfo::Value::kVideo));
-    if (! reader.fetchInput() || ! reader.isMessageAvailable()) {
-	return;
-    }
+    if (!reader.fetchInput() || !reader.isMessageAvailable()) { return; }
 
     ACE_Message_Block* data = reader.getMessage();
     IO::Decoder decoder(data);
@@ -96,9 +88,7 @@ Emitter::load(const QFileInfo& fileInfo)
     // Now we have a valid Header. Fetch the MetaTypeInfo object it refers to.
     //
     metaTypeInfo_ = Messages::MetaTypeInfo::Find(header.getGloballyUniqueID().getMessageTypeKey());
-    if (! metaTypeInfo_) {
-	return;
-    }
+    if (!metaTypeInfo_) { return; }
 
     // We are valid now. Assume the real emitting value.
     //
@@ -127,9 +117,9 @@ Emitter::load(const QFileInfo& fileInfo)
     //
     ::lseek(fd, timeIndex_->getLastEntry(), SEEK_SET);
     if (reader_.fetchInput()) {
-	IO::MessageManager mgr(reader_.getMessage(), metaTypeInfo_);
-	Messages::Header::Ref msg(mgr.getNative());
-	endTime_ = msg->getCreatedTimeStamp();
+        IO::MessageManager mgr(reader_.getMessage(), metaTypeInfo_);
+        Messages::Header::Ref msg(mgr.getNative());
+        endTime_ = msg->getCreatedTimeStamp();
     }
 
     // Rewind to the file beginning.
@@ -148,44 +138,37 @@ Emitter::makeWriter(bool restartIfRunning)
     static Logger::ProcLog log("makeWriter", Log());
     LOGINFO << name_ << " restartIfRunning: " << restartIfRunning << std::endl;
 
-    if (! valid_ || ! emitting_) {
-	return;
-    }
+    if (!valid_ || !emitting_) { return; }
 
     // Make sure we are not running when we create a new UDPMessageWriter. Remember if we were running in case we are
     // permitted to restart.
     //
     bool wasRunning = running_;
-    if (wasRunning)
-	stop();
+    if (wasRunning) stop();
 
     if (writer_) {
-	writer_->stop();
-	delete writer_;
-	writer_ = 0;
+        writer_->stop();
+        delete writer_;
+        writer_ = 0;
     }
 
     // Create our published name.
     //
     QString name(name_);
-    if (! suffix_.isEmpty()) {
-	name += suffix_;
-    }
+    if (!suffix_.isEmpty()) { name += suffix_; }
 
     subscriberCount_ = 0;
     writer_ = UDPMessageWriter::Make(name, metaTypeInfo_->getName(), address_);
-    if (! writer_) {
-	LOGERROR << "failed to create writer!" << std::endl;
-	return;
+    if (!writer_) {
+        LOGERROR << "failed to create writer!" << std::endl;
+        return;
     }
 
     connect(writer_, SIGNAL(subscriberCountChanged(size_t)), SLOT(writerSubscriberCountChanged(size_t)));
 
     // Restart our own emitter thread if we were running and we can restart.
     //
-    if (wasRunning && restartIfRunning) {
-	start();
-    }
+    if (wasRunning && restartIfRunning) { start(); }
 }
 
 void
@@ -203,32 +186,28 @@ Emitter::setEmitting(bool emitting)
 
     if (emitting == emitting_) return;
     emitting_ = emitting;
-    if (! valid_) return;
+    if (!valid_) return;
 
     if (emitting) {
-	if (! writer_) {
-	    makeWriter();
+        if (!writer_) { makeWriter(); }
+
+        if (clock_->isRunning()) {
+            setPlaybackClockStart(clock_->getPlaybackClock());
+            start();
         }
+    } else {
+        // Stop emitting and remove our writer.
+        //
+        stop();
 
-	if (clock_->isRunning()) {
-	    setPlaybackClockStart(clock_->getPlaybackClock());
-	    start();
-	}
-    }
-    else {
-
-	// Stop emitting and remove our writer.
-	//
-	stop();
-
-	// Remove any current writer.
-	//
-	if (writer_) {
-	    writer_->stop();
-	    delete writer_;
-	    writer_ = 0;
-	    writerSubscriberCountChanged(0);
-	}
+        // Remove any current writer.
+        //
+        if (writer_) {
+            writer_->stop();
+            delete writer_;
+            writer_ = 0;
+            writerSubscriberCountChanged(0);
+        }
     }
 }
 
@@ -236,8 +215,8 @@ void
 Emitter::setAddress(const QString& address)
 {
     if (address != address_) {
-	address_ = address;
-	makeWriter(true);
+        address_ = address;
+        makeWriter(true);
     }
 }
 
@@ -245,8 +224,8 @@ void
 Emitter::setSuffix(const QString& suffix)
 {
     if (suffix != suffix_) {
-	suffix_ = suffix;
-	makeWriter(true);
+        suffix_ = suffix;
+        makeWriter(true);
     }
 }
 
@@ -256,17 +235,11 @@ Emitter::setPlaybackClockStart(const Time::TimeStamp& playbackClockStart)
     static Logger::ProcLog log("setPlaybackClockStart", Log());
     LOGINFO << "playbackClockStart: " << playbackClockStart << std::endl;
 
-    if (! valid_) {
-	return;
-    }
+    if (!valid_) { return; }
 
-    if (running_) {
-	stop();
-    }
+    if (running_) { stop(); }
 
-    if (! writer_) {
-	makeWriter();
-    }
+    if (!writer_) { makeWriter(); }
 
     // Obtain the position of a record that is close to the given time (but not
     // greater than it) and seek to it.
@@ -281,9 +254,9 @@ Emitter::start()
     static Logger::ProcLog log("start", Log());
     LOGINFO << name_ << ' ' << running_ << std::endl;
 
-    if (! valid_ || ! emitting_) {
-	LOGERROR << name_ << " not valid or not emitting" << std::endl;
-	return;
+    if (!valid_ || !emitting_) {
+        LOGERROR << name_ << " not valid or not emitting" << std::endl;
+        return;
     }
 
     setPlaybackClockStart(clock_->getPlaybackClock());
@@ -291,13 +264,12 @@ Emitter::start()
     // We only run if we have data to emit.
     //
     if (pending_) {
-	LOGDEBUG << name_ << " has pending - will start" << std::endl;
-	running_ = true;
-	Super::start();
-	LOGDEBUG << name_ << " started" << std::endl;
-    }
-    else {
-	LOGDEBUG << name_ << " not started - emitting: " << emitting_ << " pending: " << pending_ << std::endl;
+        LOGDEBUG << name_ << " has pending - will start" << std::endl;
+        running_ = true;
+        Super::start();
+        LOGDEBUG << name_ << " started" << std::endl;
+    } else {
+        LOGDEBUG << name_ << " not started - emitting: " << emitting_ << " pending: " << pending_ << std::endl;
     }
 }
 
@@ -307,12 +279,11 @@ Emitter::stop()
     static Logger::ProcLog log("stop", Log());
 
     if (running_) {
-	running_ = false;
-	wait();
-	LOGDEBUG << name_ << " stopped" << std::endl;
-    }
-    else {
-	LOGDEBUG << name_ << " not running" << std::endl;
+        running_ = false;
+        wait();
+        LOGDEBUG << name_ << " stopped" << std::endl;
+    } else {
+        LOGDEBUG << name_ << " not running" << std::endl;
     }
 }
 
@@ -322,17 +293,17 @@ Emitter::repositionAndFetch(off_t pos, const Time::TimeStamp& when)
     static Logger::ProcLog log("repositionAndFetch", Log());
     LOGINFO << "pos: " << pos << " when: " << when << std::endl;
 
-    if (! valid_) return;
+    if (!valid_) return;
 
     if (pending_) {
-	pending_->release();
-	pending_ = 0;
+        pending_->release();
+        pending_ = 0;
     }
 
     int fd = reader_.getDevice().get_handle();
     if (fd == -1) {
-	LOGERROR << "invalid fd" << std::endl;
-	return;
+        LOGERROR << "invalid fd" << std::endl;
+        return;
     }
 
     // Move to given position in the file.
@@ -345,29 +316,27 @@ Emitter::repositionAndFetch(off_t pos, const Time::TimeStamp& when)
     Messages::Header header(*metaTypeInfo_);
     ACE_Message_Block* last = 0;
     while (reader_.fetchInput() && reader_.isMessageAvailable()) {
-	ACE_Message_Block* data = reader_.getMessage();
-	IO::Decoder decoder(data->duplicate());
-	header.load(decoder);
-	if (header.getCreatedTimeStamp() > when) {
-	    if (! last) last = data;
-	    break;
-	}
+        ACE_Message_Block* data = reader_.getMessage();
+        IO::Decoder decoder(data->duplicate());
+        header.load(decoder);
+        if (header.getCreatedTimeStamp() > when) {
+            if (!last) last = data;
+            break;
+        }
 
-	if (last) last->release();
-	last = data;
+        if (last) last->release();
+        last = data;
     }
 
     if (last) {
-
-	// Found something to emit. Record the message found and its timestamp.
-	//
-	IO::MessageManager mgr(last, metaTypeInfo_);
-	Messages::Header::Ref msg(mgr.getNative());
-	LOGDEBUG << "sequence: "
-		 << msg->getGloballyUniqueID().getMessageSequenceNumber()
-		 << " time: " << msg->getCreatedTimeStamp() << std::endl;
-	pending_ = mgr.getMessage();
-	pendingTime_ = header.getCreatedTimeStamp();
+        // Found something to emit. Record the message found and its timestamp.
+        //
+        IO::MessageManager mgr(last, metaTypeInfo_);
+        Messages::Header::Ref msg(mgr.getNative());
+        LOGDEBUG << "sequence: " << msg->getGloballyUniqueID().getMessageSequenceNumber()
+                 << " time: " << msg->getCreatedTimeStamp() << std::endl;
+        pending_ = mgr.getMessage();
+        pendingTime_ = header.getCreatedTimeStamp();
     }
 }
 
@@ -379,61 +348,56 @@ Emitter::run()
     static const Time::TimeStamp kMaxSleep(0, Time::TimeStamp::kMicrosPerSecond / 10); // 0.1 seconds
 
     static Logger::ProcLog log("run", Log());
-    LOGINFO << name_ << " valid: " << valid_ << " emitting: " << emitting_ << " writer: " << writer_ << " pending: "
-            << pending_ << std::endl;
+    LOGINFO << name_ << " valid: " << valid_ << " emitting: " << emitting_ << " writer: " << writer_
+            << " pending: " << pending_ << std::endl;
 
     // !!! This should never be true here
     //
-    if (! valid_ || ! emitting_) {
-	LOGERROR << "exiting" << std::endl;
-	return;
+    if (!valid_ || !emitting_) {
+        LOGERROR << "exiting" << std::endl;
+        return;
     }
 
     // Keep running while our running_ attribute is true and we have a message to emit.
     //
     while (running_ && pending_) {
+        // Calculate amount of wall time until the next emission.
+        //
+        Time::TimeStamp duration(clock_->getWallClockDurationUntil(pendingTime_));
+        LOGDEBUG << name_ << " clock: " << clock_->getPlaybackClock() << " pendingTime: " << pendingTime_
+                 << " duration: " << duration << std::endl;
 
-	// Calculate amount of wall time until the next emission.
-	//
-	Time::TimeStamp duration(clock_->getWallClockDurationUntil(pendingTime_));
-	LOGDEBUG << name_ << " clock: " << clock_->getPlaybackClock()
-		 << " pendingTime: " << pendingTime_
-		 << " duration: " << duration << std::endl;
+        // Do we need to sleep?
+        //
+        if (duration > Time::TimeStamp::Min()) {
+            // Don't sleep too long in order to detect running_ changes. Since we know there will be more time to wait,
+            // we 'continue' back to beginning of the while loop once we wake up.
+            //
+            if (duration > kMaxSleep) {
+                usleep(kMaxSleep.getMicro());
+                continue;
+            }
 
-	// Do we need to sleep?
-	//
-	if (duration > Time::TimeStamp::Min()) {
-
-	    // Don't sleep too long in order to detect running_ changes. Since we know there will be more time to wait,
-	    // we 'continue' back to beginning of the while loop once we wake up.
-	    //
-	    if (duration > kMaxSleep) {
-		usleep(kMaxSleep.getMicro());
-		continue;
-	    }
-
-	    // Sleep for the required number of microseconds. When we awake, we will emit the pending message.
-	    //
-	    usleep(duration.getSeconds() * Time::TimeStamp::kMicrosPerSecond + duration.getMicro());
-	}
-
-	// Time to emit the message.
-	//
-	LOGDEBUG << name_ << " emitting " << pendingTime_ << std::endl;
-	IO::MessageManager mgr(pending_);
-	if (subscriberCount_) {
-	    writer_->writeMessage(mgr);
+            // Sleep for the required number of microseconds. When we awake, we will emit the pending message.
+            //
+            usleep(duration.getSeconds() * Time::TimeStamp::kMicrosPerSecond + duration.getMicro());
         }
-	pending_ = 0;
 
-	// Fetch the next message to emit.
-	//
-	if (reader_.fetchInput()) {
-	    IO::MessageManager mgr(reader_.getMessage(), metaTypeInfo_);
-	    pending_ = mgr.getMessage();
-	    pendingTime_ = mgr.getNative()->getCreatedTimeStamp();
-	    LOGDEBUG << name_ << " pendingTime: " << pendingTime_ << std::endl;
-	}
+        // Time to emit the message.
+        //
+        LOGDEBUG << name_ << " emitting " << pendingTime_ << std::endl;
+        IO::MessageManager mgr(pending_);
+        if (subscriberCount_) { writer_->writeMessage(mgr); }
+        pending_ = 0;
+
+        // Fetch the next message to emit.
+        //
+        if (reader_.fetchInput()) {
+            IO::MessageManager mgr(reader_.getMessage(), metaTypeInfo_);
+            pending_ = mgr.getMessage();
+            pendingTime_ = mgr.getNative()->getCreatedTimeStamp();
+            LOGDEBUG << name_ << " pendingTime: " << pendingTime_ << std::endl;
+        }
     }
 
     // !!! Don't clear 'running_' flag when we exit. That way, the main thread will reap us with a wait() call.
@@ -444,21 +408,21 @@ Emitter::run()
 QString
 Emitter::getFormattedStartTime() const
 {
-    if (! valid_) return "NA";
+    if (!valid_) return "NA";
     return clock_->formatTimeStamp(startTime_);
 }
 
 QString
 Emitter::getFormattedEndTime() const
 {
-    if (! valid_) return "NA";
+    if (!valid_) return "NA";
     return clock_->formatTimeStamp(endTime_);
 }
 
 QString
 Emitter::getFormattedDuration() const
 {
-    if (! valid_) return "NA";
+    if (!valid_) return "NA";
     Time::TimeStamp duration(endTime_);
     duration -= startTime_;
     return clock_->formatDuration(duration);

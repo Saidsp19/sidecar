@@ -1,7 +1,7 @@
-#include <sys/types.h>
+#include <fcntl.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
-#include <fcntl.h>
+#include <sys/types.h>
 
 #include "Logger/Log.h"
 
@@ -24,26 +24,25 @@ GLInitLock::GetSemaphore()
     Logger::ProcLog log("GetSemaphore", Log());
 
     if (semaphore_ == -1) {
-	LOGWARNING << "creating semaphore 4465" << std::endl;
-	int semaphore = ::semget(4465, 1, IPC_CREAT | S_IRUSR | S_IWUSR |
-                                 S_IRGRP | S_IWGRP);
-	LOGWARNING << "semaphore: " << semaphore << std::endl;
-	if (semaphore_ == -1) {
-	    semaphore_ = semaphore;
+        LOGWARNING << "creating semaphore 4465" << std::endl;
+        int semaphore = ::semget(4465, 1, IPC_CREAT | S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+        LOGWARNING << "semaphore: " << semaphore << std::endl;
+        if (semaphore_ == -1) {
+            semaphore_ = semaphore;
 #ifdef linux
-	    union semun {
-		int val;
-		struct semids_ds* bf;
-		unsigned short* array;
-		struct seminfo* __buf;
-	    } sem_union;
+            union semun {
+                int val;
+                struct semids_ds* bf;
+                unsigned short* array;
+                struct seminfo* __buf;
+            } sem_union;
 #else
-	    union semun sem_union;
+            union semun sem_union;
 #endif
-	    sem_union.val = 1;
-	    LOGWARNING << "initializing to 1" << std::endl;
-	    ::semctl(semaphore_, 0, SETVAL, sem_union);
-	}
+            sem_union.val = 1;
+            LOGWARNING << "initializing to 1" << std::endl;
+            ::semctl(semaphore_, 0, SETVAL, sem_union);
+        }
     }
 
     return semaphore_;

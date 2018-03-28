@@ -3,8 +3,8 @@
 
 using namespace Utils;
 
-AzimuthSweep::AzimuthSweep(double start, double width)
-    : start_(Utils::normalizeRadians(start)), end_(-1.0), width_(width)
+AzimuthSweep::AzimuthSweep(double start, double width) :
+    start_(Utils::normalizeRadians(start)), end_(-1.0), width_(width)
 {
     ;
 }
@@ -31,13 +31,11 @@ AzimuthSweep::contains(const AzimuthSweep& other) const
 bool
 AzimuthSweep::containsStart(double angle) const
 {
-    return (angle < start_) ? containsStart(angle + kCircleRadians) :
-        (angle >= start_ && angle < start_ + width_);
+    return (angle < start_) ? containsStart(angle + kCircleRadians) : (angle >= start_ && angle < start_ + width_);
 }
 
 bool
 AzimuthSweep::containsEnd(double angle) const
 {
-    return (angle <= start_) ? containsEnd(angle + kCircleRadians) :
-	(angle > start_ && angle <= start_ + width_);
+    return (angle <= start_) ? containsEnd(angle + kCircleRadians) : (angle > start_ && angle <= start_ + width_);
 }

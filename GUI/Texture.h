@@ -3,7 +3,9 @@
 
 #include "QtOpenGL/QGLWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -11,10 +13,8 @@ namespace GUI {
 /** Utility class that encapsulates some attributes of an OpenGL texture. Provides a means to determine if
     non-power-of-2 (NPOT) textures are available, and if not then if some rectangular extensions are available.
 */
-class Texture 
-{
+class Texture {
 public:
-
     static Logger::Log& Log();
 
     static GLenum GetBestTextureType();
@@ -35,7 +35,7 @@ public:
     GLuint getId() const { return id_; }
     GLuint getWidth() const { return width_; }
     GLuint getHeight() const { return height_; }
-    
+
     GLfloat getXMin() const { return xMin_; }
     GLfloat getYMin() const { return yMin_; }
     GLfloat getXMax() const { return xMax_; }

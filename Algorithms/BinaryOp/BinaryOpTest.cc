@@ -19,11 +19,11 @@ using namespace SideCar::Messages;
  */
 struct TestData {
     enum {
-	kNumInputs = 3,		// Number of inputs
-	kNumSamples = 8,	// Number of samples in the test data
-	kNumCopies = 1000,	// Number of copies to make of the sample data
-	kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
-	kNumIterations = 800		     // Number times to use
+        kNumInputs = 3,                      // Number of inputs
+        kNumSamples = 8,                     // Number of samples in the test data
+        kNumCopies = 1000,                   // Number of copies to make of the sample data
+        kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
+        kNumIterations = 800                 // Number times to use
     };
 
     BinaryOp::Operator op;
@@ -33,64 +33,63 @@ struct TestData {
 
 TestData data[] = {
     {
-	BinaryOp::kAndOp,
-	{ { 1, 0, 1, 0, 1, 0, 0, 0 }, // inputs
-	  { 0, 1, 1, 1, 1, 1, 1, 1 },
-	  { 1, 0, 0, 1, 1, 0, 1, 0 } },
-        { 0, 0, 0, 0, 1, 0, 0, 0 } // expected output
+        BinaryOp::kAndOp,
+        {{1, 0, 1, 0, 1, 0, 0, 0}, // inputs
+         {0, 1, 1, 1, 1, 1, 1, 1},
+         {1, 0, 0, 1, 1, 0, 1, 0}},
+        {0, 0, 0, 0, 1, 0, 0, 0} // expected output
     },
     {
-	BinaryOp::kOrOp,
-	{ { 1, 0, 1, 0, 0, 0, 1, 0 }, // inputs
-	  { 0, 0, 1, 0, 1, 0, 0, 0 },
-	  { 1, 0, 0, 0, 0, 0, 0, 1 } },
-        { 1, 0, 1, 0, 1, 0, 1, 1 } // expected output
+        BinaryOp::kOrOp,
+        {{1, 0, 1, 0, 0, 0, 1, 0}, // inputs
+         {0, 0, 1, 0, 1, 0, 0, 0},
+         {1, 0, 0, 0, 0, 0, 0, 1}},
+        {1, 0, 1, 0, 1, 0, 1, 1} // expected output
     },
     {
-	BinaryOp::kXorOp,
-	{ { 1, 0, 1, 0, 1, 1, 0, 0 }, // inputs
-	  { 1, 0, 1, 1, 0, 0, 1, 0 },
-	  { 1, 0, 0, 1, 1, 0, 0, 1 } },
-        { 1, 0, 0, 0, 0, 1, 1, 1 }, // expected output
+        BinaryOp::kXorOp,
+        {{1, 0, 1, 0, 1, 1, 0, 0}, // inputs
+         {1, 0, 1, 1, 0, 0, 1, 0},
+         {1, 0, 0, 1, 1, 0, 0, 1}},
+        {1, 0, 0, 0, 0, 1, 1, 1}, // expected output
     },
     {
-	BinaryOp::kNotOp,
-	{ { 1, 0, 1, 0, 0, 1, 1, 0 }, // inputs
-	  { 1, 1, 1, 1, 1, 0, 0, 0 },
-	  { 0, 0, 0, 0, 0, 0, 0, 0 } },
-        { 0, 1, 0, 1, 1, 0, 0, 1 }, // expected output
+        BinaryOp::kNotOp,
+        {{1, 0, 1, 0, 0, 1, 1, 0}, // inputs
+         {1, 1, 1, 1, 1, 0, 0, 0},
+         {0, 0, 0, 0, 0, 0, 0, 0}},
+        {0, 1, 0, 1, 1, 0, 0, 1}, // expected output
     },
     {
-	BinaryOp::kNotAndOp,
-	{ { 1, 0, 1, 0, 1, 0, 0, 0 }, // inputs
-	  { 0, 1, 1, 1, 1, 1, 1, 1 },
-	  { 1, 0, 0, 1, 1, 0, 1, 0 } },
-        { 1, 1, 1, 1, 0, 1, 1, 1 }, // expected output
+        BinaryOp::kNotAndOp,
+        {{1, 0, 1, 0, 1, 0, 0, 0}, // inputs
+         {0, 1, 1, 1, 1, 1, 1, 1},
+         {1, 0, 0, 1, 1, 0, 1, 0}},
+        {1, 1, 1, 1, 0, 1, 1, 1}, // expected output
     },
     {
-	BinaryOp::kNotOrOp,
-	{ { 1, 0, 1, 0, 0, 0, 1, 0 }, // inputs
-	  { 0, 0, 1, 0, 1, 0, 0, 0 },
-	  { 1, 0, 0, 0, 0, 0, 0, 1 } },
-        { 0, 1, 0, 1, 0, 1, 0, 0 }, // expected output
+        BinaryOp::kNotOrOp,
+        {{1, 0, 1, 0, 0, 0, 1, 0}, // inputs
+         {0, 0, 1, 0, 1, 0, 0, 0},
+         {1, 0, 0, 0, 0, 0, 0, 1}},
+        {0, 1, 0, 1, 0, 1, 0, 0}, // expected output
     },
     {
-	BinaryOp::kNotXorOp,
-	{ { 1, 0, 1, 0, 1, 1, 0, 0 }, // inputs
-	  { 1, 0, 1, 1, 0, 0, 1, 0 },
-	  { 1, 0, 0, 1, 1, 0, 0, 1 } },
-        { 0, 1, 1, 1, 1, 0, 0, 0 }, // expected output
+        BinaryOp::kNotXorOp,
+        {{1, 0, 1, 0, 1, 1, 0, 0}, // inputs
+         {1, 0, 1, 1, 0, 0, 1, 0},
+         {1, 0, 0, 1, 1, 0, 0, 1}},
+        {0, 1, 1, 1, 1, 0, 0, 0}, // expected output
     },
 };
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum {
 
-	// Number of messages defined in the TestData container above.
-	//
-	kNumTestDefinitions = sizeof(data) / sizeof(TestData),
-	kNumTests = kNumTestDefinitions * TestData::kNumIterations,
+        // Number of messages defined in the TestData container above.
+        //
+        kNumTestDefinitions = sizeof(data) / sizeof(TestData),
+        kNumTests = kNumTestDefinitions * TestData::kNumIterations,
     };
 
     static Logger::Log& Log();
@@ -100,8 +99,8 @@ struct Test : public UnitTest::TestObj
     Test() : UnitTest::TestObj("BinaryOp"), controller_(), iteration_(0) {}
 
     /** Implementation of TestObj interface. Creates the processing Stream object, its internal Task objects,
-	properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
-	signals the event loop to exit.
+        properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
+        signals the event loop to exit.
     */
     void test();
 
@@ -118,7 +117,6 @@ struct Test : public UnitTest::TestObj
     void testOutput(size_t counter, const BinaryVideo::Ref& output);
 
 private:
-
     Controller::Ref controller_;
     int iteration_;
 };
@@ -134,8 +132,7 @@ Test::Log()
     knows when the algorithm ahead of it in the stream emitted an output message. For data messages,
     deliverDataMessage() invokes the Test::testOutput() method.
 */
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
@@ -144,7 +141,11 @@ struct Sink : public Task
 
         \return new Sink object
     */
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     /** Install a reference to the active Test object so that deliverDataMessage() may invoke its testOutput()
         method.
@@ -164,7 +165,6 @@ struct Sink : public Task
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
 private:
-    
     Sink() : Task(true), counter_(0), test_(0) {}
 
     int counter_;
@@ -185,16 +185,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGINFO << "data: " << data << " test: " << test_ << std::endl;
 
     MessageManager mgr(data);
-    LOGDEBUG << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGDEBUG << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
-	    BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
-	    LOGDEBUG << msg->dataPrinter() << std::endl;
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
+            BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
+            LOGDEBUG << msg->dataPrinter() << std::endl;
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -233,7 +232,7 @@ Test::test()
     // Create the inputs channels for the algorithm.
     //
     for (size_t index = 0; index < TestData::kNumInputs; ++index) {
-	controller_->addInputChannel(Channel(std::string(1, '0' + index), "BinaryVideo"));
+        controller_->addInputChannel(Channel(std::string(1, '0' + index), "BinaryVideo"));
     }
 
     // Initialize everything and put into the processing state.
@@ -284,24 +283,22 @@ Test::generateInput()
     // Generate a message for each input channel.
     //
     for (size_t input = 0; input < TestData::kNumInputs; ++input) {
-	BinaryVideo::Ref msg(BinaryVideo::Make("test", vme,
-                                               TestData::kOutSize));
-	msg->setMessageSequenceNumber(iteration_);
+        BinaryVideo::Ref msg(BinaryVideo::Make("test", vme, TestData::kOutSize));
+        msg->setMessageSequenceNumber(iteration_);
 
-	// Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
-	// simulate real-world message sizes.
-	//
-	for (size_t count = 0; count < TestData::kNumCopies; ++count) {
-	    std::copy(testData.inputs[input],
-                      testData.inputs[input] + TestData::kNumSamples,
+        // Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
+        // simulate real-world message sizes.
+        //
+        for (size_t count = 0; count < TestData::kNumCopies; ++count) {
+            std::copy(testData.inputs[input], testData.inputs[input] + TestData::kNumSamples,
                       std::back_inserter(msg->getData()));
-	}
+        }
 
-	LOGDEBUG << msg->dataPrinter() << std::endl;
+        LOGDEBUG << msg->dataPrinter() << std::endl;
 
-	// Post the input message to the appropriate algorithm input channel
-	//
-	assertTrue(controller_->putInChannel(msg, input));
+        // Post the input message to the appropriate algorithm input channel
+        //
+        assertTrue(controller_->putInChannel(msg, input));
     }
 }
 
@@ -321,9 +318,8 @@ Test::testOutput(size_t counter, const BinaryVideo::Ref& msg)
     // in the TestData container.
     //
     for (size_t index = 0; index < TestData::kNumSamples; ++index) {
-	LOGDEBUG << index << " expected: " << int(testData.output[index])
-		 << std::endl;
-	assertEqual(int(testData.output[index]), int(msg[index]));
+        LOGDEBUG << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(int(testData.output[index]), int(msg[index]));
     }
 
     LOGDEBUG << "iteration: " << iteration_ << std::endl;
@@ -331,10 +327,9 @@ Test::testOutput(size_t counter, const BinaryVideo::Ref& msg)
     // See if we are done with the test.
     //
     if (iteration_ == kNumTests) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

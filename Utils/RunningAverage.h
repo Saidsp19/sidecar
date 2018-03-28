@@ -4,7 +4,9 @@
 #include <cstddef>
 #include <vector>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace Utils {
 
@@ -12,10 +14,8 @@ namespace Utils {
     size that determines how many samples to track for calculations; after receiving this number of samples, the
     algorithm starts to forget the oldest sample.
 */
-class RunningAverage
-{
+class RunningAverage {
 public:
-
     /** Obtain Logger::Log device to use for instances of this class.
 
         \return Logger::Log reference
@@ -58,7 +58,6 @@ public:
     void setWindowSize(size_t windowSize, double initialValue = 0.0);
 
 private:
-
     std::vector<double> values_;
     size_t oldest_;
     double sum_;

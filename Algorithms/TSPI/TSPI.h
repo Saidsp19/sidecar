@@ -9,10 +9,8 @@ namespace Algorithms {
 
 /** Simple algorithm that reads/writes TSPI messages, possibly recording them.
  */
-class TSPI : public Algorithm
-{
+class TSPI : public Algorithm {
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -24,7 +22,6 @@ public:
     bool startup();
 
 private:
-    
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process

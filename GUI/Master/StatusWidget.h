@@ -6,18 +6,19 @@
 
 #include "ui_StatusWidget.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace Master {
 
-class StatusWidget : public QWidget, public Ui::StatusWidget
-{
+class StatusWidget : public QWidget, public Ui::StatusWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     StatusWidget(QWidget* parent = 0);
 };
 

@@ -13,12 +13,11 @@ namespace GUI {
     dimensions. The widget that was minimized is removed from the widget hierarchy along with the QSplitter
     object, and the remaining widget is left in the place where the QSplitter object was.
 */
-class Splittable : public QStackedWidget
-{
+class Splittable : public QStackedWidget {
     Q_OBJECT
     using Super = QStackedWidget;
-public:
 
+public:
     /** Constructor.The container starts with no contents.
 
         \param parent parent widget for this one
@@ -35,14 +34,14 @@ public:
     /** Obtain the widget in the top/left position of our QSplitter widget. Only valud if isSplit() returns
         true.
 
-	\return QWidget object
+        \return QWidget object
     */
     Splittable* topLeft() const { return locateChild(false); }
 
     /** Obtain the widget in the bottom/right position of our QSplitter widget. Only valid if isSplit() returns
         true.
 
-	\return QWidget object
+        \return QWidget object
     */
     Splittable* bottomRight() const { return locateChild(true); }
 
@@ -50,8 +49,7 @@ public:
 
         \return QSplitter object or NULL
     */
-    QSplitter* getSplitter() const
-	{ return dynamic_cast<QSplitter*>(currentWidget()); }
+    QSplitter* getSplitter() const { return dynamic_cast<QSplitter*>(currentWidget()); }
 
     /** Determine if the view shown by this widget is split.
 
@@ -70,14 +68,13 @@ public slots:
         \param other widget to use for the right or bottom part of the
         new QSplitter object.
 
-	\param topLeftWeight how much space to allocate to the top/left widget
+        \param topLeftWeight how much space to allocate to the top/left widget
         in the new split view
 
-	\param bottomRightWeight how much space to allocate to the
+        \param bottomRightWeight how much space to allocate to the
         bottom/right widget in the new split view
     */
-    virtual void split(Qt::Orientation how, QWidget* other, int topLeftWeight,
-                       int bottomRightWeight);
+    virtual void split(Qt::Orientation how, QWidget* other, int topLeftWeight, int bottomRightWeight);
 
     /** Perform the splitting of our contents. Same as above with 50/50 distribution of space to the two
         widgets.
@@ -105,7 +102,6 @@ public slots:
     virtual void closeOtherView();
 
 protected:
-
     /** Obtain a new QSplitter object to use when splitting our contents.
 
         \param how orientation of the split (Qt::Horizontal or Qt::Vertical)
@@ -149,16 +145,16 @@ protected:
     /** Obtain the Splitter widget in the QSplitter widget that is not the given widget. Used in the
         resizeEvent() routine to determine the widget to keep when unsplitting our representation.
 
-	\param splitter widget that contains the two split representations
+        \param splitter widget that contains the two split representations
 
-	\return Splitter object whose contents we will keep during the unsplit
+        \return Splitter object whose contents we will keep during the unsplit
         operation.
     */
     Splittable* locateTwin(QSplitter* splitter) const;
 };
 
-}
-}
+} // namespace GUI
+} // namespace SideCar
 
 /** \file
  */

@@ -1,59 +1,60 @@
-#ifndef LOGGER_PRIORITY_H	// -*- C++ -*-
+#ifndef LOGGER_PRIORITY_H // -*- C++ -*-
 #define LOGGER_PRIORITY_H
 
-#include <string>
 #include "Logger/Exceptions.h"
+#include <string>
 
 namespace Logger {
 
 /** Representation of a log message priority. All messages are issued at a certain priority level, and Log
     instances have a level setting, below which no messages are emitted.
 */
-class Priority 
-{
+class Priority {
 public:
-
     /** Level values.
      */
     enum Level {
-	kNone = 0,
-	kFatal,
-	kError,
-	kWarning,
-	kInfo,
-	kTraceIn,
-	kTraceOut,
-	kDebug,
-	kDebug1 = kDebug,
-	kDebug2,
-	kDebug3,
-	kNumLevels
+        kNone = 0,
+        kFatal,
+        kError,
+        kWarning,
+        kInfo,
+        kTraceIn,
+        kTraceOut,
+        kDebug,
+        kDebug1 = kDebug,
+        kDebug2,
+        kDebug3,
+        kNumLevels
     };
 
     /** Base class for all Priority class exceptions.
      */
     template <typename T>
-    struct PriorityException : public LoggerException<T>
-    {
-	PriorityException(const char* routine, const char* err)
-	    : LoggerException<T>("Priority", routine) { *this << err; }
+    struct PriorityException : public LoggerException<T> {
+        PriorityException(const char* routine, const char* err) : LoggerException<T>("Priority", routine)
+        {
+            *this << err;
+        }
     };
 
     /** Invalid priority name given to the Find class method.
      */
-    struct InvalidName : public PriorityException<InvalidName>
-    { InvalidName(const std::string& name); };
+    struct InvalidName : public PriorityException<InvalidName> {
+        InvalidName(const std::string& name);
+    };
 
     /** Invalid priority level given to the Find class method.
      */
-    struct InvalidLevel : public PriorityException<InvalidLevel>
-    { InvalidLevel(Priority::Level level); };
+    struct InvalidLevel : public PriorityException<InvalidLevel> {
+        InvalidLevel(Priority::Level level);
+    };
 
     /** Locate a Priority instance under a given name.
 
-	\param name key to use for the search
+        \param name key to use for the search
 
-	\return Priority instance found
+        \return Priority instance found
     */
     static Priority::Level Find(std::string name) throw(InvalidName);
 
@@ -91,9 +92,8 @@ private:
     static const char* shortNames_[kNumLevels];
     static const char* longNames_[kNumLevels];
 };
- 
-} // end namespace Logger
 
+} // end namespace Logger
 
 /** \file
  */

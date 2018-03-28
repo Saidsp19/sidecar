@@ -19,8 +19,7 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("SandBox") {}
     void test();
 };
@@ -43,12 +42,12 @@ Test::test()
         ACE_FILE_Connector connector(writer->getDevice(), addr);
 
         {
-            short init[] = { 1, 2, 3 };
+            short init[] = {1, 2, 3};
             Video::Ref msg(Video::Make("test", vme, init, init + 3));
             assertTrue(writer->write(MessageManager(msg).getMessage()));
         }
         {
-            short init[] = { 4, 5, 6, 7, 8 };
+            short init[] = {4, 5, 6, 7, 8};
             Video::Ref msg(Video::Make("test", vme, init, init + 5));
             assertTrue(writer->write(MessageManager(msg).getMessage()));
         }
@@ -61,41 +60,34 @@ Test::test()
 
         FileWriterTaskModule* writerMod = new FileWriterTaskModule(stream);
         assertEqual(0, stream->push(writerMod));
-	FileWriterTask::Ref writer = writerMod->getTask();
-	writer->setTaskIndex(2);
+        FileWriterTask::Ref writer = writerMod->getTask();
+        writer->setTaskIndex(2);
         assertTrue(writer->openAndInit("Video", testOutputPath));
-	
+
         ControllerModule* controllerMod = new ControllerModule(stream);
         assertEqual(0, stream->push(controllerMod));
-	Controller::Ref controller = controllerMod->getTask();
-	controller->setTaskIndex(1);
+        Controller::Ref controller = controllerMod->getTask();
+        controller->setTaskIndex(1);
 
-	controller->addOutputChannel(Channel(controller.get(), "one",
-                                             "Video"));
-	controller->addOutputChannel(Channel(controller.get(), "two",
-                                             "Video"));
-	controller->addOutputChannel(Channel(controller.get(), "three",
-                                             "Video", writer.get(), 0));
-	controller->addOutputChannel(Channel(controller.get(), "four",
-                                             "Video"));
+        controller->addOutputChannel(Channel(controller.get(), "one", "Video"));
+        controller->addOutputChannel(Channel(controller.get(), "two", "Video"));
+        controller->addOutputChannel(Channel(controller.get(), "three", "Video", writer.get(), 0));
+        controller->addOutputChannel(Channel(controller.get(), "four", "Video"));
 
         FileReaderTaskModule* readerMod = new FileReaderTaskModule(stream);
         assertEqual(0, stream->push(readerMod));
-	FileReaderTask::Ref reader = readerMod->getTask();
-	reader->setTaskIndex(0);
+        FileReaderTask::Ref reader = readerMod->getTask();
+        reader->setTaskIndex(0);
 
-	controller->addInputChannel(Channel(reader.get(), "one", "Video"));
-	controller->addInputChannel(Channel(reader.get(), "two", "Video"));
-	controller->addInputChannel(Channel(reader.get(), "three",
-                                            "Video"));
-	controller->addInputChannel(Channel(reader.get(), "four", "Video"));
+        controller->addInputChannel(Channel(reader.get(), "one", "Video"));
+        controller->addInputChannel(Channel(reader.get(), "two", "Video"));
+        controller->addInputChannel(Channel(reader.get(), "three", "Video"));
+        controller->addInputChannel(Channel(reader.get(), "four", "Video"));
 
         assertTrue(controller->openAndInit("SandBox"));
-        assertTrue(controller->injectProcessingStateChange(
-                       ProcessingState::kRun));
+        assertTrue(controller->injectProcessingStateChange(ProcessingState::kRun));
 
-	reader->addOutputChannel(Channel(reader.get(), "one", "Video",
-                                         controller.get(), 2));
+        reader->addOutputChannel(Channel(reader.get(), "one", "Video", controller.get(), 2));
 
         assertTrue(reader->openAndInit("Video", testInputPath, true));
         assertTrue(reader->start());

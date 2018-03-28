@@ -11,8 +11,8 @@
 #include "QtGui/QStatusBar"
 
 #include "GUI/LogUtils.h"
-#include "GUI/modeltest.h"
 #include "GUI/Writers.h"
+#include "GUI/modeltest.h"
 #include "Utils/Utils.h"
 
 #include "Emitter.h"
@@ -26,8 +26,7 @@ using namespace SideCar;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::SignalGenerator;
 
-struct MainWindow::Private
-{
+struct MainWindow::Private {
     Ui::MainWindow* gui_;
     Emitter* emitter_;
     GeneratorConfigurationsModel* model_;
@@ -57,8 +56,7 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), p_(new Private)
+MainWindow::MainWindow() : MainWindowBase(), p_(new Private)
 {
     p_->gui_ = new Ui::MainWindow;
     p_->emitter_ = new Emitter;
@@ -66,7 +64,7 @@ MainWindow::MainWindow()
 #ifdef __DEBUG__
     new ModelTest(p_->model_, this);
 #endif
-    
+
     p_->active_ = 0;
     p_->initialized_ = false;
     p_->gui_->setupUi(this);
@@ -88,11 +86,8 @@ MainWindow::MainWindow()
     generators->setSelectionBehavior(QAbstractItemView::SelectRows);
     generators->setSelectionMode(QAbstractItemView::SingleSelection);
     generators->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    connect(generators->selectionModel(),
-            SIGNAL(currentRowChanged(const QModelIndex&,
-                                     const QModelIndex&)),
-            SLOT(generatorSelectionCurrentChanged(const QModelIndex&,
-                                                  const QModelIndex&)));
+    connect(generators->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)),
+            SLOT(generatorSelectionCurrentChanged(const QModelIndex&, const QModelIndex&)));
 
     p_->gui_->removeGenerator_->setEnabled(false);
     p_->gui_->startStop_->setEnabled(false);
@@ -113,41 +108,28 @@ void
 MainWindow::restoreFromSettings(QSettings& settings)
 {
     Super::restoreFromSettings(settings);
-    p_->gui_->sampleFrequency_->setValue(
-	settings.value("SampleFrequency", 1).toInt());
-    p_->gui_->sampleFrequencyScale_->setCurrentIndex(
-	settings.value("SampleFrequencyScale", 2).toInt());
-    p_->gui_->sampleCount_->setValue(
-	settings.value("SampleCount", 1000).toInt());
-    p_->gui_->radialCount_->setValue(
-	settings.value("RadialCount", 100).toInt());
-    p_->gui_->doComplex_->setChecked(
-	settings.value("DoComplex", true).toBool());
+    p_->gui_->sampleFrequency_->setValue(settings.value("SampleFrequency", 1).toInt());
+    p_->gui_->sampleFrequencyScale_->setCurrentIndex(settings.value("SampleFrequencyScale", 2).toInt());
+    p_->gui_->sampleCount_->setValue(settings.value("SampleCount", 1000).toInt());
+    p_->gui_->radialCount_->setValue(settings.value("RadialCount", 100).toInt());
+    p_->gui_->doComplex_->setChecked(settings.value("DoComplex", true).toBool());
 
-    p_->gui_->name_->setText(
-	settings.value("Name", "Negative Video").toString());
-    p_->gui_->connectionType_->setCurrentIndex(
-	settings.value("ConnectionType", kMulticast).toInt());
-    p_->gui_->address_->setText(
-	settings.value("Address", "237.1.2.100").toString());
+    p_->gui_->name_->setText(settings.value("Name", "Negative Video").toString());
+    p_->gui_->connectionType_->setCurrentIndex(settings.value("ConnectionType", kMulticast).toInt());
+    p_->gui_->address_->setText(settings.value("Address", "237.1.2.100").toString());
     p_->lastAddress_ = p_->gui_->address_->text();
-    p_->gui_->address_->setEnabled(
-	p_->gui_->connectionType_->currentIndex() == kMulticast);
+    p_->gui_->address_->setEnabled(p_->gui_->connectionType_->currentIndex() == kMulticast);
 
-    p_->gui_->messageCount_->setValue(
-	settings.value("MessageCount", 50).toInt());
-    p_->gui_->emitterFrequency_->setValue(
-	settings.value("EmitterFrequency", 360).toInt());
-    p_->gui_->emitterFrequencyScale_->setCurrentIndex(
-	settings.value("EmitterFrequencyScale", 0).toInt());
+    p_->gui_->messageCount_->setValue(settings.value("MessageCount", 50).toInt());
+    p_->gui_->emitterFrequency_->setValue(settings.value("EmitterFrequency", 360).toInt());
+    p_->gui_->emitterFrequencyScale_->setCurrentIndex(settings.value("EmitterFrequencyScale", 0).toInt());
 
     int count = settings.beginReadArray("Generators");
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	GeneratorConfiguration* obj =
-	    new GeneratorConfiguration(getSampleFrequency());
-	addGenerator(obj);
-	obj->restoreFromSettings(settings);
+        settings.setArrayIndex(index);
+        GeneratorConfiguration* obj = new GeneratorConfiguration(getSampleFrequency());
+        addGenerator(obj);
+        obj->restoreFromSettings(settings);
     }
     settings.endArray();
 }
@@ -157,12 +139,9 @@ MainWindow::showAndRaise()
 {
     Super::showAndRaise();
 
-    if (p_->gui_->name_->text().isEmpty())
-	p_->gui_->name_->setText("SignalGenerator");
-    if (p_->gui_->address_->text().isEmpty())
-	p_->gui_->address_->setText("237.1.2.100");
-    if (p_->model_->rowCount() == 0)
-	addGenerator(new GeneratorConfiguration(getSampleFrequency()));
+    if (p_->gui_->name_->text().isEmpty()) p_->gui_->name_->setText("SignalGenerator");
+    if (p_->gui_->address_->text().isEmpty()) p_->gui_->address_->setText("237.1.2.100");
+    if (p_->model_->rowCount() == 0) addGenerator(new GeneratorConfiguration(getSampleFrequency()));
 
     p_->initialized_ = true;
     generateMessages();
@@ -173,26 +152,22 @@ void
 MainWindow::saveToSettings(QSettings& settings)
 {
     settings.setValue("SampleFrequency", p_->gui_->sampleFrequency_->value());
-    settings.setValue("SampleFrequencyScale",
-                      p_->gui_->sampleFrequencyScale_->currentIndex());
+    settings.setValue("SampleFrequencyScale", p_->gui_->sampleFrequencyScale_->currentIndex());
     settings.setValue("SampleCount", p_->gui_->sampleCount_->value());
     settings.setValue("RadialCount", p_->gui_->radialCount_->value());
     settings.setValue("DoComplex", p_->gui_->doComplex_->isChecked());
     settings.setValue("Name", p_->gui_->name_->text());
-    settings.setValue("ConnectionType",
-                      p_->gui_->connectionType_->currentIndex());
+    settings.setValue("ConnectionType", p_->gui_->connectionType_->currentIndex());
     settings.setValue("Address", p_->gui_->address_->text());
     settings.setValue("MessageCount", p_->gui_->messageCount_->value());
-    settings.setValue("EmitterFrequency",
-                      p_->gui_->emitterFrequency_->value());
-    settings.setValue("EmitterFrequencyScale",
-                      p_->gui_->emitterFrequencyScale_->currentIndex());
+    settings.setValue("EmitterFrequency", p_->gui_->emitterFrequency_->value());
+    settings.setValue("EmitterFrequencyScale", p_->gui_->emitterFrequencyScale_->currentIndex());
 
     settings.beginWriteArray("Generators", p_->model_->rowCount());
     for (int index = 0; index < p_->model_->rowCount(); ++index) {
-	settings.setArrayIndex(index);
-	GeneratorConfiguration* obj = p_->model_->getConfiguration(index);
-	obj->saveToSettings(settings);
+        settings.setArrayIndex(index);
+        GeneratorConfiguration* obj = p_->model_->getConfiguration(index);
+        obj->saveToSettings(settings);
     }
     settings.endArray();
 }
@@ -201,11 +176,10 @@ void
 MainWindow::on_addGenerator__clicked()
 {
     GeneratorConfiguration* obj;
-    if (! p_->active_) {
-	obj = new GeneratorConfiguration(getSampleFrequency());
-    }
-    else {
-	obj = new GeneratorConfiguration(p_->active_);
+    if (!p_->active_) {
+        obj = new GeneratorConfiguration(getSampleFrequency());
+    } else {
+        obj = new GeneratorConfiguration(p_->active_);
     }
 
     addGenerator(obj);
@@ -215,13 +189,11 @@ MainWindow::on_addGenerator__clicked()
 void
 MainWindow::addGenerator(GeneratorConfiguration* obj)
 {
-    connect(this, SIGNAL(sampleFrequencyChanged(double)), obj,
-            SLOT(setSampleFrequency(double)));
+    connect(this, SIGNAL(sampleFrequencyChanged(double)), obj, SLOT(setSampleFrequency(double)));
     connect(this, SIGNAL(reset()), obj, SLOT(reset()));
     connect(obj, SIGNAL(activeConfiguration(GeneratorConfiguration*)),
             SLOT(activeConfigurationChanged(GeneratorConfiguration*)));
-    connect(obj, SIGNAL(configurationChanged()),
-            SLOT(generateMessages()));
+    connect(obj, SIGNAL(configurationChanged()), SLOT(generateMessages()));
 
     QModelIndex index = p_->model_->add(obj);
     p_->gui_->generators_->setIndexWidget(index, obj);
@@ -233,29 +205,28 @@ void
 MainWindow::on_removeGenerator__clicked()
 {
     if (p_->active_) {
-	p_->gui_->removeGenerator_->setEnabled(false);
-	GeneratorConfiguration* obj = p_->active_;
-	p_->active_ = 0;
-	p_->model_->remove(obj);
-	p_->gui_->startStop_->setEnabled(p_->model_->rowCount());
-	generateMessages();
+        p_->gui_->removeGenerator_->setEnabled(false);
+        GeneratorConfiguration* obj = p_->active_;
+        p_->active_ = 0;
+        p_->model_->remove(obj);
+        p_->gui_->startStop_->setEnabled(p_->model_->rowCount());
+        generateMessages();
     }
 }
 
 void
-MainWindow::generatorSelectionCurrentChanged(const QModelIndex& now,
-                                             const QModelIndex& old)
+MainWindow::generatorSelectionCurrentChanged(const QModelIndex& now, const QModelIndex& old)
 {
     Logger::ProcLog log("generatorSelectionCurrentChanged", Log());
     LOGINFO << "old: " << old.row() << " now: " << now.row() << std::endl;
     if (old.isValid()) {
-	p_->model_->GetObject(old)->setSelected(false);
-	p_->active_ = 0;
+        p_->model_->GetObject(old)->setSelected(false);
+        p_->active_ = 0;
     }
 
     if (now.isValid()) {
-	p_->active_ = p_->model_->GetObject(now);
-	p_->active_->setSelected(true);
+        p_->active_ = p_->model_->GetObject(now);
+        p_->active_->setSelected(true);
     }
 
     p_->gui_->removeGenerator_->setEnabled(now.isValid());
@@ -265,9 +236,7 @@ void
 MainWindow::activeConfigurationChanged(GeneratorConfiguration* active)
 {
     int row = p_->model_->getRowFor(active);
-    if (row != -1) {
-	p_->gui_->generators_->setCurrentIndex(p_->model_->index(row));
-    }
+    if (row != -1) { p_->gui_->generators_->setCurrentIndex(p_->model_->index(row)); }
 }
 
 void
@@ -296,13 +265,13 @@ MainWindow::on_name__editingFinished()
     LOGINFO << "name: " << name << std::endl;
 
     if (name.isEmpty()) {
-	p_->gui_->name_->setText(p_->lastName_);
-	return;
+        p_->gui_->name_->setText(p_->lastName_);
+        return;
     }
 
     if (p_->lastName_ != name) {
-	p_->lastName_ = name;
-	publish();
+        p_->lastName_ = name;
+        publish();
     }
 }
 
@@ -321,13 +290,13 @@ MainWindow::on_address__editingFinished()
     LOGINFO << "address: " << address << std::endl;
 
     if (address.isEmpty()) {
-	p_->gui_->address_->setText(p_->lastAddress_);
-	return;
+        p_->gui_->address_->setText(p_->lastAddress_);
+        return;
     }
 
     if (p_->lastAddress_ != address) {
-	p_->lastAddress_ = address;
-	publish();
+        p_->lastAddress_ = address;
+        publish();
     }
 }
 
@@ -361,18 +330,16 @@ void
 MainWindow::on_startStop__clicked()
 {
     if (p_->emitter_->isRunning()) {
-	stop();
-    }
-    else {
-	start();
+        stop();
+    } else {
+        start();
     }
 }
 
 void
 MainWindow::start()
 {
-    if (p_->emitter_->start())
-	p_->gui_->startStop_->setText("Stop");
+    if (p_->emitter_->start()) p_->gui_->startStop_->setText("Stop");
 }
 
 void
@@ -399,18 +366,16 @@ MainWindow::generateMessages()
 {
     Logger::ProcLog log("generateMessages", Log());
 
-    if (! p_->initialized_) return;
+    if (!p_->initialized_) return;
 
-    p_->vme_.header.msgDesc = (Messages::VMEHeader::kIRIGValidMask |
-                               Messages::VMEHeader::kAzimuthValidMask |
+    p_->vme_.header.msgDesc = (Messages::VMEHeader::kIRIGValidMask | Messages::VMEHeader::kAzimuthValidMask |
                                Messages::VMEHeader::kPRIValidMask);
 
     p_->doComplex_ = p_->gui_->doComplex_->isChecked();
     if (p_->doComplex_) {
-	p_->vme_.header.msgDesc |= (Messages::VMEHeader::kPackedIQ << 16);
-    }
-    else {
-	p_->vme_.header.msgDesc |= (Messages::VMEHeader::kPackedReal << 16);
+        p_->vme_.header.msgDesc |= (Messages::VMEHeader::kPackedIQ << 16);
+    } else {
+        p_->vme_.header.msgDesc |= (Messages::VMEHeader::kPackedReal << 16);
     }
 
     p_->priRate_ = 1.0 / getEmitterFrequency();
@@ -420,9 +385,8 @@ MainWindow::generateMessages()
     p_->vme_.header.irigTime = 0;
     p_->vme_.header.azimuth = 0;
     p_->vme_.rangeMin = p_->gui_->rangeMin_->value();
-    p_->vme_.rangeFactor = (p_->gui_->rangeMax_->value() -
-                            p_->gui_->rangeMin_->value()) /
-	p_->gui_->sampleCount_->value();
+    p_->vme_.rangeFactor =
+        (p_->gui_->rangeMax_->value() - p_->gui_->rangeMin_->value()) / p_->gui_->sampleCount_->value();
 
     p_->bufferSize_ = p_->gui_->sampleCount_->value();
     if (p_->doComplex_) p_->bufferSize_ *= 2;
@@ -435,11 +399,11 @@ MainWindow::generateMessages()
 
     int activeCount = 0;
     for (int index = 0; index < p_->model_->rowCount(); ++index) {
-	GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
-	if (cfg->isEnabled()) {
-	    ++activeCount;
-	    cfg->reset();
-	}
+        GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
+        if (cfg->isEnabled()) {
+            ++activeCount;
+            cfg->reset();
+        }
     }
 
     // Calculate the coefficients in the linear transform from amplitudes to sample values. Amplitudes values
@@ -455,9 +419,7 @@ MainWindow::generateMessages()
     LOGDEBUG << "alpha: " << p_->alpha_ << " beta: " << p_->beta_ << std::endl;
 
     p_->emitter_->clear();
-    if (! p_->timer_->isActive()) {
-	p_->timer_->start();
-    }
+    if (!p_->timer_->isActive()) { p_->timer_->start(); }
 
     generateOneMessage();
 }
@@ -468,46 +430,40 @@ MainWindow::generateOneMessage()
     static Logger::ProcLog log("generateOneMessage", Log());
 
     if (p_->doComplex_) {
-	for (int index = 0; index < p_->model_->rowCount(); ++index) {
-	    GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
-	    if (cfg->isEnabled())
-		cfg->complexAddTo(p_->accumulator_);
-	}
-    }
-    else {
-	for (int index = 0; index < p_->model_->rowCount(); ++index) {
-	    GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
-	    if (cfg->isEnabled())
-		cfg->normalAddTo(p_->accumulator_);
-	}
+        for (int index = 0; index < p_->model_->rowCount(); ++index) {
+            GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
+            if (cfg->isEnabled()) cfg->complexAddTo(p_->accumulator_);
+        }
+    } else {
+        for (int index = 0; index < p_->model_->rowCount(); ++index) {
+            GeneratorConfiguration* cfg = p_->model_->getConfiguration(index);
+            if (cfg->isEnabled()) cfg->normalAddTo(p_->accumulator_);
+        }
     }
 
     double azimuth = p_->shaftMovePerMessage_ * p_->vme_.header.pri;
     p_->vme_.header.azimuth = uint32_t(::rint(azimuth)) % 65536;
 
     ++p_->vme_.header.pri;
-    Messages::Video::Ref msg = Messages::Video::Make("SignalGenerator",
-                                                     p_->vme_,
-                                                     p_->bufferSize_);
+    Messages::Video::Ref msg = Messages::Video::Make("SignalGenerator", p_->vme_, p_->bufferSize_);
     msg->setCreatedTimeStamp(p_->clock_);
     p_->clock_ += p_->priRate_;
     p_->vme_.header.irigTime += p_->priRate_;
 
     for (size_t index = 0; index < p_->bufferSize_; ++index) {
-	double value = p_->accumulator_[index] * p_->alpha_ + p_->beta_;
-	msg->push_back(int(::rint(value)));
-	p_->accumulator_[index] = 0.0;
+        double value = p_->accumulator_[index] * p_->alpha_ + p_->beta_;
+        msg->push_back(int(::rint(value)));
+        p_->accumulator_[index] = 0.0;
     }
 
     p_->emitter_->addMessage(msg);
 
     if ((p_->vme_.header.pri % 50) == 0)
-	statusBar()->showMessage(
-	    QString("Generated message %1").arg(p_->vme_.header.pri));
+        statusBar()->showMessage(QString("Generated message %1").arg(p_->vme_.header.pri));
 
     if (p_->vme_.header.pri == uint32_t(p_->gui_->messageCount_->value())) {
-	statusBar()->showMessage("Done.", 5000);
-	p_->timer_->stop();
+        statusBar()->showMessage("Done.", 5000);
+        p_->timer_->stop();
     }
 }
 
@@ -518,22 +474,18 @@ MainWindow::on_rewind__clicked()
 }
 
 void
-MainWindow::writerPublished(const QString& serviceName, const QString& host,
-                            uint16_t port)
+MainWindow::writerPublished(const QString& serviceName, const QString& host, uint16_t port)
 {
     static Logger::ProcLog log("writerPublished", Log());
     LOGDEBUG << serviceName << std::endl;
-    statusBar()->showMessage(QString("Server started on %1/%2")
-                             .arg(host).arg(port));
+    statusBar()->showMessage(QString("Server started on %1/%2").arg(host).arg(port));
     if (serviceName != p_->gui_->name_->text()) {
-	p_->gui_->name_->setText(serviceName);
-	QMessageBox::information(
-	    this,
-	    "Name Conflict",
-	    QString(
-		"The name requested for the service is already in use by "
-		"another service. The new name is '%1'").arg(serviceName),
-	    QMessageBox::Ok);
+        p_->gui_->name_->setText(serviceName);
+        QMessageBox::information(this, "Name Conflict",
+                                 QString("The name requested for the service is already in use by "
+                                         "another service. The new name is '%1'")
+                                     .arg(serviceName),
+                                 QMessageBox::Ok);
     }
 }
 
@@ -546,46 +498,40 @@ MainWindow::writerSubscriberCountChanged(size_t size)
 void
 MainWindow::publish()
 {
-    if (! p_->initialized_) return;
+    if (!p_->initialized_) return;
 
     MessageWriter* writer = p_->emitter_->setPublisherInfo(
-	p_->gui_->name_->text(),
-	ConnectionType(p_->gui_->connectionType_->currentIndex()),
-	p_->gui_->address_->text());
+        p_->gui_->name_->text(), ConnectionType(p_->gui_->connectionType_->currentIndex()), p_->gui_->address_->text());
 
-    connect(writer,
-            SIGNAL(published(const QString&, const QString&, uint16_t)),
-            SLOT(writerPublished(const QString&, const QString&,
-                                 uint16_t)));
+    connect(writer, SIGNAL(published(const QString&, const QString&, uint16_t)),
+            SLOT(writerPublished(const QString&, const QString&, uint16_t)));
 }
 
 size_t
 MainWindow::getEmitterFrequency() const
 {
-    return size_t(
-	::pow(10.0, p_->gui_->emitterFrequencyScale_->currentIndex() * 3.0) *
-	p_->gui_->emitterFrequency_->value());
+    return size_t(::pow(10.0, p_->gui_->emitterFrequencyScale_->currentIndex() * 3.0) *
+                  p_->gui_->emitterFrequency_->value());
 }
 
 double
 MainWindow::getSampleFrequency() const
 {
-    return ::pow(10.0, p_->gui_->sampleFrequencyScale_->currentIndex() * 3.0)
-	* p_->gui_->sampleFrequency_->value();
+    return ::pow(10.0, p_->gui_->sampleFrequencyScale_->currentIndex() * 3.0) * p_->gui_->sampleFrequency_->value();
 }
 
 void
 MainWindow::closeEvent(QCloseEvent* event)
 {
     App* app = getApp();
-    
+
     // Since we are the only window that should be alive, tell the application to quit. Only do this if the
     // application is not already in the process of shutting down.
     //
-    if (! app->isQuitting()) {
-	event->ignore();
-	QTimer::singleShot(0, app, SLOT(applicationQuit()));
-	return;
+    if (!app->isQuitting()) {
+        event->ignore();
+        QTimer::singleShot(0, app, SLOT(applicationQuit()));
+        return;
     }
 
     Super::closeEvent(event);

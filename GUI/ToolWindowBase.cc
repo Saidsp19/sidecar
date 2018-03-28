@@ -1,4 +1,4 @@
-#include <algorithm>		// for std::swap
+#include <algorithm> // for std::swap
 
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
@@ -25,8 +25,7 @@ static const char* const kInitialPosition = "InitialPosition";
 static const char* const kInitialSize = "InitialSize";
 static const char* const kInitialVisibility = "InitialVisibility";
 
-struct Settings : QSettings
-{
+struct Settings : QSettings {
     Settings(const QString& name) : QSettings() { beginGroup(name); }
     ~Settings() { endGroup(); }
 };
@@ -34,19 +33,14 @@ struct Settings : QSettings
 Logger::Log&
 ToolWindowBase::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.ToolWindowBase");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.ToolWindowBase");
     return log_;
 }
 
-ToolWindowBase::ToolWindowBase(const QString& name, const QString& actionTitle,
-                               int shortcut)
-    : QDialog(AppBase::GetApp() ? AppBase::GetApp()->getActiveMainWindow() :
-              0),
-      showHideAction_(
-	  MakeMenuAction(QString("%1 Window").arg(actionTitle), this,
-                         SLOT(toggleVisibility()), shortcut)),
-      restoreFromSettings_(true)
+ToolWindowBase::ToolWindowBase(const QString& name, const QString& actionTitle, int shortcut) :
+    QDialog(AppBase::GetApp() ? AppBase::GetApp()->getActiveMainWindow() : 0),
+    showHideAction_(MakeMenuAction(QString("%1 Window").arg(actionTitle), this, SLOT(toggleVisibility()), shortcut)),
+    restoreFromSettings_(true)
 {
     Logger::ProcLog log("ToolWindowBase", Log());
     LOGINFO << name << std::endl;
@@ -62,7 +56,7 @@ ToolWindowBase::ToolWindowBase(const QString& name, const QString& actionTitle,
 #endif
 
     if (getApp()) {
-	connect(getApp(), SIGNAL(activeMainWindowChanged(MainWindowBase*)),
+        connect(getApp(), SIGNAL(activeMainWindowChanged(MainWindowBase*)),
                 SLOT(activeMainWindowChanged(MainWindowBase*)));
     }
 
@@ -91,9 +85,9 @@ ToolWindowBase::showEvent(QShowEvent* event)
     static Logger::ProcLog log("showEvent", Log());
     LOGINFO << objectName() << std::endl;
     if (restoreFromSettings_) {
-	restoreFromSettings_ = false;
-	Settings settings(objectName());
-	restoreGeometry(settings.value("Geometry").toByteArray());
+        restoreFromSettings_ = false;
+        Settings settings(objectName());
+        restoreGeometry(settings.value("Geometry").toByteArray());
     }
 
     updateShowHideMenuAction(true);
@@ -126,11 +120,11 @@ ToolWindowBase::hideEvent(QHideEvent* event)
     // Don't mess with these settings if the application is quitting; they would be handled from within the
     // closeEvent() method. We only want to update the values when the user manually closes the window.
     //
-    if (! getApp()->isQuitting()) {
-	Settings settings(objectName());
-	settings.setValue("Geometry", saveGeometry());
-	settings.setValue("Visible", false);
-	updateShowHideMenuAction(false);
+    if (!getApp()->isQuitting()) {
+        Settings settings(objectName());
+        settings.setValue("Geometry", saveGeometry());
+        settings.setValue("Visible", false);
+        updateShowHideMenuAction(false);
     }
 
     Super::hideEvent(event);
@@ -149,8 +143,7 @@ ToolWindowBase::getInitialVisibility() const
 void
 ToolWindowBase::applyInitialVisibility()
 {
-    if (getInitialVisibility())
-	showAndRaise();
+    if (getInitialVisibility()) showAndRaise();
 }
 
 void
@@ -165,10 +158,9 @@ void
 ToolWindowBase::toggleVisibility()
 {
     if (isVisible()) {
-	close();
-    }
-    else {
-	showAndRaise();
+        close();
+    } else {
+        showAndRaise();
     }
 }
 
@@ -182,11 +174,11 @@ void
 ToolWindowBase::activeMainWindowChanged(MainWindowBase* window)
 {
 #if 0
-    if (window != parentWidget()) {
-	bool visible = isVisible();
-	setParent(window, windowFlags());
-	if (visible)
-	    show();
-    }
+  if (window != parentWidget()) {
+    bool visible = isVisible();
+    setParent(window, windowFlags());
+    if (visible)
+      show();
+  }
 #endif
 }

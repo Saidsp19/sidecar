@@ -11,12 +11,11 @@ namespace PPIDisplay {
 
 class History;
 
-class ControlsWindow : public GUI::ControlsWindow
-{
+class ControlsWindow : public GUI::ControlsWindow {
     Q_OBJECT
     using Super = GUI::ControlsWindow;
-public:
 
+public:
     static Logger::Log& Log();
 
     ControlsWindow(int shortcut, History* history);

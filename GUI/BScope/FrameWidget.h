@@ -5,7 +5,9 @@
 
 class QImage;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace BScope {
@@ -13,16 +15,14 @@ namespace BScope {
 class PastImage;
 class ScaleWidget;
 
-class FrameWidget : public QWidget
-{
+class FrameWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
-    FrameWidget(QWidget* parent, const QImage& image,
-                const QSize& size = QSize());
+    FrameWidget(QWidget* parent, const QImage& image, const QSize& size = QSize());
 
     QSize sizeHint() const { return size(); }
 
@@ -47,7 +47,6 @@ private slots:
     void updateScaleRanges();
 
 private:
-
     void updateMinMaxSizes(const QSize& oldSize);
 
     PastImage* frame_;

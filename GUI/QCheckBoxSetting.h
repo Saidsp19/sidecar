@@ -11,20 +11,17 @@ namespace GUI {
 /** Derivation of BoolSetting that works with a QCheckBox widget to display and change setting values. Uses the
     QCheckBox::toggled() signal to detect changes in the widget.
 */
-class QCheckBoxSetting : public BoolSetting
-{
+class QCheckBoxSetting : public BoolSetting {
 public:
-    
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param widget 
+        \param widget
 
-        \param global 
+        \param global
     */
-    QCheckBoxSetting(PresetManager* mgr, QCheckBox* widget,
-                     bool global = false);
+    QCheckBoxSetting(PresetManager* mgr, QCheckBox* widget, bool global = false);
 
     QCheckBox* duplicate(QWidget* parent = 0);
 

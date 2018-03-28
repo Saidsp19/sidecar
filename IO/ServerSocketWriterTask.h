@@ -9,7 +9,9 @@
 #include "IO/IOTask.h"
 #include "IO/Writers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -18,12 +20,12 @@ namespace IO {
     requests, and send data to clients using a SocketWriter object. Outgoing messages are given to the services'
     put() method, where they are queued for transmission.
 */
-class ServerSocketWriterTask : public IOTask
-{
+class ServerSocketWriterTask : public IOTask {
     using Super = IOTask;
+
 public:
     using Ref = boost::shared_ptr<ServerSocketWriterTask>;
-    using ConnectionCountChanged = boost::signals2::signal<void (int)>;
+    using ConnectionCountChanged = boost::signals2::signal<void(int)>;
     using ConnectionCountChangedProc = ConnectionCountChanged::slot_function_type;
 
     /** Log device for objects of this type.
@@ -48,10 +50,8 @@ public:
 
         \return true if successful, false otherwise
     */
-    bool openAndInit(const std::string& key, uint16_t port = 0,
-                     int bufferSize = 0,
-                     long threadFlags = kDefaultThreadFlags,
-                     long threadPriority = ACE_DEFAULT_THREAD_PRIORITY);
+    bool openAndInit(const std::string& key, uint16_t port = 0, int bufferSize = 0,
+                     long threadFlags = kDefaultThreadFlags, long threadPriority = ACE_DEFAULT_THREAD_PRIORITY);
 
     /** Override of ACE_Task method. The service is begin shutdown. Close the server socket.
 
@@ -84,21 +84,20 @@ public:
 
         \return true if successful
     */
-    bool injectDataMessage(ACE_Message_Block* data)
-	{ return deliverDataMessage(data, 0); }
+    bool injectDataMessage(ACE_Message_Block* data) { return deliverDataMessage(data, 0); }
 
     boost::signals2::connection connectConnectionCountChangedTo(ConnectionCountChangedProc observer)
-	{ return connectionCountChangedSignal_.connect(observer); }
+    {
+        return connectionCountChangedSignal_.connect(observer);
+    }
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
         methods.
     */
     ServerSocketWriterTask();
 
 private:
-
     /** Implementation of Task::deliverDataMessage() method.
 
         \param data raw data to send
@@ -113,20 +112,19 @@ private:
         routine, which takes complete messages from a SocketWriter. The messages are then passed to the
         SocketWriterTask::put() routine.
     */
-    class OutputHandler : public ACE_Svc_Handler<ACE_SOCK_STREAM,ACE_MT_SYNCH>
-    {
-        using Super = ACE_Svc_Handler<ACE_SOCK_STREAM,ACE_MT_SYNCH>;
+    class OutputHandler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
+        using Super = ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH>;
+
     public:
+        /** Log device for objects of this type.
 
-	/** Log device for objects of this type.
-            
-	    \return log device
-	*/
-	static Logger::Log& Log();
+            \return log device
+        */
+        static Logger::Log& Log();
 
-	OutputHandler() : Super(), task_(0), writer_() {}
+        OutputHandler() : Super(), task_(0), writer_() {}
 
-	~OutputHandler();
+        ~OutputHandler();
 
         /** Override of ACE_Svc_Handler method. Sets up the SocketWriter instance to use the socket connection
             to the client.
@@ -137,8 +135,7 @@ private:
         */
         int open(void* arg = 0);
         int close(u_long flags);
-        int put(ACE_Message_Block* data, ACE_Time_Value* timeout = 0)
-            { return putq(data, timeout); }
+        int put(ACE_Message_Block* data, ACE_Time_Value* timeout = 0) { return putq(data, timeout); }
         int handle_input(ACE_HANDLE handle = ACE_INVALID_HANDLE);
 
     private:
@@ -163,37 +160,36 @@ private:
     /** Helper class that listens for and processes remote client connection attempts. Each successful client
         connection results in a new OutputHandler object to do the data transfer.
     */
-    class Acceptor : public ACE_Acceptor<OutputHandler,ACE_SOCK_ACCEPTOR>
-    {
-        using Super = ACE_Acceptor<OutputHandler,ACE_SOCK_ACCEPTOR>;
-    public:
+    class Acceptor : public ACE_Acceptor<OutputHandler, ACE_SOCK_ACCEPTOR> {
+        using Super = ACE_Acceptor<OutputHandler, ACE_SOCK_ACCEPTOR>;
 
-	/** Log device for objects of this type.
+    public:
+        /** Log device for objects of this type.
 
             \return log device
-	*/
-	static Logger::Log& Log();
+        */
+        static Logger::Log& Log();
 
         /** Constructor.
 
             \param task task that receives all incoming messages
-            
+
         */
         Acceptor(ServerSocketWriterTask* task) : Super(), task_(task) {}
 
-	~Acceptor();
+        ~Acceptor();
 
         ServerSocketWriterTask* getTask() const { return task_; }
 
-	int handle_input(ACE_HANDLE listener);
+        int handle_input(ACE_HANDLE listener);
 
-	int make_svc_handler(OutputHandler*& sh);
+        int make_svc_handler(OutputHandler*& sh);
 
     private:
-        ServerSocketWriterTask* task_;	///< Task to receive message objects
+        ServerSocketWriterTask* task_; ///< Task to receive message objects
     };
 
-    Acceptor* acceptor_;	///< Socket acceptor for client connections
+    Acceptor* acceptor_; ///< Socket acceptor for client connections
     uint16_t port_;
     using OutputHandlerVector = std::vector<OutputHandler*>;
     OutputHandlerVector clients_;

@@ -7,10 +7,8 @@
 namespace SideCar {
 namespace IO {
 
-class ProcessingStateChangeRequest : public ControlMessage
-{
+class ProcessingStateChangeRequest : public ControlMessage {
 public:
-
     ProcessingStateChangeRequest(ProcessingState::Value state);
 
     ProcessingStateChangeRequest(ACE_Message_Block* data) : ControlMessage(data) {}

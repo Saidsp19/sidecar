@@ -2,17 +2,14 @@
 
 using namespace SideCar::GUI;
 
-StringListSetting::StringListSetting(PresetManager* mgr, const QString& name,
-                                     bool global)
-    : Super(mgr, name, QStringList(), global)
+StringListSetting::StringListSetting(PresetManager* mgr, const QString& name, bool global) :
+    Super(mgr, name, QStringList(), global)
 {
     value_ = getOpaqueValue().toStringList();
 }
 
-StringListSetting::StringListSetting(PresetManager* mgr, const QString& name,
-                                     const QStringList& value,
-                                     bool global)
-    : Super(mgr, name, value, global)
+StringListSetting::StringListSetting(PresetManager* mgr, const QString& name, const QStringList& value, bool global) :
+    Super(mgr, name, value, global)
 {
     value_ = getOpaqueValue().toStringList();
 }

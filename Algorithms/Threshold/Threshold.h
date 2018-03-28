@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_THRESHOLD_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_THRESHOLD_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_THRESHOLD_H
 
 #include "Algorithms/Algorithm.h"
@@ -12,15 +12,11 @@ namespace Algorithms {
     outputs a binary PRI message with gates set to true or false depending on whether corresponding video values
     are above ore below a threshold value.
 */
-class Threshold : public Algorithm
-{
+class Threshold : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
 
-    enum InfoSlot {
-	kThreshold = ControllerStatus::kNumSlots,
-	kNumSlots
-    };
+    enum InfoSlot { kThreshold = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -37,7 +33,6 @@ public:
     bool startup();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     /** Override of Algorithm::setInfoSlots(). Stores XML representation of cancellation statistics ino the

@@ -1,7 +1,7 @@
 #include "QtCore/QSettings"
+#include "QtGui/QGridLayout"
 #include "QtGui/QPainter"
 #include "QtGui/QResizeEvent"
-#include "QtGui/QGridLayout"
 
 #include "GUI/LogUtils.h"
 
@@ -20,10 +20,9 @@ DisplayView::Log()
     return log_;
 }
 
-DisplayView::DisplayView(QWidget* parent, AzimuthLatch* azimuthLatch)
-    : QFrame(parent), visualizer_(new Visualizer(this, azimuthLatch)),
-      horizontalScale_(new ScaleWidget(this, Qt::Horizontal)),
-      verticalScale_(new ScaleWidget(this, Qt::Vertical))
+DisplayView::DisplayView(QWidget* parent, AzimuthLatch* azimuthLatch) :
+    QFrame(parent), visualizer_(new Visualizer(this, azimuthLatch)),
+    horizontalScale_(new ScaleWidget(this, Qt::Horizontal)), verticalScale_(new ScaleWidget(this, Qt::Vertical))
 {
     initialize();
 }
@@ -33,8 +32,8 @@ DisplayView::~DisplayView()
     static Logger::ProcLog log("~DisplayView", Log());
     LOGINFO << this << " + " << visualizer_ << std::endl;
     if (activeDisplayView_ == this) {
-	activeDisplayView_ = 0;
-	emit activeDisplayViewChanged(0);
+        activeDisplayView_ = 0;
+        emit activeDisplayViewChanged(0);
     }
 }
 
@@ -80,12 +79,9 @@ DisplayView::initialize()
     // before we do anything with the new transform. Specifically, we need our Scale widgets to adjust before we
     // use them to update the background pixmap intalled in the Visualizer object.
     //
-    connect(visualizer_, SIGNAL(transformChanged()),
-            SLOT(visualizerTransformChanged()),
-            Qt::QueuedConnection);
+    connect(visualizer_, SIGNAL(transformChanged()), SLOT(visualizerTransformChanged()), Qt::QueuedConnection);
 
-    connect(visualizer_,
-            SIGNAL(pointerMoved(const QPoint&, const QPointF&)),
+    connect(visualizer_, SIGNAL(pointerMoved(const QPoint&, const QPointF&)),
             SLOT(updateCursorPosition(const QPoint&, const QPointF&)));
 
     const ViewBounds& viewRect(visualizer_->getCurrentView().getBounds());
@@ -125,18 +121,17 @@ DisplayView::makeBackground()
     static Logger::ProcLog log("makeBackground", Log());
     LOGINFO << std::endl;
 
-    QImage image(visualizer_->width(), visualizer_->height(),
-                 QImage::Format_RGB32);
-    if (! image.isNull()) {
-	QPainter painter(&image);
-	painter.setBackground(Qt::black);
-	painter.eraseRect(image.rect());
-	if (visualizer_->isShowingGrid()) {
-	    horizontalScale_->drawGridLines(painter);
-	    verticalScale_->drawGridLines(painter);
-	}
-	painter.end();
-	visualizer_->setBackground(image);
+    QImage image(visualizer_->width(), visualizer_->height(), QImage::Format_RGB32);
+    if (!image.isNull()) {
+        QPainter painter(&image);
+        painter.setBackground(Qt::black);
+        painter.eraseRect(image.rect());
+        if (visualizer_->isShowingGrid()) {
+            horizontalScale_->drawGridLines(painter);
+            verticalScale_->drawGridLines(painter);
+        }
+        painter.end();
+        visualizer_->setBackground(image);
     }
 }
 
@@ -164,11 +159,10 @@ DisplayView::setActiveDisplayView()
     static Logger::ProcLog log("setActiveDisplayView", Log());
     LOGINFO << this << " + " << visualizer_ << std::endl;
     if (activeDisplayView_ != this) {
-	if (activeDisplayView_)
-	    activeDisplayView_->updateActiveDisplayViewIndicator(false);
-	activeDisplayView_ = this;
-	updateActiveDisplayViewIndicator(true);
-	emit activeDisplayViewChanged(this);
+        if (activeDisplayView_) activeDisplayView_->updateActiveDisplayViewIndicator(false);
+        activeDisplayView_ = this;
+        updateActiveDisplayViewIndicator(true);
+        emit activeDisplayViewChanged(this);
     }
 }
 

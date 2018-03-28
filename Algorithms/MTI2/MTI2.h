@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_NCINTEGRATE_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_NCINTEGRATE_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_NCINTEGRATE_H
 
 #include "Algorithms/Algorithm.h"
@@ -13,8 +13,7 @@ namespace Algorithms {
     pri's at the output.
 
 */
-class MTI2 : public Algorithm
-{
+class MTI2 : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
 
@@ -35,7 +34,6 @@ public:
     bool reset();
 
 private:
-
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process

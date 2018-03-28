@@ -14,8 +14,7 @@ using namespace SideCar::IO;
 Logger::Log&
 ServerSocketReaderTask::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.IO.ServerSocketReaderTask");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.IO.ServerSocketReaderTask");
     return log_;
 }
 
@@ -36,8 +35,8 @@ ServerSocketReaderTask::InputHandler::open(void* arg)
     task_ = acceptor->getTask();
 
     if (Super::open(arg) == -1) {
-	LOGERROR << "failed to open input handler" << std::endl;
-	return -1;
+        LOGERROR << "failed to open input handler" << std::endl;
+        return -1;
     }
 
     LOGDEBUG << "handle: " << get_handle() << std::endl;
@@ -48,8 +47,7 @@ ServerSocketReaderTask::InputHandler::open(void* arg)
     //
 #ifdef darwin
     int bufferSize = ACE_DEFAULT_MAX_SOCKET_BUFSIZ;
-    peer().set_option(SOL_SOCKET, SO_RCVBUF, &bufferSize,
-                      sizeof(bufferSize));
+    peer().set_option(SOL_SOCKET, SO_RCVBUF, &bufferSize, sizeof(bufferSize));
 #endif
 
     // Setup the socket reader to use our socket connection
@@ -66,12 +64,12 @@ ServerSocketReaderTask::InputHandler::handle_input(ACE_HANDLE handle)
     Logger::ProcLog log("InputHandler::handle_input", Log());
     LOGINFO << handle << std::endl;
 
-    if (! reader_->fetchInput()) {
-	LOGDEBUG << "failed to read data from socket" << std::endl;
-	return -1;
+    if (!reader_->fetchInput()) {
+        LOGDEBUG << "failed to read data from socket" << std::endl;
+        return -1;
     }
 
-    if (! reader_->isMessageAvailable()) return 0;
+    if (!reader_->isMessageAvailable()) return 0;
 
     task_->acquireExternalMessage(reader_->getMessage());
 
@@ -81,10 +79,9 @@ ServerSocketReaderTask::InputHandler::handle_input(ACE_HANDLE handle)
     // call us again before doing another ::select().
     //
     int available = 0;
-    if (ACE_OS::ioctl (handle, FIONREAD, &available) == 0 &&
-        available) {
-	LOGDEBUG << "more to come" << std::endl;
-	return 1;
+    if (ACE_OS::ioctl(handle, FIONREAD, &available) == 0 && available) {
+        LOGDEBUG << "more to come" << std::endl;
+        return 1;
     }
 
 #endif
@@ -99,15 +96,14 @@ ServerSocketReaderTask::InputHandler::close(u_long flags)
     LOGINFO << "flags: " << flags << std::endl;
 
     if (reader_) {
-	delete reader_;
-	reader_ = 0;
+        delete reader_;
+        reader_ = 0;
     }
 
     return Super::close(flags);
 }
 
-ServerSocketReaderTask::ServerSocketReaderTask()
-    : IOTask(), acceptor_(0), port_(0)
+ServerSocketReaderTask::ServerSocketReaderTask() : IOTask(), acceptor_(0), port_(0)
 {
     Logger::ProcLog log("ServerSocketReaderTask", Log());
     LOGINFO << std::endl;
@@ -119,24 +115,23 @@ ServerSocketReaderTask::openAndInit(const std::string& key, uint16_t port)
     Logger::ProcLog log("open", Log());
     LOGINFO << " key: " << key << " port: " << port << std::endl;
 
-    if (! getTaskName().size()) {
-	std::ostringstream os;
-	os << "ServerSocketReaderTask(" << key << ',' << port;
-	setTaskName(os.str());
+    if (!getTaskName().size()) {
+        std::ostringstream os;
+        os << "ServerSocketReaderTask(" << key << ',' << port;
+        setTaskName(os.str());
     }
 
     setMetaTypeInfoKeyName(key);
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
     acceptor_ = new Acceptor(this);
 
     ACE_INET_Addr serverAddress(port);
     if (acceptor_->open(serverAddress) == -1) {
-	LOGERROR << "failed to open server socket on port " << port
-		 << std::endl;
-	delete acceptor_;
-	acceptor_ = 0;
-	return false;
+        LOGERROR << "failed to open server socket on port " << port << std::endl;
+        delete acceptor_;
+        acceptor_ = 0;
+        return false;
     }
 
     acceptor_->acceptor().get_local_addr(serverAddress);
@@ -148,8 +143,7 @@ ServerSocketReaderTask::openAndInit(const std::string& key, uint16_t port)
 }
 
 bool
-ServerSocketReaderTask::deliverDataMessage(ACE_Message_Block* data,
-                                           ACE_Time_Value* timeout)
+ServerSocketReaderTask::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 {
     return put_next(data, timeout) != -1;
 }
@@ -160,9 +154,9 @@ ServerSocketReaderTask::close(u_long flags)
     Logger::ProcLog log("close", Log());
     LOGINFO << flags << std::endl;
     if (flags && acceptor_) {
-	acceptor_->close();
-	delete acceptor_;
-	acceptor_ = 0;
+        acceptor_->close();
+        delete acceptor_;
+        acceptor_ = 0;
     }
     return Super::close(flags);
 }

@@ -7,7 +7,9 @@
 #include "GUI/IntSetting.h"
 #include "GUI/SettingsBlock.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -34,12 +36,11 @@ namespace GUI {
     The transform() routine clamps input values to the range [threshold_,
     sampleMax_].
 */
-class VideoSampleCountTransform : public SettingsBlock
-{
+class VideoSampleCountTransform : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -56,10 +57,8 @@ public:
 
         \param showDecibels initial setting for returning decibel values
     */
-    VideoSampleCountTransform(IntSetting* sampleMin, IntSetting* sampleMax,
-                              IntSetting* gain, IntSetting* cutoffMin,
-                              IntSetting* cutoffMax,
-                              BoolSetting* showDecibels);
+    VideoSampleCountTransform(IntSetting* sampleMin, IntSetting* sampleMax, IntSetting* gain, IntSetting* cutoffMin,
+                              IntSetting* cutoffMax, BoolSetting* showDecibels);
 
     /** Transform a sample count value into a value in range [0-1].
 
@@ -77,8 +76,7 @@ public:
 
         \return value in range [0-1]
     */
-    double operator()(int sampleCount) const
-	{ return transform(sampleCount); }
+    double operator()(int sampleCount) const { return transform(sampleCount); }
 
     /** Obtain the current min sample value
 
@@ -113,7 +111,7 @@ public:
     void setThresholdMin(int value) { cutoffMin_->setValue(value); }
 
     void setThresholdMax(int value) { cutoffMax_->setValue(value); }
-    
+
 signals:
 
     /** Notification sent out when the decibel setting changes.
@@ -123,11 +121,11 @@ signals:
     void showingDecibels(bool state);
 
 public slots:
-    
+
     void setShowDecibels(bool value) { showDecibels_->setValue(value); }
 
 private slots:
-    
+
     /** Set a new gain value.
 
         \param gain value to use
@@ -141,13 +139,12 @@ private slots:
     void showDecibelsChanged(bool value);
 
     /** Override of SettingsBlock::emitSettingChanged(). Notification handler invoked to emit the
-	settingChanged() signal. Recalculates various transform parameters invoking
-	SettingsBlock::emitSettingChanged() to emit the settingChanged() signal.
+        settingChanged() signal. Recalculates various transform parameters invoking
+        SettingsBlock::emitSettingChanged() to emit the settingChanged() signal.
     */
     void emitSettingChanged();
 
 private:
-
     /** Recalculate the transform equation parameters.
      */
     void recalculate();
@@ -158,8 +155,7 @@ private:
 
         \return decibel value
     */
-    double decibel(double value) const
-	{ return 20.0 * ::log10((value + offset_) * scale_); }
+    double decibel(double value) const { return 20.0 * ::log10((value + offset_) * scale_); }
 
     IntSetting* sampleMin_;
     IntSetting* sampleMax_;

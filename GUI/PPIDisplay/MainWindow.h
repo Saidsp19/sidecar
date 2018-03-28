@@ -16,17 +16,16 @@ namespace PPIDisplay {
 /** Main display window for the PPIDisplay application. Hosts a PPIWidget display widget and various GUI
     controls that affect the display. The actual GUI controls are defined in the PPIDisplayWindow.ui file.
 */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor. Creates all of the widgets connects signals and slots.
 
-        \param parent 
+        \param parent
     */
     MainWindow();
 
@@ -55,7 +54,6 @@ private slots:
     void monitorPresets(int index, bool isDirty);
 
 private:
-
     void saveToSettings(QSettings& settings);
 
     void restoreFromSettings(QSettings& settings);

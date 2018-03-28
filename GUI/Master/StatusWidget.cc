@@ -2,8 +2,7 @@
 
 using namespace SideCar::GUI::Master;
 
-StatusWidget::StatusWidget(QWidget* parent)
-    : QWidget(parent), Ui::StatusWidget()
+StatusWidget::StatusWidget(QWidget* parent) : QWidget(parent), Ui::StatusWidget()
 {
     setupUi(this);
     QString zero(QString::number(0));

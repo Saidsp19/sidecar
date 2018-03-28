@@ -28,43 +28,37 @@ PeakBar::SetLifeTime(int lifeTime)
     // as the PeakBar age climbs from 0 to lifeTime_.
     //
     for (int index = 0; index <= lifeTime_; ++index) {
-	decayLookup_.push_back(::log10(double(index) /
-                                       double(lifeTime_) * 8.0 + 2.0));
+        decayLookup_.push_back(::log10(double(index) / double(lifeTime_) * 8.0 + 2.0));
     }
 }
 
 double
 PeakBar::GetDecay(int age)
 {
-    if (decayLookup_.empty())
-	SetLifeTime(lifeTime_);
+    if (decayLookup_.empty()) SetLifeTime(lifeTime_);
     return decayLookup_[age];
 }
 
 bool
-PeakBar::update(Messages::Video::const_iterator pos,
-                Messages::Video::const_iterator end, bool reset)
+PeakBar::update(Messages::Video::const_iterator pos, Messages::Video::const_iterator end, bool reset)
 {
     static Logger::ProcLog log("update", Log());
     LOGINFO << "reset: " << reset << std::endl;
 
-    if (reset)
-	age_ = 0;
+    if (reset) age_ = 0;
 
     pos = std::max_element(pos, end);
     if (pos == end) {
-	LOGDEBUG << "no data for bar" << std::endl;
-	return false;
+        LOGDEBUG << "no data for bar" << std::endl;
+        return false;
     }
 
     if (age_ <= 0 || *pos >= value_) {
-	value_ = *pos;
-	age_ = lifeTime_;
-	LOGDEBUG << "new value: " << value_ << " lifeTime: " << age_
-		 << std::endl;
-    }
-    else {
-	--age_;
+        value_ = *pos;
+        age_ = lifeTime_;
+        LOGDEBUG << "new value: " << value_ << " lifeTime: " << age_ << std::endl;
+    } else {
+        --age_;
     }
 
     return age_ == lifeTime_;

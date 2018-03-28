@@ -21,30 +21,28 @@ LogViewWindow::Log()
     return log_;
 }
 
-struct LogColorizer : public QSyntaxHighlighter
-{
+struct LogColorizer : public QSyntaxHighlighter {
     QTextCharFormat errorFormat_;
     QRegExp errorRegExp_;
-    LogColorizer(QTextEdit* widget)
-	: QSyntaxHighlighter(widget), errorFormat_(), errorRegExp_()
-	{
-	    errorFormat_.setForeground(TreeViewItem::GetFailureColor());
-	    errorRegExp_ = QRegExp("\\b(FATAL|ERROR|WARNING)\\b");
-	}
+    LogColorizer(QTextEdit* widget) : QSyntaxHighlighter(widget), errorFormat_(), errorRegExp_()
+    {
+        errorFormat_.setForeground(TreeViewItem::GetFailureColor());
+        errorRegExp_ = QRegExp("\\b(FATAL|ERROR|WARNING)\\b");
+    }
 
     void highlightBlock(const QString& text)
-	{
-	    int index = text.indexOf(errorRegExp_);
-	    while (index >= 0) {
-		int length = errorRegExp_.matchedLength();
-		setFormat(index, length, errorFormat_);
-		index = text.indexOf(errorRegExp_, index + length);
-	    }
-	}
+    {
+        int index = text.indexOf(errorRegExp_);
+        while (index >= 0) {
+            int length = errorRegExp_.matchedLength();
+            setFormat(index, length, errorFormat_);
+            index = text.indexOf(errorRegExp_, index + length);
+        }
+    }
 };
 
-LogViewWindow::LogViewWindow(const QString& title, QTextDocument* logData)
-    : Super(), gui_(new Ui::LogViewWindow), vPos_(-1)
+LogViewWindow::LogViewWindow(const QString& title, QTextDocument* logData) :
+    Super(), gui_(new Ui::LogViewWindow), vPos_(-1)
 {
     gui_->setupUi(this);
     setWindowTitle(title);
@@ -54,10 +52,8 @@ LogViewWindow::LogViewWindow(const QString& title, QTextDocument* logData)
     gui_->log_->setDocument(logData);
     gui_->log_->moveCursor(QTextCursor::End);
 
-    connect(gui_->actionCopy, SIGNAL(triggered()), gui_->log_,
-            SLOT(copy()));
-    connect(gui_->actionClear, SIGNAL(triggered()), gui_->log_,
-            SLOT(clear()));
+    connect(gui_->actionCopy, SIGNAL(triggered()), gui_->log_, SLOT(copy()));
+    connect(gui_->actionClear, SIGNAL(triggered()), gui_->log_, SLOT(clear()));
     connect(gui_->log_, SIGNAL(textChanged()), SLOT(textChanged()));
 
     // Create a new colorizer to highlight important messages.
@@ -71,16 +67,15 @@ LogViewWindow::beginUpdate()
     static Logger::ProcLog log("beginUpdate", Log());
     QRect cursorRect(gui_->log_->cursorRect());
     int height = gui_->log_->viewport()->height();
-    LOGDEBUG << "cursorRect: " << cursorRect << " height: " << height
-	     << std::endl;
+    LOGDEBUG << "cursorRect: " << cursorRect << " height: " << height << std::endl;
 
     // Determine if the user has scrolled up, and if so, record the current vertical scrollbar position. We will
     // restore the scrollbar to this value from within textChanged() after the update is complete.
     //
     if (cursorRect.top() <= height)
-	vPos_ = -1;
+        vPos_ = -1;
     else
-	vPos_ = gui_->log_->verticalScrollBar()->value();
+        vPos_ = gui_->log_->verticalScrollBar()->value();
 
     LOGDEBUG << "vPos: " << vPos_ << std::endl;
 }
@@ -90,9 +85,8 @@ LogViewWindow::textChanged()
 {
     gui_->log_->moveCursor(QTextCursor::End);
     if (vPos_ != -1) {
-
-	// Don't be obnoxious scroll to the end of the document if the user has scrolled up.
-	//
-	gui_->log_->verticalScrollBar()->setValue(vPos_);
+        // Don't be obnoxious scroll to the end of the document if the user has scrolled up.
+        //
+        gui_->log_->verticalScrollBar()->setValue(vPos_);
     }
 }

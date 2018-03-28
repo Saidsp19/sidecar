@@ -11,10 +11,10 @@
     into C++ applications. Or use both client and server objects in your app for easy peer-to-peer support.
 
     \section xmlrpcfeatures Features
-    
+
     - <b>Easy</b> This library is easy to incorporate into C++ applications. No other libraries are required,
     other than your system's socket libraries. Simple XML parsing and HTTP support are built in.
-    
+
     - <b>Fast</b> All IO is non-blocking, so a slow client or network will not slow down the server.
 
     - <b>Portable</b> Written in standard C++ to the POSIX and Windows sockets APIs. You do need a fairly recent
@@ -48,17 +48,17 @@
     http://www.dinkumware.com/vc_fixes.html</A>. Be sure to set the appropriate code generation switches. In
     particular, ensure that the runtime library (single/multi-threaded, static library/DLL) used is the same for
     the XmlRpc++ code and whatever application it will be linked to.
-    
+
     For Linux, Solaris, and other Unix-like platforms there is a GNU Makefile which can be edited to suit your
     system. Specify your C++ compiler, compiler flags, and your system's socket libraries.
 
     In the test directory there are various test programs that are built by default. To verify that the library
     built correctly, you can start the HelloServer
-    
+
     \code
     HelloServer 8000
     \endcode
-    
+
     and the HelloClient example in another terminal window:
 
     \code
@@ -99,6 +99,7 @@
 
     See \ref xmlrpc for additional information.
 */
-namespace XmlRpc {}
+namespace XmlRpc {
+}
 
 #endif

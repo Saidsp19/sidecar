@@ -9,12 +9,11 @@ namespace ConfigEditor {
 
 class RunnerItem;
 
-class RootItem : public TreeItem
-{
+class RootItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     RootItem(QObject* parent);
 
     Type getType() const { return kRoot; }

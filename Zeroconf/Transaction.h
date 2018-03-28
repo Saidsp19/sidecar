@@ -1,14 +1,16 @@
 #ifndef SIDECAR_ZEROCONF_TRANSACTION_H // -*- C++ -*-
 #define SIDECAR_ZEROCONF_TRANSACTION_H
 
-#include <dns_sd.h>
-#include "boost/shared_ptr.hpp"
 #include "boost/scoped_ptr.hpp"
+#include "boost/shared_ptr.hpp"
 #include "boost/weak_ptr.hpp"
+#include <dns_sd.h>
 
 #include "Zeroconf/Monitor.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Zeroconf {
@@ -22,8 +24,7 @@ namespace Zeroconf {
     those events occur. However, the overrides must invoke the methods in this class to maintain proper monitor
     behavior.
 */
-class Transaction
-{
+class Transaction {
 public:
     using Ref = boost::shared_ptr<Transaction>;
 
@@ -34,8 +35,8 @@ public:
     static Logger::Log& Log();
 
     /** Destructor. NOTE: if service is running when this is reached, bad things are probably in the works. At
-	this point we cannot dispatch virtual methods correctly, so the best we can do is tell our held Monitor
-	object to stop.
+        this point we cannot dispatch virtual methods correctly, so the best we can do is tell our held Monitor
+        object to stop.
     */
     virtual ~Transaction();
 
@@ -65,7 +66,6 @@ public:
     bool processConnection();
 
 protected:
-
     /** Constructor. Restricted to derived classes.
      */
     Transaction(Monitor* monitor);
@@ -91,21 +91,24 @@ protected:
     void finish() { finished_ = true; }
 
     /** Obtain a shared_ptr reference to ourselves. The template parameter indicates a derived class that is the
-	actual type of 'this'.
+        actual type of 'this'.
 
         \return new shared_ptr reference
     */
     template <typename T>
-    boost::shared_ptr<T> getSelf() const { return boost::dynamic_pointer_cast<T>(self_.lock()); }
+    boost::shared_ptr<T> getSelf() const
+    {
+        return boost::dynamic_pointer_cast<T>(self_.lock());
+    }
 
     DNSServiceRef& getDNSServiceRef() { return ref_; }
 
     const DNSServiceRef& getDNSServiceRef() const { return ref_; }
 
 private:
-    std::unique_ptr<Monitor> monitor_; ///< Active monitor object
-    boost::weak_ptr<Transaction> self_;	 ///< Weak reference to self
-    DNSServiceRef ref_;		///< Opaque connection handle from DNSSD server
+    std::unique_ptr<Monitor> monitor_;  ///< Active monitor object
+    boost::weak_ptr<Transaction> self_; ///< Weak reference to self
+    DNSServiceRef ref_;                 ///< Opaque connection handle from DNSSD server
     bool finished_;
 };
 

@@ -20,7 +20,9 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -35,12 +37,11 @@ class ViewChanger;
     stack of ViewSettings settings which define the current view. Panning and zooming add to the stack, while
     menu actions exist to pop entries off, returning to a previous view.
 */
-class Visualizer : public QWidget
-{
+class Visualizer : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor. Creates a new Visualizer from scratch.
@@ -65,31 +66,27 @@ public:
 
     void duplicate(const Visualizer* other);
 
-    void addVideoChannel(VideoChannel& channel, bool visible,
-                         bool showPeakBars);
+    void addVideoChannel(VideoChannel& channel, bool visible, bool showPeakBars);
 
     VideoChannel* removeChannelConnection(int index);
 
-    const QSet<QString>& getConnectionNames() const
-	{ return connectionNames_; }
+    const QSet<QString>& getConnectionNames() const { return connectionNames_; }
 
     ChannelConnection* getChannelConnection(const QString& name) const;
 
     /** Obtain the ChannelConnection object at a particular index.
 
-	\return ChannelConnection object
+        \return ChannelConnection object
     */
-    ChannelConnection* getChannelConnection(int row) const
-	{ return connections_.at(row); }
+    ChannelConnection* getChannelConnection(int row) const { return connections_.at(row); }
 
     int findVideoChannel(VideoChannel* channel) const;
 
-    bool isConnectedToChannel(VideoChannel* channel) const
-	{ return findVideoChannel(channel) != -1; }
+    bool isConnectedToChannel(VideoChannel* channel) const { return findVideoChannel(channel) != -1; }
 
     /** Obtain the number of held ChannelConnection objects
 
-	\return ChannelConnection counnt
+        \return ChannelConnection counnt
     */
     int getNumChannelConnections() const { return connections_.size(); }
 
@@ -111,8 +108,7 @@ public:
 
     const QMatrix& getInverseTransform() const { return inverseTransform_; }
 
-    QPointF fromViewToWorld(const QPoint& point)
-	{ return inverseTransform_.map(QPointF(point)); }
+    QPointF fromViewToWorld(const QPoint& point) { return inverseTransform_.map(QPointF(point)); }
 
 signals:
 
@@ -125,7 +121,7 @@ signals:
 public slots:
 
     void centerAtCursor();
-    
+
     void setBackground(const QImage& background);
 
     void needUpdate() { needUpdate_ = true; }
@@ -151,7 +147,6 @@ public slots:
     void pan(const QPoint& from, const QPoint& to);
 
 private:
-
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
     void timerEvent(QTimerEvent* event);

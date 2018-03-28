@@ -17,12 +17,11 @@ Decoder::Log()
 
 // Acquire the data buffer used by an ACE_Message_Block, so that we don't make a copy of the encoded data.
 //
-Decoder::Decoder(ACE_Message_Block* data)
-    : ACE_InputCDR(data->rd_ptr(), data->length()), data_(data), preamble_()
+Decoder::Decoder(ACE_Message_Block* data) : ACE_InputCDR(data->rd_ptr(), data->length()), data_(data), preamble_()
 {
     static Logger::ProcLog log("Decoder", Log());
     LOGDEBUG << "rd_ptr: " << (data->rd_ptr() - data->base()) << " wr_ptr: " << (data->wr_ptr() - data->base())
-	     << " length: " << data->length() << std::endl;
+             << " length: " << data->length() << std::endl;
 
     LOGDEBUG << "source length: " << data->total_length() << " decoder length: " << length() << std::endl;
 

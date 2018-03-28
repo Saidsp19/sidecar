@@ -14,8 +14,8 @@ void
 ProcessingStat::endProcessing()
 {
     if (beginProcessing_ != Time::TimeStamp::Max()) {
-	Time::TimeStamp delta = Time::TimeStamp::Now();
-	delta -= beginProcessing_;
-	addSample(delta);
+        Time::TimeStamp delta = Time::TimeStamp::Now();
+        delta -= beginProcessing_;
+        addSample(delta);
     }
 }

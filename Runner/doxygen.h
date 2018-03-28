@@ -17,7 +17,8 @@ namespace SideCar {
 
 /** Namespace for entities related to \p runner application.
  */
-namespace Runner {}
+namespace Runner {
+}
 
 } // end namespace SideCar
 

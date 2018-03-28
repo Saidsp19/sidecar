@@ -3,7 +3,9 @@
 
 #include "QtCore/QObject"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,12 +20,11 @@ class ServiceEntry;
     The useServiceEntry() method gives the subscriber connection information of
     a publichser to connect to.
 */
-class Subscriber : public QObject
-{
+class Subscriber : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -88,19 +89,19 @@ private slots:
     void lostServiceEntry();
 
     /** Notification from the internal ReaderThread object that it has established a connection to the
-	publisher. For UDP connections, this signal comes when the first message arrives over the UDP socket.
+        publisher. For UDP connections, this signal comes when the first message arrives over the UDP socket.
     */
     void readerConnected();
 
     /** Notification from the internal ReaderThread object that it has lost its connection to the publisher.
-	Only valid for TCP connections.
+        Only valid for TCP connections.
     */
     void readerDisconnected();
 
 private:
     ServiceEntry* serviceEntry_; ///< Current connection information
-    ReaderThread* reader_;	 ///< Separate thread that performs the reads
-    bool connected_;		 ///< Connection state 
+    ReaderThread* reader_;       ///< Separate thread that performs the reads
+    bool connected_;             ///< Connection state
 };
 
 } // end namespace GUI

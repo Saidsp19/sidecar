@@ -17,8 +17,8 @@ DataSubscriber::Log()
     return log_;
 }
 
-DataSubscriber::DataSubscriber()
-    : Super(), browser_(), serviceName_(""), resolvedSignalConnection_(), service_(), timerId_(-1)
+DataSubscriber::DataSubscriber() :
+    Super(), browser_(), serviceName_(""), resolvedSignalConnection_(), service_(), timerId_(-1)
 {
     static Logger::ProcLog log("DataSubscriber", Log());
     LOGDEBUG << std::endl;
@@ -29,8 +29,8 @@ DataSubscriber::openAndInit(const std::string& key, const std::string& serviceNa
                             int interface)
 {
     static Logger::ProcLog log("openAndInit", Log());
-    LOGINFO << "key: " << key << " serviceName: " << serviceName << " type: " << type << " interface: "
-            << interface << std::endl;
+    LOGINFO << "key: " << key << " serviceName: " << serviceName << " type: " << type
+            << " interface: " << interface << std::endl;
 
     setServiceName(serviceName);
     setMetaTypeInfoKeyName(key);
@@ -40,12 +40,10 @@ DataSubscriber::openAndInit(const std::string& key, const std::string& serviceNa
     Zeroconf::ACEMonitorFactory::Ref monitorFactory(Zeroconf::ACEMonitorFactory::Make());
     browser_ = Zeroconf::Browser::Make(monitorFactory, type);
 
-    browser_->connectToFoundSignal([this](auto& v){foundNotification(v);});
-    browser_->connectToLostSignal([this](auto& v){lostNotification(v);});
+    browser_->connectToFoundSignal([this](auto& v) { foundNotification(v); });
+    browser_->connectToLostSignal([this](auto& v) { lostNotification(v); });
 
-    if (interface) {
-	browser_->setInterface(interface);
-    }
+    if (interface) { browser_->setInterface(interface); }
 
     // Create a delay of 0 - 3 seconds before browsing for publishers.
     //
@@ -66,8 +64,8 @@ DataSubscriber::restartBrowser()
     Logger::ProcLog log("restartBrowser", Log());
     LOGWARNING << std::endl;
     if (browser_) {
-	service_.reset();
-	browser_->start();
+        service_.reset();
+        browser_->start();
     }
 }
 
@@ -77,9 +75,9 @@ DataSubscriber::handle_timeout(const ACE_Time_Value& duration, const void* arg)
     Logger::ProcLog log("handle_timeout", Log());
     LOGINFO << std::endl;
 
-    if (arg != &timerId_ || ! browser_) {
-	LOGERROR << "unknown timerId: " << arg << std::endl;
-	return -1;
+    if (arg != &timerId_ || !browser_) {
+        LOGERROR << "unknown timerId: " << arg << std::endl;
+        return -1;
     }
 
     // Make sure we don't fire again
@@ -87,10 +85,10 @@ DataSubscriber::handle_timeout(const ACE_Time_Value& duration, const void* arg)
     reactor()->cancel_timer(timerId_);
     timerId_ = -1;
 
-    if (! browser_->start()) {
-	LOGERROR << "failed to start Zeroconf browser" << std::endl;
-	setError("Failed to start publisher browser.");
-	return -1;
+    if (!browser_->start()) {
+        LOGERROR << "failed to start Zeroconf browser" << std::endl;
+        setError("Failed to start publisher browser.");
+        return -1;
     }
 
     LOGINFO << "started Zeroconf browser" << std::endl;
@@ -101,20 +99,20 @@ int
 DataSubscriber::close(u_long flags)
 {
     if (flags) {
-	if (service_) {
-	    resolvedSignalConnection_.disconnect();
-	    service_.reset();
-	}
+        if (service_) {
+            resolvedSignalConnection_.disconnect();
+            service_.reset();
+        }
 
-	if (timerId_ != -1) {
-	    reactor()->cancel_timer(timerId_);
-	    timerId_ = -1;
-	}
+        if (timerId_ != -1) {
+            reactor()->cancel_timer(timerId_);
+            timerId_ = -1;
+        }
 
-	if (browser_) {
-	    browser_->stop();
-	    browser_.reset();
-	}
+        if (browser_) {
+            browser_->stop();
+            browser_.reset();
+        }
     }
 
     return Super::close(flags);
@@ -128,27 +126,22 @@ DataSubscriber::foundNotification(const ServiceEntryVector& services)
 
     Zeroconf::ServiceEntry::Ref best = service_;
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	LOGDEBUG << "looking for: " << serviceName_ << " found: " << service->getName()
-		 << " interface: " << service->getInterface() << std::endl;
-	if (service->getName() == serviceName_ && ! best) {
-	    best = service;
-	}
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        LOGDEBUG << "looking for: " << serviceName_ << " found: " << service->getName()
+                 << " interface: " << service->getInterface() << std::endl;
+        if (service->getName() == serviceName_ && !best) { best = service; }
     }
 
     if (best && best != service_) {
+        if (service_) { resolvedSignalConnection_.disconnect(); }
 
-	if (service_) {
-	    resolvedSignalConnection_.disconnect();
-        }
+        service_ = best;
+        LOGDEBUG << "best interface: " << best->getInterfaceName() << std::endl;
 
-	service_ = best;
-	LOGDEBUG << "best interface: " << best->getInterfaceName() << std::endl;
+        resolvedSignalConnection_ = best->connectToResolvedSignal([this](auto& v) { resolvedNotification(v); });
 
-	resolvedSignalConnection_ = best->connectToResolvedSignal([this](auto& v){resolvedNotification(v);});
-
-	setError("Publisher found.", true);
-	best->resolve();
+        setError("Publisher found.", true);
+        best->resolve();
     }
 }
 
@@ -159,16 +152,16 @@ DataSubscriber::lostNotification(const ServiceEntryVector& services)
     LOGINFO << "size: " << services.size() << std::endl;
 
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	LOGDEBUG << serviceName_ << ' ' << service->getName() << std::endl;
-	if (service == service_) {
-	    LOGDEBUG << "lost " << serviceName_ << std::endl;
-	    service_.reset();
-	    resolvedSignalConnection_.disconnect();
-	    lostService();
-	    setError("Not connected to publisher.", true);
-	    return;
-	}
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        LOGDEBUG << serviceName_ << ' ' << service->getName() << std::endl;
+        if (service == service_) {
+            LOGDEBUG << "lost " << serviceName_ << std::endl;
+            service_.reset();
+            resolvedSignalConnection_.disconnect();
+            lostService();
+            setError("Not connected to publisher.", true);
+            return;
+        }
     }
 }
 
@@ -185,7 +178,7 @@ bool
 DataSubscriber::doProcessingStateChange(const ProcessingStateChangeRequest& msg)
 {
     bool rc = Super::doProcessingStateChange(msg);
-    if (rc && ! service_) setError("Not connected to publisher.");
+    if (rc && !service_) setError("Not connected to publisher.");
     return rc;
 }
 

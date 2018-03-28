@@ -8,7 +8,9 @@
 
 #include "PeakBarRenderer.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -21,11 +23,9 @@ class Visualizer;
     have a connection to the same VideoChannel object. A channel connection may be frozen so that future updates
     from the video channel have no effect on the Visualizer.
 */
-class ChannelConnection : public QObject
-{
+class ChannelConnection : public QObject {
     Q_OBJECT
 public:
-
     /** Obtain the log device for instances of this class.
 
         \return log device
@@ -38,8 +38,7 @@ public:
 
         \param channel VideoChannel object to connect
     */
-    ChannelConnection(Visualizer& visualizer, VideoChannel& channel,
-                      bool visible, bool showPeakBars);
+    ChannelConnection(Visualizer& visualizer, VideoChannel& channel, bool visible, bool showPeakBars);
 
     /** Destructor. Drops the link with the VideoChannel.
      */
@@ -67,7 +66,7 @@ public:
     /** Determine if peak bars are shown for this channel connection. Combines the channel-specific setting with
         the setting from the global PeakBarSettings object.
 
-        \return 
+        \return
     */
     bool isShowingPeakBars() const { return showPeakBars_; }
 
@@ -110,8 +109,8 @@ public slots:
 private slots:
 
     /** Notification from Visualizer that its view transformation has changed. We notify our PeakBarRenderer and
-	zap the last plotPoints_ contents so that they will get regenerated at the next
-	Visualizer::paintEvent().
+        zap the last plotPoints_ contents so that they will get regenerated at the next
+        Visualizer::paintEvent().
     */
     void clearCache();
 

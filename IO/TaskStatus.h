@@ -11,23 +11,21 @@ class Stats;
 /** Extension of StatusBase to include Task-specific information, such as processing state, seen message count,
     and mesage and byte rates.
 */
-class TaskStatus : public StatusBase
-{
+class TaskStatus : public StatusBase {
 public:
-
     enum {
-	kProcessingState = StatusBase::kNumSlots,
-	kError,
-	kConnectionInfo,
-	kMessageCount,
-	kByteRate,
-	kMessageRate,
-	kDropCount,
-	kDupeCount,
-	kPendingQueueCount,
-	kHasParameters,
-	kUsingData,
-	kNumSlots
+        kProcessingState = StatusBase::kNumSlots,
+        kError,
+        kConnectionInfo,
+        kMessageCount,
+        kByteRate,
+        kMessageRate,
+        kDropCount,
+        kDupeCount,
+        kPendingQueueCount,
+        kHasParameters,
+        kUsingData,
+        kNumSlots
     };
 
     static const char* GetClassName() { return "TaskStatus"; }
@@ -38,8 +36,7 @@ public:
 
         \return ProcessingState::Value value
     */
-    ProcessingState::Value getProcessingState() const
-	{ return ProcessingState::Value(int(getSlot(kProcessingState))); }
+    ProcessingState::Value getProcessingState() const { return ProcessingState::Value(int(getSlot(kProcessingState))); }
 
     std::string getError() const { return getSlot(kError); }
 

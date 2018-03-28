@@ -3,8 +3,7 @@
 
 using namespace SideCar::GUI::ConfigEditor;
 
-RootItem::RootItem(QObject* parent)
-    : Super(parent)
+RootItem::RootItem(QObject* parent) : Super(parent)
 {
     ;
 }

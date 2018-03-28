@@ -6,13 +6,14 @@
 #include "GUI/MessageReader.h"
 #include "IO/Readers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
-class TCPSocketReaderDevice
-{
+class TCPSocketReaderDevice {
 public:
     TCPSocketReaderDevice() : device_(0) {}
 
@@ -21,36 +22,32 @@ public:
     QTcpSocket* getDevice() const { return device_; }
 
 protected:
-    ssize_t fetchFromDevice(void* addr, size_t size) 
-	{ return device_->read(reinterpret_cast<char*>(addr), size); }
+    ssize_t fetchFromDevice(void* addr, size_t size) { return device_->read(reinterpret_cast<char*>(addr), size); }
 
 private:
     QTcpSocket* device_;
 };
 
-class TCPSocketReader :
-	public IO::TReader<IO::StreamReader,TCPSocketReaderDevice>
-{
-    using Super = IO::TReader<IO::StreamReader,TCPSocketReaderDevice>;
+class TCPSocketReader : public IO::TReader<IO::StreamReader, TCPSocketReaderDevice> {
+    using Super = IO::TReader<IO::StreamReader, TCPSocketReaderDevice>;
+
 public:
     using Ref = boost::shared_ptr<TCPSocketReader>;
 
     static Ref Make(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	{
-	    Ref ref(new TCPSocketReader(bufferSize));
-	    return ref;
-	}
+    {
+        Ref ref(new TCPSocketReader(bufferSize));
+        return ref;
+    }
 
-    TCPSocketReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	: Super(bufferSize) {}
+    TCPSocketReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE) : Super(bufferSize) {}
 };
 
-class TCPMessageReader : public MessageReader
-{
+class TCPMessageReader : public MessageReader {
     Q_OBJECT
     using Super = MessageReader;
-public:
 
+public:
     static Logger::Log& Log();
 
     static TCPMessageReader* Make(const ServiceEntry* service);
@@ -62,15 +59,13 @@ private slots:
     void socketReadyRead();
 
 private:
-
-    TCPMessageReader(const Messages::MetaTypeInfo* metaTypeInfo,
-                     QTcpSocket* socket);
+    TCPMessageReader(const Messages::MetaTypeInfo* metaTypeInfo, QTcpSocket* socket);
 
     TCPSocketReader reader_;
     QTcpSocket* socket_;
 };
 
-} // end namespace IO
+} // namespace GUI
 } // end namespace SideCar
 
 /** \file

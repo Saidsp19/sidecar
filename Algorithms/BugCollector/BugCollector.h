@@ -10,7 +10,9 @@
 namespace SideCar {
 namespace Algorithms {
 
-namespace BugCollectorUtils { class BugPlotSubscriber; }
+namespace BugCollectorUtils {
+class BugPlotSubscriber;
+}
 
 /** The BugCollector algorithm takes automatically subscribes to all available BugPlot publishers, and sends
     them out on its only stream channel, presumably to be published by a connected DataPublisher object.
@@ -19,16 +21,11 @@ namespace BugCollectorUtils { class BugPlotSubscriber; }
     BugPlot publishers that have a particular prefix in their name. This is a
     runtime paramter called 'prefix'.
 */
-class BugCollector : public Algorithm
-{
+class BugCollector : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlot {
-	kActive = ControllerStatus::kNumSlots,
-	kPrefix,
-	kNumSlots
-    };
+public:
+    enum InfoSlot { kActive = ControllerStatus::kNumSlots, kPrefix, kNumSlots };
 
     /** Constructor.
 
@@ -53,7 +50,6 @@ public:
     void process(const Messages::BugPlot::Ref& msg);
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     /** Override of Algorithm::setInfoSlots(). Stores XML representation of cancellation statistics into the
@@ -73,7 +69,8 @@ private:
     Parameter::StringValue::Ref prefix_;
 };
 
-}} // namespace SideCar::Algorithms
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

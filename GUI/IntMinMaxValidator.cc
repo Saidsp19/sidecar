@@ -4,10 +4,9 @@
 
 using namespace SideCar::GUI;
 
-IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min,
-                                       QSpinBox* max)
-    : Super(min->minimum(), max->maximum(), parent), min_(min),
-      max_(max), minMin_(min->minimum()), maxMax_(max->maximum())
+IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min, QSpinBox* max) :
+    Super(min->minimum(), max->maximum(), parent), min_(min), max_(max), minMin_(min->minimum()),
+    maxMax_(max->maximum())
 {
     connect(min_, SIGNAL(valueChanged(int)), SLOT(minChanged(int)));
     connect(max_, SIGNAL(valueChanged(int)), SLOT(maxChanged(int)));
@@ -15,11 +14,8 @@ IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min,
     max_->setMinimum(minMin_ + 1);
 }
 
-IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min,
-                                       QSpinBox* max, int minMin,
-                                       int maxMax)
-    : Super(min->minimum(), max->maximum(), parent), min_(min),
-      max_(max), minMin_(minMin), maxMax_(maxMax)
+IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min, QSpinBox* max, int minMin, int maxMax) :
+    Super(min->minimum(), max->maximum(), parent), min_(min), max_(max), minMin_(minMin), maxMax_(maxMax)
 {
     connect(min_, SIGNAL(valueChanged(int)), SLOT(minChanged(int)));
     connect(max_, SIGNAL(valueChanged(int)), SLOT(maxChanged(int)));
@@ -30,13 +26,11 @@ IntMinMaxValidator::IntMinMaxValidator(QObject* parent, QSpinBox* min,
 void
 IntMinMaxValidator::minChanged(int value)
 {
-    if (max_->value() <= value)
-	max_->setValue(value + 1);
+    if (max_->value() <= value) max_->setValue(value + 1);
 }
 
 void
 IntMinMaxValidator::maxChanged(int value)
 {
-    if (min_->value() >= value)
-	min_->setValue(value - 1);
+    if (min_->value() >= value) min_->setValue(value - 1);
 }

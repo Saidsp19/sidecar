@@ -1,7 +1,7 @@
 #ifndef UTILS_MD5_H // -*- C++ -*-
 #define UTILS_MD5_H
 
-#include <inttypes.h>		// Contains uint8_t
+#include <inttypes.h> // Contains uint8_t
 #include <string>
 #include <vector>
 
@@ -10,14 +10,9 @@ namespace Utils {
 /** MD5 hash generator. Accumulates data using its add() methods, and returns the hash of the accumulated data
     via its getDigest() method. NOTE: not to be used for cryptographic purposes.
 */
-class MD5
-{
+class MD5 {
 public:
-
-    enum {
-	kDigestSize = 16,
-	kBufferSize = 4 * kDigestSize
-    };
+    enum { kDigestSize = 16, kBufferSize = 4 * kDigestSize };
 
     /** Container type for all MD5 hashes: 16 byte array.
      */
@@ -47,7 +42,7 @@ public:
 
         \param buffer pointer to the first byte to add
 
-	\param count the number of bytes to add
+        \param count the number of bytes to add
     */
     void add(const uint8_t* buffer, size_t count);
 

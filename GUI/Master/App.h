@@ -46,17 +46,12 @@ class Settings;
 
 /** Application class for the Master Controller application.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
-    enum ToolsMenuAction {
-	kShowConfigurationWindow,
-	kShowLogAlertsWindow,
-	kNumToolsMenuActions
-    };
+public:
+    enum ToolsMenuAction { kShowConfigurationWindow, kShowLogAlertsWindow, kNumToolsMenuActions };
 
     /** Obtain type-casted App singleton object.
 
@@ -68,8 +63,7 @@ public:
 
     ~App();
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     Settings& getSettings() const { return *settings_; }
 
@@ -77,15 +71,13 @@ public:
 
         \return ConfigurationWindow window
     */
-    ConfigurationWindow* getConfigurationWindow() const
-	{ return configurationWindow_; }
+    ConfigurationWindow* getConfigurationWindow() const { return configurationWindow_; }
 
     ConfigurationSettings& getConfigurationSettings() const;
 
     RadarSettings& getRadarSettings() const;
 
-    LogAlertsWindow* getLogAlertsWindow() const
-	{ return logAlertsWindow_; }
+    LogAlertsWindow* getLogAlertsWindow() const { return logAlertsWindow_; }
 
     void setRecording(bool state) { recording_ = state; }
 
@@ -108,7 +100,6 @@ public slots:
     void applicationQuit();
 
 private:
-
     /** Create the tool windows.
      */
     void makeToolWindows();

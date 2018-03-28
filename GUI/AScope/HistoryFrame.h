@@ -6,7 +6,9 @@
 #include "Messages/PRIMessage.h"
 #include "Time/TimeStamp.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -15,10 +17,8 @@ namespace AScope {
 /** Collection of Messages::PRIMessage objects that represent a viewable entity in the AScope. The order of the
     messages in an entry are based on the assignments done by a HistorySlotManager object.
 */
-class HistoryFrame
-{
+class HistoryFrame {
 public:
-
     /** Log device used by HistoryFrame objects
 
         \return log device
@@ -30,7 +30,7 @@ public:
     /** Erase the references to all held messages.
      */
     void clear();
-    
+
     /** Add an empty reference to the end of the frame.
      */
     void expand();
@@ -81,10 +81,9 @@ public:
     /** Fetch the first non-NULL message in the collection. This is usually the first entry in the list, but
         that is not guaranteed.
 
-        \return 
+        \return
     */
-    Messages::PRIMessage::Ref getSomeMessage() const
-	{ return getMessage(lastValid_); }
+    Messages::PRIMessage::Ref getSomeMessage() const { return getMessage(lastValid_); }
 
     /** Determine if the frame has no messages.
 
@@ -94,12 +93,11 @@ public:
 
     /** Obtain the timestamp of the last message added to the collection.
 
-        \return 
+        \return
     */
     double getTimeStamp() const { return timeStamp_; }
 
 private:
-
     void updateLastValid();
 
     /** Set the entry's timestamp based on values from a message.

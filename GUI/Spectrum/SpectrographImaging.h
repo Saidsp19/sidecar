@@ -10,36 +10,26 @@
 
 #include "SampleImaging.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace Spectrum {
 
-class SpectrographImaging : public ChannelImaging
-{
+class SpectrographImaging : public ChannelImaging {
     Q_OBJECT
     using Super = ChannelImaging;
-public:
 
-    enum {
-	kRed,
-	kGreen,
-	kBlue,
-	kRedGreen,
-	kRedBlue,
-	kGreenBlue
-    };
+public:
+    enum { kRed, kGreen, kBlue, kRedGreen, kRedBlue, kGreenBlue };
 
     static Logger::Log& Log();
 
-    SpectrographImaging(BoolSetting* enabled, ColorButtonSetting* color,
-                        DoubleSetting* pointSize, OpacitySetting* opacity,
-                        BoolSetting* colorMapEnabled,
-                        QComboBoxSetting* colorMapType,
-                        QDoubleSpinBoxSetting* minCutoff,
-                        QDoubleSpinBoxSetting* maxCutoff,
-                        IntSetting* historySize);
+    SpectrographImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* pointSize,
+                        OpacitySetting* opacity, BoolSetting* colorMapEnabled, QComboBoxSetting* colorMapType,
+                        QDoubleSpinBoxSetting* minCutoff, QDoubleSpinBoxSetting* maxCutoff, IntSetting* historySize);
 
     bool getColorMapEnabled() const { return colorMapEnabled_->getValue(); }
 
@@ -57,14 +47,11 @@ public:
 
     int getHistorySize() const { return historySize_->getValue(); }
 
-    QComboBox* duplicateColorMapType(QWidget* parent = 0) const
-	{ return colorMapType_->duplicate(parent); }
+    QComboBox* duplicateColorMapType(QWidget* parent = 0) const { return colorMapType_->duplicate(parent); }
 
-    QDoubleSpinBox* duplicateMinCutoff(QWidget* parent = 0) const
-	{ return minCutoff_->duplicate(parent); }
+    QDoubleSpinBox* duplicateMinCutoff(QWidget* parent = 0) const { return minCutoff_->duplicate(parent); }
 
-    QDoubleSpinBox* duplicateMaxCutoff(QWidget* parent = 0) const
-	{ return maxCutoff_->duplicate(parent); }
+    QDoubleSpinBox* duplicateMaxCutoff(QWidget* parent = 0) const { return maxCutoff_->duplicate(parent); }
 
     void setColorMapIndex(int value) { colorMapType_->setValue(value); }
 
@@ -99,7 +86,6 @@ private slots:
     void updateDbColorTransform();
 
 private:
-
     /** Create a new colormap QImage representation, and emit the colorMapChanged() signal.
      */
     void updateColorMapImage();
@@ -115,7 +101,7 @@ private:
     double scaling_;
 };
 
-} // end namespace BScope
+} // namespace Spectrum
 } // end namespace GUI
 } // end namespace SideCar
 

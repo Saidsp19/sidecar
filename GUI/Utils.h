@@ -17,22 +17,34 @@ namespace GUI {
 
     \return QChar value
 */
-inline QChar DegreeSymbol() { return 0x00B0; }
+inline QChar
+DegreeSymbol()
+{
+    return 0x00B0;
+}
 
 /** Obtain the Unicode character that represents a bullet symbol
 
     \return QChar value
 */
-inline QChar BulletSymbol() { return 0x00B7; }
+inline QChar
+BulletSymbol()
+{
+    return 0x00B7;
+}
 
 /** Obtain the Unicode character that represents an ellipses symbol (...)
 
     \return QChar value
 */
-inline QChar HorizontalEllipses() { return 0x2026; }
+inline QChar
+HorizontalEllipses()
+{
+    return 0x2026;
+}
 
 /** Return a text representation for a distance value.
-    
+
     \param value the value to format
 
     \param precision how many digits to the right of the decimal point to show
@@ -60,7 +72,7 @@ extern QString RadiansToString(double value, bool decimalFormat = false, int pre
 
     - ddd.frac: whole degrees followed by fractional degrees after a decimal point.
     - ddd mm ss: formatted as DDD MM' SS" format
-    
+
     \param value degree value to format
 
     \param decimalFormat if true, format in ddd.frac format
@@ -82,7 +94,7 @@ extern QString DegreesToString(double value, bool decimalFormat = false, int pre
 
     \param shortcut optional key sequence to use for the action shortcut.
 
-    \return 
+    \return
 */
 extern QAction* MakeMenuAction(const QString& text, QObject* parent = 0, const char* slot = 0, int shortcut = 0);
 
@@ -95,12 +107,12 @@ extern QAction* MakeMenuAction(const QString& text, QObject* parent = 0, const c
 
     \param state true if reflecting a shown state, false for a hidden state
 
-    \return 
+    \return
 */
 extern void UpdateToggleAction(QAction* action, bool newCheckedState);
 
 /** Format a byte count into a human-readable string. Example: 3223323648 -> "3.0 GB"
-    
+
     \param value the value to format
 
     \param precision the number of digits to show to the right of a decimal point.
@@ -110,7 +122,7 @@ extern void UpdateToggleAction(QAction* action, bool newCheckedState);
 extern QString ByteAmountToString(double value, int precision = 1);
 
 /** Recursively remove a given directory and all of its contents. Should really be called 'DeleteDirectory'
-    
+
     \param directory the directory to remove
 
     \return true if successful, false otherwise.
@@ -118,7 +130,7 @@ extern QString ByteAmountToString(double value, int precision = 1);
 extern bool RemoveDirectory(const QDir& directory);
 
 /** Project a 3D model point into a 3D view point.
-    
+
     \param objx X value of model point
 
     \param objy Y value of model point
@@ -140,8 +152,7 @@ extern bool RemoveDirectory(const QDir& directory);
     \return true if successful, false otherwise
 */
 extern bool ProjectPoint(double objx, double objy, double objz, const double modelMatrix[16],
-                         const double projMatrix[16], const int viewport[4], double* winx, double* winy,
-                         double* winz);
+                         const double projMatrix[16], const int viewport[4], double* winx, double* winy, double* winz);
 
 /** Inverse of ProjectPoint. Project a view point into model space.
 

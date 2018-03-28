@@ -6,7 +6,9 @@
 class QComboBox;
 class QImage;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -15,26 +17,24 @@ namespace GUI {
     the range [0.0-1.0] into RGB values stored in a Color object. There are kNumTypes predefined tables with
     different color ramps. The setType() method selects which table a CLUT object uses.
 */
-class CLUT
-{
+class CLUT {
 public:
-
     enum Type {
-	kBlueSaturated,
-	kBone,
-	kCool,
-	kCopper,
-	kGray,
-	kGreenSaturated,
-	kHot,
-	kHSV,
-	kJet,
-	kPink,
-	kRedSaturated,
-	kRGB655,
-	kRGB565,
-	kRGB556,
-	kNumTypes
+        kBlueSaturated,
+        kBone,
+        kCool,
+        kCopper,
+        kGray,
+        kGreenSaturated,
+        kHot,
+        kHSV,
+        kJet,
+        kPink,
+        kRedSaturated,
+        kRGB655,
+        kRGB565,
+        kRGB556,
+        kNumTypes
     };
 
     /** Obtain the log device for CLUT objects
@@ -114,7 +114,9 @@ public:
         \return read-only RGBColor reference
     */
     const RGBColor& getRGBColor(double normalizedIndex) const
-        { return colors_[int(normalizedIndex * (getSize() - 1))]; }
+    {
+        return colors_[int(normalizedIndex * (getSize() - 1))];
+    }
 
     bool hasSaturation() const;
 

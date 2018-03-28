@@ -11,16 +11,15 @@ namespace GUI {
 
 namespace AScope {
 
-class DefaultViewSettings : public SettingsBlock
-{
+class DefaultViewSettings : public SettingsBlock {
 public:
-
-    DefaultViewSettings(IntSetting* sampleMin, IntSetting* sampleMax,
-                        DoubleSetting* voltageMin, DoubleSetting* voltageMax,
-                        BoolSetting* showPeakBars)
-	: SettingsBlock(), sampleMin_(sampleMin), sampleMax_(sampleMax),
-	  voltageMin_(voltageMin), voltageMax_(voltageMax),
-	  showPeakBars_(showPeakBars) {}
+    DefaultViewSettings(IntSetting* sampleMin, IntSetting* sampleMax, DoubleSetting* voltageMin,
+                        DoubleSetting* voltageMax, BoolSetting* showPeakBars) :
+        SettingsBlock(),
+        sampleMin_(sampleMin), sampleMax_(sampleMax), voltageMin_(voltageMin), voltageMax_(voltageMax),
+        showPeakBars_(showPeakBars)
+    {
+    }
 
     int getSampleMin() const { return sampleMin_->getValue(); }
     int getSampleMax() const { return sampleMax_->getValue(); }

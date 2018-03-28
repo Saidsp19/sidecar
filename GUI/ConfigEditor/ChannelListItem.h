@@ -10,12 +10,11 @@ namespace ConfigEditor {
 class ChannelItem;
 class TaskItem;
 
-class ChannelListItem : public TreeItem
-{
+class ChannelListItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     ChannelListItem(TaskItem* parent, const QString& name);
 
     Type getType() const { return kChannelList; }
