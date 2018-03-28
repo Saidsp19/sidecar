@@ -1,12 +1,12 @@
-#ifndef SIDECAR_IO_TASK_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_TASK_H // -*- C++ -*-
 #define SIDECAR_IO_TASK_H
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "ace/svc_export.h"
 #include "ace/Task.h"
+#include "ace/svc_export.h"
 #include "boost/shared_ptr.hpp"
 
 #include "IO/Channel.h"
@@ -17,8 +17,12 @@
 
 #include "Parameter/Parameter.h"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace IO {
@@ -60,7 +64,7 @@ class Stream;
     connections from other other tasks as well as zero or more output connections to other tasks.
 
     \note Due to the way messages are delivered by following connections, cycles must be avoided
- 
+
     <h2>On-Demand Processing</h2>
 
     A Task object only receives data when its isUsingData() method returns true (the value of the usingData_
@@ -84,31 +88,28 @@ class Stream;
     \note The on-demand processing logic described above operates in a multi-threaded environment. Currently,
     changes to the boolean usingData_ attribute occur without mutex protection which may be bad mojo.
 */
-class Task : public ACE_Task<ACE_MT_SYNCH>
-{
+class Task : public ACE_Task<ACE_MT_SYNCH> {
     using Super = ACE_Task<ACE_MT_SYNCH>;
-public:
 
+public:
     /** Default flags to use for processing threads. See ace/Task_T.h
      */
-    enum {
-	kDefaultThreadFlags = THR_NEW_LWP | THR_JOINABLE | THR_SCHED_DEFAULT | THR_INHERIT_SCHED
-    };
+    enum { kDefaultThreadFlags = THR_NEW_LWP | THR_JOINABLE | THR_SCHED_DEFAULT | THR_INHERIT_SCHED };
 
     /** Parameters used by the activateThreads() method that control how threads operate. Currently supported
         values:
 
-	- ACE thread flags
-	- Thread priority
-	- CPU affinity (linux only)
+        - ACE thread flags
+        - Thread priority
+        - CPU affinity (linux only)
 
-	Custom thread parameters may be installed in a Task object via the Task::setThreadParams() method.
+        Custom thread parameters may be installed in a Task object via the Task::setThreadParams() method.
     */
     struct ThreadParams {
-	ThreadParams() : flags(kDefaultThreadFlags), priority(ACE_DEFAULT_THREAD_PRIORITY), cpuAffinity(-1) {}
-	long flags;
-	long priority;
-	long cpuAffinity;
+        ThreadParams() : flags(kDefaultThreadFlags), priority(ACE_DEFAULT_THREAD_PRIORITY), cpuAffinity(-1) {}
+        long flags;
+        long priority;
+        long cpuAffinity;
     };
 
     /** Shared reference counter for Task objects.
@@ -117,7 +118,7 @@ public:
 
     /** Container of Parameter object references.
      */
-    using ParameterMap = std::map<std::string,size_t>;
+    using ParameterMap = std::map<std::string, size_t>;
     using ParameterVector = std::vector<Parameter::Ref>;
 
     /** Obtain the log device for objects of this class.
@@ -162,9 +163,9 @@ public:
     /** Place a given message into this Tasks's input processing queue. Identify it as coming from a given
         channel.
 
-	\param msg the input message to use
+        \param msg the input message to use
 
-	\param channel the input channel to use
+        \param channel the input channel to use
 
         \return true if successful
     */
@@ -173,7 +174,7 @@ public:
     /** Override of ACE_Task method. Handles delivery of incoming messages for the task. Invokes
         deliverControlMessage() for control messages, and if the task is the next recipient, it invokes
         deliverDataMessage() for data messages.
-        
+
         \param data message data
 
         \param timeout amount of time to try to deliver the message
@@ -183,7 +184,7 @@ public:
     int put(ACE_Message_Block* data, ACE_Time_Value* timeout = 0) override;
 
     /** Record an error message. The error will remain held until clearError() is called.
-        
+
         \param text the text describing the error
 
         \param force if true, overwrite any existing error message
@@ -191,7 +192,7 @@ public:
     void setError(const std::string& text, bool force = false);
 
     /** Fetch the current error text
-        
+
         \return error text
     */
     const std::string& getError() const { return error_; }
@@ -201,30 +202,30 @@ public:
     void clearError() { error_ = ""; }
 
     /** Determine if the task has an error posted.
-        
+
         \return true if so
     */
-    bool hasError() const { return ! error_.empty(); }
+    bool hasError() const { return !error_.empty(); }
 
     /** Register a configurable parameter with the controller. Only invoked by the algorithm DLL.
-        
-	\param parameter the parameter value to register
 
-	\return true if registered, false if name already registered
+        \param parameter the parameter value to register
+
+        \return true if registered, false if name already registered
     */
     bool registerParameter(const Parameter::Ref& property);
 
     /** Unregister a configurable parameter with the controller. Only invoked by the algorithm DLL.
-        
-	\param parameter the parameter value to unregister
 
-	\return true if unregistered, false if not found
+        \param parameter the parameter value to unregister
+
+        \return true if unregistered, false if not found
     */
     bool unregisterParameter(const Parameter::Ref& property);
-    
+
     /** Determine if this task has any parameter objects that have values that differ from their startup
         configuration.
-        
+
         \return true if so
     */
     bool hasChangedParameters() const;
@@ -237,9 +238,9 @@ public:
 
     /** Determine if the task is in a message processing state. Currently, there are three processing states:
 
-	1) kAutoDiagnostic
-	2) kCalibrate
-	3) kRun
+        1) kAutoDiagnostic
+        2) kCalibrate
+        3) kRun
 
         \return true if so
     */
@@ -279,7 +280,7 @@ public:
 
     /** Set the unique ID for this task. Used when checking whether it is a
 
-	recipient of a message from another task.
+        recipient of a message from another task.
     */
     void setTaskIndex(size_t taskIndex) { taskIndex_ = taskIndex; }
 
@@ -302,7 +303,7 @@ public:
     void addOutputChannel(const Channel& channel) { outputs_.add(channel); }
 
     /** Obtain an existing input channel.
-        
+
         \param index the position of the channel to fetch
 
         \return read-only Channel reference
@@ -310,13 +311,13 @@ public:
     const ChannelVector& getInputChannels() const { return inputs_; }
 
     /** Obtain the number of input channels defined for this task.
-        
+
         \return number of input channels
     */
     size_t getNumInputChannels() const { return inputs_.size(); }
-    
+
     /** Obtain a specific input channel defined for this task
-        
+
         \param index which input channel to fetch
 
         \return read-only reference to the Channel
@@ -324,7 +325,7 @@ public:
     const Channel& getInputChannel(size_t index) { return inputs_.getChannel(index); }
 
     /** Obtain the index of an input channel with a given name
-        
+
         \param name the name to look for
 
         \return index of found input channel, or -1 if none found
@@ -332,7 +333,7 @@ public:
     size_t getInputChannelIndex(const std::string& name) { return inputs_.findName(name); }
 
     /** Obtain an existing output channel.
-        
+
         \param index the position of the channel to fetch
 
         \return read-only Channel reference
@@ -340,13 +341,13 @@ public:
     const ChannelVector& getOutputChannels() const { return outputs_; }
 
     /** Obtain the number of output channels defined for this task.
-        
+
         \return number of output channels
     */
     size_t getNumOutputChannels() const { return outputs_.size(); }
 
     /** Obtain a specific output channel defined for this task
-        
+
         \param index which output channel to fetch
 
         \return read-only reference to the Channel
@@ -354,7 +355,7 @@ public:
     const Channel& getOutputChannel(size_t index) { return outputs_.getChannel(index); }
 
     /** Obtain the index of an output channel with a given name
-        
+
         \param name the name to look for
 
         \return index of found output channel, or -1 if none found
@@ -362,7 +363,7 @@ public:
     size_t getOutputChannelIndex(const std::string& name) { return outputs_.findName(name); }
 
     /** Obtain an XML-RPC definition of the current runtime parameter values.
-        
+
         \param value container to hold the definitions
     */
     void getCurrentParameters(XmlRpc::XmlRpcValue& value) const;
@@ -376,19 +377,19 @@ public:
 
     /** Obtain the status class name for this class. Derived classes should override to return a value unique to
         the class.
-        
+
         \return NULL-terminated C string
     */
     virtual const char* getStatusClassName() const { return TaskStatus::GetClassName(); }
 
     /** Obtain the number of slots in the TaskStatus XML status object.
-        
+
         \return slot count
     */
     virtual size_t getStatusSize() const { return TaskStatus::kNumSlots; }
 
     /** Obtain status information from the task. Fills in message processing stats.
-        
+
         \param status status object to fill in
     */
     virtual void fillStatus(StatusBase& status);
@@ -407,23 +408,23 @@ public:
         calculateUsingDataValue(). If the new state is different from then current usingData_ value, this
         routine will invoke resetProcessedStats() and notify upstream connections of the status change.
 
-	\note Exercise care if changing this or overriding it in a derived class. A more appropriate override
+        \note Exercise care if changing this or overriding it in a derived class. A more appropriate override
         may be the calculateUsingDataValue() methd if the derived class has additional conditions to determine
         whether data should flow. At the least, derived methods must invoke this one.
 
-	\param value new value to use
+        \param value new value to use
     */
     virtual void setUsingData(bool value);
 
     /** Obtain a desired usingData_ value depending on othe Task settings, such as recipient usingData_ values,
         the alwaysUsingData_ parameter, and the current processing state.
 
-	\note Exercise care if changing this or overriding it in a derived class. Derived classes should usually
+        \note Exercise care if changing this or overriding it in a derived class. Derived classes should usually
         invoke this method in a boolean clause such as:
 
-	\code
-	return return (foobar_ == 3) || Super::calculateUsingDataValue();
-	\endcode
+        \code
+        return return (foobar_ == 3) || Super::calculateUsingDataValue();
+        \endcode
 
         \return true if using data
     */
@@ -437,8 +438,8 @@ public:
     void setThreadParams(const ThreadParams& threadParams) { threadParams_ = threadParams; }
 
     /** Obtain the current thread parameter settings.
-        
-        \return 
+
+        \return
     */
     const ThreadParams& getThreadParams() const { return threadParams_; }
 
@@ -452,58 +453,57 @@ public:
     bool activateThreads(int count);
 
 protected:
-
     /** Change the tasks processing state indicator. Invokes the appropriate processor method for the new state,
-	iff the transition from the current state to the new one is valid.
+        iff the transition from the current state to the new one is valid.
 
-	\param state new state to enter
+        \param state new state to enter
 
-	\return true if successful, false if entered kFailure state
+        \return true if successful, false if entered kFailure state
     */
     bool enterProcessingState(ProcessingState::Value state);
 
     /** Change to the last non-failure processing state.
-        
+
         \return true if successful
     */
     bool enterLastProcessingState();
 
     /** Processor for the transition into the initialize state. This implementation does nothing.
-        
-	\return true if successful.
+
+        \return true if successful.
     */
     virtual bool enterInitializeState();
 
     /** Processor for the transition into the auto-diagnostic state. This implementation simply resets the
-	processing statistics.
-        
-	\return true if successful.
+        processing statistics.
+
+        \return true if successful.
     */
     virtual bool enterAutoDiagnosticsState();
 
     /** Processor for the transition into the calibrate state. This implementation simply resets the processing
-	statistics.
-        
-	\return true if successful.
+        statistics.
+
+        \return true if successful.
     */
     virtual bool enterCalibrateState();
 
     /** Processor for the transition into the run state. This implementation simply resets the processing
         statistics.
-        
-	\return true if successful.
+
+        \return true if successful.
     */
     virtual bool enterRunState();
 
     /** Processor for the transition into the stop state. This implementation does nothing.
-        
-	\return true if successful.
+
+        \return true if successful.
     */
     virtual bool enterStopState();
 
     /** Processor for the transition into the failure state. This implementation does nothing.
-        
-	\return true if successful.
+
+        \return true if successful.
     */
     virtual bool enterFailureState();
 
@@ -512,7 +512,7 @@ protected:
     void resetProcessedStats();
 
     /** Give a control message to the task. This implementation just invokes processControlMessage().
-        
+
         \param data message to deliver
 
         \param timeout amount of time to spend trying to deliver message
@@ -534,7 +534,7 @@ protected:
     /** Process a message, data or control. This is a helper routine for derived classes that perform their
         message processing in a separate thread (it is not used by Task itself). Depending on the type of
         message held in the given \a data parameter, it invokes processDataMessage() or processControlMessage().
-        
+
         \param data the message to process
 
         \return true if successful
@@ -551,14 +551,14 @@ protected:
 
     /** Process a timeout expired control message. \warning WARNING: this implementation throws an exception if
         invoked.
-        
-        \return true if successful 
-    */ 
+
+        \return true if successful
+    */
     virtual bool doTimeout();
 
     /** Process a control message. Dispatches on the control type to the appropriate 'do' method (eg.
         doProcessingStateChange()).
-        
+
         \param data control message data
 
         \return true if successful
@@ -566,7 +566,7 @@ protected:
     virtual bool processControlMessage(ACE_Message_Block* data);
 
     /** Process runtime parameter changes from an XML-RPC request.
-        
+
         \param msg new parameter settings
 
         \return true if successful
@@ -574,7 +574,7 @@ protected:
     virtual bool doParametersChange(const ParametersChangeRequest& request);
 
     /** Respond to a processing state change meessage. Calls enterProcessingState() to perform the state change.
-        
+
         \param request new state to enter
 
         \return true if successful
@@ -590,7 +590,7 @@ protected:
     /** Respond to a SHUTDOOWN control meessage. This implementation ignores such a request, but derived classes
         may override to handle the situation the application shuts down.
 
-	\note This is different than entering the kStop processing state -- a SHUTDOWN message signals a
+        \note This is different than entering the kStop processing state -- a SHUTDOWN message signals a
         ShutdownMonitor task to halt ACE processing.
 
         \return true if successful
@@ -605,7 +605,7 @@ protected:
 
     /** Set the status text that represents the connection information for the task. This value will be used
         when updating TaskStatus XML values.
-        
+
         \param connectionInfo new value to assign
     */
     void setConnectionInfo(const std::string& connectionInfo) { connectionInfo_ = connectionInfo; }
@@ -615,15 +615,13 @@ protected:
     bool sendManaged(MessageManager& mgr, size_t channelIndex);
 
 private:
-
     /** Definition of the enum range for the processingStateParameter_ parameter.
      */
-    struct ProcessingStateEnumTraits : public Parameter::Defs::EnumTypeTraitsBase
-    {
-	using ValueType = ProcessingState::Value;
-	static ValueType GetMinValue() { return ProcessingState::kAutoDiagnostic; }
-	static ValueType GetMaxValue() { return ProcessingState::kStop; }
-	static const char* const* GetEnumNames();
+    struct ProcessingStateEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
+        using ValueType = ProcessingState::Value;
+        static ValueType GetMinValue() { return ProcessingState::kAutoDiagnostic; }
+        static ValueType GetMaxValue() { return ProcessingState::kStop; }
+        static const char* const* GetEnumNames();
     };
 
     using ProcessingStateEnumDef = Parameter::Defs::Enum<ProcessingStateEnumTraits>;
@@ -636,27 +634,26 @@ private:
     void processingStateParameterChanged(const ProcessingStateParameter& value);
 
     boost::weak_ptr<Stream> stream_; ///< The IO::Stream object we are a part of
-    std::string taskName_;	///< The name assigned to this task
-    std::string error_;		///< The last error encountered by the task
+    std::string taskName_;           ///< The name assigned to this task
+    std::string error_;              ///< The last error encountered by the task
 
-    size_t taskIndex_;		///< The index of this task in its Stream
-    size_t taskParameterCount_;	///< The number of parameters defined by Task
+    size_t taskIndex_;          ///< The index of this task in its Stream
+    size_t taskParameterCount_; ///< The number of parameters defined by Task
 
-    ChannelVector inputs_;	///< Collection of channels defined for inputs
+    ChannelVector inputs_; ///< Collection of channels defined for inputs
     std::vector<Stats> inputStats_;
-    ChannelVector outputs_;	///< Collection of channels defined for outputs
-    ParameterMap parameterMap_;	///< Registered runtime parameters
+    ChannelVector outputs_;     ///< Collection of channels defined for outputs
+    ParameterMap parameterMap_; ///< Registered runtime parameters
     ParameterVector parameterVector_;
 
     ProcessingStateParameter::Ref processingStateParameter_; ///< State param
-    Parameter::BoolValue::Ref editingEnabled_;		     ///< Editable param
-    std::string connectionInfo_;			     ///< ???
-    ProcessingState::Value processingState_; ///< Current processing state set
-    ProcessingState::Value lastProcessingState_; ///< Last processing state set
+    Parameter::BoolValue::Ref editingEnabled_;               ///< Editable param
+    std::string connectionInfo_;                             ///< ???
+    ProcessingState::Value processingState_;                 ///< Current processing state set
+    ProcessingState::Value lastProcessingState_;             ///< Last processing state set
     Parameter::BoolValue::Ref alwaysUsingData_;
     ThreadParams threadParams_;
-    bool usingData_;		///< True if the task uses data from above
-
+    bool usingData_; ///< True if the task uses data from above
 };
 
 } // end namespace IO

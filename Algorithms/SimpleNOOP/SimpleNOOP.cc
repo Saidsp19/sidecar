@@ -11,8 +11,7 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method.
 //
-SimpleNOOP::SimpleNOOP(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log)
+SimpleNOOP::SimpleNOOP(Controller& controller, Logger::Log& log) : Algorithm(controller, log)
 {
     ;
 }
@@ -20,7 +19,7 @@ SimpleNOOP::SimpleNOOP(Controller& controller, Logger::Log& log)
 bool
 SimpleNOOP::startup()
 {
-    registerProcessor<SimpleNOOP,Messages::Video>(&SimpleNOOP::process);
+    registerProcessor<SimpleNOOP, Messages::Video>(&SimpleNOOP::process);
     return Algorithm::startup();
 }
 
@@ -28,10 +27,10 @@ bool
 SimpleNOOP::process(const Messages::Video::Ref& msg)
 {
     static Logger::ProcLog log("process", getLog());
-    
+
     if (msg->size() > 30 * 1024) {
-	LOGERROR << "dropping abnormally large message: " << msg->size() << std::endl;
-	return true;
+        LOGERROR << "dropping abnormally large message: " << msg->size() << std::endl;
+        return true;
     }
 
     Messages::Video::Ref out(Messages::Video::Make(getName(), msg));

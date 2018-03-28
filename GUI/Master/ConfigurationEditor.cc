@@ -13,8 +13,8 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::Master;
 
-ConfigurationEditor::ConfigurationEditor(ConfigurationInfo& info)
-    : Super(), gui_(new Ui::ConfigurationEditor), info_(info)
+ConfigurationEditor::ConfigurationEditor(ConfigurationInfo& info) :
+    Super(), gui_(new Ui::ConfigurationEditor), info_(info)
 {
     gui_->setupUi(this);
     setWindowTitle(QString("%1 Editor[*]").arg(info.getName()));
@@ -24,27 +24,17 @@ ConfigurationEditor::ConfigurationEditor(ConfigurationInfo& info)
     connect(getApp(), SIGNAL(closingAuxillaryWindows()), SLOT(close()));
     connect(gui_->actionClose, SIGNAL(triggered()), SLOT(close()));
 
-    connect(gui_->actionUndo, SIGNAL(triggered()), gui_->contents_,
-            SLOT(undo()));
-    connect(gui_->actionRedo, SIGNAL(triggered()), gui_->contents_,
-            SLOT(redo()));
-    connect(gui_->actionCut, SIGNAL(triggered()), gui_->contents_,
-            SLOT(cut()));
-    connect(gui_->actionCopy, SIGNAL(triggered()), gui_->contents_,
-            SLOT(copy()));
-    connect(gui_->actionPaste, SIGNAL(triggered()), gui_->contents_,
-            SLOT(paste()));
+    connect(gui_->actionUndo, SIGNAL(triggered()), gui_->contents_, SLOT(undo()));
+    connect(gui_->actionRedo, SIGNAL(triggered()), gui_->contents_, SLOT(redo()));
+    connect(gui_->actionCut, SIGNAL(triggered()), gui_->contents_, SLOT(cut()));
+    connect(gui_->actionCopy, SIGNAL(triggered()), gui_->contents_, SLOT(copy()));
+    connect(gui_->actionPaste, SIGNAL(triggered()), gui_->contents_, SLOT(paste()));
 
-    connect(gui_->contents_, SIGNAL(textChanged()),
-            SLOT(textChanged()));
-    connect(gui_->contents_, SIGNAL(copyAvailable(bool)),
-            gui_->actionCut, SLOT(setEnabled(bool)));
-    connect(gui_->contents_, SIGNAL(copyAvailable(bool)),
-            gui_->actionCopy, SLOT(setEnabled(bool)));
-    connect(gui_->contents_, SIGNAL(undoAvailable(bool)),
-            gui_->actionUndo, SLOT(setEnabled(bool)));
-    connect(gui_->contents_, SIGNAL(redoAvailable(bool)),
-            gui_->actionRedo, SLOT(setEnabled(bool)));
+    connect(gui_->contents_, SIGNAL(textChanged()), SLOT(textChanged()));
+    connect(gui_->contents_, SIGNAL(copyAvailable(bool)), gui_->actionCut, SLOT(setEnabled(bool)));
+    connect(gui_->contents_, SIGNAL(copyAvailable(bool)), gui_->actionCopy, SLOT(setEnabled(bool)));
+    connect(gui_->contents_, SIGNAL(undoAvailable(bool)), gui_->actionUndo, SLOT(setEnabled(bool)));
+    connect(gui_->contents_, SIGNAL(redoAvailable(bool)), gui_->actionRedo, SLOT(setEnabled(bool)));
 
     gui_->actionSave->setEnabled(false);
     gui_->actionRevert->setEnabled(false);
@@ -79,15 +69,13 @@ void
 ConfigurationEditor::on_actionRevert_triggered()
 {
     QFile file(info_.getPath());
-    if (! file.exists() || !
-        file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	QMessageBox::critical(
-	    qApp->activeWindow(), "Load Failed",
-	    QString("<p>Unable to read from the file '%1'</p> "
-                    "<p>System error: %2</p>")
-	    .arg(file.fileName())
-	    .arg(file.errorString()));
-	return;
+    if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(qApp->activeWindow(), "Load Failed",
+                              QString("<p>Unable to read from the file '%1'</p> "
+                                      "<p>System error: %2</p>")
+                                  .arg(file.fileName())
+                                  .arg(file.errorString()));
+        return;
     }
 
     gui_->contents_->clear();
@@ -109,14 +97,13 @@ bool
 ConfigurationEditor::save()
 {
     QFile file(info_.getPath());
-    if (! file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-	QMessageBox::critical(
-	    qApp->activeWindow(), "Save Failed",
-	    QString("<p>Unable to write to the file '%1'</p> "
-                    "<p>System error: %2</p>")
-	    .arg(file.fileName())
-	    .arg(file.errorString()));
-	return true;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(qApp->activeWindow(), "Save Failed",
+                              QString("<p>Unable to write to the file '%1'</p> "
+                                      "<p>System error: %2</p>")
+                                  .arg(file.fileName())
+                                  .arg(file.errorString()));
+        return true;
     }
 
     file.write(gui_->contents_->document()->toPlainText().toAscii());
@@ -128,24 +115,21 @@ ConfigurationEditor::save()
     gui_->actionRevert->setEnabled(false);
 
     info_.reload();
-    return ! info_.hasError();
+    return !info_.hasError();
 }
 
 void
 ConfigurationEditor::closeEvent(QCloseEvent* event)
 {
     if (gui_->contents_->document()->isModified()) {
-	if (QMessageBox::information(
-                qApp->activeWindow(), "Save Changes",
-                QString("<p>Do you wish to save the changes to '%1'?</p>")
-                .arg(info_.getName()),
-                QMessageBox::No | QMessageBox::Yes, QMessageBox::No) ==
-            QMessageBox::Yes) {
-	    if (! save()) {
-		event->ignore();
-		return;
-	    }
-	}
+        if (QMessageBox::information(qApp->activeWindow(), "Save Changes",
+                                     QString("<p>Do you wish to save the changes to '%1'?</p>").arg(info_.getName()),
+                                     QMessageBox::No | QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
+            if (!save()) {
+                event->ignore();
+                return;
+            }
+        }
     }
 
     Super::closeEvent(event);

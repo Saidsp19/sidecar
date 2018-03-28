@@ -27,9 +27,9 @@ InfoFormatter::Find(const QString& name)
     //
     InfoFormatterHash::const_iterator pos = formatters_.find(name);
     if (pos != formatters_.end()) {
-	InfoFormatter* obj = pos.value();
-	obj->useCount_ += 1;
-	return obj;
+        InfoFormatter* obj = pos.value();
+        obj->useCount_ += 1;
+        return obj;
     }
 
     // Load in the library and get the routine called FormatInfo.
@@ -43,8 +43,8 @@ InfoFormatter::Find(const QString& name)
     return obj;
 }
 
-InfoFormatter::InfoFormatter(const QString& name, Formatter formatter)
-    : name_(name), formatter_(formatter), useCount_(1)
+InfoFormatter::InfoFormatter(const QString& name, Formatter formatter) :
+    name_(name), formatter_(formatter), useCount_(1)
 {
     Logger::ProcLog log("InfoFormatter", Log());
     LOGINFO << name << std::endl;
@@ -53,11 +53,11 @@ InfoFormatter::InfoFormatter(const QString& name, Formatter formatter)
 QVariant
 InfoFormatter::format(const IO::StatusBase& status, int role)
 {
-    if (! formatter_) return QVariant();
+    if (!formatter_) return QVariant();
     char* value = (*formatter_)(status, role);
-    if (! value) return QVariant();
+    if (!value) return QVariant();
     QString tmp(value);
-    delete [] value;
+    delete[] value;
     return tmp;
 }
 
@@ -65,7 +65,7 @@ void
 InfoFormatter::release()
 {
     if (--useCount_ == 0) {
-	formatters_.remove(name_);
-	delete this;
+        formatters_.remove(name_);
+        delete this;
     }
 }

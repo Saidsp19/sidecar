@@ -4,36 +4,36 @@
 #include "IO/ProcessingState.h"
 #include "IO/StreamStatus.h"
 
-namespace Logger { class Msg; }
+namespace Logger {
+class Msg;
+}
 
 namespace SideCar {
-namespace Configuration { class RunnerConfig; }
+namespace Configuration {
+class RunnerConfig;
+}
 namespace Runner {
 
-class RunnerStatus : public IO::StatusBase
-{
+class RunnerStatus : public IO::StatusBase {
 public:
-
     enum {
-	kConfigName = IO::StatusBase::kNumSlots,
-	kServiceName,
-	kHostName,
-	kLogPath,
-	kStreamStatus,
-	kLogMessages,
-	kMemoryUsed,
-	kNumSlots
+        kConfigName = IO::StatusBase::kNumSlots,
+        kServiceName,
+        kHostName,
+        kLogPath,
+        kStreamStatus,
+        kLogMessages,
+        kMemoryUsed,
+        kNumSlots
     };
 
     static const char* GetClassName() { return "RunnerStatus"; }
 
     static void Make(XmlRpc::XmlRpcValue& status, const Configuration::RunnerConfig& runnerConfig,
                      std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> streamStatus,
-                     std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> logMessages,
-                     double memoryUsed);
+                     std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> logMessages, double memoryUsed);
 
-    RunnerStatus(const XmlRpc::XmlRpcValue& status)
-	: IO::StatusBase(status) {}
+    RunnerStatus(const XmlRpc::XmlRpcValue& status) : IO::StatusBase(status) {}
 
     std::string getConfigName() const { return getSlot(kConfigName); }
 
@@ -45,11 +45,9 @@ public:
 
     int getStreamCount() const { return getSlot(kStreamStatus).size(); }
 
-    IO::StreamStatus getStreamStatus(int index) const
-	{ return IO::StreamStatus(getSlot(kStreamStatus)[index]); }
+    IO::StreamStatus getStreamStatus(int index) const { return IO::StreamStatus(getSlot(kStreamStatus)[index]); }
 
-    const XmlRpc::XmlRpcValue& getLogMessages() const
-	{ return getSlot(kLogMessages); }
+    const XmlRpc::XmlRpcValue& getLogMessages() const { return getSlot(kLogMessages); }
 
     double getMemoryUsed() const { return getSlot(kMemoryUsed); }
 };

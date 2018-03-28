@@ -10,14 +10,12 @@ using namespace SideCar::GUI::Master;
 Logger::Log&
 ConfigurationWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("master.ConfigurationWindow");
+    static Logger::Log& log_ = Logger::Log::Find("master.ConfigurationWindow");
     return log_;
 }
 
-ConfigurationWindow::ConfigurationWindow(int shortcut)
-    : ToolWindowBase("ConfigurationWindow", "Settings", shortcut),
-      Ui::ConfigurationWindow()
+ConfigurationWindow::ConfigurationWindow(int shortcut) :
+    ToolWindowBase("ConfigurationWindow", "Settings", shortcut), Ui::ConfigurationWindow()
 {
     setupUi(this);
     setFixedSize();

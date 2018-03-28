@@ -16,12 +16,11 @@ namespace AScope {
 
 class DisplayView;
 
-class ViewEditor : public ToolWindowBase, public Ui::ViewEditor
-{
+class ViewEditor : public ToolWindowBase, public Ui::ViewEditor {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     ViewEditor(int shortcut);
 
     ViewSettings makeView() const;
@@ -72,10 +71,9 @@ private slots:
     void shutdown();
     void updateButtons();
     void addPreset();
-    
-private:
 
-    void showView(const ViewSettings& view); 
+private:
+    void showView(const ViewSettings& view);
     ViewSettings getView(int index) const;
     void addView(const QString& name, const ViewSettings& view);
 

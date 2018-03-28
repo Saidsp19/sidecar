@@ -2,13 +2,12 @@
 #include "UnitTest/UnitTest.h"
 #include "Utils/Utils.h"
 
-#include "Vector.h"
 #include "UnitVector.h"
+#include "Vector.h"
 
 using namespace SideCar::Geometry;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("Vector") {}
     void test();
 };
@@ -31,8 +30,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(13.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(13.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a += Vector(4.0, 5.0, 0.0);
@@ -41,8 +39,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(100.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(100.0), a.getMagnitude());
-    assertEqualEpsilon(36.8699, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(36.8699, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a -= Vector(4.0, 5.0, 0.0);
@@ -51,8 +48,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(13.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(13.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a *= 1.0;
@@ -61,8 +57,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(13.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(13.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a *= 2.0;
@@ -71,8 +66,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(52.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(52.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a /= 2.0;
@@ -81,8 +75,7 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(13.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(13.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 
     a /= 1;
@@ -91,11 +84,9 @@ Test::test()
     assertEqual(0.0, a.getZ());
     assertEqual(13.0, a.getMagnitudeSquared());
     assertEqual(::sqrt(13.0), a.getMagnitude());
-    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()),
-                       0.0001);
+    assertEqualEpsilon(33.6901, Utils::radiansToDegrees(a.getDirection()), 0.0001);
     assertEqual(0.0, a.getElevation());
 }
-
 
 int
 main(int argc, const char* argv[])

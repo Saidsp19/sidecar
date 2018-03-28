@@ -3,8 +3,9 @@
 using namespace SideCar::GUI;
 
 ChannelImaging::ChannelImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* size,
-                               OpacitySetting* opacity)
-    : Super(enabled), qcolor_(color), size_(size)
+                               OpacitySetting* opacity) :
+    Super(enabled),
+    qcolor_(color), size_(size)
 {
     connect(color, SIGNAL(valueChanged(const QColor&)), this, SLOT(colorChanged(const QColor&)));
     connect(size, SIGNAL(valueChanged(double)), this, SLOT(sizeChanged(double)));

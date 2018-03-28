@@ -16,12 +16,12 @@ using namespace SideCar;
 using namespace SideCar::Algorithms;
 using namespace SideCar::Algorithms::BugCollectorUtils;
 
-static int kHeartBeatInterval = 5;	   // seconds
+static int kHeartBeatInterval = 5; // seconds
 
-BugPlotReader::BugPlotReader(BugCollector& bugCollector)
-    : ACE_Event_Handler(ACE_Reactor::instance()), bugCollector_(bugCollector), serviceName_(""), reader_(),
-      metaTypeInfo_(Messages::BugPlot::GetMetaTypeInfo()), heartBeatAddress_(),
-      heartBeatWriter_(ACE_INET_Addr(uint16_t(0)))
+BugPlotReader::BugPlotReader(BugCollector& bugCollector) :
+    ACE_Event_Handler(ACE_Reactor::instance()), bugCollector_(bugCollector), serviceName_(""), reader_(),
+    metaTypeInfo_(Messages::BugPlot::GetMetaTypeInfo()), heartBeatAddress_(),
+    heartBeatWriter_(ACE_INET_Addr(uint16_t(0)))
 {
     ;
 }
@@ -36,14 +36,13 @@ BugPlotReader::openAndInit(const Zeroconf::ServiceEntry::Ref& service)
 
     ACE_INET_Addr address;
     if (address.set(resolved.getPort(), resolved.getHost().c_str(), 1, PF_INET) == -1) {
-	LOGERROR << "invalid address: " << resolved.getHost() << '/' << resolved.getPort() << std::endl;
-	return false;
+        LOGERROR << "invalid address: " << resolved.getHost() << '/' << resolved.getPort() << std::endl;
+        return false;
     }
 
-    if (! reader_.join(address)) {
-	LOGERROR << "failed mcast join using address " << resolved.getHost() << '/' << resolved.getPort()
-                 << std::endl;
-	return false;
+    if (!reader_.join(address)) {
+        LOGERROR << "failed mcast join using address " << resolved.getHost() << '/' << resolved.getPort() << std::endl;
+        return false;
     }
 
     // Obtain the heart-beat port for us to send heart-beat messages to.
@@ -54,8 +53,8 @@ BugPlotReader::openAndInit(const Zeroconf::ServiceEntry::Ref& service)
     heartBeatAddress_.set(port, resolved.getNativeHost().c_str(), 1, PF_INET);
 
     if (reactor()->register_handler(this, ACE_Event_Handler::READ_MASK) == -1) {
-	LOGERROR << "failed to register input handler" << std::endl;
-	return false;
+        LOGERROR << "failed to register input handler" << std::endl;
+        return false;
     }
 
     sendHeartBeat();
@@ -68,11 +67,11 @@ BugPlotReader::handle_input(ACE_HANDLE handle)
 {
     static Logger::ProcLog log("BugPlotReader::handle_input", bugCollector_.getLog());
 
-    if (! reader_.fetchInput()) return -1;
+    if (!reader_.fetchInput()) return -1;
 
     if (reader_.isMessageAvailable()) {
-	IO::MessageManager manager(reader_.getMessage(), &metaTypeInfo_);
-	bugCollector_.process(manager.getNative<Messages::BugPlot>());
+        IO::MessageManager manager(reader_.getMessage(), &metaTypeInfo_);
+        bugCollector_.process(manager.getNative<Messages::BugPlot>());
     }
 
 #ifdef FIONREAD
@@ -81,9 +80,9 @@ BugPlotReader::handle_input(ACE_HANDLE handle)
     // call us again before doing another ::select().
     //
     int available = 0;
-    if (ACE_OS::ioctl (handle, FIONREAD, &available) == 0 && available) {
-	LOGDEBUG << "more to come" << std::endl;
-	return 1;
+    if (ACE_OS::ioctl(handle, FIONREAD, &available) == 0 && available) {
+        LOGDEBUG << "more to come" << std::endl;
+        return 1;
     }
 #endif
 
@@ -113,15 +112,15 @@ BugPlotReader::get_handle() const
     return reader_.getDevice().get_handle();
 }
 
-BugPlotSubscriber::BugPlotSubscriber(BugCollector& bugCollector, const std::string& prefix)
-    : ACE_Event_Handler(ACE_Reactor::instance()), bugCollector_(bugCollector), browser_(), readers_(),
-      prefix_(prefix), timer_(-1)
+BugPlotSubscriber::BugPlotSubscriber(BugCollector& bugCollector, const std::string& prefix) :
+    ACE_Event_Handler(ACE_Reactor::instance()), bugCollector_(bugCollector), browser_(), readers_(), prefix_(prefix),
+    timer_(-1)
 {
     Zeroconf::ACEMonitorFactory::Ref monitorFactory(Zeroconf::ACEMonitorFactory::Make());
-    browser_ = Zeroconf::Browser::Make(monitorFactory,
-                                       IO::ZeroconfRegistry::MakeZeroconfType(
-                                           IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kPublisher),
-                                           Messages::BugPlot::GetMetaTypeInfo().getName()));
+    browser_ = Zeroconf::Browser::Make(
+        monitorFactory,
+        IO::ZeroconfRegistry::MakeZeroconfType(IO::ZeroconfRegistry::GetType(IO::ZeroconfRegistry::kPublisher),
+                                               Messages::BugPlot::GetMetaTypeInfo().getName()));
     browser_->connectToFoundSignal(boost::bind(&BugPlotSubscriber::foundNotification, this, _1));
     browser_->connectToLostSignal(boost::bind(&BugPlotSubscriber::lostNotification, this, _1));
     browser_->start();
@@ -134,22 +133,18 @@ BugPlotSubscriber::~BugPlotSubscriber()
 {
     reactor()->cancel_timer(timer_);
     browser_->stop();
-    for (size_t index = 0; index < readers_.size(); ++index) {
-	delete readers_[index];
-    }
+    for (size_t index = 0; index < readers_.size(); ++index) { delete readers_[index]; }
 }
 
 void
 BugPlotSubscriber::setPrefix(const std::string& prefix)
 {
     if (prefix_ != prefix) {
-	prefix_ = prefix;
-	browser_->stop();
-	for (size_t index = 0; index < readers_.size(); ++index) {
-	    delete readers_[index];
-        }
-	readers_.clear();
-	browser_->start();
+        prefix_ = prefix;
+        browser_->stop();
+        for (size_t index = 0; index < readers_.size(); ++index) { delete readers_[index]; }
+        readers_.clear();
+        browser_->start();
     }
 }
 
@@ -157,11 +152,11 @@ void
 BugPlotSubscriber::foundNotification(const ServiceEntryVector& services)
 {
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	if (service->getName().find(prefix_) == 0) {
-	    service->connectToResolvedSignal(boost::bind(&BugPlotSubscriber::resolvedNotification, this, _1));
-	    service->resolve();
-	}
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        if (service->getName().find(prefix_) == 0) {
+            service->connectToResolvedSignal(boost::bind(&BugPlotSubscriber::resolvedNotification, this, _1));
+            service->resolve();
+        }
     }
 }
 
@@ -170,10 +165,9 @@ BugPlotSubscriber::resolvedNotification(const Zeroconf::ServiceEntry::Ref& servi
 {
     BugPlotReader* reader = new BugPlotReader(bugCollector_);
     if (reader->openAndInit(service)) {
-	readers_.push_back(reader);
-    }
-    else {
-	delete reader;
+        readers_.push_back(reader);
+    } else {
+        delete reader;
     }
 }
 
@@ -181,24 +175,21 @@ void
 BugPlotSubscriber::lostNotification(const ServiceEntryVector& services)
 {
     for (size_t index = 0; index < services.size(); ++index) {
-	Zeroconf::ServiceEntry::Ref service(services[index]);
-	for (size_t inner = 0; inner < readers_.size(); ++inner) {
-	    if (service->getName() == readers_[inner]->getServiceName()) {
-		readers_[inner]->close(0);
-		delete readers_[inner];
-		readers_.erase(readers_.begin() + inner);
-		break;
-	    }
-	}
+        Zeroconf::ServiceEntry::Ref service(services[index]);
+        for (size_t inner = 0; inner < readers_.size(); ++inner) {
+            if (service->getName() == readers_[inner]->getServiceName()) {
+                readers_[inner]->close(0);
+                delete readers_[inner];
+                readers_.erase(readers_.begin() + inner);
+                break;
+            }
+        }
     }
 }
 
 int
-BugPlotSubscriber::handle_timeout(const ACE_Time_Value& duration,
-                                  const void* arg)
+BugPlotSubscriber::handle_timeout(const ACE_Time_Value& duration, const void* arg)
 {
-    for (size_t index = 0; index < readers_.size(); ++index) {
-	readers_[index]->sendHeartBeat();
-    }
+    for (size_t index = 0; index < readers_.size(); ++index) { readers_[index]->sendHeartBeat(); }
     return 0;
 }

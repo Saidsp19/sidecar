@@ -26,25 +26,24 @@ public:
 
     template <class U>
     struct rebind {
-	using other = FFTWAllocator<U>;
+        using other = FFTWAllocator<U>;
     };
 
-    
     /** Convert a reference to a value into a pointer to same.
 
         \param value the reference to convert
 
         \return pointer
     */
-    pointer address (reference value) const { return &value; }
-    
+    pointer address(reference value) const { return &value; }
+
     /** Convert a const reference to a value into a const pointer to same.
 
         \param value the reference to convert
 
         \return pointer
     */
-    const_pointer address (const_reference value) const { return &value; }
+    const_pointer address(const_reference value) const { return &value; }
 
     /** Constructor. Does nothing.
      */
@@ -61,7 +60,9 @@ public:
         \param copy object to copy
     */
     template <class U>
-    FFTWAllocator(const FFTWAllocator<U>& copy) throw() {}
+    FFTWAllocator(const FFTWAllocator<U>& copy) throw()
+    {
+    }
 
     /** Destructor. Does nothing.
      */
@@ -69,10 +70,9 @@ public:
 
     /** Obtain the size of the biggest object that may be allocated by this allocator.
 
-        \return 
+        \return
     */
-    size_type max_size () const throw()
-	{ return std::numeric_limits<std::size_t>::max() / sizeof(T); }
+    size_type max_size() const throw() { return std::numeric_limits<std::size_t>::max() / sizeof(T); }
 
     /** Allocate space for an object. NOTE: although this returns a pointer of type T, this routine does not
         return a constructed object.
@@ -84,8 +84,7 @@ public:
 
         \return address of allocated space
     */
-    pointer allocate(size_type n, const void* location = 0)
-	{ return (pointer)(::fftw_malloc(n * sizeof(T))); }
+    pointer allocate(size_type n, const void* location = 0) { return (pointer)(::fftw_malloc(n * sizeof(T))); }
 
     /** Construct a new T object in a given memory block.
 
@@ -93,15 +92,13 @@ public:
 
         \param value a T instance to copy from
     */
-    void construct(pointer p, const T& value)
-	{ new((void*)(p))T(value); }
+    void construct(pointer p, const T& value) { new ((void*)(p)) T(value); }
 
     /** Invoke the destructor for a given object. NOTE: does not release the memory holding the object.
 
         \param p pointer to the object to destroy
     */
-    void destroy (pointer p)
-	{ p->~T(); }
+    void destroy(pointer p) { p->~T(); }
 
     /** Release the memory used to hold an object, obtained from an earlier allocate() call.
 
@@ -109,8 +106,7 @@ public:
 
         \param num number of T instances in the memory (ignored)
     */
-    void deallocate(pointer p, size_type num)
-	{ ::fftw_free((void*)(p)); }
+    void deallocate(pointer p, size_type num) { ::fftw_free((void*)(p)); }
 };
 
 /** Equality comparison operator for FFTWAllocator types. Since these allocators have no state, they are all
@@ -122,7 +118,8 @@ public:
 
     \return always TRUE
 */
-template <class T1, class T2> bool
+template <class T1, class T2>
+bool
 operator==(const FFTWAllocator<T1>& a, const FFTWAllocator<T2>& b) throw()
 {
     return true;
@@ -137,7 +134,8 @@ operator==(const FFTWAllocator<T1>& a, const FFTWAllocator<T2>& b) throw()
 
     \return always FALSE
 */
-template <class T1, class T2> bool
+template <class T1, class T2>
+bool
 operator!=(const FFTWAllocator<T1>&, const FFTWAllocator<T2>&) throw()
 {
     return false;

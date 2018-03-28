@@ -18,11 +18,10 @@ namespace MatchedFilterUtils {
     - call the WorkRequest::process() method to process a slice of the data
     - post the finished WorkRequest object onto the finished WorkRequest queue
 */
-class WorkerThreads : public ACE_Task<ACE_MT_SYNCH>
-{
+class WorkerThreads : public ACE_Task<ACE_MT_SYNCH> {
     using Super = ACE_Task<ACE_MT_SYNCH>;
-public:
 
+public:
     /** Log device for WorkerThreads objects
 
         \return Logger::Log device reference
@@ -33,7 +32,7 @@ public:
         not create any threads; one must still invoke the ACE_Task::activate() method.
 
         \param algorithm the thread will post output messages to the
-	Algorithm::send() method of this object
+        Algorithm::send() method of this object
 
         \param pendingQueue thread-safe FIFO queue for pending WorkRequest
         objects
@@ -41,8 +40,7 @@ public:
         \param finishedQueue thread-safe FIFO queue for completed WorkRequest
         objects
     */
-    WorkerThreads(Algorithm& algorithm, WorkRequestQueue& pendingQueue,
-                  WorkRequestQueue& finishedQueue);
+    WorkerThreads(Algorithm& algorithm, WorkRequestQueue& pendingQueue, WorkRequestQueue& finishedQueue);
 
     /** Destructor. Here only to emit a log message for debugging.
      */
@@ -61,9 +59,8 @@ private:
     WorkRequestQueue& finishedQueue_;
 };
 
-} // end namespace WindowedSLCUtils
+} // namespace MatchedFilterUtils
 } // end namespace Algorithms
 } // end namespace SideCar
-
 
 #endif

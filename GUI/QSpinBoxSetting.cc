@@ -4,10 +4,8 @@
 
 using namespace SideCar::GUI;
 
-QSpinBoxSetting::QSpinBoxSetting(PresetManager* mgr, QSpinBox* widget,
-                                 bool global)
-    : IntSetting(mgr, widget->objectName(), widget->value(), global),
-      first_(widget)
+QSpinBoxSetting::QSpinBoxSetting(PresetManager* mgr, QSpinBox* widget, bool global) :
+    IntSetting(mgr, widget->objectName(), widget->value(), global), first_(widget)
 {
     connectWidget(widget);
 }

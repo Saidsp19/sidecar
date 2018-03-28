@@ -9,7 +9,9 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -25,11 +27,9 @@ class Visualizer;
     view may show historical or live data independent of the other views; the viewingPast() method controls
     which data is shown.
 */
-class HistoryPosition : public QObject
-{
+class HistoryPosition : public QObject {
     Q_OBJECT
 public:
-
     static Logger::Log& Log();
 
     /** Constructor. The initial position is always set to show current data.
@@ -87,13 +87,11 @@ private slots:
 
     void pastThawed();
 
-    void azimuthLatchChanged(bool enabled, double azimuth, bool relatch,
-                             const QString& active);
+    void azimuthLatchChanged(bool enabled, double azimuth, bool relatch, const QString& active);
 
     void channelNamesChanged(const QSet<QString>& names);
 
 private:
-
     bool checkAzimuthLatch();
 
     Visualizer* parent_;

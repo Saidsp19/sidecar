@@ -1,4 +1,4 @@
-#ifndef SIDECAR_DOXYGEN_H	// -*- C++ -*-
+#ifndef SIDECAR_DOXYGEN_H // -*- C++ -*-
 #define SIDECAR_DOXYGEN_H
 
 // NOTE: this file is not included anywhere. It serves to document the namespaces found in the reset of the
@@ -50,7 +50,7 @@
     - \subpage zeroconf "Zeroconf Interfacing"
     - \subpage xmlrpc "The XmlRpc++ Library"
 */
-    
+
 /** \page building Building and Installing
 
     \section prelim Preliminaries
@@ -99,7 +99,7 @@
     \code
     echo $ACE_ROOT
     \endcode
-  
+
     If you don't see what you expect (eg. \c /opt/sidecar/ACE_wrappers) then fix before moving on.to the next
     step.
 
@@ -111,7 +111,7 @@
 
     - Create an \c ace/config.h file that has two lines:
 
-    \code  
+    \code
     #define ACE_HAS_IPV6
     #include "ace/config-XXX.h"
     \endcode
@@ -258,9 +258,9 @@
 
     \code
     OPTLIB=/System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current
-    CPPFLAGS=-I${OPTLIB} LDFLAGS=-L${OPTLIB} ./configure		\
-    --prefix=/opt/vsipl							\
-    --disable-mpi --disable-fft-long-double --enable-simd-loop-fusion	\
+    CPPFLAGS=-I${OPTLIB} LDFLAGS=-L${OPTLIB} ./configure                \
+    --prefix=/opt/vsipl                                                 \
+    --disable-mpi --disable-fft-long-double --enable-simd-loop-fusion   \
     --with-lapack=generic
     \endcode
 
@@ -304,6 +304,7 @@
 
 /** Namespace for all entities specific to the 331 SideCar project.
  */
-namespace SideCar {}
+namespace SideCar {
+}
 
 #endif

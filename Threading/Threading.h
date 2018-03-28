@@ -1,4 +1,4 @@
-#ifndef THREADING_H		// -*- C++ -*-
+#ifndef THREADING_H // -*- C++ -*-
 #define THREADING_H
 
 #ifdef _WIN32
@@ -7,20 +7,19 @@
 #include <pthread.h>
 #endif
 
-#include <stdexcept>		// for std::out_of_range
+#include <stdexcept> // for std::out_of_range
 #include <string>
 
-#include "boost/shared_ptr.hpp"
 #include "Utils/Exception.h"
+#include "boost/shared_ptr.hpp"
 
 namespace Threading {
 
 /** Top-level exception class for all thread-related exceptions.
  */
-struct ThreadingException : public Utils::Exception
-{
+struct ThreadingException : public Utils::Exception {
     /** Constructor. Fills in exception with names of the class and class method that threw the exception.
-        
+
         \param className name of the class
 
         \param routine name of the method
@@ -28,7 +27,6 @@ struct ThreadingException : public Utils::Exception
         \param rc return value from a pthreads library call that reported an error
     */
 
-    
     ThreadingException(const char* className, const char* routine, int rc) throw();
 };
 
@@ -42,44 +40,45 @@ struct ThreadingException : public Utils::Exception
    or condition, since it provides an exception-safe way of making sure that the mutex is unlocked when the
    scope the Locker instance is in goes away.
 */
-class Mutex
-{
+class Mutex {
 public:
     using Ref = boost::shared_ptr<Mutex>;
 
     /** Top-level exception class for all Mutex-related exceptions
      */
     struct Exception : public ThreadingException {
-	Exception(const char* routine, int rc) throw() : ThreadingException("Mutex", routine, rc) {}
+        Exception(const char* routine, int rc) throw() : ThreadingException("Mutex", routine, rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_mutex_init
      */
     struct FailedInit : public Exception, public Utils::ExceptionInserter<FailedInit> {
-	FailedInit(int rc) throw() : Exception("Mutex", rc) {} };
+        FailedInit(int rc) throw() : Exception("Mutex", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_mutex_lock
      */
     struct FailedLock : public Exception, public Utils::ExceptionInserter<FailedLock> {
-	FailedLock(int rc) throw() : Exception("lock", rc) {} };
+        FailedLock(int rc) throw() : Exception("lock", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_mutex_unlock
      */
     struct FailedUnlock : public Exception, public Utils::ExceptionInserter<FailedLock> {
-	FailedUnlock(int rc) throw() : Exception("unlock", rc) {} };
+        FailedUnlock(int rc) throw() : Exception("unlock", rc) {}
+    };
 
-    
     /** Factory method for creating new Mutex objects.
-        
+
         \param kind which variant to create
 
         \return reference to new Mutex object
     */
     static Ref Make(int kind = PTHREAD_MUTEX_ERRORCHECK) throw(FailedInit)
-	{
-	    Ref ref(new Mutex(kind));
-	    return ref;
-	}
+    {
+        Ref ref(new Mutex(kind));
+        return ref;
+    }
 
     /** Destructor. Releases system-dependent mutex resource.
      */
@@ -108,9 +107,8 @@ public:
     bool operator==(const Mutex& rhs) const { return this == &rhs; }
 
     bool operator!=(const Mutex& rhs) const { return this != &rhs; }
-    
-private:
 
+private:
     /** Constructor. Initializes system-dependent mutex resource.
 
         \param kind type of mutex to create. See pthread_mutexattr_settype man page for more information about
@@ -124,7 +122,7 @@ private:
 
     /** Assigning is prohibited.
      */
-    Mutex& operator =(const Mutex&) throw();
+    Mutex& operator=(const Mutex&) throw();
 
     pthread_mutex_t mutex_;
 };
@@ -141,8 +139,7 @@ private:
     // multi-threaded code
     @endcode
 */
-class Guard
-{
+class Guard {
 public:
     static void Init();
 
@@ -150,7 +147,6 @@ public:
     ~Guard() throw(Mutex::FailedInit, Mutex::FailedUnlock) { Lock(false); }
 
 private:
-
     Guard(const Guard&);
 
     Guard& operator=(const Guard&);
@@ -166,44 +162,45 @@ private:
     to periodically check a running condition in a thread-safe manner. Each thread wishing to check or
     manipulate the condition must first acquire ownership of the instance (which is derived from Mutex)
 */
-class Condition
-{
+class Condition {
 public:
     using Ref = boost::shared_ptr<Condition>;
 
     /** Top-level exception class for all Condition-related exceptions.
      */
     struct Exception : public ThreadingException {
-	Exception(const char* routine, int rc) throw() : ThreadingException("Condition", routine, rc) {}
+        Exception(const char* routine, int rc) throw() : ThreadingException("Condition", routine, rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_cond_init.
      */
     struct FailedInit : public Exception, public Utils::ExceptionInserter<FailedInit> {
-	FailedInit(int rc) throw() : Exception("Condition", rc) {} };
+        FailedInit(int rc) throw() : Exception("Condition", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_cond_wait.
      */
     struct FailedWaitForSignal : public Exception, public Utils::ExceptionInserter<FailedWaitForSignal> {
-	FailedWaitForSignal(int rc) throw() : Exception("waitForSignal", rc) {} };
+        FailedWaitForSignal(int rc) throw() : Exception("waitForSignal", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_cond_timedwait.
      */
-    struct FailedTimedWaitForSignal : public Exception,
-                                      public Utils::ExceptionInserter<FailedTimedWaitForSignal> {
-	FailedTimedWaitForSignal(int rc) throw() : Exception("timedWaitForSignal", rc) {} };
+    struct FailedTimedWaitForSignal : public Exception, public Utils::ExceptionInserter<FailedTimedWaitForSignal> {
+        FailedTimedWaitForSignal(int rc) throw() : Exception("timedWaitForSignal", rc) {}
+    };
 
     static Ref Make()
-	{
-	    Ref ref(new Condition(Mutex::Make()));
-	    return ref;
-	}
+    {
+        Ref ref(new Condition(Mutex::Make()));
+        return ref;
+    }
 
     static Ref Make(const Mutex::Ref& mutex)
-	{
-	    Ref ref(new Condition(mutex));
-	    return ref;
-	}
+    {
+        Ref ref(new Condition(mutex));
+        return ref;
+    }
 
     /** Destructor. Releases system-dependent condition variable resource.
      */
@@ -241,7 +238,6 @@ public:
     Mutex::Ref mutex() const { return mutex_; }
 
 private:
-
     /** Constructor. Initializes system-dependent condition variable resource.
      */
     Condition(const Mutex::Ref& mutex) throw(FailedInit);
@@ -252,7 +248,7 @@ private:
 
     /** Assigning is prohibited
      */
-    Condition& operator =(const Condition&) throw();
+    Condition& operator=(const Condition&) throw();
 
     Mutex::Ref mutex_;
     pthread_cond_t condition_;
@@ -261,10 +257,8 @@ private:
 /** Resoure manager for a mutex. A Locker instance is allocated on the stack. When program flow exits the scope
     in which the Locker was declared, the Locker's destructor is called which automatically unlocks the mutex.
 */
-class Locker
-{
+class Locker {
 public:
-
     /** Constructor.
 
         \param mutex the mutex to use for the lock
@@ -282,7 +276,6 @@ public:
     ~Locker() throw(Mutex::FailedUnlock);
 
 private:
-
     /** Heap objects are prohibited.
      */
     static void* operator new(size_t);
@@ -293,7 +286,7 @@ private:
 
     /** Assigning is prohibited.
      */
-    Locker& operator =(const Locker&) throw();
+    Locker& operator=(const Locker&) throw();
 
     Mutex::Ref mutex_;
 };
@@ -302,32 +295,34 @@ private:
     thread that created it. To actually start a new thread, call the instance method Thread::start. New threads
     invoke the Thread::run method which must be defined by derived classes.
 */
-class Thread
-{
+class Thread {
 public:
-
     /** Top-level exception class for all Thread-related exceptions.
      */
     struct Exception : public ThreadingException {
-	Exception(const char* routine, int rc) throw() : ThreadingException("Thread", routine, rc) {} };
+        Exception(const char* routine, int rc) throw() : ThreadingException("Thread", routine, rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedCreate : public Exception, public Utils::ExceptionInserter<FailedCreate> {
-	FailedCreate(int rc) throw() : Exception("start", rc) {} };
+        FailedCreate(int rc) throw() : Exception("start", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedJoin : public Exception, public Utils::ExceptionInserter<FailedJoin> {
-	FailedJoin(int rc) throw() : Exception("join", rc) {} };
+        FailedJoin(int rc) throw() : Exception("join", rc) {}
+    };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedCancel : public Exception, public Utils::ExceptionInserter<FailedCancel> {
-	FailedCancel(int rc) throw() : Exception("cancel", rc) {} };
+        FailedCancel(int rc) throw() : Exception("cancel", rc) {}
+    };
 
     /** Utility to pause a thread for some amount of time. Other threads can run while this one is sleeping.
-        
+
         \param duration amount of time to pause, in seconds/microseconds
     */
     static void Sleep(double duration) throw(std::out_of_range);
@@ -336,8 +331,10 @@ public:
 
     /** Constructor.
      */
-    Thread() throw(Condition::FailedInit, Mutex::FailedInit)
-    : tid_(pthread_self()), condition_(Condition::Make()), running_(false), started_(false) {}
+    Thread() throw(Condition::FailedInit, Mutex::FailedInit) :
+        tid_(pthread_self()), condition_(Condition::Make()), running_(false), started_(false)
+    {
+    }
 
     /** Destructor. Release system-dependent resources.
      */
@@ -385,20 +382,20 @@ public:
 
         \return true if same
     */
-    bool operator ==(const Thread& rhs) const throw();
+    bool operator==(const Thread& rhs) const throw();
 
     /** See if two Thread objects do not represent the same thread.
 
         \param rhs Thread object to compare with
-        
+
         \return true if not the same
     */
-    bool operator !=(const Thread& rhs) const throw() { return ! (*this == rhs); }
+    bool operator!=(const Thread& rhs) const throw() { return !(*this == rhs); }
 
     /** \return true if this instance represents the thread currently executing
      */
     bool isActive() const throw() { return pthread_self() == tid_; }
-    
+
     /** Start a new thread. The new thread will invoke Thread::run, which must be defined by derived classes.
         Creates a new Starter object to do the actually starting. Call will not return until the new thread is
         up and running.
@@ -406,7 +403,6 @@ public:
     void start() throw(FailedCreate, Mutex::FailedLock, Condition::FailedInit);
 
 protected:
-
     /** Thread-specific code to run when Thread::start is called. Derived classes must define.
      */
     virtual void run() = 0;
@@ -422,12 +418,12 @@ private:
 
     /** Assigning is prohibited.
      */
-    Thread& operator =(const Thread&) throw();
+    Thread& operator=(const Thread&) throw();
 
-    pthread_t tid_;		///< System-specific thread resource.
-    Condition::Ref condition_;	///< Condition/mutex for running_ flag. 
-    bool running_;		///< True if thread is still running.
-    bool started_;		///< True if instance represents unique thread.
+    pthread_t tid_;            ///< System-specific thread resource.
+    Condition::Ref condition_; ///< Condition/mutex for running_ flag.
+    bool running_;             ///< True if thread is still running.
+    bool started_;             ///< True if instance represents unique thread.
 };
 
 } // end namespace Threading

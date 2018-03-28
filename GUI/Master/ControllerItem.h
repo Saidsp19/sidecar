@@ -20,20 +20,18 @@ class InfoFormatter;
 
     Also supports runtime parameter queries and updates.
 */
-class ControllerItem : public TaskItem
-{
+class ControllerItem : public TaskItem {
     Q_OBJECT
     using Super = TaskItem;
-public:
 
+public:
     /** Constructor.
 
         \param status initial status value of the item
 
         \param parent parent node for this item
     */
-    ControllerItem(const Algorithms::ControllerStatus& status,
-                   StreamItem* parent);
+    ControllerItem(const Algorithms::ControllerStatus& status, StreamItem* parent);
 
     ~ControllerItem();
 
@@ -72,8 +70,7 @@ public:
     */
     bool canEdit() const { return getStatus().hasParameters(); }
 
-    int getRecordingQueueCount() const
-	{ return getStatus().getRecordingQueueCount(); }
+    int getRecordingQueueCount() const { return getStatus().getRecordingQueueCount(); }
 
     /** Obtain the current runtime parameter values from the XML-RPC server of the runner process hosting the
         Controller.
@@ -99,11 +96,10 @@ public:
     int getDupeCount() const { return 0; }
 
 protected:
-
     void fillCollectionStats(CollectionStats& stats) const;
 
     /** Override of TreeViewItem method. Verifies that the held InfoFormatter object is valid for the new
-	status.
+        status.
     */
     void afterUpdate();
 
@@ -111,8 +107,7 @@ protected:
 
         \return read-only Algorithms::ControllerStatus reference
     */
-    const Algorithms::ControllerStatus& getStatus() const
-	{ return getStatusT<Algorithms::ControllerStatus>(); }
+    const Algorithms::ControllerStatus& getStatus() const { return getStatusT<Algorithms::ControllerStatus>(); }
 
 private:
     InfoFormatter* infoFormatter_;

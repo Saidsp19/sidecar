@@ -8,10 +8,8 @@ namespace IO {
 
 /** Simple utility class that closes a held file descriptor when the object is destroyed.
  */
-class AutoCloseFileDescriptor : public Utils::Uncopyable
-{
+class AutoCloseFileDescriptor : public Utils::Uncopyable {
 public:
-    
     /** Constructor. Assumes ownership of the given file descriptor.
 
         \param fd file descriptor to manage
@@ -20,23 +18,26 @@ public:
 
     /** Destructor. Closes the file descriptor.
      */
-    ~AutoCloseFileDescriptor() { if (fd_ != -1) ::close(fd_); }
+    ~AutoCloseFileDescriptor()
+    {
+        if (fd_ != -1) ::close(fd_);
+    }
 
     /** Manually close the file descriptor.
 
         \return result of ::close() system call.
     */
     int close()
-        {
-            int rc = -1;
-            do {
-                errno = 0;
-                rc = ::close(fd_);
-            } while (rc == -1 && errno == EINTR);
+    {
+        int rc = -1;
+        do {
+            errno = 0;
+            rc = ::close(fd_);
+        } while (rc == -1 && errno == EINTR);
 
-            fd_ = -1;
-            return rc;
-        }
+        fd_ = -1;
+        return rc;
+    }
 
     /** Obtain the file descriptor value.
 
@@ -51,7 +52,6 @@ public:
     operator bool() const { return fd_ != -1; }
 
 private:
-    
     int fd_;
 };
 

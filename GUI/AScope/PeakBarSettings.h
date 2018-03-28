@@ -4,19 +4,20 @@
 #include "GUI/IntSetting.h"
 #include "GUI/OnOffSettingsBlock.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace AScope {
 
 /** Collection of settings that configure the application's History object.
  */
-class PeakBarSettings : public OnOffSettingsBlock
-{
+class PeakBarSettings : public OnOffSettingsBlock {
     Q_OBJECT
     using Super = OnOffSettingsBlock;
-public:
 
+public:
     /** Obtain Log device for ViewSetting objects
 
         \return Log device
@@ -25,8 +26,7 @@ public:
 
     /** Constructor.
      */
-    PeakBarSettings(BoolSetting* enabled, IntSetting* width,
-                    IntSetting* lifeTime, BoolSetting* fade);
+    PeakBarSettings(BoolSetting* enabled, IntSetting* width, IntSetting* lifeTime, BoolSetting* fade);
 
     int getWidth() const { return width_; }
 

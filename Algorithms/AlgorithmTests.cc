@@ -22,38 +22,37 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 using namespace SideCar::Parameter;
 
-struct AlgorithmTest : public UnitTest::TestObj
-{
+struct AlgorithmTest : public UnitTest::TestObj {
     AlgorithmTest() : TestObj("Algorithm") {}
     void test();
 };
 
 static int processedCount_ = 0;
 
-class Blah : public Algorithm
-{
+class Blah : public Algorithm {
 public:
-    Blah(Controller& controller, Logger::Log& log)
-        : Algorithm(controller, log),
-	  foo_(IntValue::Make("foo", "foo test", 1)),
-	  bar_(DoubleValue::Make("bar", "bar test", 0.0)) {}
+    Blah(Controller& controller, Logger::Log& log) :
+        Algorithm(controller, log), foo_(IntValue::Make("foo", "foo test", 1)),
+        bar_(DoubleValue::Make("bar", "bar test", 0.0))
+    {
+    }
 
     bool startup()
-        {
-            getLog().info() << "STARTUP" << std::endl;
-            registerProcessor<Blah,Video>("A", &Blah::process);
-            registerParameter(foo_);
-            registerParameter(bar_);
-            processedCount_ = 0;
-            return Algorithm::startup();
-        }
+    {
+        getLog().info() << "STARTUP" << std::endl;
+        registerProcessor<Blah, Video>("A", &Blah::process);
+        registerParameter(foo_);
+        registerParameter(bar_);
+        processedCount_ = 0;
+        return Algorithm::startup();
+    }
 
     bool reset()
-        {
-            getLog().info() << "RESET" << std::endl;
-            processedCount_ = 0;
-            return Algorithm::reset();
-        }
+    {
+        getLog().info() << "RESET" << std::endl;
+        processedCount_ = 0;
+        return Algorithm::reset();
+    }
 
     /** Implementation of the Algorithm::process interface.
 
@@ -66,11 +65,11 @@ public:
     bool process(const Video::Ref& msg);
 
     bool stop()
-        {
-            getLog().info() << "STOP" << std::endl;
-            ACE_Reactor::instance()->end_event_loop();
-            return Algorithm::stop();
-        }
+    {
+        getLog().info() << "STOP" << std::endl;
+        ACE_Reactor::instance()->end_event_loop();
+        return Algorithm::stop();
+    }
 
     int getProcessedCount() const { return processedCount_; }
 
@@ -100,7 +99,7 @@ AlgorithmTest::test()
     msg->push_back(100);
     msg->push_back(200);
     msg->push_back(300);
-    for (int count = 0;  count < 10; ++count){
+    for (int count = 0; count < 10; ++count) {
         IO::MessageManager mgr(msg);
         assertTrue(writer->write(mgr.getMessage()));
     }
@@ -115,7 +114,7 @@ AlgorithmTest::test()
     controller->setTaskIndex(1);
     Blah* blah = new Blah(*controller, Logger::Log::Root());
 
-    IO::FileReaderTaskModule* reader = new IO::FileReaderTaskModule(stream) ;
+    IO::FileReaderTaskModule* reader = new IO::FileReaderTaskModule(stream);
     assertEqual(0, stream->push(reader));
 
     IO::Channel output("A", "Video", module->getTask());

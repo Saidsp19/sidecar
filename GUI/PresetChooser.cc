@@ -19,8 +19,8 @@ PresetChooser::Log()
     return log_;
 }
 
-PresetChooser::PresetChooser(PresetManager* presetManager, QWidget* parent)
-    : Super(parent), presetManager_(presetManager)
+PresetChooser::PresetChooser(PresetManager* presetManager, QWidget* parent) :
+    Super(parent), presetManager_(presetManager)
 {
     setFocusPolicy(Qt::NoFocus);
     setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -28,18 +28,13 @@ PresetChooser::PresetChooser(PresetManager* presetManager, QWidget* parent)
     setCurrentIndex(presetManager->getActivePresetIndex());
     setToolTip("Select active preset. CTRL+Click to save changes.");
 
-    setDirtyState(presetManager->getActivePresetIndex(),
-                  presetManager->getActiveIsDirty());
+    setDirtyState(presetManager->getActivePresetIndex(), presetManager->getActiveIsDirty());
 
-    connect(this, SIGNAL(currentIndexChanged(int)),
-            presetManager, SLOT(applyPreset(int)));
-    connect(presetManager, SIGNAL(activePresetChanged(int)),
-            SLOT(activePresetChanged(int)));
-    connect(presetManager,
-            SIGNAL(presetNamesChanged(const QStringList&)),
+    connect(this, SIGNAL(currentIndexChanged(int)), presetManager, SLOT(applyPreset(int)));
+    connect(presetManager, SIGNAL(activePresetChanged(int)), SLOT(activePresetChanged(int)));
+    connect(presetManager, SIGNAL(presetNamesChanged(const QStringList&)),
             SLOT(presetNamesChanged(const QStringList&)));
-    connect(presetManager, SIGNAL(presetDirtyStateChanged(int, bool)),
-            SLOT(setDirtyState(int, bool)));
+    connect(presetManager, SIGNAL(presetDirtyStateChanged(int, bool)), SLOT(setDirtyState(int, bool)));
 
     installEventFilter(this);
 }
@@ -78,11 +73,10 @@ PresetChooser::setDirtyState(int index, bool isDirty)
 void
 PresetChooser::mousePressEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton &&
-        event->modifiers() == Qt::ControlModifier) {
-	presetManager_->savePreset(currentIndex());
-	event->accept();
-	return;
+    if (event->button() == Qt::LeftButton && event->modifiers() == Qt::ControlModifier) {
+        presetManager_->savePreset(currentIndex());
+        event->accept();
+        return;
     }
 
     Super::mousePressEvent(event);

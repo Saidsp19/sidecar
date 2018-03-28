@@ -7,8 +7,12 @@
 
 #include "PlotDataPointDeque.h"
 
-namespace Logger { class Log; }
-namespace Utils { class RunningMedian; }
+namespace Logger {
+class Log;
+}
+namespace Utils {
+class RunningMedian;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,17 +20,16 @@ namespace HealthAndStatus {
 
 /** QWidget variant that plots time-series data.
  */
-class SamplePlotWidget : public QWidget
-{
+class SamplePlotWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
-        \param parent 
+        \param parent
     */
     SamplePlotWidget(QWidget* parent = 0);
 
@@ -55,7 +58,6 @@ public:
     double getExpected() const { return expected_; }
 
 private:
-
     void resizeEvent(QResizeEvent* event);
 
     void showEvent(QShowEvent* event);

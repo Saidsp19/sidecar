@@ -18,8 +18,8 @@
 
 #include "AppBase.h"
 #include "DisableAppNap.h"
-#include "LoggerWindow.h"
 #include "LogUtils.h"
+#include "LoggerWindow.h"
 #include "MainWindowBase.h"
 #include "ManualWindow.h"
 #include "PhantomCursorImaging.h"
@@ -56,15 +56,15 @@ AppBase::GetApp()
     return singleton_;
 }
 
-AppBase::AppBase(const QString& name, int& argc, char** argv)
-    : QApplication(argc, argv), name_(name), docDir_(QDir(kRootDocumentationPath).absoluteFilePath(name_)),
-      windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), lastConfigurationFile_(""),
-      lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
-      distanceUnits_("km"), distanceUnitsSuffix_(" km"), phantomCursor_(PhantomCursorImaging::InvalidCursor()),
-      angularFormatType_(kDecimal), quitting_(false), disableAppNap_(new DisableAppNap)
+AppBase::AppBase(const QString& name, int& argc, char** argv) :
+    QApplication(argc, argv), name_(name), docDir_(QDir(QCoreApplication::applicationDirPath())),
+    windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), lastConfigurationFile_(""),
+    lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
+    distanceUnits_("km"), distanceUnitsSuffix_(" km"), phantomCursor_(PhantomCursorImaging::InvalidCursor()),
+    angularFormatType_(kDecimal), quitting_(false), disableAppNap_(new DisableAppNap)
 {
     Logger::ProcLog log("AppBase", Log());
-    LOGINFO << name << std::endl;
+    LOGERROR << name << ' ' << docDir_.canonicalPath().toStdString() << std::endl;
     Logger::Log::Root().setPriorityLimit(Logger::Priority::kWarning);
 
     singleton_ = this;
@@ -93,7 +93,7 @@ AppBase::AppBase(const QString& name, int& argc, char** argv)
     // application from different hosts but with the same NFS home directory.
     //
     setOrganizationName("bray.com");
-    setApplicationName(QString("%1-%2").arg(name_) .arg(QHostInfo::localHostName()));
+    setApplicationName(QString("%1-%2").arg(name_).arg(QHostInfo::localHostName()));
 
     // Create the QAction objects found in the stock menus. Must be done before the creation of any tool
     // windows.
@@ -120,9 +120,7 @@ AppBase::~AppBase()
 {
     Logger::ProcLog log("~AppBase", Log());
     LOGINFO << std::endl;
-    if (config_) {
-        delete config_;
-    }
+    if (config_) { delete config_; }
 }
 
 QString
@@ -148,9 +146,7 @@ AppBase::makeApplicationMenu(QWidget* parent)
 QMenu*
 AppBase::makeToolsMenu(QWidget* parent)
 {
-    if (toolsMenuActions_.empty()) {
-        return 0;
-    }
+    if (toolsMenuActions_.empty()) { return 0; }
 
     QMenu* menu = new QMenu("Tools", parent);
     menu->addActions(toolsMenuActions_);
@@ -194,8 +190,7 @@ AppBase::restoreWindows()
     for (int index = 0; index < count; ++index) {
         settings.setArrayIndex(index);
         QString objectName = settings.value(kObjectName).toString();
-        LOGDEBUG << "restoring window " << index << ' ' << objectName
-                 << std::endl;
+        LOGDEBUG << "restoring window " << index << ' ' << objectName << std::endl;
         MainWindowBase* window = makeAndInitializeNewMainWindow(objectName);
         if (window) {
             window->showAndRaise();
@@ -210,9 +205,7 @@ AppBase::restoreWindows()
     if (restored == 0) {
         LOGDEBUG << "none saved" << std::endl;
         MainWindowBase* window = makeAndInitializeNewMainWindow("");
-        if (window) {
-            window->showAndRaise();
-        }
+        if (window) { window->showAndRaise(); }
     }
 
     // Now restore all registered tool windows.
@@ -229,16 +222,13 @@ AppBase::setLogConfigurationFile(const QString& path)
     // If the given path does not exist as a file, then just set to the empty string.
     //
     FilePath filePath(path.toStdString());
-    if (!filePath.exists()) {
-        filePath = "";
-    }
+    if (!filePath.exists()) { filePath = ""; }
 
     // Stop any previously-installed configuration.
     //
     lastConfigurationFile_ = QString::fromStdString(filePath.filePath());
     if (config_) {
-        LOGWARNING << "stopping existing configuration file monitor"
-                   << std::endl;
+        LOGWARNING << "stopping existing configuration file monitor" << std::endl;
         config_->stopMonitor();
         delete config_;
         config_ = 0;
@@ -247,8 +237,7 @@ AppBase::setLogConfigurationFile(const QString& path)
     if (!filePath.empty()) {
         config_ = new Logger::ConfiguratorFile(path.toStdString());
         config_->startMonitor(5);
-        LOGDEBUG << "applied logging configuration file: "
-                 << path << std::endl;
+        LOGDEBUG << "applied logging configuration file: " << path << std::endl;
     }
 }
 
@@ -258,14 +247,11 @@ AppBase::loggingLoadConfigurationFile()
     Logger::ProcLog log("loggingLoadConfigurationFile", Log());
     LOGINFO << std::endl;
 
-    QString path = QFileDialog::getOpenFileName(
-            0, "Choose Logger configuration file", lastConfigurationFile_,
-            "Config (*.cfg)");
+    QString path =
+        QFileDialog::getOpenFileName(0, "Choose Logger configuration file", lastConfigurationFile_, "Config (*.cfg)");
 
     LOGDEBUG << path << std::endl;
-    if (path.isEmpty()) {
-        return;
-    }
+    if (path.isEmpty()) { return; }
 
     setLogConfigurationFile(path);
 }
@@ -280,10 +266,8 @@ AppBase::loadStyleSheet()
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QString css(file.readAll());
             setStyleSheet(css);
-        }
-        else {
-            QMessageBox::critical(activeWindow(), "Failed Load",
-                                  "Failed to read the style sheet file.");
+        } else {
+            QMessageBox::critical(activeWindow(), "Failed Load", "Failed to read the style sheet file.");
         }
     }
 }
@@ -295,9 +279,7 @@ AppBase::applicationQuit()
 
     // If we are already in 'quit' sequence, don't continue.
     //
-    if (quitting_) {
-        return;
-    }
+    if (quitting_) { return; }
 
     quitting_ = true;
     LOGWARNING << "*** USER QUITTING ***" << std::endl;
@@ -330,9 +312,7 @@ AppBase::applicationQuit()
 void
 AppBase::addToolWindow(int index, ToolWindowBase* toolWindow)
 {
-    while (toolsMenuActions_.size() <= index) {
-        toolsMenuActions_.append(0);
-    }
+    while (toolsMenuActions_.size() <= index) { toolsMenuActions_.append(0); }
 
     connect(this, SIGNAL(restoreToolWindows()), toolWindow, SLOT(applyInitialVisibility()));
     toolsMenuActions_[index] = toolWindow->getShowHideAction();
@@ -344,8 +324,8 @@ AppBase::makeLoggingMenuActions()
     loggerWindow_ = new LoggerWindow(Qt::CTRL + Qt::Key_D);
     connect(this, SIGNAL(restoreToolWindows()), loggerWindow_, SLOT(applyInitialVisibility()));
 
-    QAction* action = MakeMenuAction("Load Configuration...", this, SLOT(loggingLoadConfigurationFile()),
-                                     Qt::CTRL + Qt::Key_G);
+    QAction* action =
+        MakeMenuAction("Load Configuration...", this, SLOT(loggingLoadConfigurationFile()), Qt::CTRL + Qt::Key_G);
     loggingMenuActions_.push_back(action);
     action = MakeMenuAction("Load Style Sheet...", this, SLOT(loadStyleSheet()), Qt::CTRL + Qt::Key_F10);
     loggingMenuActions_.push_back(action);
@@ -402,9 +382,7 @@ MainWindowBase*
 AppBase::makeAndInitializeNewMainWindow(const QString& type)
 {
     MainWindowBase* window = makeNewMainWindow(type);
-    if (window) {
-        window->initialize();
-    }
+    if (window) { window->initialize(); }
 
     return window;
 }
@@ -471,8 +449,7 @@ AppBase::showAbout()
         QFile file(aboutPath);
         file.open(QIODevice::ReadOnly);
         aboutText.append(file.readAll());
-    }
-    else {
+    } else {
         aboutText = "Developer forgot to create an 'about.html' file for this application.";
     }
 
@@ -569,4 +546,3 @@ AppBase::event(QEvent* event)
 
     return Super::event(event);
 }
-

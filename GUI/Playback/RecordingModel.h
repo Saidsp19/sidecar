@@ -6,31 +6,32 @@
 
 #include "RecordingInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace Playback {
 
-class RecordingModel : public QAbstractTableModel
-{
+class RecordingModel : public QAbstractTableModel {
     Q_OBJECT
     using Super = QAbstractTableModel;
-public:
 
+public:
     enum Columns {
-	kName = 0,
-	kStartTime,
-	kElapsed,
-	kDrops,
-	kTransmitting,
-	kFrequency,
-	kRotating,
-	kRotationRate,
-	kDRFMOn,
-	kDRFMConfig,
-	kConfig,
-	kNumColumns
+        kName = 0,
+        kStartTime,
+        kElapsed,
+        kDrops,
+        kTransmitting,
+        kFrequency,
+        kRotating,
+        kRotationRate,
+        kDRFMOn,
+        kDRFMConfig,
+        kConfig,
+        kNumColumns
     };
 
     static Logger::Log& Log();
@@ -38,10 +39,9 @@ public:
     static QString GetColumnName(int index);
 
     static RecordingInfo* GetModelData(const QModelIndex& index)
-	{
-	    return index.isValid() ?
-		static_cast<RecordingInfo*>(index.internalPointer()) : 0;
-	}
+    {
+        return index.isValid() ? static_cast<RecordingInfo*>(index.internalPointer()) : 0;
+    }
 
     RecordingModel(QObject* parent);
 
@@ -51,24 +51,22 @@ public:
 
     RecordingInfo* getModelData(const QString& name) const;
 
-    RecordingInfo* getModelData(int row) const
-	{ return row >= 0 ? recordingList_[row] : 0; }
+    RecordingInfo* getModelData(int row) const { return row >= 0 ? recordingList_[row] : 0; }
 
     int getRowOf(RecordingInfo* obj) const;
 
-    int columnCount(const QModelIndex& parent = QModelIndex()) const
-	{ return parent.isValid() ? 0 : kNumColumns; }
+    int columnCount(const QModelIndex& parent = QModelIndex()) const { return parent.isValid() ? 0 : kNumColumns; }
 
-    int rowCount( const QModelIndex& parent = QModelIndex()) const
-	{ return parent.isValid() ? 0 : recordingList_.size(); }
+    int rowCount(const QModelIndex& parent = QModelIndex()) const
+    {
+        return parent.isValid() ? 0 : recordingList_.size();
+    }
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex& parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 private:
     using RecordingList = QList<RecordingInfo*>;

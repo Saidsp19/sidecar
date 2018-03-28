@@ -1,12 +1,11 @@
-#include "Messages/Segments.h"
 #include "PRISegmentation.h"
+#include "Messages/Segments.h"
 
 using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 
-PRISegmentation::PRISegmentation(Controller& controller, Logger::Log &log)
-    : Algorithm(controller, log),
-      threshold_(Parameter::IntValue::Make("threshold", "Threshold", 5000))
+PRISegmentation::PRISegmentation(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), threshold_(Parameter::IntValue::Make("threshold", "Threshold", 5000))
 {
     ;
 }
@@ -14,8 +13,7 @@ PRISegmentation::PRISegmentation(Controller& controller, Logger::Log &log)
 bool
 PRISegmentation::startup()
 {
-    registerProcessor<PRISegmentation,Messages::Video>(
-	&PRISegmentation::process);
+    registerProcessor<PRISegmentation, Messages::Video>(&PRISegmentation::process);
     return registerParameter(threshold_) && Algorithm::startup();
 }
 
@@ -29,10 +27,7 @@ PRISegmentation::reset()
 bool
 PRISegmentation::process(const Video::Ref& pri)
 {
-    SegmentMessage::Ref output(new SegmentMessage("PRISegmentation",
-                                                  pri,
-                                                  pri->getRangeMin(),
-                                                  pri->getRangeFactor()));
+    SegmentMessage::Ref output(new SegmentMessage("PRISegmentation", pri, pri->getRangeMin(), pri->getRangeFactor()));
     SegmentList& out = *output->data();
 
     bool pending = false;
@@ -42,12 +37,11 @@ PRISegmentation::process(const Video::Ref& pri)
     Video::DatumType threshold = threshold_->getValue();
     for (size_t i = 0; i < length; ++i) {
         if (pri[i] >= threshold) {
-            if(! pending) {
+            if (!pending) {
                 pending = true;
                 s.start = i;
             }
-        }
-        else {
+        } else {
             if (pending) {
                 pending = false;
                 s.stop = i - 1;
@@ -64,8 +58,7 @@ PRISegmentation::process(const Video::Ref& pri)
     if (out.data().size()) {
         busy_ = true;
         return send(output);
-    }
-    else if (busy_) {
+    } else if (busy_) {
         busy_ = false;
         return send(output);
     }

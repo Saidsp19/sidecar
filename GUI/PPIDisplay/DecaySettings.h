@@ -11,13 +11,11 @@ namespace PPIDisplay {
 
 /** Collection of Setting objects that relate to the simulated phosphor decay effect available in the PPIWidget.
  */
-class DecaySettings : public OnOffSettingsBlock
-{
+class DecaySettings : public OnOffSettingsBlock {
     using Super = OnOffSettingsBlock;
-public:
 
-    DecaySettings(BoolSetting* enabled, QComboBoxSetting* profile,
-                  IntSetting* distance);
+public:
+    DecaySettings(BoolSetting* enabled, QComboBoxSetting* profile, IntSetting* distance);
 
     int getProfile() const { return profile_->getValue(); }
 

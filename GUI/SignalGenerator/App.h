@@ -16,15 +16,14 @@ namespace GUI {
 */
 namespace SignalGenerator {
 
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
+
 public:
     static App* GetApp() { return dynamic_cast<App*>(qApp); }
 
-    App(int& argc, char** argv)
-	: AppBase("SignalGenerator", argc, argv) {}
+    App(int& argc, char** argv) : AppBase("SignalGenerator", argc, argv) {}
 
 protected:
     MainWindowBase* makeNewMainWindow(const QString& objectName);

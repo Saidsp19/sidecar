@@ -15,10 +15,8 @@ namespace Messages {
     problem on MacOS X due to some crufty symbol renaming going on by Trolltech/Nokia (I don't think they'll be
     doing THAT again, given all of the complaints this caused...)
 */
-class XmlStreamReader : public QXmlStreamReader
-{
+class XmlStreamReader : public QXmlStreamReader {
 public:
-
     /** Constructor. Initializes instance, taking data from the given QIODevice object.
 
         \param file the source of the data

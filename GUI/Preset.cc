@@ -15,9 +15,7 @@ Preset::Log()
     return log_;
 }
 
-Preset::Preset(const QString& name, PresetManager* parent)
-    : QObject(parent), name_(name), values_(),
-      dirty_(false)
+Preset::Preset(const QString& name, PresetManager* parent) : QObject(parent), name_(name), values_(), dirty_(false)
 {
     Logger::ProcLog log("Preset", Log());
     LOGINFO << name << std::endl;
@@ -37,26 +35,20 @@ Preset::setValue(int index, const QVariant& value)
     static Logger::ProcLog log("setValue", Log());
     LOGINFO << name_ << std::endl;
 
-    while (values_.size() <= index)
-	values_.append(QVariant());
+    while (values_.size() <= index) values_.append(QVariant());
 
     if (value == values_[index]) {
-	;
-    }
-    else if (! values_[index].isValid()) {
-	values_[index] = value;
-    }
-    else {
-	if (! getParent()->isRestoring() && ! dirty_) {
-	    LOGDEBUG << "*** Preset: " << name_ << " setting: "
-		     << getParent()->getSetting(index)->getName()
-		     << " old: '" << values_[index].toString()
-		     << "' (" << values_[index].typeName()
-		     << ") new: '" << value.toString() << "' ("
-		     << value.typeName() << ")" << std::endl;
-	    dirty_ = true;
-	}
-	values_[index] = value;
+        ;
+    } else if (!values_[index].isValid()) {
+        values_[index] = value;
+    } else {
+        if (!getParent()->isRestoring() && !dirty_) {
+            LOGDEBUG << "*** Preset: " << name_ << " setting: " << getParent()->getSetting(index)->getName()
+                     << " old: '" << values_[index].toString() << "' (" << values_[index].typeName() << ") new: '"
+                     << value.toString() << "' (" << value.typeName() << ")" << std::endl;
+            dirty_ = true;
+        }
+        values_[index] = value;
     }
 }
 
@@ -68,11 +60,10 @@ Preset::save(QSettings& file, const QStringList& names)
 
     file.beginGroup(name_);
     {
-	for (int index = 0; index < names.size(); ++index) {
-	    LOGINFO << "name: " << names[index] << " value: "
-		    << values_[index].toString() << std::endl;
-	    file.setValue(names[index], values_[index]);
-	}
+        for (int index = 0; index < names.size(); ++index) {
+            LOGINFO << "name: " << names[index] << " value: " << values_[index].toString() << std::endl;
+            file.setValue(names[index], values_[index]);
+        }
     }
     file.endGroup();
 
@@ -80,8 +71,7 @@ Preset::save(QSettings& file, const QStringList& names)
 }
 
 void
-Preset::restore(QSettings& file, const QList<Setting*>& settings,
-                bool apply)
+Preset::restore(QSettings& file, const QList<Setting*>& settings, bool apply)
 {
     static Logger::ProcLog log("restore", Log());
     LOGINFO << "restoring " << name_ << " apply: " << apply << std::endl;
@@ -92,27 +82,24 @@ Preset::restore(QSettings& file, const QList<Setting*>& settings,
 
     file.beginGroup(name_);
     {
-	for (int index = 0; index < settings.size(); ++index) {
-	    const QString& name = settings[index]->getName();
-	    QVariant value = file.value(name);
+        for (int index = 0; index < settings.size(); ++index) {
+            const QString& name = settings[index]->getName();
+            QVariant value = file.value(name);
 
-	    bool doApply = apply;
-	    if (! value.isValid()) {
-		doApply = false;
-		value = settings[index]->getOpaqueValue();
-	    }
-	    else if (isOldVersion) {
-		value = getParent()->upgradeSetting(name, value);
-	    }
+            bool doApply = apply;
+            if (!value.isValid()) {
+                doApply = false;
+                value = settings[index]->getOpaqueValue();
+            } else if (isOldVersion) {
+                value = getParent()->upgradeSetting(name, value);
+            }
 
-	    LOGDEBUG << "name: " << name << " value: " << value.toString()
-		     << " doApply: " << doApply << std::endl;
+            LOGDEBUG << "name: " << name << " value: " << value.toString() << " doApply: " << doApply << std::endl;
 
-	    values_.append(value);
+            values_.append(value);
 
-	    if (doApply)
-		settings[index]->restoreValue(value);
-	}
+            if (doApply) settings[index]->restoreValue(value);
+        }
     }
     file.endGroup();
 
@@ -127,18 +114,15 @@ Preset::restoreOne(QSettings& file, Setting* setting)
 
     file.beginGroup(name_);
     {
-	QVariant value = file.value(setting->getName());
-	bool ok = value.isValid();
-	if (! ok)
-	    value = setting->getOpaqueValue();
+        QVariant value = file.value(setting->getName());
+        bool ok = value.isValid();
+        if (!ok) value = setting->getOpaqueValue();
 
-	LOGDEBUG << "name: " << setting->getName() << " value: "
-		 << value.toString() << std::endl;
+        LOGDEBUG << "name: " << setting->getName() << " value: " << value.toString() << std::endl;
 
-	values_.append(value);
+        values_.append(value);
 
-	if (ok)
-	    setting->restoreValue(value);
+        if (ok) setting->restoreValue(value);
     }
     file.endGroup();
 }
@@ -149,9 +133,7 @@ Preset::apply(const QList<Setting*>& settings)
     static Logger::ProcLog log("apply", Log());
     LOGINFO << "name: " << name_ << std::endl;
 
-    for (int index = 0; index < settings.size(); ++index) {
-	settings[index]->restoreValue(values_[index]);
-    }
+    for (int index = 0; index < settings.size(); ++index) { settings[index]->restoreValue(values_[index]); }
 }
 
 PresetManager*
@@ -163,7 +145,6 @@ Preset::getParent() const
 void
 Preset::expand(int index, const QVariant& value)
 {
-    while (values_.size() < index)
-	values_.append(QVariant());
+    while (values_.size() < index) values_.append(QVariant());
     values_.append(value);
 }

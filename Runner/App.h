@@ -13,11 +13,18 @@
 
 class QFile;
 
-namespace Logger { class ConfiguratorFile; class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class ConfiguratorFile;
+class Log;
+} // namespace Logger
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
-namespace IO { class StatusBase; }
+namespace IO {
+class StatusBase;
+}
 namespace Runner {
 
 class LogCollector;
@@ -32,8 +39,8 @@ class StatusEmitter;
     The runner application accepts the following options on the command-line:
 
     \code
-    runner [-?|--help] [-d|--debug] [-H|--hostname HOST] [-i|--invalid] [-L|--logger LOG] [-M|--mcast ADDR] [-t|--tag TAG] [CONFIG]
-    \endcode
+    runner [-?|--help] [-d|--debug] [-H|--hostname HOST] [-i|--invalid] [-L|--logger LOG] [-M|--mcast ADDR] [-t|--tag
+   TAG] [CONFIG] \endcode
 
     - \c d | \c debug enable verbose (debug level) log messages for ALL
     Logger::Log devices in the SideCar framework.
@@ -91,10 +98,8 @@ class StatusEmitter;
     other App methods while the ACE Reactor is running.
 */
 
-class App
-{
+class App {
 public:
-    
     /** Obtain the log device for App instances
 
         \return Log device
@@ -123,7 +128,7 @@ public:
 
     /** Obtain the service name the runner has published.
 
-        \return 
+        \return
     */
     const std::string& getServiceName();
 
@@ -164,13 +169,13 @@ public:
     void fillStatus(XmlRpc::XmlRpcValue& status);
 
     /** Start the RemoteController and StatusEmitter objects, and enter the ACE Reactor run loop, allowing data
-	to flow.
+        to flow.
     */
     void run();
 
     /** Stop the StatusEmitter object and the ACE Reactor run loop. Note that this method runs in a separate
-	thread. Invokes ACE_Reactor::end_event_loop() which will cause the run() method to return from
-	ACE_Reactor::run_reactor_event_loop().
+        thread. Invokes ACE_Reactor::end_event_loop() which will cause the run() method to return from
+        ACE_Reactor::run_reactor_event_loop().
     */
     void shutdown();
 
@@ -205,7 +210,6 @@ public:
     void setServiceName(const std::string& name);
 
 private:
-
     void initializeRealTime(const QString& scheduler);
 
     Utils::CmdLineArgs cla_;

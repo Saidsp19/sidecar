@@ -1,15 +1,15 @@
-#ifndef SIDECAR_ALGORITHMS_FILTER_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_FILTER_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_FILTER_H
 
 #include "boost/shared_ptr.hpp"
-#include <istream>
 #include <complex>
+#include <istream>
 #include <vector>
 
 #define VSIP_IMPL_FFTW3 1
-#include <vsip/vector.hpp>
 #include <vsip/math.hpp>
 #include <vsip/signal.hpp>
+#include <vsip/vector.hpp>
 
 #include "Algorithms/Algorithm.h"
 #include "Algorithms/extractWithCentroiding/ImageDataTypes.h"
@@ -24,9 +24,8 @@ namespace Algorithms {
 /** Filter algorithm.
  */
 
-class Filter : public Algorithm
-{
-    //Generally speaking, the filter class updates the m_priData
+class Filter : public Algorithm {
+    // Generally speaking, the filter class updates the m_priData
     //  matrix in a ring buffer (fifo) that is dynamically sized
     //  to match the kernel.  if USE_FAST_CONVOLUTION is not defined,
     //  the convolution is done in the time domain.  because the m_priData
@@ -36,7 +35,7 @@ class Filter : public Algorithm
     //  is actually circular convolution, the wrapping of the m_priData
     //  is irrelevant.
 
-    //Notes on boundaries:
+    // Notes on boundaries:
     // 1) USE_FAST_CONVOLUTION not defined: only valid data is reported. the
     //    output vector is the same size as the largest input pri, but zero
     //    padded.
@@ -46,11 +45,9 @@ class Filter : public Algorithm
     //    columns in the kernel) depend on the last and first (respectively)
     //    portions of the pri data.
 public:
-
     Filter(Controller& controller, Logger::Log& log);
 
-    void setKernelFilePath (const std::string& value)
-	{ m_kernelCSVFilename->setValue(value); }
+    void setKernelFilePath(const std::string& value) { m_kernelCSVFilename->setValue(value); }
 
     bool startup();
 
@@ -69,21 +66,21 @@ public:
     using VideoDensePtr = boost::shared_ptr<VideoDense>;
 
 #ifndef USE_FAST_CONVOLUTION
-public :
-    using ConvolveMatrix = vsip::Convolution<vsip::const_Matrix, vsip::nonsym, vsip::support_min, float, 0,
-                                             vsip::alg_space>;
+public:
+    using ConvolveMatrix =
+        vsip::Convolution<vsip::const_Matrix, vsip::nonsym, vsip::support_min, float, 0, vsip::alg_space>;
 
     using DataVector = vsip::Vector<float>;
     using DataMatrix = vsip::Matrix<float>;
     using DataMatrixPtr = boost::shared_ptr<DataMatrix>;
     using DataMatrixPtrVector = std::vector<DataMatrixPtr>;
 
-private :
+private:
     DataMatrixPtrVector m_wrappedKernels;
     DataMatrixPtr m_scratch;
 
 #else
-public :
+public:
     using FFTDATA = float;
     using COMPLEXFFTDATA = std::complex<FFTDATA>;
     using DataVector = vsip::Vector<COMPLEXFFTDATA>;
@@ -94,7 +91,7 @@ public :
     using FFTPtr = boost::shared_ptr<FFT>;
     using IFFTPtr = boost::shared_ptr<IFFT>;
 
-private :
+private:
     DataMatrixPtr m_kernel;
     DataMatrixPtr m_fftKernel;
     DataMatrixPtr m_scratch;
@@ -103,7 +100,7 @@ private :
 
 #endif
 
-private :
+private:
     bool process(const Messages::Video::Ref& inMsg);
 
     void loadKernel();

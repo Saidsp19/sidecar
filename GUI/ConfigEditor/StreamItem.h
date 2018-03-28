@@ -10,20 +10,18 @@ namespace ConfigEditor {
 class RunnerItem;
 class TaskItem;
 
-class StreamItem : public TreeItem
-{
+class StreamItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     StreamItem(RunnerItem* parent, const QString& name);
 
     RunnerItem* getParent() const;
 
     Type getType() const { return kStream; }
 
-    bool canAdopt(Type type) const
-	{ return type == kTask || type == kAlgorithm; }
+    bool canAdopt(Type type) const { return type == kTask || type == kAlgorithm; }
 
     bool canReparent() const { return true; }
 };

@@ -16,8 +16,7 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     static Logger::Log& Log();
 
     Test() : UnitTest::TestObj("SimpleOp") {}
@@ -32,13 +31,16 @@ Test::Log()
     return log_;
 }
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), count_(0), test_(0) {}
 
@@ -63,20 +65,19 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGERROR << std::endl;
 
     MessageManager mgr(data);
-    LOGERROR << "count: " << count_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGERROR << "count: " << count_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    test_->testOutput(count_++, msg);
-	    if (count_ == 1) {
-		LOGINFO << "shutting down server" << std::endl;
-		ACE_Reactor::instance()->end_reactor_event_loop();
-	    }
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            test_->testOutput(count_++, msg);
+            if (count_ == 1) {
+                LOGINFO << "shutting down server" << std::endl;
+                ACE_Reactor::instance()->end_reactor_event_loop();
+            }
+        }
     }
 
     return true;
@@ -122,19 +123,19 @@ Test::test()
     VMEDataMessage vme;
     vme.header.azimuth = 0;
     {
-	short init[] = { 1, 2, 3, 4, 5 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 5));
-	assertTrue(controller->putInChannel(msg, 0));
+        short init[] = {1, 2, 3, 4, 5};
+        Video::Ref msg(Video::Make("test", vme, init, init + 5));
+        assertTrue(controller->putInChannel(msg, 0));
     }
     {
-	short init[] = { 6, 7, 8, 9, 10 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 5));
-	assertTrue(controller->putInChannel(msg, 1));
+        short init[] = {6, 7, 8, 9, 10};
+        Video::Ref msg(Video::Make("test", vme, init, init + 5));
+        assertTrue(controller->putInChannel(msg, 1));
     }
     {
-	short init[] = { 8, 7, 6, 5, 4, 3, 2, 1 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 8));
-	assertTrue(controller->putInChannel(msg, 2));
+        short init[] = {8, 7, 6, 5, 4, 3, 2, 1};
+        Video::Ref msg(Video::Make("test", vme, init, init + 8));
+        assertTrue(controller->putInChannel(msg, 2));
     }
 
     // Now run.

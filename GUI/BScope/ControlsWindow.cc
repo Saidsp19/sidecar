@@ -14,9 +14,8 @@ ControlsWindow::Log()
     return log_;
 }
 
-ControlsWindow::ControlsWindow(int shortcut)
-    : ToolWindowBase("ControlsWindow", "Controls", shortcut),
-      Ui::ControlsWindow()
+ControlsWindow::ControlsWindow(int shortcut) :
+    ToolWindowBase("ControlsWindow", "Controls", shortcut), Ui::ControlsWindow()
 {
     setupUi(this);
     setFixedHeight(sizeHint().height());
@@ -39,9 +38,9 @@ ControlsWindow::on_gain__valueChanged(int value)
 
     QString tip;
     if (gain < 1.0)
-	tip = QString("%1%").arg(int (gain * 100));
+        tip = QString("%1%").arg(int(gain * 100));
     else
-	tip = QString("x%1").arg(gain);
+        tip = QString("x%1").arg(gain);
     gainValue_->setText(tip);
     gain_->setToolTip(tip);
     tip.prepend("Gain: ");
@@ -76,10 +75,8 @@ ControlsWindow::update()
     int sampleMax = transform_->getSampleMax();
     int sampleMin = transform_->getSampleMin();
 
-    LOGINFO << "sampleMin: " << sampleMin << " sampleMax: " << sampleMax
-            << std::endl;
-    LOGINFO << "cutoffMin: " << cutoffMin_->value() << " cutoffMax: "
-            << cutoffMax_->value() << std::endl;
+    LOGINFO << "sampleMin: " << sampleMin << " sampleMax: " << sampleMax << std::endl;
+    LOGINFO << "cutoffMin: " << cutoffMin_->value() << " cutoffMax: " << cutoffMax_->value() << std::endl;
 
     cutoffMin_->setRange(sampleMin, sampleMax);
     cutoffMax_->setRange(sampleMin, sampleMax);

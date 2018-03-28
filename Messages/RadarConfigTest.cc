@@ -14,8 +14,7 @@
 using namespace SideCar;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("RadarConfig") {}
 
     void test();
@@ -39,7 +38,7 @@ Test::test()
     assertEqual(20.0, RadarConfig::GetRotationDuration());
 
     {
-	QString xml("<?xml version=\"1.0\" encoding=\"UTF=8\"?>\
+        QString xml("<?xml version=\"1.0\" encoding=\"UTF=8\"?>\
 <!DOCTYPE sidecar>\
 <sidecar version=\"1.0\">\
   <info>\
@@ -65,23 +64,23 @@ Test::test()
   </dp>\
 </sidecar>");
 
-	QDomDocument doc;
-	assertTrue(doc.setContent(xml));
-	QDomNode radar(doc.elementsByTagName("radar").at(0));
+        QDomDocument doc;
+        assertTrue(doc.setContent(xml));
+        QDomNode radar(doc.elementsByTagName("radar").at(0));
 
-	assertTrue(RadarConfig::Load(radar.toElement()));
-	assertEqual("Big John", RadarConfig::GetName());
-	assertEqual(4000U, RadarConfig::GetGateCountMax());
-	assertEqual(4095U, RadarConfig::GetShaftEncodingMax());
-	assertEqual(6, RadarConfig::GetRotationRate());
-	assertEqual(5.0, RadarConfig::GetRangeMin_deprecated());
-	assertEqual(300, RadarConfig::GetRangeMax());
-	assertEqual(0.001544, RadarConfig::GetBeamWidth());
-	assertEqual(10.0, RadarConfig::GetRotationDuration());
+        assertTrue(RadarConfig::Load(radar.toElement()));
+        assertEqual("Big John", RadarConfig::GetName());
+        assertEqual(4000U, RadarConfig::GetGateCountMax());
+        assertEqual(4095U, RadarConfig::GetShaftEncodingMax());
+        assertEqual(6, RadarConfig::GetRotationRate());
+        assertEqual(5.0, RadarConfig::GetRangeMin_deprecated());
+        assertEqual(300, RadarConfig::GetRangeMax());
+        assertEqual(0.001544, RadarConfig::GetBeamWidth());
+        assertEqual(10.0, RadarConfig::GetRotationDuration());
     }
 
     {
-	QString xml("<?xml version=\"1.0\" encoding=\"UTF=8\"?>\
+        QString xml("<?xml version=\"1.0\" encoding=\"UTF=8\"?>\
 <!DOCTYPE sidecar>\
 <sidecar version=\"1.0\">\
   <info>\
@@ -107,19 +106,19 @@ Test::test()
   </dp>\
 </sidecar>");
 
-	QDomDocument doc;
-	assertTrue(doc.setContent(xml));
-	QDomNode radar(doc.elementsByTagName("radar").at(0));
+        QDomDocument doc;
+        assertTrue(doc.setContent(xml));
+        QDomNode radar(doc.elementsByTagName("radar").at(0));
 
-	assertTrue(RadarConfig::Load(radar.toElement()));
-	assertEqual("Yahoo", RadarConfig::GetName());
-	assertEqual(4123U, RadarConfig::GetGateCountMax());
-	assertEqual(1234U, RadarConfig::GetShaftEncodingMax());
-	assertEqual(5.0, RadarConfig::GetRotationRate());
-	assertEqual(8.0, RadarConfig::GetRangeMin_deprecated());
-	assertEqual(400, RadarConfig::GetRangeMax());
-	assertEqual(0.003088, RadarConfig::GetBeamWidth());
-	assertEqual(12.0, RadarConfig::GetRotationDuration());
+        assertTrue(RadarConfig::Load(radar.toElement()));
+        assertEqual("Yahoo", RadarConfig::GetName());
+        assertEqual(4123U, RadarConfig::GetGateCountMax());
+        assertEqual(1234U, RadarConfig::GetShaftEncodingMax());
+        assertEqual(5.0, RadarConfig::GetRotationRate());
+        assertEqual(8.0, RadarConfig::GetRangeMin_deprecated());
+        assertEqual(400, RadarConfig::GetRangeMax());
+        assertEqual(0.003088, RadarConfig::GetBeamWidth());
+        assertEqual(12.0, RadarConfig::GetRotationDuration());
     }
 }
 

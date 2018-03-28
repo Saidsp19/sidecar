@@ -1,4 +1,4 @@
-#ifndef SIDECAR_PARAMETER_PARAMETER_H	// -*- C++ -*-
+#ifndef SIDECAR_PARAMETER_PARAMETER_H // -*- C++ -*-
 #define SIDECAR_PARAMETER_PARAMETER_H
 
 #include <iostream>
@@ -6,15 +6,17 @@
 #include <string>
 #include <vector>
 
-#include "boost/signals2.hpp"
 #include "boost/shared_ptr.hpp"
+#include "boost/signals2.hpp"
 
 #include "IO/CDRStreamable.h"
 #include "Utils/Exception.h"
 #include "Utils/IO.h"
 #include "XMLRPC/XmlRpcValue.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Parameter {
@@ -23,7 +25,6 @@ namespace Parameter {
  */
 class InvalidValue : public Utils::Exception, public Utils::ExceptionInserter<InvalidValue> {
 public:
-
     /** Constructor.
 
         \param routine name of the routine that created the exception
@@ -45,15 +46,16 @@ public:
 */
 class ValueBase : public IO::CDRStreamable<ValueBase> {
 public:
-
     /** Constructor. Sets the XML name and GUI label for the parameter.
 
         \param name XML name of the parameter
 
         \param label GUI text label of the parameter
     */
-    ValueBase(const std::string& name, const std::string& label)
-	: name_(name), label_(label), advanced_(false), editable_(true) {}
+    ValueBase(const std::string& name, const std::string& label) :
+        name_(name), label_(label), advanced_(false), editable_(true)
+    {
+    }
 
     /** Destructor. Here to silence warnings about missing virtual destructors, though it is not needed.
      */
@@ -96,10 +98,10 @@ public:
     void setEditable(bool state) { editable_ = state; }
 
     /** Acquire a new parameter value from an ACE CDR input stream. Derived classes must define.
-        
-	\param cdr stream to read from
 
-	\return true if acquired value was valid and the parameter was set to it
+        \param cdr stream to read from
+
+        \return true if acquired value was valid and the parameter was set to it
     */
     virtual bool checkedLoad(ACE_InputCDR& cdr) = 0;
 
@@ -128,7 +130,7 @@ public:
     virtual ACE_InputCDR& load(ACE_InputCDR& cdr) = 0;
 
     /** Write the parameter value to a CDR input stream. Derived classes must define.
-        
+
         \param cdr stream to write to
 
         \return stream written to
@@ -136,35 +138,35 @@ public:
     virtual ACE_OutputCDR& write(ACE_OutputCDR& cdr) const = 0;
 
     /** Set the value using a value contained in an XML-RPC request. Derived classes must define.
-        
+
         \param xml the XML-RPC value to use
     */
     virtual void setXMLValue(XmlRpc::XmlRpcValue& xml) = 0;
 
     /** Set the original value using a value contained in an XML-RPC request. Derived classes must define.
-        
-	\param xml the XML-RPC value to use
+
+        \param xml the XML-RPC value to use
     */
     virtual void setXMLOriginal(XmlRpc::XmlRpcValue& xml) = 0;
 
     /** Describe the parameter name attributes using an XML-RPC struct. Derived classes must define.
-        
+
         \param xml XML-RPC container to hold the attribute values.
     */
     virtual void describe(XmlRpc::XmlRpcValue& xml) const = 0;
 
     /** Determine if the parameter value is different than the value used to initialize the parameter. Derived
         classes must define.
-     
+
         \return true if different
     */
     virtual bool isNotOriginal() const = 0;
 
 private:
-    std::string name_;		///< Parameter name
-    std::string label_;		///< Text for GUI labels
-    bool advanced_;		///< True if an 'advanced' parameter
-    bool editable_;		///< True if editing of value is allowed
+    std::string name_;  ///< Parameter name
+    std::string label_; ///< Text for GUI labels
+    bool advanced_;     ///< True if an 'advanced' parameter
+    bool editable_;     ///< True if editing of value is allowed
 };
 
 /** Type to use when sharing parameter objects.
@@ -180,7 +182,10 @@ using Ref = boost::shared_ptr<ValueBase>;
     \return stream read from
 */
 inline std::istream&
-operator>>(std::istream& is, ValueBase& obj) { return obj.load(is); }
+operator>>(std::istream& is, ValueBase& obj)
+{
+    return obj.load(is);
+}
 
 /** Output stream inserter for objects derived from Parameter::Base.
 
@@ -191,7 +196,10 @@ operator>>(std::istream& is, ValueBase& obj) { return obj.load(is); }
     \return stream written to
 */
 inline std::ostream&
-operator<<(std::ostream& is, const ValueBase& obj) { return obj.save(is); }
+operator<<(std::ostream& is, const ValueBase& obj)
+{
+    return obj.save(is);
+}
 
 /** A template definition for a named parameter value. The sole template parameter defines the capabilities
     available to the template class. The definition object must contain the following items:
@@ -209,10 +217,8 @@ operator<<(std::ostream& is, const ValueBase& obj) { return obj.save(is); }
     - DescribeXML: fill in an XML-RPC struct with a description of the parameter (name, type, value)
 */
 template <typename ParamDef>
-class TValue : public ValueBase, public ParamDef
-{
+class TValue : public ValueBase, public ParamDef {
 public:
-
     /** Our own type.
      */
     using Self = TValue<ParamDef>;
@@ -235,7 +241,7 @@ public:
 
     /** Method/function specification for notifcations. Each method receives a reference to ourselves.
      */
-    using ChangedSignal = boost::signals2::signal<void (const Self&)>;
+    using ChangedSignal = boost::signals2::signal<void(const Self&)>;
 
     /** Value type for observer objects which get called when a Parameter object changes.
      */
@@ -255,10 +261,10 @@ public:
         \return shareable reference to new object
     */
     static Ref Make(const std::string& name, const std::string& label)
-	{
-	    Ref ref(new TValue(name, label));
-	    return ref;
-	}
+    {
+        Ref ref(new TValue(name, label));
+        return ref;
+    }
 
     /** Factory method to create shareable parameter objects with an initial value. NOTE: validates the given
         value before assigning it to the parameter, throwing an InvalidValue exception if it is invalid.
@@ -272,15 +278,15 @@ public:
         \return shareable reference to new object
     */
     static Ref Make(const std::string& name, const std::string& label, ConstReferenceType value)
-	{
-	    Ref ref(new TValue(name, label, value));
-	    if (! ref->isValid(value)) {
-		ref.reset();
-		InvalidValue ex("TValue::Make()", name);
-		throw ex << value;
-	    }
-	    return ref;
-	}
+    {
+        Ref ref(new TValue(name, label, value));
+        if (!ref->isValid(value)) {
+            ref.reset();
+            InvalidValue ex("TValue::Make()", name);
+            throw ex << value;
+        }
+        return ref;
+    }
 
     /** Determines if the given value is valid for the parameter.
 
@@ -316,14 +322,14 @@ public:
         \param value new value to use
     */
     void setValue(ConstReferenceType value)
-	{
-	    if (! isValid(value)) {
-		InvalidValue ex("TParameter::setValue", getName());
-		throw ex << value;
-	    }
-	    value_ = value;
-	    changedSignal_(*this);
-	}
+    {
+        if (!isValid(value)) {
+            InvalidValue ex("TParameter::setValue", getName());
+            throw ex << value;
+        }
+        value_ = value;
+        changedSignal_(*this);
+    }
 
     /** Give the parameter a new original (and current) value. If the value is not valid for this parameter
         type, throw an InvalidValue exception. After setting the new value, notifies registered change observers
@@ -333,15 +339,15 @@ public:
         \param value new value to use
     */
     void setOriginal(ConstReferenceType value)
-	{
-	    if (! isValid(value)) {
-		InvalidValue ex("TParameter::setOriginal", getName());
-		throw ex << value;
-	    }
-	    original_ = value;
-	    value_ = value;
-	    changedSignal_(*this);
-	}
+    {
+        if (!isValid(value)) {
+            InvalidValue ex("TParameter::setOriginal", getName());
+            throw ex << value;
+        }
+        original_ = value;
+        value_ = value;
+        changedSignal_(*this);
+    }
 
     /** Give the parameter a new value taken from an XLM/RPC parameter. Relies on the template definition's
         FromXML function to perform the translation from XML entity to ValueType. Throws an InvalidValue
@@ -357,7 +363,7 @@ public:
         an InvalidValue exception if the XML value is not valid for this parameter type. NOTE: currently, method
         emits a notification signal even when the values are the same. This may not hold in the future.
 
-	\param value XML representation of value to use
+        \param value XML representation of value to use
     */
     void setXMLOriginal(XmlRpc::XmlRpcValue& value) override { setOriginal(ParamDef::FromXML(value)); }
 
@@ -365,10 +371,10 @@ public:
         even when the values are the same. This may not hold in the future.
     */
     void revert()
-        {
-            value_ = original_;
-            changedSignal_(*this);
-        }
+    {
+        value_ = original_;
+        changedSignal_(*this);
+    }
 
     /** Assignment operator. See setValue().
 
@@ -377,10 +383,10 @@ public:
         \return reference to self
     */
     Self& operator=(ConstReferenceType rhs)
-	{
-	    setValue(rhs);
-	    return *this;
-	}
+    {
+        setValue(rhs);
+        return *this;
+    }
 
     /** Assignment operator. Copies value from another parameter, but keeps the original name. Notifies
         registered change observers of the value change.
@@ -390,81 +396,81 @@ public:
         \return reference to self
     */
     Self& operator=(Self& rhs)
-	{
-            if (this != &rhs) {
-                value_ = rhs.value_;
-                changedSignal_(this);
-            }
-	    return *this;
-	}
+    {
+        if (this != &rhs) {
+            value_ = rhs.value_;
+            changedSignal_(this);
+        }
+        return *this;
+    }
 
     /** Obtain a new parameter value from a C++ input stream. Relies on the template parameter's Load method to
-	do the loading. Throws an InvalidValue exception if the loaded value is not valid for this parameter
-	type.
+        do the loading. Throws an InvalidValue exception if the loaded value is not valid for this parameter
+        type.
 
-	\param is stream to read from
+        \param is stream to read from
 
-	\return stream read from
+        \return stream read from
     */
     std::istream& load(std::istream& is) override
-	{
-	    auto tmp = ValueType();
-	    if (! ParamDef::Load(is, tmp)) {
-		InvalidValue ex("TParameter::load", getName());
-		throw ex << tmp;
-	    }
-	    setValue(tmp);
-	    return is;
-	}
+    {
+        auto tmp = ValueType();
+        if (!ParamDef::Load(is, tmp)) {
+            InvalidValue ex("TParameter::load", getName());
+            throw ex << tmp;
+        }
+        setValue(tmp);
+        return is;
+    }
 
     /** Obtain a new parameter value from an ACE CDR input stream. Relies on the template parameter's Load()
-	method to do the loading. Throws an InvalidValue exception if the loaded value is not valid for this
-	parameter type.
+        method to do the loading. Throws an InvalidValue exception if the loaded value is not valid for this
+        parameter type.
 
-	\param cdr stream to read from
+        \param cdr stream to read from
 
-	\return stream read from
+        \return stream read from
     */
     ACE_InputCDR& load(ACE_InputCDR& cdr) override
-	{
-	    auto tmp = ValueType();
-	    if (! ParamDef::Load(cdr, tmp)) {
-		InvalidValue ex("TParameter::load", getName());
-		throw ex << tmp;
-	    }
-	    setValue(tmp);
-	    return cdr;
-	}
+    {
+        auto tmp = ValueType();
+        if (!ParamDef::Load(cdr, tmp)) {
+            InvalidValue ex("TParameter::load", getName());
+            throw ex << tmp;
+        }
+        setValue(tmp);
+        return cdr;
+    }
 
     /** Same as the load() method, but an exception is never thrown. The return value indicates whether the
-	value taken from the input stream was OK
+        value taken from the input stream was OK
 
-	\param cdr stream to read from
+        \param cdr stream to read from
 
-	\return true if successful, false otherwise
+        \return true if successful, false otherwise
     */
     bool checkedLoad(ACE_InputCDR& cdr) override
-	{
-	    auto tmp = ValueType();
-	    if (! ParamDef::Load(cdr, tmp)) return false;
-	    if (! isValid(tmp)) return false;
-	    value_ = tmp;
-	    changedSignal_(*this);
-	    return true;
-	}
+    {
+        auto tmp = ValueType();
+        if (!ParamDef::Load(cdr, tmp)) return false;
+        if (!isValid(tmp)) return false;
+        value_ = tmp;
+        changedSignal_(*this);
+        return true;
+    }
 
     /** Write out to a C++ output stream the parameter name and value. Relies on the template parameter's Save()
-	method to do the work.
-        
-	\param os stream to write to
+        method to do the work.
 
-	\return stream written to
+        \param os stream to write to
+
+        \return stream written to
     */
     std::ostream& save(std::ostream& os) const override { return ParamDef::Save(os, getName(), value_); }
 
     /** Write out to an ACE CDR output stream the parameter name and value. Relies on the template parameter's
         Write() method to do the work.
-        
+
         \param cdr stream to write to
 
         \return stream written to
@@ -473,13 +479,12 @@ public:
 
     /** Add an observer to this property's value state. When the value changes, the observer will receive
         notification. To disconnect a connection, invoke the disconnect() method of the returned value.
-        
+
         \param observer object to register
 
         \return connection identifier for the observer.
     */
-    SignalConnection connectChangedSignalTo(ChangedSignalProc observer)
-        { return changedSignal_.connect(observer); }
+    SignalConnection connectChangedSignalTo(ChangedSignalProc observer) { return changedSignal_.connect(observer); }
 
     /** Implementation of ValueBase interface. Write an XML description of the parameter into the given XML-RPC
         container.
@@ -487,20 +492,22 @@ public:
         \param xml XML container to write into
     */
     void describe(XmlRpc::XmlRpcValue& xml) const override
-	{ ParamDef::DescribeXML(xml, getName(), getLabel(), isAdvanced(), ParamDef::ToXML(value_),
-                                ParamDef::ToXML(original_)); }
+    {
+        ParamDef::DescribeXML(xml, getName(), getLabel(), isAdvanced(), ParamDef::ToXML(value_),
+                              ParamDef::ToXML(original_));
+    }
 
 protected:
-
     /** Constructor. Intialize with name and default value of ValueType().
 
         \param name name of the parameter
 
         \param label the text string to use in a GUI showing this value
     */
-    TValue(const std::string& name, const std::string& label)
-	: ValueBase(name, label), ParamDef(), value_(), original_()
-	{}
+    TValue(const std::string& name, const std::string& label) :
+        ValueBase(name, label), ParamDef(), value_(), original_()
+    {
+    }
 
     /** Constructor. Intialize with name and initial value. NOTE: there is no validation of initial value.
 
@@ -510,13 +517,14 @@ protected:
 
         \param value initial parameter value
     */
-    TValue(const std::string& name, const std::string& label, ConstReferenceType value)
-	: ValueBase(name, label), ParamDef(), value_(value), original_(value)
-	{}
+    TValue(const std::string& name, const std::string& label, ConstReferenceType value) :
+        ValueBase(name, label), ParamDef(), value_(value), original_(value)
+    {
+    }
 
 private:
-    ValueType value_;		  ///< Parameter value
-    ValueType original_;	  ///< Original value from constructor
+    ValueType value_;             ///< Parameter value
+    ValueType original_;          ///< Original value from constructor
     ChangedSignal changedSignal_; ///< Changed signal and registered observers
 };
 
@@ -527,14 +535,13 @@ namespace Defs {
 /** Helper class that initializes an XML-RPC value object with a name and type. Isolates type-independent
     functionality from the template classes below, thus minimizing the amount of generated template code.
 */
-struct XMLMixin
-{
+struct XMLMixin {
     /** Obtain the log device for XMLMixin log messages
 
         \return Log reference
     */
     static Logger::Log& Log();
-    
+
     /** Initialize an XML-RPC container object with a parameter's name, type, GUI label, and 'advanced' flag.
 
         \param xml XML-RPC container to write into
@@ -560,10 +567,10 @@ struct XMLMixin
         \param size number of C strings in the array
     */
     static void AddEnumNames(XmlRpc::XmlRpcValue& xml, const char* const* names, size_t size);
-    
+
     /** Add enumeration tags to an XML-RPC conainer. Only used by the Enum parameter class to store the names
         shown to the user in a GUI pop-up menu widget.
-        
+
         \param xml XML-RPC container to write into
 
         \param names vector containing the name strings to add
@@ -585,8 +592,7 @@ struct XMLMixin
     - GetXMLTypeName: method that returns the XML-RPC type to use.
 */
 template <typename TypeTraits>
-struct BasicTypeDef : public TypeTraits, public XMLMixin
-{
+struct BasicTypeDef : public TypeTraits, public XMLMixin {
     using ValueType = typename TypeTraits::ValueType;
     using XMLType = typename TypeTraits::XMLType;
     using ReferenceType = typename TypeTraits::ValueType&;
@@ -629,7 +635,9 @@ struct BasicTypeDef : public TypeTraits, public XMLMixin
         \return stream written to
     */
     static std::ostream& Save(std::ostream& os, const std::string& name, ConstReferenceType value)
-	{ return os << name << ' ' << value; }
+    {
+        return os << name << ' ' << value;
+    }
 
     /** Write out a name and value to an ACE CDR output stream.
 
@@ -642,10 +650,10 @@ struct BasicTypeDef : public TypeTraits, public XMLMixin
         \return stream written to
     */
     static ACE_OutputCDR& Write(ACE_OutputCDR& cdr, ConstReferenceType value)
-	{
-	    cdr << value;
-	    return cdr;
-	}
+    {
+        cdr << value;
+        return cdr;
+    }
 
     /** Convert an XML-RPC value to the template's value type.
 
@@ -654,7 +662,9 @@ struct BasicTypeDef : public TypeTraits, public XMLMixin
         \return the converted value
     */
     static ValueType FromXML(XmlRpc::XmlRpcValue& value)
-	{ return typename TypeTraits::ValueType(typename TypeTraits::XMLType(value)); }
+    {
+        return typename TypeTraits::ValueType(typename TypeTraits::XMLType(value));
+    }
 
     /** Convert a held value into a compatible XML-RPC value.
 
@@ -670,21 +680,21 @@ struct BasicTypeDef : public TypeTraits, public XMLMixin
 
         \param name name of the parameter
 
-	\param label the label to use in a GUI representation
+        \param label the label to use in a GUI representation
 
-	\param isAdvanced flag indicating that the parameter is 'advanced'
+        \param isAdvanced flag indicating that the parameter is 'advanced'
 
         \param value value to add
 
-	\param original the original value of the parameter
+        \param original the original value of the parameter
     */
     static void DescribeXML(XmlRpc::XmlRpcValue& xml, const std::string& name, const std::string& label,
                             bool isAdvanced, XMLType value, XMLType original)
-	{
-	    XMLMixin::Init(xml, name, label, TypeTraits::GetXMLTypeName(), isAdvanced);
-	    xml["value"] = value;
-	    xml["original"] = original;
-	}
+    {
+        XMLMixin::Init(xml, name, label, TypeTraits::GetXMLTypeName(), isAdvanced);
+        xml["value"] = value;
+        xml["original"] = original;
+    }
 };
 
 /** Variant of the BasicTypeDef template that defines parameter values with a valid range. The TypeTraits
@@ -694,53 +704,53 @@ struct BasicTypeDef : public TypeTraits, public XMLMixin
     - GetMaxValue: method that returns the upper bounds of the valid range
 */
 template <typename TypeTraits>
-struct BasicRangedTypeDef : public BasicTypeDef<TypeTraits>
-{
+struct BasicRangedTypeDef : public BasicTypeDef<TypeTraits> {
     using Super = BasicTypeDef<TypeTraits>;
     using ValueType = typename TypeTraits::ValueType;
     using XMLType = typename TypeTraits::XMLType;
     using ConstReferenceType = const typename TypeTraits::ValueType&;
 
     /** Determine if a given value is valid for this type.
-        
+
         \return true if value is within configured min/max range
     */
     static bool IsValid(ConstReferenceType value)
-	{ return value >= TypeTraits::GetMinValue() && value <= TypeTraits::GetMaxValue(); }
+    {
+        return value >= TypeTraits::GetMinValue() && value <= TypeTraits::GetMaxValue();
+    }
 
     /** Obtain an XML description with the parameter's value, including bounds information.
-        
+
         \param xml XML-RPC struct to add to
 
         \param name name of the parameter
 
-	\param label the label to use in a GUI representation
+        \param label the label to use in a GUI representation
 
-	\param isAdvanced flag indicating that the parameter is 'advanced'
+        \param isAdvanced flag indicating that the parameter is 'advanced'
 
         \param value current value value of the parameter
 
-	\param original the original value of the parameter
+        \param original the original value of the parameter
     */
     static void DescribeXML(XmlRpc::XmlRpcValue& xml, const std::string& name, const std::string& label,
                             bool isAdvanced, XMLType value, XMLType original)
-	{
-	    Super::DescribeXML(xml, name, label, isAdvanced, value, original);
-	    xml["min"] = Super::ToXML(TypeTraits::GetMinValue());
-	    xml["max"] = Super::ToXML(TypeTraits::GetMaxValue());
-	}
+    {
+        Super::DescribeXML(xml, name, label, isAdvanced, value, original);
+        xml["min"] = Super::ToXML(TypeTraits::GetMinValue());
+        xml["max"] = Super::ToXML(TypeTraits::GetMaxValue());
+    }
 };
 
 /** Variant of the BasicRangedTypeDef template that treats a parameter value as a C++ enumeration type plus a
     string representation of the enumeration values. Also supports the concept of a 'none' value which
     represents the case where no enumeration value is selected or active. The TypeTraits template parameter must
     provide everything described in the BasicRangedTypeDef commentary as well as the following:
-    
+
     - GetEnumNames: method that returns an array of character strings that represent the enumerated values.
 */
 template <typename TypeTraits>
-struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
-{
+struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits> {
     using Super = BasicRangedTypeDef<TypeTraits>;
     using ValueType = typename TypeTraits::ValueType;
     using ReferenceType = typename TypeTraits::ValueType&;
@@ -748,7 +758,7 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
     using XMLType = typename TypeTraits::XMLType;
 
     /** Obtain an enumeration representation for a 'none' value. NOTE: this assumes that the enumeration value
-	being used does not contain an element with the value -1.
+        being used does not contain an element with the value -1.
     */
     static constexpr ValueType None() { return ValueType(-1); }
 
@@ -758,13 +768,13 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
 
     /** Determine if a given value is valid for this type. Adaptation of BasicRangedTypeDef class method that
         also allows -1, which means no selection.
-        
+
         \return true if valid
     */
     static bool IsValid(ConstReferenceType value) { return IsNone(value) || Super::IsValid(value); }
 
     /** Determine if the given value is a valid enumeration value. Note that here, the 'none' type (-1) is not a
-	valid value.
+        valid value.
     */
     static bool IsValidEnumeration(ConstReferenceType value) { return Super::IsValid(value); }
 
@@ -777,12 +787,12 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(std::istream& is, ReferenceType value)
-	{
-	    int tmp;
-	    if (! (is >> tmp)) return false;
-	    value = ValueType(tmp);
-	    return true;
-	}
+    {
+        int tmp;
+        if (!(is >> tmp)) return false;
+        value = ValueType(tmp);
+        return true;
+    }
 
     /** Obtain a value from an ACE CDR input stream
 
@@ -793,13 +803,13 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(ACE_InputCDR& cdr, ReferenceType value)
-	{
-	    int tmp;
-	    if (! (cdr >> tmp)) return false;
-	    value = ValueType(tmp);
+    {
+        int tmp;
+        if (!(cdr >> tmp)) return false;
+        value = ValueType(tmp);
 
-	    return true;
-	}
+        return true;
+    }
 
     /** Obtain an XML description with the parameter's value, including bounds information and enumeration
         constant names.
@@ -808,31 +818,31 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
 
         \param name name of the parameter
 
-	\param label the label to use in a GUI representation
+        \param label the label to use in a GUI representation
 
-	\param isAdvanced flag indicating that the parameter is 'advanced'
+        \param isAdvanced flag indicating that the parameter is 'advanced'
 
         \param value current value value of the parameter
 
-	\param original the original value of the parameter
+        \param original the original value of the parameter
     */
     static void DescribeXML(XmlRpc::XmlRpcValue& xml, const std::string& name, const std::string& label,
                             bool isAdvanced, XMLType value, XMLType original)
-	{
-	    Super::DescribeXML(xml, name, label, isAdvanced, value, original);
+    {
+        Super::DescribeXML(xml, name, label, isAdvanced, value, original);
 
-	    // Add to the XML-RPC struct the string equivalents for the
-	    // enumeration values.
-	    //
-	    XMLMixin::AddEnumNames(xml, TypeTraits::GetEnumNames(),
-                                   TypeTraits::GetMaxValue() - TypeTraits::GetMinValue() + 1);
-	}
+        // Add to the XML-RPC struct the string equivalents for the
+        // enumeration values.
+        //
+        XMLMixin::AddEnumNames(xml, TypeTraits::GetEnumNames(),
+                               TypeTraits::GetMaxValue() - TypeTraits::GetMinValue() + 1);
+    }
 };
 
 /** Variant of the BasicTypeDef template that treats a parameter value as having a dynamically determined range.
     The TypeTraits template parameter must provide everything described in the BasicTypeDef commentary as well
     as the following:
-    
+
     - getMinValue: method that returns the minimum valid value
     - getMaxValue: method that returns the maximum valid value
 
@@ -841,8 +851,7 @@ struct BasicEnumTypeDef : public BasicRangedTypeDef<TypeTraits>
     functions.
 */
 template <typename TypeTraits>
-struct BasicDynamicRangedTypeDef : public BasicTypeDef<TypeTraits>
-{
+struct BasicDynamicRangedTypeDef : public BasicTypeDef<TypeTraits> {
     using Super = BasicTypeDef<TypeTraits>;
     using ValueType = typename TypeTraits::ValueType;
     using XMLType = typename TypeTraits::XMLType;
@@ -857,26 +866,26 @@ struct BasicDynamicRangedTypeDef : public BasicTypeDef<TypeTraits>
     bool IsValid(ConstReferenceType value) const { return value >= getMinValue() && value <= getMaxValue(); }
 
     /** Obtain an XML description with the parameter's value, including bounds information.
-        
+
         \param xml XML-RPC struct to add to
 
         \param name name of the parameter
 
-	\param label the label to use in a GUI representation
+        \param label the label to use in a GUI representation
 
-	\param isAdvanced flag indicating that the parameter is 'advanced'
+        \param isAdvanced flag indicating that the parameter is 'advanced'
 
         \param value current value value of the parameter
 
-	\param original the original value of the parameter
+        \param original the original value of the parameter
     */
     void DescribeXML(XmlRpc::XmlRpcValue& xml, const std::string& name, const std::string& label, bool isAdvanced,
                      XMLType value, XMLType original) const
-	{
-	    Super::DescribeXML(xml, name, label, isAdvanced, value, original);
-	    xml["min"] = Super::ToXML(getMinValue());
-	    xml["max"] = Super::ToXML(getMaxValue());
-	}
+    {
+        Super::DescribeXML(xml, name, label, isAdvanced, value, original);
+        xml["min"] = Super::ToXML(getMinValue());
+        xml["max"] = Super::ToXML(getMaxValue());
+    }
 
     /** Set the parameter's minimum acceptable value.
 
@@ -912,8 +921,7 @@ private:
     functionality found in BasicEnumTypeDef, allowing for dynamic definition of the enumerated values.
 */
 template <typename TypeTraits>
-struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
-{
+struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits> {
     using Super = BasicDynamicRangedTypeDef<TypeTraits>;
     using ValueType = typename TypeTraits::ValueType;
     using ReferenceType = typename TypeTraits::ValueType&;
@@ -921,7 +929,7 @@ struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
     using XMLType = typename TypeTraits::XMLType;
 
     /** Obtain an enumeration representation for a 'none' value. NOTE: this assumes that the enumeration value
-	being used does not contain an element with the value -1.
+        being used does not contain an element with the value -1.
     */
     static constexpr ValueType None() { return ValueType(-1); }
 
@@ -931,13 +939,13 @@ struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
 
     /** Determine if a given value is valid for this type. Adaptation of BasicRangedTypeDef class method that
         also allows -1, which means no selection.
-        
+
         \return true if valid
     */
     bool IsValid(ConstReferenceType value) const { return IsNone(value) || Super::IsValid(value); }
 
     /** Determine if the given value is a valid enumeration value. Note that here, the 'none' type (-1) is not a
-	valid value.
+        valid value.
     */
     bool IsValidEnumeration(ConstReferenceType value) const { return Super::IsValid(value); }
 
@@ -950,12 +958,12 @@ struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(std::istream& is, ReferenceType value)
-	{
-	    int tmp;
-	    if (! (is >> tmp)) return false;
-	    value = ValueType(tmp);
-	    return true;
-	}
+    {
+        int tmp;
+        if (!(is >> tmp)) return false;
+        value = ValueType(tmp);
+        return true;
+    }
 
     /** Obtain a value from an ACE CDR input stream
 
@@ -966,12 +974,12 @@ struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(ACE_InputCDR& cdr, ReferenceType value)
-	{
-	    int tmp;
-	    if (! (cdr >> tmp)) return false;
-	    value = ValueType(tmp);
-	    return true;
-	}
+    {
+        int tmp;
+        if (!(cdr >> tmp)) return false;
+        value = ValueType(tmp);
+        return true;
+    }
 
     /** Obtain an XML description with the parameter's value, including bounds information and enumeration
         labels.
@@ -980,28 +988,27 @@ struct BasicDynamicEnumTypeDef : public BasicDynamicRangedTypeDef<TypeTraits>
 
         \param name name of the parameter
 
-	\param label the label to use in a GUI representation
+        \param label the label to use in a GUI representation
 
-	\param isAdvanced flag indicating that the parameter is 'advanced'
+        \param isAdvanced flag indicating that the parameter is 'advanced'
 
         \param value current value value of the parameter
 
-	\param original the original value of the parameter
+        \param original the original value of the parameter
     */
     void DescribeXML(XmlRpc::XmlRpcValue& xml, const std::string& name, const std::string& label, bool isAdvanced,
                      XMLType value, XMLType original) const
-	{
-	    // Translate the held and original values into a zero-based offset
-	    // from the minimum acceptable value.
-	    //
-	    Super::DescribeXML(xml, name, label, isAdvanced,
-                               value == None() ? value : (value - Super::getMinValue()),
-                               original == None() ? original : (original - Super::getMinValue()));
+    {
+        // Translate the held and original values into a zero-based offset
+        // from the minimum acceptable value.
+        //
+        Super::DescribeXML(xml, name, label, isAdvanced, value == None() ? value : (value - Super::getMinValue()),
+                           original == None() ? original : (original - Super::getMinValue()));
 
-	    // Add the enumeration labels
-	    //
-	    XMLMixin::AddEnumNames(xml, enumLabels_);
-	}
+        // Add the enumeration labels
+        //
+        XMLMixin::AddEnumNames(xml, enumLabels_);
+    }
 
     /** Obtain an enumeration label for the given value
      */
@@ -1021,10 +1028,9 @@ private:
 
 /** Basic type definition for 'bool' values.
  */
-struct BoolTypeTraits
-{
-    using ValueType = bool;	///< The C++ type to use
-    using XMLType = bool;	///< The XML-RPC type to use
+struct BoolTypeTraits {
+    using ValueType = bool; ///< The C++ type to use
+    using XMLType = bool;   ///< The XML-RPC type to use
 
     /** Obtain the XML parameter type to use.
 
@@ -1035,8 +1041,7 @@ struct BoolTypeTraits
 
 /** Complete type and class method definitions for C++ boolean values.
  */
-struct Bool : public BasicTypeDef<BoolTypeTraits>
-{
+struct Bool : public BasicTypeDef<BoolTypeTraits> {
     /** Convert an XML-RPC value to the template's value type.
 
         \param value the XML value to convert
@@ -1054,12 +1059,12 @@ struct Bool : public BasicTypeDef<BoolTypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(std::istream& is, ReferenceType value)
-	{
-	    char tmp;
-	    is >> tmp;
-	    value = tmp;
-	    return is.good();
-	}
+    {
+        char tmp;
+        is >> tmp;
+        value = tmp;
+        return is.good();
+    }
 
     /** Obtain a value from an ACE CDR input stream
 
@@ -1070,12 +1075,12 @@ struct Bool : public BasicTypeDef<BoolTypeTraits>
         \return true if read was successful and the new value is valid
     */
     static bool Load(ACE_InputCDR& cdr, ReferenceType value)
-	{
-	    char tmp;
-	    bool ok(cdr >> tmp);
-	    if (ok) value = tmp;
-	    return ok;
-	}
+    {
+        char tmp;
+        bool ok(cdr >> tmp);
+        if (ok) value = tmp;
+        return ok;
+    }
 
     /** Write out a name and value to a C++ output stream. Separates the two with a space.
 
@@ -1088,7 +1093,9 @@ struct Bool : public BasicTypeDef<BoolTypeTraits>
         \return stream written to
     */
     static std::ostream& Save(std::ostream& os, const std::string& name, ConstReferenceType value)
-	{ return os << name << ' ' << char(value); }
+    {
+        return os << name << ' ' << char(value);
+    }
 
     /** Write out a name and value to an ACE CDR output stream.
 
@@ -1099,18 +1106,17 @@ struct Bool : public BasicTypeDef<BoolTypeTraits>
         \return stream written to
     */
     static ACE_OutputCDR& Write(ACE_OutputCDR& cdr, ConstReferenceType value)
-	{
-	    cdr << char(value);
-	    return cdr;
-	}
+    {
+        cdr << char(value);
+        return cdr;
+    }
 };
 
 /** Basic type definition for 'short' integer values. This is 16-bits regardless of platform.
  */
-struct ShortTypeTraits
-{
-    using ValueType = int16_t;	///< The C++ type to use
-    using XMLType = int;	///< The XML-RPC type to use
+struct ShortTypeTraits {
+    using ValueType = int16_t; ///< The C++ type to use
+    using XMLType = int;       ///< The XML-RPC type to use
 
     /** Obtain the XML parameter type to use.
 
@@ -1121,13 +1127,13 @@ struct ShortTypeTraits
 
 /** Complete type and class method definitions for 16-bit integer values.
  */
-struct Short : public BasicTypeDef<ShortTypeTraits> {};
+struct Short : public BasicTypeDef<ShortTypeTraits> {
+};
 
 /** Basic type definition for normal integer values. This is 32-bits regardless of platform.
  */
-struct IntTypeTraits
-{
-    using ValueType = int32_t;	///< The C++ type to use
+struct IntTypeTraits {
+    using ValueType = int32_t; ///< The C++ type to use
     using XMLType = int;
 
     /** Obtain the XML parameter type to use.
@@ -1139,14 +1145,14 @@ struct IntTypeTraits
 
 /** Complete type and class method definitions for 32-bit integer values.
  */
-struct Int : public BasicTypeDef<IntTypeTraits> {};
+struct Int : public BasicTypeDef<IntTypeTraits> {
+};
 
 /** Basic type definition for range of integer values, defined by a lower and upper bound given as the template
     parameters MinValue and MaxValue.
 */
 template <int MinValue, int MaxValue>
-struct RangedIntTypeTraits : public IntTypeTraits
-{
+struct RangedIntTypeTraits : public IntTypeTraits {
     /** Obtain the minimum value for values of this type.
 
         \return minimum value
@@ -1163,12 +1169,14 @@ struct RangedIntTypeTraits : public IntTypeTraits
 /** Complete type and class method definitions for fixed-range integer values.
  */
 template <int MinValue, int MaxValue>
-struct RangedInt : public BasicRangedTypeDef<RangedIntTypeTraits<MinValue,MaxValue>> {};
+struct RangedInt : public BasicRangedTypeDef<RangedIntTypeTraits<MinValue, MaxValue>> {
+};
 
 /** Complete type and class method definitions for a parameter value with dynamically defined value ranges.
  */
 template <typename T>
-struct DynamicRangedTypeTraits : public BasicDynamicRangedTypeDef<T> {};
+struct DynamicRangedTypeTraits : public BasicDynamicRangedTypeDef<T> {
+};
 
 /** Variant of the int definition that describes a range of positive integer values. NOTE: ideally, this would
     be defined by
@@ -1177,8 +1185,7 @@ struct DynamicRangedTypeTraits : public BasicDynamicRangedTypeDef<T> {};
 
     but the GCC compiler complains that 'max()' cannot be used.
 */
-struct PositiveIntTypeTraits : public IntTypeTraits
-{
+struct PositiveIntTypeTraits : public IntTypeTraits {
     /** Obtain the minimum value for values of this type.
 
         \return minimum
@@ -1194,7 +1201,8 @@ struct PositiveIntTypeTraits : public IntTypeTraits
 
 /** Complete type and class method definitions for positive integer values.
  */
-struct PositiveInt : public BasicRangedTypeDef<PositiveIntTypeTraits> {};
+struct PositiveInt : public BasicRangedTypeDef<PositiveIntTypeTraits> {
+};
 
 /** Variant of the integer definition that describes a range of non-negative integer values. NOTE: ideally, this
     would be defined by
@@ -1203,8 +1211,7 @@ struct PositiveInt : public BasicRangedTypeDef<PositiveIntTypeTraits> {};
 
     but the GCC compiler complains that 'max()' cannot be used.
 */
-struct NonNegativeIntTypeTraits : public IntTypeTraits
-{
+struct NonNegativeIntTypeTraits : public IntTypeTraits {
     /** Obtain the minimum value for values of this type.
 
         \return minimum
@@ -1220,14 +1227,14 @@ struct NonNegativeIntTypeTraits : public IntTypeTraits
 
 /** Complete type and class method definitions for non-negative integer values.
  */
-struct NonNegativeInt : public BasicRangedTypeDef<NonNegativeIntTypeTraits> {};
+struct NonNegativeInt : public BasicRangedTypeDef<NonNegativeIntTypeTraits> {
+};
 
 /** Basic type definition for float-point C++ double values.
  */
-struct DoubleTypeTraits
-{
-    using ValueType = double;	///< The C++ type to use
-    using XMLType = double;	///< The XML-RPC type to use
+struct DoubleTypeTraits {
+    using ValueType = double; ///< The C++ type to use
+    using XMLType = double;   ///< The XML-RPC type to use
 
     /** Obtain the XML parameter type to use.
 
@@ -1238,24 +1245,26 @@ struct DoubleTypeTraits
 
 /** Complete type and class method definitions for C++ double values.
  */
-struct Double : public BasicTypeDef<DoubleTypeTraits> {};
+struct Double : public BasicTypeDef<DoubleTypeTraits> {
+};
 
 /** Type definition for range of double values, defined by a lower and upper bound. The template parameter must
     define two class methods called GetMinValue() and GetMaxValue().
 */
 template <typename DoubleBounds>
-struct RangedDoubleTypeTraits : public DoubleTypeTraits, public DoubleBounds {};
+struct RangedDoubleTypeTraits : public DoubleTypeTraits, public DoubleBounds {
+};
 
 /** Complete type and class method definitions for a range of double values.
  */
 template <typename DoubleBounds>
-struct RangedDouble : public BasicRangedTypeDef<RangedDoubleTypeTraits<DoubleBounds> > {};
+struct RangedDouble : public BasicRangedTypeDef<RangedDoubleTypeTraits<DoubleBounds>> {
+};
 
 /** Base class for enumeration type traits defined by users. Uses the 'int' type for XML-RPC values.
  */
-struct EnumTypeTraitsBase
-{
-    using XMLType = int;	///< The XML-RPC type to use
+struct EnumTypeTraitsBase {
+    using XMLType = int; ///< The XML-RPC type to use
 
     /** Obtain the XML parameter type to use.
 
@@ -1267,21 +1276,22 @@ struct EnumTypeTraitsBase
 /** Complete type and class method definitions for an enumerated value.
  */
 template <typename EnumDefs>
-struct Enum : public BasicEnumTypeDef<EnumDefs> {};
+struct Enum : public BasicEnumTypeDef<EnumDefs> {
+};
 
 /** Complete type and class method definitions for an enumerated value that whose range values are provided at
     runtime.
 */
 template <typename EnumDefs>
-struct DynamicEnum : public BasicDynamicEnumTypeDef<EnumDefs> {};
+struct DynamicEnum : public BasicDynamicEnumTypeDef<EnumDefs> {
+};
 
 /** Complete type and class method definitions for std::string values.
  */
-struct StringBase
-{
+struct StringBase {
     /** Obtain a new string value from a C++ input stream. String values may be delimited by either single or
         double quotes.
-        
+
         \param is stream to read from
 
         \param value where to store the new value
@@ -1316,8 +1326,7 @@ struct StringBase
 
 /** Basic type definition for std::string values.
  */
-struct StringTypeTraits
-{
+struct StringTypeTraits {
     using ValueType = std::string; ///< The C++ type to use
     using XMLType = std::string;   ///< The XML-RPC type to use
 
@@ -1330,8 +1339,7 @@ struct StringTypeTraits
 
 /** Complete type and class method definitions for std::string values.
  */
-struct String : public BasicTypeDef<StringTypeTraits>
-{
+struct String : public BasicTypeDef<StringTypeTraits> {
     /** Obtain a new string value from a C++ input stream. String values may be delimited by either single or
         double quotes.
 
@@ -1365,13 +1373,14 @@ struct String : public BasicTypeDef<StringTypeTraits>
         \return stream written to
     */
     static std::ostream& Save(std::ostream& os, const std::string& name, ConstReferenceType value)
-	{ return StringBase::Save(os, name, value); }
+    {
+        return StringBase::Save(os, name, value);
+    }
 };
 
 /** Basic type definition for a readable file path.
  */
-struct ReadPathTypeTraits : public StringTypeTraits
-{
+struct ReadPathTypeTraits : public StringTypeTraits {
     /** Obtain the XML parameter type to use.
 
         \return "readPath"
@@ -1382,8 +1391,7 @@ struct ReadPathTypeTraits : public StringTypeTraits
 /** Complete type and class method definitions for file path that one should be able to read from. Essentially
     the same as a string, but with a special XML tag.
  */
-struct ReadPath : public BasicTypeDef<ReadPathTypeTraits>
-{
+struct ReadPath : public BasicTypeDef<ReadPathTypeTraits> {
     /** Obtain a value from a C++ input stream. Values may be delimited by either single or double quotes.
 
         \param is stream to read from
@@ -1416,13 +1424,14 @@ struct ReadPath : public BasicTypeDef<ReadPathTypeTraits>
         \return stream written to
     */
     static std::ostream& Save(std::ostream& os, const std::string& name, ConstReferenceType value)
-	{ return StringBase::Save(os, name, value); }
+    {
+        return StringBase::Save(os, name, value);
+    }
 };
 
 /** Basic type definition for a writable file path.
  */
-struct WritePathTypeTraits : public StringTypeTraits
-{
+struct WritePathTypeTraits : public StringTypeTraits {
     /** Obtain the XML parameter type to use.
 
         \return "writePath"
@@ -1433,8 +1442,7 @@ struct WritePathTypeTraits : public StringTypeTraits
 /** Complete type and class method definitions for file path that one should be able to write to. Essentially
     the same as a string, but with a special XML tag.
  */
-struct WritePath : public BasicTypeDef<WritePathTypeTraits>
-{
+struct WritePath : public BasicTypeDef<WritePathTypeTraits> {
     /** Obtain a value from a C++ input stream. Values may be delimited by either single or double quotes.
 
         \param is stream to read from
@@ -1467,15 +1475,16 @@ struct WritePath : public BasicTypeDef<WritePathTypeTraits>
         \return stream written to
     */
     static std::ostream& Save(std::ostream& os, const std::string& name, ConstReferenceType value)
-	{ return StringBase::Save(os, name, value); }
+    {
+        return StringBase::Save(os, name, value);
+    }
 };
 
 /** Basic type definition for a notification. A notification is not really a value, though it has one. It exists
     as a proxy for a push button in a parameter editor dialog box. When the user presses the push button, the
     notification object receives an update, causing the object to emit its changed signal.
 */
-struct NotificationTypeTraits : public IntTypeTraits
-{
+struct NotificationTypeTraits : public IntTypeTraits {
     /** Obtain the XML parameter type to use.
 
         \return "notification"
@@ -1485,12 +1494,12 @@ struct NotificationTypeTraits : public IntTypeTraits
 
 /** Complete type and class method definitions for 'notification' values.
  */
-struct Notification : public BasicTypeDef<NotificationTypeTraits> {};
+struct Notification : public BasicTypeDef<NotificationTypeTraits> {
+};
 
 /** Min/Max definitions for a normalized value.
  */
-struct NormalizedRange
-{
+struct NormalizedRange {
     static constexpr double GetMinValue() { return 0.0; }
     static constexpr double GetMaxValue() { return 1.0; }
 };

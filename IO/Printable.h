@@ -4,7 +4,9 @@
 #include <iosfwd>
 #include <string>
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -17,10 +19,8 @@ namespace IO {
     \endcode
 */
 template <typename T>
-class Printable
-{
+class Printable {
 public:
-
     /** Invoke the print() method of a given object to write out its representation to an C++ output stream
 
         \param os stream to write to

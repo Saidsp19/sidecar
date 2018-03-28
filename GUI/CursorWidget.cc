@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI;
 
-CursorWidget::CursorWidget(QWidget* parent)
-    : Super(parent), gui_(new Ui::CursorWidget)
+CursorWidget::CursorWidget(QWidget* parent) : Super(parent), gui_(new Ui::CursorWidget)
 {
     gui_->setupUi(this);
     gui_->value_->setTextFormat(Qt::PlainText);

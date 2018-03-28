@@ -1,4 +1,4 @@
-#include "QtGlobal"		// need Q_WS_X11 definition
+#include "QtGlobal" // need Q_WS_X11 definition
 
 // On X11 we need to do some preprocessor setup to get the C prototype for the glFramebufferTexture2DEXT()
 // function and the framebuffer extension constants.
@@ -27,59 +27,59 @@
 // The following was copied from Qt's qglframebufferobject.cpp file
 //
 
-#define GL_INVALID_FRAMEBUFFER_OPERATION_EXT                    0x0506
-#define GL_MAX_RENDERBUFFER_SIZE_EXT                            0x84E8
-#define GL_FRAMEBUFFER_BINDING_EXT                              0x8CA6
-#define GL_RENDERBUFFER_BINDING_EXT                             0x8CA7
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT               0x8CD0
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT               0x8CD1
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT             0x8CD2
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EXT     0x8CD3
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET_EXT        0x8CD4
-#define GL_FRAMEBUFFER_COMPLETE_EXT                             0x8CD5
-#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT                0x8CD6
-#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT        0x8CD7
-#define GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT      0x8CD8
-#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT                0x8CD9
-#define GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT                   0x8CDA
-#define GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT               0x8CDB
-#define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT               0x8CDC
-#define GL_FRAMEBUFFER_UNSUPPORTED_EXT                          0x8CDD
-#define GL_MAX_COLOR_ATTACHMENTS_EXT                            0x8CDF
-#define GL_COLOR_ATTACHMENT0_EXT                                0x8CE0
-#define GL_COLOR_ATTACHMENT1_EXT                                0x8CE1
-#define GL_COLOR_ATTACHMENT2_EXT                                0x8CE2
-#define GL_COLOR_ATTACHMENT3_EXT                                0x8CE3
-#define GL_COLOR_ATTACHMENT4_EXT                                0x8CE4
-#define GL_COLOR_ATTACHMENT5_EXT                                0x8CE5
-#define GL_COLOR_ATTACHMENT6_EXT                                0x8CE6
-#define GL_COLOR_ATTACHMENT7_EXT                                0x8CE7
-#define GL_COLOR_ATTACHMENT8_EXT                                0x8CE8
-#define GL_COLOR_ATTACHMENT9_EXT                                0x8CE9
-#define GL_COLOR_ATTACHMENT10_EXT                               0x8CEA
-#define GL_COLOR_ATTACHMENT11_EXT                               0x8CEB
-#define GL_COLOR_ATTACHMENT12_EXT                               0x8CEC
-#define GL_COLOR_ATTACHMENT13_EXT                               0x8CED
-#define GL_COLOR_ATTACHMENT14_EXT                               0x8CEE
-#define GL_COLOR_ATTACHMENT15_EXT                               0x8CEF
-#define GL_DEPTH_ATTACHMENT_EXT                                 0x8D00
-#define GL_STENCIL_ATTACHMENT_EXT                               0x8D20
-#define GL_FRAMEBUFFER_EXT                                      0x8D40
-#define GL_RENDERBUFFER_EXT                                     0x8D41
-#define GL_RENDERBUFFER_WIDTH_EXT                               0x8D42
-#define GL_RENDERBUFFER_HEIGHT_EXT                              0x8D43
-#define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT                     0x8D44
-#define GL_STENCIL_INDEX_EXT                                    0x8D45
-#define GL_STENCIL_INDEX1_EXT                                   0x8D46
-#define GL_STENCIL_INDEX4_EXT                                   0x8D47
-#define GL_STENCIL_INDEX8_EXT                                   0x8D48
-#define GL_STENCIL_INDEX16_EXT                                  0x8D49
-#define GL_RENDERBUFFER_RED_SIZE_EXT                            0x8D50
-#define GL_RENDERBUFFER_GREEN_SIZE_EXT                          0x8D51
-#define GL_RENDERBUFFER_BLUE_SIZE_EXT                           0x8D52
-#define GL_RENDERBUFFER_ALPHA_SIZE_EXT                          0x8D53
-#define GL_RENDERBUFFER_DEPTH_SIZE_EXT                          0x8D54
-#define GL_RENDERBUFFER_STENCIL_SIZE_EXT                        0x8D55
+#define GL_INVALID_FRAMEBUFFER_OPERATION_EXT 0x0506
+#define GL_MAX_RENDERBUFFER_SIZE_EXT 0x84E8
+#define GL_FRAMEBUFFER_BINDING_EXT 0x8CA6
+#define GL_RENDERBUFFER_BINDING_EXT 0x8CA7
+#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT 0x8CD0
+#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT 0x8CD1
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT 0x8CD2
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EXT 0x8CD3
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET_EXT 0x8CD4
+#define GL_FRAMEBUFFER_COMPLETE_EXT 0x8CD5
+#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
+#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT 0x8CD7
+#define GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT 0x8CD8
+#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT 0x8CD9
+#define GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT 0x8CDA
+#define GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT 0x8CDB
+#define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT 0x8CDC
+#define GL_FRAMEBUFFER_UNSUPPORTED_EXT 0x8CDD
+#define GL_MAX_COLOR_ATTACHMENTS_EXT 0x8CDF
+#define GL_COLOR_ATTACHMENT0_EXT 0x8CE0
+#define GL_COLOR_ATTACHMENT1_EXT 0x8CE1
+#define GL_COLOR_ATTACHMENT2_EXT 0x8CE2
+#define GL_COLOR_ATTACHMENT3_EXT 0x8CE3
+#define GL_COLOR_ATTACHMENT4_EXT 0x8CE4
+#define GL_COLOR_ATTACHMENT5_EXT 0x8CE5
+#define GL_COLOR_ATTACHMENT6_EXT 0x8CE6
+#define GL_COLOR_ATTACHMENT7_EXT 0x8CE7
+#define GL_COLOR_ATTACHMENT8_EXT 0x8CE8
+#define GL_COLOR_ATTACHMENT9_EXT 0x8CE9
+#define GL_COLOR_ATTACHMENT10_EXT 0x8CEA
+#define GL_COLOR_ATTACHMENT11_EXT 0x8CEB
+#define GL_COLOR_ATTACHMENT12_EXT 0x8CEC
+#define GL_COLOR_ATTACHMENT13_EXT 0x8CED
+#define GL_COLOR_ATTACHMENT14_EXT 0x8CEE
+#define GL_COLOR_ATTACHMENT15_EXT 0x8CEF
+#define GL_DEPTH_ATTACHMENT_EXT 0x8D00
+#define GL_STENCIL_ATTACHMENT_EXT 0x8D20
+#define GL_FRAMEBUFFER_EXT 0x8D40
+#define GL_RENDERBUFFER_EXT 0x8D41
+#define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
+#define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
+#define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
+#define GL_STENCIL_INDEX_EXT 0x8D45
+#define GL_STENCIL_INDEX1_EXT 0x8D46
+#define GL_STENCIL_INDEX4_EXT 0x8D47
+#define GL_STENCIL_INDEX8_EXT 0x8D48
+#define GL_STENCIL_INDEX16_EXT 0x8D49
+#define GL_RENDERBUFFER_RED_SIZE_EXT 0x8D50
+#define GL_RENDERBUFFER_GREEN_SIZE_EXT 0x8D51
+#define GL_RENDERBUFFER_BLUE_SIZE_EXT 0x8D52
+#define GL_RENDERBUFFER_ALPHA_SIZE_EXT 0x8D53
+#define GL_RENDERBUFFER_DEPTH_SIZE_EXT 0x8D54
+#define GL_RENDERBUFFER_STENCIL_SIZE_EXT 0x8D55
 
 // Define a function pointer type with the same type declaration as the glFramebufferTexture2DEXT() function.
 //
@@ -109,13 +109,12 @@ static PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT_ = 0;
 using namespace Utils;
 using namespace SideCar::GUI::Spectrum;
 
-static int kUpdateRate = 33;	// msecs between update() calls (~30 FPS)
+static int kUpdateRate = 33; // msecs between update() calls (~30 FPS)
 
 Logger::Log&
 SpectrographWidget::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("spectrum.SpectrographWidget");
+    static Logger::Log& log_ = Logger::Log::Find("spectrum.SpectrographWidget");
     return log_;
 }
 
@@ -132,9 +131,9 @@ SpectrographWidget::GetGLFormat()
     return format;
 }
 
-SpectrographWidget::SpectrographWidget(QWidget* parent)
-    : Super(GetGLFormat(), parent), imaging_(0), fbo_(0), readTexture_(0), writeTexture_(1), points_(),
-      updateTimer_(), mouse_(), displayLists_(0), needUpdate_(true), doClear_(false), frozen_(false)
+SpectrographWidget::SpectrographWidget(QWidget* parent) :
+    Super(GetGLFormat(), parent), imaging_(0), fbo_(0), readTexture_(0), writeTexture_(1), points_(), updateTimer_(),
+    mouse_(), displayLists_(0), needUpdate_(true), doClear_(false), frozen_(false)
 {
     Logger::ProcLog log("SpectrographWidget", Log());
     LOGINFO << std::endl;
@@ -149,16 +148,14 @@ SpectrographWidget::SpectrographWidget(QWidget* parent)
 
     // Resolve the glFramebufferTexture2DEXT symbol
     //
-    if (! glFramebufferTexture2DEXT_) {
-	QLibrary lib(QLatin1String("GL"));
-	glFramebufferTexture2DEXT_ =
-	    (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)lib.resolve(
-		"glFramebufferTexture2DEXT");
+    if (!glFramebufferTexture2DEXT_) {
+        QLibrary lib(QLatin1String("GL"));
+        glFramebufferTexture2DEXT_ = (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)lib.resolve("glFramebufferTexture2DEXT");
     }
 
 #define glFramebufferTexture2DEXT glFramebufferTexture2DEXT_
 
-#endif	// ! GL_EXT_framebuffer_object
+#endif // ! GL_EXT_framebuffer_object
 
     Configuration* cfg = App::GetApp()->getConfiguration();
     imaging_ = cfg->getSpectrographImaging();
@@ -182,8 +179,8 @@ SpectrographWidget::sizeChanged()
     setMinimumHeight(size_.height());
     setMaximumHeight(size_.height());
     if (fbo_) {
-	deleteOffscreenBuffer();
-	makeOffscreenBuffer();
+        deleteOffscreenBuffer();
+        makeOffscreenBuffer();
     }
 }
 
@@ -193,8 +190,7 @@ SpectrographWidget::initializeGL()
     Logger::ProcLog log("initializeGL", Log());
     LOGERROR << "*** " << fbo_ << std::endl;
 
-    if (fbo_)
-	return;
+    if (fbo_) return;
 
     displayLists_ = glGenLists(kNumLists);
 
@@ -228,10 +224,10 @@ void
 SpectrographWidget::deleteOffscreenBuffer()
 {
     if (fbo_) {
-	GLuint id = textures_[1].getId();
-	glDeleteTextures(1, &id);
-	delete fbo_;
-	fbo_ = 0;
+        GLuint id = textures_[1].getId();
+        glDeleteTextures(1, &id);
+        delete fbo_;
+        fbo_ = 0;
     }
 }
 
@@ -242,7 +238,7 @@ SpectrographWidget::makeOffscreenBuffer()
     glEnable(textureType);
 
     fbo_ = new QGLFramebufferObject(size_, textureType);
-    if (! fbo_->isValid()) return;
+    if (!fbo_->isValid()) return;
     fbo_->bind();
 
     textures_[0] = Texture(textureType, fbo_->texture(), size_.width(), size_.height());
@@ -287,62 +283,62 @@ SpectrographWidget::makeDisplayLists()
 
     GLEC(glNewList(getDisplayList(kBeginUpdate), GL_COMPILE));
     {
-	GLEC(glViewport(0, 0, size_.width(), size_.height()));
-	GLEC(glMatrixMode(GL_PROJECTION));
-	GLEC(glLoadIdentity());
-	GLEC(glOrtho(0, size_.width(), 0, size_.height(), -1.0, 1.0));
-	GLEC(glClearColor(0.0f, 0.0f, 0.0f, 0.0f));
-	GLEC(glClear(GL_COLOR_BUFFER_BIT));
+        GLEC(glViewport(0, 0, size_.width(), size_.height()));
+        GLEC(glMatrixMode(GL_PROJECTION));
+        GLEC(glLoadIdentity());
+        GLEC(glOrtho(0, size_.width(), 0, size_.height(), -1.0, 1.0));
+        GLEC(glClearColor(0.0f, 0.0f, 0.0f, 0.0f));
+        GLEC(glClear(GL_COLOR_BUFFER_BIT));
     }
     GLEC(glEndList());
 
     GLEC(glNewList(getDisplayList(kBeginPaint), GL_COMPILE));
     {
-	GLEC(glViewport(0, 0, width(), size_.height()));
-	GLEC(glMatrixMode(GL_PROJECTION));
-	GLEC(glLoadIdentity());
-	GLEC(glOrtho(0, width(), 0, size_.height(), -1.0, 1.0));
-	GLEC(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-	GLEC(glClear(GL_COLOR_BUFFER_BIT));
+        GLEC(glViewport(0, 0, width(), size_.height()));
+        GLEC(glMatrixMode(GL_PROJECTION));
+        GLEC(glLoadIdentity());
+        GLEC(glOrtho(0, width(), 0, size_.height(), -1.0, 1.0));
+        GLEC(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+        GLEC(glClear(GL_COLOR_BUFFER_BIT));
     }
     GLEC(glEndList());
 
     for (int index = 0; index < 2; ++index) {
-	GLEC(glNewList(getDisplayList(kCopyPrevious0 + index), GL_COMPILE));
-	{
-	    const Texture& t(textures_[index]);
-	    GLEC(glBindTexture(t.getType(), t.getId()));
-	    GLEC(glBegin(GL_QUADS));
-	    GLEC(glTexCoord2f(t.getXMin(), t.getYMin()));
-	    GLEC(glVertex2f(0.0, 1.0));
-	    GLEC(glTexCoord2f(t.getXMax(), t.getYMin()));
-	    GLEC(glVertex2f(size_.width(), 1.0));
-	    GLEC(glTexCoord2f(t.getXMax(), t.getYMax()));
-	    GLEC(glVertex2f(size_.width(), size_.height() + 1.0));
-	    GLEC(glTexCoord2f(t.getXMin(), t.getYMax()));
-	    GLEC(glVertex2f(0.0, size_.height() + 1.0));
-	    GLEC(glEnd());
-	    GLEC(glBindTexture(t.getType(), 0));
-	}
-	GLEC(glEndList());
+        GLEC(glNewList(getDisplayList(kCopyPrevious0 + index), GL_COMPILE));
+        {
+            const Texture& t(textures_[index]);
+            GLEC(glBindTexture(t.getType(), t.getId()));
+            GLEC(glBegin(GL_QUADS));
+            GLEC(glTexCoord2f(t.getXMin(), t.getYMin()));
+            GLEC(glVertex2f(0.0, 1.0));
+            GLEC(glTexCoord2f(t.getXMax(), t.getYMin()));
+            GLEC(glVertex2f(size_.width(), 1.0));
+            GLEC(glTexCoord2f(t.getXMax(), t.getYMax()));
+            GLEC(glVertex2f(size_.width(), size_.height() + 1.0));
+            GLEC(glTexCoord2f(t.getXMin(), t.getYMax()));
+            GLEC(glVertex2f(0.0, size_.height() + 1.0));
+            GLEC(glEnd());
+            GLEC(glBindTexture(t.getType(), 0));
+        }
+        GLEC(glEndList());
 
-	GLEC(glNewList(getDisplayList(kPaintTexture0 + index), GL_COMPILE));
-	{
-	    const Texture& t(textures_[0]);
-	    GLEC(glBindTexture(t.getType(), t.getId()));
-	    GLEC(glBegin(GL_QUADS));
-	    GLEC(glTexCoord2f(t.getXMin(), t.getYMin()));
-	    GLEC(glVertex2f(0.0, 0.0));
-	    GLEC(glTexCoord2f(t.getXMax(), t.getYMin()));
-	    GLEC(glVertex2f(width(), 0.0));
-	    GLEC(glTexCoord2f(t.getXMax(), t.getYMax()));
-	    GLEC(glVertex2f(width(), size_.height()));
-	    GLEC(glTexCoord2f(t.getXMin(), t.getYMax()));
-	    GLEC(glVertex2f(0.0, size_.height()));
-	    GLEC(glEnd());
-	    GLEC(glBindTexture(t.getType(), 0));
-	}
-	GLEC(glEndList());
+        GLEC(glNewList(getDisplayList(kPaintTexture0 + index), GL_COMPILE));
+        {
+            const Texture& t(textures_[0]);
+            GLEC(glBindTexture(t.getType(), t.getId()));
+            GLEC(glBegin(GL_QUADS));
+            GLEC(glTexCoord2f(t.getXMin(), t.getYMin()));
+            GLEC(glVertex2f(0.0, 0.0));
+            GLEC(glTexCoord2f(t.getXMax(), t.getYMin()));
+            GLEC(glVertex2f(width(), 0.0));
+            GLEC(glTexCoord2f(t.getXMax(), t.getYMax()));
+            GLEC(glVertex2f(width(), size_.height()));
+            GLEC(glTexCoord2f(t.getXMin(), t.getYMax()));
+            GLEC(glVertex2f(0.0, size_.height()));
+            GLEC(glEnd());
+            GLEC(glBindTexture(t.getType(), 0));
+        }
+        GLEC(glEndList());
     }
 }
 
@@ -354,9 +350,7 @@ SpectrographWidget::paintGL()
     needUpdate_ = false;
     GLEC(glCallList(getDisplayList(kBeginPaint)));
     if (fbo_->isValid()) {
-	if (! doClear_) {
-	    GLEC(glCallList(getDisplayList(kPaintTexture0 + readTexture_)));
-	}
+        if (!doClear_) { GLEC(glCallList(getDisplayList(kPaintTexture0 + readTexture_))); }
     }
 }
 
@@ -373,22 +367,20 @@ SpectrographWidget::timerEvent(QTimerEvent* event)
     static Logger::ProcLog log("timerEvent", Log());
 
     if (event->timerId() != updateTimer_.timerId()) {
-	event->ignore();
-	Super::timerEvent(event);
-	return;
+        event->ignore();
+        Super::timerEvent(event);
+        return;
     }
 
-    if (needUpdate_)
-	update();
+    if (needUpdate_) update();
 
     if (underMouse()) {
-	QPoint newMouse = mapFromGlobal(QCursor::pos());
-	if (newMouse != mouse_) {
-	    mouse_ = newMouse;
-	    emit currentCursorPosition(mouse_);
-	}
+        QPoint newMouse = mapFromGlobal(QCursor::pos());
+        if (newMouse != mouse_) {
+            mouse_ = newMouse;
+            emit currentCursorPosition(mouse_);
+        }
     }
-
 }
 
 void
@@ -402,7 +394,7 @@ SpectrographWidget::showEvent(QShowEvent* event)
 {
     Logger::ProcLog log("showEvent", Log());
     LOGINFO << std::endl;
-    if (! updateTimer_.isActive()) updateTimer_.start(kUpdateRate, this);
+    if (!updateTimer_.isActive()) updateTimer_.start(kUpdateRate, this);
     Super::showEvent(event);
 }
 
@@ -423,7 +415,7 @@ SpectrographWidget::processBins(const QVector<QPointF>& bins)
     needUpdate();
     makeCurrent();
 
-    if (! fbo_ || ! fbo_->isValid()) return;
+    if (!fbo_ || !fbo_->isValid()) return;
     fbo_->bind();
 
     // Attach the current write texture for imaging.
@@ -435,10 +427,9 @@ SpectrographWidget::processBins(const QVector<QPointF>& bins)
     //
     glCallList(getDisplayList(kBeginUpdate));
     if (doClear_) {
-	doClear_ = false;
-    }
-    else {
-	glCallList(getDisplayList(kCopyPrevious0 + readTexture_));
+        doClear_ = false;
+    } else {
+        glCallList(getDisplayList(kCopyPrevious0 + readTexture_));
     }
 
     // Now draw the new data at the bottom of the view.
@@ -451,7 +442,7 @@ SpectrographWidget::processBins(const QVector<QPointF>& bins)
 
     points_.clear();
     for (int index = 0; index < bins.size(); ++index) {
-	points_.push_back(Vertex(index * scale + xOffset, 1.0), imaging_->getColor(bins[index].y()));
+        points_.push_back(Vertex(index * scale + xOffset, 1.0), imaging_->getColor(bins[index].y()));
     }
 
     points_.draw(GL_POINTS);
@@ -464,14 +455,14 @@ SpectrographWidget::processBins(const QVector<QPointF>& bins)
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, textures_[writeTexture_].getType(),
                               textures_[writeTexture_].getId(), 0);
 
-    if (! fbo_->release()) std::clog << "failed fbo_->release()\n";
+    if (!fbo_->release()) std::clog << "failed fbo_->release()\n";
 }
 
 void
 SpectrographWidget::setFrozen(bool state)
 {
     if (frozen_ != state) {
-	frozen_ = state;
-	if (! state) update();
+        frozen_ = state;
+        if (!state) update();
     }
 }

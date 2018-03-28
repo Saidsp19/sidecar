@@ -8,8 +8,7 @@
 using namespace SideCar;
 using namespace SideCar::IO;
 
-struct ParametersChangeRequestTest : public UnitTest::TestObj
-{
+struct ParametersChangeRequestTest : public UnitTest::TestObj {
     ParametersChangeRequestTest() : TestObj("ParametersChangeRequest") {}
     void test();
 };
@@ -29,24 +28,23 @@ ParametersChangeRequestTest::test()
 
     ACE_Message_Block* wrapped;
     {
-	ParametersChangeRequest request(input, false);
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
-	wrapped->release();
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
-	assertEqual(false, request.hasOriginalValues());
+        ParametersChangeRequest request(input, false);
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
+        wrapped->release();
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
+        assertEqual(false, request.hasOriginalValues());
     }
 
     assertEqual(1, wrapped->reference_count());
-    assertEqual(ControlMessage::kParametersChange + MessageManager::kControl,
-                wrapped->msg_type());
+    assertEqual(ControlMessage::kParametersChange + MessageManager::kControl, wrapped->msg_type());
 
     XmlRpc::XmlRpcValue output;
     {
-	ParametersChangeRequest request(wrapped);
-	output = request.getValue();
-	assertEqual(false, request.hasOriginalValues());
+        ParametersChangeRequest request(wrapped);
+        output = request.getValue();
+        assertEqual(false, request.hasOriginalValues());
     }
 
     assertEqual(XmlRpc::XmlRpcValue::TypeStruct, output.getType());
@@ -56,10 +54,8 @@ ParametersChangeRequestTest::test()
     assertEqual(XmlRpc::XmlRpcValue::TypeArray, output["four"].getType());
 }
 
-struct ProcessingStateChangeRequestTest : public UnitTest::TestObj
-{
-    ProcessingStateChangeRequestTest()
-	: TestObj("ProcessingStateChangeRequest") {}
+struct ProcessingStateChangeRequestTest : public UnitTest::TestObj {
+    ProcessingStateChangeRequestTest() : TestObj("ProcessingStateChangeRequest") {}
     void test();
 };
 
@@ -69,31 +65,28 @@ ProcessingStateChangeRequestTest::test()
     ProcessingState::Value input = ProcessingState::kRun;
     ACE_Message_Block* wrapped;
     {
-	ProcessingStateChangeRequest request(input);
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
-	wrapped->release();
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
+        ProcessingStateChangeRequest request(input);
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
+        wrapped->release();
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
     }
 
     assertEqual(1, wrapped->reference_count());
-    assertEqual(ControlMessage::kProcessingStateChange +
-                MessageManager::kControl, wrapped->msg_type());
+    assertEqual(ControlMessage::kProcessingStateChange + MessageManager::kControl, wrapped->msg_type());
 
     IO::ProcessingState::Value output;
     {
-	ProcessingStateChangeRequest request(wrapped);
-	output = request.getValue();
+        ProcessingStateChangeRequest request(wrapped);
+        output = request.getValue();
     }
 
     assertEqual(input, output);
 }
 
-struct RecordingStateChangeRequestTest : public UnitTest::TestObj
-{
-    RecordingStateChangeRequestTest()
-	: TestObj("RecordingStateChangeRequest") {}
+struct RecordingStateChangeRequestTest : public UnitTest::TestObj {
+    RecordingStateChangeRequestTest() : TestObj("RecordingStateChangeRequest") {}
     void test();
 };
 
@@ -103,35 +96,34 @@ RecordingStateChangeRequestTest::test()
     std::string input("/a/b/c/d/e/f/g");
     ACE_Message_Block* wrapped;
     {
-	RecordingStateChangeRequest request(input);
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
-	wrapped->release();
-	wrapped = request.getWrapped();
-	assertEqual(2, wrapped->reference_count());
+        RecordingStateChangeRequest request(input);
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
+        wrapped->release();
+        wrapped = request.getWrapped();
+        assertEqual(2, wrapped->reference_count());
     }
 
     assertEqual(1, wrapped->reference_count());
-    assertEqual(ControlMessage::kRecordingStateChange +
-                MessageManager::kControl, wrapped->msg_type());
+    assertEqual(ControlMessage::kRecordingStateChange + MessageManager::kControl, wrapped->msg_type());
 
     std::string output("");
     {
-	RecordingStateChangeRequest request(wrapped);
-	assertTrue(request.isOn());
-	output = request.getValue();
+        RecordingStateChangeRequest request(wrapped);
+        assertTrue(request.isOn());
+        output = request.getValue();
     }
 
     assertEqual(input, output);
 
     {
-	RecordingStateChangeRequest request("");
-	wrapped = request.getWrapped();
+        RecordingStateChangeRequest request("");
+        wrapped = request.getWrapped();
     }
     {
-	RecordingStateChangeRequest request(wrapped);
-	assertFalse(request.isOn());
-	output = request.getValue();
+        RecordingStateChangeRequest request(wrapped);
+        assertFalse(request.isOn());
+        output = request.getValue();
     }
 
     assertEqual(std::string(""), output);

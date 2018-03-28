@@ -8,7 +8,9 @@
 
 class QGridLayout;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,17 +26,16 @@ class ViewSettings;
 /** Main display window for the BScope application. Hosts a PPIWidget display widget and various GUI controls
     that affect the display. The actual GUI controls are defined in the BScopeWindow.ui file.
 */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
+
 public:
-    
     static Logger::Log& Log();
 
     /** Constructor. Creates all of the widgets connects signals and slots.
 
-        \param parent 
+        \param parent
     */
     MainWindow();
 
@@ -74,7 +75,6 @@ private slots:
     void monitorPresets(int index, bool isDirty);
 
 private:
-
     void showEvent(QShowEvent* event);
 
     void closeEvent(QCloseEvent* event);

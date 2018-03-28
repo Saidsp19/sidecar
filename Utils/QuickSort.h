@@ -1,7 +1,7 @@
 #ifndef UTILS_QUICKSORT_H // -*- C++ -*-
 #define UTILS_QUICKSORT_H
 
-#include <cstdlib>              // for random()
+#include <cstdlib> // for random()
 
 namespace Utils {
 
@@ -12,7 +12,8 @@ namespace Utils {
 
     \param high iterator to first element to not order
 */
-template <typename RandomAccessIterator> void
+template <typename RandomAccessIterator>
+void
 QuickSort(RandomAccessIterator low, RandomAccessIterator high)
 {
     using ValueType = typename std::iterator_traits<RandomAccessIterator>::value_type;
@@ -27,19 +28,17 @@ QuickSort(RandomAccessIterator low, RandomAccessIterator high)
     RandomAccessIterator nl = low;
     RandomAccessIterator nh = high - 1;
     do {
-
-	while (*nl < pivot) ++nl;
+        while (*nl < pivot) ++nl;
         while (*nh > pivot) --nh;
 
-	if (nl <= nh) {
-
-	    // Swap the elements. NOTE: if iterators are the same, this is a slight waste, but we need to
-	    // increment them anyway.
-	    //
-	    ValueType tmp = *nl;
-	    *nl++ = *nh;
-	    *nh-- = tmp;
-	}
+        if (nl <= nh) {
+            // Swap the elements. NOTE: if iterators are the same, this is a slight waste, but we need to
+            // increment them anyway.
+            //
+            ValueType tmp = *nl;
+            *nl++ = *nh;
+            *nh-- = tmp;
+        }
     } while (nl <= nh);
 
     // If we need to, sort the partitions below and above the pivot.

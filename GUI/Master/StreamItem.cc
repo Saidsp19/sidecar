@@ -17,30 +17,27 @@ StreamItem::Log()
     return log_;
 }
 
-StreamItem::StreamItem(const IO::StreamStatus& status, RunnerItem* parent)
-    : Super(status, parent), streamIndex_(parent->getNumChildren())
+StreamItem::StreamItem(const IO::StreamStatus& status, RunnerItem* parent) :
+    Super(status, parent), streamIndex_(parent->getNumChildren())
 {
     // Create our children
     //
     int taskCount = status.getTaskCount();
     for (int index = 0; index < taskCount; ++index) {
+        // Fetch the status for this task item
+        //
+        const XmlRpc::XmlRpcValue& taskStatus = status[IO::StreamStatus::kTaskStatus][index];
 
-	// Fetch the status for this task item
-	//
-	const XmlRpc::XmlRpcValue& taskStatus =
-	    status[IO::StreamStatus::kTaskStatus][index];
+        std::string className = taskStatus[IO::StreamStatus::kClassName];
 
-	std::string className = taskStatus[IO::StreamStatus::kClassName];
+        TaskItem* child;
+        if (className == ControllerStatus::GetClassName()) {
+            child = new ControllerItem(taskStatus, this);
+        } else {
+            child = new TaskItem(taskStatus, this);
+        }
 
-	TaskItem* child;
-	if (className == ControllerStatus::GetClassName()) {
-	    child = new ControllerItem(taskStatus, this);
-	}
-	else {
-	    child = new TaskItem(taskStatus, this);
-	}
-
-	appendChild(child);
+        appendChild(child);
     }
 }
 
@@ -49,8 +46,8 @@ StreamItem::updateChildren()
 {
     const IO::StreamStatus& status(getStatus());
     for (int index = 0; index < getNumChildren(); ++index) {
-	TaskItem* child = getChild(index);
-	child->update(status.getTaskStatus(index));
+        TaskItem* child = getChild(index);
+        child->update(status.getTaskStatus(index));
     }
 }
 
@@ -61,15 +58,13 @@ StreamItem::getParent() const
 }
 
 bool
-StreamItem::getParameters(int taskIndex, XmlRpc::XmlRpcValue& definition)
-    const
+StreamItem::getParameters(int taskIndex, XmlRpc::XmlRpcValue& definition) const
 {
     return getParent()->getParameters(streamIndex_, taskIndex, definition);
 }
 
 bool
-StreamItem::setParameters(int taskIndex, const XmlRpc::XmlRpcValue& updates)
-    const
+StreamItem::setParameters(int taskIndex, const XmlRpc::XmlRpcValue& updates) const
 {
     return getParent()->setParameters(streamIndex_, taskIndex, updates);
 }
@@ -81,15 +76,13 @@ StreamItem::getChild(int index) const
 }
 
 void
-StreamItem::formatChangedParameters(const XmlRpc::XmlRpcValue& definitions,
-                                    QStringList& changes) const
+StreamItem::formatChangedParameters(const XmlRpc::XmlRpcValue& definitions, QStringList& changes) const
 {
     Logger::ProcLog log("formatChangedParameters", Log());
     LOGINFO << std::endl;
     for (int index = 0; index < getNumChildren(); ++index) {
-	const XmlRpc::XmlRpcValue& taskChanges(definitions[index]);
-	LOGDEBUG << index << " taskChanges: " << taskChanges.toXml()
-		 << std::endl;
-	getChild(index)->formatChangedParameters(taskChanges, changes);
+        const XmlRpc::XmlRpcValue& taskChanges(definitions[index]);
+        LOGDEBUG << index << " taskChanges: " << taskChanges.toXml() << std::endl;
+        getChild(index)->formatChangedParameters(taskChanges, changes);
     }
 }

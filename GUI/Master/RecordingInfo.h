@@ -17,23 +17,20 @@ class RecordingController;
 /** Class that holds information about a particular recording. Each recording started by the RecordingController
     gets its own RecordingInfo object, which is shown in the RecordingsView table.
 */
-class RecordingInfo : public QObject
-{
+class RecordingInfo : public QObject {
     Q_OBJECT
 public:
-
     /** Constructor
 
         \param parent container hosting the widget
 
-        \param filter 
+        \param filter
 
-        \param duration 
+        \param duration
 
-        \param dir 
+        \param dir
     */
-    RecordingInfo(RecordingController& controller, const QString& name,
-                  const QTime& duration);
+    RecordingInfo(RecordingController& controller, const QString& name, const QTime& duration);
 
     RecordingInfo(RecordingController& controller, const QDir& recordingDir);
 
@@ -49,27 +46,21 @@ public:
 
         \return QStringList reference
     */
-    const QStringList& getConfigurationNames() const
-	{ return configurationNames_; }
+    const QStringList& getConfigurationNames() const { return configurationNames_; }
 
-    const QStringList& getRecordingDirectories() const
-	{ return recordingDirs_; }
+    const QStringList& getRecordingDirectories() const { return recordingDirs_; }
 
     const QString& getName() const { return name_; }
 
-    QString getStartTime() const
-	{ return start_.time().toString(); }
+    QString getStartTime() const { return start_.time().toString(); }
 
-    QString getFormattedStartTime() const
-	{ return start_.time().toString() + " UTC"; }
+    QString getFormattedStartTime() const { return start_.time().toString() + " UTC"; }
 
     const QString& getElapsedTime() const { return elapsed_; }
 
-    QString getFormattedElapsedTime() const
-	{ return QString("+") + elapsed_; }
+    QString getFormattedElapsedTime() const { return QString("+") + elapsed_; }
 
-    const QString& getRemainingTime() const
-	{ return remaining_; }
+    const QString& getRemainingTime() const { return remaining_; }
 
     /** Determine if this recording is finished.
 
@@ -91,7 +82,7 @@ public:
 
     /** Determine if the set duration has passed for this recording.
 
-        \return 
+        \return
     */
     bool hasDurationPassed(const QString& now);
 
@@ -128,7 +119,6 @@ public slots:
     void infoChanged();
 
 private:
-
     void loadFromFile();
 
     QStringList configurationNames_;

@@ -5,9 +5,9 @@
 #include "QtCore/QSettings"
 #include "QtCore/QVariant"
 
+#include "LogUtils.h"
 #include "LoggerModel.h"
 #include "LoggerTreeItem.h"
-#include "LogUtils.h"
 
 using namespace SideCar::GUI;
 
@@ -29,8 +29,7 @@ LoggerModel::Log()
     return log_;
 }
 
-LoggerModel::LoggerModel(QObject* parent)
-    : QAbstractItemModel(parent), hash_(), root_(new LoggerTreeItem)
+LoggerModel::LoggerModel(QObject* parent) : QAbstractItemModel(parent), hash_(), root_(new LoggerTreeItem)
 {
     connect(this, SIGNAL(recordNewDevice(const QString&)), this, SLOT(doRecordNewDevice(const QString&)),
             Qt::QueuedConnection);
@@ -45,8 +44,8 @@ LoggerModel::~LoggerModel()
 void
 LoggerModel::initialize()
 {
-    auto names = Logger::Log::GetNames([this](auto& d){newDevice(d);});
-    for (auto s: names) addDevice(s);
+    auto names = Logger::Log::GetNames([this](auto& d) { newDevice(d); });
+    for (auto s : names) addDevice(s);
 }
 
 void
@@ -62,9 +61,7 @@ LoggerModel::doRecordNewDevice(const QString& fullName)
     LOGDEBUG2 << fullName << std::endl;
     auto& device = Logger::Log::Find(fullName.toStdString());
     auto pos = hash_.find(QString::fromStdString(device.getParent()->fullName()));
-    if (pos != hash_.end()) {
-	makeTreeItem(device, pos.value());
-    }
+    if (pos != hash_.end()) { makeTreeItem(device, pos.value()); }
 }
 
 LoggerTreeItem*
@@ -77,17 +74,14 @@ LoggerModel::addDevice(const std::string& fullName)
     auto qname = QString::fromStdString(fullName);
 
     auto pos = hash_.find(qname);
-    if (pos != hash_.end()) {
-	return pos.value();
-    }
+    if (pos != hash_.end()) { return pos.value(); }
 
     LoggerTreeItem* parentItem = nullptr;
     auto parent = device.getParent();
     if (parent) {
-	parentItem = addDevice(parent->fullName());
-    }
-    else {
-	parentItem = root_;
+        parentItem = addDevice(parent->fullName());
+    } else {
+        parentItem = root_;
     }
 
     return makeTreeItem(device, parentItem);
@@ -105,8 +99,8 @@ LoggerModel::makeTreeItem(Logger::Log& device, LoggerTreeItem* parent)
     QModelIndex parentIndex;
     auto row = 0;
     if (parent != root_) {
-	parentIndex = createIndex(parent->getIndex(), 0, parent);
-	row = parent->getInsertionPoint(node->getName());
+        parentIndex = createIndex(parent->getIndex(), 0, parent);
+        row = parent->getInsertionPoint(node->getName());
     }
 
     QSettings settings;
@@ -114,9 +108,7 @@ LoggerModel::makeTreeItem(Logger::Log& device, LoggerTreeItem* parent)
     auto priority = settings.value(node->getFullName(), device.getPriorityLimit()).toInt();
     LOGDEBUG3 << node->getFullName() << ' ' << priority << std::endl;
 
-    if (priority != device.getPriorityLimit()) {
-	device.setPriorityLimit(Logger::Priority::Level(priority));
-    }
+    if (priority != device.getPriorityLimit()) { device.setPriorityLimit(Logger::Priority::Level(priority)); }
 
     LOGDEBUG3 << "parentIndex: " << parentIndex << " row: " << row << std::endl;
     beginInsertRows(parentIndex, row, row);
@@ -130,9 +122,7 @@ LoggerModel::makeTreeItem(Logger::Log& device, LoggerTreeItem* parent)
 int
 LoggerModel::rowCount(const QModelIndex& parent) const
 {
-    if (parent.column() > 0) {
-	return 0;
-    }
+    if (parent.column() > 0) { return 0; }
     auto parentNode = getTreeItem(parent);
     return parentNode->getNumChildren();
 }
@@ -147,9 +137,7 @@ QVariant
 LoggerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant value;
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-	value = QString(section ? "Priority" : "Name");
-    }
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) { value = QString(section ? "Priority" : "Name"); }
     return value;
 }
 
@@ -158,10 +146,8 @@ LoggerModel::data(const QModelIndex& index, int role) const
 {
     QVariant value;
     if (index.isValid()) {
-	auto node = getTreeItem(index);
-	if (node) {
-	    value = node->getData(index.column(), role);
-        }
+        auto node = getTreeItem(index);
+        if (node) { value = node->getData(index.column(), role); }
     }
     return value;
 }
@@ -169,14 +155,10 @@ LoggerModel::data(const QModelIndex& index, int role) const
 Qt::ItemFlags
 LoggerModel::flags(const QModelIndex& index) const
 {
-    if (! index.isValid()) {
-	return Super::flags(index);
-    }
+    if (!index.isValid()) { return Super::flags(index); }
 
     Qt::ItemFlags flags = Super::flags(index);
-    if (index.column() == 1) {
-	flags |= Qt::ItemIsEditable;
-    }
+    if (index.column() == 1) { flags |= Qt::ItemIsEditable; }
 
     return flags;
 }
@@ -188,20 +170,20 @@ LoggerModel::setData(const QModelIndex& index, const QVariant& value, int role)
     LOGDEBUG2 << "index: " << index << " value: " << value.toInt() << " role: " << role << std::endl;
 
     if (index.isValid() && index.column() == 1 && role == Qt::EditRole) {
-	auto priority = Logger::Priority::Level(value.toInt());
-	LoggerTreeItem* item = getTreeItem(index);
-	if (item) {
-	    auto& log = item->getLog();
-	    if (log.getPriorityLimit() != priority) {
-		LOGDEBUG3 << "setting new value" << std::endl;
-		log.setPriorityLimit(priority);
-		QSettings settings;
-		settings.beginGroup(kLoggerLogLevels);
-		settings.setValue(item->getFullName(), value);
-		emit dataChanged(index, index);
-		return true;
-	    }
-	}
+        auto priority = Logger::Priority::Level(value.toInt());
+        LoggerTreeItem* item = getTreeItem(index);
+        if (item) {
+            auto& log = item->getLog();
+            if (log.getPriorityLimit() != priority) {
+                LOGDEBUG3 << "setting new value" << std::endl;
+                log.setPriorityLimit(priority);
+                QSettings settings;
+                settings.beginGroup(kLoggerLogLevels);
+                settings.setValue(item->getFullName(), value);
+                emit dataChanged(index, index);
+                return true;
+            }
+        }
     }
 
     return Super::setData(index, value, role);
@@ -212,11 +194,9 @@ LoggerModel::index(int row, int column, const QModelIndex& parent) const
 {
     QModelIndex index;
     if (hasIndex(row, column, parent)) {
-	auto parentNode = getTreeItem(parent);
-	auto childNode = parentNode->getChild(row);
-	if (childNode) {
-	    index = createIndex(row, column, childNode);
-        }
+        auto parentNode = getTreeItem(parent);
+        auto childNode = parentNode->getChild(row);
+        if (childNode) { index = createIndex(row, column, childNode); }
     }
 
     return index;
@@ -225,15 +205,11 @@ LoggerModel::index(int row, int column, const QModelIndex& parent) const
 QModelIndex
 LoggerModel::parent(const QModelIndex& index) const
 {
-    if (! index.isValid()) return QModelIndex();
+    if (!index.isValid()) return QModelIndex();
     auto childNode = getTreeItem(index);
-    if (childNode == root_) {
-	return QModelIndex();
-    }
+    if (childNode == root_) { return QModelIndex(); }
     auto parentNode = childNode->getParent();
-    if (parentNode == root_) {
-	return QModelIndex();
-    }
+    if (parentNode == root_) { return QModelIndex(); }
     return createIndex(parentNode->getIndex(), 0, parentNode);
 }
 
@@ -241,12 +217,8 @@ LoggerTreeItem*
 LoggerModel::getTreeItem(const QModelIndex& index) const
 {
     LoggerTreeItem* node = 0;
-    if (index.isValid()) {
-	node = static_cast<LoggerTreeItem*>(index.internalPointer());
-    }
-    if (! node) {
-	node = root_;
-    }
+    if (index.isValid()) { node = static_cast<LoggerTreeItem*>(index.internalPointer()); }
+    if (!node) { node = root_; }
     return node;
 }
 

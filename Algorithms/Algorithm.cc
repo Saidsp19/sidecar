@@ -5,15 +5,15 @@
 
 using namespace SideCar::Algorithms;
 
-Algorithm::Algorithm(Controller& controller, Logger::Log& log)
-    : controller_(controller), log_(log), processors_(), vpp_()
+Algorithm::Algorithm(Controller& controller, Logger::Log& log) :
+    controller_(controller), log_(log), processors_(), vpp_()
 {
     ;
 }
 
 Algorithm::~Algorithm()
 {
-    std::for_each(processors_.begin(), processors_.end(), [](auto p){delete p;});
+    std::for_each(processors_.begin(), processors_.end(), [](auto p) { delete p; });
 }
 
 size_t
@@ -26,22 +26,21 @@ Algorithm::addProcessor(size_t index, const Messages::MetaTypeInfo& metaTypeInfo
     //
     const IO::Channel& channel(controller_.getInputChannel(index));
     if (metaTypeInfo.getKey() != channel.getTypeKey()) {
-	delete processor;
-	Utils::Exception ex("processor type mismatch - ");
-	ex << metaTypeInfo.getName() << " != " << channel.getTypeName();
-	log.thrower(ex);
+        delete processor;
+        Utils::Exception ex("processor type mismatch - ");
+        ex << metaTypeInfo.getName() << " != " << channel.getTypeName();
+        log.thrower(ex);
     }
 
     // Expand the container if necessary. Catch duplicate settings.
     //
     if (index >= processors_.size()) {
-	processors_.resize(index + 1);
-    }
-    else if (processors_[index]) {
-	delete processor;
-	Utils::Exception ex("processor already registered for type ");
-	ex << metaTypeInfo.getName();
-	log.thrower(ex);
+        processors_.resize(index + 1);
+    } else if (processors_[index]) {
+        delete processor;
+        Utils::Exception ex("processor already registered for type ");
+        ex << metaTypeInfo.getName();
+        log.thrower(ex);
     }
 
     // Finally, install
@@ -72,25 +71,24 @@ Algorithm::addProcessor(const Messages::MetaTypeInfo& metaTypeInfo, Processor* p
     //
     auto numChannels = controller_.getNumInputChannels();
     if (numChannels == 0) {
-	if (processors_.size()) {
-	    delete processor;
-	    Utils::Exception ex("processor already registered");
-	    log.thrower(ex);
-	}
-	processors_.push_back(processor);
-	return 0;
+        if (processors_.size()) {
+            delete processor;
+            Utils::Exception ex("processor already registered");
+            log.thrower(ex);
+        }
+        processors_.push_back(processor);
+        return 0;
     }
 
     // Search for the first input channel with the given type.
     //
     for (auto index = 0; index < numChannels; ++index) {
-	const IO::Channel& channel(controller_.getInputChannel(index));
-	if (channel.getTypeKey() == metaTypeInfo.getKey()) {
-
-	    // Attempt to add the processor at the given index.
-	    //
-	    return addProcessor(index, metaTypeInfo, processor);
-	}
+        const IO::Channel& channel(controller_.getInputChannel(index));
+        if (channel.getTypeKey() == metaTypeInfo.getKey()) {
+            // Attempt to add the processor at the given index.
+            //
+            return addProcessor(index, metaTypeInfo, processor);
+        }
     }
 
     delete processor;
@@ -113,10 +111,10 @@ Algorithm::process(const Messages::Header::Ref& msg, size_t channelIndex)
 {
     Logger::ProcLog log("process", log_);
     LOGTIN << msg->getMetaTypeInfo().getName() << ' ' << channelIndex << std::endl;
-    if (channelIndex >= processors_.size() || ! processors_[channelIndex]) {
-	Utils::Exception ex("no processor registered for channel ");
-	ex << channelIndex;
-	log.thrower(ex);
+    if (channelIndex >= processors_.size() || !processors_[channelIndex]) {
+        Utils::Exception ex("no processor registered for channel ");
+        ex << channelIndex;
+        log.thrower(ex);
     }
 
     activeChannelIndex_ = channelIndex;
@@ -136,14 +134,14 @@ Algorithm::send(const Messages::Header::Ref& msg, size_t channelIndex)
     //
     if (channelIndex && channelIndex == controller_.getNumOutputChannels()) {
         LOGTOUT << "NOOP" << std::endl;
-	return true;
+        return true;
     }
 
     // Make sure we have a valid sequence counter for a given channelIndex.
     //
     while (channelIndex >= sequenceNumbers_.size()) {
-	LOGDEBUG << "expanding sequenceNumber vector" << std::endl;
-	sequenceNumbers_.push_back(0);
+        LOGDEBUG << "expanding sequenceNumber vector" << std::endl;
+        sequenceNumbers_.push_back(0);
     }
 
     // Set the message sequence counter.
@@ -179,7 +177,7 @@ void*
 Algorithm::FormatInfoValue(const char* value)
 {
     size_t len;
-    if (! value || (len = strlen(value)) == 0) return nullptr;
+    if (!value || (len = strlen(value)) == 0) return nullptr;
     auto buffer = new char[len + 1];
     strcpy(buffer, value);
     return buffer;

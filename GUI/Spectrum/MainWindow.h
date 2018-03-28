@@ -7,7 +7,9 @@
 
 #include "ui_MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -21,19 +23,18 @@ class SpectrumWidget;
 
 /** Main window for the Spectrum application.
  */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
         \param history application history buffer for all Video messages.
 
-	\param basis DisplayView to duplicate
+        \param basis DisplayView to duplicate
     */
     MainWindow();
 
@@ -48,7 +49,7 @@ public:
     void saveToSettings(QSettings& settings);
 
     void restoreFromSettings(QSettings& settings);
-						   
+
 private slots:
 
     void showCursorPosition(const QPointF& pos);
@@ -76,7 +77,6 @@ private slots:
     void channelChanged(const QString& name);
 
 private:
-
     void closeEvent(QCloseEvent* event);
 
     SpectrumWidget* display_;

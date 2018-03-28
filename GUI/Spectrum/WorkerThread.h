@@ -5,7 +5,9 @@
 
 #include "Messages/Video.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,12 +15,11 @@ namespace Spectrum {
 
 class WorkRequest;
 
-class WorkerThread : public QThread
-{
+class WorkerThread : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     /** Log device to use for WorkerThread log messages.
 
         \return Log device
@@ -44,7 +45,6 @@ private slots:
     void threadProcess();
 
 private:
-
     void run();
 
     WorkRequest* workRequest_;

@@ -8,11 +8,9 @@
 namespace SideCar {
 namespace GUI {
 
-class QRadioButtonSetting : public BoolSetting
-{
+class QRadioButtonSetting : public BoolSetting {
 public:
-    QRadioButtonSetting(PresetManager* mgr, QRadioButton* widget,
-                        bool global = false);
+    QRadioButtonSetting(PresetManager* mgr, QRadioButton* widget, bool global = false);
 };
 
 } // end namespace GUI

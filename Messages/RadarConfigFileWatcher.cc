@@ -16,20 +16,20 @@ RadarConfigFileWatcher::loadFile(const std::string& path)
 
     QDomDocument doc;
     QFile file(path.c_str());
-    if (! file.open(QIODevice::ReadOnly)) {
-	LOGERROR << "failed to open file " << path << std::endl;
-	return false;
+    if (!file.open(QIODevice::ReadOnly)) {
+        LOGERROR << "failed to open file " << path << std::endl;
+        return false;
     }
 
-    if (! doc.setContent(&file)) {
-	LOGERROR << "failed to parse configuration file " << path << std::endl;
-	return false;
+    if (!doc.setContent(&file)) {
+        LOGERROR << "failed to parse configuration file " << path << std::endl;
+        return false;
     }
 
     QDomNode radar(doc.elementsByTagName("radar").at(0));
-    if (! RadarConfig::Load(radar.toElement())) {
-	LOGERROR << "invalid configuration file " << path << std::endl;
-	return false;
+    if (!RadarConfig::Load(radar.toElement())) {
+        LOGERROR << "invalid configuration file " << path << std::endl;
+        return false;
     }
 
     return true;

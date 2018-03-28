@@ -44,8 +44,7 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), writer_(0)
+MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), writer_(0)
 {
     Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -53,49 +52,36 @@ MainWindow::MainWindow()
     setupUi(this);
 #ifdef __DEBUG__
     setWindowTitle("PPIDisplay (DEBUG)");
-#else 
+#else
     setWindowTitle("PPIDisplay");
 #endif
 
     App* app = getApp();
     Configuration* cfg = app->getConfiguration();
     updatePresetActions();
-    connect(cfg, SIGNAL(presetDirtyStateChanged(int, bool)),
-            SLOT(updatePresetActions()));
-    connect(cfg, SIGNAL(activePresetChanged(int)),
-            SLOT(updatePresetActions()));
+    connect(cfg, SIGNAL(presetDirtyStateChanged(int, bool)), SLOT(updatePresetActions()));
+    connect(cfg, SIGNAL(activePresetChanged(int)), SLOT(updatePresetActions()));
 
     // Associate QAction objects with configuration settings.
     //
     cfg->getVideoImaging()->setToggleEnabledAction(actionViewToggleVideo_);
     cfg->getBinaryImaging()->setToggleEnabledAction(actionViewToggleBinary_);
-    cfg->getExtractionsImaging()->setToggleEnabledAction(
-	actionViewToggleExtractions_);
-    cfg->getRangeTruthsImaging()->setToggleEnabledAction(
-	actionViewToggleRangeTruths_);
-    cfg->getBugPlotsImaging()->setToggleEnabledAction(
-	actionViewToggleBugPlots_);
-    cfg->getRangeMapImaging()->setToggleEnabledAction(
-	actionViewToggleRangeMap_);
-    cfg->getRangeRingsImaging()->setToggleEnabledAction(
-	actionViewToggleRangeRings_);
-    cfg->getBackgroundImageSettings()->setToggleEnabledAction(
-	actionViewToggleBackground_);
-    cfg->getShowCursorPositionSetting()->setToggleEnabledAction(
-	actionViewToggleShowCursorPosition_);
-    cfg->getShowPhantomCursorSetting()->setToggleEnabledAction(
-	actionViewTogglePhantomCursor_);
+    cfg->getExtractionsImaging()->setToggleEnabledAction(actionViewToggleExtractions_);
+    cfg->getRangeTruthsImaging()->setToggleEnabledAction(actionViewToggleRangeTruths_);
+    cfg->getBugPlotsImaging()->setToggleEnabledAction(actionViewToggleBugPlots_);
+    cfg->getRangeMapImaging()->setToggleEnabledAction(actionViewToggleRangeMap_);
+    cfg->getRangeRingsImaging()->setToggleEnabledAction(actionViewToggleRangeRings_);
+    cfg->getBackgroundImageSettings()->setToggleEnabledAction(actionViewToggleBackground_);
+    cfg->getShowCursorPositionSetting()->setToggleEnabledAction(actionViewToggleShowCursorPosition_);
+    cfg->getShowPhantomCursorSetting()->setToggleEnabledAction(actionViewTogglePhantomCursor_);
 
-    connect(cfg->getPhantomCursorImaging(), SIGNAL(enabledChanged(bool)),
-            actionViewTogglePhantomCursor_, SLOT(setEnabled(bool)));
-    actionViewTogglePhantomCursor_->setEnabled(
-	cfg->getPhantomCursorImaging()->isEnabled());
+    connect(cfg->getPhantomCursorImaging(), SIGNAL(enabledChanged(bool)), actionViewTogglePhantomCursor_,
+            SLOT(setEnabled(bool)));
+    actionViewTogglePhantomCursor_->setEnabled(cfg->getPhantomCursorImaging()->isEnabled());
 
-    connect(cfg->getShowCursorPositionSetting(),
-            SIGNAL(enabledChanged(bool)), display_,
+    connect(cfg->getShowCursorPositionSetting(), SIGNAL(enabledChanged(bool)), display_,
             SLOT(setShowCursorPosition(bool)));
-    display_->setShowCursorPosition(
-	cfg->getShowCursorPositionSetting()->isEnabled());
+    display_->setShowCursorPosition(cfg->getShowCursorPositionSetting()->isEnabled());
 
     // Associate icons with QAction objects
     //
@@ -131,7 +117,7 @@ MainWindow::MainWindow()
 
     ToolBar* toolBar;
     QAction* action;
-    
+
     // Create a toolbar for the QAction objects that toggle tool window.
     //
     toolBar = makeToolBar("Tool Windows", Qt::LeftToolBarArea);
@@ -152,39 +138,29 @@ MainWindow::MainWindow()
     //
     toolBar = makeToolBar("Layer Controls", Qt::LeftToolBarArea);
     toolBar->addAction(actionViewToggleVideo_);
-    QToolButton* toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleVideo_));
+    QToolButton* toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleVideo_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(cfg->getVideoChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(cfg->getVideoChannel(), toolButton));
 
     toolBar->addAction(actionViewToggleBinary_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleBinary_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleBinary_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(cfg->getBinaryChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(cfg->getBinaryChannel(), toolButton));
 
     toolBar->addAction(actionViewToggleExtractions_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleExtractions_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleExtractions_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(cfg->getExtractionsChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(cfg->getExtractionsChannel(), toolButton));
 
     toolBar->addAction(actionViewToggleRangeTruths_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleRangeTruths_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleRangeTruths_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(cfg->getRangeTruthsChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(cfg->getRangeTruthsChannel(), toolButton));
 
     toolBar->addAction(actionViewToggleBugPlots_);
-    toolButton = qobject_cast<QToolButton*>(
-	toolBar->widgetForAction(actionViewToggleBugPlots_));
+    toolButton = qobject_cast<QToolButton*>(toolBar->widgetForAction(actionViewToggleBugPlots_));
     toolButton->setPopupMode(QToolButton::DelayedPopup);
-    toolButton->setMenu(
-	new ChannelMenu(cfg->getBugPlotsChannel(), toolButton));
+    toolButton->setMenu(new ChannelMenu(cfg->getBugPlotsChannel(), toolButton));
 
     toolBar->addAction(actionViewToggleRangeMap_);
     toolBar->addAction(actionViewToggleRangeRings_);
@@ -210,15 +186,13 @@ MainWindow::MainWindow()
     //
     CursorWidget* cursorWidget = new CursorWidget(statusBar());
     statusBar()->addPermanentWidget(cursorWidget);
-    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)),
-            cursorWidget, SLOT(showCursorPosition(const QPointF&)));
+    connect(app, SIGNAL(phantomCursorChanged(const QPointF&)), cursorWidget, SLOT(showCursorPosition(const QPointF&)));
 
     // Radar info widget
     //
     RadarInfoWidget* radarInfoWidget = new RadarInfoWidget(statusBar());
     statusBar()->addPermanentWidget(radarInfoWidget);
-    connect(display_, SIGNAL(currentMessage(Messages::PRIMessage::Ref)),
-            radarInfoWidget,
+    connect(display_, SIGNAL(currentMessage(Messages::PRIMessage::Ref)), radarInfoWidget,
             SLOT(showMessageInfo(Messages::PRIMessage::Ref)));
 
     // Channel connection info widget
@@ -242,28 +216,23 @@ MainWindow::MainWindow()
 
     PresetChooser* presetChooser = new PresetChooser(cfg, toolBar);
     toolBar->addWidget(presetChooser);
-    connect(cfg, SIGNAL(presetDirtyStateChanged(int, bool)),
-            SLOT(monitorPresets(int, bool)));
-    
+    connect(cfg, SIGNAL(presetDirtyStateChanged(int, bool)), SLOT(monitorPresets(int, bool)));
+
     // Create a toolbar to display the colormap
     //
     toolBar = makeToolBar("Video ColorMap", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    ColorMapWidget* colorMapWidget =
-	new ColorMapWidget(cfg->getVideoSampleCountTransform(), toolBar);
+    ColorMapWidget* colorMapWidget = new ColorMapWidget(cfg->getVideoSampleCountTransform(), toolBar);
     toolBar->addWidget(colorMapWidget);
     VideoImaging* videoImaging = cfg->getVideoImaging();
     colorMapWidget->setColorMap(videoImaging->getColorMap());
-    connect(videoImaging, SIGNAL(colorMapChanged(const QImage&)),
-            colorMapWidget, SLOT(setColorMap(const QImage&)));
-    connect(colorMapWidget, SIGNAL(changeColorMapType(int)),
-            videoImaging, SLOT(setColorMapType(int)));
+    connect(videoImaging, SIGNAL(colorMapChanged(const QImage&)), colorMapWidget, SLOT(setColorMap(const QImage&)));
+    connect(colorMapWidget, SIGNAL(changeColorMapType(int)), videoImaging, SLOT(setColorMapType(int)));
 
     // Create a toolbar for the history control
     //
     toolBar = makeToolBar("History", Qt::TopToolBarArea);
-    HistoryWidget* historyWidget = new HistoryWidget(app->getHistory(),
-                                                     toolBar);
+    HistoryWidget* historyWidget = new HistoryWidget(app->getHistory(), toolBar);
     toolBar->addWidget(historyWidget);
     toolBar->toggleVisibility();
 
@@ -271,8 +240,7 @@ MainWindow::MainWindow()
     //
     toolBar = makeToolBar("Plot Symbols", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    TargetPlotSymbolsWidget* symbolsWidget =
-	new TargetPlotSymbolsWidget(toolBar);
+    TargetPlotSymbolsWidget* symbolsWidget = new TargetPlotSymbolsWidget(toolBar);
     toolBar->addWidget(symbolsWidget);
     symbolsWidget->connectExtractionsSymbolType(cfg->getExtractionsImaging());
     symbolsWidget->connectRangeTruthsSymbolType(cfg->getRangeTruthsImaging());
@@ -287,11 +255,8 @@ MainWindow::MainWindow()
     controlsWidget->addControl("Max", cfg->getCutoffMaxSetting());
     toolBar->addWidget(controlsWidget);
 
-    connect(cfg->getShowPhantomCursorSetting(),
-            SIGNAL(enabledChanged(bool)), display_,
-            SLOT(showPhantomCursor(bool)));
-    display_->showPhantomCursor(
-	cfg->getShowPhantomCursorSetting()->isEnabled());
+    connect(cfg->getShowPhantomCursorSetting(), SIGNAL(enabledChanged(bool)), display_, SLOT(showPhantomCursor(bool)));
+    display_->showPhantomCursor(cfg->getShowPhantomCursorSetting()->isEnabled());
 }
 
 void
@@ -306,14 +271,14 @@ void
 MainWindow::closeEvent(QCloseEvent* event)
 {
     App* app = getApp();
-    
+
     // Since we are the only window that should be alive, tell the application to quit. Only do this if the
     // application is not already in the process of shutting down.
     //
-    if (! app->isQuitting()) {
-	event->ignore();
-	QTimer::singleShot(0, app, SLOT(applicationQuit()));
-	return;
+    if (!app->isQuitting()) {
+        event->ignore();
+        QTimer::singleShot(0, app, SLOT(applicationQuit()));
+        return;
     }
 
     Super::closeEvent(event);
@@ -334,21 +299,20 @@ MainWindow::on_actionViewZoomOut__triggered()
 void
 MainWindow::on_actionViewPanLeft__triggered()
 {
-    display_->pan(-0.5,  0.0);
+    display_->pan(-0.5, 0.0);
 }
 
 void
 MainWindow::on_actionViewPanRight__triggered()
 {
-    display_->pan(0.5,  0.0);
+    display_->pan(0.5, 0.0);
 }
 
 void
 MainWindow::on_actionViewPanUp__triggered()
 {
-    display_->pan(0.0,  0.5);
+    display_->pan(0.0, 0.5);
 }
-
 
 void
 MainWindow::on_actionViewPanDown__triggered()
@@ -447,8 +411,8 @@ MainWindow::restoreFromSettings(QSettings& settings)
 void
 MainWindow::monitorPresets(int index, bool isDirty)
 {
-    if (! isDirty)
-	statusBar()->showMessage("Preset saved.", 5000);
+    if (!isDirty)
+        statusBar()->showMessage("Preset saved.", 5000);
     else
-	statusBar()->showMessage("Preset changed.", 5000);
+        statusBar()->showMessage("Preset changed.", 5000);
 }

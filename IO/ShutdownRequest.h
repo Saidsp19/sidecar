@@ -9,8 +9,7 @@ namespace IO {
 /** Control message that causes ShutdownMonitor to stop ACE all processing, effectively shutting down all
     streams, modules, and tasks.
 */
-class ShutdownRequest : public ControlMessage
-{
+class ShutdownRequest : public ControlMessage {
 public:
     ShutdownRequest() : ControlMessage(kShutdown, 0) {}
     ShutdownRequest(ACE_Message_Block* data) : ControlMessage(data) {}

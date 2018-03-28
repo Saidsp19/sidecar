@@ -7,7 +7,9 @@ class QComboBox;
 #include "GUI/StringSetting.h"
 #include "IO/ZeroconfRegistry.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,13 +20,11 @@ class Subscriber;
 /** Derivation of StringSetting that works with a QComboBox widget to display and change a subscription channel
     setting. Uses the QComboBox::currentIndexChanged() signal to detect changes in the widget.
 */
-class ChannelSetting : public StringSetting,
-		       public IO::ZeroconfTypes::Subscriber
-{
+class ChannelSetting : public StringSetting, public IO::ZeroconfTypes::Subscriber {
     Q_OBJECT
     using Super = StringSetting;
-public:
 
+public:
     /** Log device for objects of this class
 
         \return log device
@@ -33,8 +33,7 @@ public:
 
     static QString GetChannelName(const std::string& typeName);
 
-    ChannelSetting(const std::string& typeName, PresetManager* mgr,
-                   QComboBox* widget = 0, bool global = false);
+    ChannelSetting(const std::string& typeName, PresetManager* mgr, QComboBox* widget = 0, bool global = false);
 
     void connectWidget(QComboBox* widget);
 
@@ -73,9 +72,8 @@ private slots:
     void dataAvailable();
 
 private:
-
     /** Override of StringSetting::valueUpdated() method. Records the new value and emits the valueChanged(int
-	) and valueChanged(QString) signals.
+        ) and valueChanged(QString) signals.
     */
     void valueUpdated();
 

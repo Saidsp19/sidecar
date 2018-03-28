@@ -13,12 +13,11 @@ namespace GUI {
 
 namespace BScope {
 
-class FramesListSettings : public SettingsBlock
-{
+class FramesListSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     FramesListSettings(QSpinBoxSetting* scalingPower);
 
     int getScalingPower() const { return scalingPower_->getValue(); }
@@ -36,7 +35,6 @@ private slots:
     void changeScale(int power);
 
 private:
-
     static double GetScale(int power) { return ::pow(1.25, power); }
 
     QSpinBoxSetting* scalingPower_;

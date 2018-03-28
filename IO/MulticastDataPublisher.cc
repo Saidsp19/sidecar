@@ -27,8 +27,7 @@ MulticastDataPublisher::Make()
     return ref;
 }
 
-MulticastDataPublisher::MulticastDataPublisher()
-    : Super(), writer_(), heartBeatReader_(), timer_(-1), heartBeats_()
+MulticastDataPublisher::MulticastDataPublisher() : Super(), writer_(), heartBeatReader_(), timer_(-1), heartBeats_()
 {
     ;
 }
@@ -52,12 +51,11 @@ MulticastDataPublisher::openAndInit(const std::string& key, const std::string& s
                                     const std::string& multicastAddress, long threadFlags, long threadPriority)
 {
     Logger::ProcLog log("openAndInit", Log());
-    LOGINFO << "key: " << key << " serviceName: " << serviceName
-	    << " address: " << multicastAddress
-	    << " threadFlags: " << std::hex << threadFlags << std::dec
-	    << " threadPriority: " << threadPriority << std::endl;
+    LOGINFO << "key: " << key << " serviceName: " << serviceName << " address: " << multicastAddress
+            << " threadFlags: " << std::hex << threadFlags << std::dec << " threadPriority: " << threadPriority
+            << std::endl;
 
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
     threadFlags_ = threadFlags;
     threadPriority_ = threadPriority;
@@ -78,11 +76,10 @@ MulticastDataPublisher::openAndInit(const std::string& key, const std::string& s
     // The system will assign us a port number to use.
     //
     ACE_INET_Addr address(u_short(0), "0.0.0.0", AF_INET);
-    LOGDEBUG << "opening UDP socket with address "
-	     << Utils::INETAddrToString(address) << std::endl;
+    LOGDEBUG << "opening UDP socket with address " << Utils::INETAddrToString(address) << std::endl;
     if (device.open(address, AF_INET, 0, 1) == -1) {
-	LOGERROR << "failed to open multicast writer at " << multicastAddress << std::endl;
-	return false;
+        LOGERROR << "failed to open multicast writer at " << multicastAddress << std::endl;
+        return false;
     }
 
     LOGDEBUG << "opened socket " << writer_.getDevice().get_handle() << std::endl;
@@ -91,8 +88,8 @@ MulticastDataPublisher::openAndInit(const std::string& key, const std::string& s
     //
     unsigned char ttl = 10;
     if (device.set_option(IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(ttl)) == -1) {
-	LOGERROR << "failed to set TTL for " << multicastAddress << std::endl;
-	return false;
+        LOGERROR << "failed to set TTL for " << multicastAddress << std::endl;
+        return false;
     }
 
     // Fetch the port assigned to us by the system.
@@ -112,24 +109,24 @@ MulticastDataPublisher::openAndInit(const std::string& key, const std::string& s
     //
     std::string serviceType(MakeZeroconfType(key));
     LOGDEBUG << "serviceType: " << serviceType << std::endl;
-    setType(serviceType);	// Our unique service ID
-    setPort(port);		// Our unique port number
-    setHost(multicastAddress); // Our assigned multicast address 
+    setType(serviceType);      // Our unique service ID
+    setPort(port);             // Our unique port number
+    setHost(multicastAddress); // Our assigned multicast address
 
     // Create our heart-beat reader. First, open a new UDP socket so we can get its system-assigned port value.
     //
     address.set(uint16_t(0));
     if (heartBeatReader_.open(address) == -1) {
-	LOGERROR << "failed to create heart-beat UDP reader" << std::endl;
-	return false;
+        LOGERROR << "failed to create heart-beat UDP reader" << std::endl;
+        return false;
     }
 
     // Install ourselves in the global ACE_Reactor so that we receive notification when there is data available
     // on the heart-beat port.
     //
     if (reactor()->register_handler(heartBeatReader_.get_handle(), this, ACE_Event_Handler::READ_MASK) == -1) {
-	LOGERROR << "failed to register heart-beat input handler" << std::endl;
-	return false;
+        LOGERROR << "failed to register heart-beat input handler" << std::endl;
+        return false;
     }
 
     // Fetch the port assigned to us by the system.
@@ -145,10 +142,9 @@ MulticastDataPublisher::openAndInit(const std::string& key, const std::string& s
 
     // Now we are ready to publish our connection information.
     //
-    if (! publish(serviceName)) {
-	LOGERROR << "failed to publish connection with name '" << serviceName << " type: " << serviceType
-                 << std::endl;
-	return false;
+    if (!publish(serviceName)) {
+        LOGERROR << "failed to publish connection with name '" << serviceName << " type: " << serviceType << std::endl;
+        return false;
     }
 
     // Create a timer to periodically check for expired connections.
@@ -182,30 +178,29 @@ MulticastDataPublisher::close(u_long flags)
     LOGINFO << "flags: " << flags << std::endl;
 
     if (flags) {
+        // Disable the message queue. This will signal our writer thread to exit. Be sure and wait until it
+        // does.
+        //
+        if (!msg_queue()->deactivated()) {
+            msg_queue()->deactivate();
+            wait();
+        }
 
-	// Disable the message queue. This will signal our writer thread to exit. Be sure and wait until it
-	// does.
-	//
-	if (! msg_queue()->deactivated()) {
-	    msg_queue()->deactivate();
-	    wait();
-	}
-
-	// Now shutdown the writer and heart-beat UDP reader.
-	//
-	writer_.getDevice().close();
-	reactor()->remove_handler(heartBeatReader_.get_handle(),
+        // Now shutdown the writer and heart-beat UDP reader.
+        //
+        writer_.getDevice().close();
+        reactor()->remove_handler(heartBeatReader_.get_handle(),
                                   ACE_Event_Handler::READ_MASK | ACE_Event_Handler::DONT_CALL);
-	heartBeatReader_.close();
+        heartBeatReader_.close();
 
-	// Stop the heart-beat timer
-	//
-	if (timer_ != -1) {
-	    reactor()->cancel_timer(timer_);
-	    timer_ = -1;
-	}
+        // Stop the heart-beat timer
+        //
+        if (timer_ != -1) {
+            reactor()->cancel_timer(timer_);
+            timer_ = -1;
+        }
 
-	heartBeats_.clear();
+        heartBeats_.clear();
     }
 
     return Super::close(flags);
@@ -224,8 +219,8 @@ MulticastDataPublisher::handle_input(ACE_HANDLE handle)
     ACE_INET_Addr address;
     ssize_t count = heartBeatReader_.recv(buffer, sizeof(buffer), address);
     if (count < 1) {
-	LOGERROR << "failed recv - " << errno << ' ' << strerror(errno) << std::endl;
-	return 0;
+        LOGERROR << "failed recv - " << errno << ' ' << strerror(errno) << std::endl;
+        return 0;
     }
 
     std::string msg(buffer);
@@ -235,23 +230,20 @@ MulticastDataPublisher::handle_input(ACE_HANDLE handle)
     //
     std::string key(Utils::INETAddrToString(address));
     if (key.size() == 0) {
-	LOGERROR << "failed INETAddrToString" << std::endl;
-	return 0;
+        LOGERROR << "failed INETAddrToString" << std::endl;
+        return 0;
     }
 
     LOGDEBUG << "key: " << key << std::endl;
     if (msg == "HI") {
-
-	// Update the timestamp for the client address. This also works for first-time additions.
-	//
-	heartBeats_[key] = Time::TimeStamp::Now();
-    }
-    else if (msg == "BYE") {
-
-	// Remove the entry for the client address.
-	//
-	HeartBeatMap::iterator pos = heartBeats_.find(key);
-	if (pos != heartBeats_.end()) heartBeats_.erase(pos);
+        // Update the timestamp for the client address. This also works for first-time additions.
+        //
+        heartBeats_[key] = Time::TimeStamp::Now();
+    } else if (msg == "BYE") {
+        // Remove the entry for the client address.
+        //
+        HeartBeatMap::iterator pos = heartBeats_.find(key);
+        if (pos != heartBeats_.end()) heartBeats_.erase(pos);
     }
 
     updateUsingDataValue();
@@ -279,18 +271,16 @@ MulticastDataPublisher::handle_timeout(const ACE_Time_Value& duration, const voi
     HeartBeatMap::iterator pos = heartBeats_.begin();
     HeartBeatMap::iterator end = heartBeats_.end();
     while (pos != end) {
-	if (pos->second > limit) {
-	    ++pos;
-	}
-	else {
-
-	    // !!! Erasing an item from std::map affects only affects iterators pointing to the item. So, we
-	    // !!! need to advance our loop iterator before peforming the erase.
-	    //
-	    HeartBeatMap::iterator tmp = pos++;
-	    LOGDEBUG << "forgetting " << pos->first << std::endl;
-	    heartBeats_.erase(tmp);
-	}
+        if (pos->second > limit) {
+            ++pos;
+        } else {
+            // !!! Erasing an item from std::map affects only affects iterators pointing to the item. So, we
+            // !!! need to advance our loop iterator before peforming the erase.
+            //
+            HeartBeatMap::iterator tmp = pos++;
+            LOGDEBUG << "forgetting " << pos->first << std::endl;
+            heartBeats_.erase(tmp);
+        }
     }
 
     updateUsingDataValue();
@@ -301,9 +291,9 @@ MulticastDataPublisher::handle_timeout(const ACE_Time_Value& duration, const voi
 bool
 MulticastDataPublisher::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 {
-    if (! isUsingData()) {
-	data->release();
-	return true;
+    if (!isUsingData()) {
+        data->release();
+        return true;
     }
 
     return putq(data, timeout) != -1;
@@ -317,10 +307,8 @@ MulticastDataPublisher::svc()
 
     ACE_Message_Block* data;
     while (getq(data) != -1) {
-	MessageManager mgr(data);
-	if (! writer_.write(mgr)) {
-	    LOGERROR << "failed to send the message" << std::endl;
-	}
+        MessageManager mgr(data);
+        if (!writer_.write(mgr)) { LOGERROR << "failed to send the message" << std::endl; }
     }
 
     return 0;
@@ -329,5 +317,5 @@ MulticastDataPublisher::svc()
 bool
 MulticastDataPublisher::calculateUsingDataValue() const
 {
-    return ! heartBeats_.empty() || Super::calculateUsingDataValue();
+    return !heartBeats_.empty() || Super::calculateUsingDataValue();
 }

@@ -1,15 +1,17 @@
 #ifndef SIDECAR_GUI_MASTER_CONFIGURATIONCONTROLLER_H // -*- C++ -*-
 #define SIDECAR_GUI_MASTER_CONFIGURATIONCONTROLLER_H
 
-#include "QtCore/QObject"
 #include "QtCore/QModelIndex"
+#include "QtCore/QObject"
 #include "QtCore/QString"
 #include "QtCore/QStringList"
 
 class QItemSelection;
 class QTimer;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -25,12 +27,11 @@ class RunnerItem;
 /** Controller class for the ConfigurationModel and the QTableView used to show loaded configuration files.
     Starts/stops configurations and keeps track of SideCar runner status for the running configurations.
 */
-class ConfigurationController : public QObject
-{
+class ConfigurationController : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Log device to use for RecordingController log messages.
 
         \return Log device
@@ -39,12 +40,11 @@ public:
 
     /** Constructor.
 
-        \param window 
+        \param window
 
-        \param settings 
+        \param settings
     */
-    ConfigurationController(MainWindow& window,
-                            ConfigurationSettings& settings);
+    ConfigurationController(MainWindow& window, ConfigurationSettings& settings);
 
     QStringList restore();
 
@@ -94,18 +94,15 @@ private slots:
 
     void shutdownAll();
 
-    void updateColumns(const QModelIndex& topLeft,
-                       const QModelIndex& bottomRight);
+    void updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
-    void currentSelectionChanged(const QModelIndex& current,
-                                 const QModelIndex& previous);
+    void currentSelectionChanged(const QModelIndex& current, const QModelIndex& previous);
 
     void editConfiguration(const QModelIndex& index);
 
     void adjustColumnSizes();
 
 private:
-
     ConfigurationInfo* addPath(const QString& path, bool restoring);
     void updatePaths();
     void updateButtons();

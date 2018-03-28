@@ -16,12 +16,11 @@ namespace Spectrum {
 class Settings;
 class SpectrumWidget;
 
-class ViewEditor : public ToolWindowBase, public Ui::ViewEditor
-{
+class ViewEditor : public ToolWindowBase, public Ui::ViewEditor {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     ViewEditor(int shortcut);
 
     ViewSettings makeView() const;
@@ -67,8 +66,7 @@ private slots:
     void addPreset();
 
 private:
-
-    void showView(const ViewSettings& view); 
+    void showView(const ViewSettings& view);
 
     ViewSettings getView(int index) const;
 

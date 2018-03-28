@@ -6,7 +6,9 @@
 
 #include "QtXml/QDomElement"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Configuration {
@@ -15,10 +17,8 @@ class Loader;
 
 /** Simple container class that holds attributes relating to a particular runner in a configuration file.
  */
-class RunnerConfig
-{
+class RunnerConfig {
 public:
-
     /** Obtain the log device for RunnerConfig objects.
 
         \return Logger::Log reference
@@ -26,20 +26,21 @@ public:
     static Logger::Log& Log();
 
     struct Init {
+        Init() :
+            name(""), opts(""), host("localhost"), multicastAddress("237.1.2.100"), scheduler("SCHED_INHERIT"),
+            priority("ACE_DEFAULT_THREAD_PRIORITY"), cpuAffinity("0"), initialProcessingState("run")
+        {
+        }
 
-	Init() :
-	    name(""), opts(""), host("localhost"), multicastAddress("237.1.2.100"), scheduler("SCHED_INHERIT"),
-	    priority("ACE_DEFAULT_THREAD_PRIORITY"), cpuAffinity("0"), initialProcessingState("run") {}
-
-	QString name;
-	QString opts;
-	QString host;
-	QString multicastAddress;
-	QString scheduler;
-	QString priority;
-	QString cpuAffinity;
-	QString initialProcessingState;
-	QList<QDomElement> streams;
+        QString name;
+        QString opts;
+        QString host;
+        QString multicastAddress;
+        QString scheduler;
+        QString priority;
+        QString cpuAffinity;
+        QString initialProcessingState;
+        QList<QDomElement> streams;
     };
 
     /** Constructor for a new RunnerConfig object
@@ -56,7 +57,7 @@ public:
 
         \param logsDirectory location where log files will be deposited
 
-        \param streams 
+        \param streams
     */
     RunnerConfig(const Loader& loader, const Init& init);
 
@@ -92,14 +93,14 @@ public:
     const QString& getServiceName() const { return serviceName_; }
 
     /** Obtain the requested scheduler for the runner. This can be one of : SCHED_INHERIT, SCHED_OTHER,
-	SCHED_FIFO, SCHED_RR
+        SCHED_FIFO, SCHED_RR
 
         \return thread flags
     */
     const QString& getScheduler() const { return cfg_.scheduler; }
 
     /** Obtain the requested priority for the runner.
-        
+
         \return priority
     */
     const QString& getPriority() const { return cfg_.priority; }
@@ -113,25 +114,25 @@ public:
     const QString& getInitialProcessingState() const { return cfg_.initialProcessingState; }
 
     /** Obtain the location of the log file for the runner process
-        
+
         \return log file path
     */
     const QString& getLogPath() const { return logPath_; }
 
     /** Obtain the command to execute that will run the runner process on the configured remote host.
-        
+
         \return command line string
     */
     const QString& getRemoteCommand() const { return remoteCommand_; }
 
     /** Obtain a list of XML nodes that define the streams in the runner process.
-        
+
         \return QList of XML nodes
     */
     const QList<QDomElement>& getStreamNodes() const { return cfg_.streams; }
 
     /** Update the service name due to a name conflict with something else running in the local LAN.
-        
+
         \param serviceName new name to use for the service
     */
     void setServiceName(const QString& serviceName);

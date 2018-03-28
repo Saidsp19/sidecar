@@ -9,41 +9,27 @@ namespace SideCar {
 namespace GUI {
 namespace RangeTruthEmitter {
 
-struct Segment
-{
-    Segment() : xVel_(0.0), yVel_(0.0), zVel_(0.0),
-		xAcc_(0.0), yAcc_(0.0), zAcc_(0.0),
-		duration_(10.0), end_(0.0) {}
-    double xVel_;		// m/s
-    double yVel_;		// m/s
-    double zVel_;		// m/s
-    double xAcc_;		// m/s2
-    double yAcc_;		// m/s2
-    double zAcc_;		// m/s2
-    double duration_;		// seconds;
+struct Segment {
+    Segment() : xVel_(0.0), yVel_(0.0), zVel_(0.0), xAcc_(0.0), yAcc_(0.0), zAcc_(0.0), duration_(10.0), end_(0.0) {}
+    double xVel_;     // m/s
+    double yVel_;     // m/s
+    double zVel_;     // m/s
+    double xAcc_;     // m/s2
+    double yAcc_;     // m/s2
+    double zAcc_;     // m/s2
+    double duration_; // seconds;
     double end_;
 };
 
 /** Model class for SideCar services discovered via Zeroconfig. Contains the concrete data that describes each
     service.
 */
-class SegmentModel : public QAbstractTableModel
-{
+class SegmentModel : public QAbstractTableModel {
     Q_OBJECT
     using Super = QAbstractTableModel;
-public:
 
-    enum Columns {
-	kDuration = 0,
-	kXVel,
-	kYVel,
-	kZVel,
-	kXAcc,
-	kYAcc,
-	kZAcc,
-	kEnd,
-	kNumColumns
-    };
+public:
+    enum Columns { kDuration = 0, kXVel, kYVel, kZVel, kXAcc, kYAcc, kZAcc, kEnd, kNumColumns };
 
     static QString GetColumnName(int index);
 
@@ -53,17 +39,15 @@ public:
 
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
-    int rowCount( const QModelIndex& parent = QModelIndex()) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     Qt::ItemFlags flags(const QModelIndex& index) const;
 
-    bool setData(const QModelIndex& index, const QVariant& value,
-                 int role = Qt::EditRole);
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
     void addRow(int row);
 
@@ -72,7 +56,7 @@ public:
     void moveUp(int row);
 
     void moveDown(int row);
- 
+
     void deleteRow(int row);
 
     void setRunning(bool state) { running_ = state; }
@@ -90,7 +74,6 @@ signals:
     void segmentChanged();
 
 private:
-
     void setLastActiveRow(int row);
     void updateEnds();
 
@@ -101,7 +84,7 @@ private:
     static const char* kColumnNames_[kNumColumns];
 };
 
-} // end namespace Master
+} // namespace RangeTruthEmitter
 } // end namespace GUI
 } // end namespace SideCar
 

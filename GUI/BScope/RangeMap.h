@@ -9,12 +9,11 @@ namespace BScope {
 
 class ViewSettings;
 
-class RangeMap : public SideCar::GUI::RangeMap
-{
+class RangeMap : public SideCar::GUI::RangeMap {
     Q_OBJECT
     using Super = SideCar::GUI::RangeMap;
-public:
 
+public:
     RangeMap();
 
 private slots:
@@ -22,7 +21,6 @@ private slots:
     void viewSettingsChanged();
 
 private:
-
     void addVertex(const Vertex& vertex);
 
     double azimuthMin_;
@@ -30,7 +28,6 @@ private:
     Vertex last_;
     ViewSettings* viewSettings_;
 };
-
 
 } // end namespace BScope
 } // end namespace GUI

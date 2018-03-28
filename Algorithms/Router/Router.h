@@ -12,21 +12,15 @@ namespace Algorithms {
 /** Documentation for the algorithm Router. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class Router : public Algorithm
-{
+class Router : public Algorithm {
     using Super = Algorithm;
+
 public:
-
     enum Channel {
-	kMinValue = 1,
+        kMinValue = 1,
     };
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kInputChannel,
-        kOutputChannel,
-        kNumSlots
-    };
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kInputChannel, kOutputChannel, kNumSlots };
 
     /** Constructor.
 
@@ -50,7 +44,6 @@ public:
     bool shutdown();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -66,7 +59,7 @@ private:
     void endParameterChanges();
 
     struct ChannelEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Channel;
+        using ValueType = Channel;
     };
 
     using ChannelParameter = Parameter::TValue<Parameter::Defs::DynamicEnum<ChannelEnumTraits>>;

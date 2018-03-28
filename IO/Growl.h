@@ -20,10 +20,8 @@ namespace IO {
     To use, create a new Growler instance, add one one or more notification names, and when desired invoked
     notify() to emit send out a Growl UDP message.
 */
-class Growler
-{
+class Growler {
 public:
-
     /** Constructor for a new Growler object
 
         \param name the name to emit under
@@ -83,7 +81,6 @@ public:
                 int priority = 0, bool sticky = false);
 
 private:
-
     struct Destination;
 
     bool emitRegistration(boost::shared_ptr<Destination> destination);
@@ -93,7 +90,7 @@ private:
     std::vector<std::string> notifications_;
     std::vector<unsigned char> defaults_;
 
-    using DestinationList = std::list<boost::shared_ptr<Destination> >;
+    using DestinationList = std::list<boost::shared_ptr<Destination>>;
     DestinationList destinations_;
 
     boost::scoped_ptr<ACE_SOCK_Dgram> socket_;

@@ -7,10 +7,8 @@ namespace GUI {
 /** Utility class that turns on Open/GL stencil buffer tesing only if it is used, and disables it when
     destructed.
 */
-class StencilBufferState
-{
+class StencilBufferState {
 public:
-
     /** Constructor. Assumes that GL_STENCIL_TEST is not enabled.
      */
     StencilBufferState() : using_(false) {}

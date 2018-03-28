@@ -19,10 +19,10 @@ using namespace SideCar::Messages;
  */
 struct TestData {
     enum {
-	kNumSamples = 12,	// Number of samples in the test data
-	kNumCopies = 1,	// Number of copies to make of the sample data
-	kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
-	kNumIterations = 1		     // Number times to use
+        kNumSamples = 12,                    // Number of samples in the test data
+        kNumCopies = 1,                      // Number of copies to make of the sample data
+        kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
+        kNumIterations = 1                   // Number times to use
     };
 
     SlidingOp::Operation op;
@@ -35,55 +35,128 @@ struct TestData {
 
 TestData data[] = {
     {
-	SlidingOp::kSumOp, -1, 3, 0,
-	{ 1, 2, 3,  4,  5,  6,  7,  8,  9, 10, 11, 12 },
-	{ 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 23 },
+        SlidingOp::kSumOp,
+        -1,
+        3,
+        0,
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+        {3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 23},
     },
     {
-	SlidingOp::kProdOp, -1, 3, 0,
-	{ 1, 2,  3,  4,   5,  6,  7,  8,  9, 10, 11, 12 },
-	{ 0, 6, 24, 60, 120, 210, 336, 504, 720, 990, 1320, 0 },
+        SlidingOp::kProdOp,
+        -1,
+        3,
+        0,
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+        {0, 6, 24, 60, 120, 210, 336, 504, 720, 990, 1320, 0},
+    },
+    {SlidingOp::kMinOp,
+     -2,
+     5,
+     0,
+     {
+         1,
+         2,
+         3,
+         4,
+         5,
+         4,
+         3,
+         2,
+         1,
+         2,
+         3,
+         4,
+     },
+     {
+         0,
+         0,
+         1,
+         2,
+         3,
+         2,
+         1,
+         1,
+         1,
+         1,
+         0,
+         0,
+     }},
+    {
+        SlidingOp::kMaxOp,
+        -1,
+        3,
+        0,
+        {
+            1,
+            2,
+            3,
+            4,
+            5,
+            4,
+            3,
+            2,
+            1,
+            2,
+            3,
+            4,
+        },
+        {
+            2,
+            3,
+            4,
+            5,
+            5,
+            5,
+            4,
+            3,
+            2,
+            3,
+            4,
+            4,
+        },
     },
     {
-	SlidingOp::kMinOp, -2, 5, 0,
-	{ 1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, },
-	{ 0, 0, 1, 2, 3, 2, 1, 1, 1, 1, 0, 0, }
+        SlidingOp::kAverageOp,
+        -1,
+        3,
+        0,
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 8},
     },
     {
-	SlidingOp::kMaxOp, -1, 3, 0,
-	{ 1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, },
-	{ 2, 3, 4, 5, 5, 5, 4, 3, 2, 3, 4, 4, },
+        SlidingOp::kAverageOp,
+        -2,
+        5,
+        0,
+        {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
+        {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1},
     },
     {
-	SlidingOp::kAverageOp, -1, 3, 0,
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 8 },
+        SlidingOp::kMedianOp,
+        -1,
+        3,
+        0,
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11},
     },
     {
-	SlidingOp::kAverageOp, -2, 5, 0,
-	{ 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3 },
-	{ 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-    },
-    {
-	SlidingOp::kMedianOp, -1, 3, 0,
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11 },
-    },
-    {
-	SlidingOp::kMedianOp, -1, 3, 12,
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
-	{ 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+        SlidingOp::kMedianOp,
+        -1,
+        3,
+        12,
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
+        {2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
     },
 };
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum {
 
-	// Number of messages defined in the TestData container above.
-	//
-	kNumTestDefinitions = sizeof(data) / sizeof(TestData),
-	kNumTests = kNumTestDefinitions * TestData::kNumIterations,
+        // Number of messages defined in the TestData container above.
+        //
+        kNumTestDefinitions = sizeof(data) / sizeof(TestData),
+        kNumTests = kNumTestDefinitions * TestData::kNumIterations,
     };
 
     static Logger::Log& Log();
@@ -93,8 +166,8 @@ struct Test : public UnitTest::TestObj
     Test() : UnitTest::TestObj("SlidingOp"), controller_(), iteration_(0) {}
 
     /** Implementation of TestObj interface. Creates the processing Stream object, its internal Task objects,
-	properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
-	signals the event loop to exit.
+        properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
+        signals the event loop to exit.
     */
     void test();
 
@@ -111,7 +184,6 @@ struct Test : public UnitTest::TestObj
     void testOutput(size_t counter, const Video::Ref& output);
 
 private:
-
     Controller::Ref controller_;
     int iteration_;
 };
@@ -127,8 +199,7 @@ Test::Log()
     knows when the algorithm ahead of it in the stream emitted an output message. For data messages,
     deliverDataMessage() invokes the Test::testOutput() method.
 */
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
@@ -137,7 +208,11 @@ struct Sink : public Task
 
         \return new Sink object
     */
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     /** Install a reference to the active Test object so that deliverDataMessage() may invoke its testOutput()
         method.
@@ -157,7 +232,6 @@ struct Sink : public Task
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
 private:
-    
     Sink() : Task(true), counter_(0), test_(0) {}
 
     int counter_;
@@ -178,16 +252,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGINFO << "data: " << data << " test: " << test_ << std::endl;
 
     MessageManager mgr(data);
-    LOGDEBUG << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGDEBUG << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGDEBUG << msg->dataPrinter() << std::endl;
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGDEBUG << msg->dataPrinter() << std::endl;
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -285,8 +358,7 @@ Test::generateInput()
     // simulate real-world message sizes.
     //
     for (size_t count = 0; count < TestData::kNumCopies; ++count) {
-	std::copy(testData.input, testData.input + TestData::kNumSamples,
-                  std::back_inserter(msg->getData()));
+        std::copy(testData.input, testData.input + TestData::kNumSamples, std::back_inserter(msg->getData()));
     }
 
     LOGDEBUG << msg->dataPrinter() << std::endl;
@@ -312,9 +384,8 @@ Test::testOutput(size_t counter, const Video::Ref& msg)
     // in the TestData container.
     //
     for (size_t index = 0; index < TestData::kNumSamples; ++index) {
-	LOGDEBUG << index << " expected: " << int(testData.output[index])
-		 << std::endl;
-	assertEqual(int(testData.output[index]), int(msg[index]));
+        LOGDEBUG << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(int(testData.output[index]), int(msg[index]));
     }
 
     LOGDEBUG << "iteration: " << iteration_ << std::endl;
@@ -322,10 +393,9 @@ Test::testOutput(size_t counter, const Video::Ref& msg)
     // See if we are done with the test.
     //
     if (iteration_ == kNumTests) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

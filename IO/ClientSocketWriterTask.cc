@@ -7,8 +7,8 @@
 #include "IO/Module.h"
 #include "Logger/Log.h"
 
-#include "MessageManager.h"
 #include "ClientSocketWriterTask.h"
+#include "MessageManager.h"
 
 using namespace SideCar::IO;
 
@@ -48,7 +48,7 @@ ClientSocketWriterTask::OutputHandler::open(void* arg)
     // !!! this on Mac OS X (Darwin)
     //
 #ifdef darwin
-    int value = 64 * 1024;	// 64K IO buffer
+    int value = 64 * 1024; // 64K IO buffer
     if (peer().set_option(SOL_SOCKET, SO_SNDBUF, &value, sizeof(value)) == -1) {
         LOGERROR << "failed to set SO_SNDBUF to " << value << std::endl;
     }
@@ -81,7 +81,6 @@ ClientSocketWriterTask::OutputHandler::close(u_long flags)
     LOGINFO << flags << std::endl;
 
     if (flags && get_handle() != ACE_INVALID_HANDLE) {
-
         // Deactivate the message queue. This should stop the processing thread.
         //
         msg_queue()->deactivate();
@@ -119,38 +118,30 @@ ClientSocketWriterTask::OutputHandler::svc()
     ACE_Message_Block* data = 0;
 
     for (;;) {
-
         if (data == 0) {
-
             // If we fail here, it could be that the message queue is in a PULSED state, which indicates that
             // the connection to the server has gone down. This will continue until our open() method is invoked
             // after a new connection has been established.
             //
             if (getq(data) == -1) {
                 if (msg_queue()->state() == ACE_Message_Queue_Base::PULSED) {
-                    if (! connector_->reconnect()) break;
-                }
-                else {
+                    if (!connector_->reconnect()) break;
+                } else {
                     break;
                 }
                 continue;
             }
-        }
-        else {
-
+        } else {
             MessageManager manager(data);
             if (manager.hasNative()) {
-
                 // If our writer fails to write out data, assume it is a connection problem and try and
                 // reconnect. NOTE: the MessageManager always takes ownership of the given data block, so if we
                 // fail to write but we resume a connection then we obtain a duplicate of the data block before
                 // we loop back. Otherwise, our held data pointer will be destroyed when the MessageManager
                 // object goes out of scope.
                 //
-                if (! writer_.write(manager)) {
-                    if (! connector_->reconnect()) {
-                        break;
-                    }
+                if (!writer_.write(manager)) {
+                    if (!connector_->reconnect()) { break; }
 
                     data = data->duplicate();
                     continue;
@@ -186,7 +177,7 @@ ClientSocketWriterTask::Connector::openAndInit(const ACE_INET_Addr& remoteAddres
         return false;
     }
 
-    if (! doconnect()) {
+    if (!doconnect()) {
         LOGERROR << "failed to start connection attempt" << std::endl;
         return false;
     }
@@ -201,8 +192,8 @@ ClientSocketWriterTask::Connector::doconnect()
     LOGINFO << "BEGIN" << std::endl;
 
     if (shutdown_) {
-	LOGWARNING << "shutting down" << std::endl;
-	return false;
+        LOGWARNING << "shutting down" << std::endl;
+        return false;
     }
 
     OutputHandler* tmp = &outputHandler_;
@@ -210,21 +201,20 @@ ClientSocketWriterTask::Connector::doconnect()
     LOGERROR << "Super::connect: " << rc << " - " << errno << std::endl;
 
     if (rc == -1) {
-	if (timer_ == -1) {
-	    LOGERROR << "scheduling connection attempt" << std::endl;
-	    const ACE_Time_Value delay(1);
-	    const ACE_Time_Value repeat(1);
-	    timer_ = reactor()->schedule_timer(this, 0, delay, repeat);
-	    if (timer_ == -1) {
-		LOGERROR << "failed to schedule timer for reconnect attempt" << std::endl;
-		return false;
-	    }
-	}
-    }
-    else if (timer_ != -1) {
-	LOGERROR << "connected - canceling timer" << std::endl;
-	reactor()->cancel_timer(timer_);
-	timer_ = -1;
+        if (timer_ == -1) {
+            LOGERROR << "scheduling connection attempt" << std::endl;
+            const ACE_Time_Value delay(1);
+            const ACE_Time_Value repeat(1);
+            timer_ = reactor()->schedule_timer(this, 0, delay, repeat);
+            if (timer_ == -1) {
+                LOGERROR << "failed to schedule timer for reconnect attempt" << std::endl;
+                return false;
+            }
+        }
+    } else if (timer_ != -1) {
+        LOGERROR << "connected - canceling timer" << std::endl;
+        reactor()->cancel_timer(timer_);
+        timer_ = -1;
     }
 
     return true;
@@ -253,8 +243,8 @@ ClientSocketWriterTask::Connector::close()
     LOGINFO << std::endl;
 
     if (timer_ != -1) {
-	reactor()->cancel_timer(this);
-	timer_ = -1;
+        reactor()->cancel_timer(this);
+        timer_ = -1;
     }
 
     // Close our server socket and our output handler.
@@ -275,11 +265,11 @@ ClientSocketWriterTask::openAndInit(const std::string& key, const std::string& h
 
     setMetaTypeInfoKeyName(key);
 
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
     ACE_INET_Addr remoteAddress;
     remoteAddress.set(port, hostName.c_str(), 1, AF_INET);
-    if (! connector_.openAndInit(remoteAddress, reactor())) {
+    if (!connector_.openAndInit(remoteAddress, reactor())) {
         LOGERROR << "failed Connector::init" << std::endl;
         return false;
     }

@@ -10,14 +10,13 @@ class ACE_OutputCDR;
 /** Utility ACE CDR input stream extractor for C++ string objects. Reads in a 4 byte size followed by that
     number of characters.
 
-    \param cdr stream to read from 
+    \param cdr stream to read from
 
     \param string string to change
 
     \return stream read from
 */
-extern bool
-operator>>(ACE_InputCDR& cdr, std::string& string);
+extern bool operator>>(ACE_InputCDR& cdr, std::string& string);
 
 /** Utility ACE CDR output stream inserter for C++ string objects. Writes out a 4 byte size followed by the
     characters from the string.
@@ -28,13 +27,11 @@ operator>>(ACE_InputCDR& cdr, std::string& string);
 
     \return stream written to
 */
-extern bool
-operator<<(ACE_OutputCDR& cdr, const std::string& string);
+extern bool operator<<(ACE_OutputCDR& cdr, const std::string& string);
 
 namespace Utils {
 
 extern std::string INETAddrToString(const ACE_INET_Addr& address);
-
 }
 
 /** \file

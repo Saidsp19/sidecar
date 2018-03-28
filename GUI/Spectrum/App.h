@@ -5,7 +5,9 @@
 #include "GUI/MessageList.h"
 #include "Messages/PRIMessage.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -33,20 +35,14 @@ class WorkRequest;
 /** Application class definition. Manages tool windows shared by all MainWindow objects. Also creates a History
     object that other classes use to obtain Video data for display.
 */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Menu action enumeration for tool window show/hide actions.
      */
-    enum ToolsMenuAction {
-	kShowConfigurationWindow,
-	kShowViewEditor,
-	kShowPresetsWindow,
-	kNumToolsMenuActions
-    };
+    enum ToolsMenuAction { kShowConfigurationWindow, kShowViewEditor, kShowPresetsWindow, kNumToolsMenuActions };
 
     /** Log device to use for App log messages.
 
@@ -68,8 +64,7 @@ public:
     */
     App(int& argc, char** argv);
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     Configuration* getConfiguration() const { return configuration_; }
 
@@ -79,16 +74,13 @@ public:
 
         \return ConfigurationWindow window
     */
-    ViewEditor* getViewEditor() const
-	{ return viewEditor_; }
+    ViewEditor* getViewEditor() const { return viewEditor_; }
 
-    MainWindow* getMainWindow() const
-	{ return mainWindow_; }
+    MainWindow* getMainWindow() const { return mainWindow_; }
 
     SpectrographWindow* getSpectrographWindow();
 
-    PresetsWindow* getPresetsWindow() const
-	{ return presetsWindow_; }
+    PresetsWindow* getPresetsWindow() const { return presetsWindow_; }
 
 public slots:
 
@@ -107,7 +99,6 @@ private slots:
     void applicationQuit();
 
 private:
-
     /** Override of AppBase method. Create a MainWindow object after the applicadtion has finished starting up.
 
         \return new MainWindow object

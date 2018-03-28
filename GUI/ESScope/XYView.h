@@ -5,7 +5,9 @@
 #include "QtGui/QLabel"
 #include "QtGui/QWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,16 +18,15 @@ class ScaleWidget;
 class ViewSettings;
 class XYWidget;
 
-class XYView : public QWidget
-{
+class XYView : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
-    XYView(QWidget* parent, ViewSettings* viewSettings, const QString& title,
-           const QString& xLabel, const QString& yLabel);
+    XYView(QWidget* parent, ViewSettings* viewSettings, const QString& title, const QString& xLabel,
+           const QString& yLabel);
 
     double getCursorX() const { return cursorX_; }
     double getCursorY() const { return cursorY_; }
@@ -48,15 +49,11 @@ private slots:
     void updateGridPositions();
 
 protected:
+    virtual QString formatXValue(double value) const { return QString::number(value, 'f', 3); }
 
-    virtual QString formatXValue(double value) const
-	{ return QString::number(value, 'f', 3); }
-    
-    virtual QString formatYValue(double value) const
-	{ return QString::number(value, 'f', 3); }
+    virtual QString formatYValue(double value) const { return QString::number(value, 'f', 3); }
 
 protected:
-
     void setXYWidget(XYWidget* display);
 
     void showEvent(QShowEvent* event);

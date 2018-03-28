@@ -1,13 +1,13 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include <cmath>		// for std::abs
+#include <cmath> // for std::abs
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 
-#include "TestObj.h"
 #include "RunResults.h"
+#include "TestObj.h"
 
 using namespace UnitTest;
 
@@ -25,37 +25,35 @@ UnitTestException::printXML(std::ostream& os) const
 {
     os << "   <Name>" << testName_ << "</Name>\n";
     if (file_.size())
-	os << "   <Location>\n"
-	   << "    <File>" << file_ << "</File>\n"
-	   << "    <Line>" << line_ << "</Line>\n"
-	   << "   </Location>\n";
+        os << "   <Location>\n"
+           << "    <File>" << file_ << "</File>\n"
+           << "    <Line>" << line_ << "</Line>\n"
+           << "   </Location>\n";
     os << "   <Message>" << msg_ << "</Message>\n";
     return os;
 }
 
 /** Utility class that installs an unexpected exception handler during the instance's lifetime.
  */
-struct UH
-{
+struct UH {
     /** Constructor. Installs new handler and remembers the old one
 
         \param f new handler to install
     */
     UH() : prev(std::set_unexpected(&UH::Unexpected)) {}
-    
+
     /** Destructor. Restores the previous unexpected exception handler.
      */
     ~UH() { std::set_unexpected(prev); }
 
 private:
-
     std::unexpected_handler prev;
 
     static void Unexpected()
-	{
-	    std::cerr << "*** unexpected error *** - " << currentTest_ << std::endl;
-	    throw std::bad_exception();
-	}
+    {
+        std::cerr << "*** unexpected error *** - " << currentTest_ << std::endl;
+        throw std::bad_exception();
+    }
 };
 
 RunResults&
@@ -63,25 +61,22 @@ TestObj::run(RunResults& rr) throw()
 {
     // Run test as long as unit testing is not stopped.
     //
-    if (! rr.isStopped()) {
-	std::cerr << "... " << name_ << std::endl;
-	try {
-	    currentTest_ = name_;
-	    test();
-	    rr.addOK(testName());
-	}
-	catch(const UnitTestException& e) {
-	    std::cerr << "*** caught UnitTestException" << std::endl;
-	    rr.addFailure(e);
-	}
-	catch (const std::exception& e) {
-	    std::cerr << "*** caught std::exception" << std::endl;
-	    rr.addError(UnitTestException(e.what(), currentTest_));
-	}
-	catch (...) {
-	    std::cerr << "*** caught unknown error" << std::endl;
-	    rr.addError(UnitTestException("unknown error", currentTest_));
-	}
+    if (!rr.isStopped()) {
+        std::cerr << "... " << name_ << std::endl;
+        try {
+            currentTest_ = name_;
+            test();
+            rr.addOK(testName());
+        } catch (const UnitTestException& e) {
+            std::cerr << "*** caught UnitTestException" << std::endl;
+            rr.addFailure(e);
+        } catch (const std::exception& e) {
+            std::cerr << "*** caught std::exception" << std::endl;
+            rr.addError(UnitTestException(e.what(), currentTest_));
+        } catch (...) {
+            std::cerr << "*** caught unknown error" << std::endl;
+            rr.addError(UnitTestException("unknown error", currentTest_));
+        }
     }
     return rr;
 }
@@ -114,13 +109,12 @@ TestObj::throwError(const char* tag, const std::string& expected, const std::str
 }
 
 void
-TestObj::throwError(const char* tag, double expected, double actual, double delta, double epsilon,
-                    const char* file, int line) const throw(UnitTestException)
+TestObj::throwError(const char* tag, double expected, double actual, double delta, double epsilon, const char* file,
+                    int line) const throw(UnitTestException)
 {
     std::ostringstream os("");
     os.precision(10);
-    os << tag << " [" << expected << "], got [" << actual << "] - delta: " << delta << " epsilon: [" << epsilon
-       << ']';
+    os << tag << " [" << expected << "], got [" << actual << "] - delta: " << delta << " epsilon: [" << epsilon << ']';
     std::string s(os.str());
     std::cerr << "*** throwing UnitTestException - " << s << std::endl;
     throw UnitTestException(s, file, line, testName());
@@ -131,28 +125,28 @@ TestObj::mainRun(std::ostream* os) throw()
 {
     char* fileName = ::getenv("UNIT_TEST_DIR");
     if (fileName && *fileName) {
-	std::string path(fileName);
-	path += '/';
-	path += testName();
-	path += ".xml";
-	os = new std::ofstream(path.c_str());
+        std::string path(fileName);
+        path += '/';
+        path += testName();
+        path += ".xml";
+        os = new std::ofstream(path.c_str());
     }
 
     UnitTest::RunResults rr;
     run(rr);
 
     if (os) {
-	char* useXML = ::getenv("UNIT_TEST_XML");
-	if (useXML && *useXML > '0')
-	    rr.printXML(*os);
-	else
-	    rr.printText(*os);
+        char* useXML = ::getenv("UNIT_TEST_XML");
+        if (useXML && *useXML > '0')
+            rr.printXML(*os);
+        else
+            rr.printText(*os);
     }
 
     if (fileName && *fileName) {
-	static_cast<std::ofstream*>(os)->close();
-	delete os;
+        static_cast<std::ofstream*>(os)->close();
+        delete os;
     }
-    
+
     return rr.passed() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -1,11 +1,10 @@
 #include <stdlib.h>
 
 #include "Logger/Log.h"
-#include "UnitTest/UnitTest.h"
 #include "RunningAverage.h"
+#include "UnitTest/UnitTest.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("RunningAverage") {}
     void test();
 };

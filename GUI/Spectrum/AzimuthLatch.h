@@ -14,12 +14,11 @@ class PresetManager;
 
 namespace Spectrum {
 
-class AzimuthLatch : public QWidget, private Ui_AzimuthLatch
-{
+class AzimuthLatch : public QWidget, private Ui_AzimuthLatch {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     AzimuthLatch(QWidget* parent = 0);
 
     bool check(double radians);
@@ -29,7 +28,6 @@ private slots:
     void handleEnabledChanged(bool state);
 
 private:
-
     void updateCaughtIndicator();
 
     double lastAzimuth_;

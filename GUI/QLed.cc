@@ -8,8 +8,7 @@
 
 #include "QLed.h"
 
-QLed::QLed(QWidget* parent)
-    : QWidget(parent), value_(false), pending_(false), color_(Qt::red)
+QLed::QLed(QWidget* parent) : QWidget(parent), value_(false), pending_(false), color_(Qt::red)
 {
     ;
 }
@@ -25,21 +24,19 @@ QLed::paintEvent(QPaintEvent*)
     painter.drawEllipse(1, 1, width() - 2, height() - 2);
 
     if (value_) {
-	QRadialGradient radialGrad(QPointF(0.32 * width(), 0.32 * height()),
-                                   0.68 * std::min(width(), height()));
-	radialGrad.setColorAt(0, color_.lighter(190));
-	radialGrad.setColorAt(1, color_);
-	painter.setPen(Qt::NoPen);
-	painter.setBrush(radialGrad);
-	painter.drawEllipse(1, 1, width() - 2, height() - 2);
+        QRadialGradient radialGrad(QPointF(0.32 * width(), 0.32 * height()), 0.68 * std::min(width(), height()));
+        radialGrad.setColorAt(0, color_.lighter(190));
+        radialGrad.setColorAt(1, color_);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(radialGrad);
+        painter.drawEllipse(1, 1, width() - 2, height() - 2);
     }
 
     if (pending_) {
-
-	// Dim the LED with a grey overlay.
-	//
-	painter.setBrush(QColor(128, 128, 128, 128));
-	painter.drawEllipse(1, 1, width() - 2, height() - 2);
+        // Dim the LED with a grey overlay.
+        //
+        painter.setBrush(QColor(128, 128, 128, 128));
+        painter.drawEllipse(1, 1, width() - 2, height() - 2);
     }
 }
 
@@ -67,7 +64,7 @@ QLed::setPending(bool value)
 
 void
 QLed::toggleValue()
-{ 
-    setValue(! getValue());
+{
+    setValue(!getValue());
     update();
 }

@@ -11,21 +11,18 @@ namespace GUI {
 /** Derivation of DoubleSetting that works with a QDoubleSpinBox widget to display and change setting values.
     Uses the QDoubleSpinBox::editingFinished() signal to detect changes in the widget.
 */
-class QDoubleSpinBoxSetting : public DoubleSetting
-{
+class QDoubleSpinBoxSetting : public DoubleSetting {
     Q_OBJECT
 public:
-
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param widget 
+        \param widget
 
-        \param global 
+        \param global
     */
-    QDoubleSpinBoxSetting(PresetManager* mgr, QDoubleSpinBox* widget,
-                          bool global = false);
+    QDoubleSpinBoxSetting(PresetManager* mgr, QDoubleSpinBox* widget, bool global = false);
 
     QDoubleSpinBox* duplicate(QWidget* parent = 0);
 

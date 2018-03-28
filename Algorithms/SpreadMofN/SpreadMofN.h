@@ -13,12 +13,10 @@ namespace Algorithms {
 /** Documentation for the algorithm SpreadMofN. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class SpreadMofN : public CPIAlgorithm
-{
+class SpreadMofN : public CPIAlgorithm {
     using Super = CPIAlgorithm;
 
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -41,8 +39,8 @@ public:
     bool shutdown();
 
     bool cpiSpanChanged(const Parameter::PositiveIntValue& parameter);
-private:
 
+private:
     /** Process messages from channel
 
         \param msg the input message to process
@@ -50,7 +48,6 @@ private:
         \returns true if no error; false otherwise
     */
     bool processCPI();
-
 
     // Add attributes here
     //

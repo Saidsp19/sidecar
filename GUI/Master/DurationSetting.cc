@@ -8,10 +8,8 @@ convertTimeToDuration(const QTime& time)
     return time.hour() * 3600 + time.minute() * 60 + time.second();
 }
 
-DurationSetting::DurationSetting(PresetManager* mgr, QTimeEdit* widget,
-                                 bool global)
-    : Super(mgr, widget, global),
-      duration_(convertTimeToDuration(widget->time()))
+DurationSetting::DurationSetting(PresetManager* mgr, QTimeEdit* widget, bool global) :
+    Super(mgr, widget, global), duration_(convertTimeToDuration(widget->time()))
 {
     ;
 }

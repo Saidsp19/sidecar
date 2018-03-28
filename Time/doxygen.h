@@ -8,7 +8,8 @@ namespace SideCar {
 
 /** Namespace for entities that handle SideCar time.
  */
-namespace Time {}
+namespace Time {
+}
 
 } // end namespace SideCar
 

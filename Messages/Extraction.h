@@ -1,15 +1,17 @@
-#ifndef SIDECAR_MESSAGES_EXTRACTION_H	// -*- C++ -*-
+#ifndef SIDECAR_MESSAGES_EXTRACTION_H // -*- C++ -*-
 #define SIDECAR_MESSAGES_EXTRACTION_H
 
-#include <vector>
 #include "boost/shared_ptr.hpp"
+#include <vector>
 
 #include "IO/CDRStreamable.h"
 #include "IO/Printable.h"
 #include "Messages/Attributes.h"
 #include "Messages/Header.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
@@ -18,10 +20,8 @@ namespace Messages {
     rectangular coordinates. NOTE: the conversion follows the nautical convention that 0 degrees is north, and
     not the mathematical one (ie x := r * sin(a), not r * cos(a)).
 */
-class Extraction : public IO::CDRStreamable<Extraction>, public IO::Printable<Extraction>
-{
+class Extraction : public IO::CDRStreamable<Extraction>, public IO::Printable<Extraction> {
 public:
-
     /** Constructor for new extraction entries.
 
         \param range range of the artifact
@@ -64,25 +64,25 @@ public:
 
     /** Obtain whether this extraction is correlated
 
-	\return boolean
+        \return boolean
     */
     bool getCorrelated() const { return correlated_; }
 
     /** Set whether this extraction is correlated
 
-	\param corr correlated
+        \param corr correlated
     */
     void setCorrelated(bool corr) { correlated_ = corr; }
 
     /** Obtain the number of scans this extraction has been correlated for
 
-	\return num correlations
+        \return num correlations
     */
     int getNumCorrelations() const { return numCorrelations_; }
 
     /** Sets the number of scans this extraction has been correlated for
 
-	\param corr -- # of scans
+        \param corr -- # of scans
     */
     void setNumCorrelations(int corr) { numCorrelations_ = corr; }
 
@@ -111,8 +111,10 @@ public:
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
 
     std::ostream& print(std::ostream& os) const
-	{ return os << "When: " << when_ << " Range: " << range_ << " Azimuth: " << azimuth_ << " Elevation: "
-		    << elevation_; }
+    {
+        return os << "When: " << when_ << " Range: " << range_ << " Azimuth: " << azimuth_
+                  << " Elevation: " << elevation_;
+    }
 
     std::ostream& printXML(std::ostream& os) const;
 
@@ -120,9 +122,9 @@ public:
 
 private:
     Time::TimeStamp when_;
-    double range_;		///< Range of extracted object
-    double azimuth_;		///< Azimuth of extracted object
-    double elevation_;		///< Elevation of extracted object
+    double range_;     ///< Range of extracted object
+    double azimuth_;   ///< Azimuth of extracted object
+    double elevation_; ///< Elevation of extracted object
     double x_, y_;
     Attributes attributes_;
     bool correlated_;
@@ -132,8 +134,7 @@ private:
 /** Container of Extraction objects. The interface is similar to that for TPRIMessage objects, but it does not
     derive from PRIMessageBase since the elements may not have the same azimuth value.
 */
-class Extractions : public Header, public IO::Printable<Extractions>
-{
+class Extractions : public Header, public IO::Printable<Extractions> {
 public:
     using Container = std::vector<Extraction>;
     using iterator = Container::iterator;
@@ -143,51 +144,53 @@ public:
 
     /** Reference-counting reference to message object. Derived from boost::shared_ptr to allow [] indexing.
      */
-    class Ref : public boost::shared_ptr<Extractions>
-    {
+    class Ref : public boost::shared_ptr<Extractions> {
     public:
-	using Base = boost::shared_ptr<Extractions>;
+        using Base = boost::shared_ptr<Extractions>;
 
-	/** Default constructor.
-	 */
-	Ref() : Base() {}
+        /** Default constructor.
+         */
+        Ref() : Base() {}
 
-	/** Constructor that takes ownership of a Extractions object
+        /** Constructor that takes ownership of a Extractions object
 
-	    \param self object to acquire
-	*/
-	Ref(Extractions* obj) : Base(obj) {}
+            \param self object to acquire
+        */
+        Ref(Extractions* obj) : Base(obj) {}
 
-	/** Conversion constructor for boost::shared_ptr objects.
+        /** Conversion constructor for boost::shared_ptr objects.
 
-	    \param r shared ptr to share
-	*/
-	Ref(Base const& copy) : Base(copy) {}
+            \param r shared ptr to share
+        */
+        Ref(Base const& copy) : Base(copy) {}
 
-	/** Obtain a read-only reference to the item at a given position
+        /** Obtain a read-only reference to the item at a given position
 
-	    \param index position to dereference
+            \param index position to dereference
 
-	    \return data reference
-	*/
-	const Extraction& operator[](size_t index) const
-	    { return Base::get()->operator[](index); }
+            \return data reference
+        */
+        const Extraction& operator[](size_t index) const { return Base::get()->operator[](index); }
 
-	/** Obtain a reference to the item at a given position
+        /** Obtain a reference to the item at a given position
 
-	    \param index position to dereference
+            \param index position to dereference
 
-	    \return data reference
-	*/
-	Extraction& operator[](size_t index) { return Base::get()->operator[](index); }
+            \return data reference
+        */
+        Extraction& operator[](size_t index) { return Base::get()->operator[](index); }
 
-	/** Assignment operator.
+        /** Assignment operator.
 
-	    \param rhs object to copy from
+            \param rhs object to copy from
 
-	    \return reference to self
-	*/
-	Ref& operator=(Ref const& rhs) { Base::operator=(rhs); return *this; }
+            \return reference to self
+        */
+        Ref& operator=(Ref const& rhs)
+        {
+            Base::operator=(rhs);
+            return *this;
+        }
     };
 
     static Ref Make(const std::string& producer, const Header::Ref& basis);
@@ -288,21 +291,17 @@ public:
     std::ostream& printDataXML(std::ostream& os) const;
 
 protected:
+    Extractions() : Header(GetMetaTypeInfo()) {}
 
-    Extractions()
-	: Header(GetMetaTypeInfo()) {}
+    Extractions(const std::string& producer) : Header(producer, GetMetaTypeInfo()) {}
 
-    Extractions(const std::string& producer)
-	: Header(producer, GetMetaTypeInfo()) {}
-
-    Extractions(const std::string& producer, const Header::Ref& basis)
-	: Header(producer, GetMetaTypeInfo(), basis) {}
+    Extractions(const std::string& producer, const Header::Ref& basis) : Header(producer, GetMetaTypeInfo(), basis) {}
 
 private:
     Container data_;
 
     void loadXML(XmlStreamReader& xsr);
-    
+
     /** Create a new Extractions object from data provided by a data source.
 
         \param source data provider

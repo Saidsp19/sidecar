@@ -15,13 +15,11 @@ namespace Algorithms {
     sequence number. In other words, the sequence number must be present on all enabled channels for the
     algorithm to emit a summed messages.
 */
-class Summer : public ManyInAlgorithm
-{
+class Summer : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
     using VideoChannelBuffer = TChannelBuffer<Messages::Video>;
 
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -31,7 +29,6 @@ public:
     Summer(Controller& controller, Logger::Log& log);
 
 private:
-
     /** Create a new ChannelBuffer object for Video messages. Also creates and registers a BoolParameter object
         for runtime editing of the enabled state of the ChannelBuffer object.
 
@@ -41,13 +38,12 @@ private:
 
         \return new ChannelBuffer object
     */
-    ChannelBuffer* makeChannelBuffer(int channelIndex, const std::string& name,
-                                     size_t maxBufferSize);
+    ChannelBuffer* makeChannelBuffer(int channelIndex, const std::string& name, size_t maxBufferSize);
 
     /** Implementation of ManyInAlgorithm::processChannels() method. Creates a mesage with summed sample values
         and emits it.
 
-        \return 
+        \return
     */
     bool processChannels();
 };

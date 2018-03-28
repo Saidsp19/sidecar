@@ -21,8 +21,8 @@ Preamble::load(ACE_InputCDR& cdr)
     cdr >> byteOrder_;
     cdr.reset_byte_order(byteOrder_ ? 1 : 0);
     cdr >> size_;
-    LOGDEBUG << "magicTag: " << std::hex << magicTag_ << std::dec << " byteOrder: " << byteOrder_
-             << " size: " << size_ << std::endl;
+    LOGDEBUG << "magicTag: " << std::hex << magicTag_ << std::dec << " byteOrder: " << byteOrder_ << " size: " << size_
+             << std::endl;
     return cdr;
 }
 

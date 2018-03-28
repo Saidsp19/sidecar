@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "QtCore/QLineF"
-#include "QtCore/QPointF"
 #include "QtCore/QObject"
+#include "QtCore/QPointF"
 #include "QtCore/QSizeF"
 #include "QtGui/QColor"
 
@@ -27,8 +27,7 @@ class Visualizer;
     data, and then at the next Visualizer update, it draws the render data of
     all of the input channels in one shot.
 */
-class RenderInfo : public QObject
-{
+class RenderInfo : public QObject {
     Q_OBJECT
 public:
     using QPointFVector = std::vector<QPointF>;
@@ -41,8 +40,8 @@ public:
 
         \param visible state of visibility for the channel
     */
-    RenderInfo(Visualizer& visualizer, PeakBarCollection& peakBars,
-               const QColor& color, bool visible, bool showPeakBars);
+    RenderInfo(Visualizer& visualizer, PeakBarCollection& peakBars, const QColor& color, bool visible,
+               bool showPeakBars);
 
     /** Assign a unique slot from the History manager for this instance.
 
@@ -55,33 +54,33 @@ public:
         \return true if so
     */
     bool isVisible() const { return visible_; }
-    
+
     /** Obtain whether channel data is frozen at some frame.
 
         \return true if so
     */
     bool isFrozen() const { return frozen_; }
 
-    /** 
+    /**
 
-        \return 
+        \return
     */
     bool showPeakBars() const { return showPeakBars_; }
 
 public slots:
-    
+
     /** Change the rendering color for the channel
 
         \param color new color to use
     */
     void setColor(const QColor& color);
-    
+
     /** Change the visibility state of the channel
 
         \param state new state
     */
     void setVisible(bool state);
-    
+
     /** Change the frozen state of the channel. If frozen, future data messages will not change the rendering of
         a channel.
 
@@ -89,9 +88,9 @@ public slots:
     */
     void setFrozen(bool state);
 
-    /** 
+    /**
 
-        \param state 
+        \param state
     */
     void setShowPeakBars(bool state);
 

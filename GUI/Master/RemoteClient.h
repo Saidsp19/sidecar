@@ -8,7 +8,9 @@
 
 class QTcpSocket;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,12 +18,11 @@ namespace Master {
 
 /** TCP command interface that allows control of the recordings via command-line utility.
  */
-class RemoteClient : public QObject
-{
+class RemoteClient : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Log device to use for RemoteClient log messages.
 
         \return Log device
@@ -37,7 +38,6 @@ private slots:
     void readyRead();
 
 private:
-
     void setError(QByteArray& buffer, RecordingController::Status status);
 
     RecordingController& parent_;

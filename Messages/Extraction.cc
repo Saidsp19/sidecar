@@ -7,12 +7,12 @@
 
 using namespace SideCar::Messages;
 
-MetaTypeInfo Extractions::metaTypeInfo_(MetaTypeInfo::Value::kExtractions, "Extractions",
-                                        &Extractions::CDRLoader, &Extractions::XMLLoader);
+MetaTypeInfo Extractions::metaTypeInfo_(MetaTypeInfo::Value::kExtractions, "Extractions", &Extractions::CDRLoader,
+                                        &Extractions::XMLLoader);
 
-Extraction::Extraction(const Time::TimeStamp& when, double range, double azimuth, double elevation)
-    : when_(when), range_(range), azimuth_(azimuth), elevation_(elevation), x_(range * ::sin(azimuth)),
-      y_(range * ::cos(azimuth))
+Extraction::Extraction(const Time::TimeStamp& when, double range, double azimuth, double elevation) :
+    when_(when), range_(range), azimuth_(azimuth), elevation_(elevation), x_(range * ::sin(azimuth)),
+    y_(range * ::cos(azimuth))
 {
     ;
 }
@@ -52,9 +52,8 @@ Extraction::write(ACE_OutputCDR& cdr) const
 std::ostream&
 Extraction::printXML(std::ostream& os) const
 {
-    return os << "<extraction when=\"" << when_ << "\" range=\"" << range_
-	      << "\" azimuth=\"" << Utils::radiansToDegrees(azimuth_)
-	      << "\" elevation=\"" << elevation_ << "\">\n";
+    return os << "<extraction when=\"" << when_ << "\" range=\"" << range_ << "\" azimuth=\""
+              << Utils::radiansToDegrees(azimuth_) << "\" elevation=\"" << elevation_ << "\">\n";
 }
 
 const MetaTypeInfo&
@@ -100,8 +99,8 @@ Extractions::load(ACE_InputCDR& cdr)
     cdr >> count;
     data_.reserve(count);
     while (count--) {
-	Extraction extraction(cdr);
-	data_.push_back(extraction);
+        Extraction extraction(cdr);
+        data_.push_back(extraction);
     }
 
     return cdr;
@@ -114,9 +113,7 @@ Extractions::write(ACE_OutputCDR& cdr) const
     uint32_t count = size();
     cdr << count;
     Container::const_iterator pos = data_.begin();
-    while (count--) {
-	cdr << *pos++;
-    }
+    while (count--) { cdr << *pos++; }
 
     return cdr;
 }
@@ -124,18 +121,14 @@ Extractions::write(ACE_OutputCDR& cdr) const
 std::ostream&
 Extractions::printData(std::ostream& os) const
 {
-    for (size_t index = 0; index < size(); ++index) {
-	os << index << ": " << data_[index] << '\n';
-    }
+    for (size_t index = 0; index < size(); ++index) { os << index << ": " << data_[index] << '\n'; }
     return os;
 }
 
 std::ostream&
 Extractions::printDataXML(std::ostream& os) const
 {
-    for (size_t index = 0; index < size(); ++index) {
-	data_[index].printXML(os);
-    }
+    for (size_t index = 0; index < size(); ++index) { data_[index].printXML(os); }
     return os;
 }
 
@@ -143,7 +136,5 @@ void
 Extractions::loadXML(XmlStreamReader& xsr)
 {
     Header::loadXML(xsr);
-    while (xsr.readNextEntityAndValidate("extraction")) {
-	data_.push_back(Extraction(xsr));
-    }
+    while (xsr.readNextEntityAndValidate("extraction")) { data_.push_back(Extraction(xsr)); }
 }

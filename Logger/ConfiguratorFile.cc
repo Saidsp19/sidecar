@@ -1,25 +1,25 @@
-#include <sys/stat.h>		// for struct stat
 #include <fstream>
 #include <iostream>
+#include <sys/stat.h> // for struct stat
 
 #include "ConfiguratorFile.h"
 
 using namespace Logger;
 
-ConfiguratorFile::CannotOpenConfigFile::CannotOpenConfigFile(const std::string& path)
-    : ConfiguratorException<CannotOpenConfigFile>("load", "failed to open config file - ")
+ConfiguratorFile::CannotOpenConfigFile::CannotOpenConfigFile(const std::string& path) :
+    ConfiguratorException<CannotOpenConfigFile>("load", "failed to open config file - ")
 {
     *this << path;
 }
 
-ConfiguratorFile::CannotAccessConfigFile::CannotAccessConfigFile(const std::string& path)
-    : ConfiguratorException<CannotAccessConfigFile>("load", "failed to access config file - ")
+ConfiguratorFile::CannotAccessConfigFile::CannotAccessConfigFile(const std::string& path) :
+    ConfiguratorException<CannotAccessConfigFile>("load", "failed to access config file - ")
 {
     *this << path;
 }
 
-ConfiguratorFile::ConfiguratorFile(const std::string& path)
-    : Configurator(), path_(path), lastModification_(0), monitor_(0)
+ConfiguratorFile::ConfiguratorFile(const std::string& path) :
+    Configurator(), path_(path), lastModification_(0), monitor_(0)
 {
     reload();
 }
@@ -31,8 +31,7 @@ ConfiguratorFile::~ConfiguratorFile()
 
 /** Functor that causes a Log object to remove all of its registered Writer objects.
  */
-struct PurgeLog
-{
+struct PurgeLog {
     /** Functor method that invokes Log::removeAllWriters() for a Log device.
 
         \param log Log device to work on.
@@ -47,7 +46,7 @@ ConfiguratorFile::reload()
     //
     time_t lm = getModificationTime();
     std::ifstream fs(path_.c_str());
-    if (! fs) throw CannotOpenConfigFile(path_);
+    if (!fs) throw CannotOpenConfigFile(path_);
 
     // Have all Log objects we created last time dump their Writer objects. Thus configuration changes will
     // affect how Log objects write out log messages.
@@ -69,9 +68,9 @@ ConfiguratorFile::getModificationTime() const
     return st.st_mtime;
 }
 
-ConfiguratorFile::Monitor::Monitor(ConfiguratorFile& config, double sleep)
-    : Threading::Thread(), config_(config), sleep_(sleep), stopRunningCondition_(Threading::Condition::Make()),
-      stopRunning_(false)
+ConfiguratorFile::Monitor::Monitor(ConfiguratorFile& config, double sleep) :
+    Threading::Thread(), config_(config), sleep_(sleep), stopRunningCondition_(Threading::Condition::Make()),
+    stopRunning_(false)
 {
     // This will spawn a new thread that runs the Monitor::run method.
     //
@@ -84,9 +83,9 @@ ConfiguratorFile::Monitor::run()
     // Loop forever until application quits or we've been asked to stop.
     //
     Threading::Locker lock(stopRunningCondition_);
-    while (! stopRunning_) {
-	if (config_.isStale()) config_.reload();
-	stopRunningCondition_->timedWaitForSignal(sleep_);
+    while (!stopRunning_) {
+        if (config_.isStale()) config_.reload();
+        stopRunningCondition_->timedWaitForSignal(sleep_);
     }
 }
 
@@ -123,14 +122,13 @@ void
 ConfiguratorFile::stopMonitor()
 {
     if (monitor_) {
+        // Signal the thread to stop, and wait for it to do so.
+        //
+        monitor_->die();
 
-	// Signal the thread to stop, and wait for it to do so.
-	//
-	monitor_->die();
-
-	// This is now safe, since the thread is no longer running.
-	//
-	delete monitor_;
-	monitor_ = 0;
+        // This is now safe, since the thread is no longer running.
+        //
+        delete monitor_;
+        monitor_ = 0;
     }
 }

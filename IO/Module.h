@@ -1,4 +1,4 @@
-#ifndef SIDECAR_IO_MODULE_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_MODULE_H // -*- C++ -*-
 #define SIDECAR_IO_MODULE_H
 
 #include <string>
@@ -7,7 +7,9 @@
 
 #include "IO/Task.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -18,10 +20,8 @@ class Stream;
     processing in the stream. Since our streams only process data in one direction (from stream head to tail),
     we only have one Task to worry about.
 */
-class Module : public ACE_Module<ACE_MT_SYNCH, ACE_System_Time_Policy>
-{
+class Module : public ACE_Module<ACE_MT_SYNCH, ACE_System_Time_Policy> {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor for a new Module object.
@@ -39,7 +39,6 @@ public:
     const Task::Ref& getTask() const { return task_; }
 
 protected:
-
     Task::Ref task_;
 };
 
@@ -47,10 +46,8 @@ protected:
     derived from Task, and it must provide a Make() factory method.
 */
 template <typename T>
-class TModule : public Module
-{
+class TModule : public Module {
 public:
-
     /** Constructor. Create a new ACE module object with one task on the writer side (downstream). The module is
         configured to not delete the writer task.
 
@@ -63,7 +60,7 @@ public:
 
         \param stream the Stream object hosting the module
 
-	\param bufferSize the input buffer size to forward to the task Make() factory method.
+        \param bufferSize the input buffer size to forward to the task Make() factory method.
     */
     TModule(const boost::shared_ptr<Stream>& stream, size_t bufferSize) : Module(T::Make(bufferSize), stream) {}
 

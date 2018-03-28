@@ -41,21 +41,17 @@ namespace Algorithms {
    Specifies the maximum azimuth encoding at the output.
    \endcode
 */
-class VideoInterpolation : public Algorithm
-{
+class VideoInterpolation : public Algorithm {
 public:
-
     VideoInterpolation(Controller& controller, Logger::Log& log);
 
-    void setInterpolationCount(int value)
-	{ interpolationCount_->setValue(value); }
+    void setInterpolationCount(int value) { interpolationCount_->setValue(value); }
 
     bool startup();
 
     bool reset();
 
 private:
-
     bool process(const Messages::Video::Ref& in);
 
     // Parameters
@@ -65,7 +61,7 @@ private:
     PastBuffer<Messages::Video> past_;
 };
 
-} // namespace Algorithm
+} // namespace Algorithms
 } // namespace SideCar
 
 /** \file

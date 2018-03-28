@@ -43,18 +43,17 @@ class CollectionStats;
 
     Each method takes a column index as its sole argument.
 */
-class TreeViewItem : public QObject
-{
+class TreeViewItem : public QObject {
     Q_OBJECT
 public:
     using Children = QList<TreeViewItem*>;
     using ChildrenIterator = QListIterator<TreeViewItem*>;
 
     enum ActiveState {
-	kIdle,			///< Item has not processed data recently
-	kPartial,		///< Some but not all chilren are kIdle
-	kActive,		///< Item or all children are processing data
-	kNotUsingData		///< Item is not pulling data
+        kIdle,        ///< Item has not processed data recently
+        kPartial,     ///< Some but not all chilren are kIdle
+        kActive,      ///< Item or all children are processing data
+        kNotUsingData ///< Item is not pulling data
     };
 
     /** Utility class method that returns an appropriate value for the recording state depicted by the two
@@ -70,34 +69,34 @@ public:
 
     /** Class method that returns the default (black) text color for all Qt::Foreground roles.
 
-	\return black color
+        \return black color
     */
     static QColor GetTextColor();
 
     /** Class method that returns the OK text color for those Qt::Foreground roles that distinguish among an
         'OK', 'warning', or 'failure' state.
 
-	\return dark green color
+        \return dark green color
     */
     static QColor GetOKColor();
 
     /** Class method that returns the 'warning text color for those Qt::Foreground roles that distinguish among
         an 'OK', 'warning', or 'failure' state.
 
-	\return dark yellow color
+        \return dark yellow color
     */
     static QColor GetWarningColor();
 
     /** Class method that returns the 'failure' text color for those Qt::Foreground roles that distinguish among
         an 'OK', 'warning', or 'failure' state.
 
-	\return dark red color
+        \return dark red color
     */
     static QColor GetFailureColor();
 
     /** Class method that returns the text color to use to show when a task is currently recording.
 
-	\return dark red color
+        \return dark red color
     */
     static QColor GetRecordingColor();
 
@@ -112,9 +111,13 @@ public:
     ~TreeViewItem();
 
     /** Initialize this object's internal state. Derived classes may override. This implementation simply
-	invokes beforeUpdate() followed by afterUpdate().
+        invokes beforeUpdate() followed by afterUpdate().
     */
-    virtual void initialize() { beforeUpdate(); afterUpdate(); }
+    virtual void initialize()
+    {
+        beforeUpdate();
+        afterUpdate();
+    }
 
     /** Obtain the latest IO::StatusBase object received for this object.
 
@@ -135,7 +138,7 @@ public:
 
     /** Determine if the object is in a 'processing' state: auto-diagnostic, calibration, or run
 
-	\return true if so, false otherwise
+        \return true if so, false otherwise
     */
     bool isProcessing() const { return processing_; }
 
@@ -247,7 +250,7 @@ public:
 
     /** Obtain the alignment (horizontal and vertical) to use for the contents of a given column.
 
-	\param column the column to work on
+        \param column the column to work on
 
         \return alignment flags
     */
@@ -282,7 +285,7 @@ public:
 
     /** Insert a child, renumbering the indices of all children after it
 
-	\param index where to insert
+        \param index where to insert
 
         \param child the TreeViewItem to remember
     */
@@ -375,11 +378,9 @@ public:
 
         \return true if found
     */
-    virtual bool isFiltered(const QString& filter) const
-	{ return name_.contains(filter, Qt::CaseInsensitive); }
+    virtual bool isFiltered(const QString& filter) const { return name_.contains(filter, Qt::CaseInsensitive); }
 
 protected:
-
     /** Constructor for the RootItem object (which has no parent).
      */
     TreeViewItem();
@@ -400,8 +401,7 @@ protected:
 
     void setProcessingState(IO::ProcessingState::Value state);
 
-    void setActiveState(ActiveState activeState)
-	{ activeState_ = activeState; }
+    void setActiveState(ActiveState activeState) { activeState_ = activeState; }
 
     /** Hook invoked before a status update. This implementation does nothing.
      */
@@ -413,19 +413,21 @@ protected:
 
     template <typename T>
     const T& getStatusT() const
-	{ return static_cast<const T&>(getStatus()); }
+    {
+        return static_cast<const T&>(getStatus());
+    }
 
     virtual void childAdded(TreeViewItem* child) {}
 
     virtual void childRemoved(TreeViewItem* child) {}
 
 private:
-    IO::StatusBase status_;	///< Last received status container
-    TreeViewItem* parent_;	///< Parent object for this one
-    int index_;			///< Index of this object in the parent
-    Children children_;		///< Collection of children
-    QString name_;		///< Name of this object
-    QString fullName_;		///< Name of this object
+    IO::StatusBase status_; ///< Last received status container
+    TreeViewItem* parent_;  ///< Parent object for this one
+    int index_;             ///< Index of this object in the parent
+    Children children_;     ///< Collection of children
+    QString name_;          ///< Name of this object
+    QString fullName_;      ///< Name of this object
     bool ok_;
     bool processing_;
     ActiveState activeState_;

@@ -3,9 +3,7 @@
 
 using namespace SideCar::GUI::ConfigEditor;
 
-AlgorithmItem::AlgorithmItem(StreamItem* parent, const QString& name,
-                             const QString& dll)
-    : Super(parent, name)
+AlgorithmItem::AlgorithmItem(StreamItem* parent, const QString& name, const QString& dll) : Super(parent, name)
 {
     insertChild(kParameters, new ParameterListItem(this));
 }

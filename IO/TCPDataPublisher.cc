@@ -9,8 +9,7 @@ using namespace SideCar::Zeroconf;
 Logger::Log&
 TCPDataPublisher::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.IO.TCPDataPublisher");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.IO.TCPDataPublisher");
     return log_;
 }
 
@@ -21,11 +20,9 @@ TCPDataPublisher::Make()
     return ref;
 }
 
-TCPDataPublisher::TCPDataPublisher()
-    : Super(), writer_(ServerSocketWriterTask::Make())
+TCPDataPublisher::TCPDataPublisher() : Super(), writer_(ServerSocketWriterTask::Make())
 {
-    writer_->connectConnectionCountChangedTo(
-	boost::bind(&TCPDataPublisher::connectionCountChanged, this, _1));
+    writer_->connectConnectionCountChangedTo(boost::bind(&TCPDataPublisher::connectionCountChanged, this, _1));
 }
 
 void
@@ -39,25 +36,21 @@ TCPDataPublisher::setServiceName(const std::string& serviceName)
 }
 
 bool
-TCPDataPublisher::openAndInit(const std::string& key,
-                              const std::string& serviceName, uint16_t port,
-                              int bufferSize, long threadFlags,
-                              long threadPriority)
+TCPDataPublisher::openAndInit(const std::string& key, const std::string& serviceName, uint16_t port, int bufferSize,
+                              long threadFlags, long threadPriority)
 {
     static Logger::ProcLog log("openAndInit", Log());
-    LOGINFO << "key: " << key << " serviceName: " << serviceName << " port: "
-	    << port << " bufferSize: " << bufferSize << " threadFlags: "
-	    << std::hex << threadFlags << std::dec << " threadPriority: "
-	    << threadPriority << std::endl;
+    LOGINFO << "key: " << key << " serviceName: " << serviceName << " port: " << port << " bufferSize: " << bufferSize
+            << " threadFlags: " << std::hex << threadFlags << std::dec << " threadPriority: " << threadPriority
+            << std::endl;
 
     setMetaTypeInfoKeyName(key);
     setTransport("tcp");
 
-    if (! writer_->openAndInit(key, port, bufferSize, threadFlags,
-                               threadPriority)) {
-	LOGDEBUG << "failed ServerSocketWriterTask::open()" << std::endl;
-	setError("Failed to open connection");
-	return false;
+    if (!writer_->openAndInit(key, port, bufferSize, threadFlags, threadPriority)) {
+        LOGDEBUG << "failed ServerSocketWriterTask::open()" << std::endl;
+        setError("Failed to open connection");
+        return false;
     }
 
     std::string serviceType(MakeZeroconfType(key));
@@ -67,11 +60,10 @@ TCPDataPublisher::openAndInit(const std::string& key,
     port = writer_->getServerPort();
     setPort(port);
 
-    if (! publish(serviceName)) {
-	LOGERROR << "failed to publish connection with name '"
-		 << serviceName << " type: " << serviceType << std::endl;
-	setError("Failed to publish connection info.");
-	return false;
+    if (!publish(serviceName)) {
+        LOGERROR << "failed to publish connection with name '" << serviceName << " type: " << serviceType << std::endl;
+        setError("Failed to publish connection info.");
+        return false;
     }
 
     std::ostringstream os;
@@ -93,8 +85,7 @@ TCPDataPublisher::close(u_long flags)
 }
 
 bool
-TCPDataPublisher::deliverDataMessage(ACE_Message_Block* data,
-                                     ACE_Time_Value* timeout)
+TCPDataPublisher::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 {
     return writer_->injectDataMessage(data);
 }

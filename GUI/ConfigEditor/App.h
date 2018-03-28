@@ -24,12 +24,11 @@ class SettingsWindow;
 
 /** Application class for the ConfigEditor application.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Obtain type-casted App singleton object.
 
         \return App object
@@ -51,7 +50,6 @@ public slots:
     void applicationQuit();
 
 private:
-
     void makeToolWindows();
 
     /** Override of AppBase method. Creates a new MainWindow object.

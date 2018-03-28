@@ -1,6 +1,6 @@
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <net/if.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 
 #include "Logger/Log.h"
 
@@ -26,9 +26,9 @@ ServiceEntry::Make(Monitor* monitor, const std::string& name, const std::string&
 }
 
 ServiceEntry::ServiceEntry(Monitor* monitor, const std::string& name, const std::string& type,
-                           const std::string& domain, uint32_t interface)
-    : Transaction(monitor), name_(name), type_(type), domain_(domain), interface_(interface), resolved_(),
-      resolvedSignal_()
+                           const std::string& domain, uint32_t interface) :
+    Transaction(monitor),
+    name_(name), type_(type), domain_(domain), interface_(interface), resolved_(), resolvedSignal_()
 {
     Logger::ProcLog log("ServiceEntry", Log());
     LOGINFO << name << ' ' << type << ' ' << domain << ' ' << interface << std::endl;
@@ -54,18 +54,17 @@ ServiceEntry::resolve(bool blocking)
 
     if (isRunning()) stop();
     resolved_.reset();
-    auto err = ::DNSServiceResolve(&getDNSServiceRef(), 0, interface_, name_.c_str(), type_.c_str(),
-                                   domain_.c_str(), &ServiceEntry::ResolveCallback, this);
+    auto err = ::DNSServiceResolve(&getDNSServiceRef(), 0, interface_, name_.c_str(), type_.c_str(), domain_.c_str(),
+                                   &ServiceEntry::ResolveCallback, this);
     if (err != kDNSServiceErr_NoError) {
-	LOGERROR << "failed DNSServiceResolve - error: " << err << std::endl;
-	return false;
+        LOGERROR << "failed DNSServiceResolve - error: " << err << std::endl;
+        return false;
     }
 
     if (blocking) {
-	DNSServiceProcessResult(getDNSServiceRef());
-    }
-    else {
-	serviceStarted();
+        DNSServiceProcessResult(getDNSServiceRef());
+    } else {
+        serviceStarted();
     }
 
     LOGINFO << "OK" << std::endl;
@@ -73,9 +72,9 @@ ServiceEntry::resolve(bool blocking)
 }
 
 void
-ServiceEntry::ResolveCallback(DNSServiceRef ref, DNSServiceFlags flags, uint32_t interface,
-                              DNSServiceErrorType err, const char* fullName, const char* host, uint16_t port,
-                              uint16_t textSize, const unsigned char* textData, void* context)
+ServiceEntry::ResolveCallback(DNSServiceRef ref, DNSServiceFlags flags, uint32_t interface, DNSServiceErrorType err,
+                              const char* fullName, const char* host, uint16_t port, uint16_t textSize,
+                              const unsigned char* textData, void* context)
 {
     Logger::ProcLog log("ResolveCallback", Log());
     port = ntohs(port);
@@ -91,18 +90,17 @@ ServiceEntry::processResponse(DNSServiceErrorType err, const char* fullName, con
     LOGINFO << "err: " << err << std::endl;
 
     if (err != kDNSServiceErr_NoError) {
-	LOGERROR << "failed DNSServiceResolve request - " << err << std::endl;
-    }
-    else {
-	LOGDEBUG << "creating new ResolvedEntry object - " << host << '/' << port << std::endl;
+        LOGERROR << "failed DNSServiceResolve request - " << err << std::endl;
+    } else {
+        LOGDEBUG << "creating new ResolvedEntry object - " << host << '/' << port << std::endl;
 
-	// Allocate ResolvedEntry object to hold the resolved data.
-	//
-	resolved_.reset(new ResolvedEntry(fullName, host, port, textSize, textData));
+        // Allocate ResolvedEntry object to hold the resolved data.
+        //
+        resolved_.reset(new ResolvedEntry(fullName, host, port, textSize, textData));
 
-	// Notify anyone connected to our resolved signal.
-	//
-	resolvedSignal_(getSelf<ServiceEntry>());
+        // Notify anyone connected to our resolved signal.
+        //
+        resolvedSignal_(getSelf<ServiceEntry>());
     }
 
     // We are done with DNSServiceRef, close close it down.

@@ -3,10 +3,14 @@
 
 #include "Vector.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Messages { class Extraction; }
+namespace Messages {
+class Extraction;
+}
 namespace Algorithms {
 
 class ABTracker;
@@ -15,16 +19,14 @@ namespace ABTrackerUtils {
 
 /** Representation of a track managed by the ABTracker.
  */
-class Track
-{
+class Track {
 public:
-
     enum State {
-	kInitiating,		///< Track needs more reports to be active
-	kAlive,			///< Track is active and emitting reports
-	kDropping,		///< Track is dropping
-	kUninitiating,		///< Track failed to initiate
-	kNumStates
+        kInitiating,   ///< Track needs more reports to be active
+        kAlive,        ///< Track is active and emitting reports
+        kDropping,     ///< Track is dropping
+        kUninitiating, ///< Track failed to initiate
+        kNumStates
     };
 
     /** Obtain the log device for Track messages.
@@ -43,8 +45,7 @@ public:
 
         \param pos initial position of the track
     */
-    Track(ABTracker& owner, uint32_t id, double when,
-          const Geometry::Vector& pos);
+    Track(ABTracker& owner, uint32_t id, double when, const Geometry::Vector& pos);
 
     /** Obtain the track's unique ID tag
 
@@ -94,16 +95,15 @@ public:
     void drop();
 
 private:
-
     /** Check the track length to see if we have an active track.
      */
     void checkIfInitiated(double when);
 
     struct Estimate {
-	Estimate() : when_(0.0), position_(), velocity_() {}
-	double when_;
-	Geometry::Vector position_;
-	Geometry::Vector velocity_;
+        Estimate() : when_(0.0), position_(), velocity_() {}
+        double when_;
+        Geometry::Vector position_;
+        Geometry::Vector velocity_;
     };
 
     ABTracker& owner_;
@@ -112,7 +112,7 @@ private:
     Geometry::Vector initialPosition_;
     std::string id_;
     std::vector<double> initiationTimeStamps_;
-    
+
     State state_;
 };
 

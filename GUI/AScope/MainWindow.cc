@@ -17,9 +17,9 @@
 #include "HistoryControlWidget.h"
 #include "HistoryPosition.h"
 #include "HistorySettings.h"
-#include "RadarInfoWidget.h"
 #include "MainWindow.h"
 #include "PeakBarSettings.h"
+#include "RadarInfoWidget.h"
 #include "ViewChooser.h"
 #include "ViewSettings.h"
 #include "Visualizer.h"
@@ -35,9 +35,8 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis)
-    : MainWindowBase(), Ui::MainWindow(), activeDisplayView_(0),
-      displayViews_()
+MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis) :
+    MainWindowBase(), Ui::MainWindow(), activeDisplayView_(0), displayViews_()
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << basis << std::endl;
@@ -58,21 +57,17 @@ MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis)
     // Associate icons with QAction objects that toggle data display
     //
     {
-	QIcon icon;
-	icon.addFile(":/showGates.png", QSize(16, 16), QIcon::Normal,
-                     QIcon::Off);
-	icon.addFile(":/showRanges.png", QSize(16, 16), QIcon::Normal,
-                     QIcon::On);
-	actionToggleHorizontalScale_->setIcon(icon);
+        QIcon icon;
+        icon.addFile(":/showGates.png", QSize(16, 16), QIcon::Normal, QIcon::Off);
+        icon.addFile(":/showRanges.png", QSize(16, 16), QIcon::Normal, QIcon::On);
+        actionToggleHorizontalScale_->setIcon(icon);
     }
 
     {
-	QIcon icon;
-	icon.addFile(":/showSamples.png", QSize(16, 16), QIcon::Normal,
-                     QIcon::Off);
-	icon.addFile(":/showVoltages.png", QSize(16, 16), QIcon::Normal,
-                     QIcon::On);
-	actionToggleVerticalScale_->setIcon(icon);
+        QIcon icon;
+        icon.addFile(":/showSamples.png", QSize(16, 16), QIcon::Normal, QIcon::Off);
+        icon.addFile(":/showVoltages.png", QSize(16, 16), QIcon::Normal, QIcon::On);
+        actionToggleVerticalScale_->setIcon(icon);
     }
 
     actionViewToggleGrid_->setCheckable(true);
@@ -84,15 +79,15 @@ MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis)
     actionViewTogglePeaks_->setIcon(QIcon(":/peaksOn.png"));
 
     actionViewPause_->setCheckable(true);
-    actionViewPause_->setData(QStringList() << "Freeze" << "Unfreeze");
+    actionViewPause_->setData(QStringList() << "Freeze"
+                                            << "Unfreeze");
     actionViewPause_->setIcon(QIcon(":/unfreeze.png"));
     actionViewFull_->setIcon(QIcon(":/home.png"));
 
     ToolBar* toolBar;
 
     actionViewTogglePeaks_->setEnabled(app->getPeakBarSettings().isEnabled());
-    connect(&app->getPeakBarSettings(), SIGNAL(enabledChanged(bool)),
-            SLOT(peakBarsEnabledChanged(bool)));
+    connect(&app->getPeakBarSettings(), SIGNAL(enabledChanged(bool)), SLOT(peakBarsEnabledChanged(bool)));
 
     // Cursor info widget
     //
@@ -139,7 +134,7 @@ MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis)
     action = app->getToolsMenuAction(App::kShowConfigurationWindow);
     action->setIcon(QIcon(":/configurationWindow.png"));
     toolBar->addAction(action);
-    
+
     // View actions toolbar
     //
     toolBar = makeToolBar("View", Qt::LeftToolBarArea);
@@ -155,14 +150,11 @@ MainWindow::MainWindow(History& history, int windowIndex, DisplayView* basis)
     toolBar->addAction(actionViewSwap_);
     app->addWindowMenuActionTo(toolBar, WindowManager::kFullScreen);
 
-    actionViewSplitHorizontally_->setIcon(
-	QIcon(":/horizontalSplitView.png"));
+    actionViewSplitHorizontally_->setIcon(QIcon(":/horizontalSplitView.png"));
     toolBar->addAction(actionViewSplitHorizontally_);
-    actionViewSplitVertically_->setIcon(
-	QIcon(":/verticalSplitView.png"));
+    actionViewSplitVertically_->setIcon(QIcon(":/verticalSplitView.png"));
     toolBar->addAction(actionViewSplitVertically_);
-    actionViewUnsplit_->setIcon(
-	QIcon(":/unSplitView.png"));
+    actionViewUnsplit_->setIcon(QIcon(":/unSplitView.png"));
     toolBar->addAction(actionViewUnsplit_);
 
     // Create content. We use a Splittable widget so that the user can split the view it contains into two, the
@@ -188,32 +180,28 @@ MainWindow::saveSplittable(QSettings& settings, Splittable* splittable)
     bool isSplit = splitter;
     settings.setValue("IsSplit", isSplit);
     if (isSplit) {
-
-	// Save the sizes of the two views. The settings for the DisplayView widgets will be saved in the
-	// recursive invocations of saveSplittable() below.
-	//
-	QList<int> sizes = splitter->sizes();
-	int orientation = splitter->orientation();
-	settings.setValue("Orientation", orientation);
-	settings.setValue("FirstSize", sizes[0]);
-	settings.setValue("SecondSize", sizes[1]);
-	settings.beginGroup("Left");
-	saveSplittable(settings, splittable->topLeft()); // !!! recursion
-	settings.endGroup();
-	settings.beginGroup("Right");
-	saveSplittable(settings, splittable->bottomRight()); // !!! recursion
-	settings.endGroup();
-    }
-    else {
-
-	// Just save the DisplayView widget settings.
-	//
-	settings.beginGroup("DisplayView");
-	DisplayView* displayView = dynamic_cast<DisplayView*>(
-	    splittable->currentWidget());
-	Q_ASSERT(displayView);
-	displayView->saveToSettings(settings);
-	settings.endGroup();
+        // Save the sizes of the two views. The settings for the DisplayView widgets will be saved in the
+        // recursive invocations of saveSplittable() below.
+        //
+        QList<int> sizes = splitter->sizes();
+        int orientation = splitter->orientation();
+        settings.setValue("Orientation", orientation);
+        settings.setValue("FirstSize", sizes[0]);
+        settings.setValue("SecondSize", sizes[1]);
+        settings.beginGroup("Left");
+        saveSplittable(settings, splittable->topLeft()); // !!! recursion
+        settings.endGroup();
+        settings.beginGroup("Right");
+        saveSplittable(settings, splittable->bottomRight()); // !!! recursion
+        settings.endGroup();
+    } else {
+        // Just save the DisplayView widget settings.
+        //
+        settings.beginGroup("DisplayView");
+        DisplayView* displayView = dynamic_cast<DisplayView*>(splittable->currentWidget());
+        Q_ASSERT(displayView);
+        displayView->saveToSettings(settings);
+        settings.endGroup();
     }
 }
 
@@ -224,33 +212,27 @@ MainWindow::restoreSplittable(QSettings& settings, Splittable* splittable)
     //
     bool isSplit = settings.value("IsSplit").toBool();
     if (isSplit) {
-	Qt::Orientation orientation = Qt::Orientation(
-	    settings.value("Orientation").toInt());
+        Qt::Orientation orientation = Qt::Orientation(settings.value("Orientation").toInt());
 
-	// Get the size of the two views.
-	//
-	int firstSize = settings.value("FirstSize").toInt();
-	int secondSize = settings.value("SecondSize").toInt();
-	splittable->split(orientation,
-                          makeDisplayView(0, activeDisplayView_), firstSize,
-                          secondSize);
-	settings.beginGroup("Left");
-	restoreSplittable(settings, splittable->topLeft()); // !!! recursion
-	settings.endGroup();
-	settings.beginGroup("Right");
-	restoreSplittable(settings, splittable->bottomRight()); // !!!
-	settings.endGroup();
-    }
-    else {
-
-	// Restore the DisplayvView widget settings held by the Splittable widget.
-	//
-	settings.beginGroup("DisplayView");
-	DisplayView* displayView = dynamic_cast<DisplayView*>(
-	    splittable->currentWidget());
-	Q_ASSERT(displayView);
-	displayView->restoreFromSettings(settings);
-	settings.endGroup();
+        // Get the size of the two views.
+        //
+        int firstSize = settings.value("FirstSize").toInt();
+        int secondSize = settings.value("SecondSize").toInt();
+        splittable->split(orientation, makeDisplayView(0, activeDisplayView_), firstSize, secondSize);
+        settings.beginGroup("Left");
+        restoreSplittable(settings, splittable->topLeft()); // !!! recursion
+        settings.endGroup();
+        settings.beginGroup("Right");
+        restoreSplittable(settings, splittable->bottomRight()); // !!!
+        settings.endGroup();
+    } else {
+        // Restore the DisplayvView widget settings held by the Splittable widget.
+        //
+        settings.beginGroup("DisplayView");
+        DisplayView* displayView = dynamic_cast<DisplayView*>(splittable->currentWidget());
+        Q_ASSERT(displayView);
+        displayView->restoreFromSettings(settings);
+        settings.endGroup();
     }
 }
 
@@ -281,8 +263,7 @@ MainWindow::restoreFromSettings(QSettings& settings)
     //
     Splittable* splittable = static_cast<Splittable*>(centralWidget());
     restoreSplittable(settings, splittable);
-    if (! displayViews_.empty())
-	displayViews_.back()->getVisualizer()->setFocus();
+    if (!displayViews_.empty()) displayViews_.back()->getVisualizer()->setFocus();
     actionViewUnsplit_->setEnabled(isDisplayViewSplit());
 
     // Restore the window location and size.
@@ -305,37 +286,28 @@ MainWindow::makeDisplayView(QWidget* parent, DisplayView* basis)
 
     // Receive a notification when a DisplayView goes away or becomes the active view.
     //
-    connect(displayView, SIGNAL(destroyed(QObject*)),
-            SLOT(displayViewDeleted(QObject*)));
-    connect(displayView, SIGNAL(activeDisplayViewChanged(DisplayView*)),
-            SLOT(activeDisplayViewChanged(DisplayView*)));
+    connect(displayView, SIGNAL(destroyed(QObject*)), SLOT(displayViewDeleted(QObject*)));
+    connect(displayView, SIGNAL(activeDisplayViewChanged(DisplayView*)), SLOT(activeDisplayViewChanged(DisplayView*)));
 
     // Connect the drawing view to our cursor display to show the current cursor position at the bottom of the
     // window.
     //
     Visualizer* visualizer = displayView->getVisualizer();
-    connect(visualizer,
-            SIGNAL(pointerMoved(const QPoint&, const QPointF&)),
-            cursorWidget_,
+    connect(visualizer, SIGNAL(pointerMoved(const QPoint&, const QPointF&)), cursorWidget_,
             SLOT(showCursorPosition(const QPoint&, const QPointF&)));
 
     // Update buttons and menu settings when the geometric transform of drawing view changes.
     //
-    connect(visualizer, SIGNAL(transformChanged()),
-            SLOT(updateViewActions()), Qt::QueuedConnection);
+    connect(visualizer, SIGNAL(transformChanged()), SLOT(updateViewActions()), Qt::QueuedConnection);
 
     // Connect the HistoryPosition widget and the drawing view.
     //
     HistoryPosition* historyPosition = visualizer->getHistoryPosition();
     historyControlWidget_->manage(historyPosition);
-    connect(displayView, SIGNAL(activeDisplayViewChanged(DisplayView*)),
-            historyControlWidget_,
+    connect(displayView, SIGNAL(activeDisplayViewChanged(DisplayView*)), historyControlWidget_,
             SLOT(activeDisplayViewChanged(DisplayView*)));
-    connect(historyPosition, SIGNAL(viewingPastChanged(bool)),
-            actionViewPause_, SLOT(setChecked(bool)));
-    connect(historyPosition,
-            SIGNAL(infoUpdate(const Messages::PRIMessage::Ref&)),
-            radarInfoWidget_,
+    connect(historyPosition, SIGNAL(viewingPastChanged(bool)), actionViewPause_, SLOT(setChecked(bool)));
+    connect(historyPosition, SIGNAL(infoUpdate(const Messages::PRIMessage::Ref&)), radarInfoWidget_,
             SLOT(showMessageInfo(const Messages::PRIMessage::Ref&)));
 
     LOGDEBUG << "new DisplayView: " << displayView << std::endl;
@@ -347,8 +319,7 @@ MainWindow::makeDisplayView(QWidget* parent, DisplayView* basis)
 
     // Make sure we always have an activeDisplayView_ value
     //
-    if (! activeDisplayView_)
-	displayView->setActiveDisplayView();
+    if (!activeDisplayView_) displayView->setActiveDisplayView();
 
     return displayView;
 }
@@ -361,8 +332,7 @@ MainWindow::displayViewDeleted(QObject* obj)
     int index = displayViews_.indexOf(static_cast<DisplayView*>(obj));
     Q_ASSERT(index != -1);
     displayViews_.erase(displayViews_.begin() + index);
-    if (! displayViews_.empty())
-	displayViews_.back()->getVisualizer()->setFocus();
+    if (!displayViews_.empty()) displayViews_.back()->getVisualizer()->setFocus();
 }
 
 void
@@ -380,10 +350,9 @@ MainWindow::splitDisplayViewVertically()
 Splittable*
 MainWindow::splitDisplayView(Qt::Orientation how)
 {
-    if (! activeDisplayView_) return 0;
-    Splittable* splittable =
-	dynamic_cast<Splittable*>(activeDisplayView_->parentWidget());
-    if (! splittable) return 0;
+    if (!activeDisplayView_) return 0;
+    Splittable* splittable = dynamic_cast<Splittable*>(activeDisplayView_->parentWidget());
+    if (!splittable) return 0;
     splittable->split(how, makeDisplayView(0, activeDisplayView_));
     return splittable;
 }
@@ -391,7 +360,7 @@ MainWindow::splitDisplayView(Qt::Orientation how)
 void
 MainWindow::on_actionViewToggleGrid__triggered()
 {
-    bool newState = ! activeDisplayView_->isShowingGrid();
+    bool newState = !activeDisplayView_->isShowingGrid();
     activeDisplayView_->setShowGrid(newState);
     UpdateToggleAction(actionViewToggleGrid_, newState);
 }
@@ -399,7 +368,7 @@ MainWindow::on_actionViewToggleGrid__triggered()
 void
 MainWindow::on_actionViewTogglePeaks__triggered()
 {
-    bool newState = ! activeDisplayView_->isShowingPeakBars();
+    bool newState = !activeDisplayView_->isShowingPeakBars();
     activeDisplayView_->setShowPeakBars(newState);
     UpdateToggleAction(actionViewTogglePeaks_, newState);
 }
@@ -407,7 +376,7 @@ MainWindow::on_actionViewTogglePeaks__triggered()
 void
 MainWindow::on_actionViewPause__triggered()
 {
-    bool newState = ! activeDisplayView_->isFrozen();
+    bool newState = !activeDisplayView_->isFrozen();
     activeDisplayView_->setFrozen(newState);
     UpdateToggleAction(actionViewPause_, newState);
 }
@@ -464,9 +433,9 @@ bool
 MainWindow::isDisplayViewSplit() const
 {
     Splittable* splittable = getActiveSplittable();
-    if (! splittable) return false;
+    if (!splittable) return false;
     QObject* parent = splittable->parentWidget();
-    if (! parent) return false;
+    if (!parent) return false;
     return dynamic_cast<QSplitter*>(parent);
 }
 
@@ -474,14 +443,14 @@ void
 MainWindow::unsplitDisplayView()
 {
     Splittable* splittable = getActiveSplittable();
-    if (! splittable) return;
+    if (!splittable) return;
     splittable->closeOtherView();
 }
 
 Splittable*
 MainWindow::getActiveSplittable() const
 {
-    if (! activeDisplayView_) return 0;
+    if (!activeDisplayView_) return 0;
     return dynamic_cast<Splittable*>(activeDisplayView_->parentWidget());
 }
 
@@ -492,53 +461,46 @@ MainWindow::activeDisplayViewChanged(DisplayView* displayView)
     LOGINFO << "new display view: " << displayView << std::endl;
 
     if (activeDisplayView_) {
-
-	// Disconnect the old display view
-	//
-	Visualizer* visualizer = activeDisplayView_->getVisualizer();
-	HistoryPosition* historyPosition = visualizer->getHistoryPosition();
-	historyPosition->setInfoReporter(false);
+        // Disconnect the old display view
+        //
+        Visualizer* visualizer = activeDisplayView_->getVisualizer();
+        HistoryPosition* historyPosition = visualizer->getHistoryPosition();
+        historyPosition->setInfoReporter(false);
     }
 
     // Connect the new display view.
     //
     activeDisplayView_ = displayView;
     if (displayView) {
-	Visualizer* visualizer = activeDisplayView_->getVisualizer();
-	visualizer->setFocus();
-	HistoryPosition* historyPosition = visualizer->getHistoryPosition();
-	historyPosition->setInfoReporter(true);
+        Visualizer* visualizer = activeDisplayView_->getVisualizer();
+        visualizer->setFocus();
+        HistoryPosition* historyPosition = visualizer->getHistoryPosition();
+        historyPosition->setInfoReporter(true);
 
-	actionToggleHorizontalScale_->setEnabled(true);
-	actionToggleVerticalScale_->setEnabled(true);
+        actionToggleHorizontalScale_->setEnabled(true);
+        actionToggleVerticalScale_->setEnabled(true);
 
-	actionToggleHorizontalScaleUpdate(
-	    visualizer->getCurrentView().isShowingRanges());
-	actionToggleVerticalScaleUpdate(
-	    visualizer->getCurrentView().isShowingVoltages());
+        actionToggleHorizontalScaleUpdate(visualizer->getCurrentView().isShowingRanges());
+        actionToggleVerticalScaleUpdate(visualizer->getCurrentView().isShowingVoltages());
 
-	actionViewUnsplit_->setEnabled(isDisplayViewSplit());
-	actionViewSplitVertically_->setEnabled(true);
-	actionViewSplitHorizontally_->setEnabled(true);
+        actionViewUnsplit_->setEnabled(isDisplayViewSplit());
+        actionViewSplitVertically_->setEnabled(true);
+        actionViewSplitHorizontally_->setEnabled(true);
 
-	actionViewToggleGrid_->setEnabled(true);
-	UpdateToggleAction(actionViewToggleGrid_,
-                           activeDisplayView_->isShowingGrid());
+        actionViewToggleGrid_->setEnabled(true);
+        UpdateToggleAction(actionViewToggleGrid_, activeDisplayView_->isShowingGrid());
 
-	actionViewTogglePeaks_->setEnabled(true);
-	UpdateToggleAction(actionViewTogglePeaks_,
-                           activeDisplayView_->isShowingPeakBars());
+        actionViewTogglePeaks_->setEnabled(true);
+        UpdateToggleAction(actionViewTogglePeaks_, activeDisplayView_->isShowingPeakBars());
 
-	actionViewPause_->setEnabled(true);
-	UpdateToggleAction(actionViewPause_,
-                           activeDisplayView_->isFrozen());
-    }
-    else {
-	actionToggleHorizontalScale_->setEnabled(false);
-	actionToggleVerticalScale_->setEnabled(false);
-	actionViewToggleGrid_->setEnabled(false);
-	actionViewTogglePeaks_->setEnabled(false);
-	actionViewPause_->setEnabled(false);
+        actionViewPause_->setEnabled(true);
+        UpdateToggleAction(actionViewPause_, activeDisplayView_->isFrozen());
+    } else {
+        actionToggleHorizontalScale_->setEnabled(false);
+        actionToggleVerticalScale_->setEnabled(false);
+        actionViewToggleGrid_->setEnabled(false);
+        actionViewTogglePeaks_->setEnabled(false);
+        actionViewPause_->setEnabled(false);
     }
 
     updateViewActions();
@@ -548,19 +510,18 @@ void
 MainWindow::updateViewActions()
 {
     if (activeDisplayView_) {
-	Visualizer* visualizer = activeDisplayView_->getVisualizer();
-	actionViewPrevious_->setEnabled(visualizer->canPopView());
-	actionViewSwap_->setEnabled(visualizer->canPopView());
-	actionViewFull_->setEnabled(visualizer->canPopView());
-	const ViewSettings& viewSettings(visualizer->getCurrentView());
-	actionToggleHorizontalScaleUpdate(viewSettings.isShowingRanges());
-	actionToggleVerticalScaleUpdate(viewSettings.isShowingVoltages());
+        Visualizer* visualizer = activeDisplayView_->getVisualizer();
+        actionViewPrevious_->setEnabled(visualizer->canPopView());
+        actionViewSwap_->setEnabled(visualizer->canPopView());
+        actionViewFull_->setEnabled(visualizer->canPopView());
+        const ViewSettings& viewSettings(visualizer->getCurrentView());
+        actionToggleHorizontalScaleUpdate(viewSettings.isShowingRanges());
+        actionToggleVerticalScaleUpdate(viewSettings.isShowingVoltages());
+    } else {
+        actionViewPrevious_->setEnabled(false);
+        actionViewSwap_->setEnabled(false);
+        actionViewFull_->setEnabled(false);
     }
-    else {
-	actionViewPrevious_->setEnabled(false);
-	actionViewSwap_->setEnabled(false);
-	actionViewFull_->setEnabled(false);
-    }	
 }
 
 void
@@ -581,17 +542,13 @@ MainWindow::on_actionToggleHorizontalScale__triggered()
 void
 MainWindow::actionToggleHorizontalScaleUpdate(bool state)
 {
-    if (state != actionToggleHorizontalScale_->isChecked())
-	actionToggleHorizontalScale_->setChecked(state);
+    if (state != actionToggleHorizontalScale_->isChecked()) actionToggleHorizontalScale_->setChecked(state);
     if (state) {
-	actionToggleHorizontalScale_->setToolTip(
-	    "Horizontal scale: range distances\n"
-	    "Click to show range indices");
-    }
-    else {
-	actionToggleHorizontalScale_->setToolTip(
-	    "Horizontal scale: range indices\n"
-	    "Click to show range distances");
+        actionToggleHorizontalScale_->setToolTip("Horizontal scale: range distances\n"
+                                                 "Click to show range indices");
+    } else {
+        actionToggleHorizontalScale_->setToolTip("Horizontal scale: range indices\n"
+                                                 "Click to show range distances");
     }
 }
 
@@ -607,17 +564,13 @@ MainWindow::on_actionToggleVerticalScale__triggered()
 void
 MainWindow::actionToggleVerticalScaleUpdate(bool state)
 {
-    if (state != actionToggleVerticalScale_->isChecked())
-	actionToggleVerticalScale_->setChecked(state);
+    if (state != actionToggleVerticalScale_->isChecked()) actionToggleVerticalScale_->setChecked(state);
     if (state) {
-	actionToggleVerticalScale_->setToolTip(
-	    "Vertical scale: voltage values\n"
-	    "Click to show sample counts");
-    }
-    else {
-	actionToggleVerticalScale_->setToolTip(
-	    "Vertical scale: sample counts\n"
-	    "Click to show voltage values");
+        actionToggleVerticalScale_->setToolTip("Vertical scale: voltage values\n"
+                                               "Click to show sample counts");
+    } else {
+        actionToggleVerticalScale_->setToolTip("Vertical scale: sample counts\n"
+                                               "Click to show voltage values");
     }
 }
 

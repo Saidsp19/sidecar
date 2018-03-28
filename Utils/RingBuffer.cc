@@ -2,8 +2,7 @@
 
 using namespace Utils;
 
-RingBufferBase::RingBufferBase(int capacity)
-    : writeOffset_(0), readOffset_(0), capacity_(capacity), size_(0)
+RingBufferBase::RingBufferBase(int capacity) : writeOffset_(0), readOffset_(0), capacity_(capacity), size_(0)
 {
     ;
 }

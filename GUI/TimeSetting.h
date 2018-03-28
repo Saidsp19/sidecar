@@ -12,34 +12,32 @@ namespace GUI {
 
 /** Derivation of the Setting class that manages QTime values (HH:MM:SS)
  */
-class TimeSetting : public Setting
-{
+class TimeSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
+
 public:
-    
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
-        \param global 
+        \param global
     */
     TimeSetting(PresetManager* mgr, const QString& name, bool global = false);
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
-        \param value 
+        \param value
 
-        \param global 
+        \param global
     */
-    TimeSetting(PresetManager* mgr, const QString& name, const QTime& value,
-                bool global = false);
+    TimeSetting(PresetManager* mgr, const QString& name, const QTime& value, bool global = false);
 
     /** Obtain the current setting value
 
@@ -67,7 +65,6 @@ signals:
     void valueChanged(const QTime& value);
 
 protected:
-
     /** Override of Setting::valueUpdated() method. Records the new value and emits the valueChanged() signal.
      */
     void valueUpdated();

@@ -8,11 +8,9 @@
 namespace SideCar {
 namespace GUI {
 
-class QTabWidgetSetting : public IntSetting
-{
+class QTabWidgetSetting : public IntSetting {
 public:
-    QTabWidgetSetting(PresetManager* mgr, QTabWidget* widget,
-                      bool global = false);
+    QTabWidgetSetting(PresetManager* mgr, QTabWidget* widget, bool global = false);
 };
 
 } // end namespace GUI

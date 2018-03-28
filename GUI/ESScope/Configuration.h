@@ -33,11 +33,9 @@ class RadarSettings;
 class VideoImaging;
 
 /** Configuration settings for the ESScope application.
-*/
-class Configuration : public PresetManager
-{
+ */
+class Configuration : public PresetManager {
 public:
-
     Configuration(ChannelSelectorWindow* gui1, ConfigurationWindow* gui2, ControlsWindow* gui3);
 
     ChannelSetting* getVideoChannel() const { return videoChannel_; }

@@ -8,7 +8,9 @@
 
 #include "Utils/Exception.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 class ACE_InputCDR;
 
@@ -37,12 +39,10 @@ namespace Messages {
     Note that the class serves as a base class for the TLoaderRegistry template class below; constructor access
     restrictions prohibit direct instantiations.
 */
-class VoidLoaderRegistry
-{
+class VoidLoaderRegistry {
 public:
-
     /** Type specification for loader procedures. Note that type-specific loaders exist and are specified in the
-	TLoaderRegistry class.
+        TLoaderRegistry class.
     */
     using VoidLoader = ACE_InputCDR& (*)(void* object, ACE_InputCDR& cdr);
 
@@ -63,15 +63,14 @@ public:
     VersionType getCurrentVersion() const { return currentVersion_; }
 
 protected:
-
     /** Pairing of specific version value with a class loader procedure. Provides ordering by version value so
-	that a collection of VersionedLoader objects may be sorted.
+        that a collection of VersionedLoader objects may be sorted.
     */
     struct VersionedVoidLoader {
-	VersionedVoidLoader(VersionType version, VoidLoader loader) : version_(version), loader_(loader) {}
-	bool operator<(const VersionedVoidLoader& rhs) const { return version_ < rhs.version_; }
-	VersionType version_;
-	VoidLoader loader_;
+        VersionedVoidLoader(VersionType version, VoidLoader loader) : version_(version), loader_(loader) {}
+        bool operator<(const VersionedVoidLoader& rhs) const { return version_ < rhs.version_; }
+        VersionType version_;
+        VoidLoader loader_;
     };
 
     /** Constructor. Registers a single loader.
@@ -111,18 +110,17 @@ protected:
     VoidLoader getVoidLoader(VersionType version) const throw(Utils::Exception);
 
 private:
-    
     /** Utility that emits information about current registrations
      */
     void dump() const;
 
     /** Container for registrations. The addLoader() method keeps it sorted by version indicator. The
-	getLoader() method uses a binary search to find version indicator values.
+        getLoader() method uses a binary search to find version indicator values.
     */
     using VersionedVoidLoaderVector = std::vector<VersionedVoidLoader>;
     VersionedVoidLoaderVector loaders_;
     VersionType currentVersion_; ///< Cached current version indicator
-    VoidLoader latestLoader_;	 ///< Cached latest loader procedure
+    VoidLoader latestLoader_;    ///< Cached latest loader procedure
 };
 
 /** Template version of the LoaderRegistry class. Provides type-safe registration and retrieval of loader
@@ -174,8 +172,7 @@ private:
     before a loader is requested in the TLoaderRegistry::load() method.
 */
 template <typename T>
-class TLoaderRegistry : public VoidLoaderRegistry
-{
+class TLoaderRegistry : public VoidLoaderRegistry {
 public:
     using Super = VoidLoaderRegistry;
 
@@ -186,8 +183,10 @@ public:
     /** Type-specific definition of the LoaderRegistry::VersionedLoader class.
      */
     struct VersionedLoader : public VersionedVoidLoader {
-	VersionedLoader(VersionType version, TLoader loader)
-	    : VersionedVoidLoader(version, reinterpret_cast<VoidLoader>(loader)) {}
+        VersionedLoader(VersionType version, TLoader loader) :
+            VersionedVoidLoader(version, reinterpret_cast<VoidLoader>(loader))
+        {
+        }
     };
 
     using VersionedLoaderVector = std::vector<VersionedLoader>;
@@ -217,8 +216,7 @@ public:
 
         \param loader procedure to register
     */
-    void addLoader(VersionType version, TLoader loader) throw(Utils::Exception)
-	{ addVoidLoader(version, loader); }
+    void addLoader(VersionType version, TLoader loader) throw(Utils::Exception) { addVoidLoader(version, loader); }
 
     /** Find and invoke the appropriate loader procedure depending on the version indicator read in from an ACE
         CDR stream.
@@ -230,17 +228,15 @@ public:
         \return input CDR stream reference
     */
     ACE_InputCDR& load(T* obj, ACE_InputCDR& cdr) const
-	{
-	    VersionType version;
-	    cdr >> version;
-	    return load(obj, cdr, version);
-	}
+    {
+        VersionType version;
+        cdr >> version;
+        return load(obj, cdr, version);
+    }
 
-    ACE_InputCDR& load(T* obj, ACE_InputCDR& cdr, VersionType version) const
-	{ return (*getLoader(version))(obj, cdr); }
+    ACE_InputCDR& load(T* obj, ACE_InputCDR& cdr, VersionType version) const { return (*getLoader(version))(obj, cdr); }
 
 private:
-
     /** Type-safe reimplementation of the LoaderRegistry::getLoader() method.
 
         \param version version indicator to look for

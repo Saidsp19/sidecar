@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI;
 
-ColorButtonWidget::ColorButtonWidget(QWidget* parent)
-    : Super(parent)
+ColorButtonWidget::ColorButtonWidget(QWidget* parent) : Super(parent)
 {
     setAutoFillBackground(true);
     setAutoDefault(false);
@@ -38,6 +37,5 @@ void
 ColorButtonWidget::editColor()
 {
     QColor color = QColorDialog::getColor(getColor(), 0);
-    if (color.isValid())
-	setColor(color);
+    if (color.isValid()) setColor(color);
 }

@@ -7,7 +7,9 @@
 
 class ACE_Message_Block;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -22,12 +24,10 @@ class Task;
     The deliver() method distributes ACE_Message_Block message objects to registred recipients. However, it only
     deliver a message to if the recipient desired data.
 */
-class RecipientList : public Printable<RecipientList>
-{
+class RecipientList : public Printable<RecipientList> {
 public:
-
     using TaskRef = boost::shared_ptr<Task>;
-    
+
     /** Log device for RecipientList messages
 
         \return Log device
@@ -40,15 +40,15 @@ public:
 
     /** Adds a recipient to this list. NOTE: there is no check for duplicate entries (assumed done elsewhere)
 
-	\param taskIndex unique recipient index
+        \param taskIndex unique recipient index
 
-	\param channelIndex input channel index of task
+        \param channelIndex input channel index of task
     */
     void add(const TaskRef& task, size_t channelIndex);
 
     /** Obtain the number of Entry objects.
 
-        \return 
+        \return
     */
     size_t size() const { return entries_.size(); }
 
@@ -76,13 +76,12 @@ public:
     bool areAnyTasksUsingData() const;
 
 private:
-
     /** 3-tuple of a Task index and an index of one of its Channel objects.
      */
     struct Entry {
-	Entry(const TaskRef& task, size_t channelIndex) : task_(task), channelIndex_(channelIndex) {}
-	TaskRef task_;
-	size_t channelIndex_;
+        Entry(const TaskRef& task, size_t channelIndex) : task_(task), channelIndex_(channelIndex) {}
+        TaskRef task_;
+        size_t channelIndex_;
     };
 
     using Container = std::vector<Entry>;
@@ -92,7 +91,8 @@ private:
     Container entries_;
 };
 
-}} // namespaces
+} // namespace IO
+} // namespace SideCar
 
 /** \file
  */

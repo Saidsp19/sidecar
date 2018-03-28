@@ -19,9 +19,7 @@ Syslog::ConvertPriority(Priority::Level level) throw(std::invalid_argument)
     case Priority::kDebug1: return LOG_DEBUG;
     case Priority::kDebug2: return LOG_DEBUG;
     case Priority::kDebug3: return LOG_DEBUG;
-    default:
-	throw std::invalid_argument("invalid Priority::Level");
-	break;
+    default: throw std::invalid_argument("invalid Priority::Level"); break;
     }
 }
 

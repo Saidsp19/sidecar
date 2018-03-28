@@ -9,24 +9,18 @@
 
 namespace SideCar {
 namespace Algorithms {
-namespace ABTrackerUtils { class Track; }
+namespace ABTrackerUtils {
+class Track;
+}
 
 /** Documentation for the algorithm ABTracker. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class ABTracker : public Algorithm
-{
+class ABTracker : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-	kAlpha,
-	kBeta,
-	kTrackCount,
-	kTimeScaling,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kAlpha, kBeta, kTrackCount, kTimeScaling, kNumSlots };
 
     /** Constructor.
 
@@ -50,14 +44,19 @@ public:
     bool shutdown();
 
     void setRotationDuration(double value)
-	{ rotationDuration_->setValue(value); calculateDurations(); }
+    {
+        rotationDuration_->setValue(value);
+        calculateDurations();
+    }
 
-    double getRotationDuration() const
-	{ return rotationDuration_->getValue(); }
+    double getRotationDuration() const { return rotationDuration_->getValue(); }
 
     void setTimeScaling(double value)
-	{ timeScaling_->setValue(value); calculateDurations(); }
-    
+    {
+        timeScaling_->setValue(value);
+        calculateDurations();
+    }
+
     double getTimeScaling() const { return timeScaling_->getValue(); }
 
     void setAlpha(double value) { alpha_->setValue(value); }
@@ -68,43 +67,39 @@ public:
 
     double getBeta() const { return beta_->getValue(); }
 
-    void setAssociationRadius(double value)
-	{ associationRadius_->setValue(value); }
+    void setAssociationRadius(double value) { associationRadius_->setValue(value); }
 
-    double getAssociationRadius() const
-	{ return associationRadius_->getValue(); }
+    double getAssociationRadius() const { return associationRadius_->getValue(); }
 
-    void setInitiationCount(int value)
-	{ initiationCount_->setValue(value); }
+    void setInitiationCount(int value) { initiationCount_->setValue(value); }
 
     uint32_t getInitiationCount() const { return initiationCount_->getValue(); }
 
     void setInitiationRotationCount(double value)
-	{ initiationRotationCount_->setValue(value); calculateDurations(); }
+    {
+        initiationRotationCount_->setValue(value);
+        calculateDurations();
+    }
 
-    double getInitiationRotationCount() const
-	{ return initiationRotationCount_->getValue(); }
+    double getInitiationRotationCount() const { return initiationRotationCount_->getValue(); }
 
     void setCoastRotationCount(double value)
-	{ coastRotationCount_->setValue(value); calculateDurations(); }
+    {
+        coastRotationCount_->setValue(value);
+        calculateDurations();
+    }
 
-    double getCoastRotationCount() const
-	{ return coastRotationCount_->getValue(); }
+    double getCoastRotationCount() const { return coastRotationCount_->getValue(); }
 
-    void setMinRange(double value)
-	{ minRange_->setValue(value); }
+    void setMinRange(double value) { minRange_->setValue(value); }
 
-    double getMinRange() const
-	{ return minRange_->getValue(); }
+    double getMinRange() const { return minRange_->getValue(); }
 
-    double getScaledMaxInitiationDuration() const
-	{ return scaledMaxInitiationDuration_; }
+    double getScaledMaxInitiationDuration() const { return scaledMaxInitiationDuration_; }
 
-    double getScaledMaxCoastDuration() const
-	{ return scaledMaxCoastDuration_; }
+    double getScaledMaxCoastDuration() const { return scaledMaxCoastDuration_; }
 
 private:
-
     bool updateTracks(const Messages::Extraction& plot);
 
     size_t getNumInfoSlots() const { return kNumSlots; }
@@ -152,14 +147,12 @@ private:
     size_t coastingCount_;
 
     struct Region {
-	Region()
-	    : name(), rangeMin(0.0), rangeMax(0.0),
-	      azMin(0.0), azMax(0.0) {}
-    	QString name;
-	double rangeMin;
-	double rangeMax;
-	double azMin;
-	double azMax;
+        Region() : name(), rangeMin(0.0), rangeMax(0.0), azMin(0.0), azMax(0.0) {}
+        QString name;
+        double rangeMin;
+        double rangeMax;
+        double azMin;
+        double azMax;
     };
 
     using RegionVector = std::vector<Region>;

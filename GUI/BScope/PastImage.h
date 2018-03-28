@@ -6,7 +6,9 @@
 #include "QtGui/QPixmap"
 #include "QtGui/QWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,20 +18,18 @@ class ViewSettings;
 
 namespace BScope {
 
-class PastImage : public QWidget
-{
+class PastImage : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     /** Obtain the Log device for PastImage instances
 
         \return Log device
     */
     static Logger::Log& Log();
 
-    PastImage(QWidget* parent, const QImage& image,
-              const QSize& size = QSize());
+    PastImage(QWidget* parent, const QImage& image, const QSize& size = QSize());
 
     void setImage(const QImage& image);
 
@@ -56,15 +56,14 @@ public slots:
     void setLabel(const QString& label);
 
 private:
-    
     void paintEvent(QPaintEvent* event);
 
     void checkCursorPosition();
 
     void enterEvent(QEvent* event);
-    
+
     void leaveEvent(QEvent* event);
-    
+
     void closeEvent(QCloseEvent* event);
 
     void timerEvent(QTimerEvent* event);

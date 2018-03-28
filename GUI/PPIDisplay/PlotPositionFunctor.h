@@ -9,11 +9,10 @@ namespace PPIDisplay {
 
 /** Implementation of the GUI::PlotPositionFunctor interface. Returns the X, Y positions for TargetPlot objects.
  */
-class PlotPositionFunctor : public ::SideCar::GUI::PlotPositionFunctor
-{
+class PlotPositionFunctor : public ::SideCar::GUI::PlotPositionFunctor {
     using Super = ::SideCar::GUI::PlotPositionFunctor;
-public:
 
+public:
     /** Obtain the plot position for a given TargetPlot object
 
         \param plot the TargetPlot to work with

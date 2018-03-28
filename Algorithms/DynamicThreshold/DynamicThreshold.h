@@ -13,22 +13,17 @@ namespace Algorithms {
     those samples that are greater than their corresponding threshold. The resulting output is a BinaryVideo
     message with true values in places where the sample passed the filter.
 */
-class DynamicThreshold : public ManyInAlgorithm
-{
+class DynamicThreshold : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
-public:
 
-    enum InfoSlots {
-        kOperator = Super::kNumSlots,
-        kPassPercentage,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kOperator = Super::kNumSlots, kPassPercentage, kNumSlots };
 
     /** Op options available via the Master GUI application.
      */
     enum Operator {
         kMinValue,
-        kLessThan = kMinValue, 
+        kLessThan = kMinValue,
         kLessThanEqualTo,
         kEqualTo,
         kGreaterThanEqualTo,
@@ -53,13 +48,11 @@ public:
     void setOperation(Operator value) { operator_->setValue(value); }
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
 
-    ChannelBuffer* makeChannelBuffer(int index, const std::string& name,
-                                     size_t maxBufferSize);
+    ChannelBuffer* makeChannelBuffer(int index, const std::string& name, size_t maxBufferSize);
 
     /** Process messages from the input channel buffers
 
@@ -70,12 +63,12 @@ private:
     TChannelBuffer<Messages::Video>* samples_;
     TChannelBuffer<Messages::Video>* thresholds_;
     Utils::RunningAverage passPercentage_;
-    
+
     struct OperatorEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Operator;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = Operator;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using OperatorParameter = Parameter::TValue<Parameter::Defs::Enum<OperatorEnumTraits>>;

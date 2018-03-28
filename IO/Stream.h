@@ -8,8 +8,12 @@
 
 #include "IO/Task.h"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace IO {
@@ -23,16 +27,18 @@ class StatusEmitterBase;
     Also, abide by the warnings in ACE Stream.h: there is some tricky stuff involved in overriding certain
     methods. This class does no overriding, only extending.
 */
-class Stream : public ACE_Stream<ACE_MT_SYNCH>
-{
+class Stream : public ACE_Stream<ACE_MT_SYNCH> {
 public:
     using Ref = boost::shared_ptr<Stream>;
     using StatusEmitterBaseRef = boost::shared_ptr<StatusEmitterBase>;
-    
+
     static Logger::Log& Log();
 
     static Ref Make(const std::string& name, const StatusEmitterBaseRef& emitter = StatusEmitterBaseRef())
-        {Ref ref(new Stream(name, emitter)); return ref;}
+    {
+        Ref ref(new Stream(name, emitter));
+        return ref;
+    }
 
     /** Obtain the name of the stream
 
@@ -65,13 +71,14 @@ public:
     void emitStatus() const;
 
 private:
-
     /** Constructor
 
         \param name name of the stream
     */
-    Stream(const std::string& name, const StatusEmitterBaseRef& emitter)
-	: ACE_Stream<ACE_MT_SYNCH>(), name_(name), emitter_(emitter) {}
+    Stream(const std::string& name, const StatusEmitterBaseRef& emitter) :
+        ACE_Stream<ACE_MT_SYNCH>(), name_(name), emitter_(emitter)
+    {
+    }
 
     std::string name_;
     StatusEmitterBaseRef emitter_;

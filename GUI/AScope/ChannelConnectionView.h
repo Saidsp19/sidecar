@@ -3,7 +3,9 @@
 
 #include "QtGui/QTableView"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,22 +20,21 @@ namespace AScope {
     double-clicks on the swatch, the view shows a QColorDialog box so that
     the user may change the color value.
 */
-class ChannelConnectionView : public QTableView
-{
+class ChannelConnectionView : public QTableView {
     Q_OBJECT
     using Super = QTableView;
+
 public:
-    
     static Logger::Log& Log();
 
     /** Constructor. Sets up the view to respond to user clicks. Sets up the header.
 
-        \param parent 
+        \param parent
     */
     ChannelConnectionView(QWidget* parent = 0);
 
 private slots:
-    
+
     /** Handler invoked when the user double-clicks on a row. Pops up an appropriate editor for the column that
         was clicked on.
 
@@ -76,16 +77,15 @@ private slots:
     void removeAll();
 
 private:
-
     /** Adjust the columns such that the visible and color coluns take up a minimum amount of space, and the
-	name column fills out the view.
+        name column fills out the view.
     */
     void adjustColumnSizes();
 
     /** Override of QWidget event handler. Detect when the view changes size in order to adjust the column
         widths.
 
-	\param event ignored
+        \param event ignored
     */
     void resizeEvent(QResizeEvent* event);
 

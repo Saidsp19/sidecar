@@ -26,26 +26,24 @@ GUID::DefineLoaders()
 
 TLoaderRegistry<GUID> GUID::loaderRegistry_(GUID::DefineLoaders());
 
-GUID::GUID()
-    : producer_(""), messageTypeKey_(MetaTypeInfo::Value::kInvalid), messageSequenceNumber_(0),
-      representation_("")
+GUID::GUID() :
+    producer_(""), messageTypeKey_(MetaTypeInfo::Value::kInvalid), messageSequenceNumber_(0), representation_("")
 {
     static Logger::ProcLog log("GUID(0)", Log());
     LOGTIN << "messageSequenceNumber: " << messageSequenceNumber_ << std::endl;
 }
 
-GUID::GUID(const std::string& producer, const MetaTypeInfo& metaTypeInfo)
-    : producer_(producer), messageTypeKey_(metaTypeInfo.getKey()),
-      messageSequenceNumber_(metaTypeInfo.getNextSequenceNumber()), representation_("")
+GUID::GUID(const std::string& producer, const MetaTypeInfo& metaTypeInfo) :
+    producer_(producer), messageTypeKey_(metaTypeInfo.getKey()),
+    messageSequenceNumber_(metaTypeInfo.getNextSequenceNumber()), representation_("")
 {
     static Logger::ProcLog log("GUID(1)", Log());
     LOGTIN << "messageSequenceNumber: " << messageSequenceNumber_ << std::endl;
 }
 
-GUID::GUID(const std::string& producer, const MetaTypeInfo& metaTypeInfo,
-           MetaTypeInfo::SequenceType sequenceNumber)
-    : producer_(producer), messageTypeKey_(metaTypeInfo.getKey()), messageSequenceNumber_(sequenceNumber),
-      representation_("")
+GUID::GUID(const std::string& producer, const MetaTypeInfo& metaTypeInfo, MetaTypeInfo::SequenceType sequenceNumber) :
+    producer_(producer), messageTypeKey_(metaTypeInfo.getKey()), messageSequenceNumber_(sequenceNumber),
+    representation_("")
 {
     static Logger::ProcLog log("GUID(2)", Log());
     LOGTIN << "messageSequenceNumber: " << messageSequenceNumber_ << std::endl;
@@ -54,10 +52,10 @@ GUID::GUID(const std::string& producer, const MetaTypeInfo& metaTypeInfo,
 const std::string&
 GUID::getSequenceKey() const
 {
-    if (! sequenceKey_.size()) {
-	std::ostringstream os;
-	os << producer_ << '/' << messageTypeKey_;
-	sequenceKey_ = os.str();
+    if (!sequenceKey_.size()) {
+        std::ostringstream os;
+        os << producer_ << '/' << messageTypeKey_;
+        sequenceKey_ = os.str();
     }
     return sequenceKey_;
 }
@@ -65,12 +63,12 @@ GUID::getSequenceKey() const
 const std::string&
 GUID::getRepresentation() const
 {
-    if (! representation_.size()) {
-	std::ostringstream os;
-	os << producer_ << '/' << messageTypeKey_;
-	sequenceKey_ = os.str();
-	os << '/' << messageSequenceNumber_;
-	representation_ = os.str();
+    if (!representation_.size()) {
+        std::ostringstream os;
+        os << producer_ << '/' << messageTypeKey_;
+        sequenceKey_ = os.str();
+        os << '/' << messageSequenceNumber_;
+        representation_ = os.str();
     }
     return representation_;
 }

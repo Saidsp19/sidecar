@@ -9,12 +9,10 @@
 namespace SideCar {
 namespace GUI {
 
-class PathSetting : public StringSetting
-{
+class PathSetting : public StringSetting {
     Q_OBJECT
 public:
-    PathSetting(PresetManager* mgr, QLabel* viewer, QPushButton* editor,
-                const QString& prompt, const QString& types,
+    PathSetting(PresetManager* mgr, QLabel* viewer, QPushButton* editor, const QString& prompt, const QString& types,
                 bool global = false);
 
 private slots:

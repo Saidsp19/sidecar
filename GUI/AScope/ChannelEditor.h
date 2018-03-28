@@ -9,14 +9,12 @@ namespace AScope {
 
 /** Simple editor for changing the sample and voltage ranges of an input channel.
  */
-class ChannelEditor : public QDialog, public Ui::ChannelEditor
-{
+class ChannelEditor : public QDialog, public Ui::ChannelEditor {
     Q_OBJECT
 public:
-
     /** Constructor.
 
-        \param parent 
+        \param parent
     */
     ChannelEditor(QWidget* parent = 0);
 };

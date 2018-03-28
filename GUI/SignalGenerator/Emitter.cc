@@ -10,11 +10,13 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::SignalGenerator;
 
-struct Pauser
-{
+struct Pauser {
     Emitter* obj_;
     Pauser(Emitter* obj) : obj_(obj->stop() ? obj : 0) {}
-    ~Pauser() { if (obj_) obj_->start(); }
+    ~Pauser()
+    {
+        if (obj_) obj_->start();
+    }
 };
 
 Logger::Log&
@@ -24,9 +26,7 @@ Emitter::Log()
     return log_;
 }
 
-Emitter::Emitter()
-    : writer_(0), sleepDuration_(0), messages_(), messageIndex_(0),
-      running_(false), mutex_()
+Emitter::Emitter() : writer_(0), sleepDuration_(0), messages_(), messageIndex_(0), running_(false), mutex_()
 {
     ;
 }
@@ -35,8 +35,8 @@ Emitter::~Emitter()
 {
     stop();
     if (writer_) {
-	writer_->stop();
-	delete writer_;
+        writer_->stop();
+        delete writer_;
     }
 }
 
@@ -45,8 +45,7 @@ Emitter::setFrequency(size_t frequency)
 {
     Logger::ProcLog log("setFrequency", Log());
     Time::TimeStamp dwellTime(1.0 / frequency);
-    sleepDuration_ = dwellTime.getSeconds() *
-	Time::TimeStamp::kMicrosPerSecond + dwellTime.getMicro();
+    sleepDuration_ = dwellTime.getSeconds() * Time::TimeStamp::kMicrosPerSecond + dwellTime.getMicro();
     LOGINFO << "sleepDuration: " << sleepDuration_ << std::endl;
 }
 
@@ -76,32 +75,27 @@ Emitter::setMessageList(const QList<Messages::Video::Ref>& messages)
 }
 
 MessageWriter*
-Emitter::setPublisherInfo(const QString& name,
-                          MainWindow::ConnectionType connectionType,
+Emitter::setPublisherInfo(const QString& name, MainWindow::ConnectionType connectionType,
                           const QString& multicastAddress)
 {
     Logger::ProcLog log("setPublisherInfo", Log());
-    LOGINFO << "name: " << name << " connectionType: " << connectionType
-	    << " multicastAddress: " << multicastAddress << std::endl;
+    LOGINFO << "name: " << name << " connectionType: " << connectionType << " multicastAddress: " << multicastAddress
+            << std::endl;
 
     Pauser p(this);
 
     if (writer_) {
-	writer_->stop();
-	delete writer_;
-	writer_ = 0;
+        writer_->stop();
+        delete writer_;
+        writer_ = 0;
     }
 
-    if (connectionType == MainWindow::kMulticast) 
-	writer_ = UDPMessageWriter::Make(
-	    name, Messages::Video::GetMetaTypeInfo().getName(),
-	    multicastAddress);
+    if (connectionType == MainWindow::kMulticast)
+        writer_ = UDPMessageWriter::Make(name, Messages::Video::GetMetaTypeInfo().getName(), multicastAddress);
     else
-	writer_ = TCPMessageWriter::Make(
-	    name, Messages::Video::GetMetaTypeInfo().getName());
+        writer_ = TCPMessageWriter::Make(name, Messages::Video::GetMetaTypeInfo().getName());
 
-    if (! writer_)
-	LOGERROR << "failed to create new MessageWriter" << std::endl;
+    if (!writer_) LOGERROR << "failed to create new MessageWriter" << std::endl;
 
     return writer_;
 }
@@ -109,8 +103,7 @@ Emitter::setPublisherInfo(const QString& name,
 bool
 Emitter::start()
 {
-    if (running_ || ! writer_ || messages_.empty())
-	return false;
+    if (running_ || !writer_ || messages_.empty()) return false;
     running_ = true;
     Super::start();
     return true;
@@ -119,7 +112,7 @@ Emitter::start()
 bool
 Emitter::stop()
 {
-    if (! running_) return false;
+    if (!running_) return false;
     running_ = false;
     wait();
     return true;
@@ -136,17 +129,15 @@ void
 Emitter::run()
 {
     while (running_) {
-	mutex_.lock();
-	if (! messages_.empty()) {
-	    IO::MessageManager mgr(messages_[messageIndex_++]);
-	    if (messageIndex_ == messages_.size())
-		messageIndex_ = 0;
-	    mutex_.unlock();
-	    writer_->writeMessage(mgr);
-	}
-	else {
-	    mutex_.unlock();
-	}
-	usleep(sleepDuration_);
+        mutex_.lock();
+        if (!messages_.empty()) {
+            IO::MessageManager mgr(messages_[messageIndex_++]);
+            if (messageIndex_ == messages_.size()) messageIndex_ = 0;
+            mutex_.unlock();
+            writer_->writeMessage(mgr);
+        } else {
+            mutex_.unlock();
+        }
+        usleep(sleepDuration_);
     }
 }

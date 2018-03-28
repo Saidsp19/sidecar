@@ -1,14 +1,13 @@
-#include "ConfigurationItem.h"
 #include "RunnerItem.h"
+#include "ConfigurationItem.h"
 #include "StreamItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-RunnerItem::RunnerItem(ConfigurationItem* parent, const QString& name,
-                       const QString& hostName,
-                       const QString& multicastAddress)
-    : Super(parent, name), hostName_(hostName),
-      multicastAddress_(multicastAddress)
+RunnerItem::RunnerItem(ConfigurationItem* parent, const QString& name, const QString& hostName,
+                       const QString& multicastAddress) :
+    Super(parent, name),
+    hostName_(hostName), multicastAddress_(multicastAddress)
 {
     ;
 }
@@ -23,8 +22,8 @@ void
 RunnerItem::setHostName(const QString& hostName)
 {
     if (hostName_ != hostName) {
-	hostName_ = hostName;
-	emitModified();
+        hostName_ = hostName;
+        emitModified();
     }
 }
 
@@ -32,7 +31,7 @@ void
 RunnerItem::setMulticastAddress(const QString& multicastAddress)
 {
     if (multicastAddress_ != multicastAddress) {
-	multicastAddress_ = multicastAddress;
-	emitModified();
+        multicastAddress_ = multicastAddress;
+        emitModified();
     }
 }

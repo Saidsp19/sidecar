@@ -9,7 +9,9 @@
 
 class QPrinter;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -39,19 +41,18 @@ class ViewEditor;
 /** Application class definition. Manages tool windows shared by all MainWindow objects. Also creates a History
     object that other classes use to obtain Video data for display.
 */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Menu action enumeration for tool window show/hide actions.
      */
     enum ToolsMenuAction {
-	kShowChannelConnectionWindow,
-	kShowConfigurationWindow,
-	kShowViewEditor,
-	kNumToolsMenuActions
+        kShowChannelConnectionWindow,
+        kShowConfigurationWindow,
+        kShowViewEditor,
+        kNumToolsMenuActions
     };
 
     /** Log device to use for App log messages.
@@ -78,42 +79,35 @@ public:
      */
     ~App();
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     History& getHistory() { return *history_; }
 
     Configuration& getConfiguration() const { return *configuration_; }
 
-    DefaultViewSettings& getDefaultViewSettings() const
-	{ return configuration_->getDefaultViewSettings(); }
+    DefaultViewSettings& getDefaultViewSettings() const { return configuration_->getDefaultViewSettings(); }
 
-    HistorySettings& getHistorySettings() const
-	{ return configuration_->getHistorySettings(); }
+    HistorySettings& getHistorySettings() const { return configuration_->getHistorySettings(); }
 
-    PeakBarSettings& getPeakBarSettings() const
-	{ return configuration_->getPeakBarSettings(); }
+    PeakBarSettings& getPeakBarSettings() const { return configuration_->getPeakBarSettings(); }
 
     /** Obtain the channel connection tool window
 
         \return ChannelConnectionWindow window
     */
-    ChannelConnectionWindow* getChannelConnectionWindow() const
-	{ return channelConnectionWindow_; }
+    ChannelConnectionWindow* getChannelConnectionWindow() const { return channelConnectionWindow_; }
 
     /** Obtain the configuration tool window
 
         \return ConfigurationWindow window
     */
-    ConfigurationWindow* getConfigurationWindow() const
-	{ return configurationWindow_; }
+    ConfigurationWindow* getConfigurationWindow() const { return configurationWindow_; }
 
     /** Obtain the configuration tool window
 
         \return ConfigurationWindow window
     */
-    ViewEditor* getViewEditor() const
-	{ return viewEditor_; }
+    ViewEditor* getViewEditor() const { return viewEditor_; }
 
     /** Add connections between some of the tool windows and a newly-created DisplayView object.
 
@@ -128,7 +122,6 @@ public:
     QPrinter* getPrinter() const { return printer_; }
 
 private:
-
     /** Override of AppBase method. Create a MainWindow object after the application has finished starting up.
 
         \return new MainWindow object

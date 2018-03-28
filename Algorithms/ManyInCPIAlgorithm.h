@@ -15,12 +15,10 @@ namespace Algorithms {
     sequence number. In other words, the sequence number must be present on all enabled channels for the
     algorithm to emit a summed messages.
 */
-class ManyInCPIAlgorithm : public ManyInAlgorithm
-{
+class ManyInCPIAlgorithm : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
 
 public:
-
     /** Constructor.
 
         \param controller object that controls us
@@ -29,8 +27,7 @@ public:
 
         \param cpiSpan size of the CPI in PRIs
     */
-    ManyInCPIAlgorithm(Controller& controller, Logger::Log& log,
-                       bool enabled = true, size_t maxBuffersize = 100,
+    ManyInCPIAlgorithm(Controller& controller, Logger::Log& log, bool enabled = true, size_t maxBuffersize = 100,
                        size_t cpiSpan = 10);
 
     /** Implementation of the Algorithm::startup interface. Register runtime parameters. Processors are
@@ -67,11 +64,10 @@ protected:
     Parameter::PositiveIntValue::Ref cpiSpan_;
 
 private:
-
     /** Implementation of ManyInAlgorithm::processChannels() method. Creates a mesage with summed sample values
         and emits it.
 
-        \return 
+        \return
     */
     bool processChannels();
 };

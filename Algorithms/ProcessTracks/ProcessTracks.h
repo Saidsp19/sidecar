@@ -13,15 +13,11 @@ namespace Algorithms {
 /** Documentation for the algorithm ProcessTracks This task simply receives track messages and passes them
     along.
 */
-class ProcessTracks : public Algorithm
-{
+class ProcessTracks : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -44,10 +40,7 @@ public:
     */
     bool shutdown();
 
- 
-
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -60,14 +53,9 @@ private:
     */
     bool processInput(const Messages::Track::Ref& msg);
 
-
     // Add attributes here
     //
     Parameter::BoolValue::Ref enabled_;
-
-    
- 
-
 };
 
 } // end namespace Algorithms

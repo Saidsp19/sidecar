@@ -2,20 +2,17 @@
 
 using namespace SideCar::GUI::BScope;
 
-PlayerSettings::PlayerSettings(QComboBoxSetting* playbackRate,
-                               QSpinBoxSetting* scalingPower,
-                               QCheckBoxSetting* looping)
-    : Super(), playbackRate_(playbackRate), scalingPower_(scalingPower),
-      looping_(looping)
+PlayerSettings::PlayerSettings(QComboBoxSetting* playbackRate, QSpinBoxSetting* scalingPower,
+                               QCheckBoxSetting* looping) :
+    Super(),
+    playbackRate_(playbackRate), scalingPower_(scalingPower), looping_(looping)
 {
     add(playbackRate);
     add(scalingPower);
     add(looping);
 
-    connect(playbackRate, SIGNAL(valueChanged(int)),
-            SLOT(changePlaybackRate(int)));
-    connect(scalingPower, SIGNAL(valueChanged(int)),
-            SLOT(changeScale(int)));
+    connect(playbackRate, SIGNAL(valueChanged(int)), SLOT(changePlaybackRate(int)));
+    connect(scalingPower, SIGNAL(valueChanged(int)), SLOT(changeScale(int)));
 }
 
 void
@@ -34,11 +31,11 @@ void
 PlayerSettings::changeScalingPower(int change)
 {
     int newValue = scalingPower_->getValue() + change;
-    if (newValue < -5) newValue = -5;
-    else if (newValue > 5) newValue = 5;
-    if (newValue != scalingPower_->getValue()) {
-	scalingPower_->setValue(newValue);
-    }
+    if (newValue < -5)
+        newValue = -5;
+    else if (newValue > 5)
+        newValue = 5;
+    if (newValue != scalingPower_->getValue()) { scalingPower_->setValue(newValue); }
 }
 
 void

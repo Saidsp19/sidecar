@@ -9,13 +9,11 @@ namespace ESScope {
 
 class RadarSettings;
 
-class AlphaRangeColumn : public DataContainer
-{
+class AlphaRangeColumn : public DataContainer {
 public:
     AlphaRangeColumn() : DataContainer(), scan_(-1) {}
 
-    void update(const Messages::Video::Ref& msg,
-                const RadarSettings* radarSettings, int scan);
+    void update(const Messages::Video::Ref& msg, const RadarSettings* radarSettings, int scan);
 
 private:
     int scan_;

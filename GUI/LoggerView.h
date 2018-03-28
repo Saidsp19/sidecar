@@ -6,12 +6,11 @@
 namespace SideCar {
 namespace GUI {
 
-class LoggerView : public QTreeView
-{
+class LoggerView : public QTreeView {
     Q_OBJECT
     using Super = QTreeView;
-public:
 
+public:
     LoggerView(QWidget* parent = 0);
 
 private slots:
@@ -19,7 +18,6 @@ private slots:
     void saveExpansionState(const QModelIndex& index);
 
 private:
-
     void rowsInserted(const QModelIndex& parent, int start, int end);
     bool getWasExpanded(const QModelIndex& index) const;
 };

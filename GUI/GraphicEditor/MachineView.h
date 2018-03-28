@@ -7,22 +7,21 @@
 
 /**
  */
-class MachineView : public QGraphicsItem
-{
+class MachineView : public QGraphicsItem {
 public:
-    MachineView(QGraphicsItem *parent=0);
+    MachineView(QGraphicsItem* parent = 0);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
     void resize()
     {
         prepareGeometryChange();
-        bounds=minsize | childrenBoundingRect();
+        bounds = minsize | childrenBoundingRect();
     }
 
     enum { Type = UserType + 3 };
@@ -31,7 +30,6 @@ public:
 private:
     QString hostname;
     QRectF minsize, bounds;
-
 };
 
 /** \file

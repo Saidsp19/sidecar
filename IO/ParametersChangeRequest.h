@@ -17,10 +17,8 @@ namespace IO {
     The XML-RPC data for a ParametersChangeRequest message consists of an array of name-value pairs, even
     entries containing the name of the parameter to change, and odd entries containing the new value.
 */
-class ParametersChangeRequest : public ControlMessage
-{
+class ParametersChangeRequest : public ControlMessage {
 public:
-
     /** Constructor. Used to create a new control message from data contained in an XML-RPC container.
 
         \param request description of the parameters to change.

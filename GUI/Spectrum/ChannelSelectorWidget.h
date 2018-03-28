@@ -10,11 +10,9 @@ namespace Spectrum {
 /** Widget that holds a QComboBox button that allow the user to select which Video channel to connect to for
     data, and a QCheckBox widget that indicates whether the incoming data is complex or not.
 */
-class ChannelSelectorWidget : public QWidget, public Ui::ChannelSelectorWidget
-{
+class ChannelSelectorWidget : public QWidget, public Ui::ChannelSelectorWidget {
     Q_OBJECT
 public:
-
     /** Constructor.
      */
     ChannelSelectorWidget(QWidget* parent = 0);

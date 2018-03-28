@@ -16,9 +16,7 @@
 
 using namespace SideCar::GUI::ConfigEditor;
 
-MainWindow::MainWindow()
-    : MainWindowBase(), gui_(new Ui::MainWindow),
-      model_(new TreeModel(this))
+MainWindow::MainWindow() : MainWindowBase(), gui_(new Ui::MainWindow), model_(new TreeModel(this))
 {
     gui_->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -29,7 +27,7 @@ MainWindow::MainWindow()
     MessageType* binaryVideoType = MessageType::Make("BinaryVideo");
 
     ConfigurationItem* config = new ConfigurationItem(0, "Config 1");
-    
+
     RunnerItem* runner = new RunnerItem(0, "Runner 1", "Host", "Addr");
     config->insertChild(0, runner);
 
@@ -37,32 +35,22 @@ MainWindow::MainWindow()
     runner->insertChild(0, stream);
     TaskItem* task = new TaskItem(stream, "Subscriber 1");
     stream->insertChild(0, task);
-    task->getOutputChannels()->insertChild(
-	0, new ChannelItem(task->getOutputChannels(), "A", "", videoType));
+    task->getOutputChannels()->insertChild(0, new ChannelItem(task->getOutputChannels(), "A", "", videoType));
 
     task = new AlgorithmItem(stream, "Algorithm 1", "One");
     stream->insertChild(1, task);
-    task->getInputChannels()->insertChild(
-	0, new ChannelItem(task->getInputChannels(), "A", "In", videoType));
-    task->getOutputChannels()->insertChild(
-	0, new ChannelItem(task->getOutputChannels(), "B", "Out",
-                           binaryVideoType));
+    task->getInputChannels()->insertChild(0, new ChannelItem(task->getInputChannels(), "A", "In", videoType));
+    task->getOutputChannels()->insertChild(0, new ChannelItem(task->getOutputChannels(), "B", "Out", binaryVideoType));
 
     task = new AlgorithmItem(stream, "Algorithm 2", "Two");
     stream->insertChild(2, task);
 
-    task->getInputChannels()->insertChild(
-	0, new ChannelItem(task->getInputChannels(), "B", "In",
-                           binaryVideoType));
-    task->getOutputChannels()->insertChild(
-	0, new ChannelItem(task->getOutputChannels(), "C", "Out",
-                           binaryVideoType));
+    task->getInputChannels()->insertChild(0, new ChannelItem(task->getInputChannels(), "B", "In", binaryVideoType));
+    task->getOutputChannels()->insertChild(0, new ChannelItem(task->getOutputChannels(), "C", "Out", binaryVideoType));
 
     task = new TaskItem(stream, "Publisher 1");
     stream->insertChild(3, task);
-    task->getInputChannels()->insertChild(
-	0, new ChannelItem(task->getInputChannels(), "C", "",
-                           binaryVideoType));
+    task->getInputChannels()->insertChild(0, new ChannelItem(task->getInputChannels(), "C", "", binaryVideoType));
 
     QList<TreeItem*> items;
     items.append(config);

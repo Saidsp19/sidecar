@@ -4,7 +4,9 @@
 #include "IO/IOTask.h"
 #include "Zeroconf/Publisher.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -14,9 +16,9 @@ namespace IO {
 
     Note that this class is still abstract since it does not define the IO::Task::deliverDataMessage() method.
 */
-class DataPublisher : public IOTask
-{
+class DataPublisher : public IOTask {
     using Super = IOTask;
+
 public:
     using Self = DataPublisher;
     using Ref = boost::shared_ptr<Self>;
@@ -32,7 +34,9 @@ public:
     ~DataPublisher();
 
     void setTransport(const std::string& transport)
-        { connectionPublisher_->setTextData("transport", transport, false); }
+    {
+        connectionPublisher_->setTextData("transport", transport, false);
+    }
 
     void setIP(const std::string& ip) { connectionPublisher_->setTextData("ip", ip, false); }
 
@@ -59,7 +63,7 @@ public:
 
     /** Begin publishing connection information under a specific name.
 
-	\param serviceName Zeroconf name of service publishing the data
+        \param serviceName Zeroconf name of service publishing the data
 
         \return true if successful, false otherwise
     */
@@ -82,9 +86,8 @@ public:
     const std::string& getServiceName() const { return serviceName_; }
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
-	methods.
+        methods.
     */
     DataPublisher();
 
@@ -97,7 +100,7 @@ protected:
     virtual void setServiceName(const std::string& serviceName);
 
     /** Callback invoked when internal timer fires. Attempt publish service availability via Zeroconf.
-        
+
         \param duration the timer period
 
         \param arg the timer that fired

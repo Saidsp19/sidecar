@@ -5,8 +5,7 @@
 
 #include "SineCosineLUT.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("SineCosineLUT") {}
     void test();
 };
@@ -26,11 +25,11 @@ Test::test()
     //
     double increment = M_PI * 2.0 / 65536;
     for (size_t index = 0; index < 65536; ++index) {
-	double angle = double(index) * increment;
-	lut->lookup(index, sine, cosine);
-	LOGDEBUG << index << ' ' << sine << ' ' << cosine << std::endl;
-	assertEqualEpsilon(::sin(angle), sine, epsilon);
-	assertEqualEpsilon(::cos(angle), cosine, epsilon);
+        double angle = double(index) * increment;
+        lut->lookup(index, sine, cosine);
+        LOGDEBUG << index << ' ' << sine << ' ' << cosine << std::endl;
+        assertEqualEpsilon(::sin(angle), sine, epsilon);
+        assertEqualEpsilon(::cos(angle), cosine, epsilon);
     }
 }
 

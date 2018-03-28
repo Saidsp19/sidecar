@@ -1,11 +1,10 @@
+#include "ParameterListItem.h"
 #include "AlgorithmItem.h"
 #include "ParameterItem.h"
-#include "ParameterListItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-ParameterListItem::ParameterListItem(AlgorithmItem* parent)
-    : Super(parent, "Parameters")
+ParameterListItem::ParameterListItem(AlgorithmItem* parent) : Super(parent, "Parameters")
 {
     ;
 }

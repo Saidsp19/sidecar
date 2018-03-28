@@ -7,7 +7,9 @@
 
 #include "QtCore/QMetaType"
 
-namespace  Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 class ACE_Message_Block;
 
@@ -28,10 +30,8 @@ namespace GUI {
     copy of a held mesage block, for instance when giving it to an
     IO::MessageManager instance.
 */
-class MessageBlockList
-{
+class MessageBlockList {
 public:
-
     using Ref = boost::shared_ptr<MessageBlockList>;
 
     static Logger::Log& Log();
@@ -48,19 +48,17 @@ public:
 
     size_t size() const { return data_.size(); }
 
-    void add(ACE_Message_Block* data)
-	{ data_.push_back(data); }
+    void add(ACE_Message_Block* data) { data_.push_back(data); }
 
     ACE_Message_Block* getLastEntry() const;
 
     ACE_Message_Block* getEntry(size_t index) const;
 
 private:
-
     std::vector<ACE_Message_Block*> data_;
 
     /** Unique Qt meta type identifier for SideCar::GUI::MessageBlockList::Ref objects. Filled in with the
-	return from qRegisterMetaType() function.
+        return from qRegisterMetaType() function.
     */
     static int const kMetaTypeId;
 };

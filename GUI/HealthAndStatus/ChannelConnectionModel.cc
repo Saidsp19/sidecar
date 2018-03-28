@@ -13,20 +13,15 @@ using namespace SideCar::GUI::HealthAndStatus;
 Logger::Log&
 ChannelConnectionModel::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("hands.ChannelConnectionModel");
+    static Logger::Log& log_ = Logger::Log::Find("hands.ChannelConnectionModel");
     return log_;
 }
 
-ChannelConnectionModel::ChannelConnectionModel(QObject* parent)
-    : Super(parent), connections_(), browser_(0)
+ChannelConnectionModel::ChannelConnectionModel(QObject* parent) : Super(parent), connections_(), browser_(0)
 {
-    browser_ = new ServiceBrowser(
-	this, QString::fromStdString(
-	    IO::ZeroconfTypes::Publisher::MakeZeroconfType(
-		Messages::Video::GetMetaTypeInfo().getName())));
-    connect(browser_,
-            SIGNAL(availableServices(const ServiceEntryHash&)),
+    browser_ = new ServiceBrowser(this, QString::fromStdString(IO::ZeroconfTypes::Publisher::MakeZeroconfType(
+                                            Messages::Video::GetMetaTypeInfo().getName())));
+    connect(browser_, SIGNAL(availableServices(const ServiceEntryHash&)),
             SLOT(setAvailableServices(const ServiceEntryHash&)));
     browser_->start();
 }
@@ -35,8 +30,8 @@ ChannelConnectionModel::~ChannelConnectionModel()
 {
     delete browser_;
     foreach (ChannelConnection* connection, connections_) {
-	connection->shutdown();
-	connection->deleteLater();
+        connection->shutdown();
+        connection->deleteLater();
     }
     connections_.clear();
 }
@@ -48,19 +43,15 @@ ChannelConnectionModel::setAvailableServices(const ServiceEntryHash& services)
     LOGINFO << services.count() << std::endl;
 
     QStringList unconnected;
-    for (ServiceEntryHash::const_iterator pos = services.begin();
-         pos != services.end(); ++pos) {
-	ServiceEntry* serviceEntry = pos.value();
-	LOGDEBUG << serviceEntry << ' ' << pos.key() << std::endl;
-	ChannelConnection* w = findChannelConnection(pos.key());
-	if (w) {
-	    if (! w->isConnected()) {
-		w->useServiceEntry(serviceEntry);
-	    }
-	}
-	else {
-	    unconnected.append(pos.key());
-	}
+    for (ServiceEntryHash::const_iterator pos = services.begin(); pos != services.end(); ++pos) {
+        ServiceEntry* serviceEntry = pos.value();
+        LOGDEBUG << serviceEntry << ' ' << pos.key() << std::endl;
+        ChannelConnection* w = findChannelConnection(pos.key());
+        if (w) {
+            if (!w->isConnected()) { w->useServiceEntry(serviceEntry); }
+        } else {
+            unconnected.append(pos.key());
+        }
     }
 
     qSort(unconnected);
@@ -68,12 +59,10 @@ ChannelConnectionModel::setAvailableServices(const ServiceEntryHash& services)
 }
 
 QModelIndex
-ChannelConnectionModel::index(int row, int column,
-                              const QModelIndex& parent) const
+ChannelConnectionModel::index(int row, int column, const QModelIndex& parent) const
 {
     QModelIndex index(Super::index(row, column, parent));
-    if (index != QModelIndex())
-	index = createIndex(row, column, connections_[row]);
+    if (index != QModelIndex()) index = createIndex(row, column, connections_[row]);
     return index;
 }
 
@@ -86,9 +75,8 @@ ChannelConnectionModel::rowCount(const QModelIndex& parent) const
 QVariant
 ChannelConnectionModel::data(const QModelIndex& index, int role) const
 {
-    if (! index.isValid()) return QVariant();
-    if (role == Qt::SizeHintRole)
-	return GetObject(index)->getMinimumSizeHint();
+    if (!index.isValid()) return QVariant();
+    if (role == Qt::SizeHintRole) return GetObject(index)->getMinimumSizeHint();
     return QVariant();
 }
 
@@ -126,9 +114,8 @@ ChannelConnectionModel::swap(int row1, int row2)
 ChannelConnection*
 ChannelConnectionModel::findChannelConnection(const QString& name) const
 {
-    foreach(ChannelConnection* obj, connections_) {
-	if (obj->getName() == name)
-	    return obj;
+    foreach (ChannelConnection* obj, connections_) {
+        if (obj->getName() == name) return obj;
     }
 
     return 0;
@@ -137,11 +124,9 @@ ChannelConnectionModel::findChannelConnection(const QString& name) const
 QModelIndex
 ChannelConnectionModel::add(ChannelConnection* channelConnection, int row)
 {
-    ServiceEntry* serviceEntry =
-	browser_->getServiceEntry(channelConnection->getName());
+    ServiceEntry* serviceEntry = browser_->getServiceEntry(channelConnection->getName());
 
-    if (serviceEntry)
-	channelConnection->useServiceEntry(serviceEntry);
+    if (serviceEntry) channelConnection->useServiceEntry(serviceEntry);
 
     beginInsertRows(QModelIndex(), row, row);
     connections_.insert(row, channelConnection);
@@ -151,15 +136,14 @@ ChannelConnectionModel::add(ChannelConnection* channelConnection, int row)
 }
 
 bool
-ChannelConnectionModel::removeRows(int row, int count,
-                                   const QModelIndex& parent)
+ChannelConnectionModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
 
     while (count-- > 0) {
-	ChannelConnection* w = connections_.takeAt(row);
-	w->shutdown();
-	w->deleteLater();
+        ChannelConnection* w = connections_.takeAt(row);
+        w->shutdown();
+        w->deleteLater();
     }
 
     endRemoveRows();
@@ -170,8 +154,7 @@ bool
 ChannelConnectionModel::hasChannel(const QString& name) const
 {
     foreach (ChannelConnection* obj, connections_) {
-	if (obj->getName() == name)
-	    return true;
+        if (obj->getName() == name) return true;
     }
 
     return false;

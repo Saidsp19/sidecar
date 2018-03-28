@@ -16,8 +16,7 @@ TSPI::LoaderRegistry::VersionedLoaderVector
 TSPI::DefineLoaders()
 {
     LoaderRegistry::VersionedLoaderVector loaders;
-    loaders.push_back(
-	LoaderRegistry::VersionedLoader(1, &TSPI::LoadV1));
+    loaders.push_back(LoaderRegistry::VersionedLoader(1, &TSPI::LoadV1));
     return loaders;
 }
 
@@ -47,20 +46,16 @@ TSPI::GetOrigin()
     // !!! since this depends on RadarConfig class attributes which we wish to be initialized and valid before
     // !!! creating the origin.
     //
-    if (! origin_) {
-	Logger::ProcLog log("GetOrigin", Log());
-	origin_ = new GEO_LOCATION;
+    if (!origin_) {
+        Logger::ProcLog log("GetOrigin", Log());
+        origin_ = new GEO_LOCATION;
 
-	// geoInitLocation() expects lat/lon in degrees, height in meters.
-	//
-	geoInitLocation(origin_, RadarConfig::GetSiteLatitude(),
-                        RadarConfig::GetSiteLongitude(),
-                        RadarConfig::GetSiteHeight(), GEO_DATUM_DEFAULT,
-                        "Radar");
-	LOGINFO << "LLH: " << origin_->lat << ' ' << origin_->lon
-		<< ' ' << origin_->hgt << std::endl;
-	LOGINFO << "EFG: " << origin_->e << ' ' << origin_->f << ' '
-		<< origin_->g << std::endl;
+        // geoInitLocation() expects lat/lon in degrees, height in meters.
+        //
+        geoInitLocation(origin_, RadarConfig::GetSiteLatitude(), RadarConfig::GetSiteLongitude(),
+                        RadarConfig::GetSiteHeight(), GEO_DATUM_DEFAULT, "Radar");
+        LOGINFO << "LLH: " << origin_->lat << ' ' << origin_->lon << ' ' << origin_->hgt << std::endl;
+        LOGINFO << "EFG: " << origin_->e << ' ' << origin_->f << ' ' << origin_->g << std::endl;
     }
 
     return origin_;
@@ -69,32 +64,32 @@ TSPI::GetOrigin()
 std::string
 TSPI::GetSystemIdTag(uint16_t systemId)
 {
-    using Map = std::map<uint16_t,std::string>;
+    using Map = std::map<uint16_t, std::string>;
 
     // !!! NOTE: this is not thread-safe. Potential race situation here, with major badness if invoked from
     // !!! multiple threads.
     //
     static Map map_;
     if (map_.empty()) {
-	map_.insert(Map::value_type(0x1201, "RFA"));
-	map_.insert(Map::value_type(0x1202, "RFB"));
-	map_.insert(Map::value_type(0x1001, "GTA"));
-	map_.insert(Map::value_type(0x1006, "GTB"));
-	map_.insert(Map::value_type(0x1002, "GTC"));
-	map_.insert(Map::value_type(0x104F, "GTD"));
-	map_.insert(Map::value_type(0x1050, "GTE"));
-	map_.insert(Map::value_type(0x1084, "GTF"));
-	map_.insert(Map::value_type(0x1085, "GTG"));
-	map_.insert(Map::value_type(0x109A, "GTH"));
-	map_.insert(Map::value_type(0x109B, "GTI"));
-	map_.insert(Map::value_type(0x132D, "GTJ"));
-	map_.insert(Map::value_type(0x103D, "MRA"));
-	map_.insert(Map::value_type(0x1044, "MRB"));
-	map_.insert(Map::value_type(0x1005, "MRC"));
-	map_.insert(Map::value_type(0x1038, "MRD"));
-	map_.insert(Map::value_type(0x1007, "MRE"));
-	map_.insert(Map::value_type(0x1039, "MRF"));
-	map_.insert(Map::value_type(0x1009, "MRG"));
+        map_.insert(Map::value_type(0x1201, "RFA"));
+        map_.insert(Map::value_type(0x1202, "RFB"));
+        map_.insert(Map::value_type(0x1001, "GTA"));
+        map_.insert(Map::value_type(0x1006, "GTB"));
+        map_.insert(Map::value_type(0x1002, "GTC"));
+        map_.insert(Map::value_type(0x104F, "GTD"));
+        map_.insert(Map::value_type(0x1050, "GTE"));
+        map_.insert(Map::value_type(0x1084, "GTF"));
+        map_.insert(Map::value_type(0x1085, "GTG"));
+        map_.insert(Map::value_type(0x109A, "GTH"));
+        map_.insert(Map::value_type(0x109B, "GTI"));
+        map_.insert(Map::value_type(0x132D, "GTJ"));
+        map_.insert(Map::value_type(0x103D, "MRA"));
+        map_.insert(Map::value_type(0x1044, "MRB"));
+        map_.insert(Map::value_type(0x1005, "MRC"));
+        map_.insert(Map::value_type(0x1038, "MRD"));
+        map_.insert(Map::value_type(0x1007, "MRE"));
+        map_.insert(Map::value_type(0x1039, "MRF"));
+        map_.insert(Map::value_type(0x1009, "MRG"));
     }
 
     Map::const_iterator pos = map_.find(systemId);
@@ -105,7 +100,7 @@ TSPI::GetSystemIdTag(uint16_t systemId)
     case 0x0000: os << 'I'; break;
     case 0x1000: os << 'R'; break;
     case 0x2000: os << 'G'; break;
-    default:     os << 'U'; break;
+    default: os << 'U'; break;
     }
 
     os << (systemId & 0x0FFF);
@@ -116,33 +111,28 @@ TSPI::Ref
 TSPI::MakeRaw(const std::string& producer, ACE_Message_Block* raw)
 {
     Logger::ProcLog log("MakeRaw", Log());
-    LOGINFO << producer << ' ' << int(*raw->rd_ptr()) << ' ' << raw->length()
-	    << std::endl;
-    if (*raw->rd_ptr() != 0x01 || raw->size() < 18)
-	return Ref();
+    LOGINFO << producer << ' ' << int(*raw->rd_ptr()) << ' ' << raw->length() << std::endl;
+    if (*raw->rd_ptr() != 0x01 || raw->size() < 18) return Ref();
     Ref ref(new TSPI(producer, raw));
     return ref;
 }
 
 TSPI::Ref
-TSPI::MakeRAE(const std::string& producer, const std::string& id, double when,
-              double r, double a, double e)
+TSPI::MakeRAE(const std::string& producer, const std::string& id, double when, double r, double a, double e)
 {
     Ref ref(new TSPI(producer, id, when, InitFromRAE(r, a, e)));
     return ref;
 }
 
 TSPI::Ref
-TSPI::MakeLLH(const std::string& producer, const std::string& id, double when,
-              double lat, double lon, double hgt)
+TSPI::MakeLLH(const std::string& producer, const std::string& id, double when, double lat, double lon, double hgt)
 {
     Ref ref(new TSPI(producer, id, when, InitFromLLH(lat, lon, hgt)));
     return ref;
 }
 
 TSPI::Ref
-TSPI::MakeXYZ(const std::string& producer, const std::string& id, double when,
-              double x, double y, double z)
+TSPI::MakeXYZ(const std::string& producer, const std::string& id, double when, double x, double y, double z)
 {
     Ref ref(new TSPI(producer, id, when, InitFromXYZ(x, y, z)));
     return ref;
@@ -179,13 +169,11 @@ TSPI::MakeEFGCoordinateFromRawBytes(const uint8_t* ptr)
     //
     int32_t tmp;
     if (QSysInfo::ByteOrder == QSysInfo::LittleEndian) {
-	// swap byte-order on little endian machine
-	//
-	tmp = (ptr[3] << 24) | (ptr[2] << 16) | (ptr[1] << 8) |
-	    ptr[0];
-    }
-    else { // on a big-endian machine, no nothing to bytes
-	tmp = *((uint32_t*) ptr);
+        // swap byte-order on little endian machine
+        //
+        tmp = (ptr[3] << 24) | (ptr[2] << 16) | (ptr[1] << 8) | ptr[0];
+    } else { // on a big-endian machine, no nothing to bytes
+        tmp = *((uint32_t*)ptr);
     }
 
     // TSPI values are scaled by 256 to preserve some fractional component.
@@ -193,9 +181,8 @@ TSPI::MakeEFGCoordinateFromRawBytes(const uint8_t* ptr)
     return tmp / 256.0;
 }
 
-TSPI::TSPI(const std::string& producer, ACE_Message_Block* raw)
-    : Header(producer, GetMetaTypeInfo()), when_(0.0), flags_(0), tag_(""), 
-      llh_(), rae_(), xyz_()
+TSPI::TSPI(const std::string& producer, ACE_Message_Block* raw) :
+    Header(producer, GetMetaTypeInfo()), when_(0.0), flags_(0), tag_(""), llh_(), rae_(), xyz_()
 {
     Logger::ProcLog log("TSPI", Log());
     LOGINFO << std::endl;
@@ -209,68 +196,56 @@ TSPI::TSPI(const std::string& producer, ACE_Message_Block* raw)
 
     // Reconstruct EFG geodetic coordinates.
     //
-    efg_[GEO_E] = MakeEFGCoordinateFromRawBytes(bytes +  5);
-    efg_[GEO_F] = MakeEFGCoordinateFromRawBytes(bytes +  9);
+    efg_[GEO_E] = MakeEFGCoordinateFromRawBytes(bytes + 5);
+    efg_[GEO_F] = MakeEFGCoordinateFromRawBytes(bytes + 9);
     efg_[GEO_G] = MakeEFGCoordinateFromRawBytes(bytes + 13);
 
     if (log.showsDebug1()) dump();
 }
 
-TSPI::TSPI(const std::string& producer, const std::string& tag, double when,
-           const InitFromRAE& rae)
-    : Header(producer, GetMetaTypeInfo()), when_(when), flags_(0),
-      tag_(tag), llh_(), rae_(), xyz_()
+TSPI::TSPI(const std::string& producer, const std::string& tag, double when, const InitFromRAE& rae) :
+    Header(producer, GetMetaTypeInfo()), when_(when), flags_(0), tag_(tag), llh_(), rae_(), xyz_()
 {
     Logger::ProcLog log("TSPI", Log());
-    LOGINFO << "tag: " << tag << " when: " << when << " rng: " << rae.r_
-	    << " az: " << rae.a_ << " el: " << rae.e_ << std::endl;
+    LOGINFO << "tag: " << tag << " when: " << when << " rng: " << rae.r_ << " az: " << rae.a_ << " el: " << rae.e_
+            << std::endl;
 
     rae_.resize(3);
     rae_[GEO_RNG] = rae.r_;
     if (::fabs(rae.r_) < 1.0E-8) {
-	rae_[GEO_AZ] = 0.0;
-	rae_[GEO_EL] = 0.0;
-    }
-    else {
-	rae_[GEO_AZ] = rae.a_;
-	rae_[GEO_EL] = rae.e_;
+        rae_[GEO_AZ] = 0.0;
+        rae_[GEO_EL] = 0.0;
+    } else {
+        rae_[GEO_AZ] = rae.a_;
+        rae_[GEO_EL] = rae.e_;
     }
 
     geoRae2Efg(const_cast<GEO_LOCATION*>(GetOrigin()), &rae_[0], efg_);
 
-    if (log.showsDebug1())
-	dump();
+    if (log.showsDebug1()) dump();
 }
 
-TSPI::TSPI(const std::string& producer, const std::string& tag, double when,
-           const InitFromLLH& llh)
-    : Header(producer, GetMetaTypeInfo()), when_(when), flags_(0),
-      tag_(tag), llh_(), rae_(), xyz_()
+TSPI::TSPI(const std::string& producer, const std::string& tag, double when, const InitFromLLH& llh) :
+    Header(producer, GetMetaTypeInfo()), when_(when), flags_(0), tag_(tag), llh_(), rae_(), xyz_()
 {
     Logger::ProcLog log("TSPI", Log());
-    LOGINFO << "when: " << when << " lat: " << llh.lat_ << " lon: "
-	    << llh.lon_ << " hgt: " << llh.hgt_ << std::endl;
+    LOGINFO << "when: " << when << " lat: " << llh.lat_ << " lon: " << llh.lon_ << " hgt: " << llh.hgt_ << std::endl;
 
     llh_.resize(3);
     llh_[GEO_LAT] = Utils::degreesToRadians(llh.lat_);
     llh_[GEO_LON] = Utils::degreesToRadians(llh.lon_);
     llh_[GEO_HGT] = llh.hgt_;
-    geoLlh2Efg(llh_[GEO_LAT], llh_[GEO_LON], llh_[GEO_HGT],
-               GEO_DATUM_DEFAULT, &efg_[GEO_E], &efg_[GEO_F],
+    geoLlh2Efg(llh_[GEO_LAT], llh_[GEO_LON], llh_[GEO_HGT], GEO_DATUM_DEFAULT, &efg_[GEO_E], &efg_[GEO_F],
                &efg_[GEO_G]);
 
-    if (log.showsDebug1())
-	dump();
+    if (log.showsDebug1()) dump();
 }
 
-TSPI::TSPI(const std::string& producer, const std::string& tag, double when,
-           const InitFromXYZ& xyz)
-    : Header(producer, GetMetaTypeInfo()), when_(when), flags_(0),
-      tag_(tag), llh_(), rae_(), xyz_()
+TSPI::TSPI(const std::string& producer, const std::string& tag, double when, const InitFromXYZ& xyz) :
+    Header(producer, GetMetaTypeInfo()), when_(when), flags_(0), tag_(tag), llh_(), rae_(), xyz_()
 {
     Logger::ProcLog log("TSPI", Log());
-    LOGINFO << "when: " << when << " x: " << xyz.x_ << " y: " << xyz.y_
-	    << " z: " << xyz.z_ << std::endl;
+    LOGINFO << "when: " << when << " x: " << xyz.x_ << " y: " << xyz.y_ << " z: " << xyz.z_ << std::endl;
     xyz_.resize(3);
     xyz_[GEO_X] = xyz.x_;
     xyz_[GEO_Y] = xyz.y_;
@@ -278,23 +253,20 @@ TSPI::TSPI(const std::string& producer, const std::string& tag, double when,
     rae_.resize(3);
     geoXyz2Rae(&xyz_[0], &rae_[0]);
     if (::fabs(rae_[GEO_RNG]) < 1.0E-8) {
-	rae_[GEO_AZ] = 0.0;
-	rae_[GEO_EL] = 0.0;
+        rae_[GEO_AZ] = 0.0;
+        rae_[GEO_EL] = 0.0;
     }
 
     geoRae2Efg(const_cast<GEO_LOCATION*>(GetOrigin()), &rae_[0], efg_);
-    if (log.showsDebug1())
-	dump();
+    if (log.showsDebug1()) dump();
 }
 
-TSPI::TSPI()
-    : Header(GetMetaTypeInfo()), llh_(), rae_(), xyz_()
+TSPI::TSPI() : Header(GetMetaTypeInfo()), llh_(), rae_(), xyz_()
 {
     ;
 }
 
-TSPI::TSPI(const std::string& producer)
-    : Header(producer, GetMetaTypeInfo()), llh_(), rae_(), xyz_()
+TSPI::TSPI(const std::string& producer) : Header(producer, GetMetaTypeInfo()), llh_(), rae_(), xyz_()
 {
     ;
 }
@@ -309,18 +281,15 @@ TSPI::calculateLLH() const
     // in radians, height in meters.
     //
     llh_.resize(3);
-    geoEfg2Llh(GEO_DATUM_DEFAULT, const_cast<double*>(efg_),
-               &llh_[GEO_LAT], &llh_[GEO_LON], &llh_[GEO_HGT]);
-    LOGINFO << "LLH: " << Utils::radiansToDegrees(llh_[GEO_LAT]) << ' '
-	    << Utils::radiansToDegrees(llh_[GEO_LON]) << ' '
-	    << llh_[GEO_HGT] << std::endl;
+    geoEfg2Llh(GEO_DATUM_DEFAULT, const_cast<double*>(efg_), &llh_[GEO_LAT], &llh_[GEO_LON], &llh_[GEO_HGT]);
+    LOGINFO << "LLH: " << Utils::radiansToDegrees(llh_[GEO_LAT]) << ' ' << Utils::radiansToDegrees(llh_[GEO_LON]) << ' '
+            << llh_[GEO_HGT] << std::endl;
 }
 
 const TSPI::Coord&
 TSPI::getLatitudeLongitudeHeight() const
 {
-    if (llh_.empty())
-	calculateLLH();
+    if (llh_.empty()) calculateLLH();
     return llh_;
 }
 
@@ -330,55 +299,48 @@ TSPI::calculateRAE() const
     static Logger::ProcLog log("calculateRAE", Log());
     LOGINFO << std::endl;
 
-    if (xyz_.empty())
-	calculateXYZ();
+    if (xyz_.empty()) calculateXYZ();
 
     // Convert from delta meters to slant range, azimuth, elevation, with azimuth and elevation in radians.
     //
     rae_.resize(3);
     geoXyz2Rae(&xyz_[0], &rae_[0]);
     if (::fabs(rae_[GEO_RNG]) < 1.0E-8) {
-	rae_[GEO_AZ] = 0.0;
-	rae_[GEO_EL] = 0.0;
+        rae_[GEO_AZ] = 0.0;
+        rae_[GEO_EL] = 0.0;
     }
 
-    LOGINFO << "RAE: " << rae_[GEO_RNG] << ' '
-	    << Utils::radiansToDegrees(rae_[GEO_AZ]) << ' '
-	    << Utils::radiansToDegrees(rae_[GEO_EL]) << std::endl;
+    LOGINFO << "RAE: " << rae_[GEO_RNG] << ' ' << Utils::radiansToDegrees(rae_[GEO_AZ]) << ' '
+            << Utils::radiansToDegrees(rae_[GEO_EL]) << std::endl;
 }
 
 const TSPI::Coord&
 TSPI::getRangeAzimuthElevation() const
 {
-    if (rae_.empty())
-	calculateRAE();
+    if (rae_.empty()) calculateRAE();
     return rae_;
 }
 
 void
 TSPI::calculateXYZ() const
 {
-    if (llh_.empty())
-	calculateLLH();
+    if (llh_.empty()) calculateLLH();
 
     // Create a new location for delta calculations to this point from the radar origin. NOTE: geoInitLocation()
     // expects lat/lon in degrees, height in meters.
     //
     GEO_LOCATION target;
-    geoInitLocation(&target, Utils::radiansToDegrees(llh_[GEO_LAT]),
-                    Utils::radiansToDegrees(llh_[GEO_LON]),
+    geoInitLocation(&target, Utils::radiansToDegrees(llh_[GEO_LAT]), Utils::radiansToDegrees(llh_[GEO_LON]),
                     llh_[GEO_HGT], GEO_DATUM_DEFAULT, "Target");
 
     xyz_.resize(3);
-    geoEfg2XyzDiff(const_cast<GEO_LOCATION*>(GetOrigin()), &target,
-                   &xyz_[0]);
+    geoEfg2XyzDiff(const_cast<GEO_LOCATION*>(GetOrigin()), &target, &xyz_[0]);
 }
 
 const TSPI::Coord&
 TSPI::getXYZ() const
 {
-    if (xyz_.empty())
-	calculateXYZ();
+    if (xyz_.empty()) calculateXYZ();
     return xyz_;
 }
 
@@ -404,8 +366,7 @@ TSPI::loadV1(ACE_InputCDR& cdr)
     LOGINFO << "BEGIN" << std::endl;
 
     cdr.read_double_array(efg_, 3);
-    LOGDEBUG << "EFG: " << efg_[GEO_E] << ' ' << efg_[GEO_F] << ' '
-	     << efg_[GEO_G] << std::endl;
+    LOGDEBUG << "EFG: " << efg_[GEO_E] << ' ' << efg_[GEO_F] << ' ' << efg_[GEO_G] << std::endl;
     cdr >> when_;
     cdr >> flags_;
     cdr >> tag_;
@@ -434,36 +395,29 @@ TSPI::write(ACE_OutputCDR& cdr) const
 std::ostream&
 TSPI::printData(std::ostream& os) const
 {
-    os << "Tag: " << tag_ << " When: " << when_ << " RAE: "
-       << getRange() << "/" << Utils::radiansToDegrees(getAzimuth()) << "/"
-       << getElevation() << " Flags: " << flags_;
+    os << "Tag: " << tag_ << " When: " << when_ << " RAE: " << getRange() << "/"
+       << Utils::radiansToDegrees(getAzimuth()) << "/" << getElevation() << " Flags: " << flags_;
     return os;
 }
 
 std::ostream&
 TSPI::printDataXML(std::ostream& os) const
 {
-    return os << "<plot tag=\"" << tag_
-	      << "\" when=\"" << when_
-	      << "\" range=\"" << getRange()
-	      << "\" azimuth=\"" << Utils::radiansToDegrees(getAzimuth())
-	      << "\" elevation=\"" << getElevation()
-	      << "\" flags=\"" << flags_
-	      << "\" />";
+    return os << "<plot tag=\"" << tag_ << "\" when=\"" << when_ << "\" range=\"" << getRange() << "\" azimuth=\""
+              << Utils::radiansToDegrees(getAzimuth()) << "\" elevation=\"" << getElevation() << "\" flags=\"" << flags_
+              << "\" />";
 }
 
 void
 TSPI::loadXML(XmlStreamReader& xsr)
 {
     Header::loadXML(xsr);
-    if (! xsr.readNextEntityAndValidate("plot"))
-	::abort();
+    if (!xsr.readNextEntityAndValidate("plot")) ::abort();
 
     when_ = xsr.getAttribute("when").toDouble();
     rae_.resize(3);
     rae_[GEO_RNG] = xsr.getAttribute("range").toDouble();
-    rae_[GEO_AZ] = Utils::degreesToRadians(
-	xsr.getAttribute("azimuth").toDouble());
+    rae_[GEO_AZ] = Utils::degreesToRadians(xsr.getAttribute("azimuth").toDouble());
     rae_[GEO_EL] = xsr.getAttribute("elevation").toDouble();
     geoRae2Efg(const_cast<GEO_LOCATION*>(GetOrigin()), &rae_[0], efg_);
     flags_ = xsr.getAttribute("flags").toShort();
@@ -473,17 +427,11 @@ void
 TSPI::dump() const
 {
     static Logger::ProcLog log("dump", Log());
-    LOGDEBUG << "Tag: " << tag_ << " When: " <<  when_ << std::endl;
-    LOGDEBUG << "EFG: " << efg_[GEO_E] <<  ' '
-	     << efg_[GEO_F] << ' '
-	     << efg_[GEO_G] << std::endl;
-    LOGDEBUG << "LLH: " << Utils::radiansToDegrees(getLatitude()) << ' '
-	     << Utils::radiansToDegrees(getLongitude()) << ' '
-	     << getHeight() <<  std::endl;
-    LOGDEBUG << "RAE: " << getRange() << ' '
-	     << Utils::radiansToDegrees(getAzimuth()) << ' '
-	     << Utils::radiansToDegrees(getElevation()) << std::endl;
-    LOGDEBUG << "XYZ: " << getX() << ' '
-	     << getY() << ' '
-	     << getZ() << std::endl;
+    LOGDEBUG << "Tag: " << tag_ << " When: " << when_ << std::endl;
+    LOGDEBUG << "EFG: " << efg_[GEO_E] << ' ' << efg_[GEO_F] << ' ' << efg_[GEO_G] << std::endl;
+    LOGDEBUG << "LLH: " << Utils::radiansToDegrees(getLatitude()) << ' ' << Utils::radiansToDegrees(getLongitude())
+             << ' ' << getHeight() << std::endl;
+    LOGDEBUG << "RAE: " << getRange() << ' ' << Utils::radiansToDegrees(getAzimuth()) << ' '
+             << Utils::radiansToDegrees(getElevation()) << std::endl;
+    LOGDEBUG << "XYZ: " << getX() << ' ' << getY() << ' ' << getZ() << std::endl;
 }

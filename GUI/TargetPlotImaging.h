@@ -10,7 +10,9 @@
 #include "GUI/TargetPlot.h"
 #include "GUI/VertexColorArray.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -27,10 +29,8 @@ class VertexColorTagArray;
     By isolating view transforms from the TargetPlotImaging class, we are able to make TargetPlotImaging common to the
     BScope and PPIDisplay applications.
 */
-class PlotPositionFunctor
-{
+class PlotPositionFunctor {
 public:
-    
     /** Constructor.
      */
     PlotPositionFunctor();
@@ -55,36 +55,34 @@ private:
 
 /** Extension of the ChannelImaging class that contains display settings for target plots.
  */
-class TargetPlotImaging : public ChannelImaging
-{
+class TargetPlotImaging : public ChannelImaging {
     Q_OBJECT
     using Super = ChannelImaging;
-public:
 
+public:
     /** Enumeration of the various symbol types available to depict target plots.
      */
     enum SymbolType {
-	kCross,
-	kCrossSquare,
-	kDiamondFilled,
-	kDiamondHollow,
-	kPlus,
-	kPlusDiamond,
-	kSquareFilled,
-	kSquareHollow,
-	kTriangleFilled,
-	kTriangleHollow,
-	kDaggerFilled,
-	kDaggerHollow,
-	kNumSymbolTypes
+        kCross,
+        kCrossSquare,
+        kDiamondFilled,
+        kDiamondHollow,
+        kPlus,
+        kPlusDiamond,
+        kSquareFilled,
+        kSquareHollow,
+        kTriangleFilled,
+        kTriangleHollow,
+        kDaggerFilled,
+        kDaggerHollow,
+        kNumSymbolTypes
     };
 
-    struct SymbolInfo
-    {
-	QString name;
-	int kind;
-	const QPoint* points;
-	size_t size;
+    struct SymbolInfo {
+        QString name;
+        int kind;
+        const QPoint* points;
+        size_t size;
     };
 
     static Logger::Log& Log();
@@ -99,13 +97,15 @@ public:
                       BoolSetting* showTrails = 0, IntSetting* tagSize = 0, BoolSetting* showTags = 0);
 
     void setPlotPositionFunctor(PlotPositionFunctor* plotPositionFunctor)
-	{ plotPositionFunctor_ = plotPositionFunctor; }
+    {
+        plotPositionFunctor_ = plotPositionFunctor;
+    }
 
     /** Obtain the extent size of the symbols. This is roughly equal to the diameter of a circle that
         circumscribes the plot symbol. Rename of the ChannelImaging::getSize() method to better reflect how the
         setting is used in the TargetPlotImaging class.
 
-        \return extent size 
+        \return extent size
     */
     float getExtent() const { return getSize(); }
 
@@ -142,7 +142,7 @@ public:
 
         \param age the plot age
 
-        \return 
+        \return
     */
     void fadeColor(Color& color, int age) const { color.alpha *= 1.0 - double(age) / getLifeTime(); }
 
@@ -166,10 +166,10 @@ public:
     void addSymbolIcons(QComboBox* widget) const;
 
 signals:
-    
+
     /** Notification sent out when the lifetime setting changes.
 
-        \param msecs 
+        \param msecs
     */
     void lifeTimeChanged(int msecs);
 
@@ -178,7 +178,7 @@ public slots:
     void clearSymbolPoints();
 
 private slots:
-    
+
     /** Notification handler invoked when the size setting changes. Override of ChannelImaging::setSize().
 
         \param value new setting value
@@ -192,7 +192,6 @@ private slots:
     void postLifeTimeChanged(int value);
 
 private:
-
     void scaleSymbolPoints();
 
     PlotPositionFunctor* plotPositionFunctor_;

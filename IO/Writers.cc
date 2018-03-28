@@ -1,6 +1,6 @@
-#include <errno.h>
 #include "ace/CDR_Stream.h"
 #include "ace/OS.h"
+#include <errno.h>
 
 #include "Logger/Log.h"
 
@@ -18,8 +18,7 @@ WriterDevices::MulticastSocket::Log()
     return log;
 }
 
-WriterDevices::MulticastSocket::MulticastSocket()
-    : device_()
+WriterDevices::MulticastSocket::MulticastSocket() : device_()
 {
     ;
 }
@@ -34,10 +33,10 @@ WriterDevices::MulticastSocket::writeToDevice(const iovec* iov, int count)
     ssize_t rc = device_.ACE_SOCK_Dgram::send(iov, count, addr);
 
     if (rc == -1) {
-	LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
-	ACE_INET_Addr addr;
-	device_.get_local_addr(addr);
-	LOGERROR << "local addr: " << Utils::INETAddrToString(addr) << std::endl;
+        LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
+        ACE_INET_Addr addr;
+        device_.get_local_addr(addr);
+        LOGERROR << "local addr: " << Utils::INETAddrToString(addr) << std::endl;
     }
 
     return rc;
@@ -50,8 +49,7 @@ WriterDevices::UDPSocket::Log()
     return log;
 }
 
-WriterDevices::UDPSocket::UDPSocket()
-    : device_(), remoteAddress_()
+WriterDevices::UDPSocket::UDPSocket() : device_(), remoteAddress_()
 {
     ;
 }
@@ -63,8 +61,8 @@ WriterDevices::UDPSocket::writeToDevice(const iovec* iov, int count)
 
     ssize_t rc = device_.send(iov, count, remoteAddress_);
     if (rc == -1) {
-	LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
-	LOGERROR << "addr: " << Utils::INETAddrToString(remoteAddress_) << std::endl;
+        LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
+        LOGERROR << "addr: " << Utils::INETAddrToString(remoteAddress_) << std::endl;
     }
 
     return rc;
@@ -75,15 +73,15 @@ IOVVector::push_back(const ACE_Message_Block* data)
 {
     size_t sum = 0;
     while (data) {
-	const ACE_Message_Block* chain = data;
-	data = data->next();
-	do {
-	    if (chain->length()) {
-		sum += chain->length();
-		Super::push_back(IOV(chain->rd_ptr(), chain->length()));
-	    }
-	    chain = chain->cont();
-	} while (chain);
+        const ACE_Message_Block* chain = data;
+        data = data->next();
+        do {
+            if (chain->length()) {
+                sum += chain->length();
+                Super::push_back(IOV(chain->rd_ptr(), chain->length()));
+            }
+            chain = chain->cont();
+        } while (chain);
     }
 
     return sum;
@@ -115,37 +113,36 @@ Writer::writeEncoded(size_t messageCount, ACE_Message_Block* data)
 
     IOVVector::const_iterator pos = iovs.begin();
     IOVVector::const_iterator end = iovs.end();
-    while (pos != end && ! isClosing()) {
-
-	// Don't send too many iovec elements at one time.
-	//
-	int count = end - pos;
-	if (count > ACE_IOV_MAX) count = ACE_IOV_MAX;
-	LOGDEBUG << "writing " << count << " iovec entries" << std::endl;
+    while (pos != end && !isClosing()) {
+        // Don't send too many iovec elements at one time.
+        //
+        int count = end - pos;
+        if (count > ACE_IOV_MAX) count = ACE_IOV_MAX;
+        LOGDEBUG << "writing " << count << " iovec entries" << std::endl;
 
     again:
 
-	errno = 0;
-	ssize_t rc = writeToDevice(&*pos, count);
-	LOGDEBUG << "writeToDevice: rc=" << rc << " remaining=" << remaining << std::endl;
-	if (rc == -1) {
-	    LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
-	    if (errno == EAGAIN && ! isClosing()) goto again;
-	    lastError_ = errno;
-	    break;
-	}
+        errno = 0;
+        ssize_t rc = writeToDevice(&*pos, count);
+        LOGDEBUG << "writeToDevice: rc=" << rc << " remaining=" << remaining << std::endl;
+        if (rc == -1) {
+            LOGERROR << "writeToDevice failed - " << errno << " - " << ::strerror(errno) << std::endl;
+            if (errno == EAGAIN && !isClosing()) goto again;
+            lastError_ = errno;
+            break;
+        }
 
-	remaining -= rc;
-	pos += count;
+        remaining -= rc;
+        pos += count;
     }
 
     // We are responsible for reducing reference counts to all data objects given to us, even if there was an
     // error above.
     //
     while (data) {
-	ACE_Message_Block* next = data->next();
-	data->release();
-	data = next;
+        ACE_Message_Block* next = data->next();
+        data->release();
+        data = next;
     }
 
     LOGTOUT << "FT"[remaining == 0] << std::endl;

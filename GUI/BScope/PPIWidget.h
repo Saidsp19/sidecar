@@ -13,7 +13,9 @@ class QSettings;
 
 #include "History.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -61,18 +63,13 @@ class ViewSettings;
 
     The user may manipulate the view by panning or zooming. Currently
 */
-class PPIWidget :  public QGLWidget
-{
+class PPIWidget : public QGLWidget {
     Q_OBJECT
     using Super = QGLWidget;
-public:
 
-    enum RenderType {
-	kMainWindow,
-	kMagnifierWindow,
-	kCaptureBuffer
-    };
-    
+public:
+    enum RenderType { kMainWindow, kMagnifierWindow, kCaptureBuffer };
+
     static Logger::Log& Log();
 
     /** Obtain the OpenGL configuration we want to use.
@@ -89,8 +86,7 @@ public:
 
     ~PPIWidget();
 
-    void localToRealWorld(int x, int y, GLdouble& azimuth, GLdouble& range)
-	const;
+    void localToRealWorld(int x, int y, GLdouble& azimuth, GLdouble& range) const;
 
     void updateCursorPosition(CursorPosition& pos);
 
@@ -102,8 +98,7 @@ public:
 
     bool getShowCursorPosition() const { return showCursorPosition_; }
 
-    void setSettingsKey(const QString& settingsKey)
-	{ settingsKey_ = settingsKey; }
+    void setSettingsKey(const QString& settingsKey) { settingsKey_ = settingsKey; }
 
 signals:
 
@@ -120,9 +115,9 @@ public slots:
     void removeMagnifier(MagnifierWindow* magnifier = 0);
 
     void saveMagnifiers(QSettings& settings) const;
-    
+
     void raiseMagnifiers();
-    
+
     void clearAll();
 
     void clearVideoBuffer();
@@ -186,18 +181,9 @@ private slots:
     void deleteBinaryBuffer();
 
 private:
+    enum ListIndex { kRenderVideoTexture = 0, kRenderBinaryTexture, kRangeMap, kRangeRings, kBeginRender, kNumLists };
 
-    enum ListIndex {
-	kRenderVideoTexture = 0,
-	kRenderBinaryTexture,
-	kRangeMap,
-	kRangeRings,
-	kBeginRender,
-	kNumLists
-    };
-
-    GLuint getDisplayList(ListIndex index) const
-	{ return displayLists_ + index; }
+    GLuint getDisplayList(ListIndex index) const { return displayLists_ + index; }
 
     /** Initialize the OpenGL environment.
      */

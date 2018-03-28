@@ -5,8 +5,12 @@
 
 #include "CollectionItem.h"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,12 +22,11 @@ class TaskItem;
 /** TreeViewItem that represents an IO::Stream object of a runner process. An IO::Stream contains IO::Modules,
     which is a simple container for an IO::Task object.
 */
-class StreamItem : public CollectionItem
-{
+class StreamItem : public CollectionItem {
     Q_OBJECT
     using Super = CollectionItem;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -67,20 +70,16 @@ public:
 
         \return true if successful
     */
-    bool setParameters(int taskIndex, const XmlRpc::XmlRpcValue& updates)
-	const;
+    bool setParameters(int taskIndex, const XmlRpc::XmlRpcValue& updates) const;
 
-    void formatChangedParameters(const XmlRpc::XmlRpcValue& definitions,
-                                 QStringList& changes) const;
+    void formatChangedParameters(const XmlRpc::XmlRpcValue& definitions, QStringList& changes) const;
 
 private:
-    
     /** Obtain the type-cast status container sent by a IO::Streams object.
 
         \return read-only IO::StreamStatus reference
     */
-    const IO::StreamStatus& getStatus() const 
-	{ return static_cast<const IO::StreamStatus&>(Super::getStatus()); }
+    const IO::StreamStatus& getStatus() const { return static_cast<const IO::StreamStatus&>(Super::getStatus()); }
 
     /** Update the status for the tasks managed by the stream.
      */

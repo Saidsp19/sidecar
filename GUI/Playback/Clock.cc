@@ -13,9 +13,8 @@ Clock::Log()
     return log_;
 }
 
-Clock::Clock(QObject* parent, int tickBeat, double wallClockRate)
-    : QObject(parent), ticker_(), wallClockRate_(wallClockRate),
-      playbackClockRate_(1.0 / wallClockRate)
+Clock::Clock(QObject* parent, int tickBeat, double wallClockRate) :
+    QObject(parent), ticker_(), wallClockRate_(wallClockRate), playbackClockRate_(1.0 / wallClockRate)
 {
     ticker_.setInterval(tickBeat);
     connect(&ticker_, SIGNAL(timeout()), this, SLOT(doTick()));
@@ -26,9 +25,9 @@ Clock::getPlaybackClock()
 {
     static Logger::ProcLog log("getPlaybackClock", Log());
 
-    if (! ticker_.isActive()) {
-	LOGDEBUG << playbackClockStart_ << std::endl;
-	return playbackClockStart_;
+    if (!ticker_.isActive()) {
+        LOGDEBUG << playbackClockStart_ << std::endl;
+        return playbackClockStart_;
     }
 
     // Calculate the number of seconds that have elapsed in real time.
@@ -38,8 +37,7 @@ Clock::getPlaybackClock()
 
     // Apply a rate to the elapsed real time to make playback time pass faster or slower.
     //
-    if (wallClockRate_ != 1.0)
-	elapsed *= wallClockRate_;
+    if (wallClockRate_ != 1.0) elapsed *= wallClockRate_;
 
     // Add any past elapsed time to the time when playback started to get the current playback clock time.
     //
@@ -68,8 +66,7 @@ Clock::getWallClockDurationUntil(const Time::TimeStamp& when)
     // We have the duration in playback time frame. Multiply by the playback rate to get the number of seconds
     // in the real time frame.
     //
-    if (playbackClockRate_ != 1.0)
-	delta *= playbackClockRate_;
+    if (playbackClockRate_ != 1.0) delta *= playbackClockRate_;
 
     LOGDEBUG << "duration: " << delta << std::endl;
     return delta;
@@ -92,8 +89,8 @@ Clock::setWallClockRate(double wallClockRate)
     LOGINFO << "wallClockRate: " << wallClockRate << std::endl;
 
     if (wallClockRate <= 0.0) {
-	LOGERROR << "invalid wallClockRate: " << wallClockRate << std::endl;
-	return;
+        LOGERROR << "invalid wallClockRate: " << wallClockRate << std::endl;
+        return;
     }
 
     // Since the rate is changing, we want to 'freeze' any past elapsed time at the old rate.
@@ -117,21 +114,19 @@ Clock::setPlaybackClockStart(const Time::TimeStamp& playbackClockStart)
     LOGINFO << "playbackClockStart: " << playbackClockStart << std::endl;
 
     bool wasRunning = ticker_.isActive();
-    if (wasRunning)
-	stop();
+    if (wasRunning) stop();
 
     // Since we are setting a new starting time, discard any past elapsed time.
     //
     playbackClockStart_ = playbackClockStart;
     if (playbackClockStart_ < minTime_)
-	playbackClockStart_ = minTime_;
+        playbackClockStart_ = minTime_;
     else if (playbackClockStart_ > maxTime_)
-	playbackClockStart_ = maxTime_;
+        playbackClockStart_ = maxTime_;
 
     emit playbackClockStartChanged(playbackClockStart);
 
-    if (wasRunning)
-	start();
+    if (wasRunning) start();
 }
 
 void
@@ -140,14 +135,13 @@ Clock::start()
     static Logger::ProcLog log("start", Log());
     LOGINFO << std::endl;
 
-    if (! ticker_.isActive()) {
-
-	// Remember the current wall clock value, and then start the clock.
-	//
-	wallClockStart_ = Time::TimeStamp::Now();
-	ticker_.start();
-	emit started();
-	doTick();
+    if (!ticker_.isActive()) {
+        // Remember the current wall clock value, and then start the clock.
+        //
+        wallClockStart_ = Time::TimeStamp::Now();
+        ticker_.start();
+        emit started();
+        doTick();
     }
 }
 
@@ -157,9 +151,9 @@ Clock::stop()
     static Logger::ProcLog log("stop", Log());
     LOGINFO << std::endl;
     if (ticker_.isActive()) {
-	playbackClockStart_ = getPlaybackClock();
-	ticker_.stop();
-	emit stopped();
+        playbackClockStart_ = getPlaybackClock();
+        ticker_.stop();
+        emit stopped();
     }
 }
 

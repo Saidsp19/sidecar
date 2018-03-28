@@ -10,11 +10,9 @@
 
 using namespace SideCar::GUI::PPIDisplay;
 
-HistoryWidget::HistoryWidget(History* history, QToolBar* parent)
-    : Super("Past", parent), history_(history)
+HistoryWidget::HistoryWidget(History* history, QToolBar* parent) : Super("Past", parent), history_(history)
 {
-    HistorySettings* historySettings =
-	App::GetApp()->getConfiguration()->getHistorySettings();
+    HistorySettings* historySettings = App::GetApp()->getConfiguration()->getHistorySettings();
 
     QCheckBox* enabled = new QCheckBox(this);
     historySettings->connectWidget(enabled);
@@ -26,20 +24,15 @@ HistoryWidget::HistoryWidget(History* history, QToolBar* parent)
     slider->setMinimum(0);
     slider->setMaximum(0);
     slider->setPageStep(1);
-    
-    connect(history_, SIGNAL(retainedCountChanged(int)),
-            SLOT(historyRetainedCountChanged(int)));
-    connect(history_, SIGNAL(currentViewChanged(int)),
-            SLOT(historyCurrentViewChanged(int)));
-    connect(history_, SIGNAL(currentViewAged(int)),
-            SLOT(historyCurrentViewAged(int)));
-    connect(slider, SIGNAL(valueChanged(int)), history,
-            SLOT(showEntry(int)));
+
+    connect(history_, SIGNAL(retainedCountChanged(int)), SLOT(historyRetainedCountChanged(int)));
+    connect(history_, SIGNAL(currentViewChanged(int)), SLOT(historyCurrentViewChanged(int)));
+    connect(history_, SIGNAL(currentViewAged(int)), SLOT(historyCurrentViewAged(int)));
+    connect(slider, SIGNAL(valueChanged(int)), history, SLOT(showEntry(int)));
 
     slider->setEnabled(historySettings->isEnabled());
 
-    connect(historySettings, SIGNAL(enabledChanged(bool)), slider,
-            SLOT(setEnabled(bool)));
+    connect(historySettings, SIGNAL(enabledChanged(bool)), slider, SLOT(setEnabled(bool)));
 }
 
 void
@@ -55,9 +48,9 @@ HistoryWidget::historyCurrentViewAged(int age)
 {
     QSlider* slider = getControl();
     if (age <= history_->getRetentionCount()) {
-	slider->blockSignals(true);
-	slider->setValue(age);
-	slider->blockSignals(false);
+        slider->blockSignals(true);
+        slider->setValue(age);
+        slider->blockSignals(false);
     }
     slider->setToolTip(makeAgeText(age));
 }
@@ -76,9 +69,8 @@ QString
 HistoryWidget::makeAgeText(int age)
 {
     if (age == 0) {
-	return "Now";
-    }
-    else {
-	return QString("Now-%1").arg(age);
+        return "Now";
+    } else {
+        return QString("Now-%1").arg(age);
     }
 }

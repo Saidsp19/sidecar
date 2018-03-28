@@ -1,4 +1,4 @@
-#ifndef SIDECAR_IO_DOXYGEN_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_DOXYGEN_H // -*- C++ -*-
 #define SIDECAR_IO_DOXYGEN_H
 
 /** \page io SideCar Component Overview
@@ -69,7 +69,8 @@ namespace SideCar {
     SideCar classes. The SideCar system provides file and socket I/O source and sink end points. Interfacing
     with the ACE infrastructure occurs in the IO/Readers.h and IO/Writers.h files.
 */
-namespace IO {}
+namespace IO {
+}
 
 } // end namespace SideCar
 

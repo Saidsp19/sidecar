@@ -5,7 +5,9 @@
 
 #include "ui_ConfigurationWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -15,16 +17,14 @@ class ChannelPlotSettings;
 
 /** Window that shows range and power level limits used by the Visualizer and RenderThread objects
  */
-class ConfigurationWindow : public ToolWindowBase,
-			    public Ui::ConfigurationWindow
-{
+class ConfigurationWindow : public ToolWindowBase, public Ui::ConfigurationWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Constructor. Creates and initializes the GUI widgets.
 
-	\param shortcut key sequence to toggle window visibility
+        \param shortcut key sequence to toggle window visibility
     */
     ConfigurationWindow(int shortcut);
 
@@ -43,7 +43,6 @@ private slots:
     void on_updateExpected__clicked();
 
 private:
-
     void updateButtons();
 
     void updateFromSettings(ChannelPlotSettings* settings);

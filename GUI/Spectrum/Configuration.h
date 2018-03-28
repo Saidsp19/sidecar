@@ -16,29 +16,24 @@ class FFTSettings;
 class Settings;
 class SpectrographImaging;
 
-class Configuration : public PresetManager
-{
+class Configuration : public PresetManager {
     Q_OBJECT
     using Super = PresetManager;
-public:
 
+public:
     Configuration(ConfigurationWindow* gui2);
 
     Settings* getSettings() const { return settings_; }
 
     FFTSettings* getFFTSettings() const { return fftSettings_; }
 
-    SpectrographImaging* getSpectrographImaging() const
-	{ return spectrographImaging_; }
+    SpectrographImaging* getSpectrographImaging() const { return spectrographImaging_; }
 
-    BoolSetting* getAzLatchEnabled() const
-	{ return azLatchEnabled_; }
+    BoolSetting* getAzLatchEnabled() const { return azLatchEnabled_; }
 
-    DoubleSetting* getAzLatchAzimuth() const
-	{ return azLatchAzimuth_; }
+    DoubleSetting* getAzLatchAzimuth() const { return azLatchAzimuth_; }
 
-    BoolSetting* getAzLatchRelatch() const
-	{ return azLatchRelatch_; }
+    BoolSetting* getAzLatchRelatch() const { return azLatchRelatch_; }
 
 private:
     Settings* settings_;

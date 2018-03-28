@@ -11,7 +11,9 @@ class QScrollArea;
 #include "App.h"
 #include "ui_SpectrographWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -22,12 +24,11 @@ class FFTSettings;
 class SpectrographWidget;
 class ScaleWidget;
 
-class SpectrographWindow : public MainWindowBase, private Ui::SpectrographWindow
-{
+class SpectrographWindow : public MainWindowBase, private Ui::SpectrographWindow {
     Q_OBJECT
     using Super = MainWindowBase;
+
 public:
-    
     static Logger::Log& Log();
 
     SpectrographWindow(int shortcut);

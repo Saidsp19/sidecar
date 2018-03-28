@@ -1,29 +1,30 @@
-#ifndef DATAQUEUE_H		// -*- C++ -*-
+#ifndef DATAQUEUE_H // -*- C++ -*-
 #define DATAQUEUE_H
 
+#include "threading/Threading.h"
 #include <cstddef>
 #include <deque>
 #include <limits>
-#include "threading/Threading.h"
 
 namespace Threading {
 
 /** Wrapper around a Locker object that will signal a condition variable if it is "armed" any time before the
     object is destroyed. Used by DataQueueBase to signal threads waiting on a queue full or empty condition.
 */
-class Signaler
-{
+class Signaler {
 public:
-    
     /** Constructor.
 
         \param condition condition variable to signal when armed.
     */
     Signaler(Condition::Reference condition) : condition_(condition), locker_(condition_), armed_(false) {}
-    
+
     /** Destructor. Signal condition variable if armed.
      */
-    ~Signaler() { if (armed_) condition_->signal(); }
+    ~Signaler()
+    {
+        if (armed_) condition_->signal();
+    }
 
     /** Arm the signaler.
      */
@@ -31,15 +32,14 @@ public:
 
 private:
     Condition::Reference condition_; ///< Condition variable to signal
-    Locker locker_;		     ///< Locker for the c.v. mutex
-    bool armed_;		     ///< True if armed
+    Locker locker_;                  ///< Locker for the c.v. mutex
+    bool armed_;                     ///< True if armed
 };
 
 /** Abstract base class for all type-specific data queue classes. Understands locking and signaling protocol for
     the data queue.
 */
-class DataQueueBase
-{
+class DataQueueBase {
 protected:
     DataQueueBase();
     virtual ~DataQueueBase() {}
@@ -65,10 +65,8 @@ private:
     queue will block. Likewise, if the queue is full any attempt to add another value to the queue will block.
 */
 template <typename T>
-class TDataQueue : public DataQueueBase
-{
+class TDataQueue : public DataQueueBase {
 public:
-
     /** Default constructor. Queue size is essentially unlimited, so writes will never block.
      */
     TDataQueue() : DataQueueBase(), queue_(), maxSize_(std::numeric_limits<size_t>::max()) {}
@@ -81,39 +79,47 @@ public:
 
     /** Determine if the queue is empty (thread-safe)
 
-	\return true if the queue is empty
+        \return true if the queue is empty
     */
-    bool empty() const { Locker l(mutex()); return queue_.empty(); }
+    bool empty() const
+    {
+        Locker l(mutex());
+        return queue_.empty();
+    }
 
     /** Determin if the queue is full (thread-safe)
 
         \return true if the queue is full
     */
-    bool full() const { Locker l(mutex()); return queue_.size() == maxSize_; }
+    bool full() const
+    {
+        Locker l(mutex());
+        return queue_.size() == maxSize_;
+    }
 
     /** Obtain the next object from the queue (thread-safe). Blocks if the queue is empty.
 
         \return next available object
     */
     T pop()
-	{
-	    Signaler signaler(writeCondition());
-	    waitUntilReadable(signaler);
-	    T tmp = queue_.back();
-	    queue_.pop_back();
-	    return tmp;
-	}
+    {
+        Signaler signaler(writeCondition());
+        waitUntilReadable(signaler);
+        T tmp = queue_.back();
+        queue_.pop_back();
+        return tmp;
+    }
 
     /** Add an object to the queue. Blocks if the queue is full.
 
         \param value object to add
     */
     void push(const T& value)
-	{
-	    Signaler signaler(readCondition());
-	    waitUntilWritable(signaler);
-	    queue_.push_front(value);
-	}
+    {
+        Signaler signaler(readCondition());
+        waitUntilWritable(signaler);
+        queue_.push_front(value);
+    }
 
 private:
     bool queueEmpty() const { return queue_.empty(); }
@@ -130,14 +136,12 @@ private:
     worker) obtains buffers to process using the popWork() method. When it is done processing the buffer, it
     makes it available to the other thread by calling the releaseBuffer() method.
 */
-class WorkBufferQueue
-{
+class WorkBufferQueue {
 public:
-    struct WorkEntry
-    {
-	void* ptr;
-	size_t size;
-	WorkEntry(void* p, size_t s) : ptr(p), size(s) {}
+    struct WorkEntry {
+        void* ptr;
+        size_t size;
+        WorkEntry(void* p, size_t s) : ptr(p), size(s) {}
     };
 
     using FreeQueue = TDataQueue<void*>;

@@ -9,45 +9,43 @@ namespace IO {
 /** Base class for all SideCar control messages. A control message affects the runtime behavior of one or more
     IO::Task objects. One cannot instantiate a ControlMessage directly.
 */
-class ControlMessage
-{
+class ControlMessage {
 public:
-
     /** Control message types. When wrapped by an ACE_Message_Block, the block will have a message type equal to
-	IO::MessageManager::kControl + one of the following values. When creating new control messages, add new
-	values to the end of the enumeration.
+        IO::MessageManager::kControl + one of the following values. When creating new control messages, add new
+        values to the end of the enumeration.
     */
     enum Type {
 
-	kInvalid = -1,
+        kInvalid = -1,
 
-	/** Remote parameter change message. The contents of the buffer is an XmlRpc::XmlRpcValue value,
-	    containing one or more name/value pairs describing new parameter settings.
-	*/
-	kParametersChange,
+        /** Remote parameter change message. The contents of the buffer is an XmlRpc::XmlRpcValue value,
+            containing one or more name/value pairs describing new parameter settings.
+        */
+        kParametersChange,
 
-	/** Remote state change message. The contents of the buffer is an int value specifying the new state.
-	 */
-	kProcessingStateChange,
+        /** Remote state change message. The contents of the buffer is an int value specifying the new state.
+         */
+        kProcessingStateChange,
 
-	/** Recording mode change message. The contents of the buffer is a boolean value indicating the
-	    recording state.
-        */	
-	kRecordingStateChange,
+        /** Recording mode change message. The contents of the buffer is a boolean value indicating the
+            recording state.
+        */
+        kRecordingStateChange,
 
-	/** Shutdown a stream.
-	 */
-	kShutdown,
+        /** Shutdown a stream.
+         */
+        kShutdown,
 
-	/** Clear statistics
-	 */
-	kClearStats,
+        /** Clear statistics
+         */
+        kClearStats,
 
-	/** Process an alarm that an Algorithm has set for itself
-	 */
-	kTimeout,
+        /** Process an alarm that an Algorithm has set for itself
+         */
+        kTimeout,
 
-	kNumTypes
+        kNumTypes
     };
 
     /** Copy constructor.
@@ -68,7 +66,6 @@ public:
     ACE_Message_Block* getWrapped() const { return data_->duplicate(); }
 
 protected:
-    
     ControlMessage(Type type, size_t size);
     ControlMessage(ACE_Message_Block* data) : data_(data) {}
     ACE_Message_Block* getData() const { return data_; }
@@ -77,7 +74,7 @@ private:
     ACE_Message_Block* data_;
 };
 
-} // end namespace Messages
+} // namespace IO
 } // end namespace SideCar
 
 /** \file

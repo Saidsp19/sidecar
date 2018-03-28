@@ -8,7 +8,9 @@
 #include "App.h"
 #include "ui_MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,19 +22,18 @@ class ChannelPlotWidget;
 
 /** Main window for the HealthAndStatus application.
  */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
         \param history application history buffer for all Video messages.
 
-	\param basis DisplayView to duplicate
+        \param basis DisplayView to duplicate
     */
     MainWindow();
 
@@ -66,8 +67,7 @@ private slots:
 
     void on_actionMoveDown__triggered();
 
-    void currentPlotWidgetChanged(const QItemSelection& selected,
-                                  const QItemSelection& deselected);
+    void currentPlotWidgetChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
     void setUnconnected(const QStringList& names);
 
@@ -80,7 +80,6 @@ private slots:
     void on_plots__clearAll();
 
 private:
-
     void addPlot(const QString& name);
 
     void closeEvent(QCloseEvent* event);

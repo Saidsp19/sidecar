@@ -12,7 +12,9 @@
 class QMatrix;
 class QPainter;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -23,12 +25,11 @@ class PeakBarCollection;
 
 /** Rendering class for PeakBarCollection objects.
  */
-class PeakBarRenderer : public QObject
-{
+class PeakBarRenderer : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     PeakBarRenderer(ChannelConnection& channelConnection);
@@ -39,9 +40,8 @@ public:
 
     void render(QPainter& painter);
 
-    void calculateGeometry(const QMatrix& transform,
-                           const Messages::PRIMessage::Ref& msg,
-                           bool showRanges, bool showVoltages);
+    void calculateGeometry(const QMatrix& transform, const Messages::PRIMessage::Ref& msg, bool showRanges,
+                           bool showVoltages);
 
 public slots:
 
@@ -64,7 +64,6 @@ private slots:
     void enabledChanged(bool value);
 
 private:
-
     const ChannelConnection& channelConnection_;
     const PeakBarCollection& model_;
     QVector<PeakBar> cache_;

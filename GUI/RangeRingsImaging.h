@@ -9,15 +9,13 @@ namespace GUI {
 
 /** Extension of the ChannelImaging class for the display of range rings.
  */
-class RangeRingsImaging : public ChannelImaging
-{
+class RangeRingsImaging : public ChannelImaging {
     Q_OBJECT
     using Super = ChannelImaging;
-public:
 
-    RangeRingsImaging(BoolSetting* enabled, ColorButtonSetting* color,
-                      DoubleSetting* lineWidth, OpacitySetting* opacity,
-                      IntSetting* azimuthSpacing, IntSetting* azimuthTicks,
+public:
+    RangeRingsImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* lineWidth,
+                      OpacitySetting* opacity, IntSetting* azimuthSpacing, IntSetting* azimuthTicks,
                       DoubleSetting* rangeSpacing, IntSetting* rangeTicks);
 
     int getAzimuthSpacing() const { return azimuthSpacing_->getValue(); }

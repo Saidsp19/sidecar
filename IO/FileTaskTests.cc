@@ -14,55 +14,49 @@ using namespace SideCar;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-class Message : public Header
-{
+class Message : public Header {
 public:
     using Ref = boost::shared_ptr<Message>;
 
     static const MetaTypeInfo& GetMetaTypeInfo();
 
-    static Header::Ref Loader(ACE_InputCDR& cdr)
-	{
-	    return Make(cdr);
-	}
+    static Header::Ref Loader(ACE_InputCDR& cdr) { return Make(cdr); }
 
     static Ref Make(const std::string& value)
-	{
-	    Ref ref(new Message(value));
-	    return ref;
-	}
+    {
+        Ref ref(new Message(value));
+        return ref;
+    }
 
     static Ref Make(ACE_InputCDR& cdr)
-	{
-	    Ref ref(new Message);
-	    ref->load(cdr);
-	    return ref;
-	}
+    {
+        Ref ref(new Message);
+        ref->load(cdr);
+        return ref;
+    }
 
     const std::string& getValue() const { return value_; }
 
     ACE_InputCDR& load(ACE_InputCDR& cdr)
-	{
-	    Header::load(cdr);
-	    cdr >> value_;
-	    return cdr;
-	}
+    {
+        Header::load(cdr);
+        cdr >> value_;
+        return cdr;
+    }
 
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const
-	{
-	    Header::write(cdr);
-	    cdr << value_;
-	    return cdr;
-	}
+    {
+        Header::write(cdr);
+        cdr << value_;
+        return cdr;
+    }
 
-    std::ostream& printData(std::ostream& os) const
-	{ return os << value_; }
+    std::ostream& printData(std::ostream& os) const { return os << value_; }
 
 private:
     Message() : Header(GetMetaTypeInfo()), value_("") {}
 
-    Message(const std::string& value)
-	: Header("test", GetMetaTypeInfo(), Header::Ref()), value_(value) {}
+    Message(const std::string& value) : Header("test", GetMetaTypeInfo(), Header::Ref()), value_(value) {}
 
     std::string value_;
 
@@ -77,15 +71,13 @@ Message::GetMetaTypeInfo()
     return metaTypeInfo_;
 }
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("FileTasks") {}
 
     void test();
 };
 
-struct TestTask : public Task
-{
+struct TestTask : public Task {
     enum { kMessageCount = 5 };
     TestTask() : Task(), count_(0) { setUsingData(true); }
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
@@ -99,8 +91,7 @@ TestTask::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     MessageManager mgr(data);
     Message::Ref ref(mgr.getNative<Message>());
     ++count_;
-    std::clog << count_ << " *** TestTask::put: " << ref->getValue()
-	      << std::endl;
+    std::clog << count_ << " *** TestTask::put: " << ref->getValue() << std::endl;
     return true;
 }
 
@@ -127,7 +118,7 @@ Test::test()
 
     for (size_t i = 0; i < N; ++i) {
         std::ostringstream text;
-        text << "Message " << i+1 << " of " << N << std::endl;
+        text << "Message " << i + 1 << " of " << N << std::endl;
         Message::Ref msg = Message::Make(text.str());
         MessageManager mgr(msg);
         assertEqual(0, fwt->put(mgr.getMessage(), 0));

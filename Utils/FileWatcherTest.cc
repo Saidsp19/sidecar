@@ -9,18 +9,19 @@
 
 using namespace Utils;
 
-struct TestFileWatcher : public FileWatcher
-{
-    TestFileWatcher(double period)
-	: FileWatcher(period), loaded_(false) {}
+struct TestFileWatcher : public FileWatcher {
+    TestFileWatcher(double period) : FileWatcher(period), loaded_(false) {}
 
-    bool loadFile(const std::string& path) { loaded_ = true; return true; }
+    bool loadFile(const std::string& path)
+    {
+        loaded_ = true;
+        return true;
+    }
 
     bool loaded_;
 };
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("FileWatcher") {}
     void test();
 };
@@ -33,8 +34,8 @@ Test::test()
     ::unlink(path.c_str());
 
     {
-	TestFileWatcher tfw(1.0);
-	assertFalse(tfw.setFilePath(path));
+        TestFileWatcher tfw(1.0);
+        assertFalse(tfw.setFilePath(path));
     }
 
     std::ofstream of(path.c_str());
@@ -58,8 +59,7 @@ Test::test()
     // Spin until the reload is finished.
     //
     int counter = 5;
-    while (tfw.isStale() && --counter)
-	Threading::Thread::Sleep(0.5);
+    while (tfw.isStale() && --counter) Threading::Thread::Sleep(0.5);
 
     // These should have reverted back to their configured values
     //
@@ -71,5 +71,5 @@ Test::test()
 int
 main(int argc, const char* argv[])
 {
-    return  Test().mainRun();
+    return Test().mainRun();
 }

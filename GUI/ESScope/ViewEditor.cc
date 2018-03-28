@@ -24,8 +24,7 @@ static const char* const kAlpha2Max = "Alpha2Max";
 static const char* const kRangeMin = "RangeMin";
 static const char* const kRangeMax = "RangeMax";
 
-int const ViewPreset::kMetaTypeId =
-    qRegisterMetaType<ViewPreset>("ViewPreset");
+int const ViewPreset::kMetaTypeId = qRegisterMetaType<ViewPreset>("ViewPreset");
 
 ViewPreset::ViewPreset(QSettings& settings)
 {
@@ -62,28 +61,26 @@ ViewPreset::saveToSettings(QSettings& settings) const
     it the validate() method returns Acceptable. This method checks to see if the current input text matches any
     existing names.
 */
-class PresetValidator : public QValidator
-{
+class PresetValidator : public QValidator {
 public:
-    PresetValidator(QComboBox* presets)
-	: QValidator(presets), presets_(presets) {}
+    PresetValidator(QComboBox* presets) : QValidator(presets), presets_(presets) {}
 
     State validate(QString& input, int& pos) const
-	{
-	    QString trimmed = input.trimmed();
-	    input = trimmed;
-	    if (trimmed.isEmpty()) return Invalid;
-	    if (presets_->findText(trimmed) != -1) return Intermediate;
-	    return Acceptable;
-	}
+    {
+        QString trimmed = input.trimmed();
+        input = trimmed;
+        if (trimmed.isEmpty()) return Invalid;
+        if (presets_->findText(trimmed) != -1) return Intermediate;
+        return Acceptable;
+    }
 
 private:
     QComboBox* presets_;
 };
 
-ViewEditor::ViewEditor(int shortcut)
-    : ToolWindowBase("ViewEditor", "View Editor", shortcut), Ui::ViewEditor(),
-      alphaBetaViewSettings_(0), alphaRangeViewSettings_(0)
+ViewEditor::ViewEditor(int shortcut) :
+    ToolWindowBase("ViewEditor", "View Editor", shortcut), Ui::ViewEditor(), alphaBetaViewSettings_(0),
+    alphaRangeViewSettings_(0)
 {
     setupUi(this);
     setFixedSize();
@@ -92,24 +89,21 @@ ViewEditor::ViewEditor(int shortcut)
     connect(app, SIGNAL(shutdown()), SLOT(shutdown()));
 
     presets_->setValidator(new PresetValidator(presets_));
-    connect(presets_->lineEdit(), SIGNAL(editingFinished()),
-            SLOT(addPreset()));
+    connect(presets_->lineEdit(), SIGNAL(editingFinished()), SLOT(addPreset()));
 
     QSettings settings;
-    syncAlphaMinMax_->setChecked(
-	settings.value(kSyncAlphaMinMax, false).toBool());
+    syncAlphaMinMax_->setChecked(settings.value(kSyncAlphaMinMax, false).toBool());
     on_syncAlphaMinMax__toggled(syncAlphaMinMax_->isChecked());
 
     settings.beginGroup(objectName());
     int count = settings.beginReadArray(kViewPresets);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	QString name = settings.value(kName).toString();
-	addViewPreset(name, ViewPreset(settings));
+        settings.setArrayIndex(index);
+        QString name = settings.value(kName).toString();
+        addViewPreset(name, ViewPreset(settings));
     }
     settings.endArray();
-    presets_->setCurrentIndex(
-	settings.value(kLastActive, count - 1).toInt());
+    presets_->setCurrentIndex(settings.value(kLastActive, count - 1).toInt());
     on_presets__activated(count - 1);
     settings.endGroup();
 
@@ -123,9 +117,9 @@ ViewEditor::shutdown()
     settings.beginGroup(objectName());
     settings.beginWriteArray(kViewPresets, presets_->count());
     for (int index = 0; index < presets_->count(); ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kName, presets_->itemText(index));
-	getViewPreset(index).saveToSettings(settings);
+        settings.setArrayIndex(index);
+        settings.setValue(kName, presets_->itemText(index));
+        getViewPreset(index).saveToSettings(settings);
     }
     settings.endArray();
     settings.setValue(kLastActive, presets_->currentIndex());
@@ -133,23 +127,19 @@ ViewEditor::shutdown()
 }
 
 void
-ViewEditor::setViewSettings(ViewSettings* alphaBetaViewSettings,
-                            ViewSettings* alphaRangeViewSettings)
+ViewEditor::setViewSettings(ViewSettings* alphaBetaViewSettings, ViewSettings* alphaRangeViewSettings)
 {
     alphaBetaViewSettings_ = alphaBetaViewSettings;
-    connect(alphaBetaViewSettings_, SIGNAL(viewChanged()),
-            SLOT(viewChanged()));
+    connect(alphaBetaViewSettings_, SIGNAL(viewChanged()), SLOT(viewChanged()));
     alphaRangeViewSettings_ = alphaRangeViewSettings;
-    connect(alphaRangeViewSettings_, SIGNAL(viewChanged()),
-            SLOT(viewChanged()));
-    if (presets_->currentIndex() != -1)
-	applyPreset(presets_->currentIndex());
+    connect(alphaRangeViewSettings_, SIGNAL(viewChanged()), SLOT(viewChanged()));
+    if (presets_->currentIndex() != -1) applyPreset(presets_->currentIndex());
 }
 
 void
 ViewEditor::updateViewLimits()
 {
-    if (! alphaBetaViewSettings_ || ! alphaRangeViewSettings_) return;
+    if (!alphaBetaViewSettings_ || !alphaRangeViewSettings_) return;
     showViewPreset(getActiveViewPreset());
     updateButtons();
 }
@@ -164,9 +154,7 @@ ViewEditor::addPreset()
     addViewPreset(name, makeViewPreset());
     presets_->setCurrentIndex(presets_->count() - 1);
     on_presets__activated(presets_->count() - 1);
-    QMessageBox::information(
-	this, "New Preset",
-	QString("<p>Created preset '%1'.</p>").arg(name));
+    QMessageBox::information(this, "New Preset", QString("<p>Created preset '%1'.</p>").arg(name));
     emit presetNamesChanged(getPresetNames());
 }
 
@@ -183,11 +171,9 @@ void
 ViewEditor::applyViewPreset(const ViewPreset& viewPreset)
 {
     alphaBetaViewSettings_->setViewBounds(
-	ViewBounds(viewPreset.alpha1Min, viewPreset.alpha1Max,
-                   viewPreset.betaMin, viewPreset.betaMax));
+        ViewBounds(viewPreset.alpha1Min, viewPreset.alpha1Max, viewPreset.betaMin, viewPreset.betaMax));
     alphaRangeViewSettings_->setViewBounds(
-	ViewBounds(viewPreset.alpha2Min, viewPreset.alpha2Max,
-                   viewPreset.rangeMin, viewPreset.rangeMax));
+        ViewBounds(viewPreset.alpha2Min, viewPreset.alpha2Max, viewPreset.rangeMin, viewPreset.rangeMax));
     updateButtons();
 }
 
@@ -195,9 +181,7 @@ QStringList
 ViewEditor::getPresetNames() const
 {
     QStringList names;
-    for (int index = 0; index < presets_->count(); ++index) {
-	names.append(presets_->itemText(index));
-    }
+    for (int index = 0; index < presets_->count(); ++index) { names.append(presets_->itemText(index)); }
 
     return names;
 }
@@ -212,38 +196,35 @@ ViewEditor::on_use__clicked()
 void
 ViewEditor::on_update__clicked()
 {
-    if (QMessageBox::question(
-            this, "Update Preset",
-            QString("<p>You are about to update the view preset "
-                    "'%1' with new values. "
-                    "You cannot undo this operation.</p>"
-                    "<p>Are you sure you want to proceed?</p>")
-            .arg(presets_->currentText()),
-            QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
-	QVariant value;
-	value.setValue(makeViewPreset());
-	presets_->setItemData(presets_->currentIndex(), value);
-	updateButtons();
+    if (QMessageBox::question(this, "Update Preset",
+                              QString("<p>You are about to update the view preset "
+                                      "'%1' with new values. "
+                                      "You cannot undo this operation.</p>"
+                                      "<p>Are you sure you want to proceed?</p>")
+                                  .arg(presets_->currentText()),
+                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+        QVariant value;
+        value.setValue(makeViewPreset());
+        presets_->setItemData(presets_->currentIndex(), value);
+        updateButtons();
     }
 }
 
 void
 ViewEditor::on_delete__clicked()
 {
-    if (QMessageBox::question(
-            this, "Delete Preset",
-            QString("<p>You are about to permanently delete the view preset "
-                    "'%1'. You cannot undo this operation.</p>"
-                    "<p>Are you sure you want to proceed?</p>")
-            .arg(presets_->currentText()),
-            QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
-	int index = presets_->currentIndex();
-	presets_->removeItem(index);
-	if (index == presets_->count())
-	    --index;
-	presets_->setCurrentIndex(index);
-	on_presets__activated(index);
-	emit presetNamesChanged(getPresetNames());
+    if (QMessageBox::question(this, "Delete Preset",
+                              QString("<p>You are about to permanently delete the view preset "
+                                      "'%1'. You cannot undo this operation.</p>"
+                                      "<p>Are you sure you want to proceed?</p>")
+                                  .arg(presets_->currentText()),
+                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+        int index = presets_->currentIndex();
+        presets_->removeItem(index);
+        if (index == presets_->count()) --index;
+        presets_->setCurrentIndex(index);
+        on_presets__activated(index);
+        emit presetNamesChanged(getPresetNames());
     }
 }
 
@@ -263,8 +244,7 @@ ViewEditor::on_apply__clicked()
 void
 ViewEditor::on_presets__activated(int index)
 {
-    if (index != -1)
-	showViewPreset(getViewPreset(index));
+    if (index != -1) showViewPreset(getViewPreset(index));
     updateButtons();
 }
 
@@ -284,23 +264,17 @@ ViewEditor::showViewPreset(const ViewPreset& viewPreset)
 ViewPreset
 ViewEditor::makeViewPreset() const
 {
-    return ViewPreset(alpha1Min_->value(), alpha1Max_->value(),
-                      betaMin_->value(), betaMax_->value(),
-                      alpha2Min_->value(), alpha2Max_->value(),
-                      rangeMin_->value(), rangeMax_->value());
+    return ViewPreset(alpha1Min_->value(), alpha1Max_->value(), betaMin_->value(), betaMax_->value(),
+                      alpha2Min_->value(), alpha2Max_->value(), rangeMin_->value(), rangeMax_->value());
 }
 
 ViewPreset
 ViewEditor::getActiveViewPreset() const
 {
-    return ViewPreset(alphaBetaViewSettings_->getXMin(),
-                      alphaBetaViewSettings_->getXMax(),
-                      alphaBetaViewSettings_->getYMin(),
-                      alphaBetaViewSettings_->getYMax(),
-                      alphaRangeViewSettings_->getXMin(),
-                      alphaRangeViewSettings_->getXMax(),
-                      alphaRangeViewSettings_->getYMin(),
-                      alphaRangeViewSettings_->getYMax());
+    return ViewPreset(alphaBetaViewSettings_->getXMin(), alphaBetaViewSettings_->getXMax(),
+                      alphaBetaViewSettings_->getYMin(), alphaBetaViewSettings_->getYMax(),
+                      alphaRangeViewSettings_->getXMin(), alphaRangeViewSettings_->getXMax(),
+                      alphaRangeViewSettings_->getYMin(), alphaRangeViewSettings_->getYMax());
 }
 
 void
@@ -310,8 +284,8 @@ ViewEditor::updateButtons()
     ViewPreset current(makeViewPreset());
 
     if (alphaBetaViewSettings_ && alphaRangeViewSettings_) {
-	ViewPreset active(getActiveViewPreset());
-	hasChanges = active != current;
+        ViewPreset active(getActiveViewPreset());
+        hasChanges = active != current;
     }
 
     apply_->setEnabled(hasChanges);
@@ -322,8 +296,7 @@ ViewEditor::updateButtons()
     delete_->setEnabled(hasPreset);
 
     hasChanges = false;
-    if (hasPreset)
-	hasChanges = getViewPreset(presetIndex) != current;
+    if (hasPreset) hasChanges = getViewPreset(presetIndex) != current;
 
     use_->setEnabled(hasChanges);
     update_->setEnabled(hasChanges);
@@ -348,16 +321,14 @@ ViewEditor::addViewPreset(const QString& name, const ViewPreset& viewPreset)
 void
 ViewEditor::on_alpha1Min__valueChanged(double value)
 {
-    if (syncAlphaMinMax_->isChecked())
-	alpha2Min_->setValue(value);
+    if (syncAlphaMinMax_->isChecked()) alpha2Min_->setValue(value);
     updateButtons();
 }
 
 void
 ViewEditor::on_alpha1Max__valueChanged(double value)
 {
-    if (syncAlphaMinMax_->isChecked())
-	alpha2Max_->setValue(value);
+    if (syncAlphaMinMax_->isChecked()) alpha2Max_->setValue(value);
     updateButtons();
 }
 
@@ -400,12 +371,12 @@ ViewEditor::on_rangeMax__valueChanged(double value)
 void
 ViewEditor::on_syncAlphaMinMax__toggled(bool state)
 {
-    alpha2Min_->setEnabled(! state);
-    alpha2Max_->setEnabled(! state);
+    alpha2Min_->setEnabled(!state);
+    alpha2Max_->setEnabled(!state);
     if (state) {
-	alpha2Min_->setValue(alpha1Min_->value());
-	alpha2Max_->setValue(alpha1Max_->value());
-	updateButtons();
+        alpha2Min_->setValue(alpha1Min_->value());
+        alpha2Max_->setValue(alpha1Max_->value());
+        updateButtons();
     }
 
     QSettings settings;

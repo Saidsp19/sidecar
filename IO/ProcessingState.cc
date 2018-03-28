@@ -6,37 +6,29 @@
 namespace SideCar {
 namespace IO {
 
-struct ProcessingState::Initializer
-{
+struct ProcessingState::Initializer {
     Initializer();
 };
 
-}} 				// end namespace SideCar::IO
+} // namespace IO
+} // namespace SideCar
 
 using namespace SideCar::IO;
 
-const char* const ProcessingState::displayNames_[kNumStates] =
-{
-    "---",
-    "Init",
-    "AutoDiag",
-    "Calibrate",
-    "Run",
-    "Stop",
-    "FAILURE"
-};
+const char* const ProcessingState::displayNames_[kNumStates] = {"---", "Init", "AutoDiag", "Calibrate",
+                                                                "Run", "Stop", "FAILURE"};
 
 std::vector<std::string> ProcessingState::searchNames_;
 
 ProcessingState::Initializer::Initializer()
 {
     if (searchNames_.empty()) {
-	searchNames_.resize(kNumStates);
-	for (int index = kInvalid; index < kNumStates; ++index) {
-	    std::string name(displayNames_[index]);
-	    std::transform(name.begin(), name.end(), name.begin(), &tolower);
-	    searchNames_[index] = name;
-	}
+        searchNames_.resize(kNumStates);
+        for (int index = kInvalid; index < kNumStates; ++index) {
+            std::string name(displayNames_[index]);
+            std::transform(name.begin(), name.end(), name.begin(), &tolower);
+            searchNames_[index] = name;
+        }
     }
 }
 
@@ -59,7 +51,7 @@ ProcessingState::GetValue(std::string name)
 {
     std::transform(name.begin(), name.end(), name.begin(), &tolower);
     for (int index = kInvalid; index < kNumStates; ++index) {
-	if (name == searchNames_[index]) return Value(index);
+        if (name == searchNames_[index]) return Value(index);
     }
 
     return kInvalid;

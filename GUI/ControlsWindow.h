@@ -6,21 +6,22 @@
 class QLabel;
 class QSlider;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
 class VideoSampleCountTransform;
 
-class ControlsWindow  : public ToolWindowBase
-{
+class ControlsWindow : public ToolWindowBase {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     ControlsWindow(int shortcut);
 
     void setVideoSampleCountTransform(const VideoSampleCountTransform* xfm);
@@ -42,7 +43,6 @@ private slots:
     void update();
 
 private:
-
     void showEvent(QShowEvent* event);
 
     QSlider* gain_;

@@ -13,7 +13,8 @@ namespace SideCar {
     Messages::Video which contains short integer samples. This class also hosts interleaved complex data (I+Q),
     but with a length twice the size of a non-complex data message.
 */
-namespace Messages {}
+namespace Messages {
+}
 
 } // end namespace SideCar
 

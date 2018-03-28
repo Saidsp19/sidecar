@@ -11,17 +11,16 @@ namespace GUI {
 /** Simple derivation of the QToolBar widget that can show a context menu containing a QAction to hide itself
     when selected.
 */
-class ToolBar : public QToolBar
-{
+class ToolBar : public QToolBar {
     Q_OBJECT
     using Super = QToolBar;
-public:
 
+public:
     /** Constructor.
 
-        \param title 
+        \param title
 
-        \param parent 
+        \param parent
     */
     ToolBar(const QString& title, QMenu* toolBarMenu, QWidget* parent = 0);
 
@@ -30,7 +29,6 @@ public slots:
     void toggleVisibility();
 
 private:
-
     /** Override of QWidget method. Hides the toolbar by activating QAction object returned by
         QToolBar::toggleViewAction() method.
 

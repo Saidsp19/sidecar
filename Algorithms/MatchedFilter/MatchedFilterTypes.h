@@ -18,9 +18,11 @@ class WorkRequestQueue;
 
 using ComplexType = std::complex<float>;
 using VsipComplexVector = vsip::Vector<ComplexType>;
-using FwdFFT = vsip::Fft<vsip::Vector,ComplexType,ComplexType,vsip::fft_fwd>;
-using InvFFT = vsip::Fft<vsip::Vector,ComplexType,ComplexType,vsip::fft_inv>;
+using FwdFFT = vsip::Fft<vsip::Vector, ComplexType, ComplexType, vsip::fft_fwd>;
+using InvFFT = vsip::Fft<vsip::Vector, ComplexType, ComplexType, vsip::fft_inv>;
 
-}}}
+} // namespace MatchedFilterUtils
+} // namespace Algorithms
+} // namespace SideCar
 
 #endif

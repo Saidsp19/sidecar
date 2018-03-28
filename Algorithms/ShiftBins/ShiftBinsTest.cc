@@ -19,11 +19,11 @@ using namespace SideCar::Messages;
  */
 struct TestData {
     enum {
-	kNumInputs = 1,		// Number of inputs
-	kNumSamples = 8,	// Number of samples in the test data
-	kNumCopies = 1000,	// Number of copies to make of the sample data
-	kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
-	kNumIterations = 1000		     // Number times to use
+        kNumInputs = 1,                      // Number of inputs
+        kNumSamples = 8,                     // Number of samples in the test data
+        kNumCopies = 1000,                   // Number of copies to make of the sample data
+        kOutSize = kNumSamples * kNumCopies, // Expected size of output msg
+        kNumIterations = 1000                // Number times to use
     };
 
     int shift;
@@ -33,48 +33,49 @@ struct TestData {
 
 TestData data[] = {
     {
-	2,
-	{ { 1, 2, 3, 4, 5, 6, 7, 8 }, // input
-	},
-        { 0, 0, 1, 2, 3, 4, 5, 6 }  // expected output
+        2,
+        {
+            {1, 2, 3, 4, 5, 6, 7, 8}, // input
+        },
+        {0, 0, 1, 2, 3, 4, 5, 6} // expected output
     },
     {
-	-3,
-	{ { 1, 2, 3, 4, 5, 6, 7, 8 }, // input
-	},
-        { 4, 5, 6, 7, 8, 1, 2, 3 }  // expected output
-	// !!! The '1, 2, 3' values only occur if kNumCopies > 1. Otherwise, they would be '0, 0, 0'
-	//
+        -3,
+        {
+            {1, 2, 3, 4, 5, 6, 7, 8}, // input
+        },
+        {4, 5, 6, 7, 8, 1, 2, 3} // expected output
+        // !!! The '1, 2, 3' values only occur if kNumCopies > 1. Otherwise, they would be '0, 0, 0'
+        //
     },
 
     {
-	0,
-	{ { 1, 2, 3, 4, 5, 6, 7, 8 }, // input
-	},
-        { 1, 2, 3, 4, 5, 6, 7, 8 }  // expected output
+        0,
+        {
+            {1, 2, 3, 4, 5, 6, 7, 8}, // input
+        },
+        {1, 2, 3, 4, 5, 6, 7, 8} // expected output
     },
 };
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum {
 
-	// Number of messages defined in the TestData container above.
-	//
-	kNumTestDefinitions = sizeof(data) / sizeof(TestData),
-	kNumTests = kNumTestDefinitions * TestData::kNumIterations,
+        // Number of messages defined in the TestData container above.
+        //
+        kNumTestDefinitions = sizeof(data) / sizeof(TestData),
+        kNumTests = kNumTestDefinitions * TestData::kNumIterations,
     };
 
     static Logger::Log& Log();
 
     /** Constructor.
      */
-    Test() : UnitTest::TestObj("ShiftBins"), controller_(),
-	     iteration_(0) {}
+    Test() : UnitTest::TestObj("ShiftBins"), controller_(), iteration_(0) {}
 
     /** Implementation of TestObj interface. Creates the processing Stream object, its internal Task objects,
-	properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
-	signals the event loop to exit.
+        properly initializes everything, and enters an ACE event loop, which does not return until testOutput()
+        signals the event loop to exit.
     */
     void test();
 
@@ -91,7 +92,6 @@ struct Test : public UnitTest::TestObj
     void testOutput(size_t counter, const Video::Ref& output);
 
 private:
-
     Controller::Ref controller_;
     int iteration_;
 };
@@ -107,8 +107,7 @@ Test::Log()
     knows when the algorithm ahead of it in the stream emitted an output message. For data messages,
     deliverDataMessage() invokes the Test::testOutput() method.
 */
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
@@ -117,7 +116,11 @@ struct Sink : public Task
 
         \return new Sink object
     */
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     /** Install a reference to the active Test object so that deliverDataMessage() may invoke its testOutput()
         method.
@@ -137,7 +140,6 @@ struct Sink : public Task
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
 private:
-    
     Sink() : Task(true), counter_(0), test_(0) {}
 
     int counter_;
@@ -158,16 +160,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGINFO << "data: " << data << " test: " << test_ << std::endl;
 
     MessageManager mgr(data);
-    LOGDEBUG << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGDEBUG << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGDEBUG << msg->dataPrinter() << std::endl;
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGDEBUG << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGDEBUG << msg->dataPrinter() << std::endl;
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -210,8 +211,7 @@ Test::test()
     // Initialize everything and put into the processing state.
     //
     assertTrue(controller_->openAndInit("ShiftBins"));
-    assertTrue(controller_->injectProcessingStateChange(
-                   ProcessingState::kRun));
+    assertTrue(controller_->injectProcessingStateChange(ProcessingState::kRun));
 
     // Generate our first input test messages.
     //
@@ -226,8 +226,7 @@ Test::test()
 
     std::clog << "duration: " << delta.asDouble() << " seconds" << std::endl;
 
-    double timePerSample = delta.asDouble() /
-	(kNumTests * TestData::kOutSize);
+    double timePerSample = delta.asDouble() / (kNumTests * TestData::kOutSize);
     std::clog << " time per sample: " << timePerSample << std::endl;
 
     // Uncomment the following to fail the test and see the log results. assertTrue(false);
@@ -260,23 +259,22 @@ Test::generateInput()
     // Generate a message for each input channel.
     //
     for (size_t input = 0; input < TestData::kNumInputs; ++input) {
-	Video::Ref msg(Video::Make("test", vme, TestData::kOutSize));
-	msg->setMessageSequenceNumber(iteration_);
+        Video::Ref msg(Video::Make("test", vme, TestData::kOutSize));
+        msg->setMessageSequenceNumber(iteration_);
 
-	// Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
-	// simulate real-world message sizes.
-	//
-	for (size_t count = 0; count < TestData::kNumCopies; ++count) {
-	    std::copy(testData.inputs[input],
-                      testData.inputs[input] + TestData::kNumSamples,
+        // Each message has a run of TestData::kNumCopies values that repeat TestData::kNumCopies in order to
+        // simulate real-world message sizes.
+        //
+        for (size_t count = 0; count < TestData::kNumCopies; ++count) {
+            std::copy(testData.inputs[input], testData.inputs[input] + TestData::kNumSamples,
                       std::back_inserter(msg->getData()));
-	}
+        }
 
-	LOGDEBUG << msg->dataPrinter() << std::endl;
+        LOGDEBUG << msg->dataPrinter() << std::endl;
 
-	// Post the input message to the appropriate algorithm input channel
-	//
-	assertTrue(controller_->putInChannel(msg, input));
+        // Post the input message to the appropriate algorithm input channel
+        //
+        assertTrue(controller_->putInChannel(msg, input));
     }
 }
 
@@ -296,9 +294,8 @@ Test::testOutput(size_t counter, const Video::Ref& msg)
     // in the TestData container.
     //
     for (size_t index = 0; index < TestData::kNumSamples; ++index) {
-	LOGDEBUG << index << " expected: " << int(testData.output[index])
-		 << std::endl;
-	assertEqual(int(testData.output[index]), int(msg[index]));
+        LOGDEBUG << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(int(testData.output[index]), int(msg[index]));
     }
 
     LOGDEBUG << "iteration: " << iteration_ << std::endl;
@@ -306,10 +303,9 @@ Test::testOutput(size_t counter, const Video::Ref& msg)
     // See if we are done with the test.
     //
     if (iteration_ == kNumTests) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

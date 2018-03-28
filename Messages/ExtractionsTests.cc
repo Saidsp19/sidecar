@@ -10,15 +10,13 @@
 using namespace SideCar;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("Extractions") {}
 
     void test();
 };
 
-struct ExtractionLayout
-{
+struct ExtractionLayout {
     /** Align on 4-byte boundary
      */
     int32_t seconds;
@@ -39,16 +37,15 @@ struct ExtractionLayout
     // char buffer[count];
 };
 
-struct ExtractionsLayout
-{
-    // uint16_t magic;		// 0xAAAA
-    // uint16_t alignment;	// Zero is little-endian
-    // uint32_t payload;	// Number of bytes in message
+struct ExtractionsLayout {
+    // uint16_t magic;            // 0xAAAA
+    // uint16_t alignment;        // Zero is little-endian
+    // uint32_t payload;  // Number of bytes in message
 
     uint16_t headerVersion;
     uint16_t guidVersion;
     uint32_t producerLength;
-    char     producer[4];	// !!!
+    char producer[4]; // !!!
     uint16_t messageTypeKey;
     uint32_t sequenceNumber;
     int32_t createdTimeStampSeconds;
@@ -71,39 +68,37 @@ Test::test()
     Extractions::Ref extractions(Extractions::Make("test", Header::Ref()));
 
     {
-	Extraction extraction(Time::TimeStamp(1, 2),
+        Extraction extraction(Time::TimeStamp(1, 2),
                               3.45678, // range
                               4.56789, // azimuth
-                              5.67890 // elevation
-            );
-	extraction.addAttribute("foo", "one");
-	extractions->push_back(extraction);
+                              5.67890  // elevation
+        );
+        extraction.addAttribute("foo", "one");
+        extractions->push_back(extraction);
     }
 
     {
-	Extraction extraction(Time::TimeStamp(3, 4),
+        Extraction extraction(Time::TimeStamp(3, 4),
                               5.67890, // range
                               4.56789, // azimuth
-                              3.45678 // elevation
-            );
+                              3.45678  // elevation
+        );
 
-	extraction.addAttribute("foo", "two");
-	extractions->push_back(extraction);
+        extraction.addAttribute("foo", "two");
+        extractions->push_back(extraction);
     }
 
     ACE_OutputCDR output;
     extractions->write(output);
 
-    ExtractionsLayout* ptr = reinterpret_cast<ExtractionsLayout*>(
-	const_cast<char*>(output.buffer()));
+    ExtractionsLayout* ptr = reinterpret_cast<ExtractionsLayout*>(const_cast<char*>(output.buffer()));
 
     assertEqual(2, ptr->headerVersion);
     assertEqual(3, ptr->guidVersion);
     assertEqual(4, ptr->producerLength);
 
     assertEqual(2, ptr->count);
-    assertEqual(std::string("test"),
-                std::string(ptr->producer, ptr->producerLength));
+    assertEqual(std::string("test"), std::string(ptr->producer, ptr->producerLength));
 
     // Validate values in the first Extraction record.
     //
@@ -129,7 +124,7 @@ Test::test()
     // Now move to the next record. This is tricky since we have to align to a 4-byte boundary after skipping
     // the attribute string data.
     //
-    cptr += rec->count + 1;	// account for a null byte
+    cptr += rec->count + 1; // account for a null byte
     cptr = ACE_ptr_align_binary(cptr, 4);
 
     // Validate values in the second Extraction record

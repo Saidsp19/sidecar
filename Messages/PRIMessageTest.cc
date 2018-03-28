@@ -1,5 +1,5 @@
-#include <cmath>
 #include "ace/FILE_Connector.h"
+#include <cmath>
 
 #include "IO/Decoder.h"
 #include "IO/MessageManager.h"
@@ -15,8 +15,7 @@ using namespace SideCar;
 using namespace SideCar::Messages;
 using namespace SideCar::Time;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("Video") {}
 
     void test();
@@ -28,11 +27,8 @@ Test::test()
     Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug);
 
     VMEDataMessage vme;
-    vme.header.msgDesc = (VMEHeader::kPackedReal << 16)
-	| VMEHeader::kIRIGValidMask
-	| VMEHeader::kTimeStampValidMask
-	| VMEHeader::kAzimuthValidMask
-	| VMEHeader::kPRIValidMask;
+    vme.header.msgDesc = (VMEHeader::kPackedReal << 16) | VMEHeader::kIRIGValidMask | VMEHeader::kTimeStampValidMask |
+                         VMEHeader::kAzimuthValidMask | VMEHeader::kPRIValidMask;
     vme.header.timeStamp = 0;
     vme.header.azimuth = 12345;
     vme.header.pri = 1;
@@ -81,74 +77,74 @@ Test::test()
     msg[1] = 1;
     assertEqual(2, msg[2]);
     assertEqual(3, msg[3]);
-    
+
     // Test CDR streaming. First write PRIMessage object to a file.
     //
     Utils::TemporaryFilePath fp("primessageTestOutput");
     ACE_FILE_Addr addr(fp);
     {
-	IO::FileWriter::Ref writer(IO::FileWriter::Make());
-	ACE_FILE_Connector fd(writer->getDevice(), addr);
-	IO::MessageManager mgr(msg);
-	assertTrue(writer->write(mgr.getMessage()));
-	vme.header.pri = 2;
-	Video::Ref two(Video::Make("Test::test()", vme, 5));
-	for (int count = 0; count < 5; ++count) two->push_back(1);
+        IO::FileWriter::Ref writer(IO::FileWriter::Make());
+        ACE_FILE_Connector fd(writer->getDevice(), addr);
+        IO::MessageManager mgr(msg);
+        assertTrue(writer->write(mgr.getMessage()));
+        vme.header.pri = 2;
+        Video::Ref two(Video::Make("Test::test()", vme, 5));
+        for (int count = 0; count < 5; ++count) two->push_back(1);
 
-	assertEqual(12345U, two->getRIUInfo().shaftEncoding);
-	assertEqual(2U, two->getRIUInfo().sequenceCounter);
-	assertEqual(5U, two->size());
+        assertEqual(12345U, two->getRIUInfo().shaftEncoding);
+        assertEqual(2U, two->getRIUInfo().sequenceCounter);
+        assertEqual(5U, two->size());
 
-	IO::MessageManager mgr2(two);
-	assertTrue(writer->write(mgr2.getMessage()));
+        IO::MessageManager mgr2(two);
+        assertTrue(writer->write(mgr2.getMessage()));
     }
 
     // Now test reading PRIMessage object from a file.
     //
     {
-	IO::FileReader::Ref reader(IO::FileReader::Make());
-	ACE_FILE_Connector fd(reader->getDevice(), addr);
-	assertFalse(reader->isMessageAvailable());
-	assertTrue(reader->fetchInput());
-	assertTrue(reader->isMessageAvailable());
+        IO::FileReader::Ref reader(IO::FileReader::Make());
+        ACE_FILE_Connector fd(reader->getDevice(), addr);
+        assertFalse(reader->isMessageAvailable());
+        assertTrue(reader->fetchInput());
+        assertTrue(reader->isMessageAvailable());
 
-	// Load a message in from the file.
-	//
-	{
-	    IO::Decoder decoder(reader->getMessage());
-	    msg = decoder.decode<Video>();
-	}
+        // Load a message in from the file.
+        //
+        {
+            IO::Decoder decoder(reader->getMessage());
+            msg = decoder.decode<Video>();
+        }
 
-	assertEqual(4U, msg->size());
-	assertEqual(12345U, msg->getRIUInfo().shaftEncoding);
-	assertEqual(1U, msg->getRIUInfo().sequenceCounter);
+        assertEqual(4U, msg->size());
+        assertEqual(12345U, msg->getRIUInfo().shaftEncoding);
+        assertEqual(1U, msg->getRIUInfo().sequenceCounter);
 
-	pos = msg->begin();
-	assertEqual(0, *pos++);
-	assertEqual(1, *pos++);
-	assertEqual(2, *pos++);
-	assertEqual(3, *pos++);
-	assertTrue(pos == msg->end());
+        pos = msg->begin();
+        assertEqual(0, *pos++);
+        assertEqual(1, *pos++);
+        assertEqual(2, *pos++);
+        assertEqual(3, *pos++);
+        assertTrue(pos == msg->end());
 
-	// Load second one.
-	//
-	assertTrue(reader->fetchInput());
-	assertTrue(reader->isMessageAvailable());
-	{
-	    IO::Decoder decoder(reader->getMessage());
-	    msg = decoder.decode<Video>();
-	}
-	assertEqual(5U, msg->size());
-	assertEqual(12345U, msg->getRIUInfo().shaftEncoding);
-	assertEqual(2U, msg->getRIUInfo().sequenceCounter);
+        // Load second one.
+        //
+        assertTrue(reader->fetchInput());
+        assertTrue(reader->isMessageAvailable());
+        {
+            IO::Decoder decoder(reader->getMessage());
+            msg = decoder.decode<Video>();
+        }
+        assertEqual(5U, msg->size());
+        assertEqual(12345U, msg->getRIUInfo().shaftEncoding);
+        assertEqual(2U, msg->getRIUInfo().sequenceCounter);
 
-	pos = msg->begin();
-	assertEqual(1, *pos++);
-	assertEqual(1, *pos++);
-	assertEqual(1, *pos++);
-	assertEqual(1, *pos++);
-	assertEqual(1, *pos++);
-	assertTrue(pos == msg->end());
+        pos = msg->begin();
+        assertEqual(1, *pos++);
+        assertEqual(1, *pos++);
+        assertEqual(1, *pos++);
+        assertEqual(1, *pos++);
+        assertEqual(1, *pos++);
+        assertTrue(pos == msg->end());
     }
 }
 

@@ -21,9 +21,9 @@ ChannelBuffer::MakeGenericLongName(int index)
     return os.str();
 }
 
-ChannelBuffer::ChannelBuffer(ManyInAlgorithm& processor, size_t channelIndex, size_t maxBufferSize)
-    : processor_(processor), enabledParam_(), channelIndex_(channelIndex), maxBufferSize_(maxBufferSize),
-      nextSequenceCounter_(0), container_(), enabled_(true)
+ChannelBuffer::ChannelBuffer(ManyInAlgorithm& processor, size_t channelIndex, size_t maxBufferSize) :
+    processor_(processor), enabledParam_(), channelIndex_(channelIndex), maxBufferSize_(maxBufferSize),
+    nextSequenceCounter_(0), container_(), enabled_(true)
 {
     ;
 }
@@ -43,16 +43,14 @@ bool
 ChannelBuffer::makeEnabledParameter(const std::string& shortName, const std::string& longName)
 {
     enabledParam_ = Parameter::BoolValue::Make(shortName, longName, enabled_);
-    enabledParam_->connectChangedSignalTo([this](auto& v){enabledChanged(v);});
+    enabledParam_->connectChangedSignalTo([this](auto& v) { enabledChanged(v); });
     return processor_.registerParameter(enabledParam_);
 }
 
 void
 ChannelBuffer::enabledChanged(const Parameter::BoolValue& parameter)
 {
-    if (enabled_ != parameter.getValue()) {
-	setEnabled(parameter.getValue());
-    }
+    if (enabled_ != parameter.getValue()) { setEnabled(parameter.getValue()); }
 }
 
 bool
@@ -62,12 +60,12 @@ ChannelBuffer::pruneToSequenceCounter(uint32_t sequenceCounter)
 
     // Skip entries until we have a message with a sequenceCounter that is not older than the given one.
     //
-    while (! isEmpty() &&
+    while (!isEmpty() &&
            ((sequenceCounter > nextSequenceCounter_) ||
             (sequenceCounter < nextSequenceCounter_ && nextSequenceCounter_ - sequenceCounter > kWrapped))) {
-	popFrontInternal();
+        popFrontInternal();
     }
-    return ! isEmpty() && nextSequenceCounter_ == sequenceCounter;
+    return !isEmpty() && nextSequenceCounter_ == sequenceCounter;
 }
 
 void
@@ -95,7 +93,7 @@ ChannelBuffer::reset()
 bool
 ChannelBuffer::addData(const Messages::PRIMessage::Ref& msg)
 {
-    if (! isEnabled()) return true;
+    if (!isEnabled()) return true;
 
     if (container_.empty()) nextSequenceCounter_ = msg->getSequenceCounter();
     container_.push_back(msg);
@@ -107,9 +105,9 @@ ChannelBuffer::addData(const Messages::PRIMessage::Ref& msg)
 void
 ChannelBuffer::popFrontInternal()
 {
-    if (! isEmpty()) {
-	container_.pop_front();
-	nextSequenceCounter_ = container_.empty() ? 0 : container_.front()->getSequenceCounter();
+    if (!isEmpty()) {
+        container_.pop_front();
+        nextSequenceCounter_ = container_.empty() ? 0 : container_.front()->getSequenceCounter();
     }
 }
 

@@ -4,7 +4,9 @@
 #include "QtGui/QPen"
 #include "QtGui/QWidget"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,14 +15,12 @@ namespace AScope {
 /** Widget that draws tick marks and value labels. Supports horizontal and vertical drawing. Also draws grid
     lines and an triangle indicator showing horizontal or vertical position of the cursor.
 */
-class ScaleWidget : public QWidget
-{
+class ScaleWidget : public QWidget {
     Q_OBJECT
 public:
     static Logger::Log& Log();
 
-    ScaleWidget(QWidget* parent = 0,
-                Qt::Orientation orientation = Qt::Horizontal);
+    ScaleWidget(QWidget* parent = 0, Qt::Orientation orientation = Qt::Horizontal);
 
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
@@ -58,14 +58,11 @@ public:
 private:
     void recalculateTickIntervals(int width, int height);
     void paintEvent(QPaintEvent* event);
-    void drawHorizontalGridLines(QPainter& painter, int width, int height)
-	const;
-    void drawVerticalGridLines(QPainter& painter, int width, int height)
-	const;
+    void drawHorizontalGridLines(QPainter& painter, int width, int height) const;
+    void drawVerticalGridLines(QPainter& painter, int width, int height) const;
     void dirtyCursorPosition(int position);
     void drawCursorPosition(QPainter& painter, int position);
-    void drawTicks(QPainter& painter, int width, double y, int sign,
-                   int tagOfffset);
+    void drawTicks(QPainter& painter, int width, double y, int sign, int tagOfffset);
 
     QSize lastSizeCalculated_;
 

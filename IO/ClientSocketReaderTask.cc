@@ -4,10 +4,10 @@
 #include "ace/Reactor.h"
 
 #include "Logger/Log.h"
-#include "Utils/Format.h"	// for Utils::showErrno
+#include "Utils/Format.h" // for Utils::showErrno
 
-#include "TCPConnector.h"
 #include "ClientSocketReaderTask.h"
+#include "TCPConnector.h"
 
 using namespace SideCar::IO;
 
@@ -31,26 +31,24 @@ ClientSocketReaderTask::openAndInit(const std::string& key, const std::string& h
     Logger::ProcLog log("openAndInit", Log());
     LOGINFO << key << ' ' << hostName << ' ' << port << std::endl;
 
-    if (! getTaskName().size()) {
+    if (!getTaskName().size()) {
         std::ostringstream os;
         os << "ClientSocketReaderTask(" << key << ',' << hostName << '.' << port << ')';
         setTaskName(os.str());
     }
 
     setMetaTypeInfoKeyName(key);
-    if (! reactor()) {
-        reactor(ACE_Reactor::instance());
-    }
+    if (!reactor()) { reactor(ACE_Reactor::instance()); }
 
     connector_ = new TCPConnector(this);
     LOGDEBUG << "connector: " << connector_ << std::endl;
 
     ACE_INET_Addr remoteAddress;
     remoteAddress.set(port, hostName.c_str(), 1, AF_INET);
-    if (! connector_->openAndInit(remoteAddress, reactor())) {
+    if (!connector_->openAndInit(remoteAddress, reactor())) {
         LOGERROR << "failed Connector::open" << std::endl;
         close(1);
-	setError("Failed to initialize connector");
+        setError("Failed to initialize connector");
         return false;
     }
 
@@ -63,9 +61,9 @@ ClientSocketReaderTask::close(u_long flags)
     static Logger::ProcLog log("close", Log());
     LOGINFO << flags << ' ' << connector_ << std::endl;
     if (connector_) {
-	connector_->close();
-	delete connector_;
-	connector_ = 0;
+        connector_->close();
+        delete connector_;
+        connector_ = 0;
     }
 
     Task::close(flags);

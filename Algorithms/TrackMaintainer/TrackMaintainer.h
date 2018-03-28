@@ -13,22 +13,17 @@ namespace Algorithms {
 /** Documentation for the algorithm TrackMaintainer This task simply receives track messages and passes them
     along.
 */
-class TrackMaintainer : public Algorithm
-{
+class TrackMaintainer : public Algorithm {
     using Super = Algorithm;
     using TrackMsgVector = std::vector<Messages::Track::Ref>;
 
     /** A map, indexed by track number, that contains the most recent track report for this track number that
         has come in
     */
-    using Mapping = std::map<int,TrackMsgVector>;
+    using Mapping = std::map<int, TrackMsgVector>;
 
 public:
-
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -56,7 +51,6 @@ public:
     void processAlarm();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -71,7 +65,7 @@ private:
 
     /** Gets called whenever a track that has been corrected by a measurement comes in
      */
-    void updateDatabase(const Messages::Track::Ref &msg);
+    void updateDatabase(const Messages::Track::Ref& msg);
 
     /** Gets called by alarm to check for tracks that should be dropped or promoted.
      */
@@ -84,8 +78,8 @@ private:
     Parameter::PositiveIntValue::Ref missesBeforeDrop_;
 
     /** This is the differential between the current computer time and the time reported in the extractions. For
-	real-time data, this should be negligible. For pre-canned data that is being played back though the
-	system, this needs to be kept track of.
+        real-time data, this should be negligible. For pre-canned data that is being played back though the
+        system, this needs to be kept track of.
     */
     double epoch_;
     Mapping trackDatabase_;

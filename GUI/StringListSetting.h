@@ -10,35 +10,32 @@ namespace GUI {
 
 /** Derivation of the Setting class that manages boolean values.
  */
-class StringListSetting : public Setting
-{
+class StringListSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
+
 public:
+    /** Constructor.
+
+        \param mgr
+
+        \param name
+
+        \param global
+    */
+    StringListSetting(PresetManager* mgr, const QString& name, bool global = false);
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
-        \param global 
+        \param value
+
+        \param global
     */
-    StringListSetting(PresetManager* mgr, const QString& name,
-                      bool global = false);
-
-    /** Constructor.
-
-        \param mgr 
-
-        \param name 
-
-        \param value 
-
-        \param global 
-    */
-    StringListSetting(PresetManager* mgr, const QString& name,
-                      const QStringList& value, bool global = false);
+    StringListSetting(PresetManager* mgr, const QString& name, const QStringList& value, bool global = false);
 
     /** Obtain the current setting value.
 
@@ -64,7 +61,6 @@ signals:
     void valueChanged(const QStringList& value);
 
 protected:
-
     /** Override of Setting::valueUpdated() method. Records the new value and emits the valueChanged() signal.
      */
     void valueUpdated();

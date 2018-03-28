@@ -22,29 +22,15 @@ namespace Algorithms {
 /** Documentation for the algorithm MatchedFilter. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class MatchedFilter : public ManyInAlgorithm
-{
+class MatchedFilter : public ManyInAlgorithm {
     using Super = ManyInAlgorithm;
-public:
 
-    enum InfoSlot {
-	kFFTSize = Super::kNumSlots,
-	kWorkerCount,
-	kFFTThreadCount,
-	kDomain,
-	kNoPulseDetected,
-	kNumSlots
-    };
+public:
+    enum InfoSlot { kFFTSize = Super::kNumSlots, kWorkerCount, kFFTThreadCount, kDomain, kNoPulseDetected, kNumSlots };
 
     /** Domain options available via the Master GUI application.
      */
-    enum Domain {
-	kMinValue,
-	kFrequencyDomain = kMinValue, 
-	kTimeDomain,
-	kMaxValue = kTimeDomain,
-	kNumFilterTypes
-    };
+    enum Domain { kMinValue, kFrequencyDomain = kMinValue, kTimeDomain, kMaxValue = kTimeDomain, kNumFilterTypes };
 
     /** Constructor.
 
@@ -68,35 +54,25 @@ public:
     bool shutdown();
 
     bool reset();
-    
-    void setTxPulseStartBin(int value)
-	{ txPulseStartBin_->setValue(value); }
 
-    void setTxPulseSpan(int value)
-	{ txPulseSpan_->setValue(value); }
+    void setTxPulseStartBin(int value) { txPulseStartBin_->setValue(value); }
 
-    void setTxThreshold(int value)
-	{ txThreshold_->setValue(value); }
+    void setTxPulseSpan(int value) { txPulseSpan_->setValue(value); }
 
-    void setTxThresholdStartBin(int value)
-	{ txThresholdStartBin_->setValue(value); }
+    void setTxThreshold(int value) { txThreshold_->setValue(value); }
 
-    void setTxThresholdSpan(int value)
-	{ txThresholdSpan_->setValue(value); }
-    
-    void setRxFilterStartBin(int value)
-	{ rxFilterStartBin_->setValue(value); }
+    void setTxThresholdStartBin(int value) { txThresholdStartBin_->setValue(value); }
 
-    void setRxFilterSpan(int value)
-	{ rxFilterSpan_->setValue(value); }
+    void setTxThresholdSpan(int value) { txThresholdSpan_->setValue(value); }
 
-    void setFFTSize(int size)
-	{ fftSize_->setValue(size); }
+    void setRxFilterStartBin(int value) { rxFilterStartBin_->setValue(value); }
+
+    void setRxFilterSpan(int value) { rxFilterSpan_->setValue(value); }
+
+    void setFFTSize(int size) { fftSize_->setValue(size); }
 
 private:
-
-    ChannelBuffer* makeChannelBuffer(int index, const std::string& name,
-                                     size_t maxBufferSize);
+    ChannelBuffer* makeChannelBuffer(int index, const std::string& name, size_t maxBufferSize);
 
     /** Start required worker threads based on runtime parameter.
      */
@@ -122,19 +98,19 @@ private:
 
     /** Implementation of ManyInAlgorithm::processChannels(). Process messages from the input channel buffers.
 
-	\returns true if no error; false otherwise
+        \returns true if no error; false otherwise
     */
     bool processChannels();
 
     /** Notification handler called when the numWorkers parameter changed. Restarts the worker threads so that
-	there are the configured number
+        there are the configured number
 
         \param parameter reference to parameter that changed
     */
     void numWorkersChanged(const Parameter::PositiveIntValue& parameter);
 
     /** Notification handler called when the numFFFThreads parameter changed. Restarts the worker threads so
-	that there are the configured number
+        that there are the configured number
 
         \param parameter reference to parameter that changed
     */
@@ -163,7 +139,7 @@ private:
     bool getRestartWorkerThreads();
 
     /** Set the internal restartWorkerThreads_ attribute to TRUE so that a future getRestartWorkerThreads() will
-	return TRUE in a thread-safe manner.
+        return TRUE in a thread-safe manner.
     */
     void setRestartWorkerThreads();
 
@@ -173,7 +149,7 @@ private:
     */
     ACE_Message_Block* getWorkRequest();
 
-    /** 
+    /**
      */
     TChannelBuffer<Messages::Video>* rx_;
 
@@ -188,23 +164,23 @@ private:
     Parameter::PositiveIntValue::Ref numFFTThreads_;
 
     /** Run-time parameter for the first complex sample in the TxRF message to use for the transmit pulse.
-	Negative values cause the processing to start from the end of the message: -1 is the last gate, -2 the
-	second-to-last, etc.
+        Negative values cause the processing to start from the end of the message: -1 is the last gate, -2 the
+        second-to-last, etc.
     */
     Parameter::IntValue::Ref txPulseStartBin_;
 
     /** Run-time parameter for the number of complex samples in the TxRF message to use for the transmit pulse,
-	starting at txPulseStartBin_.
+        starting at txPulseStartBin_.
     */
     Parameter::IntValue::Ref txPulseSpan_;
 
     /** Run-time parameter for the first complex sample in the RxRF message to filter. Negative values cause the
-	processing to start from the end of the message: -1 is the last gate, -2 the second-to-last, etc.
+        processing to start from the end of the message: -1 is the last gate, -2 the second-to-last, etc.
     */
     Parameter::IntValue::Ref rxFilterStartBin_;
 
     /** Run-time parameter for the number of complex samples in the RxRF message to filter, starting at
-	rxFilterStartBin_.
+        rxFilterStartBin_.
     */
     Parameter::IntValue::Ref rxFilterSpan_;
 
@@ -213,7 +189,7 @@ private:
     Parameter::PositiveIntValue::Ref fftSize_;
 
     /** Run-time parameter indicating transmit pulse threshold over which this algorithm will simply pass the rx
-	signal through unchanged
+        signal through unchanged
     */
     Parameter::IntValue::Ref txThreshold_;
 
@@ -223,7 +199,7 @@ private:
     Parameter::IntValue::Ref txThresholdStartBin_;
 
     /** Run-time parameter indicating the number of samples in the transmit signal in which to look for a
-	transmit pulse
+        transmit pulse
     */
     Parameter::IntValue::Ref txThresholdSpan_;
 
@@ -234,10 +210,10 @@ private:
     /** Definition of the enum range for the domain_ parameter.
      */
     struct DomainEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = Domain;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+        using ValueType = Domain;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using DomainParameter = Parameter::TValue<Parameter::Defs::Enum<DomainEnumTraits>>;

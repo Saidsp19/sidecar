@@ -46,8 +46,7 @@ static const char* const kBookmarkToolTip = "ToolTip";
     QTableView for the FileModel::kName column. Draws a progress bar in the background that shows how much of
     the PRI file the Emitter object has processed during its load.
 */
-struct NameItemDelegate : public QStyledItemDelegate
-{
+struct NameItemDelegate : public QStyledItemDelegate {
     using Super = QStyledItemDelegate;
 
     /** Constructor
@@ -60,27 +59,25 @@ struct NameItemDelegate : public QStyledItemDelegate
         percentage, paint part of the background rectangle a different color to illustrate the percentage
         loaded.
 
-	\param painter QPainter object to use for painting
+        \param painter QPainter object to use for painting
 
-	\param option display settings to use
+        \param option display settings to use
 
-	\param index location of the item in the model
+        \param index location of the item in the model
     */
-    void paint(QPainter* painter, const QStyleOptionViewItem& option,
-               const QModelIndex& index) const;
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 };
 
 void
-NameItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
-                        const QModelIndex& index) const
+NameItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     const FileModel* model = static_cast<const FileModel*>(index.model());
     const Emitter* emitter = model->getEmitter(index.row());
     double loadPercentage = emitter->getLoadPercentage();
     if (loadPercentage) {
-	QRect rect = option.rect;
-	rect.setWidth(rect.width() * loadPercentage);
-	painter->fillRect(rect, option.palette.highlight());
+        QRect rect = option.rect;
+        rect.setWidth(rect.width() * loadPercentage);
+        painter->fillRect(rect, option.palette.highlight());
     }
     Super::paint(painter, option, index);
 }
@@ -92,9 +89,8 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), clock_(0), model_(0),
-      notesWindow_(0), wallClockRatePower_(0)
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), clock_(0), model_(0), notesWindow_(0), wallClockRatePower_(0)
 {
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -107,14 +103,12 @@ MainWindow::MainWindow()
     duration_->setText("--:--:--");
 
     BrowserWindow* browser = App::GetApp()->getBrowserWindow();
-    connect(browser,
-            SIGNAL(loadRequest(const QString&)),
-            SLOT(load(const QString&)));
+    connect(browser, SIGNAL(loadRequest(const QString&)), SLOT(load(const QString&)));
 
     QAction* action = browser->getShowHideAction();
     action->setIcon(QIcon(":/browser.svg"));
     showBrowser_->setDefaultAction(action);
-    
+
     recordingInfo_->setEnabled(false);
     playbackControl_->setEnabled(false);
     bookmarksControl_->setEnabled(false);
@@ -122,36 +116,33 @@ MainWindow::MainWindow()
     actionRewind_->setEnabled(false);
 
     for (int index = 0; index < kMaxRecentFiles; ++index) {
-	QAction* action = recentFiles_[index] = new QAction(this);
-	action->setShortcut(
-	    QKeySequence(QString("CTRL+%1").arg(index + 1)));
-	connect(action, SIGNAL(triggered()), SLOT(openRecentDir()));
-	menuRecentFiles_->addAction(action);
-	action->setVisible(false);
+        QAction* action = recentFiles_[index] = new QAction(this);
+        action->setShortcut(QKeySequence(QString("CTRL+%1").arg(index + 1)));
+        connect(action, SIGNAL(triggered()), SLOT(openRecentDir()));
+        menuRecentFiles_->addAction(action);
+        action->setVisible(false);
     }
 
     QSettings settings;
     int size = settings.beginReadArray(kRecordingDirs);
     for (int index = 0; index < size; ++index) {
-	settings.setArrayIndex(index);
-	QString path = settings.value(kRecordingPath).toString().trimmed();
-	QDir dir(path);
-	if (dir.exists()) {
-	    recordingDir_->addItem(path);
-	    if (index < kMaxRecentFiles) {
-		menuRecentFiles_->setEnabled(true);
-		QString text(QString("&%1 %2")
-                             .arg(index + 1).arg(path));
-		recentFiles_[index]->setText(text);
-		recentFiles_[index]->setData(path);
-		recentFiles_[index]->setVisible(true);
-	    }
-	}
+        settings.setArrayIndex(index);
+        QString path = settings.value(kRecordingPath).toString().trimmed();
+        QDir dir(path);
+        if (dir.exists()) {
+            recordingDir_->addItem(path);
+            if (index < kMaxRecentFiles) {
+                menuRecentFiles_->setEnabled(true);
+                QString text(QString("&%1 %2").arg(index + 1).arg(path));
+                recentFiles_[index]->setText(text);
+                recentFiles_[index]->setData(path);
+                recentFiles_[index]->setVisible(true);
+            }
+        }
     }
     settings.endArray();
 
-    if (size == 0) 
-	recordingDir_->addItem("/space1/recordings/last");
+    if (size == 0) recordingDir_->addItem("/space1/recordings/last");
 
     recordingDir_->setInsertPolicy(QComboBox::InsertAtTop);
     recordingDir_->setCurrentIndex(-1);
@@ -161,18 +152,14 @@ MainWindow::MainWindow()
 
     clock_ = new Clock(this, 100, getWallClockRate());
 
-    connect(clock_, SIGNAL(tick(const Time::TimeStamp&,
-                                const Time::TimeStamp&)),
-            SLOT(clockTick(const Time::TimeStamp&,
-                           const Time::TimeStamp&)));
+    connect(clock_, SIGNAL(tick(const Time::TimeStamp&, const Time::TimeStamp&)),
+            SLOT(clockTick(const Time::TimeStamp&, const Time::TimeStamp&)));
     connect(clock_, SIGNAL(started()), SLOT(clockStarted()));
     connect(clock_, SIGNAL(stopped()), SLOT(clockStopped()));
-    connect(clock_,
-            SIGNAL(playbackClockStartChanged(const Time::TimeStamp&)),
+    connect(clock_, SIGNAL(playbackClockStartChanged(const Time::TimeStamp&)),
             SLOT(playbackClockStartChanged(const Time::TimeStamp&)));
 
-    rateMultiplier_->setCurrentIndex(
-	settings.value(kRateMultiple, 3).toInt());
+    rateMultiplier_->setCurrentIndex(settings.value(kRateMultiple, 3).toInt());
     regionLoop_->setCurrentIndex(settings.value(kRegionLoop, 1).toInt());
 
     model_ = new FileModel(this);
@@ -180,16 +167,14 @@ MainWindow::MainWindow()
     new ModelTest(model_, this);
 #endif
 
-    connect(model_,
-            SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+    connect(model_, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
             SLOT(updateColumns(const QModelIndex&, const QModelIndex&)));
     connect(model_, SIGNAL(loadComplete()), SLOT(loaded()));
 
     files_->setModel(model_);
     files_->installEventFilter(this);
     files_->viewport()->installEventFilter(this);
-    files_->setItemDelegateForColumn(FileModel::kName,
-                                     new NameItemDelegate(this));
+    files_->setItemDelegateForColumn(FileModel::kName, new NameItemDelegate(this));
 
     QHeaderView* header = files_->horizontalHeader();
     header->setResizeMode(QHeaderView::Fixed);
@@ -207,8 +192,8 @@ MainWindow::openRecentDir()
 {
     QAction* action = qobject_cast<QAction*>(sender());
     if (action) {
-	QString path(action->data().toString());
-	load(path);
+        QString path(action->data().toString());
+        load(path);
     }
 }
 
@@ -237,28 +222,26 @@ MainWindow::on_load__clicked()
     QString dirName = "";
 
     if (lastPath.isEmpty() && recordingDir_->count() != 0) {
-	lastPath = recordingDir_->itemText(0);
-    }
-    else {
-	QDir dir(lastPath);
-	dirName = dir.dirName();
-	dir.cdUp();
-	lastPath = dir.absolutePath();
+        lastPath = recordingDir_->itemText(0);
+    } else {
+        QDir dir(lastPath);
+        dirName = dir.dirName();
+        dir.cdUp();
+        lastPath = dir.absolutePath();
     }
 
     QFileDialog fd(this, "Choose Recording Directory", lastPath);
     fd.setAcceptMode(QFileDialog::AcceptOpen);
     fd.setFileMode(QFileDialog::DirectoryOnly);
     fd.setReadOnly(true);
-    if (! dirName.isEmpty())
-	fd.selectFile(dirName);
+    if (!dirName.isEmpty()) fd.selectFile(dirName);
 
     if (fd.exec()) {
-	QString path = fd.selectedFiles()[0];
-	if (! path.isEmpty()) {
-	    load(path);
-	    return;
-	}
+        QString path = fd.selectedFiles()[0];
+        if (!path.isEmpty()) {
+            load(path);
+            return;
+        }
     }
 
     statusBar()->showMessage("Load canceled", 5000);
@@ -268,12 +251,12 @@ void
 MainWindow::on_recordingDir__activated(int value)
 {
     QString path = recordingDir_->itemText(value).trimmed();
-    if (path.isEmpty() || ! QDir(path).exists()) {
-	statusBar()->showMessage("Invalid directory");
-	recordingDir_->removeItem(value);
-	recordingDir_->setCurrentIndex(-1);
-	return;
-    }	
+    if (path.isEmpty() || !QDir(path).exists()) {
+        statusBar()->showMessage("Invalid directory");
+        recordingDir_->removeItem(value);
+        recordingDir_->setCurrentIndex(-1);
+        return;
+    }
 
     load(path);
 }
@@ -284,11 +267,10 @@ MainWindow::closeEvent(QCloseEvent* event)
     Logger::ProcLog log("closeEvent", Log());
     LOGINFO << "load_->isEnabled: " << load_->isEnabled() << std::endl;
     if (load_->isEnabled()) {
-	event->accept();
-	Super::closeEvent(event);
-    }
-    else {
-	event->ignore();
+        event->accept();
+        Super::closeEvent(event);
+    } else {
+        event->ignore();
     }
 }
 
@@ -376,73 +358,61 @@ MainWindow::loaded()
     notes_->setEnabled(dir.exists("notes.txt"));
 
     if (dir.exists("bookmarks.ini")) {
-	QSettings settings(dir.filePath("bookmarks.ini"),
-                           QSettings::IniFormat);
+        QSettings settings(dir.filePath("bookmarks.ini"), QSettings::IniFormat);
 
-	int count = settings.beginReadArray(kBookmarks);
-	for (int index = 0; index < count; ++index) {
-	    settings.setArrayIndex(index);
-	    QString name = settings.value(kBookmarkName).toString();
-	    double when = settings.value(kBookmarkWhen).toDouble();
-	    QString toolTip = settings.value(kBookmarkToolTip).toString();
-	    bookmarks_->addItem(name, when);
-	    bookmarks_->setItemData(index, toolTip, Qt::ToolTipRole);
-	}
-	settings.endArray();
-	bookmarkDelete_->setEnabled(bookmarks_->count() != 0);
+        int count = settings.beginReadArray(kBookmarks);
+        for (int index = 0; index < count; ++index) {
+            settings.setArrayIndex(index);
+            QString name = settings.value(kBookmarkName).toString();
+            double when = settings.value(kBookmarkWhen).toDouble();
+            QString toolTip = settings.value(kBookmarkToolTip).toString();
+            bookmarks_->addItem(name, when);
+            bookmarks_->setItemData(index, toolTip, Qt::ToolTipRole);
+        }
+        settings.endArray();
+        bookmarkDelete_->setEnabled(bookmarks_->count() != 0);
 
-	regionStart_->clear();
-	count = settings.beginReadArray(kRegionStart);
-	for (int index = 0; index < count; ++index) {
-	    settings.setArrayIndex(index);
-	    QString name = settings.value(kBookmarkName).toString();
-	    double when = settings.value(kBookmarkWhen).toDouble();
-	    QString toolTip = settings.value(kBookmarkToolTip).toString();
-	    regionStart_->addItem(name, when);
-	    regionStart_->setItemData(index, toolTip, Qt::ToolTipRole);
-	}
-	settings.endArray();
-	regionStart_->setCurrentIndex(
-	    settings.value(kRegionStartIndex, 0).toInt());
-	regionStart_->setToolTip(
-	    regionStart_->itemData(regionStart_->currentIndex(),
-                                   Qt::ToolTipRole).toString());
+        regionStart_->clear();
+        count = settings.beginReadArray(kRegionStart);
+        for (int index = 0; index < count; ++index) {
+            settings.setArrayIndex(index);
+            QString name = settings.value(kBookmarkName).toString();
+            double when = settings.value(kBookmarkWhen).toDouble();
+            QString toolTip = settings.value(kBookmarkToolTip).toString();
+            regionStart_->addItem(name, when);
+            regionStart_->setItemData(index, toolTip, Qt::ToolTipRole);
+        }
+        settings.endArray();
+        regionStart_->setCurrentIndex(settings.value(kRegionStartIndex, 0).toInt());
+        regionStart_->setToolTip(regionStart_->itemData(regionStart_->currentIndex(), Qt::ToolTipRole).toString());
 
-	regionEnd_->clear();
-	count = settings.beginReadArray(kRegionEnd);
-	for (int index = 0; index < count; ++index) {
-	    settings.setArrayIndex(index);
-	    QString name = settings.value(kBookmarkName).toString();
-	    double when = settings.value(kBookmarkWhen).toDouble();
-	    QString toolTip = settings.value(kBookmarkToolTip).toString();
-	    regionEnd_->addItem(name, when);
-	    regionEnd_->setItemData(index, toolTip, Qt::ToolTipRole);
-	}
-	settings.endArray();
-	regionEnd_->setCurrentIndex(
-	    settings.value(kRegionEndIndex, 0).toInt());
-	regionEnd_->setToolTip(
-	    regionEnd_->itemData(regionEnd_->currentIndex(),
-                                 Qt::ToolTipRole).toString());
+        regionEnd_->clear();
+        count = settings.beginReadArray(kRegionEnd);
+        for (int index = 0; index < count; ++index) {
+            settings.setArrayIndex(index);
+            QString name = settings.value(kBookmarkName).toString();
+            double when = settings.value(kBookmarkWhen).toDouble();
+            QString toolTip = settings.value(kBookmarkToolTip).toString();
+            regionEnd_->addItem(name, when);
+            regionEnd_->setItemData(index, toolTip, Qt::ToolTipRole);
+        }
+        settings.endArray();
+        regionEnd_->setCurrentIndex(settings.value(kRegionEndIndex, 0).toInt());
+        regionEnd_->setToolTip(regionEnd_->itemData(regionEnd_->currentIndex(), Qt::ToolTipRole).toString());
 
-	regionStartTime_ = regionStart_->itemData(
-	    regionStart_->currentIndex()).toDouble();
-	regionEndTime_ = regionEnd_->itemData(
-	    regionEnd_->currentIndex()).toDouble();
-    }
-    else {
-	QString nowText = QString("%1 %2").arg(startTime_->text())
-	    .arg(clock_->formatDuration(0.0));
-	regionStart_->addItem("Recording Start", start.asDouble());
-	regionStart_->setItemData(0, nowText, Qt::ToolTipRole);
-	regionStart_->setCurrentIndex(0);
-	regionStart_->setToolTip(nowText);
-	nowText = QString("%1 %2").arg(endTime_->text())
-	    .arg(duration_->text());
-	regionEnd_->addItem("Recording End", end.asDouble());
-	regionEnd_->setItemData(0, nowText, Qt::ToolTipRole);
-	regionEnd_->setCurrentIndex(0);
-	regionEnd_->setToolTip(nowText);
+        regionStartTime_ = regionStart_->itemData(regionStart_->currentIndex()).toDouble();
+        regionEndTime_ = regionEnd_->itemData(regionEnd_->currentIndex()).toDouble();
+    } else {
+        QString nowText = QString("%1 %2").arg(startTime_->text()).arg(clock_->formatDuration(0.0));
+        regionStart_->addItem("Recording Start", start.asDouble());
+        regionStart_->setItemData(0, nowText, Qt::ToolTipRole);
+        regionStart_->setCurrentIndex(0);
+        regionStart_->setToolTip(nowText);
+        nowText = QString("%1 %2").arg(endTime_->text()).arg(duration_->text());
+        regionEnd_->addItem("Recording End", end.asDouble());
+        regionEnd_->setItemData(0, nowText, Qt::ToolTipRole);
+        regionEnd_->setCurrentIndex(0);
+        regionEnd_->setToolTip(nowText);
     }
 
     clock_->setClockRange(regionStartTime_, regionEndTime_);
@@ -450,9 +420,9 @@ MainWindow::loaded()
 
     int entry = recordingDir_->findText(activePath_);
     if (entry == -1) {
-	entry = 0;
-	recordingDir_->insertItem(0, activePath_);
-	updateRecentFileActions();
+        entry = 0;
+        recordingDir_->insertItem(0, activePath_);
+        updateRecentFileActions();
     }
 
     recordingDir_->setCurrentIndex(entry);
@@ -460,8 +430,8 @@ MainWindow::loaded()
     QSettings settings;
     settings.beginWriteArray(kRecordingDirs, recordingDir_->count());
     for (int index = 0; index < kMaxRecentFiles; ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kRecordingPath, recordingDir_->itemText(index));
+        settings.setArrayIndex(index);
+        settings.setValue(kRecordingPath, recordingDir_->itemText(index));
     }
 
     setWindowTitle(QString("Playback - ") + dir.dirName());
@@ -477,18 +447,14 @@ MainWindow::loaded()
 void
 MainWindow::updateRecentFileActions()
 {
-    for (int index = 0; index < recordingDir_->count() &&
-             index < kMaxRecentFiles; ++index) {
-	QString text(QString("&%1 %2")
-                     .arg(index + 1)
-                     .arg(recordingDir_->itemText(index)));
-	recentFiles_[index]->setText(text);
-	recentFiles_[index]->setData(recordingDir_->itemText(index));
-	recentFiles_[index]->setVisible(true);
+    for (int index = 0; index < recordingDir_->count() && index < kMaxRecentFiles; ++index) {
+        QString text(QString("&%1 %2").arg(index + 1).arg(recordingDir_->itemText(index)));
+        recentFiles_[index]->setText(text);
+        recentFiles_[index]->setData(recordingDir_->itemText(index));
+        recentFiles_[index]->setVisible(true);
     }
 
-    for (int index = recordingDir_->count(); index < kMaxRecentFiles; ++index)
-	recentFiles_[index]->setVisible(false);
+    for (int index = recordingDir_->count(); index < kMaxRecentFiles; ++index) recentFiles_[index]->setVisible(false);
 
     menuRecentFiles_->setEnabled(recordingDir_->count() > 0);
 }
@@ -496,8 +462,7 @@ MainWindow::updateRecentFileActions()
 void
 MainWindow::on_notes__clicked()
 {
-    if (! notesWindow_)
-	notesWindow_ = new NotesWindow(recordingDir_->currentText());
+    if (!notesWindow_) notesWindow_ = new NotesWindow(recordingDir_->currentText());
     notesWindow_->show();
     notesWindow_->raise();
     notesWindow_->activateWindow();
@@ -509,9 +474,9 @@ MainWindow::on_address__editingFinished()
 {
     QSettings settings;
     if (settings.value(kAddress).toString() != address_->text()) {
-	settings.setValue(kAddress, address_->text());
-	emit addressChanged(address_->text());
-	statusBar()->showMessage("Changed multicast address", 5000);
+        settings.setValue(kAddress, address_->text());
+        emit addressChanged(address_->text());
+        statusBar()->showMessage("Changed multicast address", 5000);
     }
 }
 
@@ -520,9 +485,9 @@ MainWindow::on_suffix__editingFinished()
 {
     QSettings settings;
     if (settings.value(kSuffix).toString() != suffix_->text()) {
-	settings.setValue(kSuffix, suffix_->text());
-	emit suffixChanged(suffix_->text());
-	statusBar()->showMessage("Changed publisher suffix", 5000);
+        settings.setValue(kSuffix, suffix_->text());
+        emit suffixChanged(suffix_->text());
+        statusBar()->showMessage("Changed publisher suffix", 5000);
     }
 }
 
@@ -530,10 +495,9 @@ void
 MainWindow::on_startStop__clicked()
 {
     if (startStop_->text() == "Start") {
-	clock_->start();
-    }
-    else {
-	clock_->stop();
+        clock_->start();
+    } else {
+        clock_->stop();
     }
 }
 
@@ -572,14 +536,13 @@ MainWindow::on_regionLoop__currentIndexChanged(int index)
     QSettings settings;
     settings.setValue(kRegionLoop, index);
     if (index == 1)
-	statusBar()->showMessage("Looping at 'End' time", 5000);
+        statusBar()->showMessage("Looping at 'End' time", 5000);
     else
-	statusBar()->showMessage("Stopping at 'End' time", 5000);
+        statusBar()->showMessage("Stopping at 'End' time", 5000);
 }
 
 Time::TimeStamp
-MainWindow::createTimeStamp(QString spec)
-    const
+MainWindow::createTimeStamp(QString spec) const
 {
     Logger::ProcLog log("createTimeStamp", Log());
     LOGINFO << "spec: " << spec << std::endl;
@@ -589,61 +552,53 @@ MainWindow::createTimeStamp(QString spec)
     double value;
 
     if (spec[0] == '+' || spec[0] == '-') {
+        // Relative time given in floating-point hours, minutes or seconds, depending on optional suffix
+        // character.
+        //
+        double factor = 1.0;
+        char c = spec.at(spec.length() - 1).toLatin1();
+        if (c == 'h' || c == 'H')
+            factor = 3600.0;
+        else if (c == 'm' || c == 'M')
+            factor = 60.0;
+        if (factor != 1.0 || c == 's' || c == 'S') spec.remove(spec.length() - 1, 1);
+        isOffset = true;
+        value = spec.toDouble(&ok) * factor;
+        LOGDEBUG << "offset value: " << value << std::endl;
+    } else {
+        // Absolute time given in HH:MM:SS.sss or floating-point seconds since midnight (0-86400)
+        //
+        if (spec.length() > 7 && (spec[2] == '.' || spec[2] == ':') && (spec[5] == '.' || spec[5] == ':')) {
+            int hrs = spec[0].digitValue() * 10 + spec[1].digitValue();
+            int min = spec[3].digitValue() * 10 + spec[4].digitValue();
+            spec.remove(0, 6);
 
-	// Relative time given in floating-point hours, minutes or seconds, depending on optional suffix
-	// character.
-	//
-	double factor = 1.0;
-	char c = spec.at(spec.length() - 1).toLatin1();
-	if (c == 'h' || c == 'H') factor = 3600.0;
-	else if (c == 'm' || c == 'M') factor = 60.0;
-	if (factor != 1.0 || c == 's' || c == 'S')
-	    spec.remove(spec.length() - 1, 1);
-	isOffset = true;
-	value = spec.toDouble(&ok) * factor;
-	LOGDEBUG << "offset value: " << value << std::endl;
-    }
-    else {
+            double secs = spec.toDouble(&ok);
+            if (!ok) {
+                secs = spec.toInt(&ok);
+                if (!ok) {
+                    secs = 0.0;
+                    ok = true;
+                }
+            }
+            value = hrs * 3600.0 + min * 60.0 + secs;
+        } else {
+            value = spec.toDouble(&ok);
+            if (!ok) value = spec.toInt(&ok);
+        }
 
-	// Absolute time given in HH:MM:SS.sss or floating-point seconds since midnight (0-86400)
-	//
-	if (spec.length() > 7 &&
-            (spec[2] == '.' || spec[2] == ':') &&
-            (spec[5] == '.' || spec[5] == ':')) {
-	    int hrs = spec[0].digitValue() * 10 + spec[1].digitValue();
-	    int min = spec[3].digitValue() * 10 + spec[4].digitValue();
-	    spec.remove(0, 6);
-
-	    double secs = spec.toDouble(&ok);
-	    if (! ok) {
-		secs = spec.toInt(&ok);
-		if (! ok) {
-		    secs = 0.0;
-		    ok = true;
-		}
-	    }
-	    value = hrs * 3600.0 + min * 60.0 + secs;
-	}
-	else {
-	    value = spec.toDouble(&ok);
-	    if (! ok)
-		value = spec.toInt(&ok);
-	}
-
-	LOGDEBUG << "absolute value: " << value << std::endl;
+        LOGDEBUG << "absolute value: " << value << std::endl;
     }
 
-    if (! ok)
-	return Time::TimeStamp::Min();
+    if (!ok) return Time::TimeStamp::Min();
 
     Time::TimeStamp when;
     if (isOffset) {
-	when = clock_->getPlaybackClock();
-	when += value;
-    }
-    else {
-	when = zero_;
-	when += value;
+        when = clock_->getPlaybackClock();
+        when += value;
+    } else {
+        when = zero_;
+        when += value;
     }
 
     LOGDEBUG << "when: " << when << std::endl;
@@ -663,17 +618,13 @@ MainWindow::on_jumpTo__activated(int index)
 
     Time::TimeStamp when = createTimeStamp(text);
     if (when == Time::TimeStamp::Min()) {
-	QMessageBox::information(this, "Invalid Jump",
-                                 "Invalid jump specification.",
-                                 QMessageBox::Ok);
-	return;
+        QMessageBox::information(this, "Invalid Jump", "Invalid jump specification.", QMessageBox::Ok);
+        return;
     }
 
     clock_->setPlaybackClockStart(when);
 
-    statusBar()->showMessage(
-	QString("Jumped to %1").arg(clock_->formatTimeStamp(when)),
-	5000);
+    statusBar()->showMessage(QString("Jumped to %1").arg(clock_->formatTimeStamp(when)), 5000);
 }
 
 void
@@ -684,36 +635,29 @@ MainWindow::on_regionStart__activated(int index)
     if (index == -1) return;
 
     QVariant tmp = regionStart_->itemData(index);
-    if (! tmp.isValid()) {
-	QString text = regionStart_->currentText().split(' ')[0];
-	LOGDEBUG << "text: " << text << std::endl;
-	Time::TimeStamp when = createTimeStamp(text);
-	if (when == Time::TimeStamp::Min() ||
-            when < model_->getStartTime() ||
-            when > model_->getEndTime()) {
-	    QMessageBox::information(this, "Invalid Start Time",
-                                     "Invalid start time specification.",
-                                     QMessageBox::Ok);
-	    regionStart_->setCurrentIndex(-1);
-	    regionStart_->removeItem(index);
-	    return;
-	}
+    if (!tmp.isValid()) {
+        QString text = regionStart_->currentText().split(' ')[0];
+        LOGDEBUG << "text: " << text << std::endl;
+        Time::TimeStamp when = createTimeStamp(text);
+        if (when == Time::TimeStamp::Min() || when < model_->getStartTime() || when > model_->getEndTime()) {
+            QMessageBox::information(this, "Invalid Start Time", "Invalid start time specification.", QMessageBox::Ok);
+            regionStart_->setCurrentIndex(-1);
+            regionStart_->removeItem(index);
+            return;
+        }
 
-	tmp = when.asDouble();
-	regionStart_->setItemData(index, tmp);
-	regionStart_->setItemData(index, text, Qt::ToolTipRole);
+        tmp = when.asDouble();
+        regionStart_->setItemData(index, tmp);
+        regionStart_->setItemData(index, text, Qt::ToolTipRole);
     }
 
     regionStartTime_ = tmp.toDouble();
     clock_->setClockRange(regionStartTime_, regionEndTime_);
-    regionStart_->setToolTip(
-	regionStart_->itemData(index, Qt::ToolTipRole).toString());
+    regionStart_->setToolTip(regionStart_->itemData(index, Qt::ToolTipRole).toString());
 
     writeBookmarks();
 
-    statusBar()->showMessage(
-	QString("Set start time to %1")
-	.arg(clock_->formatTimeStamp(regionStartTime_)), 5000);
+    statusBar()->showMessage(QString("Set start time to %1").arg(clock_->formatTimeStamp(regionStartTime_)), 5000);
 }
 
 void
@@ -724,36 +668,29 @@ MainWindow::on_regionEnd__activated(int index)
     if (index == -1) return;
 
     QVariant tmp = regionEnd_->itemData(index);
-    if (! tmp.isValid()) {
-	QString text = regionEnd_->currentText().split(' ')[0];
-	LOGDEBUG << "text: " << text << std::endl;
-	Time::TimeStamp when = createTimeStamp(text);
-	if (when == Time::TimeStamp::Min() ||
-            when < model_->getStartTime() ||
-            when > model_->getEndTime()) {
-	    QMessageBox::information(this, "Invalid End Time",
-                                     "Invalid end time specification.",
-                                     QMessageBox::Ok);
-	    regionEnd_->setCurrentIndex(-1);
-	    regionEnd_->removeItem(index);
-	    return;
-	}
+    if (!tmp.isValid()) {
+        QString text = regionEnd_->currentText().split(' ')[0];
+        LOGDEBUG << "text: " << text << std::endl;
+        Time::TimeStamp when = createTimeStamp(text);
+        if (when == Time::TimeStamp::Min() || when < model_->getStartTime() || when > model_->getEndTime()) {
+            QMessageBox::information(this, "Invalid End Time", "Invalid end time specification.", QMessageBox::Ok);
+            regionEnd_->setCurrentIndex(-1);
+            regionEnd_->removeItem(index);
+            return;
+        }
 
-	tmp = when.asDouble();
-	regionEnd_->setItemData(index, tmp);
-	regionEnd_->setItemData(index, text, Qt::ToolTipRole);
+        tmp = when.asDouble();
+        regionEnd_->setItemData(index, tmp);
+        regionEnd_->setItemData(index, text, Qt::ToolTipRole);
     }
 
     regionEndTime_ = tmp.toDouble();
     clock_->setClockRange(regionStartTime_, regionEndTime_);
-    regionEnd_->setToolTip(
-	regionEnd_->itemData(index, Qt::ToolTipRole).toString());
+    regionEnd_->setToolTip(regionEnd_->itemData(index, Qt::ToolTipRole).toString());
 
     writeBookmarks();
 
-    statusBar()->showMessage(QString("Set end time to %1")
-                             .arg(clock_->formatTimeStamp(regionEndTime_)),
-                             5000);
+    statusBar()->showMessage(QString("Set end time to %1").arg(clock_->formatTimeStamp(regionEndTime_)), 5000);
 }
 
 void
@@ -775,44 +712,37 @@ MainWindow::on_bookmarkAdd__clicked()
     Time::TimeStamp duration = now;
     duration -= model_->getStartTime();
 
-    QString nowText = QString("%1 %2")
-	.arg(clock_->formatTimeStamp(now))
-	.arg(clock_->formatDuration(duration));
+    QString nowText = QString("%1 %2").arg(clock_->formatTimeStamp(now)).arg(clock_->formatDuration(duration));
 
     while (1) {
+        QString name = QInputDialog::getText(this, "New Bookmark", QString("Name for time %1:").arg(nowText));
 
-	QString name = QInputDialog::getText(
-	    this, "New Bookmark",
-	    QString("Name for time %1:").arg(nowText));
+        if (name.isEmpty()) return;
 
-	if (name.isEmpty())
-	    return;
-
-	for (int index = 0; index < bookmarks_->count(); ++index) {
-	    if (bookmarks_->itemText(index).split(' ')[0] == name) {
-		QMessageBox::information(this, "Invalid Bookmark Name",
-                                         "Bookmark name already exists.",
+        for (int index = 0; index < bookmarks_->count(); ++index) {
+            if (bookmarks_->itemText(index).split(' ')[0] == name) {
+                QMessageBox::information(this, "Invalid Bookmark Name", "Bookmark name already exists.",
                                          QMessageBox::Ok);
-		name = "";
-		break;
-	    }
-	}
+                name = "";
+                break;
+            }
+        }
 
-	if (! name.isEmpty()) {
-	    double when = now.asDouble();
-	    int index = bookmarks_->count();
-	    bookmarks_->addItem(name, when);
-	    bookmarks_->setItemData(index, nowText, Qt::ToolTipRole);
-	    index = regionStart_->count();
-	    regionStart_->addItem(name, when);
-	    regionStart_->setItemData(index, nowText, Qt::ToolTipRole);
-	    index = regionEnd_->count();
-	    regionEnd_->addItem(name, when);
-	    regionEnd_->setItemData(index, nowText, Qt::ToolTipRole);
-	    writeBookmarks();
-	    statusBar()->showMessage("Added bookmark at " + nowText);
-	    break;
-	}
+        if (!name.isEmpty()) {
+            double when = now.asDouble();
+            int index = bookmarks_->count();
+            bookmarks_->addItem(name, when);
+            bookmarks_->setItemData(index, nowText, Qt::ToolTipRole);
+            index = regionStart_->count();
+            regionStart_->addItem(name, when);
+            regionStart_->setItemData(index, nowText, Qt::ToolTipRole);
+            index = regionEnd_->count();
+            regionEnd_->addItem(name, when);
+            regionEnd_->setItemData(index, nowText, Qt::ToolTipRole);
+            writeBookmarks();
+            statusBar()->showMessage("Added bookmark at " + nowText);
+            break;
+        }
     }
 }
 
@@ -826,26 +756,23 @@ MainWindow::on_bookmarkDelete__clicked()
     bookmarks_->removeItem(index);
     bookmarks_->setCurrentIndex(-1);
     for (index = 0; index < regionStart_->count(); ++index) {
-	if (regionStart_->itemText(index) == name) {
-	    if (index == regionStart_->currentIndex())
-		regionStart_->setCurrentIndex(-1);
-	    regionStart_->removeItem(index);
-	    break;
-	}
+        if (regionStart_->itemText(index) == name) {
+            if (index == regionStart_->currentIndex()) regionStart_->setCurrentIndex(-1);
+            regionStart_->removeItem(index);
+            break;
+        }
     }
 
     for (index = 0; index < regionEnd_->count(); ++index) {
-	if (regionEnd_->itemText(index) == name) {
-	    if (index == regionEnd_->currentIndex())
-		regionEnd_->setCurrentIndex(-1);
-	    regionEnd_->removeItem(index);
-	    break;
-	}
+        if (regionEnd_->itemText(index) == name) {
+            if (index == regionEnd_->currentIndex()) regionEnd_->setCurrentIndex(-1);
+            regionEnd_->removeItem(index);
+            break;
+        }
     }
 
     writeBookmarks();
-    statusBar()->showMessage(QString("Deleted bookmark '%1'").arg(name),
-                             5000);
+    statusBar()->showMessage(QString("Deleted bookmark '%1'").arg(name), 5000);
 }
 
 void
@@ -857,22 +784,20 @@ MainWindow::writeBookmarks()
     int count = bookmarks_->count();
     settings.beginWriteArray(kBookmarks, count);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kBookmarkName, bookmarks_->itemText(index));
-	settings.setValue(kBookmarkWhen, bookmarks_->itemData(index));
-	settings.setValue(kBookmarkToolTip,
-                          bookmarks_->itemData(index, Qt::ToolTipRole));
+        settings.setArrayIndex(index);
+        settings.setValue(kBookmarkName, bookmarks_->itemText(index));
+        settings.setValue(kBookmarkWhen, bookmarks_->itemData(index));
+        settings.setValue(kBookmarkToolTip, bookmarks_->itemData(index, Qt::ToolTipRole));
     }
     settings.endArray();
 
     count = regionStart_->count();
     settings.beginWriteArray(kRegionStart, count);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kBookmarkName, regionStart_->itemText(index));
-	settings.setValue(kBookmarkWhen, regionStart_->itemData(index));
-	settings.setValue(kBookmarkToolTip,
-                          regionStart_->itemData(index, Qt::ToolTipRole));
+        settings.setArrayIndex(index);
+        settings.setValue(kBookmarkName, regionStart_->itemText(index));
+        settings.setValue(kBookmarkWhen, regionStart_->itemData(index));
+        settings.setValue(kBookmarkToolTip, regionStart_->itemData(index, Qt::ToolTipRole));
     }
     settings.endArray();
     settings.setValue(kRegionStartIndex, regionStart_->currentIndex());
@@ -880,11 +805,10 @@ MainWindow::writeBookmarks()
     count = regionEnd_->count();
     settings.beginWriteArray(kRegionEnd, count);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kBookmarkName, regionEnd_->itemText(index));
-	settings.setValue(kBookmarkWhen, regionEnd_->itemData(index));
-	settings.setValue(kBookmarkToolTip,
-                          regionEnd_->itemData(index, Qt::ToolTipRole));
+        settings.setArrayIndex(index);
+        settings.setValue(kBookmarkName, regionEnd_->itemText(index));
+        settings.setValue(kBookmarkWhen, regionEnd_->itemData(index));
+        settings.setValue(kBookmarkToolTip, regionEnd_->itemData(index, Qt::ToolTipRole));
     }
     settings.endArray();
     settings.setValue(kRegionEndIndex, regionEnd_->currentIndex());
@@ -899,17 +823,16 @@ MainWindow::getWallClockRate() const
 }
 
 void
-MainWindow::clockTick(const Time::TimeStamp& playbackClock,
-                      const Time::TimeStamp& elapsed)
+MainWindow::clockTick(const Time::TimeStamp& playbackClock, const Time::TimeStamp& elapsed)
 {
     clockAbsolute_->setText(clock_->formatTimeStamp(playbackClock));
     clockElapsed_->setText(clock_->formatDuration(elapsed));
     if (playbackClock > regionEndTime_) {
-	clock_->stop();
-	if (regionLoop_->currentIndex() == 1) {
-	    clock_->setPlaybackClockStart(regionStartTime_);
-	    clock_->start();
-	}
+        clock_->stop();
+        if (regionLoop_->currentIndex() == 1) {
+            clock_->setPlaybackClockStart(regionStartTime_);
+            clock_->start();
+        }
     }
 }
 
@@ -928,24 +851,20 @@ MainWindow::on_rateMultiplier__currentIndexChanged(int index)
 
     wallClockRatePower_ = 3 - index;
     double rate = getWallClockRate();
-    if (clock_)
-	clock_->setWallClockRate(rate);
+    if (clock_) clock_->setWallClockRate(rate);
 
     QString label("Rate changed to ");
     if (wallClockRatePower_ < 0) {
-	label += QString("x 1/%1").arg(
-	    std::pow(2.0, -wallClockRatePower_));
-    }
-    else {
-	label += QString("x %1").arg(rate);
+        label += QString("x 1/%1").arg(std::pow(2.0, -wallClockRatePower_));
+    } else {
+        label += QString("x %1").arg(rate);
     }
 
     statusBar()->showMessage(label, 5000);
 }
 
 void
-MainWindow::updateColumns(const QModelIndex& topLeft,
-                          const QModelIndex& bottomRight)
+MainWindow::updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
     adjustColumnSizes();
 }
@@ -960,19 +879,15 @@ MainWindow::adjustColumnSizes()
     int minimum = files_->columnWidth(0);
     int available(files_->viewport()->width());
     for (int column = 0; column < model_->columnCount(); ++column)
-	if (column != FileModel::kName)
-	    available -= files_->columnWidth(column);
-    if (available >= minimum)
-	files_->setColumnWidth(FileModel::kName, available);
+        if (column != FileModel::kName) available -= files_->columnWidth(column);
+    if (available >= minimum) files_->setColumnWidth(FileModel::kName, available);
 }
 
 bool
 MainWindow::eventFilter(QObject* object, QEvent* event)
 {
     if (object == files_ || object == files_->viewport()) {
-	if (event->type() == QEvent::Resize) {
-	    adjustColumnSizes();
-	}
+        if (event->type() == QEvent::Resize) { adjustColumnSizes(); }
     }
     return Super::eventFilter(object, event);
 }

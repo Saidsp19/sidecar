@@ -5,8 +5,8 @@
 #include "Logger/Log.h"
 
 #include "BugCollector.h"
-#include "BugPlotSubscriber.h"
 #include "BugCollector_defaults.h"
+#include "BugPlotSubscriber.h"
 
 #include "QtCore/QString"
 
@@ -14,9 +14,9 @@ using namespace SideCar;
 using namespace SideCar::Algorithms;
 using namespace SideCar::Algorithms::BugCollectorUtils;
 
-BugCollector::BugCollector(Controller& controller, Logger::Log& log)
-    : Super(controller, log), subscriber_(),
-      prefix_(Parameter::StringValue::Make("prefix", "User Bug Channel Prefix", "UserBugs"))
+BugCollector::BugCollector(Controller& controller, Logger::Log& log) :
+    Super(controller, log), subscriber_(),
+    prefix_(Parameter::StringValue::Make("prefix", "User Bug Channel Prefix", "UserBugs"))
 {
     prefix_->connectChangedSignalTo(boost::bind(&BugCollector::prefixChanged, this, _1));
 }

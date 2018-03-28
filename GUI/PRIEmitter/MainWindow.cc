@@ -1,7 +1,7 @@
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 #include <cmath>
 #include <fstream>
@@ -43,8 +43,16 @@ using namespace SideCar;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::PRIEmitter;
 
-inline void degreesToRadians(double& v) { v *= M_PI_4 / 45.0; }
-inline void radiansToDegrees(double& v) { v *= 45.0 / M_PI_4; }
+inline void
+degreesToRadians(double& v)
+{
+    v *= M_PI_4 / 45.0;
+}
+inline void
+radiansToDegrees(double& v)
+{
+    v *= 45.0 / M_PI_4;
+}
 
 Logger::Log&
 MainWindow::Log()
@@ -53,9 +61,9 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), file_(0), reader_(), writer_(0), timer_(new QTimer(this)),
-      lastFile_(""), emitting_(false)
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), file_(0), reader_(), writer_(0), timer_(new QTimer(this)), lastFile_(""),
+    emitting_(false)
 {
     setupUi(this);
     setFixedSize();
@@ -84,11 +92,10 @@ MainWindow::MainWindow()
                     "(\\b([A-Za-z][-A-Za-z0-9]*\\.?){1,}\\b)");
 
     if (pattern.isValid()) {
-	QRegExpValidator* validator = new QRegExpValidator(pattern, this);
-	address_->setValidator(validator);
-    }
-    else {
-	QMessageBox::information(this, "Invalid Host Name Pattern", pattern.errorString(), QMessageBox::Ok);
+        QRegExpValidator* validator = new QRegExpValidator(pattern, this);
+        address_->setValidator(validator);
+    } else {
+        QMessageBox::information(this, "Invalid Host Name Pattern", pattern.errorString(), QMessageBox::Ok);
     }
 
     address_->setText(settings.value("Address", "237.1.2.100").toString());
@@ -108,10 +115,10 @@ MainWindow::MainWindow()
     step_->setCurrentIndex(settings.value("Step", 0).toInt());
 
     for (int index = 0; index < kMaxRecentFiles; ++index) {
-	QAction* action = recentFiles_[index] = new QAction(this);
-	action->setShortcut(QKeySequence(QString("CTRL+%1").arg(index + 1)));
-	connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
-	menuRecentFiles_->addAction(action);
+        QAction* action = recentFiles_[index] = new QAction(this);
+        action->setShortcut(QKeySequence(QString("CTRL+%1").arg(index + 1)));
+        connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+        menuRecentFiles_->addAction(action);
     }
 
     menuRecentFiles_->addSeparator();
@@ -121,7 +128,7 @@ MainWindow::MainWindow()
     updateTimer();
 
     connect(timer_, SIGNAL(timeout()), SLOT(emitMessage()));
-    if (! writer_) makeWriter();
+    if (!writer_) makeWriter();
 }
 
 void
@@ -139,15 +146,15 @@ MainWindow::on_name__editingFinished()
 {
     QString name = name_->text();
     if (name.isEmpty()) {
-	name_->setText(lastName_);
-	return;
+        name_->setText(lastName_);
+        return;
     }
 
     if (lastName_ != name) {
-	lastName_ = name;
-	makeWriter();
-	QSettings settings;
-	settings.setValue("Name", name);
+        lastName_ = name;
+        makeWriter();
+        QSettings settings;
+        settings.setValue("Name", name);
     }
 }
 
@@ -156,15 +163,15 @@ MainWindow::on_address__editingFinished()
 {
     QString address = address_->text();
     if (address.isEmpty()) {
-	address_->setText(lastAddress_);
-	return;
+        address_->setText(lastAddress_);
+        return;
     }
 
     if (lastAddress_ != address) {
-	lastAddress_ = address;
-	makeWriter();
-	QSettings settings;
-	settings.setValue("Address", address);
+        lastAddress_ = address;
+        makeWriter();
+        QSettings settings;
+        settings.setValue("Address", address);
     }
 }
 
@@ -174,26 +181,22 @@ MainWindow::makeWriter()
     Logger::ProcLog log("makeWriter", Log());
     LOGDEBUG << std::endl;
 
-    if (writer_) {
-        removeWriter();
-    }
+    if (writer_) { removeWriter(); }
 
     writerSubscriberCountChanged(0);
 
     if (connectionType_->currentIndex() == kTCP) {
-	writer_ = TCPMessageWriter::Make(name_->text(), Messages::Video::GetMetaTypeInfo().getName());
+        writer_ = TCPMessageWriter::Make(name_->text(), Messages::Video::GetMetaTypeInfo().getName());
 
-	if (! writer_) {
-	    QMessageBox::information(this, "Name Conflict",
+        if (!writer_) {
+            QMessageBox::information(this, "Name Conflict",
                                      QString("The name requested for the service is already "
                                              "in use by another service."),
                                      QMessageBox::Ok);
-	    return;
-	}
-    }
-    else {
-	writer_ = UDPMessageWriter::Make(name_->text(), Messages::Video::GetMetaTypeInfo().getName(),
-                                         address_->text());
+            return;
+        }
+    } else {
+        writer_ = UDPMessageWriter::Make(name_->text(), Messages::Video::GetMetaTypeInfo().getName(), address_->text());
     }
 
     connect(writer_, SIGNAL(published(const QString&, const QString&, uint16_t)),
@@ -206,8 +209,8 @@ void
 MainWindow::removeWriter()
 {
     if (writer_) {
-	delete writer_;
-	writer_ = 0;
+        delete writer_;
+        writer_ = 0;
     }
 }
 
@@ -226,9 +229,7 @@ MainWindow::on_frequency__valueChanged(int value)
     LOGINFO << value << std::endl;
     QSettings settings;
     settings.setValue("Frequency", value);
-    if (file_) {
-	settings.setValue(file_->fileName() + "Frequency", value);
-    }
+    if (file_) { settings.setValue(file_->fileName() + "Frequency", value); }
     updateTimer();
 }
 
@@ -252,18 +253,17 @@ MainWindow::on_startStop__clicked()
     Logger::ProcLog log("on_startStop__clicked", Log());
     LOGINFO << emitting_ << std::endl;
     if (emitting_) {
-	timer_->stop();
-	emitting_ = false;
-	statusBar()->showMessage("Stopped.", 5000);
-	startStop_->setText("Start");
-	actionEmitterStart_->setText("Start");
-    }
-    else {
-	statusBar()->showMessage("Started.", 5000);
-	startStop_->setText("Stop");
-	actionEmitterStart_->setText("Stop");
-	timer_->start();
-	emitting_ = true;
+        timer_->stop();
+        emitting_ = false;
+        statusBar()->showMessage("Stopped.", 5000);
+        startStop_->setText("Start");
+        actionEmitterStart_->setText("Start");
+    } else {
+        statusBar()->showMessage("Started.", 5000);
+        startStop_->setText("Stop");
+        actionEmitterStart_->setText("Stop");
+        timer_->start();
+        emitting_ = true;
     }
 }
 
@@ -282,8 +282,8 @@ MainWindow::on_actionFileOpen__triggered()
     QString path = QFileDialog::getOpenFileName(this, "Choose a data file", lastFile_, "Data (*.hdr *.pri)");
 
     if (path.isEmpty()) {
-	statusBar()->showMessage("Open canceled", 5000);
-	return;
+        statusBar()->showMessage("Open canceled", 5000);
+        return;
     }
 
     LOGINFO << "path: " << path << std::endl;
@@ -312,28 +312,25 @@ MainWindow::openFile(const QString& path)
     progressDialog_->setWindowModality(Qt::ApplicationModal);
 
     if (fileInfo.completeSuffix() == "pri") {
-	if (! openPRIFile(fileInfo)) {
-	    loadDone();
-	    return;
-	}
-    }
-    else if (fileInfo.completeSuffix() == "hdr") {
-	if (! openLogFile(fileInfo)) {
-	    loadDone();
-	    return;
-	}
-    }
-    else {
-	statusBar()->showMessage("Unkown file type");
-	loadDone();
-	return;
+        if (!openPRIFile(fileInfo)) {
+            loadDone();
+            return;
+        }
+    } else if (fileInfo.completeSuffix() == "hdr") {
+        if (!openLogFile(fileInfo)) {
+            loadDone();
+            return;
+        }
+    } else {
+        statusBar()->showMessage("Unkown file type");
+        loadDone();
+        return;
     }
 
     if (progressDialog_->wasCanceled()) {
-	statusBar()->showMessage("Canceled.", 5000);
-    }
-    else {
-	statusBar()->showMessage("Finished.", 5000);
+        statusBar()->showMessage("Canceled.", 5000);
+    } else {
+        statusBar()->showMessage("Finished.", 5000);
     }
     loadDone();
 
@@ -369,10 +366,9 @@ MainWindow::openConfigFile(const QFileInfo& fileInfo)
     fileName.append(".xml");
     QString configPath;
     if (folder.exists(fileName)) {
-	configPath = folder.filePath(fileName);
-    }
-    else {
-	configPath = ::getenv("SIDECAR_CONFIG");
+        configPath = folder.filePath(fileName);
+    } else {
+        configPath = ::getenv("SIDECAR_CONFIG");
     }
 
     Messages::RadarConfig::SetConfigurationFilePath(configPath.toStdString());
@@ -382,9 +378,9 @@ bool
 MainWindow::openLogFile(const QFileInfo& fileInfo)
 {
     QFile headerFile(fileInfo.filePath());
-    if (! headerFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	statusBar()->showMessage(QString("Failed to open file %1").arg(fileInfo.fileName()));
-	return false;
+    if (!headerFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        statusBar()->showMessage(QString("Failed to open file %1").arg(fileInfo.fileName()));
+        return false;
     }
 
     openConfigFile(fileInfo);
@@ -393,29 +389,29 @@ MainWindow::openLogFile(const QFileInfo& fileInfo)
     float rangeMin;
     QString token;
     if ((in >> token >> token >> rangeMin).status()) {
-	statusBar()->showMessage("Failed to read minimum range value", 5000);
-	return false;
+        statusBar()->showMessage("Failed to read minimum range value", 5000);
+        return false;
     }
 
     rangeMin_->setText(QString::number(rangeMin));
 
     float rangeMax;
     if ((in >> token >> token >> rangeMax).status()) {
-	statusBar()->showMessage("Failed to read max range value", 5000);
-	return false;
+        statusBar()->showMessage("Failed to read max range value", 5000);
+        return false;
     }
 
     rangeMax_->setText(QString::number(rangeMax));
 
     int samplesPerPulse;
     if ((in >> token >> samplesPerPulse).status()) {
-	statusBar()->showMessage("Failed to read samples/pulse value", 5000);
-	return false;
+        statusBar()->showMessage("Failed to read samples/pulse value", 5000);
+        return false;
     }
 
     if (samplesPerPulse == 0) {
-	statusBar()->showMessage("Samples/pulse value is zero", 5000);
-	return false;
+        statusBar()->showMessage("Samples/pulse value is zero", 5000);
+        return false;
     }
 
     pulseSize_->setText(QString::number(samplesPerPulse));
@@ -432,53 +428,47 @@ MainWindow::openLogFile(const QFileInfo& fileInfo)
     VideoVector messages;
 
     Messages::VMEDataMessage vme;
-    vme.header.msgDesc = ((Messages::VMEHeader::kPackedReal << 16) |
-                          Messages::VMEHeader::kIRIGValidMask |
-                          Messages::VMEHeader::kAzimuthValidMask |
-                          Messages::VMEHeader::kPRIValidMask);
+    vme.header.msgDesc = ((Messages::VMEHeader::kPackedReal << 16) | Messages::VMEHeader::kIRIGValidMask |
+                          Messages::VMEHeader::kAzimuthValidMask | Messages::VMEHeader::kPRIValidMask);
     vme.header.pri = 0;
     vme.header.timeStamp = 0;
 
-    while (! (in >> when >> azimuthStart >> azimuthEnd >> token).status()) {
-	degreesToRadians(azimuthStart);
-	degreesToRadians(azimuthEnd);
+    while (!(in >> when >> azimuthStart >> azimuthEnd >> token).status()) {
+        degreesToRadians(azimuthStart);
+        degreesToRadians(azimuthEnd);
 
-	vme.header.irigTime = when;
-	++vme.header.pri;
+        vme.header.irigTime = when;
+        ++vme.header.pri;
 
-	if (! beamWidth) {
-	    beamWidth = azimuthEnd - azimuthStart;
-	    if (beamWidth < 0.0) beamWidth += M_PI * 2.0;
-	}
+        if (!beamWidth) {
+            beamWidth = azimuthEnd - azimuthStart;
+            if (beamWidth < 0.0) beamWidth += M_PI * 2.0;
+        }
 
-	vme.header.azimuth =
-	    uint32_t(::rint(azimuthStart / (M_PI * 2.0) *
-                            Messages::RadarConfig::GetShaftEncodingMax()));
+        vme.header.azimuth =
+            uint32_t(::rint(azimuthStart / (M_PI * 2.0) * Messages::RadarConfig::GetShaftEncodingMax()));
 
-	Messages::Video::Ref msg(
-	    Messages::Video::Make("PRIEmitter", vme, samplesPerPulse));
-	msg->setCreatedTimeStamp(Time::TimeStamp(when));
+        Messages::Video::Ref msg(Messages::Video::Make("PRIEmitter", vme, samplesPerPulse));
+        msg->setCreatedTimeStamp(Time::TimeStamp(when));
 
-	if (messages.empty()) {
-	    lastTime = msg->getCreatedTimeStamp();
-	}
-	else {
-	    Time::TimeStamp delta(msg->getCreatedTimeStamp());
-	    delta -= lastTime;
-	    deltaSum += delta;
-	    lastTime = msg->getCreatedTimeStamp();
-	}
+        if (messages.empty()) {
+            lastTime = msg->getCreatedTimeStamp();
+        } else {
+            Time::TimeStamp delta(msg->getCreatedTimeStamp());
+            delta -= lastTime;
+            deltaSum += delta;
+            lastTime = msg->getCreatedTimeStamp();
+        }
 
-	messages.push_back(msg);
+        messages.push_back(msg);
     }
 
     QFileInfo dataFileInfo(fileInfo.dir(), fileInfo.baseName() + ".log");
 
     QFile dataFile(dataFileInfo.filePath());
-    if (! dataFile.open(QIODevice::ReadOnly)) {
-	statusBar()->showMessage(QString("Failed to open data file %1")
-                                 .arg(dataFileInfo.fileName()));
-	return false;
+    if (!dataFile.open(QIODevice::ReadOnly)) {
+        statusBar()->showMessage(QString("Failed to open data file %1").arg(dataFileInfo.fileName()));
+        return false;
     }
 
     QByteArray data = dataFile.readAll();
@@ -489,8 +479,8 @@ MainWindow::openLogFile(const QFileInfo& fileInfo)
     ACE_FILE_Connector fileConnector;
     IO::FileWriter::Ref writer(new IO::FileWriter);
     if (fileConnector.connect(writer->getDevice(), outputAddr) == -1) {
-	statusBar()->showMessage(QString("Failed to open PRI output file %1").arg(priFileInfo.fileName()));
-	return false;
+        statusBar()->showMessage(QString("Failed to open PRI output file %1").arg(priFileInfo.fileName()));
+        return false;
     }
 
     ByteOrder byteOrder;
@@ -503,18 +493,16 @@ MainWindow::openLogFile(const QFileInfo& fileInfo)
     VideoVector::iterator nextMessage = messages.begin();
     VideoVector::iterator end = messages.end();
     while (nextMessage != end) {
-	Messages::Video::Ref msg = *nextMessage++;
-	for (int count = samplesPerPulse; count; --count) {
-	    byteOrder.decode(ptr, sizeof(short));
-	    if (*ptr < valueMin) valueMin = *ptr;
-	    if (*ptr > valueMax) valueMax = *ptr;
-	    msg->push_back(*ptr++);
-	}
+        Messages::Video::Ref msg = *nextMessage++;
+        for (int count = samplesPerPulse; count; --count) {
+            byteOrder.decode(ptr, sizeof(short));
+            if (*ptr < valueMin) valueMin = *ptr;
+            if (*ptr > valueMax) valueMax = *ptr;
+            msg->push_back(*ptr++);
+        }
 
-	IO::MessageManager mgr(msg);
-	if (! writer->write(mgr.getMessage())) {
-	    statusBar()->showMessage(QString("Failed to encode message"), 5000);
-	}
+        IO::MessageManager mgr(msg);
+        if (!writer->write(mgr.getMessage())) { statusBar()->showMessage(QString("Failed to encode message"), 5000); }
     }
 
     writer->getDevice().close();
@@ -526,27 +514,25 @@ bool
 MainWindow::openPRIFile(const QFileInfo& fileInfo)
 {
     if (file_) {
-	if (reader_) {
-	    reader_->reset();
-        }
-	file_->close();
-	delete file_;
-	file_ = 0;
+        if (reader_) { reader_->reset(); }
+        file_->close();
+        delete file_;
+        file_ = 0;
     }
 
     file_ = new QFile(fileInfo.filePath());
-    if (! file_->open(QFile::ReadOnly)) {
-	statusBar()->showMessage(QString("Failed to open file %1").arg(fileInfo.fileName()));
-	delete file_;
-	file_ = 0;
-	return false;
+    if (!file_->open(QFile::ReadOnly)) {
+        statusBar()->showMessage(QString("Failed to open file %1").arg(fileInfo.fileName()));
+        delete file_;
+        file_ = 0;
+        return false;
     }
 
     reader_ = IO::FileReader::Make();
     reader_->getDevice().set_handle(file_->handle());
 
     openConfigFile(fileInfo);
-    
+
     Time::TimeStamp deltaSum;
     Time::TimeStamp lastTime;
 
@@ -556,67 +542,60 @@ MainWindow::openPRIFile(const QFileInfo& fileInfo)
     short valueMin = 32767;
     short valueMax = -valueMin;
     while (reader_->fetchInput()) {
-	if (reader_->isMessageAvailable()) {
+        if (reader_->isMessageAvailable()) {
+            IO::Decoder decoder(reader_->getMessage());
+            Messages::Video::Ref msg(decoder.decode<Messages::Video>());
+            if (messageCount == 0) {
+                lastTime = msg->getCreatedTimeStamp();
+                numGates = msg->size();
+                std::clog << lastTime << std::endl;
+            } else {
+                Time::TimeStamp delta(msg->getCreatedTimeStamp());
+                delta -= lastTime;
+                deltaSum += delta;
+                lastTime = msg->getCreatedTimeStamp();
+                if (msg->size() > numGates) { numGates = msg->size(); }
+            }
 
-	    IO::Decoder decoder(reader_->getMessage());
-	    Messages::Video::Ref msg(decoder.decode<Messages::Video>());
-	    if (messageCount == 0) {
-		lastTime = msg->getCreatedTimeStamp();
-		numGates = msg->size();
-		std::clog << lastTime << std::endl;
-	    }
-	    else {
-		Time::TimeStamp delta(msg->getCreatedTimeStamp());
-		delta -= lastTime;
-		deltaSum += delta;
-		lastTime = msg->getCreatedTimeStamp();
-		if (msg->size() > numGates) {
-		    numGates = msg->size();
-                }
-	    }
-
-	    ++messageCount;
-	    short min = *(std::min_element(msg->begin(), msg->end()));
-	    if (min < valueMin) valueMin = min;
-	    short max = *(std::max_element(msg->begin(), msg->end()));
-	    if (max > valueMax) valueMax = max;
-	}
-
-	double percentComplete = reader_->getDevice().tell() / fileSize;
-	progressDialog_->setValue(int(percentComplete * 100.0));
-	qApp->processEvents();
-	if (progressDialog_->wasCanceled()) {
-	    break;
+            ++messageCount;
+            short min = *(std::min_element(msg->begin(), msg->end()));
+            if (min < valueMin) valueMin = min;
+            short max = *(std::max_element(msg->begin(), msg->end()));
+            if (max > valueMax) valueMax = max;
         }
+
+        double percentComplete = reader_->getDevice().tell() / fileSize;
+        progressDialog_->setValue(int(percentComplete * 100.0));
+        qApp->processEvents();
+        if (progressDialog_->wasCanceled()) { break; }
     }
 
     rewind();
 
     if (messageCount) {
-	if (messageCount > 1) {
-	    double delta = deltaSum.asDouble();
-	    delta /= (messageCount - 1);
-	    if (delta != 0.0) {
-		int freq = int(1.0 / delta);
-		fileFrequency_->setText(QString::number(freq));
-		QSettings settings;
-		frequency_->setValue(settings.value(file_->fileName() + "Frequency", freq).toInt());
-	    }
-	}
+        if (messageCount > 1) {
+            double delta = deltaSum.asDouble();
+            delta /= (messageCount - 1);
+            if (delta != 0.0) {
+                int freq = int(1.0 / delta);
+                fileFrequency_->setText(QString::number(freq));
+                QSettings settings;
+                frequency_->setValue(settings.value(file_->fileName() + "Frequency", freq).toInt());
+            }
+        }
 
-	rangeMin_->setText(QString::number(Messages::RadarConfig::GetRangeMin_deprecated()));
-	rangeMax_->setText(QString::number(Messages::RadarConfig::GetRangeMax()));
-        
-	pulseSize_->setText(QString::number(numGates));
-	beamWidthValue_ =  Messages::RadarConfig::GetBeamWidth();
-	beamWidth_->setText(QString::number(beamWidthValue_));
-    }
-    else {
-	rangeMin_->setText("---");
-	rangeMax_->setText("---");
-	pulseSize_->setText("---");
-	beamWidth_->setText("---");
-	fileFrequency_->setText("---");
+        rangeMin_->setText(QString::number(Messages::RadarConfig::GetRangeMin_deprecated()));
+        rangeMax_->setText(QString::number(Messages::RadarConfig::GetRangeMax()));
+
+        pulseSize_->setText(QString::number(numGates));
+        beamWidthValue_ = Messages::RadarConfig::GetBeamWidth();
+        beamWidth_->setText(QString::number(beamWidthValue_));
+    } else {
+        rangeMin_->setText("---");
+        rangeMax_->setText("---");
+        pulseSize_->setText("---");
+        beamWidth_->setText("---");
+        fileFrequency_->setText("---");
     }
 
     valueMin_->setText(QString::number(valueMin));
@@ -632,20 +611,20 @@ MainWindow::emitMessage()
     static Logger::ProcLog log("emitMessages", Log());
 
     while (1) {
-	if (! reader_->fetchInput()) {
-	    rewind();
-	    if (! loopAtEnd_->isChecked()) {
-		on_startStop__clicked();
-		return;
-	    }
+        if (!reader_->fetchInput()) {
+            rewind();
+            if (!loopAtEnd_->isChecked()) {
+                on_startStop__clicked();
+                return;
+            }
 
-	    LOGINFO << "looping" << std::endl;
-	    QString when("Looping");
-	    statusBar()->showMessage("Looping", 5000);
-	    continue;
-	}
+            LOGINFO << "looping" << std::endl;
+            QString when("Looping");
+            statusBar()->showMessage("Looping", 5000);
+            continue;
+        }
 
-	if (reader_->isMessageAvailable()) break;
+        if (reader_->isMessageAvailable()) break;
     }
 
     IO::Decoder decoder(reader_->getMessage());
@@ -653,16 +632,14 @@ MainWindow::emitMessage()
     msg->setCreatedTimeStamp(Time::TimeStamp::Now());
 
     if (simAz_->isChecked()) {
-	msg->getRIUInfo().shaftEncoding = uint32_t(::rint(simulatedShaft_));
-	simulatedShaft_ += shaftDelta_;
-	if (simulatedShaft_ > Messages::RadarConfig::GetShaftEncodingMax())
-	    simulatedShaft_ -= Messages::RadarConfig::GetShaftEncodingMax();
+        msg->getRIUInfo().shaftEncoding = uint32_t(::rint(simulatedShaft_));
+        simulatedShaft_ += shaftDelta_;
+        if (simulatedShaft_ > Messages::RadarConfig::GetShaftEncodingMax())
+            simulatedShaft_ -= Messages::RadarConfig::GetShaftEncodingMax();
     }
 
     IO::MessageManager mgr(msg);
-    if (! writer_->writeMessage(mgr)) {
-	makeWriter();
-    }
+    if (!writer_->writeMessage(mgr)) { makeWriter(); }
 }
 
 void
@@ -670,8 +647,8 @@ MainWindow::openRecentFile()
 {
     QAction* action = qobject_cast<QAction*>(sender());
     if (action) {
-	QString path(action->data().toString());
-	openFile(path);
+        QString path(action->data().toString());
+        openFile(path);
     }
 }
 
@@ -695,14 +672,13 @@ MainWindow::updateRecentFileActions()
     QSettings settings;
     QStringList files = settings.value("RecentFileList").toStringList();
     for (int index = 0; index < files.size(); ++index) {
-	QString text(QString("&%1 %2").arg(index + 1).arg(strippedName(files[index])));
-	recentFiles_[index]->setText(text);
-	recentFiles_[index]->setData(files[index]);
-	recentFiles_[index]->setVisible(true);
+        QString text(QString("&%1 %2").arg(index + 1).arg(strippedName(files[index])));
+        recentFiles_[index]->setText(text);
+        recentFiles_[index]->setData(files[index]);
+        recentFiles_[index]->setVisible(true);
     }
 
-    for (int index = files.size(); index < kMaxRecentFiles; ++index)
-	recentFiles_[index]->setVisible(false);
+    for (int index = files.size(); index < kMaxRecentFiles; ++index) recentFiles_[index]->setVisible(false);
 
     menuRecentFiles_->setEnabled(files.size() > 0);
 }
@@ -747,20 +723,24 @@ MainWindow::writerPublished(const QString& serviceName, const QString& serverAdd
     statusBar()->showMessage(QString("Server address: %1").arg(address));
 
     if (serviceName != name_->text()) {
-	name_->setText(serviceName);
-	lastName_ = serviceName;
-	QMessageBox::information(this, "Name Conflict", QString("The name requested for the service is already in use "
-                                                                "by another service. The new name is '%1'")
-                                 .arg(serviceName), QMessageBox::Ok);
+        name_->setText(serviceName);
+        lastName_ = serviceName;
+        QMessageBox::information(this, "Name Conflict",
+                                 QString("The name requested for the service is already in use "
+                                         "by another service. The new name is '%1'")
+                                     .arg(serviceName),
+                                 QMessageBox::Ok);
     }
 }
 
 void
 MainWindow::writerFailure()
 {
-    QMessageBox::information(this, "Name Conflict", QString("The name requested for the service is already in use by "
-                                                            "another service."), QMessageBox::Ok);
-}    
+    QMessageBox::information(this, "Name Conflict",
+                             QString("The name requested for the service is already in use by "
+                                     "another service."),
+                             QMessageBox::Ok);
+}
 
 void
 MainWindow::on_simAz__toggled(bool checked)

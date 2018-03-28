@@ -1,8 +1,8 @@
-#ifndef UNITTEST_SUITE_H	// -*- C++ -*-
+#ifndef UNITTEST_SUITE_H // -*- C++ -*-
 #define UNITTEST_SUITE_H
 
 #include <string>
-#include <utility>		// for std::pair
+#include <utility> // for std::pair
 #include <vector>
 
 #include "UnitTest/TestObj.h"
@@ -32,16 +32,14 @@ class RunResults;
     }
     \endcode
 */
-class Suite : public TestObj, Utils::Uncopyable
-{
+class Suite : public TestObj, Utils::Uncopyable {
 public:
-
     /** Definition of type stored in std::vector collection. First element of std::pair holds a flag indicating
         if the second object is to be deleted upon destruction of the Suite object. The second element of the
         pair is a pointer to a TestObj object.
     */
-    using PairBoolTestObj = std::pair<bool,TestObj*>;
-    
+    using PairBoolTestObj = std::pair<bool, TestObj*>;
+
     /** Constructor.
 
         \param name name of the test suite
@@ -89,7 +87,6 @@ public:
     void add(TestObj& obj) throw() { tests_.push_back(PairBoolTestObj(false, &obj)); }
 
 private:
-
     /** Set of test cases to run, represented by TestObj objects.
      */
     std::vector<PairBoolTestObj> tests_;

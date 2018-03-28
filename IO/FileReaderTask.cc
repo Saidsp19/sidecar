@@ -24,36 +24,34 @@ FileReaderTask::Make()
     return ref;
 }
 
-FileReaderTask::FileReaderTask()
-    : Super(), reader_(), signalEndOfFile_(false), active_(false)
+FileReaderTask::FileReaderTask() : Super(), reader_(), signalEndOfFile_(false), active_(false)
 {
     ;
 }
 
 bool
-FileReaderTask::openAndInit(const std::string& key, const std::string& path, bool signalEndOfFile,
-                            long threadFlags, long threadPriority)
+FileReaderTask::openAndInit(const std::string& key, const std::string& path, bool signalEndOfFile, long threadFlags,
+                            long threadPriority)
 {
     Logger::ProcLog log("openAndInit", Log());
-    LOGINFO << "key: " << key << " path: " << path << " signalEndOfFile: " << signalEndOfFile << " threadFlags: "
-            << std::hex << threadFlags << std::dec << " threadPriority: " << threadPriority << std::endl;
+    LOGINFO << "key: " << key << " path: " << path << " signalEndOfFile: " << signalEndOfFile
+            << " threadFlags: " << std::hex << threadFlags << std::dec << " threadPriority: " << threadPriority
+            << std::endl;
 
     threadFlags_ = threadFlags;
     threadPriority_ = threadPriority;
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
-    if (! getTaskName().size()) {
-	std::string taskName("FileReaderTask(");
-	taskName += key;
-	taskName += ',';
-	taskName += path;
-	taskName += ')';
-	setTaskName(taskName);
+    if (!getTaskName().size()) {
+        std::string taskName("FileReaderTask(");
+        taskName += key;
+        taskName += ',';
+        taskName += path;
+        taskName += ')';
+        setTaskName(taskName);
     }
 
-    if (key.size()) {
-	setMetaTypeInfoKeyName(key);
-    }
+    if (key.size()) { setMetaTypeInfoKeyName(key); }
 
     signalEndOfFile_ = signalEndOfFile;
     ACE_FILE_Addr filePath(path.c_str());
@@ -61,15 +59,10 @@ FileReaderTask::openAndInit(const std::string& key, const std::string& path, boo
     // Establish a connection to an actual device.
     //
     ACE_FILE_Connector connector;
-    if (connector.connect(reader_.getDevice(),
-                          filePath,
-                          0,
-                          ACE_Addr::sap_any,
-                          0,
-                          O_RDONLY,
-                          ACE_DEFAULT_FILE_PERMS) == -1) {
-	LOGERROR << "failed to open file " << path << std::endl;
-	return false;
+    if (connector.connect(reader_.getDevice(), filePath, 0, ACE_Addr::sap_any, 0, O_RDONLY, ACE_DEFAULT_FILE_PERMS) ==
+        -1) {
+        LOGERROR << "failed to open file " << path << std::endl;
+        return false;
     }
 
     LOGINFO << "opened file " << path << std::endl;
@@ -92,9 +85,9 @@ FileReaderTask::start()
 
     active_ = true;
     if (activate(threadFlags_, 1, 0, threadPriority_) == -1) {
-	active_ = false;
-	LOGERROR << "failed to activate new thread - " << errno << std::endl;
-	return false;
+        active_ = false;
+        LOGERROR << "failed to activate new thread - " << errno << std::endl;
+        return false;
     }
 
     return true;
@@ -109,17 +102,17 @@ FileReaderTask::svc()
     // Keep running until told to stop
     //
     while (active_) {
-	if (! reader_.fetchInput()) {
-	    LOGWARNING << "EOF on file" << std::endl;
-	    if (signalEndOfFile_) {
-		ACE_Message_Block* data = ShutdownRequest().getWrapped();
-		if (put_next(data) == -1) data->release();
-	    }
-	    break;
-	}
-	if (reader_.isMessageAvailable()) {
+        if (!reader_.fetchInput()) {
+            LOGWARNING << "EOF on file" << std::endl;
+            if (signalEndOfFile_) {
+                ACE_Message_Block* data = ShutdownRequest().getWrapped();
+                if (put_next(data) == -1) data->release();
+            }
+            break;
+        }
+        if (reader_.isMessageAvailable()) {
             LOGDEBUG << "got message" << std::endl;
-	    acquireExternalMessage(reader_.getMessage());
+            acquireExternalMessage(reader_.getMessage());
         }
     }
 
@@ -135,11 +128,11 @@ FileReaderTask::close(u_long flags)
     // Tell the reader thread to stop running, and then wait for the thread to quit.
     //
     if (flags) {
-	if (active_) {
-	    active_ = false;
-	    wait();
-	}
-	reader_.close();
+        if (active_) {
+            active_ = false;
+            wait();
+        }
+        reader_.close();
     }
 
     return Super::close(flags);

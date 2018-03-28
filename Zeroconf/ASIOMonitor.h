@@ -6,7 +6,9 @@
 
 #include "Zeroconf/Monitor.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Zeroconf {
@@ -15,10 +17,8 @@ namespace Zeroconf {
     a Zeroconf socket has data available for processing. When there is, it invokes
     Transaction::processConnection() to handle the incoming data.
 */
-class ASIOMonitor : public Monitor
-{
+class ASIOMonitor : public Monitor {
 public:
-
     /** Obtain the log device for ASIOMonitor objects
 
         \return log device
@@ -32,16 +32,15 @@ public:
     ASIOMonitor(boost::asio::io_service& ioService);
 
 private:
-
     /** Implementation of abstract Monitor method. Notification from the monitored object that a service has
-	started. Registers ourselves in the ASIO framework to receive notifications when data is available on
-	the IPC descriptor of the monitored Zerconf object.
+        started. Registers ourselves in the ASIO framework to receive notifications when data is available on
+        the IPC descriptor of the monitored Zerconf object.
     */
     void serviceStarted();
 
     /** Implementation of abstract Monitor method. Notification from the monitored object that a service is
-	stopping. Removes ourselves from the ASIO framework so we no longer receive notifications when data is
-	available on the IPC descriptor of the monitored Zerconf object.
+        stopping. Removes ourselves from the ASIO framework so we no longer receive notifications when data is
+        available on the IPC descriptor of the monitored Zerconf object.
     */
     void serviceStopping();
 
@@ -51,8 +50,7 @@ private:
 
 /** Factory of ASIOMonitor objects.
  */
-class ASIOMonitorFactory : public MonitorFactory
-{
+class ASIOMonitorFactory : public MonitorFactory {
 public:
     using Ref = boost::shared_ptr<ASIOMonitorFactory>;
 
@@ -69,7 +67,6 @@ public:
     Monitor* make() { return new ASIOMonitor(ios_); }
 
 private:
-
     /** Constructor. Use Make() factory method to create new ASIOMonitorFactory objects.
      */
     ASIOMonitorFactory(boost::asio::io_service& ios) : MonitorFactory(), ios_(ios) {}
@@ -77,8 +74,8 @@ private:
     boost::asio::io_service& ios_;
 };
 
-}
-}
+} // namespace Zeroconf
+} // namespace SideCar
 
 /** \file
  */

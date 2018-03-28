@@ -6,7 +6,9 @@
 
 #include "GUI/ServiceBrowser.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -14,12 +16,11 @@ namespace HealthAndStatus {
 
 class ChannelConnection;
 
-class ChannelConnectionModel : public QAbstractListModel
-{
+class ChannelConnectionModel : public QAbstractListModel {
     Q_OBJECT
     using Super = QAbstractListModel;
-public:
 
+public:
     /** Obtain the log device for instances of this class.
 
         \return log device
@@ -27,36 +28,34 @@ public:
     static Logger::Log& Log();
 
     static ChannelConnection* GetObject(const QModelIndex& index)
-	{ return static_cast<ChannelConnection*>(index.internalPointer()); }
+    {
+        return static_cast<ChannelConnection*>(index.internalPointer());
+    }
 
     ChannelConnectionModel(QObject* parent = 0);
 
     ~ChannelConnectionModel();
 
-    ChannelConnection* getConnection(int row) const
-	{ return connections_[row]; }
+    ChannelConnection* getConnection(int row) const { return connections_[row]; }
 
     QModelIndex add(ChannelConnection* channelConnection, int beforeRow);
 
-    bool removeRows(int row, int count,
-                    const QModelIndex& parent = QModelIndex());
+    bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
 
     void moveUp(int row);
 
     void moveDown(int row);
 
-    int getRowFor(ChannelConnection* channelConnection) const
-	{ return connections_.indexOf(channelConnection); }
+    int getRowFor(ChannelConnection* channelConnection) const { return connections_.indexOf(channelConnection); }
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-    QModelIndex index(int row, int column = 0,
-                      const QModelIndex& parent = QModelIndex()) const;
+    QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
 
     bool hasChannel(const QString& name) const;
-    
+
 signals:
 
     void availableServicesChanged(const QStringList& names);
@@ -66,7 +65,6 @@ private slots:
     void setAvailableServices(const ServiceEntryHash& services);
 
 private:
-
     ChannelConnection* findChannelConnection(const QString& name) const;
 
     void swap(int row1, int row2);

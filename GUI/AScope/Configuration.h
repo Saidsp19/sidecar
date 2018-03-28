@@ -17,16 +17,14 @@ class HistorySettings;
 class PeakBarSettings;
 class VoltageScaleSettings;
 
-class Configuration : public PresetManager
-{
+class Configuration : public PresetManager {
     Q_OBJECT
     using Super = PresetManager;
-public:
 
+public:
     Configuration(ConfigurationWindow* gui);
 
-    DefaultViewSettings& getDefaultViewSettings() const
-	{ return *defaultViewSettings_; }
+    DefaultViewSettings& getDefaultViewSettings() const { return *defaultViewSettings_; }
 
     HistorySettings& getHistorySettings() const { return *historySettings_; }
 

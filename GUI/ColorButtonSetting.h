@@ -11,12 +11,11 @@ class ColorButtonWidget;
 /** Derivation of QColorSetting that works with a QPushButton widget to show the current color setting, and to
     provide a way to edit the color value when the button is pressed.
 */
-class ColorButtonSetting : public QColorSetting
-{
+class ColorButtonSetting : public QColorSetting {
     Q_OBJECT
     using Super = QColorSetting;
-public:
 
+public:
     /** Constructor with widget to manage.
 
         \param mgr PresetManager object that records this setting
@@ -26,8 +25,7 @@ public:
         \param global if true, this is a global setting, not associated with a
         specific Preset.
     */
-    ColorButtonSetting(PresetManager* mgr, ColorButtonWidget* widget,
-                       bool global = false);
+    ColorButtonSetting(PresetManager* mgr, ColorButtonWidget* widget, bool global = false);
 };
 
 } // end namespace GUI

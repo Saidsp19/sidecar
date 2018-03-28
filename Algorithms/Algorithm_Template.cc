@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Logger/Log.h"
 
@@ -12,9 +12,9 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur
 // in the startup() method.
 //
-@@NAME@@::@@NAME@@(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      exampleParameter_(Parameter::IntValue::Make("example", "Example Label", kDefaultExample))
+@ @NAME @ @ ::@ @NAME @ @(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log),
+    exampleParameter_(Parameter::IntValue::Make("example", "Example Label", kDefaultExample))
 {
     ;
 }
@@ -23,20 +23,18 @@ using namespace SideCar::Algorithms;
 // @@NAME@@ class. Place registerProcessor and registerParameter calls here. Also, be sure to invoke
 // Algorithm::startup() as shown below.
 //
-bool
-@@NAME@@::startup()
+bool @ @NAME @ @ ::startup()
 {
     // Register message processor. Change as needed.
     //
-    registerProcessor<@@NAME@@,Messages::Video>(&@@NAME@@::process);
+    registerProcessor<@ @NAME @ @, Messages::Video>(&@ @NAME @ @ ::process);
 
     // Register runtime parameters, and invoke parent class startup() method.
     //
     return registerParameter(exampleParameter_) && Algorithm::startup();
 }
 
-bool
-@@NAME@@::process(const Messages::Video::Ref& msg)
+bool @ @NAME @ @ ::process(const Messages::Video::Ref& msg)
 {
     static Logger::ProcLog log("process", getLog());
 
@@ -48,7 +46,7 @@ bool
     // Example of using the STL transform function to do looping for us. Here we are add 100 to all values.
     //
     out->resize(msg->size());
-    std::transform(msg->begin(), msg->end(), out->begin(), [](auto v){return v + 100;});
+    std::transform(msg->begin(), msg->end(), out->begin(), [](auto v) { return v + 100; });
 
     // Transformation is done -- send out on the default output device, and return the result to our Controller.
     //
@@ -60,8 +58,7 @@ bool
 
 // Factory function for the DLL that will create a new instance of the @@NAME@@ class. DO NOT CHANGE!
 //
-extern "C" ACE_Svc_Export Algorithm*
-@@NAME@@Make(Controller& controller, Logger::Log& log)
+extern "C" ACE_Svc_Export Algorithm* @ @NAME @ @Make(Controller& controller, Logger::Log& log)
 {
-    return new @@NAME@@(controller, log);
+    return new @ @NAME @ @(controller, log);
 }

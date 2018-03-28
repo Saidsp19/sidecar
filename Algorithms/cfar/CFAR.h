@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_CFAR_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_CFAR_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_CFAR_H
 
 #include "Algorithms/Algorithm.h"
@@ -9,10 +9,8 @@
 namespace SideCar {
 namespace Algorithms {
 
-class CFAR : public Algorithm
-{
+class CFAR : public Algorithm {
 public:
-
     CFAR(Controller& controller, Logger::Log& log);
 
     bool startup();
@@ -20,7 +18,6 @@ public:
     bool reset();
 
 private:
-
     bool processEstimate(const Messages::Video::Ref& msg);
 
     bool processVideo(const Messages::Video::Ref& msg);

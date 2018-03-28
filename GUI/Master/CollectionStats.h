@@ -13,34 +13,32 @@ namespace Master {
 
 /** Statistics gathered for the children of a CollectionItem object.
  */
-class CollectionStats
-{
+class CollectionStats {
 public:
-
     enum Index {
 
-	// TaskItem stats
-	//
-	kLeafCount,	    ///< Number of leaf nodes in collection
-	kOKCount,	    ///< Number of OK leaf nodes
-	kIdleCount,	    ///< Number of idle leaf nodes
-	kActiveCount,	    ///< Number of active leaf nodes
-	kNotUsingDataCount, ///< Number of leaf nodes not pulling data
-	kPendingQueueCount, ///< Sum of pending queue sizes of leaf nodes
+        // TaskItem stats
+        //
+        kLeafCount,         ///< Number of leaf nodes in collection
+        kOKCount,           ///< Number of OK leaf nodes
+        kIdleCount,         ///< Number of idle leaf nodes
+        kActiveCount,       ///< Number of active leaf nodes
+        kNotUsingDataCount, ///< Number of leaf nodes not pulling data
+        kPendingQueueCount, ///< Sum of pending queue sizes of leaf nodes
 
-	// ControllerItem stats
-	//
-	kCanRecordCount,	/// Number of leaf nodes that can record
-	kWillRecordCount,	/// Number of leaf nodes with recording enabled
-	kIsRecordingCount,	/// Number of leaf nodes that are recording
-	kRecordingQueueCount,	/// Sum of recording queue sizes of leaf nodes
+        // ControllerItem stats
+        //
+        kCanRecordCount,      /// Number of leaf nodes that can record
+        kWillRecordCount,     /// Number of leaf nodes with recording enabled
+        kIsRecordingCount,    /// Number of leaf nodes that are recording
+        kRecordingQueueCount, /// Sum of recording queue sizes of leaf nodes
 
-	// RawPRIItem stats
-	//
-	kDropCount,		/// Sum of running drop counts of leaf nodes
-	kDupeCount,		/// Sum of running dupe counts of leaf nodes
+        // RawPRIItem stats
+        //
+        kDropCount, /// Sum of running drop counts of leaf nodes
+        kDupeCount, /// Sum of running dupe counts of leaf nodes
 
-	kNumStats
+        kNumStats
     };
 
     CollectionStats();
@@ -50,7 +48,7 @@ public:
     CollectionStats& operator+=(const CollectionStats& rhs);
 
     size_t& operator[](Index index) { return counters_[index]; }
-    
+
     size_t operator[](Index index) const { return counters_[index]; }
 
     size_t getLeafCount() const { return counters_[kLeafCount]; }
@@ -59,8 +57,7 @@ public:
 
     size_t getWillRecordCount() const { return counters_[kWillRecordCount]; }
 
-    size_t getIsRecordingCount() const
-	{ return counters_[kIsRecordingCount]; }
+    size_t getIsRecordingCount() const { return counters_[kIsRecordingCount]; }
 
     size_t getOKCount() const { return counters_[kOKCount]; }
 
@@ -70,27 +67,21 @@ public:
 
     size_t getActiveCount() const { return counters_[kActiveCount]; }
 
-    size_t getNotUsingDataCount() const
-	{ return counters_[kNotUsingDataCount]; }
+    size_t getNotUsingDataCount() const { return counters_[kNotUsingDataCount]; }
 
-    size_t getPendingQueueCount() const
-	{ return counters_[kPendingQueueCount]; }
+    size_t getPendingQueueCount() const { return counters_[kPendingQueueCount]; }
 
-    size_t getRecordingQueueCount() const
-	{ return counters_[kRecordingQueueCount]; }
+    size_t getRecordingQueueCount() const { return counters_[kRecordingQueueCount]; }
 
     size_t getDropCount() const { return counters_[kDropCount]; }
 
     size_t getDupeCount() const { return counters_[kDupeCount]; }
 
-    bool isOK() const
-	{ return error_.isEmpty() && getOKCount() > 0; }
+    bool isOK() const { return error_.isEmpty() && getOKCount() > 0; }
 
-    IO::ProcessingState::Value getProcessingState() const
-	{ return processingState_; }
+    IO::ProcessingState::Value getProcessingState() const { return processingState_; }
 
-    void setProcessingState(IO::ProcessingState::Value processingState)
-	{ processingState_ = processingState; }
+    void setProcessingState(IO::ProcessingState::Value processingState) { processingState_ = processingState; }
 
     const QString& getError() const { return error_; }
 

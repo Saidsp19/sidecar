@@ -1,14 +1,12 @@
-#include "UnitTest/UnitTest.h"
 #include "RingBuffer.h"
+#include "UnitTest/UnitTest.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("RingBuffer") {}
     void test();
 };
 
-struct Foo
-{
+struct Foo {
     Foo(const std::string& v) : value(v) {}
     std::string value;
 };

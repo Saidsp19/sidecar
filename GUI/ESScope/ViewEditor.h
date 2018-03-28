@@ -17,28 +17,27 @@ namespace ESScope {
 class ViewSettings;
 
 struct ViewPreset {
-
     ViewPreset() {}
 
     ViewPreset(QSettings& settings);
 
-    ViewPreset(double a1, double a2, double b1, double b2,
-               double a3, double a4, double r1, double r2)
-	: alpha1Min(a1), alpha1Max(a2), betaMin(b1), betaMax(b2),
-	  alpha2Min(a3), alpha2Max(a4), rangeMin(r1), rangeMax(r2) {}
+    ViewPreset(double a1, double a2, double b1, double b2, double a3, double a4, double r1, double r2) :
+        alpha1Min(a1), alpha1Max(a2), betaMin(b1), betaMax(b2), alpha2Min(a3), alpha2Max(a4), rangeMin(r1), rangeMax(r2)
+    {
+    }
 
     void restoreFromSettings(QSettings& settings);
 
     void saveToSettings(QSettings& settings) const;
 
     bool operator==(const ViewPreset& rhs) const
-	{ return alpha1Min == rhs.alpha1Min && alpha1Max == rhs.alpha1Max &&
-		betaMin == rhs.betaMin && betaMax == rhs.betaMax &&
-		alpha2Min == rhs.alpha2Min && alpha2Max == rhs.alpha2Max &&
-		rangeMin == rhs.rangeMin && rangeMax == rhs.rangeMax; }
+    {
+        return alpha1Min == rhs.alpha1Min && alpha1Max == rhs.alpha1Max && betaMin == rhs.betaMin &&
+               betaMax == rhs.betaMax && alpha2Min == rhs.alpha2Min && alpha2Max == rhs.alpha2Max &&
+               rangeMin == rhs.rangeMin && rangeMax == rhs.rangeMax;
+    }
 
-    bool operator!=(const ViewPreset& rhs) const
-	{ return ! operator==(rhs); }
+    bool operator!=(const ViewPreset& rhs) const { return !operator==(rhs); }
 
     double alpha1Min, alpha1Max;
     double betaMin, betaMax;
@@ -48,20 +47,18 @@ struct ViewPreset {
     static int const kMetaTypeId;
 };
 
-class ViewEditor : public ToolWindowBase, public Ui::ViewEditor
-{
+class ViewEditor : public ToolWindowBase, public Ui::ViewEditor {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     ViewEditor(int shortcut);
 
     QStringList getPresetNames() const;
 
     int getActivePresetIndex() const { return presets_->currentIndex(); }
 
-    void setViewSettings(ViewSettings* alphaBetaViewSettings,
-                         ViewSettings* alphaRangeViewSettings);
+    void setViewSettings(ViewSettings* alphaBetaViewSettings, ViewSettings* alphaRangeViewSettings);
 
 signals:
 
@@ -98,7 +95,6 @@ private slots:
     void viewChanged();
 
 private:
-
     void showViewPreset(const ViewPreset& viewPreset);
     void updateViewLimits();
     ViewPreset getViewPreset(int index) const;

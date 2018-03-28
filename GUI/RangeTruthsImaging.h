@@ -6,19 +6,15 @@
 namespace SideCar {
 namespace GUI {
 
-class RangeTruthsImaging : public TargetPlotImaging
-{
+class RangeTruthsImaging : public TargetPlotImaging {
     Q_OBJECT
     using Super = TargetPlotImaging;
-public:
 
-    RangeTruthsImaging(PlotPositionFunctor* plotPositionFunctor,
-                       BoolSetting* visible, ColorButtonSetting* color,
-                       DoubleSetting* extent, OpacitySetting* opacity,
-                       QComboBoxSetting* symbolType, DoubleSetting* lineWidth,
-                       IntSetting* lifeTime, BoolSetting* fadeEnabled,
-                       BoolSetting* showTrails, IntSetting* trailSize,
-                       IntSetting* tagSize, BoolSetting* showTags);
+public:
+    RangeTruthsImaging(PlotPositionFunctor* plotPositionFunctor, BoolSetting* visible, ColorButtonSetting* color,
+                       DoubleSetting* extent, OpacitySetting* opacity, QComboBoxSetting* symbolType,
+                       DoubleSetting* lineWidth, IntSetting* lifeTime, BoolSetting* fadeEnabled,
+                       BoolSetting* showTrails, IntSetting* trailSize, IntSetting* tagSize, BoolSetting* showTags);
 
     int getTrailSize() const { return trailSize_->getValue(); }
 

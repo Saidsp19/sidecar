@@ -14,15 +14,16 @@ using namespace SideCar;
 using namespace SideCar::Messages;
 using namespace SideCar::Algorithms;
 
-Alarmer::Alarmer(Controller& controller, Logger::Log& log)
-    : Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled))
-{}
+Alarmer::Alarmer(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled))
+{
+}
 
 bool
 Alarmer::startup()
 {
-    registerProcessor<Alarmer,Video>(&Alarmer::processInput);
-    setAlarm(10);               // set an alarm to go off every 10 seconds
+    registerProcessor<Alarmer, Video>(&Alarmer::processInput);
+    setAlarm(10); // set an alarm to go off every 10 seconds
     return registerParameter(enabled_) && Super::startup();
 }
 
@@ -54,7 +55,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    QString value(! status[Alarmer::kEnabled] ? "Disabled" : "Enabled");
+    QString value(!status[Alarmer::kEnabled] ? "Disabled" : "Enabled");
     return Utils::formatInfoValue(value);
 }
 

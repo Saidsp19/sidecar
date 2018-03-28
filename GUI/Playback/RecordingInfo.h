@@ -14,11 +14,9 @@ namespace Playback {
 /** Class that holds information about a particular recording. Each recording started by the RecordingController
     gets its own RecordingInfo object, which is shown in the RecordingsView table.
 */
-class RecordingInfo : public QObject
-{
+class RecordingInfo : public QObject {
     Q_OBJECT
 public:
-
     RecordingInfo(const QDir& recordingDir);
 
     const QString& getRecordingDirectory() const { return recordingDir_; }
@@ -27,8 +25,7 @@ public:
 
         \return QStringList reference
     */
-    const QStringList& getConfigurationNames() const
-	{ return configurationNames_; }
+    const QStringList& getConfigurationNames() const { return configurationNames_; }
 
     const QString& getName() const { return name_; }
 
@@ -61,7 +58,6 @@ signals:
     void statsChanged();
 
 private:
-
     void loadFromFile();
 
     QStringList configurationNames_;

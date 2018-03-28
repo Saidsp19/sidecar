@@ -6,20 +6,22 @@
 using namespace UnitTest;
 
 inline std::ostream&
-operator<<(std::ostream& os, const UnitTestException& e) { return e.printText(os); }
+operator<<(std::ostream& os, const UnitTestException& e)
+{
+    return e.printText(os);
+}
 
 /** Functor class used to print out an error or failure record.
  */
-struct PrintText
-{
+struct PrintText {
     /** Constructor.
 
         \param os stream to write to.
     */
-    PrintText(std::ostream& os) throw() : os_(os) {};
+    PrintText(std::ostream& os) throw() : os_(os){};
 
     /** Print exception
-        
+
         \param e exception to print
     */
     void operator()(const UnitTestException& e) const throw() { e.printText(os_) << '\n'; }
@@ -51,13 +53,10 @@ RunResults::printText(std::ostream& os) const throw()
 {
     if (passed()) {
         os << "+++ PASSED - " << numGood() << " passed\n";
-    }
-    else {
-	os << "*** FAILED - " << numGood() << " passed; "
-	   << numFailures() << " failed; "
-	   << numErrors() << " error";
-	if (numErrors() != 1) os << 's';
-	os << std:: endl;
+    } else {
+        os << "*** FAILED - " << numGood() << " passed; " << numFailures() << " failed; " << numErrors() << " error";
+        if (numErrors() != 1) os << 's';
+        os << std::endl;
     }
 
     os << "--- " << oks_.size() << " good:\n";
@@ -69,8 +68,7 @@ RunResults::printText(std::ostream& os) const throw()
     return os;
 }
 
-struct PrintXML
-{
+struct PrintXML {
     /** Constructor.
 
         \param os stream to write to.
@@ -79,34 +77,34 @@ struct PrintXML
 
         \param counter ID of the test that is being printed
     */
-    PrintXML(std::ostream& os, const std::string& type, int counter) throw()
-        : os_(os), type_(type), counter_(counter) {};
+    PrintXML(std::ostream& os, const std::string& type, int counter) throw() :
+        os_(os), type_(type), counter_(counter){};
 
     /** Print exception.
 
         \param e the assertion or exception to record
     */
     void operator()(const UnitTestException& e) throw()
-	{
-	    os_ << "  <FailedTest id=\"" << ++counter_ << "\">\n"
-		<< "   <FailureType>" << type_ << "</FailureType>\n";
-	    e.printXML(os_);
-	    os_ << "  </FailedTest>\n";
-	}
+    {
+        os_ << "  <FailedTest id=\"" << ++counter_ << "\">\n"
+            << "   <FailureType>" << type_ << "</FailureType>\n";
+        e.printXML(os_);
+        os_ << "  </FailedTest>\n";
+    }
 
     /** Print test name
 
         \param s the test name to record
     */
     void operator()(const std::string& s) throw()
-	{
-	    os_ << "  <Test id=\"" << ++counter_ << "\">\n"
-		<< "   <Name>" << s << "</Name>\n"
-		<< "  </Test>\n";
-	}
+    {
+        os_ << "  <Test id=\"" << ++counter_ << "\">\n"
+            << "   <Name>" << s << "</Name>\n"
+            << "  </Test>\n";
+    }
 
     /** Obtain the current entity counter value.
-        
+
         \return number of entries written so far
     */
     operator int() const { return counter_; }
@@ -134,8 +132,7 @@ RunResults::printXML(std::ostream& os) const throw()
     os << " </SuccessfulTests>\n"
        << " <Statistics>\n"
        << "  <Tests>" << counter << "</Tests>\n"
-       << "  <FailuresTotal>" << (fails_.size() + errs_.size())
-       << "</FailuresTotal>\n"
+       << "  <FailuresTotal>" << (fails_.size() + errs_.size()) << "</FailuresTotal>\n"
        << "  <Errors>" << errs_.size() << "</Errors>\n"
        << "  <Failures>" << fails_.size() << "</Failures>\n"
        << " </Statistics>\n"

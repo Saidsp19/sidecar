@@ -1,12 +1,14 @@
 #ifndef UTILS_SINECOSINELUT_H // -*- C++ -*-
 #define UTILS_SINECOSINELUT_H
 
-#include <utility>		// for std::pair
+#include <utility> // for std::pair
 #include <vector>
 
 #include "Utils/Exception.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace Utils {
 
@@ -19,10 +21,8 @@ namespace Utils {
     various trig identities to calculate the remaining values for the rest of the indices. Because of this space
     reduction, the size of the lookup table must be a multiple of 4.
 */
-class SineCosineLUT 
-{
+class SineCosineLUT {
 public:
-    
     /** Obtain the Log device to use for objects of this class.
 
         \return Loggger::Log reference
@@ -31,7 +31,8 @@ public:
 
     /** Exception thrown if the requested table size is not a multiple of 4.
      */
-    struct InvalidSize : public Utils::Exception {};
+    struct InvalidSize : public Utils::Exception {
+    };
 
     /** Factory method that creates a new lookup table. Checks the \p size argument to see that it is a multiple
         of 4.
@@ -62,19 +63,17 @@ public:
     size_t size() const { return size_; }
 
 private:
-
     /** Internal structure that holds the calculate sine/cosine values.
      */
-    struct SineCosine
-    {
-	SineCosine() {}
-	SineCosine(double s, double c) : sine(s), cosine(c) {}
-	double sine;
-	double cosine;
+    struct SineCosine {
+        SineCosine() {}
+        SineCosine(double s, double c) : sine(s), cosine(c) {}
+        double sine;
+        double cosine;
     };
 
     std::vector<SineCosine> values_; ///< Lookup table for 1 quadrant of indices
-    size_t size_;		     ///< Number of indices in a circle
+    size_t size_;                    ///< Number of indices in a circle
 };
 
 } // end namespace Utils

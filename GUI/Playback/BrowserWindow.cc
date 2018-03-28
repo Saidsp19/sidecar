@@ -1,8 +1,8 @@
 #include "QtCore/QDir"
 #include "QtCore/QSettings"
 #include "QtGui/QFileDialog"
-#include "QtGui/QKeyEvent"
 #include "QtGui/QHeaderView"
+#include "QtGui/QKeyEvent"
 
 #include "GUI/LogUtils.h"
 #include "GUI/modeltest.h"
@@ -25,9 +25,8 @@ BrowserWindow::Log()
     return log_;
 }
 
-BrowserWindow::BrowserWindow(int shortcut)
-    : ToolWindowBase("Browser", "Browser", shortcut),
-      Ui::BrowserWindow(), model_(0)
+BrowserWindow::BrowserWindow(int shortcut) :
+    ToolWindowBase("Browser", "Browser", shortcut), Ui::BrowserWindow(), model_(0)
 {
     setupUi(this);
     setWindowFlags(Qt::Window);
@@ -41,14 +40,11 @@ BrowserWindow::BrowserWindow(int shortcut)
     recordings_->installEventFilter(this);
     recordings_->viewport()->installEventFilter(this);
     recordings_->setAlternatingRowColors(true);
-    connect(recordings_, SIGNAL(doubleClicked(const QModelIndex&)),
-            SLOT(handleDoubleClick(const QModelIndex&)));
+    connect(recordings_, SIGNAL(doubleClicked(const QModelIndex&)), SLOT(handleDoubleClick(const QModelIndex&)));
 
     QItemSelectionModel* selectionModel = recordings_->selectionModel();
-    connect(selectionModel,
-            SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
-            SLOT(currentSelectionChanged(const QModelIndex&,
-                                         const QModelIndex&)));
+    connect(selectionModel, SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
+            SLOT(currentSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     QHeaderView* header = recordings_->horizontalHeader();
     header->setResizeMode(QHeaderView::Fixed);
@@ -61,21 +57,19 @@ BrowserWindow::BrowserWindow(int shortcut)
     QSettings settings;
     int size = settings.beginReadArray(kBrowseDirs);
     for (int index = 0; index < size; ++index) {
-	settings.setArrayIndex(index);
-	QString path = settings.value(kBrowsePath).toString().trimmed();
-	QDir dir(path);
-	if (dir.exists())
-	    browseDir_->addItem(path);
+        settings.setArrayIndex(index);
+        QString path = settings.value(kBrowsePath).toString().trimmed();
+        QDir dir(path);
+        if (dir.exists()) browseDir_->addItem(path);
     }
     settings.endArray();
 
     int lastIndex = 0;
     if (size == 0) {
-	browseDir_->addItem("/space1/recordings");
-	browseDir_->addItem("/space2/recordings");
-    }
-    else {
-	lastIndex = settings.value(kBrowseLastIndex, 0).toInt();
+        browseDir_->addItem("/space1/recordings");
+        browseDir_->addItem("/space2/recordings");
+    } else {
+        lastIndex = settings.value(kBrowseLastIndex, 0).toInt();
     }
 
     browseDir_->setCurrentIndex(lastIndex);
@@ -89,26 +83,23 @@ BrowserWindow::on_browse__clicked()
     QString dirName = "";
 
     if (lastPath.isEmpty() && browseDir_->count() != 0) {
-	lastPath = browseDir_->itemText(0);
-    }
-    else {
-	QDir dir(lastPath);
-	dirName = dir.dirName();
-	dir.cdUp();
-	lastPath = dir.absolutePath();
+        lastPath = browseDir_->itemText(0);
+    } else {
+        QDir dir(lastPath);
+        dirName = dir.dirName();
+        dir.cdUp();
+        lastPath = dir.absolutePath();
     }
 
     QFileDialog fd(this, "Choose Recordings Directory", lastPath);
     fd.setAcceptMode(QFileDialog::AcceptOpen);
     fd.setFileMode(QFileDialog::DirectoryOnly);
     fd.setReadOnly(true);
-    if (! dirName.isEmpty())
-	fd.selectFile(dirName);
+    if (!dirName.isEmpty()) fd.selectFile(dirName);
 
     if (fd.exec()) {
-	QString path = fd.selectedFiles()[0];
-	if (! path.isEmpty())
-	    browse(path);
+        QString path = fd.selectedFiles()[0];
+        if (!path.isEmpty()) browse(path);
     }
 }
 
@@ -116,14 +107,13 @@ void
 BrowserWindow::on_browseDir__activated(int value)
 {
     QString path = browseDir_->itemText(value).trimmed();
-    if (path.isEmpty() || ! QDir(path).exists()) {
-	browseDir_->removeItem(value);
-	browseDir_->setCurrentIndex(-1);
-    }
-    else {
-	browse(path);
-	QSettings settings;
-	settings.setValue(kBrowseLastIndex, value);
+    if (path.isEmpty() || !QDir(path).exists()) {
+        browseDir_->removeItem(value);
+        browseDir_->setCurrentIndex(-1);
+    } else {
+        browse(path);
+        QSettings settings;
+        settings.setValue(kBrowseLastIndex, value);
     }
 }
 
@@ -139,25 +129,24 @@ BrowserWindow::browse(const QString& path)
     nameFilters << "*-*";
     recordingDir.setNameFilters(nameFilters);
 
-    QFileInfoList entries = recordingDir.entryInfoList(QDir::Dirs,
-                                                       QDir::Name);
+    QFileInfoList entries = recordingDir.entryInfoList(QDir::Dirs, QDir::Name);
     if (entries.empty()) {
-	LOGWARNING << "no entities found" << std::endl;
-	LOGTOUT << "false" << std::endl;
-	return false;
+        LOGWARNING << "no entities found" << std::endl;
+        LOGTOUT << "false" << std::endl;
+        return false;
     }
 
     model_->clear();
     foreach (QFileInfo fileInfo, entries) {
-	LOGDEBUG << "dir: " << fileInfo.filePath() << std::endl;
-	QDir dir(fileInfo.filePath());
-	model_->add(new RecordingInfo(dir));
+        LOGDEBUG << "dir: " << fileInfo.filePath() << std::endl;
+        QDir dir(fileInfo.filePath());
+        model_->add(new RecordingInfo(dir));
     }
 
     int entry = browseDir_->findText(path);
     if (entry == -1) {
-	entry = 0;
-	browseDir_->insertItem(0, path);
+        entry = 0;
+        browseDir_->insertItem(0, path);
     }
 
     browseDir_->setCurrentIndex(entry);
@@ -165,8 +154,8 @@ BrowserWindow::browse(const QString& path)
     QSettings settings;
     settings.beginWriteArray(kBrowseDirs, browseDir_->count());
     for (int index = 0; index < browseDir_->count(); ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue(kBrowsePath, browseDir_->itemText(index));
+        settings.setArrayIndex(index);
+        settings.setValue(kBrowsePath, browseDir_->itemText(index));
     }
 
     adjustColumnSizes();
@@ -180,7 +169,7 @@ BrowserWindow::loadSelected()
 {
     QItemSelectionModel* selectionModel = recordings_->selectionModel();
     QModelIndex index = selectionModel->currentIndex();
-    if (! index.isValid()) return;
+    if (!index.isValid()) return;
     handleDoubleClick(index);
 }
 
@@ -188,8 +177,7 @@ void
 BrowserWindow::handleDoubleClick(const QModelIndex& index)
 {
     RecordingInfo* info = model_->GetModelData(index);
-    if (info)
-	emit loadRequest(info->getRecordingDirectory());
+    if (info) emit loadRequest(info->getRecordingDirectory());
 }
 
 bool
@@ -198,24 +186,19 @@ BrowserWindow::eventFilter(QObject* object, QEvent* event)
     static Logger::ProcLog log("eventFilter", Log());
 
     if (object == recordings_) {
-	if (event->type() == QEvent::KeyPress) {
-	    QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-	    if (keyEvent->key() == Qt::Key_Enter ||
-                keyEvent->key() == Qt::Key_Return) {
-		loadSelected();
-	    }
-	}
-    }
-    else if (object == recordings_->viewport()) {
-	//if (event->type() != 12)
-	//adjustColumnSizes();
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) { loadSelected(); }
+        }
+    } else if (object == recordings_->viewport()) {
+        // if (event->type() != 12)
+        // adjustColumnSizes();
     }
     return Super::eventFilter(object, event);
 }
 
 void
-BrowserWindow::updateColumns(const QModelIndex& topLeft,
-                             const QModelIndex& bottomRight)
+BrowserWindow::updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
     adjustColumnSizes();
 }
@@ -231,8 +214,7 @@ BrowserWindow::adjustColumnSizes()
     //
     recordings_->resizeColumnsToContents();
     int available(recordings_->viewport()->width());
-    for (int column = 0; column < model_->columnCount() - 1; ++column)
-	available -= recordings_->columnWidth(column);
+    for (int column = 0; column < model_->columnCount() - 1; ++column) available -= recordings_->columnWidth(column);
 
     recordings_->setColumnWidth(RecordingModel::kConfig, available);
 
@@ -247,17 +229,14 @@ BrowserWindow::resizeEvent(QResizeEvent* event)
 }
 
 void
-BrowserWindow::currentSelectionChanged(const QModelIndex& current,
-                                       const QModelIndex& previous)
+BrowserWindow::currentSelectionChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     Logger::ProcLog log("currentSelectionChanged", Log());
-    LOGINFO << "current: " << current.row() << " prev: " << previous.row()
-	    << std::endl;
+    LOGINFO << "current: " << current.row() << " prev: " << previous.row() << std::endl;
     RecordingInfo* info = model_->GetModelData(current);
     if (info) {
-	notes_->setPlainText(info->getNotes());
-    }
-    else {
-	notes_->setPlainText("");
+        notes_->setPlainText(info->getNotes());
+    } else {
+        notes_->setPlainText("");
     }
 }

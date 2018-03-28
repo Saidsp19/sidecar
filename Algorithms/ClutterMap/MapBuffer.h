@@ -8,22 +8,21 @@
 
 #include "Messages/Video.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Algorithms {
 
-class MapBuffer 
-{
+class MapBuffer {
 public:
-
     using VsipFloatVector = vsip::Vector<float>;
     using VsipFloatVectorBuffer = std::vector<VsipFloatVector*>;
 
     static Logger::Log& Log();
 
-    MapBuffer(const std::string& name, size_t radialPartitionCount,
-              float alpha);
+    MapBuffer(const std::string& name, size_t radialPartitionCount, float alpha);
 
     ~MapBuffer();
 
@@ -33,14 +32,13 @@ public:
 
     void freeze();
 
-    bool isFrozen() const { return ! isLearning_; }
+    bool isFrozen() const { return !isLearning_; }
 
     bool load(std::istream& is);
 
     bool save(std::ostream& os);
 
 private:
-
     void makeBuffer(size_t radialPartitionCount);
 
     std::string name_;

@@ -10,17 +10,12 @@ namespace ConfigEditor {
 class ChannelListItem;
 class StreamItem;
 
-class TaskItem : public TreeItem
-{
+class TaskItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
-    enum ChildrenIndices {
-	kInputChannels = 0,
-	kOutputChannels,
-	kNumChildren
-    };
+public:
+    enum ChildrenIndices { kInputChannels = 0, kOutputChannels, kNumChildren };
 
     TaskItem(StreamItem* parent, const QString& name);
 

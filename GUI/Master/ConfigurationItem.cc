@@ -1,5 +1,5 @@
-#include "GUI/ServiceEntry.h"
 #include "GUI/LogUtils.h"
+#include "GUI/ServiceEntry.h"
 #include "XMLRPC/XmlRpcClient.h"
 #include "XMLRPC/XmlRpcValue.h"
 
@@ -19,9 +19,8 @@ ConfigurationItem::Log()
     return log_;
 }
 
-ConfigurationItem::ConfigurationItem(const RunnerStatus& status,
-                                     RootItem* parent)
-    : Super(status, parent), streamCount_(0)
+ConfigurationItem::ConfigurationItem(const RunnerStatus& status, RootItem* parent) :
+    Super(status, parent), streamCount_(0)
 {
     setName(QString::fromStdString(status.getConfigName()));
 }
@@ -46,9 +45,8 @@ ConfigurationItem::findService(const QString& serviceName) const
     // valid.
     //
     for (int index = 0; index < getNumChildren(); ++index) {
-	RunnerItem* item = getChild(index);
-	if (item->getServiceName() == serviceName)
-	    return item;
+        RunnerItem* item = getChild(index);
+        if (item->getServiceName() == serviceName) return item;
     }
     return 0;
 }
@@ -66,32 +64,27 @@ ConfigurationItem::getChild(int index) const
 }
 
 bool
-ConfigurationItem::executeRequest(const char* cmd,
-                                  const XmlRpc::XmlRpcValue& args) const
+ConfigurationItem::executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args) const
 {
     static Logger::ProcLog log("executeRequest", Log());
 
     bool ok = true;
     for (int index = getNumChildren() - 1; index >= 0; --index) {
-	ServiceEntry* serviceEntry = getChild(index)->getServiceEntry();
-	if (! serviceEntry) continue;
+        ServiceEntry* serviceEntry = getChild(index)->getServiceEntry();
+        if (!serviceEntry) continue;
 
-	LOGDEBUG << "cmd: " << cmd << ' ' << serviceEntry->getHost() << '/'
-		 << serviceEntry->getPort() << std::endl;
+        LOGDEBUG << "cmd: " << cmd << ' ' << serviceEntry->getHost() << '/' << serviceEntry->getPort() << std::endl;
 
-	XmlRpc::XmlRpcClient client(serviceEntry->getHost().toStdString(),
-                                    serviceEntry->getPort());
-	XmlRpc::XmlRpcValue result;
-	if (! client.execute(cmd, args, result))
-	    ok = false;
+        XmlRpc::XmlRpcClient client(serviceEntry->getHost().toStdString(), serviceEntry->getPort());
+        XmlRpc::XmlRpcValue result;
+        if (!client.execute(cmd, args, result)) ok = false;
     }
 
     return ok;
 }
 
 bool
-ConfigurationItem::update(const Runner::RunnerStatus& status,
-                          RunnerItem* runnerItem)
+ConfigurationItem::update(const Runner::RunnerStatus& status, RunnerItem* runnerItem)
 {
     beforeUpdate();
     bool changed = runnerItem->update(status);
@@ -104,8 +97,7 @@ ConfigurationItem::getChangedParameters(QStringList& changes) const
 {
     bool ok = true;
     for (int index = 0; index < getNumChildren(); ++index) {
-	if (! getChild(index)->getChangedParameters(changes))
-	    ok = false;
+        if (!getChild(index)->getChangedParameters(changes)) ok = false;
     }
     return ok;
 }

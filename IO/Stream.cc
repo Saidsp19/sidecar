@@ -24,9 +24,9 @@ Stream::getTask(int index) const
     // Skip over the stream head.
     //
     iter.advance();
-    while (! iter.done() && index > 0) {
-	iter.advance();
-	--index;
+    while (!iter.done() && index > 0) {
+        iter.advance();
+        --index;
     }
 
     // Fetch the module that we are now pointing to. However, verify that we are not pointing to the tail
@@ -35,11 +35,10 @@ Stream::getTask(int index) const
     const ACE_Module<ACE_MT_SYNCH>* module;
     iter.next(module);
     iter.advance();
-    if (! iter.done())
-	return static_cast<const Module*>(module)->getTask();
+    if (!iter.done()) return static_cast<const Module*>(module)->getTask();
 
     return Task::Ref();
-}	
+}
 
 void
 Stream::fillStatus(StatusBase& status)
@@ -47,29 +46,27 @@ Stream::fillStatus(StatusBase& status)
     static Logger::ProcLog log("fillStatus", Log());
     LOGINFO << std::endl;
 
-    XmlRpc::XmlRpcValue::ValueArray* taskStatusArray =
-	new XmlRpc::XmlRpcValue::ValueArray;
+    XmlRpc::XmlRpcValue::ValueArray* taskStatusArray = new XmlRpc::XmlRpcValue::ValueArray;
 
     ACE_Stream_Iterator<ACE_MT_SYNCH> iter(*this);
 
     // Skip over the stream head.
     //
     iter.advance();
-    while (! iter.done()) {
-	const ACE_Module<ACE_MT_SYNCH>* module;
-	iter.next(module);
-	iter.advance();
+    while (!iter.done()) {
+        const ACE_Module<ACE_MT_SYNCH>* module;
+        iter.next(module);
+        iter.advance();
 
-	// If we were just pointing at the tail, then quit.
-	//
-	if (iter.done()) break;
+        // If we were just pointing at the tail, then quit.
+        //
+        if (iter.done()) break;
 
-	Task::Ref task(static_cast<const Module*>(module)->getTask());
-	StatusBase status(task->getStatusSize(), task->getStatusClassName(),
-                          task->getTaskName());
-	task->fillStatus(status);
-	LOGDEBUG << "task status: " << status << std::endl;
-	taskStatusArray->push_back(status.getXMLData());
+        Task::Ref task(static_cast<const Module*>(module)->getTask());
+        StatusBase status(task->getStatusSize(), task->getStatusClassName(), task->getTaskName());
+        task->fillStatus(status);
+        LOGDEBUG << "task status: " << status << std::endl;
+        taskStatusArray->push_back(status.getXMLData());
     }
 
     status.setSlot(StreamStatus::kTaskStatus, taskStatusArray);
@@ -90,20 +87,20 @@ Stream::getChangedParameters(XmlRpc::XmlRpcValue& value) const
     // Skip over the stream head.
     //
     iter.advance();
-    while (! iter.done()) {
-	const ACE_Module<ACE_MT_SYNCH>* module;
-	iter.next(module);
-	iter.advance();
+    while (!iter.done()) {
+        const ACE_Module<ACE_MT_SYNCH>* module;
+        iter.next(module);
+        iter.advance();
 
-	// If we were just pointing at the tail, then quit.
-	//
-	if (iter.done()) break;
+        // If we were just pointing at the tail, then quit.
+        //
+        if (iter.done()) break;
 
-	Task::Ref task(static_cast<const Module*>(module)->getTask());
-	XmlRpc::XmlRpcValue changes;
-	task->getChangedParameters(changes);
-	LOGDEBUG << "changes: " << changes.toXml() << std::endl;
-	value.push_back(changes);
+        Task::Ref task(static_cast<const Module*>(module)->getTask());
+        XmlRpc::XmlRpcValue changes;
+        task->getChangedParameters(changes);
+        LOGDEBUG << "changes: " << changes.toXml() << std::endl;
+        value.push_back(changes);
     }
 }
 

@@ -1,5 +1,5 @@
-#include "Messages/Video.h"
 #include "Messages/VMEHeader.h"
+#include "Messages/Video.h"
 #include "UnitTest/UnitTest.h"
 
 #include "SynchronizedBuffer.h"
@@ -7,8 +7,7 @@
 using namespace SideCar::Messages;
 using namespace SideCar::Algorithms;
 
-class SynchronizedBufferTest : public UnitTest::TestObj
-{
+class SynchronizedBufferTest : public UnitTest::TestObj {
 public:
     SynchronizedBufferTest() : TestObj("SynchronizedBuffer") {}
 
@@ -28,9 +27,9 @@ SynchronizedBufferTest::test()
     vme.header.azimuth = 0;
     vme.header.pri = 10;
     {
-	int16_t init[] = { 1, 2, 3 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 3));
-	buffer.add(msg);
+        int16_t init[] = {1, 2, 3};
+        Video::Ref msg(Video::Make("test", vme, init, init + 3));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(1), buffer.size());
@@ -40,12 +39,12 @@ SynchronizedBufferTest::test()
     assertFalse(buffer.empty());
 
     assertFalse(buffer.find(9).get());
-    
+
     {
-	++vme.header.pri;
-	int16_t init[] = { 4, 5, 6, 7 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 4));
-	buffer.add(msg);
+        ++vme.header.pri;
+        int16_t init[] = {4, 5, 6, 7};
+        Video::Ref msg(Video::Make("test", vme, init, init + 4));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(2), buffer.size());
@@ -59,10 +58,10 @@ SynchronizedBufferTest::test()
     assertEqual(size_t(0), buffer.size());
 
     {
-	++vme.header.pri;
-	int16_t init[] = { 8, 9 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 2));
-	buffer.add(msg);
+        ++vme.header.pri;
+        int16_t init[] = {8, 9};
+        Video::Ref msg(Video::Make("test", vme, init, init + 2));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(1), buffer.size());
@@ -72,10 +71,10 @@ SynchronizedBufferTest::test()
     assertFalse(buffer.empty());
 
     {
-	++vme.header.pri;
-	int16_t init[] = { 10, 11, 12 };
-	Video::Ref msg(Video::Make("test", vme, init, init + 3));
-	buffer.add(msg);
+        ++vme.header.pri;
+        int16_t init[] = {10, 11, 12};
+        Video::Ref msg(Video::Make("test", vme, init, init + 3));
+        buffer.add(msg);
     }
 
     assertEqual(size_t(2), buffer.size());

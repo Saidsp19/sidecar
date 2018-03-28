@@ -3,18 +3,20 @@
 
 #include "ScaleWidget.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace Spectrum {
 
-class FreqScaleWidget : public ScaleWidget
-{
+class FreqScaleWidget : public ScaleWidget {
 public:
-    FreqScaleWidget(QWidget* parent = 0,
-                    Qt::Orientation orientation = Qt::Horizontal)
-	: ScaleWidget(parent, orientation) {}
+    FreqScaleWidget(QWidget* parent = 0, Qt::Orientation orientation = Qt::Horizontal) :
+        ScaleWidget(parent, orientation)
+    {
+    }
 
     QString formatTickTag(double value);
 };

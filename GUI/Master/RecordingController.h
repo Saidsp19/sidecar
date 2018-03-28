@@ -2,14 +2,16 @@
 #define SIDECAR_GUI_MASTER_RECORDINGCONTROLLER_H
 
 #include "QtCore/QFileInfo"
-#include "QtCore/QObject"
 #include "QtCore/QModelIndex"
+#include "QtCore/QObject"
 #include "QtCore/QString"
 
 class QMessageBox;
 class QTcpServer;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,23 +22,20 @@ class ConfigurationController;
 class RecordingInfo;
 class RecordingModel;
 
-class RecordingController : public QObject
-{
+class RecordingController : public QObject {
     Q_OBJECT
     using Super = QObject;
+
 public:
-
     enum Status {
-	kOK = 0,
-	kNoLoadedConfig,
-	kFailedCreateDirectory,
-	kFailedRecordingSetup,
-	kFailedPostRecordingStateChange
+        kOK = 0,
+        kNoLoadedConfig,
+        kFailedCreateDirectory,
+        kFailedRecordingSetup,
+        kFailedPostRecordingStateChange
     };
 
-    enum {
-	kServerPort = 4465
-    };
+    enum { kServerPort = 4465 };
 
     /** Log device to use for RecordingController log messages.
 
@@ -84,13 +83,11 @@ private slots:
 
     void doNowTick(const QString& now);
 
-    void updateColumns(const QModelIndex& topLeft,
-                       const QModelIndex& bottomRight);
+    void updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
     void promptDone(int resultCode);
 
 private:
-
     void showMessage(const QString& string, int duration = 5000) const;
 
     bool eventFilter(QObject* object, QEvent* event);

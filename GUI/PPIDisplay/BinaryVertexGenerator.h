@@ -3,8 +3,12 @@
 
 #include "GUI/VertexGenerator.h"
 
-namespace Logger { class Log; }
-namespace Utils { class SineCosineLUT; }
+namespace Logger {
+class Log;
+}
+namespace Utils {
+class SineCosineLUT;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -18,19 +22,16 @@ class ViewSettings;
 /** Implementation of the VertexGenerator abstract base class that knows how to generate Vertex and Color values
     from SideCar BinaryVideo messages.
 */
-class BinaryVertexGenerator : public VertexGenerator
-{
+class BinaryVertexGenerator : public VertexGenerator {
     using Super = VertexGenerator;
-public:
 
+public:
     static Logger::Log& Log();
 
     BinaryVertexGenerator();
 
 private:
-
-    void renderMessage(const Messages::PRIMessage::Ref& msg,
-                       VertexColorArray& points);
+    void renderMessage(const Messages::PRIMessage::Ref& msg, VertexColorArray& points);
 
     SampleImaging* imaging_;
     const Utils::SineCosineLUT* sineCosineLUT_;

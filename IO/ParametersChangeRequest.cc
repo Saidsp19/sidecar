@@ -2,15 +2,13 @@
 
 using namespace SideCar::IO;
 
-ParametersChangeRequest::ParametersChangeRequest(
-    const XmlRpc::XmlRpcValue& request, bool originalValues)
-    : ControlMessage(kParametersChange, sizeof(XmlRpc::XmlRpcValue) + sizeof(int32_t)),
-      originalValues_(originalValues)
+ParametersChangeRequest::ParametersChangeRequest(const XmlRpc::XmlRpcValue& request, bool originalValues) :
+    ControlMessage(kParametersChange, sizeof(XmlRpc::XmlRpcValue) + sizeof(int32_t)), originalValues_(originalValues)
 {
     // In the ACE_Message_Block that holds the data, we use the first 4 bytes to hold the value of
     // originalValues_ flag.
     //
-    int32_t* ptr = new(getData()->wr_ptr()) int32_t;
+    int32_t* ptr = new (getData()->wr_ptr()) int32_t;
     *ptr = originalValues_ ? -1 : 0;
 
     // Move the 'write' pointer passed the int32_t value.
@@ -20,7 +18,7 @@ ParametersChangeRequest::ParametersChangeRequest(
     // Now store the XmlRpcValue struct. Use placement new to properly initialize the memory in the
     // ACE_Message_Block.
     //
-    new(getData()->wr_ptr()) XmlRpc::XmlRpcValue(request);
+    new (getData()->wr_ptr()) XmlRpc::XmlRpcValue(request);
 
     // Move the 'write' pointer passed the XmlRpcValue object.
     //

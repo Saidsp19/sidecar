@@ -7,7 +7,9 @@
 
 class QSignalMapper;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -39,10 +41,10 @@ class ParamEditor;
     a QPushButton widget in the name column, which when pushed, allows the user
     to change runtime parameter settings of the algorithm.
 */
-class ServicesView : public QTreeView
-{
+class ServicesView : public QTreeView {
     Q_OBJECT
     using Super = QTreeView;
+
 public:
     static Logger::Log& Log();
 
@@ -57,18 +59,16 @@ public:
         do nothing or are ignored by the Qt library until a model has been installed. Thus, some view setup
         happens in this method where it will have an effect.
 
-        \param model 
+        \param model
     */
     void setModel(QAbstractItemModel* model);
 
-    void setConfigurationVisibleFilter(const QStringList& known,
-                                       const QStringList& visible,
-                                       const QString& filter);
+    void setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible, const QString& filter);
 
     void setExpanded(const QModelIndex& index, bool expanded);
 
 protected slots:
-    
+
     /** Override of QTreeView method. Notification from the model that one or more rows have been inserted into
         the model. Expands all expandable entries, and adds a QPushButton widget to entries that correspond to
         Algorithms::Controller objects.
@@ -80,7 +80,7 @@ protected slots:
         \param end row within the parent of the last inserted value
     */
     void rowsInserted(const QModelIndex& parent, int start, int end);
-    
+
 private slots:
 
     /** Notification from the context menu to change the visibility of a column.
@@ -112,13 +112,10 @@ private slots:
 
     void itemCollapsed(const QModelIndex& index);
 
-    void dataChanged(const QModelIndex& topLeft,
-                     const QModelIndex& bottomRight);
-    
-private:
+    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
-    bool getConfigurationIsHidden(const QModelIndex& index,
-                                  const ConfigurationItem* item);
+private:
+    bool getConfigurationIsHidden(const QModelIndex& index, const ConfigurationItem* item);
 
     bool getTreeViewItemIsHidden(const QModelIndex& index);
 

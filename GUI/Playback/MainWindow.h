@@ -6,7 +6,9 @@
 
 #include "ui_MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,12 +22,11 @@ class NotesWindow;
 /** Main window for the Playback application. Contains all of the GUI elements via inheritance from
     Ui::MainWindow
 */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** Log device for instances of this class.
 
         \return log device
@@ -41,22 +42,22 @@ public:
         \return QString value
     */
     QString getAddress() const { return address_->text(); }
-    
+
     /** Obtain the channel publisher suffix configured by the user.
 
         \return QString value
     */
     QString getSuffix() const { return suffix_->text(); }
-    
+
     /** Obtain the current wall clock rate setting.
 
         \return wall clock rate value
     */
     double getWallClockRate() const;
-    
-    /** 
 
-        \return 
+    /**
+
+        \return
     */
     Clock* getClock() const { return clock_; }
 
@@ -75,10 +76,10 @@ signals:
     void suffixChanged(const QString& suffix);
 
 private slots:
-    
+
     /** Action handler for the Load push button. Presents the user with an open dialog box with which to select
-	a recording directory to load. Unless cancelled, the routine will invoke the FileModel::load() method
-	with the chosen directory path.
+        a recording directory to load. Unless cancelled, the routine will invoke the FileModel::load() method
+        with the chosen directory path.
     */
     void on_load__clicked();
 
@@ -91,29 +92,29 @@ private slots:
     void openRecentDir();
 
     /** Action handler for the Notes push button. Opens read-only text window that shows the contents of the
-	'notes.txt' file from the recording directory.
+        'notes.txt' file from the recording directory.
     */
     void on_notes__clicked();
-    
+
     /** Action handler for the multicast IP address data entry field. Called when the user leaves the field, or
-	pressed ENTER. Saves the new value to the application setttings file, and emits addressChanged() with
-	the new value.
+        pressed ENTER. Saves the new value to the application setttings file, and emits addressChanged() with
+        the new value.
     */
     void on_address__editingFinished();
-    
+
     /** Action handler for the suffix data entry field. Called when the user leaves the field, or pressed ENTER.
-	Saves the new value to the application setttings file, and emits suffixChanged() with the new value.
+        Saves the new value to the application setttings file, and emits suffixChanged() with the new value.
     */
     void on_suffix__editingFinished();
-    
+
     /** Action handler for the Start/Stop push button. Starts or stops playback.
      */
     void on_startStop__clicked();
-    
+
     /** Action handler for the Rewind push button
      */
     void on_rewind__clicked();
-    
+
     /** Action handler for the jumpTo entry field. Called when the user enters a new value or selects a previous
         value from the pull-down menu.
 
@@ -151,15 +152,13 @@ private slots:
 
     /** Notifcation from the FileModel of the new playback clock time.
 
-        \param currentTime 
+        \param currentTime
     */
-    void clockTick(const Time::TimeStamp& playbackClock,
-                   const Time::TimeStamp& elapsed);
+    void clockTick(const Time::TimeStamp& playbackClock, const Time::TimeStamp& elapsed);
 
     void playbackClockStartChanged(const Time::TimeStamp& playbackClock);
 
-    void updateColumns(const QModelIndex& topLeft,
-                       const QModelIndex& bottomRight);
+    void updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight);
 
     /** Attempt to use \a path as a recording directory, loading in the recording files there.
 
@@ -170,7 +169,6 @@ private slots:
     void loaded();
 
 private:
-
     void writeBookmarks();
 
     Time::TimeStamp createTimeStamp(QString spec) const;
@@ -182,7 +180,7 @@ private:
     void closeEvent(QCloseEvent* event);
 
     void adjustColumnSizes();
-    
+
     Clock* clock_;
     FileModel* model_;
     NotesWindow* notesWindow_;
@@ -196,7 +194,7 @@ private:
     QAction* recentFiles_[kMaxRecentFiles];
 };
 
-} // end namespace AScope
+} // namespace Playback
 } // end namespace GUI
 } // end namespace SideCar
 

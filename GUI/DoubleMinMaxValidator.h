@@ -8,16 +8,14 @@ class QDoubleSpinBox;
 namespace SideCar {
 namespace GUI {
 
-class DoubleMinMaxValidator : public QDoubleValidator
-{
+class DoubleMinMaxValidator : public QDoubleValidator {
     Q_OBJECT
     using Super = QDoubleValidator;
-public:
 
+public:
     DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max);
 
-    DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin,
-                          double minMax);
+    DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin, double minMax);
 
 private slots:
 

@@ -3,8 +3,7 @@
 #include "GUI/SquareButton.h"
 #include "SquareButtonPlugin.h"
 
-SquareButtonPlugin::SquareButtonPlugin(QObject *parent)
-    : QObject(parent), initialized_(false)
+SquareButtonPlugin::SquareButtonPlugin(QObject* parent) : QObject(parent), initialized_(false)
 {
     ;
 }
@@ -68,16 +67,16 @@ QString
 SquareButtonPlugin::domXml() const
 {
     return "<widget class=\"SideCar::GUI::SquareButton\" "
-	" name=\"squareButton\">\n"
-	" <property name=\"geometry\">\n"
-	"  <rect>\n"
-	"   <x>0</x>\n"
-	"   <y>0</y>\n"
-	"   <width>64</width>\n"
-	"   <height>64</height>\n"
-	"  </rect>\n"
-	" </property>\n"
-	"</widget>\n";
+           " name=\"squareButton\">\n"
+           " <property name=\"geometry\">\n"
+           "  <rect>\n"
+           "   <x>0</x>\n"
+           "   <y>0</y>\n"
+           "   <width>64</width>\n"
+           "   <height>64</height>\n"
+           "  </rect>\n"
+           " </property>\n"
+           "</widget>\n";
 }
 
 QString

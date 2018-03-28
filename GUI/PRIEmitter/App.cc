@@ -9,8 +9,6 @@ App::makeNewMainWindow(const QString& objectName)
 {
     MainWindow* window = new MainWindow;
     QStringList args = arguments();
-    if (args.size() > 1) {
-	window->openFile(args.at(1));
-    }
+    if (args.size() > 1) { window->openFile(args.at(1)); }
     return window;
 }

@@ -28,11 +28,9 @@ namespace Algorithms {
    \par Run-time Parameters:
    none
 */
-class Difference : public Algorithm
-{
+class Difference : public Algorithm {
 public:
-
-    Difference(Controller& controller, Logger::Log &log);
+    Difference(Controller& controller, Logger::Log& log);
 
     bool startup();
 
@@ -44,11 +42,9 @@ public:
 
     bool process(Messages::Video::Ref in0, Messages::Video::Ref in1);
 
-    void setBufferSize(size_t bufferSize)
-	{ bufferSize_->setValue(bufferSize); }
+    void setBufferSize(size_t bufferSize) { bufferSize_->setValue(bufferSize); }
 
 private:
-
     /** Notification the the buffer size has been changed by an external entity.
 
         \param value new value
@@ -60,7 +56,8 @@ private:
     SynchronizedBuffer<Messages::Video> in1_;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

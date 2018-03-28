@@ -4,11 +4,11 @@
 
 #include "Algorithms/Controller.h"
 #include "Algorithms/ShutdownMonitor.h"
-#include "IO/Readers.h"
 #include "IO/FileWriterTask.h"
 #include "IO/MessageManager.h"
 #include "IO/Module.h"
 #include "IO/ProcessingStateChangeRequest.h"
+#include "IO/Readers.h"
 #include "IO/ShutdownRequest.h"
 
 #include "Logger/Log.h"
@@ -23,8 +23,7 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("CPIIntegrate") {}
     void test();
 };

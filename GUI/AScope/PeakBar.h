@@ -5,7 +5,9 @@
 
 #include "Messages/Video.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -15,16 +17,14 @@ namespace AScope {
     SetLifeTime() class method). After the time period has expired, the held value resets to the last seen
     value, and a new time period begins.
 */
-class PeakBar
-{
+class PeakBar {
 public:
-
     static Logger::Log& Log();
 
     /** Set the lifetime of each PeakBar. This is the number of setMaxValue() calls before the PeakBar will
         relinquish a held max value and pick a new one.
 
-        \param lifeTime 
+        \param lifeTime
     */
     static void SetLifeTime(int lifeTime);
 
@@ -49,8 +49,7 @@ public:
 
         \return true if value changed
     */
-    bool update(Messages::Video::const_iterator pos,
-                Messages::Video::const_iterator end, bool reset);
+    bool update(Messages::Video::const_iterator pos, Messages::Video::const_iterator end, bool reset);
 
     /** Obtain the current peak value.
 
@@ -61,18 +60,17 @@ public:
     /** Obtain the age of the peak value. This is the number of update() calls seen by the object without a
         change in the bar's value.
 
-	\return age
+        \return age
     */
     int getAge() const { return age_; }
 
     /** Obtain the opacity value that corresponds to the bar's current age.
 
-        \return 
+        \return
     */
     double getDecay() const { return GetDecay(age_); }
 
 private:
-
     int value_;
     int age_;
 

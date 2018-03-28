@@ -1,4 +1,4 @@
-#include <algorithm>		// for std::swap
+#include <algorithm> // for std::swap
 
 #include "Logger/Log.h"
 
@@ -8,11 +8,10 @@
 using namespace SideCar::Algorithms;
 using namespace SideCar::Messages;
 
-Despeckle::Despeckle(Controller& controller, Logger::Log &log)
-    : Algorithm(controller, log),
-      varianceMultiplier_(Parameter::DoubleValue::Make("varianceMultiplier", "Variance Multiplier",
-                                                       kDefaultVarianceMultiplier)),
-      past_(3)
+Despeckle::Despeckle(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), varianceMultiplier_(Parameter::DoubleValue::Make(
+                                    "varianceMultiplier", "Variance Multiplier", kDefaultVarianceMultiplier)),
+    past_(3)
 {
     ;
 }
@@ -20,7 +19,7 @@ Despeckle::Despeckle(Controller& controller, Logger::Log &log)
 bool
 Despeckle::startup()
 {
-    registerProcessor<Despeckle,Video>(&Despeckle::process);
+    registerProcessor<Despeckle, Video>(&Despeckle::process);
     return registerParameter(varianceMultiplier_) && Algorithm::startup();
 }
 
@@ -39,15 +38,15 @@ Despeckle::process(Messages::Video::Ref in0)
     LOGTIN << past_.size() << std::endl;
 
     past_.add(in0);
-    if (! past_.full()) {
+    if (!past_.full()) {
         LOGTOUT << std::endl;
-	return true;
+        return true;
     }
 
     size_t gateCount = past_.getMaxMsgSize();
     if (gateCount < 1) {
-	LOGERROR << "invalid gate count" << std::endl;
-	return true;
+        LOGERROR << "invalid gate count" << std::endl;
+        return true;
     }
 
     LOGDEBUG << "gate count: " << gateCount << std::endl;
@@ -65,9 +64,8 @@ Despeckle::process(Messages::Video::Ref in0)
     int changedCounter = 0;
 
     for (size_t index = 1; index < gateCount - 1; ++index) {
-
-	// Find the median of the neighboring PRIs -- use a simple sorting network
-	//
+        // Find the median of the neighboring PRIs -- use a simple sorting network
+        //
         sort[0] = in2[index - 1];
         sort[1] = in2[index];
         sort[2] = in2[index + 1];
@@ -89,11 +87,10 @@ Despeckle::process(Messages::Video::Ref in0)
 
         float median = (sort[2] + sort[3]) * 0.5;
 
-	int value = in1[index];
+        int value = in1[index];
         if (value > median) {
-
-	    // Calculate the variance about the median
-	    //
+            // Calculate the variance about the median
+            //
             float variance = 0;
             for (int i = -1; i < 2; ++i) {
                 float a = in2[index + i] - median;
@@ -101,8 +98,8 @@ Despeckle::process(Messages::Video::Ref in0)
                 variance += a * a + b * b;
             }
 
-	    // Final threshold test
-	    //
+            // Final threshold test
+            //
             float dist = value - median;
             if (dist * dist > varianceMultiplier * variance) {
                 value = VideoT(::rint(median));

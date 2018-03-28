@@ -2,8 +2,7 @@
 
 using namespace SideCar::GUI;
 
-CLUTSetting::CLUTSetting(PresetManager* mgr, QComboBox* widget, bool global)
-    : Super(mgr, widget, global)
+CLUTSetting::CLUTSetting(PresetManager* mgr, QComboBox* widget, bool global) : Super(mgr, widget, global)
 {
     ;
 }

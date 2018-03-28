@@ -6,11 +6,11 @@
 #include "QtGui/QStatusBar"
 
 #include "GUI/LogUtils.h"
-#include "GUI/modeltest.h"
 #include "GUI/PresetManager.h"
 #include "GUI/ToolBar.h"
 #include "GUI/Utils.h"
 #include "GUI/WindowManager.h"
+#include "GUI/modeltest.h"
 
 #include "ChannelConnection.h"
 #include "ChannelConnectionModel.h"
@@ -29,8 +29,7 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow()
+MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow()
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -52,14 +51,10 @@ MainWindow::MainWindow()
 
     plots_->setModel(model_);
 
-    connect(plots_->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection&,
-                                    const QItemSelection&)),
-            SLOT(currentPlotWidgetChanged(const QItemSelection&,
-                                          const QItemSelection&)));
+    connect(plots_->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            SLOT(currentPlotWidgetChanged(const QItemSelection&, const QItemSelection&)));
 
-    connect(model_, SIGNAL(availableServicesChanged(const QStringList&)),
-            SLOT(setAvailableNames(const QStringList&)));
+    connect(model_, SIGNAL(availableServicesChanged(const QStringList&)), SLOT(setAvailableNames(const QStringList&)));
 
     updateButtons();
 }
@@ -72,11 +67,10 @@ MainWindow::addPlot(const QString& name)
 
     QModelIndexList selection = getSelectedPlotWidgets();
     int row = model_->rowCount();
-    ChannelPlotSettings* basis =
-	getApp()->getConfigurationWindow()->getDefaultSettings();
-    if (! selection.empty()) {
-	row = selection.back().row();
-	basis = model_->getConnection(row)->getSettings();
+    ChannelPlotSettings* basis = getApp()->getConfigurationWindow()->getDefaultSettings();
+    if (!selection.empty()) {
+        row = selection.back().row();
+        basis = model_->getConnection(row)->getSettings();
     }
 
     LOGDEBUG << "row: " << row << std::endl;
@@ -91,8 +85,7 @@ MainWindow::addPlot(const QString& name)
 
     QModelIndex index = model_->add(obj, row);
     plots_->setIndexWidget(index, widget);
-    if (row < model_->rowCount() - 1)
-	setCurrentPlotWidget(row);
+    if (row < model_->rowCount() - 1) setCurrentPlotWidget(row);
 }
 
 void
@@ -113,27 +106,23 @@ MainWindow::on_actionRemove__triggered()
 
     int row = -1;
     QModelIndexList indices = getSelectedPlotWidgets();
-    while (! indices.empty()) {
-	row = indices.back().row();
-	indices.pop_back();
-	names.append(model_->getConnection(row)->getName());
-	model_->removeRows(row, 1);
+    while (!indices.empty()) {
+        row = indices.back().row();
+        indices.pop_back();
+        names.append(model_->getConnection(row)->getName());
+        model_->removeRows(row, 1);
     }
 
-    if (row >= model_->rowCount())
-	row = model_->rowCount() - 1;
+    if (row >= model_->rowCount()) row = model_->rowCount() - 1;
 
-    if (row != -1)
-	setCurrentPlotWidget(row);
+    if (row != -1) setCurrentPlotWidget(row);
 
     int unconnectedIndex = unconnected_->currentIndex();
-    for (int index = 0; index < unconnected_->count(); ++index)
-	names.append(unconnected_->itemText(index));
+    for (int index = 0; index < unconnected_->count(); ++index) names.append(unconnected_->itemText(index));
 
     qSort(names);
     setUnconnected(names);
-    if (unconnectedIndex == -1)
-	unconnectedIndex = 0;
+    if (unconnectedIndex == -1) unconnectedIndex = 0;
     unconnected_->setCurrentIndex(unconnectedIndex);
 
     updateButtons();
@@ -151,9 +140,8 @@ MainWindow::on_actionMoveUp__triggered()
     Logger::ProcLog log("on_actionMoveUp__triggered", Log());
 
     foreach (QModelIndex index, getSelectedPlotWidgets()) {
-	int row = index.row();
-	if (row > 0)
-	    model_->moveUp(row);
+        int row = index.row();
+        if (row > 0) model_->moveUp(row);
     }
 
     updateButtons();
@@ -164,12 +152,11 @@ MainWindow::on_actionMoveDown__triggered()
 {
     Logger::ProcLog log("on_actionMoveDown__triggered", Log());
     QModelIndexList indices = getSelectedPlotWidgets();
-    while (! indices.empty()) {
-	int row = indices.back().row();
-	indices.pop_back();
-	LOGDEBUG << "row: " << row << std::endl;
-	if (row >= 0 && row < model_->rowCount() - 1)
-	    model_->moveDown(row);
+    while (!indices.empty()) {
+        int row = indices.back().row();
+        indices.pop_back();
+        LOGDEBUG << "row: " << row << std::endl;
+        if (row >= 0 && row < model_->rowCount() - 1) model_->moveDown(row);
     }
 
     updateButtons();
@@ -183,10 +170,10 @@ MainWindow::closeEvent(QCloseEvent* event)
     // Since we are the only window that should be alive, tell the application to quit. Only do this if the
     // application is not already in the process of shutting down.
     //
-    if (! app->isQuitting()) {
-	event->ignore();
-	QTimer::singleShot(0, app, SLOT(applicationQuit()));
-	return;
+    if (!app->isQuitting()) {
+        event->ignore();
+        QTimer::singleShot(0, app, SLOT(applicationQuit()));
+        return;
     }
 
     Super::closeEvent(event);
@@ -198,12 +185,11 @@ MainWindow::setUnconnected(const QStringList& names)
     QString current(unconnected_->currentText());
     unconnected_->clear();
     unconnected_->addItems(names);
-    bool enable = ! names.empty();
+    bool enable = !names.empty();
     unconnected_->setEnabled(enable);
     actionAdd_->setEnabled(enable);
     int index = unconnected_->findText(current);
-    if (index != -1)
-	unconnected_->setCurrentIndex(index);
+    if (index != -1) unconnected_->setCurrentIndex(index);
     unconnected_->updateGeometry();
     toolBar_->adjustSize();
 }
@@ -215,36 +201,32 @@ MainWindow::setAvailableNames(const QStringList& names)
 
     unconnected_->clear();
     foreach (QString name, names) {
-	if (! model_->hasChannel(name))
-	    unconnected_->addItem(name);
+        if (!model_->hasChannel(name)) unconnected_->addItem(name);
     }
 
-    bool enable = ! names.empty();
+    bool enable = !names.empty();
     unconnected_->setEnabled(enable);
     actionAdd_->setEnabled(enable);
     int index = unconnected_->findText(current);
-    if (index != -1)
-	unconnected_->setCurrentIndex(index);
+    if (index != -1) unconnected_->setCurrentIndex(index);
     unconnected_->updateGeometry();
     toolBar_->adjustSize();
 }
 
 void
-MainWindow::currentPlotWidgetChanged(const QItemSelection& selected,
-                                     const QItemSelection& deselected)
+MainWindow::currentPlotWidgetChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
     Logger::ProcLog log("currentPlotWidgetChanged", Log());
-    LOGINFO << "selected: " << selected.count() << " deselected: "
-            << deselected.count() << std::endl;
+    LOGINFO << "selected: " << selected.count() << " deselected: " << deselected.count() << std::endl;
 
     foreach (QModelIndex index, deselected.indexes()) {
-	getApp()->getConfigurationWindow()->removeChannelPlotSettings(
-	    ChannelConnectionModel::GetObject(index)->getSettings());
+        getApp()->getConfigurationWindow()->removeChannelPlotSettings(
+            ChannelConnectionModel::GetObject(index)->getSettings());
     }
-    
+
     foreach (QModelIndex index, selected.indexes()) {
-	getApp()->getConfigurationWindow()->addChannelPlotSettings(
-	    ChannelConnectionModel::GetObject(index)->getSettings());
+        getApp()->getConfigurationWindow()->addChannelPlotSettings(
+            ChannelConnectionModel::GetObject(index)->getSettings());
     }
 
     updateButtons();
@@ -266,28 +248,20 @@ MainWindow::updateButtons()
     bool lastSelected = false;
 
     foreach (QModelIndex index, getSelectedPlotWidgets()) {
-	if (! index.isValid())
-	    continue;
-	if (index.row() == 0)
-	    firstSelected = true;
-	if (index.row() == model_->rowCount() - 1)
-	    lastSelected = true;
-	actionClear_->setEnabled(true);
-	actionRemove_->setEnabled(true);
-	if (index.row() > 0)
-	    actionMoveUp_->setEnabled(true);
-	if (index.row() < model_->rowCount() - 1)
-	    actionMoveDown_->setEnabled(true);
+        if (!index.isValid()) continue;
+        if (index.row() == 0) firstSelected = true;
+        if (index.row() == model_->rowCount() - 1) lastSelected = true;
+        actionClear_->setEnabled(true);
+        actionRemove_->setEnabled(true);
+        if (index.row() > 0) actionMoveUp_->setEnabled(true);
+        if (index.row() < model_->rowCount() - 1) actionMoveDown_->setEnabled(true);
     }
 
-    if (firstSelected)
-	actionMoveUp_->setEnabled(false);
-    if (lastSelected)
-	actionMoveDown_->setEnabled(false);
+    if (firstSelected) actionMoveUp_->setEnabled(false);
+    if (lastSelected) actionMoveDown_->setEnabled(false);
 
     unconnected_->setEnabled(unconnected_->count());
-    actionAdd_->setEnabled(unconnected_->count() &&
-                           unconnected_->currentIndex() >= 0);
+    actionAdd_->setEnabled(unconnected_->count() && unconnected_->currentIndex() >= 0);
 }
 
 QModelIndexList
@@ -295,8 +269,7 @@ MainWindow::getSelectedPlotWidgets() const
 {
     Logger::ProcLog log("getSelectedPlotWidgets", Log());
     QModelIndexList indices = plots_->selectionModel()->selectedIndexes();
-    if (! indices.empty())
-	qSort(indices.begin(), indices.end());
+    if (!indices.empty()) qSort(indices.begin(), indices.end());
     return indices;
 }
 
@@ -313,8 +286,8 @@ MainWindow::saveToSettings(QSettings& settings)
     int count = model_->rowCount();
     settings.beginWriteArray("Connections", count);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	settings.setValue("Name", model_->getConnection(index)->getName());
+        settings.setArrayIndex(index);
+        settings.setValue("Name", model_->getConnection(index)->getName());
     }
     settings.endArray();
 }
@@ -325,21 +298,20 @@ MainWindow::restoreFromSettings(QSettings& settings)
     Super::restoreFromSettings(settings);
     int count = settings.beginReadArray("Connections");
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	QString name = settings.value("Name").toString();
+        settings.setArrayIndex(index);
+        QString name = settings.value("Name").toString();
 
-	ChannelConnection* obj = new ChannelConnection(name, this);
-	connect(getApp(), SIGNAL(shutdown()), obj, SLOT(shutdown()));
+        ChannelConnection* obj = new ChannelConnection(name, this);
+        connect(getApp(), SIGNAL(shutdown()), obj, SLOT(shutdown()));
 
-	ChannelPlotWidget* widget = new ChannelPlotWidget(obj, plots_);
-	obj->setMinimumSizeHint(widget->minimumSizeHint());
+        ChannelPlotWidget* widget = new ChannelPlotWidget(obj, plots_);
+        obj->setMinimumSizeHint(widget->minimumSizeHint());
 
-	QModelIndex modelIndex = model_->add(obj, model_->rowCount());
-	plots_->setIndexWidget(modelIndex, widget);
+        QModelIndex modelIndex = model_->add(obj, model_->rowCount());
+        plots_->setIndexWidget(modelIndex, widget);
 
-	int pos = unconnected_->findText(name);
-	if (pos != -1)
-	    unconnected_->removeItem(pos);
+        int pos = unconnected_->findText(name);
+        if (pos != -1) unconnected_->removeItem(pos);
     }
 
     settings.endArray();
@@ -358,14 +330,12 @@ MainWindow::on_plots__clearAll()
     LOGERROR << std::endl;
 
     QModelIndexList indices = getSelectedPlotWidgets();
-    while (! indices.empty()) {
-	ChannelPlotWidget* w = qobject_cast<ChannelPlotWidget*>(
-	    plots_->indexWidget(indices.back()));
-	w->clearAll();
-	indices.pop_back();
+    while (!indices.empty()) {
+        ChannelPlotWidget* w = qobject_cast<ChannelPlotWidget*>(plots_->indexWidget(indices.back()));
+        w->clearAll();
+        indices.pop_back();
     }
 }
-
 
 void
 MainWindow::on_plots__clearDrops()
@@ -374,11 +344,9 @@ MainWindow::on_plots__clearDrops()
     LOGERROR << std::endl;
 
     QModelIndexList indices = getSelectedPlotWidgets();
-    while (! indices.empty()) {
-	ChannelPlotWidget* w = qobject_cast<ChannelPlotWidget*>(
-	    plots_->indexWidget(indices.back()));
-	w->clearDrops();
-	indices.pop_back();
+    while (!indices.empty()) {
+        ChannelPlotWidget* w = qobject_cast<ChannelPlotWidget*>(plots_->indexWidget(indices.back()));
+        w->clearDrops();
+        indices.pop_back();
     }
 }
-

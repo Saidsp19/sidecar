@@ -10,14 +10,13 @@ namespace ESScope {
 
 class AlphaBetaView;
 
-class AlphaBetaWidget :  public XYWidget
-{
+class AlphaBetaWidget : public XYWidget {
     Q_OBJECT
     using Super = XYWidget;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     AlphaBetaWidget(AlphaBetaView* parent, ViewSettings* viewSettings);
 
     int getXScans() const { return radarSettings_->getAlphaScans(); }
@@ -32,7 +31,6 @@ private slots:
     void currentMessage(const Messages::PRIMessage::Ref& msg);
 
 private:
-
     void alphasChanged(const AlphaIndices& indices);
 
     void paintGL();

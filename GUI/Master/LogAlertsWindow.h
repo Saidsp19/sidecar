@@ -3,7 +3,9 @@
 
 #include "GUI/MainWindowBase.h"
 
-namespace Ui { class LogAlertsWindow; }
+namespace Ui {
+class LogAlertsWindow;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -11,12 +13,11 @@ namespace Master {
 
 /** Window that shows SideCar Logger::Log messages of level Logger::Priority::kWarning or greater.
  */
-class LogAlertsWindow : public MainWindowBase
-{
+class LogAlertsWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     LogAlertsWindow();
 
 public slots:
@@ -26,7 +27,6 @@ public slots:
 private:
     Ui::LogAlertsWindow* gui_;
 };
-
 
 } // end namespace Master
 } // end namespace GUI

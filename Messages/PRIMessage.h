@@ -12,7 +12,9 @@
 #include "Messages/VMEHeader.h"
 #include "Time/TimeStamp.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
@@ -26,8 +28,7 @@ class VMEDataMessage;
     configuration parameters. This is no longer the case. Radar settings are now contained in the RadarConfig
     class.
 */
-class PRIMessage : public Header
-{
+class PRIMessage : public Header {
 public:
     using Super = Header;
     using Ref = boost::shared_ptr<PRIMessage>;
@@ -35,55 +36,54 @@ public:
     /** Internal collection of VME/RIU header attributes.
      */
     struct RIUInfo : public IO::CDRStreamable<RIUInfo>, public IO::Printable<RIUInfo> {
-
-	/** Default constructor. Used when loading from a file.
+        /** Default constructor. Used when loading from a file.
          */
-	RIUInfo() {}
+        RIUInfo() {}
 
-	/** Conversion constructor. Acquire values from a VME message header.
+        /** Conversion constructor. Acquire values from a VME message header.
 
-	    \param vme header to copy
-	*/
-	RIUInfo(const VMEDataMessage& vme);
+            \param vme header to copy
+        */
+        RIUInfo(const VMEDataMessage& vme);
 
-	double getRangeAt(double gate) const { return gate * rangeFactor + rangeMin; }
+        double getRangeAt(double gate) const { return gate * rangeFactor + rangeMin; }
 
-	/** Load values from a CDR input stream
+        /** Load values from a CDR input stream
 
-	    \param cdr stream to read from
+            \param cdr stream to read from
 
-	    \return stream read from
-	*/
-	ACE_InputCDR& load(ACE_InputCDR& cdr, int version);
+            \return stream read from
+        */
+        ACE_InputCDR& load(ACE_InputCDR& cdr, int version);
 
-	/** Write values to a CDR output stream
+        /** Write values to a CDR output stream
 
-	    \param cdr stream to write to
+            \param cdr stream to write to
 
-	    \return stream written to
-	*/
-	ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
+            \return stream written to
+        */
+        ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
 
-	/** Print values to a C++ text stream
+        /** Print values to a C++ text stream
 
-	    \param os stream to write to
+            \param os stream to write to
 
-	    \return stream written to
-	*/
-	std::ostream& print(std::ostream& os) const;
+            \return stream written to
+        */
+        std::ostream& print(std::ostream& os) const;
 
-	std::ostream& printXML(std::ostream& os) const;
+        std::ostream& printXML(std::ostream& os) const;
 
-	void loadXML(XmlStreamReader& xsr);
+        void loadXML(XmlStreamReader& xsr);
 
-	uint32_t msgDesc;	  ///< Description of the raw VME data
-	uint32_t timeStamp;	  ///< VME timestamp value
-	uint32_t sequenceCounter; ///< VME sequence counter
-	uint32_t shaftEncoding;	  ///< Value of the shaft encoder at trigger
-	uint32_t prfEncoding;	  ///< *** This used to be northMark ***
-	double irigTime;	  ///< VME IRIG timestamp
-	double rangeMin;	  ///< Range value of the first gate
-	double rangeFactor;	  ///< Range change for subsequent gates
+        uint32_t msgDesc;         ///< Description of the raw VME data
+        uint32_t timeStamp;       ///< VME timestamp value
+        uint32_t sequenceCounter; ///< VME sequence counter
+        uint32_t shaftEncoding;   ///< Value of the shaft encoder at trigger
+        uint32_t prfEncoding;     ///< *** This used to be northMark ***
+        double irigTime;          ///< VME IRIG timestamp
+        double rangeMin;          ///< Range value of the first gate
+        double rangeFactor;       ///< Range change for subsequent gates
     };
 
     /** Obtain the log device for PRIMessage objects. The device name is "SideCar.Messages.PRIMEssage"
@@ -147,7 +147,6 @@ public:
     void loadXML(XmlStreamReader& xsr);
 
 protected:
-
     /** Constructor used to create a new message that is derived from another one. Shares the PRIMessageInfo
         object with the copy, but everything else s unique to the new object.
 
@@ -163,7 +162,7 @@ protected:
 
         \param producer name of the task that is creating the new object
 
-	\param metaTypeInfo message type description
+        \param metaTypeInfo message type description
 
         \param vme header info from the VME RIU message
     */
@@ -198,7 +197,7 @@ protected:
     ACE_OutputCDR& writeArray(ACE_OutputCDR& cdr, uint32_t size) const;
 
 private:
-    RIUInfo riuInfo_;		///< VME header data
+    RIUInfo riuInfo_; ///< VME header data
 
     static ACE_InputCDR& LoadV1(PRIMessage* obj, ACE_InputCDR& cdr);
     static ACE_InputCDR& LoadV2(PRIMessage* obj, ACE_InputCDR& cdr);
@@ -213,8 +212,7 @@ private:
 /** Reference-counting reference to message object. Derived from boost::shared_ptr to allow [] indexing.
  */
 template <typename _T>
-class TPRIMessageRef : public boost::shared_ptr<_T>
-{
+class TPRIMessageRef : public boost::shared_ptr<_T> {
 public:
     using HeldType = _T;
     using Base = boost::shared_ptr<_T>;
@@ -258,7 +256,11 @@ public:
 
         \return reference to self
     */
-    TPRIMessageRef& operator=(TPRIMessageRef const& rhs) { Base::operator=(rhs); return *this; }
+    TPRIMessageRef& operator=(TPRIMessageRef const& rhs)
+    {
+        Base::operator=(rhs);
+        return *this;
+    }
 };
 
 /** Templated version of the PRIMessage class. Contains type-specific implementations and overrides. The sole
@@ -274,8 +276,7 @@ public:
     of code bloat.
 */
 template <typename _V>
-class TPRIMessage : public PRIMessage
-{
+class TPRIMessage : public PRIMessage {
 public:
     using TraitsType = _V;
     using DatumType = typename _V::Type;
@@ -388,12 +389,12 @@ public:
         \return stream read from
     */
     ACE_InputCDR& load(ACE_InputCDR& cdr)
-	{
-	    uint32_t count;
-	    loadArray(cdr, count);
-	    _V::Reader(cdr, count, data_);
-	    return cdr;
-	}
+    {
+        uint32_t count;
+        loadArray(cdr, count);
+        _V::Reader(cdr, count, data_);
+        return cdr;
+    }
 
     /** Write out our binary data to a CDR stream.
 
@@ -402,11 +403,11 @@ public:
         \return stream written to
     */
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const
-	{
-	    writeArray(cdr, size());
-	    _V::Writer(cdr, data_);
-	    return cdr;
-	}
+    {
+        writeArray(cdr, size());
+        _V::Writer(cdr, data_);
+        return cdr;
+    }
 
     /** Write out the message values to a C++ text output stream.
 
@@ -415,16 +416,16 @@ public:
         \return stream written to
     */
     std::ostream& printData(std::ostream& os) const
-	{
-	    _V::Printer(os, data_);
-	    return os;
-	}
+    {
+        _V::Printer(os, data_);
+        return os;
+    }
 
     void loadXML(XmlStreamReader& xsr)
-	{
-	    Super::loadXML(xsr);
-	    _V::ReaderXML(xsr, data_);
-	}
+    {
+        Super::loadXML(xsr);
+        _V::ReaderXML(xsr, data_);
+    }
 
     /** Write out the message values to a C++ text output stream.
 
@@ -433,15 +434,14 @@ public:
         \return stream written to
     */
     std::ostream& printDataXML(std::ostream& os) const
-	{
-	    Super::printDataXML(os);
-	    os << "<samples count=\"" << data_.size() << "\">";
-	    _V::PrinterXML(os, data_);
-	    return os << "</samples>";
-	}
+    {
+        Super::printDataXML(os);
+        os << "<samples count=\"" << data_.size() << "\">";
+        _V::PrinterXML(os, data_);
+        return os << "</samples>";
+    }
 
 protected:
-
     /** Constructor for new PRI messages created from a VME RIU message.
 
         \param producer algorithm/task creating the message
@@ -452,15 +452,18 @@ protected:
 
         \param size number of samples to reserve in the container
     */
-    TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const VMEDataMessage& vme,
-                size_t size)
-	: Super(producer, metaTypeInfo, vme), data_()
-	{ data_.reserve(size); }
+    TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const VMEDataMessage& vme, size_t size) :
+        Super(producer, metaTypeInfo, vme), data_()
+    {
+        data_.reserve(size);
+    }
 
     TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const VMEDataMessage& vme,
-                const Container& data)
-	: Super(producer, metaTypeInfo, vme), data_(data)
-	{}
+                const Container& data) :
+        Super(producer, metaTypeInfo, vme),
+        data_(data)
+    {
+    }
 
     /** Constructor for messages derived from another PRIMessage type.
 
@@ -473,25 +476,28 @@ protected:
         \param size number of samples to reserve in the container
     */
     TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo, const PRIMessage::Ref& copy,
-                size_t size)
-	: Super(producer, metaTypeInfo, copy), data_()
-	{ data_.reserve(size); }
+                size_t size) :
+        Super(producer, metaTypeInfo, copy),
+        data_()
+    {
+        data_.reserve(size);
+    }
 
     /** Constructor for messages loaded from a CDR stream.
 
         \param producer algorithm/task creating the message
     */
-    TPRIMessage(const MetaTypeInfo& metaTypeInfo)
-	: Super(metaTypeInfo), data_() {}
+    TPRIMessage(const MetaTypeInfo& metaTypeInfo) : Super(metaTypeInfo), data_() {}
 
     /** Constructor for messages loaded from a CDR stream.
 
         \param producer algorithm/task creating the message
     */
-    TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo)
-	: Super(producer, metaTypeInfo), data_() {}
+    TPRIMessage(const std::string& producer, const MetaTypeInfo& metaTypeInfo) : Super(producer, metaTypeInfo), data_()
+    {
+    }
 
-    Container data_;		///< Collection of PRIDatum values
+    Container data_; ///< Collection of PRIDatum values
 };
 
 /** Definitions for various sample data types. These traits may be used as a parameter to the TPRIMessage
@@ -506,23 +512,22 @@ namespace Traits {
 
     \param data container with the data
 */
-template <typename T,int kPerLine> void
+template <typename T, int kPerLine>
+void
 GenericPrinter(std::ostream& os, const std::vector<T>& data)
 {
     size_t count = data.size();
     const T* ptr(count ? &data[0] : 0);
     os << "Size: " << count << '\n';
     while (count) {
-	for (int index = 0; index < kPerLine && count; ++index, --count)
-	    os << *ptr++ << ' ';
-	os << '\n';
+        for (int index = 0; index < kPerLine && count; ++index, --count) os << *ptr++ << ' ';
+        os << '\n';
     }
 }
 
 /** Traits for binary samples (on/off)
  */
-struct Bool
-{
+struct Bool {
     using Type = char;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);
@@ -533,8 +538,7 @@ struct Bool
 
 /** Traits for samples of 16 bits.
  */
-struct Int16
-{
+struct Int16 {
     using Type = int16_t;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);
@@ -543,8 +547,7 @@ struct Int16
     static void PrinterXML(std::ostream& os, const std::vector<Type>& data);
 };
 
-struct ComplexInt16
-{
+struct ComplexInt16 {
     using Type = std::complex<int16_t>;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);
@@ -555,8 +558,7 @@ struct ComplexInt16
 
 /** Traits for samples of 32 bits.
  */
-struct Int32
-{
+struct Int32 {
     using Type = int32_t;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);
@@ -567,8 +569,7 @@ struct Int32
 
 /** Traits for samples of IEEE single-precision floating-point values
  */
-struct Float
-{
+struct Float {
     using Type = float;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);
@@ -579,8 +580,7 @@ struct Float
 
 /** Traits for samples of IEEE double-precision floating-point values
  */
-struct Double
-{
+struct Double {
     using Type = double;
     static void Reader(ACE_InputCDR& cdr, size_t size, std::vector<Type>& data);
     static void Writer(ACE_OutputCDR& cdr, const std::vector<Type>& data);

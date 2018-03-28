@@ -7,8 +7,8 @@
 using namespace SideCar::IO;
 using namespace SideCar::Runner;
 
-StatusEmitter::StatusEmitter(App& app, double updateRate)
-    : StatusEmitterBase(GetEmitterType(), GetCollectorType(), updateRate), app_(app)
+StatusEmitter::StatusEmitter(App& app, double updateRate) :
+    StatusEmitterBase(GetEmitterType(), GetCollectorType(), updateRate), app_(app)
 {
     ;
 }

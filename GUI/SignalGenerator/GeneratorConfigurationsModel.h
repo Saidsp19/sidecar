@@ -10,35 +10,34 @@ namespace SignalGenerator {
 
 class GeneratorConfiguration;
 
-class GeneratorConfigurationsModel : public QAbstractListModel
-{
+class GeneratorConfigurationsModel : public QAbstractListModel {
     Q_OBJECT
     using Super = QAbstractListModel;
-public:
 
+public:
     GeneratorConfigurationsModel(QObject* parent = 0);
 
     static GeneratorConfiguration* GetObject(const QModelIndex& index)
-	{ return static_cast<GeneratorConfiguration*>(
-		index.internalPointer()); }
+    {
+        return static_cast<GeneratorConfiguration*>(index.internalPointer());
+    }
 
-    GeneratorConfiguration* getConfiguration(int index) const
-	{ return signalConfigurations_[index]; }
+    GeneratorConfiguration* getConfiguration(int index) const { return signalConfigurations_[index]; }
 
     QModelIndex add(GeneratorConfiguration* signalConfiguration);
 
     void remove(GeneratorConfiguration* signalConfiguration);
 
     int getRowFor(GeneratorConfiguration* signalConfiguration) const
-	{ return signalConfigurations_.indexOf(signalConfiguration); }
+    {
+        return signalConfigurations_.indexOf(signalConfiguration);
+    }
 
-    int rowCount(const QModelIndex& parent = QModelIndex()) const
-	{ return signalConfigurations_.count(); }
+    int rowCount(const QModelIndex& parent = QModelIndex()) const { return signalConfigurations_.count(); }
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-    QModelIndex index(int row, int column = 0,
-                      const QModelIndex& parent = QModelIndex()) const;
+    QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
 
     size_t getLeastMultipleGateCount(size_t init);
 

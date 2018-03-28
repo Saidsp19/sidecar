@@ -7,16 +7,15 @@
 #include "Messages/Attributes.h"
 #include "Messages/Header.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
 
-class BugPlot : public Header, public IO::CDRStreamable<BugPlot>,
-		public IO::Printable<BugPlot>
-{
+class BugPlot : public Header, public IO::CDRStreamable<BugPlot>, public IO::Printable<BugPlot> {
 public:
-
     using Ref = boost::shared_ptr<BugPlot>;
 
     static Logger::Log& Log();
@@ -27,15 +26,15 @@ public:
     */
     static const MetaTypeInfo& GetMetaTypeInfo();
 
-    static Ref Make(const std::string& producer, double when, double range,
-                    double azimuth, double elevation, const std::string& tag);
+    static Ref Make(const std::string& producer, double when, double range, double azimuth, double elevation,
+                    const std::string& tag);
 
     static Ref Make(const QDomElement& header, const QDomElement& msg);
 
     /** Class factory that creates new reference-counted BugPlot message objects using data from an input CDR
-	stream.
+        stream.
 
-	\param cdr input CDR stream to read from
+        \param cdr input CDR stream to read from
 
         \return reference to new RawVideo object
     */
@@ -90,7 +89,6 @@ public:
     size_t getSize() const { return sizeof(BugPlot); }
 
 private:
-
     /** Constructor for new BugPlot message.
 
         \param producer name of the entity that created the message
@@ -101,8 +99,8 @@ private:
 
     BugPlot(const std::string& producer);
 
-    BugPlot(const std::string& producer, double when, double range,
-            double azimuth, double elevation, const std::string& tag);
+    BugPlot(const std::string& producer, double when, double range, double azimuth, double elevation,
+            const std::string& tag);
 
     /** Constructor for BugPlot messages that will be filled in with data from a CDR stream.
      */
@@ -119,12 +117,10 @@ private:
 
     static Header::Ref CDRLoader(ACE_InputCDR& cdr);
 
-    static Header::Ref XMLLoader(const std::string& producer,
-                                 XmlStreamReader& xsr);
+    static Header::Ref XMLLoader(const std::string& producer, XmlStreamReader& xsr);
 
     static MetaTypeInfo metaTypeInfo_;
 };
-
 
 } // end namespace Messages
 } // end namespace SideCar

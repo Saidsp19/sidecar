@@ -7,19 +7,16 @@ namespace SideCar {
 namespace GUI {
 namespace Master {
 
-class DurationSetting : public QTimeEditSetting
-{
+class DurationSetting : public QTimeEditSetting {
     Q_OBJECT
     using Super = QTimeEditSetting;
-public:
 
-    DurationSetting(PresetManager* mgr, QTimeEdit* widget,
-                    bool global = false);
+public:
+    DurationSetting(PresetManager* mgr, QTimeEdit* widget, bool global = false);
 
     int getDuration() const { return duration_; }
 
 private:
-
     void valueUpdated();
 
     int duration_;

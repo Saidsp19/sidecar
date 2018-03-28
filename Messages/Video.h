@@ -9,8 +9,7 @@ namespace Messages {
 /** Collection of sample values for one PRI message from a radar. The sample values are fixed-point, 16-bit
     values (normally treated as integers).
 */
-class Video : public TPRIMessage<Traits::Int16>
-{
+class Video : public TPRIMessage<Traits::Int16> {
 public:
     using Super = TPRIMessage<Traits::Int16>;
     using Ref = TPRIMessageRef<Video>;
@@ -40,9 +39,9 @@ public:
 
         \param vmeHeader the VME parameters that define the message
 
-	\param first pointer to the first value to use
+        \param first pointer to the first value to use
 
-	\param end pointer to the last+1 value to use
+        \param end pointer to the last+1 value to use
 
         \return new Video message reference
     */
@@ -57,13 +56,13 @@ public:
 
         \param data container of values to copy
 
-        \return 
+        \return
     */
     static Ref Make(const std::string& producer, const VMEDataMessage& vme, const Container& data);
 
     /** Class factory used to create a Video object from another Video object.
 
-	\param producer name of the entity that is creating the new object
+        \param producer name of the entity that is creating the new object
 
         \param basis message that forms the basis for the new one
 
@@ -88,7 +87,6 @@ public:
     Video::Ref getVideoBasis() const { return getBasis<Video>(); }
 
 private:
-
     /** Constructor for empty messages.
 
         \param producer the name of the task that created the message

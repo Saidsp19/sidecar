@@ -1,4 +1,4 @@
-#ifndef SIDECAR_GUI_APPBASE_H	// -*- C++ -*-
+#ifndef SIDECAR_GUI_APPBASE_H // -*- C++ -*-
 #define SIDECAR_GUI_APPBASE_H
 
 #include <vector>
@@ -11,7 +11,10 @@ class QAction;
 class QMenu;
 class QWidget;
 
-namespace Logger { class ConfiguratorFile; class Log; }
+namespace Logger {
+class ConfiguratorFile;
+class Log;
+} // namespace Logger
 
 namespace SideCar {
 namespace GUI {
@@ -28,19 +31,14 @@ class WindowManager;
     actions. Also provides saving/restoring facilities so that restarted applications have windows and settings
     from a previous run.
 */
-class AppBase : public QApplication
-{
+class AppBase : public QApplication {
     Q_OBJECT
     using Super = QApplication;
-public:
 
+public:
     /** Enumeration for the various angular formatting available from the application.
      */
-    enum AngularFormatType {
-	kDegreesMinutesSeconds = 0,
-	kDecimal,
-	kNumFormattingTypes
-    };
+    enum AngularFormatType { kDegreesMinutesSeconds = 0, kDecimal, kNumFormattingTypes };
 
     /** Log device for instances of this class.
 
@@ -57,7 +55,7 @@ public:
     static QString GetRootDocumentationPath();
 
     /** Constructor.
-        
+
         \param name the name of the application
 
         \param argc argument count from the command line
@@ -145,7 +143,7 @@ public:
     MainWindowBase* getActiveMainWindow() const;
 
     /** Manage a top-level window. Managed windows have their own QAction object installed in the "Window" menu
-	so that the user can make a window active from the menubar or keyboard.
+        so that the user can make a window active from the menubar or keyboard.
 
         \param window the window to manage
     */
@@ -154,7 +152,7 @@ public:
     /** Unmanage a top-level window. Usually invoked when a window closes. Removes the associated QAction object
         from the "Window" menu.
 
-        \param window the window to unmanage. 
+        \param window the window to unmanage.
     */
     void unmanageWindow(QWidget* window);
 
@@ -213,14 +211,14 @@ public:
     QPointF getPhantomCursor() const { return phantomCursor_; }
 
     /** Restore the windows that were open at the time the application last quit. Emits the restoreToolWindows()
-	signal after all main windows have been restored.
+        signal after all main windows have been restored.
     */
     virtual void restoreWindows();
 
 signals:
-    
+
     /** Notification sent out when the application's active main window changes.
-        
+
         \param window the new active window (may be NULL).
     */
     void activeMainWindowChanged(MainWindowBase* window);
@@ -230,7 +228,7 @@ signals:
     void shutdown();
 
     /** Notification sent out to all ToolWindowBase objects that they should show themselves if they were
-	visible when the application last quit.
+        visible when the application last quit.
     */
     void restoreToolWindows();
 
@@ -241,13 +239,13 @@ signals:
     void angleFormattingChanged(int type);
 
     /** Notification sent out when the distance units have been changed by the user.
-        
+
         \param suffix new distance units
     */
     void distanceUnitsChanged(const QString& suffix);
 
     /** Notification sent out when the phantom cursor value has been changed.
-        
+
         \param pos new phantom cursor value
     */
     void phantomCursorChanged(const QPointF& pos);
@@ -273,24 +271,24 @@ public slots:
     void showMessage(const QString& msg, int duration);
 
     /** Change the formatting used by getFormattedAngleDegrees() and getFormattedAngleRadians() methods.
-        
+
         \param type new type to use
     */
     void setAngleFormatting(AngularFormatType type);
 
     /** Change the distance units used by getFormattedDistance() method.
-        
+
         \param units new units to use
     */
     void setDistanceUnits(const QString& units);
 
     /** Action event handler for the "Quit" menu item. Saves open window settings, the current logging settings,
-	emits the shutdown() signal, and then finally closes all open windows.
+        emits the shutdown() signal, and then finally closes all open windows.
     */
     virtual void applicationQuit();
 
     /** Present to the user an open file dialog in order to select a Logger configuration file. If a file is
-	choosen, create and install a Logger::ConfiguratorFile object.
+        choosen, create and install a Logger::ConfiguratorFile object.
     */
     virtual void loggingLoadConfigurationFile();
 
@@ -301,10 +299,9 @@ public slots:
     virtual void windowNew();
 
 protected:
-
     /** Register a tool window with the application. Adds the tool window's show/hide QAction object to the end
         of the Application menu.
-        
+
         \param toolWindow the tool window to add
     */
     virtual void addToolWindow(int index, ToolWindowBase* toolWindow);
@@ -320,9 +317,8 @@ protected:
     MainWindowBase* makeAndInitializeNewMainWindow(const QString& type);
 
 private:
-
     /** Manually set the active main window. MainWindowBase objects use this to notify the application when it
-	becomes the active window.
+        becomes the active window.
 
         \param window the window that is now active
     */

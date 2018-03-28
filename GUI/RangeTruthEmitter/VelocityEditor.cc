@@ -5,9 +5,7 @@
 using namespace SideCar::GUI::RangeTruthEmitter;
 
 QWidget*
-VelocityEditor::createEditor(QWidget* parent,
-                             const QStyleOptionViewItem& option,
-                             const QModelIndex& index) const
+VelocityEditor::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
     editor->setRange(-99999.0, 99999.0);
@@ -28,8 +26,7 @@ VelocityEditor::setEditorData(QWidget* editor, const QModelIndex& index) const
 }
 
 void
-VelocityEditor::setModelData(QWidget* editor, QAbstractItemModel* model,
-                             const QModelIndex& index) const
+VelocityEditor::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
     QDoubleSpinBox* e = static_cast<QDoubleSpinBox*>(editor);
     e->interpretText();
@@ -38,8 +35,7 @@ VelocityEditor::setModelData(QWidget* editor, QAbstractItemModel* model,
 }
 
 void
-VelocityEditor::updateEditorGeometry(QWidget* editor,
-                                     const QStyleOptionViewItem& option,
+VelocityEditor::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
                                      const QModelIndex& index) const
 {
     editor->setGeometry(option.rect);

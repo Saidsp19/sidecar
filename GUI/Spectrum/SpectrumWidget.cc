@@ -21,7 +21,7 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-static int kUpdateRate = 33;	// msecs between update() calls (~30 FPS)
+static int kUpdateRate = 33; // msecs between update() calls (~30 FPS)
 
 static const char* const kShowGrid = "ShowGrid";
 static const char* const kViews = "Views";
@@ -33,13 +33,10 @@ SpectrumWidget::Log()
     return log_;
 }
 
-SpectrumWidget::SpectrumWidget(QWidget* parent)
-    : Super(parent),
-      settings_(App::GetApp()->getConfiguration()->getSettings()),
-      fftSettings_(App::GetApp()->getConfiguration()->getFFTSettings()),
-      updateTimer_(), background_(), azimuthLatch_(0), bins_(), points_(),
-      viewStack_(), mouse_(), viewChanger_(0), needUpdate_(true),
-      frozen_(false)
+SpectrumWidget::SpectrumWidget(QWidget* parent) :
+    Super(parent), settings_(App::GetApp()->getConfiguration()->getSettings()),
+    fftSettings_(App::GetApp()->getConfiguration()->getFFTSettings()), updateTimer_(), background_(), azimuthLatch_(0),
+    bins_(), points_(), viewStack_(), mouse_(), viewChanger_(0), needUpdate_(true), frozen_(false)
 {
     static Logger::ProcLog log("Visualizer", Log());
     LOGINFO << std::endl;
@@ -47,22 +44,16 @@ SpectrumWidget::SpectrumWidget(QWidget* parent)
     setAttribute(Qt::WA_OpaquePaintEvent, true);
     setCursor(Qt::CrossCursor);
 
-    connect(settings_, SIGNAL(powerScalingChanged()),
-            SLOT(powerScalingChanged()));
-    connect(settings_, SIGNAL(sampleFrequencyChanged(double)),
-            SLOT(recalculateX()));
-    connect(settings_, SIGNAL(colorChanged(const QColor&)),
-            SLOT(updateColor(const QColor&)));
-    connect(settings_, SIGNAL(drawingModeChanged()),
-            SLOT(needUpdate()));
-    connect(fftSettings_, SIGNAL(fftSizeChanged(int)),
-            SLOT(setFFTSize(int)));
+    connect(settings_, SIGNAL(powerScalingChanged()), SLOT(powerScalingChanged()));
+    connect(settings_, SIGNAL(sampleFrequencyChanged(double)), SLOT(recalculateX()));
+    connect(settings_, SIGNAL(colorChanged(const QColor&)), SLOT(updateColor(const QColor&)));
+    connect(settings_, SIGNAL(drawingModeChanged()), SLOT(needUpdate()));
+    connect(fftSettings_, SIGNAL(fftSizeChanged(int)), SLOT(setFFTSize(int)));
 
     updateColor(settings_->getQColor());
 
     ViewEditor* viewEditor = App::GetApp()->getViewEditor();
-    connect(this, SIGNAL(transformChanged()), viewEditor,
-            SLOT(updateViewLimits()));
+    connect(this, SIGNAL(transformChanged()), viewEditor, SLOT(updateViewLimits()));
 
     setFFTSize(fftSettings_->getFFTSize());
     updateTransform();
@@ -85,13 +76,11 @@ SpectrumWidget::recalculateX()
     double frequencyMin = fftSettings_->getFrequencyMin();
     double frequencyStep = fftSettings_->getFrequencyStep();
 
-    for (int index = 0; index < points_.size(); ++index)
-	bins_[index].setX(frequencyMin + index * frequencyStep);
+    for (int index = 0; index < points_.size(); ++index) bins_[index].setX(frequencyMin + index * frequencyStep);
 
     if (viewStack_.empty()) {
-	viewStack_.push_back(ViewSettings(frequencyMin, -frequencyMin,
-                                          -80, 0));
-	updateTransform();
+        viewStack_.push_back(ViewSettings(frequencyMin, -frequencyMin, -80, 0));
+        updateTransform();
     }
 
     needUpdate();
@@ -103,8 +92,8 @@ SpectrumWidget::saveToSettings(QSettings& settings)
     int count = viewStack_.size();
     settings.beginWriteArray(kViews, count);
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	viewStack_[index].saveToSettings(settings);
+        settings.setArrayIndex(index);
+        viewStack_[index].saveToSettings(settings);
     }
     settings.endArray();
 }
@@ -113,12 +102,11 @@ void
 SpectrumWidget::restoreFromSettings(QSettings& settings)
 {
     int count = settings.beginReadArray(kViews);
-    if (count)
-	viewStack_.clear();
+    if (count) viewStack_.clear();
 
     for (int index = 0; index < count; ++index) {
-	settings.setArrayIndex(index);
-	viewStack_.push_back(ViewSettings(settings));
+        settings.setArrayIndex(index);
+        viewStack_.push_back(ViewSettings(settings));
     }
     settings.endArray();
 
@@ -129,8 +117,8 @@ void
 SpectrumWidget::setCurrentView(const ViewSettings& view)
 {
     if (view != viewStack_.back()) {
-	viewStack_.back() = view;
-	updateTransform();
+        viewStack_.back() = view;
+        updateTransform();
     }
 }
 
@@ -141,19 +129,17 @@ SpectrumWidget::dupView()
 }
 
 void
-SpectrumWidget::popView() 
+SpectrumWidget::popView()
 {
     if (canPopView()) {
-	ViewSettings last(viewStack_.back());
-	viewStack_.pop_back();
-	if (last != viewStack_.back()) {
-	    updateTransform();
-	}
+        ViewSettings last(viewStack_.back());
+        viewStack_.pop_back();
+        if (last != viewStack_.back()) { updateTransform(); }
     }
 }
 
 void
-SpectrumWidget::popAllViews() 
+SpectrumWidget::popAllViews()
 {
     ViewSettings view(viewStack_[0]);
     viewStack_.clear();
@@ -192,19 +178,15 @@ SpectrumWidget::updateTransform()
     static Logger::ProcLog log("updateTransform", Log());
 
     const QRectF& viewRect(getCurrentView().getBounds());
-    LOGDEBUG << "left: " << viewRect.left()
-	     << " right: " << viewRect.right()
-	     << " bottom: " << viewRect.bottom()
-	     << " top: " << viewRect.top()
-	     << " width: " << viewRect.width()
-	     << " height: " << viewRect.height()
-	     << std::endl;
+    LOGDEBUG << "left: " << viewRect.left() << " right: " << viewRect.right() << " bottom: " << viewRect.bottom()
+             << " top: " << viewRect.top() << " width: " << viewRect.width() << " height: " << viewRect.height()
+             << std::endl;
 
-    double  dx = viewRect.width();
+    double dx = viewRect.width();
     double m11 = (width() - 1.0) / dx;
     dx = -viewRect.x() * m11;
 
-    double  dy = viewRect.height();
+    double dy = viewRect.height();
     double m22 = -(height() - 1.0) / dy;
     dy = height() - 1.0 - viewRect.y() * m22;
 
@@ -230,19 +212,16 @@ SpectrumWidget::powerScalingChanged()
 }
 
 void
-SpectrumWidget::setData(const Messages::PRIMessage::Ref& msg,
-                        const fftw_complex* data)
+SpectrumWidget::setData(const Messages::PRIMessage::Ref& msg, const fftw_complex* data)
 {
     static Logger::ProcLog log("setData", Log());
     LOGINFO << "data: " << data << std::endl;
 
     if (azimuthLatch_) {
-	if (! azimuthLatch_->check(msg->getAzimuthStart()))
-	    return;
+        if (!azimuthLatch_->check(msg->getAzimuthStart())) return;
     }
 
-    if (frozen_)
-	return;
+    if (frozen_) return;
 
     last_ = msg;
 
@@ -263,16 +242,12 @@ SpectrumWidget::setData(const Messages::PRIMessage::Ref& msg,
     // the first half of the incoming data.
     //
     const fftw_complex* ptr = data + midPoint - 1;
-    for (int index = 0; index < midPoint; ++index) {
-	bins_[index].setY(getPowerFromMagnitude(*ptr--));
-    }
+    for (int index = 0; index < midPoint; ++index) { bins_[index].setY(getPowerFromMagnitude(*ptr--)); }
 
     // Now do the positive frequencies. Reverse the second half of the incoming data.
     //
     ptr = data + bins_.size() - 1;
-    for (int index = midPoint; index < bins_.size(); ++index) {
-	bins_[index].setY(getPowerFromMagnitude(*ptr--));
-    }
+    for (int index = midPoint; index < bins_.size(); ++index) { bins_[index].setY(getPowerFromMagnitude(*ptr--)); }
 
     emit binsUpdated(bins_);
 
@@ -285,19 +260,16 @@ SpectrumWidget::paintEvent(QPaintEvent* event)
     static Logger::ProcLog log("paintEvent", Log());
 
     QPainter painter(this);
-    if (! background_.isNull())
-	painter.drawPixmap(0, 0, background_);
+    if (!background_.isNull()) painter.drawPixmap(0, 0, background_);
 
     painter.setPen(QPen(color_));
 
-    for (int index = 0; index < points_.size(); ++index) {
-	points_[index] = transform_.map(bins_[index]);
-    }
+    for (int index = 0; index < points_.size(); ++index) { points_[index] = transform_.map(bins_[index]); }
 
     if (settings_->getDrawingMode() == Settings::kPoints)
-	painter.drawPoints(&points_[0], points_.size());
+        painter.drawPoints(&points_[0], points_.size());
     else
-	painter.drawPolyline(&points_[0], points_.size());
+        painter.drawPolyline(&points_[0], points_.size());
 }
 
 void
@@ -305,9 +277,9 @@ SpectrumWidget::showEvent(QShowEvent* event)
 {
     static Logger::ProcLog log("showEvent", Log());
     LOGINFO << std::endl;
-    if (! updateTimer_.isActive()) {
-	updateTimer_.start(kUpdateRate, this);
-	needUpdate();
+    if (!updateTimer_.isActive()) {
+        updateTimer_.start(kUpdateRate, this);
+        needUpdate();
     }
     Super::showEvent(event);
 }
@@ -317,9 +289,7 @@ SpectrumWidget::hideEvent(QHideEvent* event)
 {
     static Logger::ProcLog log("hideEvent", Log());
     LOGINFO << std::endl;
-    if (updateTimer_.isActive()) {
-	updateTimer_.stop();
-    }
+    if (updateTimer_.isActive()) { updateTimer_.stop(); }
     Super::hideEvent(event);
 }
 
@@ -331,18 +301,17 @@ SpectrumWidget::mousePressEvent(QMouseEvent* event)
     Super::mousePressEvent(event);
     Q_ASSERT(viewChanger_ == 0);
     if (event->button() == Qt::LeftButton) {
-	LOGDEBUG << "left button" << std::endl;
-	if (event->modifiers() == 0) {
-	    LOGDEBUG << "zooming" << std::endl;
-	    viewChanger_ = new ZoomingViewChanger(this, event->pos());
-	    event->accept();
-	}
-	else if (event->modifiers() == Qt::ShiftModifier) {
-	    LOGDEBUG << "panning" << std::endl;
-	    viewChanger_ = new PanningViewChanger(this, event->pos());
-	    event->accept();
-	    setCursor(Qt::ClosedHandCursor);
-	}
+        LOGDEBUG << "left button" << std::endl;
+        if (event->modifiers() == 0) {
+            LOGDEBUG << "zooming" << std::endl;
+            viewChanger_ = new ZoomingViewChanger(this, event->pos());
+            event->accept();
+        } else if (event->modifiers() == Qt::ShiftModifier) {
+            LOGDEBUG << "panning" << std::endl;
+            viewChanger_ = new PanningViewChanger(this, event->pos());
+            event->accept();
+            setCursor(Qt::ClosedHandCursor);
+        }
     }
 }
 
@@ -352,8 +321,8 @@ SpectrumWidget::mouseMoveEvent(QMouseEvent* event)
     static Logger::ProcLog log("mouseReleaseEvent", Log());
     Super::mouseReleaseEvent(event);
     if (viewChanger_) {
-	viewChanger_->mouseMoved(event->pos());
-	needUpdate();
+        viewChanger_->mouseMoved(event->pos());
+        needUpdate();
     }
 }
 
@@ -363,13 +332,13 @@ SpectrumWidget::mouseReleaseEvent(QMouseEvent* event)
     static Logger::ProcLog log("mouseReleaseEvent", Log());
     Super::mouseReleaseEvent(event);
     if (viewChanger_) {
-	viewChanger_->finished(event->pos());
-	delete viewChanger_;
-	viewChanger_ = 0;
-	if (event->modifiers() == Qt::ShiftModifier)
-	    setCursor(Qt::OpenHandCursor);
-	else
-	    setCursor(Qt::CrossCursor);
+        viewChanger_->finished(event->pos());
+        delete viewChanger_;
+        viewChanger_ = 0;
+        if (event->modifiers() == Qt::ShiftModifier)
+            setCursor(Qt::OpenHandCursor);
+        else
+            setCursor(Qt::CrossCursor);
     }
 }
 
@@ -377,25 +346,23 @@ void
 SpectrumWidget::keyPressEvent(QKeyEvent* event)
 {
     if (viewChanger_) {
-	if (event->key() == Qt::Key_Escape) {
-	    event->accept();
-	    delete viewChanger_;
-	    viewChanger_ = 0;
-	    setCursor(Qt::CrossCursor);
-	}
+        if (event->key() == Qt::Key_Escape) {
+            event->accept();
+            delete viewChanger_;
+            viewChanger_ = 0;
+            setCursor(Qt::CrossCursor);
+        }
 
-	return;
+        return;
     }
 
     if (event->key() == Qt::Key_C) {
-	event->accept();
-	centerAtCursor();
-    }
-    else if (event->key() == Qt::Key_Shift) {
-	setCursor(Qt::OpenHandCursor);
-    }
-    else {
-	setCursor(Qt::CrossCursor);
+        event->accept();
+        centerAtCursor();
+    } else if (event->key() == Qt::Key_Shift) {
+        setCursor(Qt::OpenHandCursor);
+    } else {
+        setCursor(Qt::CrossCursor);
     }
 
     Super::keyPressEvent(event);
@@ -407,28 +374,26 @@ SpectrumWidget::timerEvent(QTimerEvent* event)
     static Logger::ProcLog log("timerEvent", Log());
 
     if (event->timerId() == updateTimer_.timerId()) {
-	event->accept();
-	if (underMouse()) {
-	    QPoint newMouse = mapFromGlobal(QCursor::pos());
-	    if (newMouse != mouse_) {
-		mouse_ = newMouse;
-		emit currentCursorPosition(
-		    inverseTransform_.map(QPointF(mouse_)));
-	    }
-	}
+        event->accept();
+        if (underMouse()) {
+            QPoint newMouse = mapFromGlobal(QCursor::pos());
+            if (newMouse != mouse_) {
+                mouse_ = newMouse;
+                emit currentCursorPosition(inverseTransform_.map(QPointF(mouse_)));
+            }
+        }
 
-	if (last_) {
-	    emit showMessageInfo(last_);
-	    last_.reset();
-	}
+        if (last_) {
+            emit showMessageInfo(last_);
+            last_.reset();
+        }
 
-	if (needUpdate_) {
-	    needUpdate_ = false;
-	    update();
-	}
-    }
-    else {
-	Super::timerEvent(event);
+        if (needUpdate_) {
+            needUpdate_ = false;
+            update();
+        }
+    } else {
+        Super::timerEvent(event);
     }
 }
 
@@ -454,21 +419,17 @@ void
 SpectrumWidget::zoom(const QPoint& from, const QPoint& to)
 {
     static Logger::ProcLog log("zoom", Log());
-    LOGINFO << from.x() << ',' << from.y() << ' ' << to.x() << ',' << to.y()
-	    << std::endl;
+    LOGINFO << from.x() << ',' << from.y() << ' ' << to.x() << ',' << to.y() << std::endl;
 
     // Convert the mouse down point and the mouse up point to real-world values. Set up the rectangle so that
     // width()/heigth() is always positive.
     //
     QPointF f(inverseTransform_.map(QPointF(from)));
     QPointF t(inverseTransform_.map(QPointF(to)));
-    QRectF fromTo(QRectF(f, QSizeF(t.x() - f.x(),
-                                   t.y() - f.y())).normalized());
-    LOGINFO << fromTo.left() << '-' << fromTo.right() << ' '
-	    << fromTo.top() << '-' << fromTo.bottom() << std::endl;
+    QRectF fromTo(QRectF(f, QSizeF(t.x() - f.x(), t.y() - f.y())).normalized());
+    LOGINFO << fromTo.left() << '-' << fromTo.right() << ' ' << fromTo.top() << '-' << fromTo.bottom() << std::endl;
 
-    viewStack_.back().setBounds(QRectF(fromTo.left(), fromTo.top(),
-                                       fromTo.width(), fromTo.height()));
+    viewStack_.back().setBounds(QRectF(fromTo.left(), fromTo.top(), fromTo.width(), fromTo.height()));
     updateTransform();
     update();
 }
@@ -477,8 +438,7 @@ void
 SpectrumWidget::pan(const QPoint& from, const QPoint& to)
 {
     static Logger::ProcLog log("pan", Log());
-    LOGINFO << from.x() << ',' << from.y() << ' ' << to.x() << ',' << to.y()
-	    << std::endl;
+    LOGINFO << from.x() << ',' << from.y() << ' ' << to.x() << ',' << to.y() << std::endl;
     QPointF f(inverseTransform_.map(QPointF(from)));
     QPointF t(inverseTransform_.map(QPointF(to)));
     QRectF fromTo(QRectF(f, QSizeF(t.x() - f.x(), f.y() - t.y())));
@@ -493,12 +453,10 @@ SpectrumWidget::pan(const QPoint& from, const QPoint& to)
 void
 SpectrumWidget::centerAtCursor()
 {
-    QPointF pos = inverseTransform_.map(QPointF(mapFromGlobal(
-                                                    QCursor::pos())));
+    QPointF pos = inverseTransform_.map(QPointF(mapFromGlobal(QCursor::pos())));
     ViewSettings newView(viewStack_.back());
-    newView.setBounds(newView.getBounds().translated(
-                          pos.x() - newView.getBounds().width() / 2,
-                          pos.y() - newView.getBounds().height() / 2));
+    newView.setBounds(newView.getBounds().translated(pos.x() - newView.getBounds().width() / 2,
+                                                     pos.y() - newView.getBounds().height() / 2));
     viewStack_.push_back(newView);
     QCursor::setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
     updateTransform();
@@ -513,4 +471,3 @@ SpectrumWidget::swapViews()
     viewStack_[other] = view;
     updateTransform();
 }
-

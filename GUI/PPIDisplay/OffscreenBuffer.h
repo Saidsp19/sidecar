@@ -8,14 +8,12 @@ namespace SideCar {
 namespace GUI {
 namespace PPIDisplay {
 
-class OffscreenBuffer : public ::SideCar::GUI::OffscreenBuffer
-{
+class OffscreenBuffer : public ::SideCar::GUI::OffscreenBuffer {
     Q_OBJECT
     using Super = ::SideCar::GUI::OffscreenBuffer;
+
 public:
-    
-    OffscreenBuffer(const SampleImaging* imaging, double rangeMax,
-                    int width, int height, int textureType = -1);
+    OffscreenBuffer(const SampleImaging* imaging, double rangeMax, int width, int height, int textureType = -1);
 
 protected slots:
 

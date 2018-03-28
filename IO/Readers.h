@@ -1,4 +1,4 @@
-#ifndef SIDECAR_IO_READERS_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_READERS_H // -*- C++ -*-
 #define SIDECAR_IO_READERS_H
 
 #include "ace/CDR_Stream.h"
@@ -13,7 +13,9 @@
 #include "IO/Preamble.h"
 #include "IO/Stats.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -26,10 +28,8 @@ namespace ReaderDevices {
 
 /** Device that gets data from a file
  */
-class File
-{
+class File {
 public:
-
     /** Constructor for new reader.
      */
     File() : device_() {}
@@ -47,7 +47,6 @@ public:
     const ACE_FILE_IO& getDevice() const { return device_; }
 
 protected:
-    
     /** Obtain data from the device.
 
         \param addr where to place fetched data
@@ -59,15 +58,13 @@ protected:
     ssize_t fetchFromDevice(void* addr, size_t size) { return device_.recv_n(addr, size); }
 
 private:
-    ACE_FILE_IO device_;	///< File device for data fetches
+    ACE_FILE_IO device_; ///< File device for data fetches
 };
 
 /** Device that gets data from a network socket using TCP.
  */
-class TCPSocket
-{
+class TCPSocket {
 public:
-
     /** Constructor for new reader.
      */
     TCPSocket() : device_() {}
@@ -85,7 +82,6 @@ public:
     const ACE_SOCK_Stream& getDevice() const { return device_; }
 
 protected:
-
     /** Obtain data from the device.
 
         \param addr where to place fetched data
@@ -98,15 +94,13 @@ protected:
     ssize_t fetchFromDevice(void* addr, size_t size) { return device_.recv(addr, size); }
 
 private:
-    ACE_SOCK_Stream device_;	///< Socket device for data fetches
+    ACE_SOCK_Stream device_; ///< Socket device for data fetches
 };
 
 /** Device that gets data from a network socket set up for UDP messages.
  */
-class UDPSocket
-{
+class UDPSocket {
 public:
-
     /** Constructor for new reader.
      */
     UDPSocket() : device_(), timeout_(0) {}
@@ -139,7 +133,6 @@ public:
     bool open(const ACE_Addr& address) { return device_.open(address) != -1; }
 
 protected:
-
     /** Obtain data from the device.
 
         \param addr where to place fetched data
@@ -148,21 +141,18 @@ protected:
 
         \return number of bytes fetched if > 0; EOF if == 0; and error condition if < 0
     */
-    ssize_t fetchFromDevice(void* addr, size_t size)
-        { return device_.recv(addr, size, remoteAddress_, 0, timeout_); }
+    ssize_t fetchFromDevice(void* addr, size_t size) { return device_.recv(addr, size, remoteAddress_, 0, timeout_); }
 
 private:
-    ACE_SOCK_Dgram device_;	///< Socket device for data fetches
+    ACE_SOCK_Dgram device_; ///< Socket device for data fetches
     ACE_INET_Addr remoteAddress_;
     const ACE_Time_Value* timeout_;
 };
 
 /** Device that gets data from a network socket set up for multicast UDP messages.
  */
-class MulticastSocket
-{
+class MulticastSocket {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor for new reader.
@@ -189,7 +179,7 @@ public:
 
     /** Set a timeout value for fetches from a UDP socket. Useful when fetchFromDevice() runs a loop in a
         thread, causing recv() to block for a set amount of time before returning with a -1.
-        
+
         \param timeout the amount of time to wait for data
     */
     void setFetchTimeout(const ACE_Time_Value* timeout) { timeout_ = timeout; }
@@ -203,7 +193,6 @@ public:
     bool join(const ACE_INET_Addr& address);
 
 protected:
-
     /** Obtain data from the device.
 
         \param addr where to place fetched data
@@ -212,8 +201,7 @@ protected:
 
         \return number of bytes fetched if > 0; EOF if == 0; and error condition if < 0
     */
-    ssize_t fetchFromDevice(void* addr, size_t size)
-	{ return device_.recv(addr, size, remoteAddress_, 0, timeout_); }
+    ssize_t fetchFromDevice(void* addr, size_t size) { return device_.recv(addr, size, remoteAddress_, 0, timeout_); }
 
 private:
     ACE_SOCK_Dgram_Mcast device_; ///< Socket device for data fetches
@@ -228,14 +216,13 @@ private:
     size in bytes. A reader simply adds incoming bytes to an ACE_Message_Block until the
     ACE_Message_Block::length() == Header::getSize().
 */
-class Reader
-{
+class Reader {
 public:
     using Ref = boost::shared_ptr<Reader>;
 
     /** Obtain the log device to use for log messages.
 
-        \return 
+        \return
     */
     static Logger::Log& Log();
 
@@ -269,10 +256,9 @@ public:
     ACE_Message_Block* getMessage();
 
 protected:
-
     /** Make a complete message available for consumption.
 
-        \param available 
+        \param available
     */
     void setAvailable(ACE_Message_Block* available);
 
@@ -285,13 +271,11 @@ private:
     size in bytes. A reader simply adds incoming bytes to an ACE_Message_Block until the
     ACE_Message_Block::length() == Header::getSize().
 */
-class StreamReader : public Reader
-{
+class StreamReader : public Reader {
 public:
-
     /** Obtain the log device to use for log messages.
 
-        \return 
+        \return
     */
     static Logger::Log& Log();
 
@@ -316,7 +300,6 @@ public:
     void reset();
 
 protected:
-
     /** Prototype of method that fetches data from a device and places it into a specific location.
 
         \param addr where to place fetched data
@@ -328,7 +311,6 @@ protected:
     virtual ssize_t fetchFromDevice(void* addr, size_t size) = 0;
 
 private:
-
     /** Create a new buffer to hold the next message begin built.
 
         \param bufferSize the initial size of the new buffer
@@ -336,8 +318,8 @@ private:
     void makeIncomingBuffer(size_t bufferSize);
 
     ACE_Message_Block* building_; ///< Message being built
-    size_t needed_;		///< Number of bytes in the message body
-    size_t remaining_;		///< Number of bytes remaining to fetch
+    size_t needed_;               ///< Number of bytes in the message body
+    size_t remaining_;            ///< Number of bytes remaining to fetch
     bool needSynch_;
 };
 
@@ -346,14 +328,13 @@ private:
     size in bytes. A reader simply adds incoming bytes to an ACE_Message_Block until the
     ACE_Message_Block::length() == Header::getSize().
 */
-class DatagramReader : public Reader
-{
+class DatagramReader : public Reader {
 public:
     using Ref = boost::shared_ptr<DatagramReader>;
 
     /** Obtain the log device to use for log messages.
 
-        \return 
+        \return
     */
     static Logger::Log& Log();
 
@@ -374,12 +355,11 @@ public:
     bool fetchInput();
 
     /** Reset the stream by discarding any partially-read messages. This is a NOP for this class since datagrams
-	are always read whole.
+        are always read whole.
     */
     void reset() {}
 
 protected:
-
     /** Prototype of method that fetches data from a device and places it into a specific location.
 
         \param addr where to place fetched data
@@ -404,10 +384,9 @@ protected:
     the message data.
 */
 template <typename _R, typename _D>
-class TReader : public _R, public _D
-{
+class TReader : public _R, public _D {
 public:
-    using Ref = boost::shared_ptr<TReader<_R,_D> >;
+    using Ref = boost::shared_ptr<TReader<_R, _D>>;
 
     /** Type of the device providing raw data for this reader. Device must provide a fetchFromDevice() method.
      */
@@ -416,15 +395,13 @@ public:
 
     /** Constructor.
 
-	\param bufferSize starting size for internal read buffer
+        \param bufferSize starting size for internal read buffer
     */
-    TReader(size_t bufferSize)
-	: ReaderType(bufferSize), DeviceType() {}
+    TReader(size_t bufferSize) : ReaderType(bufferSize), DeviceType() {}
 
     int close() { return DeviceType::getDevice().close(); }
 
 protected:
-
     /** Implementation of the MessageReader prototype. Forwards the fetch request to the base device class.
 
         \param addr where to place fetched data
@@ -438,11 +415,10 @@ protected:
 
 /** Reader that obtains raw data from a file device.
  */
-class FileReader : public TReader<StreamReader,ReaderDevices::File>
-{
+class FileReader : public TReader<StreamReader, ReaderDevices::File> {
 public:
     using Ref = boost::shared_ptr<FileReader>;
-    using Super = TReader<StreamReader,ReaderDevices::File>;
+    using Super = TReader<StreamReader, ReaderDevices::File>;
 
     /** Factory method that creates a new FileReader object.
 
@@ -451,26 +427,24 @@ public:
         \return new FileReader object
     */
     static Ref Make(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	{
-	    Ref ref(new FileReader(bufferSize));
-	    return ref;
-	}
+    {
+        Ref ref(new FileReader(bufferSize));
+        return ref;
+    }
 
     /** Constructor for new reader
 
         \param bufferSize starting size of read buffer
     */
-    FileReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	: Super(bufferSize) {}
+    FileReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE) : Super(bufferSize) {}
 };
 
 /** Reader that obtains raw data from a socket device.
  */
-class TCPSocketReader : public TReader<StreamReader,ReaderDevices::TCPSocket>
-{
+class TCPSocketReader : public TReader<StreamReader, ReaderDevices::TCPSocket> {
 public:
     using Ref = boost::shared_ptr<TCPSocketReader>;
-    using Super = TReader<StreamReader,ReaderDevices::TCPSocket>;
+    using Super = TReader<StreamReader, ReaderDevices::TCPSocket>;
 
     /** Factory method that creates a new TCPSocketReader object.
 
@@ -479,61 +453,56 @@ public:
         \return new TCPSocketReader object
     */
     static Ref Make(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	{
-	    Ref ref(new TCPSocketReader(bufferSize));
-	    return ref;
-	}
+    {
+        Ref ref(new TCPSocketReader(bufferSize));
+        return ref;
+    }
 
     /** Constructor for new reader
 
         \param bufferSize starting size for read buffer
     */
-    TCPSocketReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE)
-	: Super(bufferSize) {}
+    TCPSocketReader(size_t bufferSize = ACE_DEFAULT_CDR_BUFSIZE) : Super(bufferSize) {}
 };
 
 /** Reader that obtains raw data from a socket device.
  */
-class UDPSocketReader : public TReader<DatagramReader,ReaderDevices::UDPSocket>
-{
+class UDPSocketReader : public TReader<DatagramReader, ReaderDevices::UDPSocket> {
 public:
     using Ref = boost::shared_ptr<UDPSocketReader>;
-    using Super = TReader<DatagramReader,ReaderDevices::UDPSocket>;
+    using Super = TReader<DatagramReader, ReaderDevices::UDPSocket>;
 
     static Ref Make(size_t bufferSize = 64 * 1024)
-	{
-	    Ref ref(new UDPSocketReader(bufferSize));
-	    return ref;
-	}
+    {
+        Ref ref(new UDPSocketReader(bufferSize));
+        return ref;
+    }
 
     /** Constructor for new reader
 
         \param bufferSize starting size for read buffer
     */
-    UDPSocketReader(size_t bufferSize = 64 * 1024)
-	: Super(bufferSize) {}
+    UDPSocketReader(size_t bufferSize = 64 * 1024) : Super(bufferSize) {}
 };
 
 /** Reader that obtains raw data from a socket device.
  */
-class MulticastSocketReader : public TReader<DatagramReader,ReaderDevices::MulticastSocket>
-{
+class MulticastSocketReader : public TReader<DatagramReader, ReaderDevices::MulticastSocket> {
 public:
     using Ref = boost::shared_ptr<MulticastSocketReader>;
-    using Super = TReader<DatagramReader,ReaderDevices::MulticastSocket>;
+    using Super = TReader<DatagramReader, ReaderDevices::MulticastSocket>;
 
     static Ref Make(size_t bufferSize = 64 * 1024)
-	{
-	    Ref ref(new MulticastSocketReader(bufferSize));
-	    return ref;
-	}
+    {
+        Ref ref(new MulticastSocketReader(bufferSize));
+        return ref;
+    }
 
     /** Constructor for new reader
 
         \param bufferSize starting size for read buffer
     */
-    MulticastSocketReader(size_t bufferSize = 64 * 1024)
-	: Super(bufferSize) {}
+    MulticastSocketReader(size_t bufferSize = 64 * 1024) : Super(bufferSize) {}
 };
 
 } // end namespace IO

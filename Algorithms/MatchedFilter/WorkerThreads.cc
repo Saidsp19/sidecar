@@ -10,16 +10,12 @@ using namespace SideCar::Algorithms::MatchedFilterUtils;
 Logger::Log&
 WorkerThreads::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.Algorithms.MatchedFilter.WorkerThreads");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.Algorithms.MatchedFilter.WorkerThreads");
     return log_;
 }
 
-WorkerThreads::WorkerThreads(Algorithm& algorithm,
-                             WorkRequestQueue& pendingQueue,
-                             WorkRequestQueue& finishedQueue)
-    : Super(0), algorithm_(algorithm), pendingQueue_(pendingQueue),
-      finishedQueue_(finishedQueue)
+WorkerThreads::WorkerThreads(Algorithm& algorithm, WorkRequestQueue& pendingQueue, WorkRequestQueue& finishedQueue) :
+    Super(0), algorithm_(algorithm), pendingQueue_(pendingQueue), finishedQueue_(finishedQueue)
 {
     Logger::ProcLog log("WorkerThreads", Log());
     LOGINFO << std::endl;
@@ -42,8 +38,8 @@ WorkerThreads::svc()
     //
     ACE_Message_Block* data = 0;
     while (pendingQueue_.dequeue_head(data) != -1) {
-	WorkRequest::FromMessageBlock(data)->process();
-	finishedQueue_.enqueue_tail(data);
+        WorkRequest::FromMessageBlock(data)->process();
+        finishedQueue_.enqueue_tail(data);
     }
 
     LOGWARNING << "exiting" << std::endl;

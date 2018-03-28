@@ -12,15 +12,14 @@ namespace GUI {
     Extractions publisher to connect to for data. Most of the work is done from inside the ChannelGroup class;
     this class simply establishes connections between the GUI and the ChannelGroup instances.
 */
-class ChannelSelectorWindow : public ToolWindowBase
-{
+class ChannelSelectorWindow : public ToolWindowBase {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Constructor.
 
-	\param shortcut key sequence to toggle window visibility
+        \param shortcut key sequence to toggle window visibility
     */
     ChannelSelectorWindow(int shortcut);
 

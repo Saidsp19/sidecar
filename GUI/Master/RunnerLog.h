@@ -7,8 +7,12 @@
 
 class QTextDocument;
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -42,38 +46,36 @@ class MainWindow;
     already an active RunnerLog for the Runner's name / configuration
     tuple.
 */
-class RunnerLog : public QObject
-{
+class RunnerLog : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Obtain the log device to use for RunnerLog objects.
 
         \return Log device
     */
     static Logger::Log& Log();
 
-    /** 
+    /**
 
-        \param runnerName 
+        \param runnerName
 
-        \param configName 
+        \param configName
 
-        \return 
+        \return
     */
     static RunnerLog* Find(const QString& serviceName);
 
-    /** 
+    /**
 
-        \param runnerName 
+        \param runnerName
 
-        \param configName 
+        \param configName
 
-        \return 
+        \return
     */
-    static void Make(const QString& name, const QString& configName,
-                     const QString& serviceName);
+    static void Make(const QString& name, const QString& configName, const QString& serviceName);
 
     static void CleanUp();
 
@@ -90,7 +92,6 @@ public slots:
     void showWindow();
 
 private:
-
     /** Add log data to the internal QTextDocument. Scans the added data to see if it contains complete lines
         with a Logger priority value of WARNING or higher. It forwards any such lines found to the applications'
         LogAlertsWindow object.
@@ -101,8 +102,7 @@ private:
 
     /** Constructor. Restrict construction to the Find class method.
      */
-    RunnerLog(const QString& name, const QString& configName,
-              const QString& serviceName);
+    RunnerLog(const QString& name, const QString& configName, const QString& serviceName);
 
     QString name_;
     QString serviceName_;
@@ -115,7 +115,7 @@ private:
     LogAlertsWindow* alertsWindow_;
     MainWindow* mainWindow_;
 
-    using ActiveHash = QHash<QString,RunnerLog*>;
+    using ActiveHash = QHash<QString, RunnerLog*>;
     static ActiveHash active_;
     static int maxBufferSize_;
 };

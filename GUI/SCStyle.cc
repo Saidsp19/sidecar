@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI;
 
-SCStyle::SCStyle()
-    : Super()
+SCStyle::SCStyle() : Super()
 {
     ;
 }

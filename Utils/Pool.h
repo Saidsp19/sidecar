@@ -1,10 +1,10 @@
-#ifndef UTILS_POOL_H		// -*- C++ -*-
+#ifndef UTILS_POOL_H // -*- C++ -*-
 #define UTILS_POOL_H
 
-#include <cstddef>		// for size_t and sizeof
+#include <cstddef> // for size_t and sizeof
 #include <exception>
-#include <new>			// for std::bad_alloc
-#include <stdexcept>		// 
+#include <new>       // for std::bad_alloc
+#include <stdexcept> //
 #include <vector>
 
 namespace Utils {
@@ -30,15 +30,13 @@ namespace Utils {
     Utils::Pool Foo::allocator_(sizeof(Foo), 1000);
     @endcode
 */
-class Pool
-{
+class Pool {
 public:
-
     struct AllocationStats {
-	size_t numBlocks;
-	size_t numAllocated;
-	size_t numInUse;
-	size_t numFree;
+        size_t numBlocks;
+        size_t numAllocated;
+        size_t numInUse;
+        size_t numFree;
     };
 
     /** Control whether release() calls have their address argument validated before being used.
@@ -53,7 +51,7 @@ public:
         equal to the pool size.
 
         \param flag if true, issue warnings
-        
+
         \return previous setting
     */
     static bool SetObjectSizeWarning(bool flag = true);
@@ -101,7 +99,6 @@ public:
     size_t numFree() const throw() { return numAllocated() - numInUse_; }
 
 private:
-
     /** Allocate a new Block object and initialize it.
      */
     void newBlock() throw(std::bad_alloc);
@@ -117,22 +114,22 @@ private:
     /** Simple structure used to link chunks in the free store.
      */
     struct FreeStore {
-	FreeStore* next;	///< Pointer to next item on the free store
+        FreeStore* next; ///< Pointer to next item on the free store
     };
 
-    FreeStore* free_;		///< Address of next chunk of memory to return
-    std::vector<char*> blocks_;	///< Array of allocated memory blocks
+    FreeStore* free_;           ///< Address of next chunk of memory to return
+    std::vector<char*> blocks_; ///< Array of allocated memory blocks
     size_t objectSize_;         ///< Size of object being managed
     size_t chunkSize_;          ///< Byte count for one item
     size_t chunksPerBlock_;     ///< Number of items per memory block
     size_t blockSize_;          ///< Size of memory block allocated by newBlock
-    size_t numInUse_;		///< Number of chunks in use
+    size_t numInUse_;           ///< Number of chunks in use
 
     static bool validateRelease_;
     static bool objectSizeWarning_;
-};				// class Pool
- 
-}				// namespace Utils
+}; // class Pool
+
+} // namespace Utils
 
 /** \file
  */

@@ -21,10 +21,8 @@ namespace MatchedFilterUtils {
 /** Collection of data values that will be used for a windowed SLC processing. Encapsulates the values that must
     not change while in use by a thread.
 */
-class WorkRequest
-{
+class WorkRequest {
 public:
-
     /** Obtain the log device for WorkRequest objects
 
         \return Logger::Log reference
@@ -33,19 +31,18 @@ public:
 
     /** Create a new WorkRequest object with memory provided by an ACE_Message_Block.
 
-        \param enabledSize 
+        \param enabledSize
 
-        \param corrSpan 
+        \param corrSpan
 
-        \return 
+        \return
     */
-    static ACE_Message_Block* Make(VsipComplexVector* txPulseVec,
-                                   int numFFTThreads, int fftSize);
+    static ACE_Message_Block* Make(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize);
 
     /** Dispose of the WorkRequest object held within an ACE_Message_Block, and release the ACE_Message_Block
-	memory.
+        memory.
 
-        \param data 
+        \param data
     */
     static void Destroy(ACE_Message_Block* data);
 
@@ -59,12 +56,11 @@ public:
 
     /** Reconfigure the work request with new values. Reallocates some VSIPL objects.
      */
-    void reconfigure(VsipComplexVector* txPulseVec, int numFFTThreads,
-                     int fftSize);
+    void reconfigure(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize);
 
     /** Initialize a new work request
 
-	\param name the name of the algorithm
+        \param name the name of the algorithm
 
         \param filterStart the first sample to filter
 
@@ -72,23 +68,19 @@ public:
 
         \param main the main message to process
     */
-    void beginRequest(const Messages::Video::Ref& input,
-                      const Messages::Video::Ref& output,
-                      size_t offset);
+    void beginRequest(const Messages::Video::Ref& input, const Messages::Video::Ref& output, size_t offset);
 
     /** Perform the work on the given data.
      */
     void process();
 
 private:
-
     /** Consturctor. Use the Make() factory method to create new WorkRequest objects.
      */
-    WorkRequest(VsipComplexVector* txPulseVec, int numFFTThreads,
-                int fftSize);
+    WorkRequest(VsipComplexVector* txPulseVec, int numFFTThreads, int fftSize);
 
     /** Destructor. Here to keep someone from manually deleting a WorkRequest object; use the Destroy() class
-	method instead.
+        method instead.
     */
     ~WorkRequest();
 
@@ -102,7 +94,7 @@ private:
     boost::scoped_ptr<InvFFT> invFFT_;
 };
 
-} // end namespace WindowedSLCUtils
+} // namespace MatchedFilterUtils
 } // end namespace Algorithms
 } // end namespace SideCar
 

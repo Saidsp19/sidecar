@@ -4,8 +4,7 @@
 
 using namespace SideCar::GUI;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("PeakDetector") {}
 
     void test();

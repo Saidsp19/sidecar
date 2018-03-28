@@ -3,7 +3,9 @@
 
 #include "GUI/AppBase.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,12 +18,11 @@ class MainWindow;
 
 /** Application class definition.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Log device to use for App log messages.
 
         \return Log device
@@ -43,7 +44,6 @@ public:
     App(int& argc, char** argv);
 
 private:
-
     /** Override of AppBase method. Create a MainWindow object after the applicadtion has finished starting up.
 
         \return new MainWindow object
@@ -51,7 +51,7 @@ private:
     MainWindowBase* makeNewMainWindow(const QString& objectName);
 };
 
-} // end namespace Spectrum
+} // namespace TestBed
 } // end namespace GUI
 } // end namespace SideCar
 

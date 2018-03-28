@@ -5,10 +5,14 @@
 #include "QtCore/QString"
 #include "QtCore/QVariant"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace IO { class StatusBase; }
+namespace IO {
+class StatusBase;
+}
 namespace GUI {
 namespace Master {
 
@@ -18,10 +22,8 @@ namespace Master {
     a new one and register it with the class formatters_ attribute, Otherwise, Find() returns the
     already-registered object.
 */
-class InfoFormatter
-{
+class InfoFormatter {
 public:
-
     /** Obtain log device for InfoFormatter objects
 
         \return log device reference
@@ -45,18 +47,17 @@ public:
 
     /** Obtain formatting information for status information in a IO::StatusBase object.
 
-        \param status 
+        \param status
 
-        \param role 
+        \param role
 
-        \return 
+        \return
     */
     QVariant format(const IO::StatusBase& status, int role);
 
     void release();
 
 private:
-
     using Formatter = char* (*)(const IO::StatusBase&, int);
 
     InfoFormatter(const QString& name, Formatter formatter);
@@ -65,8 +66,8 @@ private:
     Formatter formatter_;
     size_t useCount_;
 
-    using InfoFormatterHash = QHash<QString,InfoFormatter*>;
-    static InfoFormatterHash formatters_; 
+    using InfoFormatterHash = QHash<QString, InfoFormatter*>;
+    static InfoFormatterHash formatters_;
 };
 
 } // end namespace Master

@@ -12,8 +12,7 @@ namespace ZeroconfMonitor {
 
 class Browser;
 
-class BrowserWidget : public QListWidget
-{
+class BrowserWidget : public QListWidget {
     Q_OBJECT
 public:
     BrowserWidget(QWidget* parent = 0);

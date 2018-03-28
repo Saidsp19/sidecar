@@ -12,15 +12,11 @@ ChannelMenu::Log()
     return log_;
 }
 
-ChannelMenu::ChannelMenu(ChannelSetting* setting, QWidget* parent)
-    : Super(parent), setting_(setting), names_()
+ChannelMenu::ChannelMenu(ChannelSetting* setting, QWidget* parent) : Super(parent), setting_(setting), names_()
 {
-    connect(this, SIGNAL(triggered(QAction*)),
-            SLOT(itemSelected(QAction*)));
-    connect(setting, SIGNAL(availableChannels(const QList<QString>&)),
-            SLOT(setChannelNames(const QList<QString>&)));
-    connect(setting, SIGNAL(valueChanged(const QString&)),
-            SLOT(setActive(const QString&)));
+    connect(this, SIGNAL(triggered(QAction*)), SLOT(itemSelected(QAction*)));
+    connect(setting, SIGNAL(availableChannels(const QList<QString>&)), SLOT(setChannelNames(const QList<QString>&)));
+    connect(setting, SIGNAL(valueChanged(const QString&)), SLOT(setActive(const QString&)));
     addAction(" ");
 }
 
@@ -34,11 +30,11 @@ ChannelMenu::setChannelNames(const QList<QString>& names)
 
     QString active = setting_->getValue();
     for (int index = 0; index < names.size(); ++index) {
-	const QString& name(names[index]);
-	LOGDEBUG << "adding " << name << std::endl;
-	QAction* action = addAction(names[index]);
-	action->setCheckable(true);
-	action->setChecked(active == name);
+        const QString& name(names[index]);
+        LOGDEBUG << "adding " << name << std::endl;
+        QAction* action = addAction(names[index]);
+        action->setCheckable(true);
+        action->setChecked(active == name);
     }
 
     names_ = names;
@@ -49,10 +45,8 @@ ChannelMenu::itemSelected(QAction* action)
 {
     Logger::ProcLog log("itemSelected", Log());
     LOGINFO << "action: " << action->text() << std::endl;
-    if (! names_.empty()) {
-	if (action->text() != setting_->getValue()) {
-	    setting_->setValue(action->text());
-	}
+    if (!names_.empty()) {
+        if (action->text() != setting_->getValue()) { setting_->setValue(action->text()); }
     }
 }
 
@@ -62,7 +56,5 @@ ChannelMenu::setActive(const QString& channelName)
     Logger::ProcLog log("setActive", Log());
     LOGINFO << "channelName: " << channelName << std::endl;
     QList<QAction*> acts = actions();
-    for (int index = 0; index < acts.size(); ++index) {
-	acts[index]->setChecked(acts[index]->text() == channelName);
-    }
+    for (int index = 0; index < acts.size(); ++index) { acts[index]->setChecked(acts[index]->text() == channelName); }
 }

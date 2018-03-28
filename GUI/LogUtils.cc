@@ -6,7 +6,8 @@
 
 #include "LogUtils.h"
 
-std::string SideCar::GUI::GetOpenGLErrorString(int glErr)
+std::string
+SideCar::GUI::GetOpenGLErrorString(int glErr)
 {
     switch (glErr) {
     case GL_NO_ERROR: return "None";

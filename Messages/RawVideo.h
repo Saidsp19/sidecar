@@ -4,15 +4,16 @@
 #include "Messages/PRIMessage.h"
 #include "Messages/VMEHeader.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
 
 class Video;
 
-class RawVideo : public Header
-{
+class RawVideo : public Header {
 public:
     using Super = Header;
     using Ref = boost::shared_ptr<RawVideo>;
@@ -29,7 +30,7 @@ public:
 
         \param producer name of the entity that is creating the new object
 
-	\param raw data block containing the raw data from a VME system
+        \param raw data block containing the raw data from a VME system
 
         \return reference to new RawVideo object
     */
@@ -38,7 +39,7 @@ public:
     /** Class factory that creates new reference-counted RawVideo message objects using data from an input CDR
         stream.
 
-	\param cdr input CDR stream to read from
+        \param cdr input CDR stream to read from
 
         \return reference to new RawVideo object
     */
@@ -84,17 +85,16 @@ public:
     std::ostream& printData(std::ostream& os) const;
 
 private:
-
     /** Constructor for new RawVideo message.
 
         \param producer name of the entity that created the message
 
         \param raw data block containing raw VME data.
     */
-    RawVideo(const std::string& producer, ACE_Message_Block* raw,
-             MetaTypeInfo::SequenceType sequenceNumber)
-	: Super(producer, GetMetaTypeInfo(), Ref(), sequenceNumber),
-	  raw_(raw) {}
+    RawVideo(const std::string& producer, ACE_Message_Block* raw, MetaTypeInfo::SequenceType sequenceNumber) :
+        Super(producer, GetMetaTypeInfo(), Ref(), sequenceNumber), raw_(raw)
+    {
+    }
 
     /** Constructor for RawVideo messages that will be filled in with data from a CDR stream.
      */

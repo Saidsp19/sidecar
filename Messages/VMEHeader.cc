@@ -44,7 +44,7 @@ VMEHeader::print(std::ostream& os) const
     return os << "Size: " << msgSize << " Desc: " << std::hex << msgDesc << std::dec << ' '
               << ((msgDesc & kEndianessMask) ? 1 : 0) << ("SCRIU"[getFormat()]) << " 80Mhz: " << timeStamp
               << " AZ: " << azimuth << " PRI: " << pri << " IRIG: " << std::setprecision(16) << irigTime;
-}    
+}
 
 std::string
 VMEHeader::getFormattedIRIGTime()

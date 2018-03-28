@@ -1,8 +1,7 @@
-#include "UnitTest/UnitTest.h"
 #include "Pool.h"
+#include "UnitTest/UnitTest.h"
 
-struct Small
-{
+struct Small {
     Small(char z) : a(z) {}
 
     static void* operator new(size_t size);
@@ -16,16 +15,18 @@ Utils::Pool Small::pool_(sizeof(Small), 3);
 
 void*
 Small::operator new(size_t size)
-{ return pool_.allocate(size); }
+{
+    return pool_.allocate(size);
+}
 
 void
 Small::operator delete(void* ptr, size_t size)
-{ pool_.release(ptr, size); }
-
-struct Large
 {
-    Large(int w, double x, bool y, float z)
-	: a(w), b(x), c(y), d(z) {}
+    pool_.release(ptr, size);
+}
+
+struct Large {
+    Large(int w, double x, bool y, float z) : a(w), b(x), c(y), d(z) {}
 
     int a;
     double b;
@@ -41,19 +42,22 @@ Utils::Pool Large::pool_(sizeof(Large), 5);
 
 void*
 Large::operator new(size_t size)
-{ return pool_.allocate(size); }
+{
+    return pool_.allocate(size);
+}
 
 void
 Large::operator delete(void* ptr, size_t size)
-{ pool_.release(ptr, size); }
-
-struct TestPool : public UnitTest::ProcSuite<TestPool>
 {
+    pool_.release(ptr, size);
+}
+
+struct TestPool : public UnitTest::ProcSuite<TestPool> {
     TestPool() : UnitTest::ProcSuite<TestPool>(this, "Pool")
-	{
-	    add("Small", &TestPool::testSmall);
-	    add("Large", &TestPool::testLarge);
-	}
+    {
+        add("Small", &TestPool::testSmall);
+        add("Large", &TestPool::testLarge);
+    }
 
     void testSmall();
     void testLarge();
@@ -110,8 +114,7 @@ TestPool::testSmall()
     assertEqual(size_t(6), Small::pool_.numAllocated());
     assertEqual(size_t(2), Small::pool_.numBlocks());
 
-    for (int i = 0; i < 10000; ++i)
-	new Small('z');
+    for (int i = 0; i < 10000; ++i) new Small('z');
 
     assertEqual(size_t(1), Small::pool_.numFree());
     assertEqual(size_t(10005), Small::pool_.numAllocated());

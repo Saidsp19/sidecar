@@ -11,26 +11,30 @@
 #include "GUI/QtMonitor.h"
 #include "Messages/MetaTypeInfo.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Zeroconf { class Browser; class ServiceEntry; class ResolvedEntry; }
+namespace Zeroconf {
+class Browser;
+class ServiceEntry;
+class ResolvedEntry;
+} // namespace Zeroconf
 namespace GUI {
 
 class ServiceEntry;
-using ServiceEntryHash = QHash<QString,ServiceEntry*>;
+using ServiceEntryHash = QHash<QString, ServiceEntry*>;
 using ServiceEntryList = QList<ServiceEntry*>;
 
 /** A refined Zeroconf browser for use by Qt widgets. Keeps track of the active services, represented by
     ServiceEntry objects. Users can obtain found ServiceEntry objects by name.
 */
-class ServiceBrowser : public QObject
-{
+class ServiceBrowser : public QObject {
     Q_OBJECT
 public:
-
     /** The following typedefs appear here so that we do not have to include Zeroconf/Browser.h, which also
-	includes boost/signal.hpp, which has problems with QT includes.
+        includes boost/signal.hpp, which has problems with QT includes.
     */
     using ZCBrowserRef = boost::shared_ptr<Zeroconf::Browser>;
     using ZCServiceEntryRef = boost::shared_ptr<Zeroconf::ServiceEntry>;
@@ -59,7 +63,7 @@ public:
     /** Stop the browser.
      */
     void stop();
-    
+
     /** Obtain a ServiceEntry object under a given name.
 
         \param name the name of the ServiceEntry to look for
@@ -71,13 +75,13 @@ public:
     const QString& getType() const { return type_; }
 
 signals:
-    
+
     /** Notification sent out when the set of active services changes.
 
         \param found collection of active services
     */
     void availableServices(const ServiceEntryHash& found);
-    
+
     /** Notification sent out when there are new services.
 
         \param found collection of new services
@@ -91,7 +95,6 @@ signals:
     void lostServices(const ServiceEntryList& lost);
 
 private:
-
     /** Notification handler for the Zeroconf::Browser::found() signal.
 
         \param browser the object sending the found() signal

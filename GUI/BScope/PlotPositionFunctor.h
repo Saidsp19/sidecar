@@ -9,13 +9,11 @@ namespace BScope {
 
 class ViewSettings;
 
-class PlotPositionFunctor : public ::SideCar::GUI::PlotPositionFunctor
-{
+class PlotPositionFunctor : public ::SideCar::GUI::PlotPositionFunctor {
     using Super = ::SideCar::GUI::PlotPositionFunctor;
-public:
 
-    PlotPositionFunctor(ViewSettings& viewSettings)
-	: Super(), viewSettings_(viewSettings) {}
+public:
+    PlotPositionFunctor(ViewSettings& viewSettings) : Super(), viewSettings_(viewSettings) {}
 
     Vertex getPosition(const TargetPlot& plot) const;
 

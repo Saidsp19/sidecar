@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -13,10 +13,9 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-Delay::Delay(Controller& controller, Logger::Log& log)
-    : Super(controller, log), buffer_(),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      delay_(Parameter::PositiveIntValue::Make("delay", "# of messages to delay by", kDefaultDelay))
+Delay::Delay(Controller& controller, Logger::Log& log) :
+    Super(controller, log), buffer_(), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    delay_(Parameter::PositiveIntValue::Make("delay", "# of messages to delay by", kDefaultDelay))
 {
     ;
 }
@@ -31,12 +30,10 @@ Delay::startup()
     const IO::Channel& channel(getController().getInputChannel(0));
 
     if (channel.getTypeKey() == Messages::Video::GetMetaTypeInfo().getKey()) {
-        registerProcessor<Delay,Messages::Video>(&Delay::processInputVideo);
-    }
-    else if (channel.getTypeKey() == Messages::BinaryVideo::GetMetaTypeInfo().getKey()) {
-        registerProcessor<Delay,Messages::BinaryVideo>(&Delay::processInputBinary);
-    }
-    else {
+        registerProcessor<Delay, Messages::Video>(&Delay::processInputVideo);
+    } else if (channel.getTypeKey() == Messages::BinaryVideo::GetMetaTypeInfo().getKey()) {
+        registerProcessor<Delay, Messages::BinaryVideo>(&Delay::processInputBinary);
+    } else {
         return false;
     }
 
@@ -59,9 +56,7 @@ Delay::processInputVideo(const Messages::Video::Ref& msg)
     // Perform delay operation and check for processing conditions
     //
     buffer_.push_back(msg);
-    if (buffer_.size() < size_t(delay_->getValue())) {
-	return true;
-    }
+    if (buffer_.size() < size_t(delay_->getValue())) { return true; }
 
     // Get the delayed message
     //
@@ -70,17 +65,17 @@ Delay::processInputVideo(const Messages::Video::Ref& msg)
     // Create output message's header based on newly arrived message
     //
     Messages::Video::Ref out = Messages::Video::Make(getName(), msg);
-  
+
     // Copy delayed data into new message
     //
     out->getData() = ref->getData();
-  
+
     // Pop off old message
     //
     buffer_.pop_front();
 
     bool rc = send(out);
-  
+
     return rc;
 }
 
@@ -92,9 +87,7 @@ Delay::processInputBinary(const Messages::BinaryVideo::Ref& msg)
     // Perform delay operation and check for processing conditions
     //
     buffer_.push_back(msg);
-    if(buffer_.size() < size_t(delay_->getValue())) {
-	return true;
-    }
+    if (buffer_.size() < size_t(delay_->getValue())) { return true; }
 
     // Get the delayed message
     //
@@ -102,12 +95,12 @@ Delay::processInputBinary(const Messages::BinaryVideo::Ref& msg)
 
     // Create output message's header based on newly arrived message
     //
-    Messages::BinaryVideo::Ref out = Messages::BinaryVideo::Make(getName(), msg); 
+    Messages::BinaryVideo::Ref out = Messages::BinaryVideo::Make(getName(), msg);
 
     // Copy delayed data into new message
     //
     out->getData() = ref->getData();
- 
+
     // Pop off old message
     //
     buffer_.pop_front();
@@ -127,7 +120,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[Delay::kEnabled]) return  Algorithm::FormatInfoValue("Disabled");
+    if (!status[Delay::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

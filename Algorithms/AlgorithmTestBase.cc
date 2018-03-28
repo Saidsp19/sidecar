@@ -14,10 +14,12 @@
 using namespace SideCar::Algorithms;
 
 TestBase::TestBase(const std::string& algo, const std::string& inputType, const std::string& outputType,
-                   int messageLimit)
-    : algo_(algo), inputType_(inputType), outputType_(outputType), messageCounter_(0),
-      messageLimit_(messageLimit), alwaysFail_(false), log_(Logger::Log::Find(algo + "Test"))
-{}
+                   int messageLimit) :
+    algo_(algo),
+    inputType_(inputType), outputType_(outputType), messageCounter_(0), messageLimit_(messageLimit), alwaysFail_(false),
+    log_(Logger::Log::Find(algo + "Test"))
+{
+}
 
 bool
 Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
@@ -33,7 +35,7 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
             ACE_Reactor::instance()->end_reactor_event_loop();
         }
     }
-    
+
     return true;
 }
 
@@ -92,23 +94,23 @@ TestBase::test()
 void
 TestBase::configureAlgorithm(const Controller::Ref& controller)
 {
-    Clamp* alg = dynamic_cast<Clamp*>(controller->getAlgorithm());
-    assertTrue(alg);
-    alg->setRange(kMin, kMax);
+  Clamp* alg = dynamic_cast<Clamp*>(controller->getAlgorithm());
+  assertTrue(alg);
+  alg->setRange(kMin, kMax);
 }
 
 void
 TestBase::injectMessages(const Controller::Ref& controller)
 {
-    for (int messageCounter = 0; messageCounter < kMaxMessageCount; ++messageCounter) {
-	VMEDataMessage vme;
-	vme.header.azimuth = 0;
-	vme.header.pri = messageCounter;
-	Video::Ref main(Video::Make("test", vme, kMessageSize));
-	for (int index = 0; index < kMessageSize; ++index)
-	    main->push_back(index - kMessageSize + messageCounter);
-	assertTrue(controller->putInChannel(main, 0));
-    }
+  for (int messageCounter = 0; messageCounter < kMaxMessageCount; ++messageCounter) {
+    VMEDataMessage vme;
+    vme.header.azimuth = 0;
+    vme.header.pri = messageCounter;
+    Video::Ref main(Video::Make("test", vme, kMessageSize));
+    for (int index = 0; index < kMessageSize; ++index)
+      main->push_back(index - kMessageSize + messageCounter);
+    assertTrue(controller->putInChannel(main, 0));
+  }
 
 
 }
@@ -116,24 +118,24 @@ TestBase::injectMessages(const Controller::Ref& controller)
 bool
 Test::testOutput(const Video::Ref& msg)
 {
-    assertEqual(size_t(kMessageSize), msg->size());
-    for (int index = 0; index < msg->size(); ++index) {
+  assertEqual(size_t(kMessageSize), msg->size());
+  for (int index = 0; index < msg->size(); ++index) {
 
-	// Calculate what the clamped values should be and compare.
-	//
-	int v = index - kMessageSize + messageCounter_;
-	if (v < kMin) v = kMin;
-	else if (v > kMax) v = kMax;
-	assertEqual(v, msg[index]);
-    }
+    // Calculate what the clamped values should be and compare.
+    //
+    int v = index - kMessageSize + messageCounter_;
+    if (v < kMin) v = kMin;
+    else if (v > kMax) v = kMax;
+    assertEqual(v, msg[index]);
+  }
 
-    return ++messageCounter_ == kMaxMessageCount;
+  return ++messageCounter_ == kMaxMessageCount;
 }
 
 int
 main(int argc, const char* argv[])
 {
-    return Test().mainRun();
+  return Test().mainRun();
 }
 
 #endif

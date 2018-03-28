@@ -1,4 +1,4 @@
-#ifndef TESTRESULT_H		// -*- C++ -*-
+#ifndef TESTRESULT_H // -*- C++ -*-
 #define TESTRESULT_H
 
 #include <iosfwd>
@@ -7,22 +7,18 @@
 
 #include "UnitTest/TestObj.h"
 
-namespace UnitTest 
-{
+namespace UnitTest {
 
 /** Records statistics for all unit tests run. If any unit test throws an exception, we keep a copy of it. There
     are two types of exceptions covered: failures (represented by TestException exceptions) and errors (caused
     by anything else). The former represents a unit test that failed to pass, whereas the latter represents a
     problem running the test.
 */
-class RunResults
-{
+class RunResults {
 public:
-    
     /** Default constructor.
      */
-    RunResults() throw()
-    : oks_(), errs_(), fails_(), stopped_(false) {}
+    RunResults() throw() : oks_(), errs_(), fails_(), stopped_(false) {}
 
     /** Add a test name that passed.
 
@@ -52,12 +48,12 @@ public:
 
     /** \return the number of unit tests that failed to pass.
      */
-    int numFailures() const throw(){ return fails_.size(); }
-    
+    int numFailures() const throw() { return fails_.size(); }
+
     /** \return count of unit tests that did not pass. This is the sum of numErrors and numFailures.
      */
     int numBad() const throw() { return numErrors() + numFailures(); }
-    
+
     /** \return true if all unit tests passed (numBad() == 0)
      */
     bool passed() const throw() { return numBad() == 0; }
@@ -66,7 +62,7 @@ public:
 
         \return true if any errors or failures
     */
-    operator bool() const throw() { return ! passed(); }
+    operator bool() const throw() { return !passed(); }
 
     /** \return true if asked to stop running.
      */
@@ -89,8 +85,8 @@ public:
     std::ostream& printXML(std::ostream& os) const throw();
 
 private:
-    std::vector<std::string> oks_; ///< Names of tests that passed
-    std::vector<UnitTestException> errs_; ///< Array of exceptions encountered
+    std::vector<std::string> oks_;         ///< Names of tests that passed
+    std::vector<UnitTestException> errs_;  ///< Array of exceptions encountered
     std::vector<UnitTestException> fails_; ///< Array of failed tests encountered
     bool stopped_;                         ///< True if unit testing is being stopped
 };
@@ -99,9 +95,12 @@ private:
    Utility function to output formatted stats to the given output stream.
 */
 inline std::ostream&
-operator<<(std::ostream& os, const RunResults& rr) throw() { return rr.printText(os); }
+operator<<(std::ostream& os, const RunResults& rr) throw()
+{
+    return rr.printText(os);
+}
 
-}				// namespace UnitTest
+} // namespace UnitTest
 
 /** \file
  */

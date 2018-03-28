@@ -7,19 +7,18 @@
 namespace SideCar {
 namespace GUI {
 
-class CLUTSetting : public QComboBoxSetting
-{
+class CLUTSetting : public QComboBoxSetting {
     Q_OBJECT
     using Super = QComboBoxSetting;
-public:
 
+public:
     /** Constructor
 
-        \param mgr 
+        \param mgr
 
-        \param widget 
+        \param widget
 
-        \param global 
+        \param global
     */
     CLUTSetting(PresetManager* mgr, QComboBox* widget, bool global = false);
 

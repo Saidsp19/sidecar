@@ -1,15 +1,13 @@
-#ifndef CUSTOMWIDGETPLUGIN_H	// -*- C++ -*-
+#ifndef CUSTOMWIDGETPLUGIN_H // -*- C++ -*-
 #define CUSTOMWIDGETPLUGIN_H
 
 #include "QtDesigner/QDesignerCustomWidgetInterface"
 
-class SquareButtonPlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class SquareButtonPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT;
     Q_INTERFACES(QDesignerCustomWidgetInterface);
 
 public:
-
     SquareButtonPlugin(QObject* parent = 0);
 
     bool isContainer() const;
@@ -30,7 +28,7 @@ public:
 
     QString whatsThis() const;
 
-    QWidget *createWidget(QWidget* parent);
+    QWidget* createWidget(QWidget* parent);
 
     void initialize(QDesignerFormEditorInterface* core);
 

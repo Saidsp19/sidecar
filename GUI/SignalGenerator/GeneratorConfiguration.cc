@@ -12,11 +12,9 @@
 
 using namespace SideCar::GUI::SignalGenerator;
 
-GeneratorConfiguration::GeneratorConfiguration(double sampleFrequency)
-    : Super(), gui_(new Ui::GeneratorConfiguration),
-      sampleFrequency_(sampleFrequency), amplitude_(0.0),
-      phaseOffset_(1.0), counter_(0), enabled_(true),
-      selected_(QColor(203, 255, 102)), unselected_()
+GeneratorConfiguration::GeneratorConfiguration(double sampleFrequency) :
+    Super(), gui_(new Ui::GeneratorConfiguration), sampleFrequency_(sampleFrequency), amplitude_(0.0),
+    phaseOffset_(1.0), counter_(0), enabled_(true), selected_(QColor(203, 255, 102)), unselected_()
 {
     gui_->setupUi(this);
     on_frequency__valueChanged(gui_->frequency_->value());
@@ -27,18 +25,15 @@ GeneratorConfiguration::GeneratorConfiguration(double sampleFrequency)
     initialize();
 }
 
-GeneratorConfiguration::GeneratorConfiguration(GeneratorConfiguration* basis)
-    : Super(), gui_(new Ui::GeneratorConfiguration),
-      sampleFrequency_(basis->sampleFrequency_),
-      amplitude_(basis->amplitude_), phaseOffset_(basis->phaseOffset_),
-      dcOffset_(basis->dcOffset_),
-      complexValueType_(basis->complexValueType_), counter_(0),
-      enabled_(true), selected_(QColor(203, 255, 102)), unselected_()
+GeneratorConfiguration::GeneratorConfiguration(GeneratorConfiguration* basis) :
+    Super(), gui_(new Ui::GeneratorConfiguration), sampleFrequency_(basis->sampleFrequency_),
+    amplitude_(basis->amplitude_), phaseOffset_(basis->phaseOffset_), dcOffset_(basis->dcOffset_),
+    complexValueType_(basis->complexValueType_), counter_(0), enabled_(true), selected_(QColor(203, 255, 102)),
+    unselected_()
 {
     gui_->setupUi(this);
     gui_->frequency_->setValue(basis->gui_->frequency_->value());
-    gui_->frequencyScale_->setCurrentIndex(
-	basis->gui_->frequencyScale_->currentIndex());
+    gui_->frequencyScale_->setCurrentIndex(basis->gui_->frequencyScale_->currentIndex());
     gui_->amplitude_->setValue(basis->gui_->amplitude_->value());
     gui_->amplitudeValue_->setText(basis->gui_->amplitudeValue_->text());
     gui_->phaseOffset_->setValue(basis->gui_->phaseOffset_->value());
@@ -56,8 +51,7 @@ GeneratorConfiguration::initialize()
     gui_->amplitude_->installEventFilter(this);
     gui_->phaseOffset_->installEventFilter(this);
     calculateRadiansPerSample();
-    connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)),
-            SLOT(focusChanged(QWidget*, QWidget*)));
+    connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), SLOT(focusChanged(QWidget*, QWidget*)));
     unselected_ = palette().color(QPalette::Active, QPalette::Window);
     setAutoFillBackground(true);
     setBackgroundRole(QPalette::Window);
@@ -67,13 +61,11 @@ void
 GeneratorConfiguration::restoreFromSettings(QSettings& settings)
 {
     gui_->frequency_->setValue(settings.value("Frequency").toInt());
-    gui_->frequencyScale_->setCurrentIndex(
-	settings.value("FrequencyScale").toInt());
+    gui_->frequencyScale_->setCurrentIndex(settings.value("FrequencyScale").toInt());
     gui_->amplitude_->setValue(settings.value("Amplitude").toInt());
     gui_->phaseOffset_->setValue(settings.value("PhaseOffset").toInt());
     gui_->dcOffset_->setValue(settings.value("DCOffset").toDouble());
-    gui_->complexValue_->setCurrentIndex(
-	settings.value("ComplexValue").toInt());
+    gui_->complexValue_->setCurrentIndex(settings.value("ComplexValue").toInt());
     gui_->enabled_->setChecked(settings.value("Enabled", true).toBool());
 }
 
@@ -81,8 +73,7 @@ void
 GeneratorConfiguration::saveToSettings(QSettings& settings) const
 {
     settings.setValue("Frequency", gui_->frequency_->value());
-    settings.setValue("FrequencyScale",
-                      gui_->frequencyScale_->currentIndex());
+    settings.setValue("FrequencyScale", gui_->frequencyScale_->currentIndex());
     settings.setValue("Amplitude", gui_->amplitude_->value());
     settings.setValue("PhaseOffset", gui_->phaseOffset_->value());
     settings.setValue("DCOffset", gui_->dcOffset_->value());
@@ -93,8 +84,7 @@ GeneratorConfiguration::saveToSettings(QSettings& settings) const
 double
 GeneratorConfiguration::getNextValue()
 {
-    return ::sin(radiansPerSample_ * counter_++ +
-                 phaseOffset_) * amplitude_ + dcOffset_;
+    return ::sin(radiansPerSample_ * counter_++ + phaseOffset_) * amplitude_ + dcOffset_;
 }
 
 void
@@ -102,9 +92,7 @@ GeneratorConfiguration::normalAddTo(AmplitudeVector& buffer)
 {
     AmplitudeVector::iterator pos = buffer.begin();
     AmplitudeVector::iterator end = buffer.end();
-    while (pos < end) {
-	*pos++ += getNextValue();
-    }
+    while (pos < end) { *pos++ += getNextValue(); }
 }
 
 void
@@ -113,19 +101,17 @@ GeneratorConfiguration::complexAddTo(AmplitudeVector& buffer)
     AmplitudeVector::iterator pos = buffer.begin();
     AmplitudeVector::iterator end = buffer.end();
     if (complexValueType_ == kIandQ) {
-	while (pos < end) {
-	    double value = getNextValue();
-	    *pos++ += value;
-	    *pos++ += value;
-	}
-    }
-    else {
-	if (complexValueType_ == kQ)
-	    ++pos;
-	while (pos < end) {
-	    *pos += getNextValue();
-	    pos += 2;
-	}
+        while (pos < end) {
+            double value = getNextValue();
+            *pos++ += value;
+            *pos++ += value;
+        }
+    } else {
+        if (complexValueType_ == kQ) ++pos;
+        while (pos < end) {
+            *pos += getNextValue();
+            pos += 2;
+        }
     }
 }
 
@@ -146,8 +132,7 @@ GeneratorConfiguration::calculateRadiansPerSample()
 void
 GeneratorConfiguration::notify()
 {
-    if (enabled_)
-	emit configurationChanged();
+    if (enabled_) emit configurationChanged();
 }
 
 void
@@ -171,8 +156,8 @@ GeneratorConfiguration::on_amplitude__valueChanged(int value)
     double amplitude = double(value) / 100.0;
     gui_->amplitudeValue_->setNum(amplitude);
     if (amplitude_ != amplitude) {
-	amplitude_ = amplitude;
-	notify();
+        amplitude_ = amplitude;
+        notify();
     }
 }
 
@@ -181,11 +166,10 @@ GeneratorConfiguration::on_phaseOffset__valueChanged(int value)
 {
     double phaseOffset = double(value) / 100.0 * M_PI * 2.0;
     gui_->phaseOffsetValue_->setText(
-	QString::number(Utils::radiansToDegrees(phaseOffset), 'f', 1)
-	.append(GUI::DegreeSymbol()));
+        QString::number(Utils::radiansToDegrees(phaseOffset), 'f', 1).append(GUI::DegreeSymbol()));
     if (phaseOffset_ != phaseOffset) {
-	phaseOffset_ = phaseOffset;
-	notify();
+        phaseOffset_ = phaseOffset;
+        notify();
     }
 }
 
@@ -193,18 +177,17 @@ void
 GeneratorConfiguration::on_dcOffset__valueUpdated(double dcOffset)
 {
     if (dcOffset_ != dcOffset) {
-	dcOffset_ = dcOffset;
-	notify();
+        dcOffset_ = dcOffset;
+        notify();
     }
 }
 
 void
-GeneratorConfiguration::on_complexValue__currentIndexChanged(
-    int complexValueType)
+GeneratorConfiguration::on_complexValue__currentIndexChanged(int complexValueType)
 {
     if (complexValueType_ != ComplexValueType(complexValueType)) {
-	complexValueType_ = ComplexValueType(complexValueType);
-	notify();
+        complexValueType_ = ComplexValueType(complexValueType);
+        notify();
     }
 }
 
@@ -212,24 +195,22 @@ void
 GeneratorConfiguration::on_enabled__toggled(bool state)
 {
     if (enabled_ != state) {
-	enabled_ = state;
-	emit configurationChanged();
+        enabled_ = state;
+        emit configurationChanged();
     }
 }
 
 double
 GeneratorConfiguration::getSignalFrequency() const
 {
-    return ::pow(10.0, gui_->frequencyScale_->currentIndex() * 3.0) *
-	gui_->frequency_->value();
+    return ::pow(10.0, gui_->frequencyScale_->currentIndex() * 3.0) * gui_->frequency_->value();
 }
 
 void
 GeneratorConfiguration::setSelected(bool selected)
 {
     QPalette p(palette());
-    p.setColor(QPalette::Active, QPalette::Window,
-               selected ? selected_ : unselected_);
+    p.setColor(QPalette::Active, QPalette::Window, selected ? selected_ : unselected_);
     setPalette(p);
     update();
 }
@@ -243,50 +224,36 @@ GeneratorConfiguration::mousePressEvent(QMouseEvent* event)
 void
 GeneratorConfiguration::focusChanged(QWidget* old, QWidget* now)
 {
-    if (! isAncestorOf(old) && isAncestorOf(now)) {
-	emit activeConfiguration(this);
-    }
+    if (!isAncestorOf(old) && isAncestorOf(now)) { emit activeConfiguration(this); }
 }
 
 bool
 GeneratorConfiguration::eventFilter(QObject* obj, QEvent* event)
 {
-    if (event->type() == QEvent::MouseButtonPress ||
-        event->type() == QEvent::MouseButtonRelease) {
-	QInputEvent* inputEvent = static_cast<QInputEvent*>(event);
+    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
+        QInputEvent* inputEvent = static_cast<QInputEvent*>(event);
 
-	if (inputEvent->modifiers() & Qt::ControlModifier) {
-	    if (event->type() == QEvent::MouseButtonPress) return true;
-	    QDial* w = qobject_cast<QDial*>(obj);
-	    if (w->objectName() == "frequency_") {
-		int value = w->value();
-		bool ok = false;
-		value = QInputDialog::getInteger(w, "Frequency", "Frequency",
-                                                 value, 1, 999, 10, &ok);
-		if (ok) {
-		    w->setValue(value);
-		}
-	    }
-	    else if (w->objectName() == "amplitude_") {
-		double value = w->value() / 100.0;
-		bool ok = false;
-		value = QInputDialog::getDouble(w, "Amplitude", "Amplitude",
-                                                value, 0.0, 1.0, 2, &ok);
-		if (ok) {
-		    w->setValue(int(::rint(value * 100)));
-		}
-	    }
-	    else if (w->objectName() == "phaseOffset_") {
-		double value = w->value() / 50.0 * 180.0;
-		bool ok = false;
-		value = QInputDialog::getDouble(w, "Phase", "Phase",
-                                                value, -180.0, 180.0, 2, &ok);
-		if (ok) {
-		    w->setValue(int(::rint(value / 180.0 * 50.0)));
-		}
-	    }
-	    return true;
-	}
+        if (inputEvent->modifiers() & Qt::ControlModifier) {
+            if (event->type() == QEvent::MouseButtonPress) return true;
+            QDial* w = qobject_cast<QDial*>(obj);
+            if (w->objectName() == "frequency_") {
+                int value = w->value();
+                bool ok = false;
+                value = QInputDialog::getInteger(w, "Frequency", "Frequency", value, 1, 999, 10, &ok);
+                if (ok) { w->setValue(value); }
+            } else if (w->objectName() == "amplitude_") {
+                double value = w->value() / 100.0;
+                bool ok = false;
+                value = QInputDialog::getDouble(w, "Amplitude", "Amplitude", value, 0.0, 1.0, 2, &ok);
+                if (ok) { w->setValue(int(::rint(value * 100))); }
+            } else if (w->objectName() == "phaseOffset_") {
+                double value = w->value() / 50.0 * 180.0;
+                bool ok = false;
+                value = QInputDialog::getDouble(w, "Phase", "Phase", value, -180.0, 180.0, 2, &ok);
+                if (ok) { w->setValue(int(::rint(value / 180.0 * 50.0))); }
+            }
+            return true;
+        }
     }
 
     return false;

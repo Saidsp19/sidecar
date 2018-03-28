@@ -4,8 +4,7 @@
 
 using namespace SideCar::Messages;
 
-XmlStreamReader::XmlStreamReader(QIODevice* device)
-    : QXmlStreamReader(device)
+XmlStreamReader::XmlStreamReader(QIODevice* device) : QXmlStreamReader(device)
 {
     ;
 }
@@ -19,10 +18,10 @@ XmlStreamReader::getAttribute(const QString& name) const
 bool
 XmlStreamReader::readNextEntityAndValidate(const QString& expected)
 {
-    while (! atEnd() && readNext() != QXmlStreamReader::StartElement)
-	;
+    while (!atEnd() && readNext() != QXmlStreamReader::StartElement)
+        ;
 
-    return ! atEnd() && name().toString() == expected;
+    return !atEnd() && name().toString() == expected;
 }
 
 QStringList

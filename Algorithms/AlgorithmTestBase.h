@@ -10,10 +10,8 @@
 namespace SideCar {
 namespace Algorithms {
 
-struct TestBase : public UnitTest::TestObj
-{
-    TestBase(const std::string& algo, const std::string& inputType, const std::string& outputType,
-             int messageLimit);
+struct TestBase : public UnitTest::TestObj {
+    TestBase(const std::string& algo, const std::string& inputType, const std::string& outputType, int messageLimit);
 
     virtual ~Test() = default;
 
@@ -34,29 +32,32 @@ struct TestBase : public UnitTest::TestObj
 };
 
 template <typename MsgType>
-struct TTestBase : TestBase
-{
-    TTestBase(const std::string& algo, const std::string& inputType, const std::string&outputType,
-              int messageLimit)
-        : TestBase(algo, inputType, outputType, messageLimit) {}
+struct TTestBase : TestBase {
+    TTestBase(const std::string& algo, const std::string& inputType, const std::string& outputType, int messageLimit) :
+        TestBase(algo, inputType, outputType, messageLimit)
+    {
+    }
 
     void validateOutput(const IO::MessageManager::Ref& mgr)
-        {
-            Logger::ProcLog log("validateOutput", log_);
-	    typename MsgType::Ref msg(mgr.getNative<MsgType>());
-	    LOGTIN << msg->dataPrinter() << std::endl;
-	    validateOutput(msg);
-            LOGTOUT << std::endl;
-        }
+    {
+        Logger::ProcLog log("validateOutput", log_);
+        typename MsgType::Ref msg(mgr.getNative<MsgType>());
+        LOGTIN << msg->dataPrinter() << std::endl;
+        validateOutput(msg);
+        LOGTOUT << std::endl;
+    }
 
     virtual void validateOutput(const typename MsgType::Ref& msg) = 0;
 };
 
-struct Sink : public IO::Task
-{
+struct Sink : public IO::Task {
     using Ref = boost::shared_ptr<Sink>;
 
-    static auto Make() { Ref ref(new Sink); return ref }
+    static auto Make()
+    {
+        Ref ref(new Sink);
+        return ref
+    }
 
     Sink() : Task(), test_(nullptr), messageCounter_(0) {}
 
@@ -71,7 +72,8 @@ struct Sink : public IO::Task
 } // end namespace Algorithms
 } // end namespace SideCar
 
-#define MAIN(CLASS_NAME) int main(int argc, const char* argv[]) { return (CLASS_NAME)().mainRun(); }
+#define MAIN(CLASS_NAME)                                                                                               \
+    int main(int argc, const char* argv[]) { return (CLASS_NAME)().mainRun(); }
 
 /** \file
  */

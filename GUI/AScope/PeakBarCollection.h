@@ -8,27 +8,27 @@
 
 #include "PeakBar.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
 namespace AScope {
 
-class PeakBarCollection : public QObject
-{
+class PeakBarCollection : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     static Logger::Log& Log();
 
     PeakBarCollection(QObject* parent = 0);
 
     void update(const Messages::PRIMessage::Ref& msg);
 
-    const PeakBar& operator[](int index) const
-	{ return peakBars_[index]; }
+    const PeakBar& operator[](int index) const { return peakBars_[index]; }
 
     const QVector<PeakBar>& getPeakBars() const { return peakBars_; }
 
@@ -51,7 +51,6 @@ private slots:
     void enabledChanged(bool value);
 
 private:
-
     void adjustBars(bool resetBars);
 
     QVector<PeakBar> peakBars_;

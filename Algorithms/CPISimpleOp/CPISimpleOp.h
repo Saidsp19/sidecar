@@ -2,9 +2,9 @@
 #define SIDECAR_ALGORITHMS_CPISIMPLEOP_H
 
 #include "Algorithms/CPIAlgorithm.h"
+#include "Messages/BinaryVideo.h"
 #include "Messages/PRIMessage.h"
 #include "Messages/Video.h"
-#include "Messages/BinaryVideo.h"
 #include "Parameter/Parameter.h"
 
 namespace SideCar {
@@ -13,28 +13,19 @@ namespace Algorithms {
 /** Documentation for the algorithm CPISimpleOp. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class CPISimpleOp : public CPIAlgorithm
-{
+class CPISimpleOp : public CPIAlgorithm {
     using Super = CPIAlgorithm;
+
 public:
+    enum InfoSlots { kOperator = Super::kNumSlots, kNumSlots };
 
-    enum InfoSlots {
-        kOperator = Super::kNumSlots,
-        kNumSlots
-    };
-
-    enum ChannelDataType {
-	kVideo,
-	kBinaryVideo,
-	kUnknownType,
-	kNumChannelTypes = kUnknownType
-    };
+    enum ChannelDataType { kVideo, kBinaryVideo, kUnknownType, kNumChannelTypes = kUnknownType };
 
     /** Operator options available via the Master GUI application.
      */
     enum Operator {
         kMinValue,
-        kSumOp = kMinValue, 
+        kSumOp = kMinValue,
         kProdOp,
         kMinOp,
         kMaxOp,
@@ -66,7 +57,6 @@ public:
     bool shutdown();
 
 private:
-
     /** Process messages from channel
 
         \param msg the input message to process
@@ -95,8 +85,7 @@ private:
     // Add attributes here
     //
     Parameter::BoolValue::Ref enabled_;
-    OperatorParameter::Ref       operator_;
-
+    OperatorParameter::Ref operator_;
 };
 
 } // end namespace Algorithms

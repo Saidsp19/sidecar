@@ -12,7 +12,9 @@
 #include "History.h"
 #include "XYView.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -31,12 +33,11 @@ class RadarSettings;
 class VideoImaging;
 class ViewSettings;
 
-class XYWidget :  public QGLWidget
-{
+class XYWidget : public QGLWidget {
     Q_OBJECT
     using Super = QGLWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Obtain the OpenGL configuration we want to use.
@@ -49,16 +50,13 @@ public:
 
         \param parent parent object
     */
-    XYWidget(XYView* parent, ViewSettings* viewSettings,
-             PlotPositionFunctor* plotPositionFunctor);
+    XYWidget(XYView* parent, ViewSettings* viewSettings, PlotPositionFunctor* plotPositionFunctor);
 
     ~XYWidget();
 
-    void localToRealWorld(int x, int y, GLdouble& alpha, GLdouble& beta)
-	const;
+    void localToRealWorld(int x, int y, GLdouble& alpha, GLdouble& beta) const;
 
-    void setGridPositions(const std::vector<float>& alpha,
-                          const std::vector<float>& beta);
+    void setGridPositions(const std::vector<float>& alpha, const std::vector<float>& beta);
 
     double getXScaling() const { return xScaling_; }
     double getYScaling() const { return yScaling_; }
@@ -90,7 +88,7 @@ public slots:
     void clear();
 
 protected slots:
-    
+
     virtual void alphasChanged(const AlphaIndices& indices) = 0;
 
     void generateVertices();
@@ -104,20 +102,11 @@ private slots:
     void viewSettingsChanged();
 
 protected:
+    enum ListIndex { kGridLines = 0, kNumLists };
 
-    enum ListIndex {
-	kGridLines = 0,
-	kNumLists
-    };
+    enum VBOIndex { kVertices = 0, kColors, kNumVBOs };
 
-    enum VBOIndex {
-	kVertices = 0,
-	kColors,
-	kNumVBOs
-    };
-
-    GLuint getDisplayList(int index) const
-	{ return displayLists_ + index; }
+    GLuint getDisplayList(int index) const { return displayLists_ + index; }
 
     void initializeGL();
 

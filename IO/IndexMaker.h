@@ -5,27 +5,28 @@
 
 #include "Utils/FilePath.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
 
-class IndexMaker 
-{
+class IndexMaker {
 public:
     static Logger::Log& Log();
 
     enum Status {
-	kOK = 0,
-	kFileOpenFailed,
-	kRecordIndexCreateFailed,
-	kRecordIndexWriteFailed,
-	kTimeIndexCreateFailed,
-	kTimeIndexWriteFailed,
-	kDataReadFailed
+        kOK = 0,
+        kFileOpenFailed,
+        kRecordIndexCreateFailed,
+        kRecordIndexWriteFailed,
+        kTimeIndexCreateFailed,
+        kTimeIndexWriteFailed,
+        kDataReadFailed
     };
 
-    using StatusProc = boost::function<void (double)>;
+    using StatusProc = boost::function<void(double)>;
 
     static Status Make(const std::string& inputFilePath, uint16_t rate, StatusProc proc = 0);
 };

@@ -18,22 +18,18 @@ class ConfigurationWindow;
     widgets. Since there is only one MainWindow in the Master application, there is only one instance of the
     Settings class.
 */
-class Settings : public PresetManager
-{
+class Settings : public PresetManager {
     Q_OBJECT
     using Super = PresetManager;
-public:
 
+public:
     Settings(ConfigurationWindow& gui);
 
-    ConfigurationSettings& getConfigurationSettings()
-	{ return configurationSettings_; }
+    ConfigurationSettings& getConfigurationSettings() { return configurationSettings_; }
 
-    RadarSettings& getRadarSettings()
-	{ return radarSettings_; }
+    RadarSettings& getRadarSettings() { return radarSettings_; }
 
-    RecordingSettings& getRecordingSettings()
-	{ return recordingSettings_; }
+    RecordingSettings& getRecordingSettings() { return recordingSettings_; }
 
 private:
     ConfigurationSettings configurationSettings_;

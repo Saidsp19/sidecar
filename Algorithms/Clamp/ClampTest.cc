@@ -15,8 +15,7 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     static constexpr int kMaxMessageCount = 10;
     static constexpr int kMessageSize = 10;
     static constexpr int kMin = -1;
@@ -31,13 +30,16 @@ struct Test : public UnitTest::TestObj
     int messageCounter_;
 };
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static auto Make() { Ref ref(new Sink); return ref; }
+    static auto Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), test_(0) {}
 
@@ -62,15 +64,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 
     MessageManager mgr(data);
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    if (test_->testOutput(msg)) {
-		LOGINFO << "shutting down server" << std::endl;
-		ACE_Reactor::instance()->end_reactor_event_loop();
-	    }
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            if (test_->testOutput(msg)) {
+                LOGINFO << "shutting down server" << std::endl;
+                ACE_Reactor::instance()->end_reactor_event_loop();
+            }
+        }
     }
 
     return true;
@@ -112,13 +114,12 @@ Test::test()
     assertTrue(controller->injectProcessingStateChange(ProcessingState::kRun));
 
     for (int messageCounter = 0; messageCounter < kMaxMessageCount; ++messageCounter) {
-	VMEDataMessage vme;
-	vme.header.azimuth = 0;
-	vme.header.pri = messageCounter;
-	Video::Ref main(Video::Make("test", vme, kMessageSize));
-	for (int index = 0; index < kMessageSize; ++index)
-	    main->push_back(index - kMessageSize + messageCounter);
-	assertTrue(controller->putInChannel(main, 0));
+        VMEDataMessage vme;
+        vme.header.azimuth = 0;
+        vme.header.pri = messageCounter;
+        Video::Ref main(Video::Make("test", vme, kMessageSize));
+        for (int index = 0; index < kMessageSize; ++index) main->push_back(index - kMessageSize + messageCounter);
+        assertTrue(controller->putInChannel(main, 0));
     }
 
     // Run the ACE event loop until stopped by the ShutdownMonitor
@@ -134,13 +135,14 @@ Test::testOutput(const Video::Ref& msg)
 {
     assertEqual(size_t(kMessageSize), msg->size());
     for (int index = 0; index < msg->size(); ++index) {
-
-	// Calculate what the clamped values should be and compare.
-	//
-	int v = index - kMessageSize + messageCounter_;
-	if (v < kMin) v = kMin;
-	else if (v > kMax) v = kMax;
-	assertEqual(v, msg[index]);
+        // Calculate what the clamped values should be and compare.
+        //
+        int v = index - kMessageSize + messageCounter_;
+        if (v < kMin)
+            v = kMin;
+        else if (v > kMax)
+            v = kMax;
+        assertEqual(v, msg[index]);
     }
 
     return ++messageCounter_ == kMaxMessageCount;

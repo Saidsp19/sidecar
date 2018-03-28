@@ -5,8 +5,7 @@
 
 using namespace SideCar::GUI::AScope;
 
-ChannelEditor::ChannelEditor(QWidget* parent)
-    : QDialog(parent), Ui::ChannelEditor()
+ChannelEditor::ChannelEditor(QWidget* parent) : QDialog(parent), Ui::ChannelEditor()
 {
     setupUi(this);
     new IntMinMaxValidator(this, sampleMin_, sampleMax_);

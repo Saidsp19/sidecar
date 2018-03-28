@@ -5,37 +5,33 @@
 #include "QtCore/QStringList"
 #include "QtGui/QItemDelegate"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
 class LoggerTreeItem;
 
-class PriorityWidget : public QItemDelegate
-{
+class PriorityWidget : public QItemDelegate {
     Q_OBJECT
     using Super = QItemDelegate;
-public:
 
+public:
     static Logger::Log& Log();
 
     PriorityWidget(QObject* parent = 0);
 
-    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
-                          const QModelIndex& index) const;
+    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
     void setEditorData(QWidget* editor, const QModelIndex& index) const;
 
-    void setModelData(QWidget* editor, QAbstractItemModel* model,
-                      const QModelIndex& index) const;
+    void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 
-    void updateEditorGeometry(QWidget* editor,
-                              const QStyleOptionViewItem& option,
-                              const QModelIndex& index) const;
+    void updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
-    QSize sizeHint(const QStyleOptionViewItem& option,
-                   const QModelIndex& index) const;
+    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
 private slots:
     void updatePriority(int priority);

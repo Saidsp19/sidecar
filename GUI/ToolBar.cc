@@ -6,8 +6,8 @@
 
 using namespace SideCar::GUI;
 
-ToolBar::ToolBar(const QString& title, QMenu* toolBarMenu, QWidget* parent)
-    : Super(title, parent), contextMenu_(new QMenu(this))
+ToolBar::ToolBar(const QString& title, QMenu* toolBarMenu, QWidget* parent) :
+    Super(title, parent), contextMenu_(new QMenu(this))
 {
     contextMenu_->addAction("Hide", toggleViewAction(), SLOT(trigger()));
     contextMenu_->addSeparator();

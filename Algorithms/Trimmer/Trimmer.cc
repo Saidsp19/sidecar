@@ -1,5 +1,5 @@
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Utils.h"
 #include "Logger/Log.h"
@@ -12,19 +12,13 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Trimmer::Trimmer(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      firstSample_(Parameter::NonNegativeIntValue::Make(
-                       "firstSample", "First sample to keep",
-                       kDefaultFirstSample)),
-      maxSampleCount_(Parameter::NonNegativeIntValue::Make(
-                          "maxSampleCount", "Max Sample Count (0 for all)",
-                          kDefaultMaxSampleCount)),
-      complexSamples_(Parameter::BoolValue::Make(
-                          "complexSamples", "Complex Samples",
-                          kDefaultComplexSamples)),
-      enabled_(Parameter::BoolValue::Make(
-                   "enabled", "Enabled", kDefaultEnabled))
+Trimmer::Trimmer(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log),
+    firstSample_(Parameter::NonNegativeIntValue::Make("firstSample", "First sample to keep", kDefaultFirstSample)),
+    maxSampleCount_(
+        Parameter::NonNegativeIntValue::Make("maxSampleCount", "Max Sample Count (0 for all)", kDefaultMaxSampleCount)),
+    complexSamples_(Parameter::BoolValue::Make("complexSamples", "Complex Samples", kDefaultComplexSamples)),
+    enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled))
 {
     endParameterChanges();
 }
@@ -36,12 +30,9 @@ Trimmer::Trimmer(Controller& controller, Logger::Log& log)
 bool
 Trimmer::startup()
 {
-    registerProcessor<Trimmer,Messages::Video>(&Trimmer::processInput);
-    return registerParameter(firstSample_) &&
-	registerParameter(maxSampleCount_) &&
-	registerParameter(complexSamples_) &&
-	registerParameter(enabled_) &&
-	Algorithm::startup();
+    registerProcessor<Trimmer, Messages::Video>(&Trimmer::processInput);
+    return registerParameter(firstSample_) && registerParameter(maxSampleCount_) &&
+           registerParameter(complexSamples_) && registerParameter(enabled_) && Algorithm::startup();
 }
 
 void
@@ -92,9 +83,9 @@ Trimmer::processInput(const Messages::Video::Ref& msg)
 
     // When disabled, just copy the data over to the output message and be done with it.
     //
-    if (! enabled_->getValue()) {
-	out->getData() = msg->getData();
-	return send(out);
+    if (!enabled_->getValue()) {
+        out->getData() = msg->getData();
+        return send(out);
     }
 
     // Establish range of samples to copy over. Note that we do not validate the start index, since it happens
@@ -102,13 +93,11 @@ Trimmer::processInput(const Messages::Video::Ref& msg)
     //
     size_t index = firstIndex_;
     size_t limit = lastIndex_;
-    if (limit == index || limit > msg->size())
-	limit = msg->size();
+    if (limit == index || limit > msg->size()) limit = msg->size();
 
     // Copy the samples. Q: would std::copy be faster here?
     //
-    while (index < limit)
-	out->push_back(msg[index++]);
+    while (index < limit) out->push_back(msg[index++]);
 
     // And send
     //
@@ -130,14 +119,13 @@ FormatInfo(const IO::StatusBase& status, int role)
     if (role != Qt::DisplayRole) return NULL;
 
     QString value;
-    if (! status[Trimmer::kEnabled]) {
-	value = "Disabled";
-    }
-    else {
+    if (!status[Trimmer::kEnabled]) {
+        value = "Disabled";
+    } else {
         value = QString("First: %1 Limit: %2  Complex: %3")
-            .arg(static_cast<int>(status[Trimmer::kFirstSample]))
-            .arg(static_cast<int>(status[Trimmer::kMaxSampleCount]))
-            .arg("NY"[static_cast<bool>(status[Trimmer::kComplexSamples])]);
+                    .arg(static_cast<int>(status[Trimmer::kFirstSample]))
+                    .arg(static_cast<int>(status[Trimmer::kMaxSampleCount]))
+                    .arg("NY"[static_cast<bool>(status[Trimmer::kComplexSamples])]);
     }
 
     return Algorithm::FormatInfoValue(value);

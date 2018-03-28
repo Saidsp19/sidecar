@@ -7,8 +7,12 @@
 
 #include "CollectionItem.h"
 
-namespace Logger { class Log; }
-namespace XmlRpc { class XmlRpcValue; }
+namespace Logger {
+class Log;
+}
+namespace XmlRpc {
+class XmlRpcValue;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -27,12 +31,11 @@ class StreamItem;
     about a Zeroconf-discovered service. When a RunnerItem has a valid ServiceEntry, the ServicesModel can talk
     to it via XML-RPC requests.
 */
-class RunnerItem : public CollectionItem
-{
+class RunnerItem : public CollectionItem {
     Q_OBJECT
     using Super = CollectionItem;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor for a new runner process
@@ -78,35 +81,31 @@ public:
 
         \return unique service name
     */
-    QString getServiceName() const
-	{ return QString::fromStdString(getStatus().getServiceName()); }
+    QString getServiceName() const { return QString::fromStdString(getStatus().getServiceName()); }
 
     /** Obtain the name of the host where the runner is executing.
 
         \return host name
     */
-    QString getHostName() const
-	{ return QString::fromStdString(getStatus().getHostName()); }
+    QString getHostName() const { return QString::fromStdString(getStatus().getHostName()); }
 
     /** Obtain the name of the configuration in use by the remote runner process.
 
         \return configuration name
     */
-    QString getConfigName() const
-	{ return QString::fromStdString(getStatus().getConfigName()); }
+    QString getConfigName() const { return QString::fromStdString(getStatus().getConfigName()); }
 
     /** Obtain the name of the configuration in use by the remote runner process.
 
         \return configuration name
     */
-    QString getLogPath() const
-	{ return QString::fromStdString(getStatus().getLogPath()); }
+    QString getLogPath() const { return QString::fromStdString(getStatus().getLogPath()); }
 
     /** Shadow of TreeViewItem method that returns a type-casted value
 
         \param index chld to obtain
 
-        \return StreamItem object 
+        \return StreamItem object
     */
     StreamItem* getChild(int index) const;
 
@@ -117,8 +116,7 @@ public:
 
         \return true if successful
     */
-    bool getParameters(int streamIndex, int taskIndex,
-                       XmlRpc::XmlRpcValue& definition) const;
+    bool getParameters(int streamIndex, int taskIndex, XmlRpc::XmlRpcValue& definition) const;
 
     /** Submit new runtime parameter values to the XML-RPC server of the runner process hosting the Controller.
 
@@ -126,8 +124,7 @@ public:
 
         \return true if successful
     */
-    bool setParameters(int streamIndex, int taskIndex,
-                       const XmlRpc::XmlRpcValue& changes) const;
+    bool setParameters(int streamIndex, int taskIndex, const XmlRpc::XmlRpcValue& changes) const;
 
     /** Obtain a list of parameter settings that differ from their original settings as defined in the XML
         configuration file used to start the Runner.
@@ -148,10 +145,8 @@ public:
 
         \return true if successfully executed
     */
-    bool executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args,
-                        XmlRpc::XmlRpcValue& result) const;
+    bool executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args, XmlRpc::XmlRpcValue& result) const;
 
-    
     /** Override of TreeViewItem method. Allow filter matching on the host name where the Runner is executing.
 
         \param filter the text used as a filter
@@ -159,24 +154,22 @@ public:
         \return true if this item matches the filter
     */
     bool isFiltered(const QString& filter) const
-	{ return Super::isFiltered(filter) ||
-		getHostName().contains(filter, Qt::CaseInsensitive); }
+    {
+        return Super::isFiltered(filter) || getHostName().contains(filter, Qt::CaseInsensitive);
+    }
 
 protected:
-
     /** Override of CollectionItem::afterUpdate(). Assigns RunnerLog objects if necessary, and then posts log
-	messages from the last status update to the assigned RunnerLog object.
+        messages from the last status update to the assigned RunnerLog object.
     */
     void afterUpdate();
 
 private:
-
     /** Obtain the type-cast status container sent by a Algorithms::Runner object.
 
         \return read-only RunnerStatus reference
     */
-    const Runner::RunnerStatus& getStatus() const 
-	{ return getStatusT<Runner::RunnerStatus>(); }
+    const Runner::RunnerStatus& getStatus() const { return getStatusT<Runner::RunnerStatus>(); }
 
     /** Update the status for the streams managed by the runner process.
      */

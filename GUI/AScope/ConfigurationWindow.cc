@@ -10,14 +10,12 @@ using namespace SideCar::GUI::AScope;
 Logger::Log&
 ConfigurationWindow::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("ascope.ConfigurationWindow");
+    static Logger::Log& log_ = Logger::Log::Find("ascope.ConfigurationWindow");
     return log_;
 }
 
-ConfigurationWindow::ConfigurationWindow(int shortcut)
-    : ToolWindowBase("ConfigurationWindow", "Settings", shortcut),
-      Ui::ConfigurationWindow()
+ConfigurationWindow::ConfigurationWindow(int shortcut) :
+    ToolWindowBase("ConfigurationWindow", "Settings", shortcut), Ui::ConfigurationWindow()
 {
     setupUi(this);
     setFixedSize();
@@ -28,31 +26,23 @@ ConfigurationWindow::ConfigurationWindow(int shortcut)
 void
 ConfigurationWindow::on_distanceUnitsKm__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setDistanceUnits("km");
-    }
+    if (enabled) { getApp()->setDistanceUnits("km"); }
 }
 
 void
 ConfigurationWindow::on_distanceUnitsNm__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setDistanceUnits("nm");
-    }
+    if (enabled) { getApp()->setDistanceUnits("nm"); }
 }
 
 void
 ConfigurationWindow::on_angleFormatMinSec__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setAngleFormatting(AppBase::kDegreesMinutesSeconds);
-    }
+    if (enabled) { getApp()->setAngleFormatting(AppBase::kDegreesMinutesSeconds); }
 }
 
 void
 ConfigurationWindow::on_angleFormatDecimal__toggled(bool enabled)
 {
-    if (enabled) {
-	getApp()->setAngleFormatting(AppBase::kDecimal);
-    }
+    if (enabled) { getApp()->setAngleFormatting(AppBase::kDecimal); }
 }

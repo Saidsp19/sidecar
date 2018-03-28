@@ -34,17 +34,15 @@ namespace Algorithms {
    Specifies how many extractions to buffer before sending out a message.
    \endcode
 */
-class Segment2Extraction : public Algorithm
-{
+class Segment2Extraction : public Algorithm {
     // Algorithm interface
     //
 public:
-    Segment2Extraction(Controller& controller, Logger::Log &log);
+    Segment2Extraction(Controller& controller, Logger::Log& log);
 
     bool startup();
 
 private:
-
     bool process(const Messages::SegmentMessage::Ref& pri);
 
     // Parameters
@@ -59,8 +57,8 @@ private:
     float azFactor;
 };
 
-}
-}
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

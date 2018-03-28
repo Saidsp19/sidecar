@@ -15,12 +15,8 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
-    Test()
-	: UnitTest::TestObj("CIntegrate"),
-	  messageCounter_(4, 0),
-	  totalCount_(0) {}
+struct Test : public UnitTest::TestObj {
+    Test() : UnitTest::TestObj("CIntegrate"), messageCounter_(4, 0), totalCount_(0) {}
 
     void test();
 
@@ -35,17 +31,24 @@ struct Test : public UnitTest::TestObj
 const int Test::kMaxMessageCount = 1;
 const int Test::kMessageSize = 20;
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink()); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink());
+        return ref;
+    }
 
     Sink() : Task(), test_(0) {}
 
-    void setTest(Test* test) { test_ = test; setUsingData(true); }
+    void setTest(Test* test)
+    {
+        test_ = test;
+        setUsingData(true);
+    }
 
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
 
@@ -69,16 +72,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 
     MessageManager mgr(data);
     if (mgr.hasNative()) {
-	LOGERROR << "native type: " << mgr.getNativeMessageType()
-		 << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    if (test_->testOutput(msg, channel)) {
-		LOGINFO << "shutting down server" << std::endl;
-		ACE_Reactor::instance()->end_reactor_event_loop();
-	    }
-	}
+        LOGERROR << "native type: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            if (test_->testOutput(msg, channel)) {
+                LOGINFO << "shutting down server" << std::endl;
+                ACE_Reactor::instance()->end_reactor_event_loop();
+            }
+        }
     }
 
     return true;
@@ -124,7 +126,7 @@ Test::test()
     controller->addOutputChannel(Channel("maxAmp", "Video", sink, 1));
     controller->addOutputChannel(Channel("dopplerBinOutput", "Video", sink, 2));
     controller->addOutputChannel(Channel("rgb", "Video", sink, 3));
-    
+
     assertTrue(controller->openAndInit("CIntegrate"));
 
     CIntegrate* alg = dynamic_cast<CIntegrate*>(controller->getAlgorithm());
@@ -137,19 +139,19 @@ Test::test()
     // We need 64 messages before we get anything out of the stock CIntegrate algorithm.
     //
     int16_t mainData[5][20] = {
-	{ 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0 },
+        {0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 5, 0, 9, 0, 6, 0, 2, 0, 1, 0, 0, 0, 0, 0},
     };
 
     for (int index = 0; index < 5; ++index) {
-	VMEDataMessage vme;
-	vme.header.azimuth = 0;
-	vme.header.pri = index;
-	Video::Ref main(Video::Make("test", vme, mainData[index], mainData[index] + 20));
-	assertTrue(controller->putInChannel(main, 0));
+        VMEDataMessage vme;
+        vme.header.azimuth = 0;
+        vme.header.pri = index;
+        Video::Ref main(Video::Make("test", vme, mainData[index], mainData[index] + 20));
+        assertTrue(controller->putInChannel(main, 0));
     }
 
     // Run the ACE event loop until stopped by the ShutdownMonitor
@@ -162,29 +164,147 @@ Test::test()
 }
 
 int16_t fftData[8][10] = {
-    { 0, 2, 7, 8, 4, 2, 0, 0, 0, 0, },
-    { 0, 2, 1, 1, 1, 0, 0, 0, 0, 0, },
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-    { 0, 2, 1, 1, 1, 0, 0, 0, 0, 0, },
-    { 0, 1, 5, 7, 6, 3, 1, 0, 0, 0, },
-    { 0, 1, 2, 1, 1, 1, 0, 0, 0, 0, },
-    { 0, 1, 2, 0, 2, 1, 0, 0, 0, 0, },
-    { 0, 1, 2, 1, 1, 1, 0, 0, 0, 0, },
+    {
+        0,
+        2,
+        7,
+        8,
+        4,
+        2,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        1,
+        5,
+        7,
+        6,
+        3,
+        1,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        1,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        1,
+        2,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        1,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+    },
 };
 
 int16_t maxAmpData[2][20] = {
-    { 0, 0, 2, 0, 7, 0, 7, 0, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-    { 0, 0, 1, 0, 4, 0, 7, 0, 5, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, },
+    {
+        0, 0, 2, 0, 7, 0, 7, 0, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    },
+    {
+        0, 0, 1, 0, 4, 0, 7, 0, 5, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    },
 };
 
 int16_t oneDopData[2][20] = {
-    { 0, 0, 2, 0, 7, 0, 7, 0, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-    { 0, 0, 1, 0, 4, 0, 7, 0, 5, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, },
+    {
+        0, 0, 2, 0, 7, 0, 7, 0, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    },
+    {
+        0, 0, 1, 0, 4, 0, 7, 0, 5, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    },
 };
 
 int16_t rgbData[2][10] = {
-    { 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, },
-    { 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, },
+    {
+        0,
+        0,
+        0,
+        32,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+    {
+        0,
+        0,
+        0,
+        32,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
 };
 
 bool
@@ -195,27 +315,25 @@ Test::testOutput(const Video::Ref& msg, int channel)
     int16_t* p;
     switch (channel) {
     case 0:
-	p = fftData[index];
-	assertEqual(10, msg->size());
-	break;
+        p = fftData[index];
+        assertEqual(10, msg->size());
+        break;
     case 1:
-	p = maxAmpData[index];
-	assertEqual(20, msg->size());
-	break;
+        p = maxAmpData[index];
+        assertEqual(20, msg->size());
+        break;
     case 2:
-	p = oneDopData[index];
-	assertEqual(20, msg->size());
-	break;
+        p = oneDopData[index];
+        assertEqual(20, msg->size());
+        break;
     case 3:
-	p = rgbData[index];
-	assertEqual(10, msg->size());
-	break;
+        p = rgbData[index];
+        assertEqual(10, msg->size());
+        break;
     }
 
-    for (size_t index = 0; index < msg->size(); ++index) {
-	assertEqual(p[index], msg[index]);
-    }
-    
+    for (size_t index = 0; index < msg->size(); ++index) { assertEqual(p[index], msg[index]); }
+
     return ++totalCount_ == 4 + 4 + 2 + 2 + 2;
 }
 

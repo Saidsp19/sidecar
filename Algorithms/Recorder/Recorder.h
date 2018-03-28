@@ -12,11 +12,10 @@ namespace Algorithms {
 /** Documentation for the algorithm Recorder. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class Recorder : public Algorithm
-{
+class Recorder : public Algorithm {
     using Super = Algorithm;
-public:
 
+public:
     /** Constructor.
 
         \param controller object that controls us
@@ -39,7 +38,6 @@ public:
     bool shutdown();
 
 private:
-
     bool processInputVideo(const Messages::Video::Ref& msg);
 
     bool processInputBinary(const Messages::BinaryVideo::Ref& msg);

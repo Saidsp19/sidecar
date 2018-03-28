@@ -5,31 +5,18 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::PPIDisplay;
 
-VideoImaging::VideoImaging(BoolSetting* visible,
-                           ColorButtonSetting* color,
-                           DoubleSetting* pointSize,
-                           OpacitySetting* alpha,
-                           QComboBoxSetting* decimation,
-                           BoolSetting* colorMapEnabled,
-                           CLUTSetting* clutSetting,
-                           BoolSetting* desaturateEnabled,
-                           IntSetting* desaturateRate)
-    : Super(visible, color, pointSize, alpha, decimation),
-      colorMapEnabled_(colorMapEnabled), clutSetting_(clutSetting),
-      desaturateEnabled_(desaturateEnabled),
-      desaturateRate_(desaturateRate), colorMap_(),
-      clut_(CLUT::Type(clutSetting->getValue()))
+VideoImaging::VideoImaging(BoolSetting* visible, ColorButtonSetting* color, DoubleSetting* pointSize,
+                           OpacitySetting* alpha, QComboBoxSetting* decimation, BoolSetting* colorMapEnabled,
+                           CLUTSetting* clutSetting, BoolSetting* desaturateEnabled, IntSetting* desaturateRate) :
+    Super(visible, color, pointSize, alpha, decimation),
+    colorMapEnabled_(colorMapEnabled), clutSetting_(clutSetting), desaturateEnabled_(desaturateEnabled),
+    desaturateRate_(desaturateRate), colorMap_(), clut_(CLUT::Type(clutSetting->getValue()))
 {
-    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), this,
-            SLOT(setColorMapEnabled(bool)));
-    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), clutSetting,
-            SLOT(setEnabled(bool)));
-    connect(clutSetting, SIGNAL(valueChanged(int)), this,
-            SLOT(colorMapTypeChanged(int)));
-    connect(desaturateEnabled, SIGNAL(valueChanged(bool)), this,
-            SLOT(setDesaturateEnabled(bool)));
-    connect(desaturateRate, SIGNAL(valueChanged(int)), this,
-            SLOT(setDesaturateRate(int)));
+    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), this, SLOT(setColorMapEnabled(bool)));
+    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), clutSetting, SLOT(setEnabled(bool)));
+    connect(clutSetting, SIGNAL(valueChanged(int)), this, SLOT(colorMapTypeChanged(int)));
+    connect(desaturateEnabled, SIGNAL(valueChanged(bool)), this, SLOT(setDesaturateEnabled(bool)));
+    connect(desaturateRate, SIGNAL(valueChanged(int)), this, SLOT(setDesaturateRate(int)));
     updateColorMapImage();
 }
 
@@ -69,14 +56,12 @@ VideoImaging::setDesaturateRate(int value)
 void
 VideoImaging::updateColorMapImage()
 {
-    if (colorMap_.isNull())
-	colorMap_ = QImage(301, 10, QImage::Format_RGB32);
+    if (colorMap_.isNull()) colorMap_ = QImage(301, 10, QImage::Format_RGB32);
 
     if (getColorMapEnabled()) {
-	clut_.makeColorMapImage(colorMap_, true);
-    }
-    else {
-	clut_.makeGradiantImage(colorMap_, Super::getColor(), true);
+        clut_.makeColorMapImage(colorMap_, true);
+    } else {
+        clut_.makeGradiantImage(colorMap_, Super::getColor(), true);
     }
 
     emit colorMapChanged(colorMap_);
@@ -86,10 +71,9 @@ Color
 VideoImaging::getColor(double intensity) const
 {
     if (getColorMapEnabled()) {
-	return clut_.getColor(intensity);
-    }
-    else {
-	Color tmp(Super::getColor());
-	return tmp *= intensity;
+        return clut_.getColor(intensity);
+    } else {
+        Color tmp(Super::getColor());
+        return tmp *= intensity;
     }
 }

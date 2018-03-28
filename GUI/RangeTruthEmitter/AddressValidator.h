@@ -10,18 +10,16 @@ namespace SideCar {
 namespace GUI {
 namespace RangeTruthEmitter {
 
-class AddressValidator : public QRegExpValidator
-{
+class AddressValidator : public QRegExpValidator {
     Q_OBJECT
     using Super = QRegExpValidator;
-public:
 
+public:
     AddressValidator(QLineEdit* widget);
 
     State validate(QString& input, int& pos) const;
 
 private:
-
     QLineEdit* widget_;
     QColor normalColor_;
 };

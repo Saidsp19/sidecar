@@ -1,8 +1,8 @@
-#ifndef UTILS_FORMAT_H		// -*- C++ -*-
+#ifndef UTILS_FORMAT_H // -*- C++ -*-
 #define UTILS_FORMAT_H
 
-#include <errno.h>
 #include <cstring>
+#include <errno.h>
 
 #include <ios>
 #include <iostream>
@@ -20,19 +20,17 @@ class Format;
     Edition)" by Bjarne Stroustrup (pp 635-636)
 */
 template <class T>
-struct Formatter
-{
+struct Formatter {
     /** Constructor.
 
         \param format which Format object to apply to the stream
 
         \param value the value to insert into the stream after the format has been applied.
     */
-    Formatter(const Format& format, const T& value)
-	: format_(format), value_(value) {}
+    Formatter(const Format& format, const T& value) : format_(format), value_(value) {}
 
-    const Format& format_;	///< Format specification to use
-    const T& value_;		///< Value to format
+    const Format& format_; ///< Format specification to use
+    const T& value_;       ///< Value to format
 };
 
 /** Formatting settings for a C++ input or output stream. Mimics the format control capabilities of
@@ -54,8 +52,7 @@ struct Formatter
     }
     @endcode
 */
-class Format
-{
+class Format {
 public:
     using fmtflags = std::ios_base::fmtflags;
 
@@ -76,15 +73,13 @@ public:
 
         \param precision number of digits after the decimal point to display
     */
-    Format(int width, int precision)
-        : flags_(), precision_(precision), width_(width), fill_(' ') {}
+    Format(int width, int precision) : flags_(), precision_(precision), width_(width), fill_(' ') {}
 
     /** Constructor. Obtain format settings from an input or output stream.
 
         \param s stream to query for format settings
     */
-    Format(const std::ios& s)
-        : flags_(s.flags()), precision_(s.precision()), width_(s.width()), fill_(s.fill()) {}
+    Format(const std::ios& s) : flags_(s.flags()), precision_(s.precision()), width_(s.width()), fill_(s.fill()) {}
 
     /** Set all formatting bits at once.
 
@@ -92,7 +87,11 @@ public:
 
         \return self
     */
-    Format& flags(std::ios_base::fmtflags flags) { flags_ = flags; return *this; }
+    Format& flags(std::ios_base::fmtflags flags)
+    {
+        flags_ = flags;
+        return *this;
+    }
 
     /** \return all formatting flag bits.
      */
@@ -104,7 +103,11 @@ public:
 
         \return self
     */
-    Format& setf(fmtflags flags) { flags_ |= flags; return *this; }
+    Format& setf(fmtflags flags)
+    {
+        flags_ |= flags;
+        return *this;
+    }
 
     /** Turn on one or more formatting flags, after first masking out the existing flags with a mask.
 
@@ -114,7 +117,11 @@ public:
 
         \return self
     */
-    Format& setf(fmtflags flags, fmtflags mask) { flags_ = (~mask & flags_) | flags; return *this; }
+    Format& setf(fmtflags flags, fmtflags mask)
+    {
+        flags_ = (~mask & flags_) | flags;
+        return *this;
+    }
 
     /** Turn off one or more formatting flags.
 
@@ -122,7 +129,11 @@ public:
 
         \return self
     */
-    Format& unsetf(fmtflags flags) { flags_ &= ~flags; return *this; }
+    Format& unsetf(fmtflags flags)
+    {
+        flags_ &= ~flags;
+        return *this;
+    }
 
     /** Set the number of digits to display after the decimal point.
 
@@ -130,7 +141,11 @@ public:
 
         \return self
     */
-    Format& precision(int precision) { precision_ = precision; return *this; }
+    Format& precision(int precision)
+    {
+        precision_ = precision;
+        return *this;
+    }
 
     /** \return current precision setting
      */
@@ -143,7 +158,11 @@ public:
 
         \return self
     */
-    Format& width(int width) { width_ = width; return *this; }
+    Format& width(int width)
+    {
+        width_ = width;
+        return *this;
+    }
 
     /** \return current width setting
      */
@@ -155,7 +174,11 @@ public:
 
         \return self
     */
-    Format& fill(char fill) { fill_ = fill; return *this; }
+    Format& fill(char fill)
+    {
+        fill_ = fill;
+        return *this;
+    }
 
     /** \return current fill character.
      */
@@ -295,7 +318,11 @@ public:
 
         \return new Formatter instance
     */
-    template <class T> Formatter<T> operator()(const T& v) const { return Formatter<T>(*this, v); }
+    template <class T>
+    Formatter<T> operator()(const T& v) const
+    {
+        return Formatter<T>(*this, v);
+    }
 
 private:
     std::ios_base::fmtflags flags_;
@@ -307,10 +334,8 @@ private:
 /** Utility class that records the format settings of a stream, and then applies the settings found in a Format
     object. When the PushFormat instance is destroyed, it restores the stream to its original settings.
 */
-class PushFormat
-{
+class PushFormat {
 public:
-
     /** Constructor. Just remember the current formatting settings of the given stream.
 
         \param s I/O stream to work with
@@ -321,7 +346,7 @@ public:
         settings contained in a Format object.
 
         \param s stream to work with
-       
+
         \param format format settings to apply
     */
     PushFormat(std::ios& s, const Format& format) : s_(s), prev_(s) { format.put(s); }
@@ -331,15 +356,14 @@ public:
     ~PushFormat() { prev_.put(s_); }
 
 private:
-    std::ios& s_;		///< Stream affected
-    Format prev_;		///< Original stream settings
+    std::ios& s_; ///< Stream affected
+    Format prev_; ///< Original stream settings
 };
 
 /** Declare an abstract base class that defines an interface for all `printable' objects, those that can be
     inserted into an output stream with the `<<' operator.
 */
-class Printable
-{
+class Printable {
 public:
     virtual ~Printable() {}
     virtual std::ostream& print(std::ostream& os) const = 0;
@@ -347,10 +371,9 @@ public:
 
 /** Output stream formatter for void* pointers. Shows the pointer as a hexadecimal value.
  */
-class hexPtr : public Printable
-{
+class hexPtr : public Printable {
 public:
-    hexPtr(const void *ptr) : ptr_(ptr) {}
+    hexPtr(const void* ptr) : ptr_(ptr) {}
     virtual std::ostream& print(std::ostream& os) const;
 
 private:
@@ -360,8 +383,7 @@ private:
 /** Output stream formatter for heading values. Shows the heading as a value between 0 and 360, with leading
     zeros, in 3 places.
 */
-class formatHeading : public Printable
-{
+class formatHeading : public Printable {
 public:
     formatHeading(double degrees) : degrees_(degrees) {}
     virtual std::ostream& print(std::ostream& os) const;
@@ -370,8 +392,7 @@ private:
     double degrees_;
 };
 
-class formatTime : public Printable
-{
+class formatTime : public Printable {
 public:
     formatTime(double when) : when_(when) {}
     virtual std::ostream& print(std::ostream& os) const;
@@ -382,10 +403,8 @@ private:
 
 /** Simple output stream manipulator that spits out text centered in a field of a given width.
  */
-class center : public Printable
-{
+class center : public Printable {
 public:
-
     /** Constructor for standard C++ std::strings
 
         \param width field size
@@ -396,12 +415,13 @@ public:
 
     center(int width, const char* s) : width_(width), data_(s) {}
 
-    template <typename T> center(int width, const T& value) : width_(width), data_("")
-	{
-	    std::ostringstream os("");
-	    os << value;
-	    data_ = os.str();
-	}
+    template <typename T>
+    center(int width, const T& value) : width_(width), data_("")
+    {
+        std::ostringstream os("");
+        os << value;
+        data_ = os.str();
+    }
 
     virtual ~center() {}
 
@@ -414,16 +434,14 @@ public:
     std::ostream& print(std::ostream& os) const;
 
 private:
-    int width_;			///< Format used to center text
-    std::string data_;		///< Text to center
+    int width_;        ///< Format used to center text
+    std::string data_; ///< Text to center
 };
 
 /** Output stream manipulator that spits out a sequence of one character (a `-' by default).
  */
-class dashLine : public Printable
-{
+class dashLine : public Printable {
 public:
-
     /** Constructor to output a field of dash characters.
 
         \param width field size
@@ -441,11 +459,10 @@ public:
     std::ostream& print(std::ostream& os) const;
 
 private:
-    Format format_;		///< Format used to fill a field
+    Format format_; ///< Format used to fill a field
 };
 
-struct dumpHex : public Printable
-{
+struct dumpHex : public Printable {
     dumpHex(const void* data, int size) : data_(data), size_(size) {}
     char digit(short value) const { return "0123456789ABCDEF"[value & 15]; }
     std::ostream& print(std::ostream& os) const;
@@ -453,8 +470,7 @@ struct dumpHex : public Printable
     int size_;
 };
 
-class showErrno : public Printable
-{
+class showErrno : public Printable {
 public:
     showErrno() : errno_(errno), text_(strerror(errno)) {}
     std::ostream& print(std::ostream& os) const { return os << text_ << " (" << errno_ << ')'; }
@@ -477,14 +493,14 @@ namespace std {
     \return stream acted on
 */
 inline std::ostream&
-operator <<(std::ostream& s, const Utils::Format& format)
+operator<<(std::ostream& s, const Utils::Format& format)
 {
     format.put(s);
     return s;
 }
 
 inline std::istream&
-operator <<(std::istream& s, const Utils::Format& format)
+operator<<(std::istream& s, const Utils::Format& format)
 {
     format.put(s);
     return s;
@@ -500,8 +516,9 @@ operator <<(std::istream& s, const Utils::Format& format)
 
     \return stream written to
 */
-template <class T> std::ostream&
-operator <<(std::ostream& os, const Utils::Formatter<T>& f)
+template <class T>
+std::ostream&
+operator<<(std::ostream& os, const Utils::Formatter<T>& f)
 {
     Utils::PushFormat prev(os, f.format_);
     return os << f.value_;
@@ -511,13 +528,13 @@ operator <<(std::ostream& os, const Utils::Formatter<T>& f)
     defined in Printable subclasses.
 
     \param os stream to write to
-   
+
     \param p object to write
 
     \return stream written to
 */
 inline std::ostream&
-operator <<(std::ostream& os, const Utils::Printable& p)
+operator<<(std::ostream& os, const Utils::Printable& p)
 {
     return p.print(os);
 }

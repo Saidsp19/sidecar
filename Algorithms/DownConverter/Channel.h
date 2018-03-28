@@ -16,21 +16,19 @@ namespace DownConverterUtils {
 /** Utility class for DownConverter that manages data from one input channel. Contains an internal deque (FIFO)
     that allows the channel to synchronize with other Channel objects based on VME sequence counter value.
 */
-class Channel : public TProcessor<Channel,Messages::Video>
-{
-    using Super = TProcessor<Channel,Messages::Video>;
+class Channel : public TProcessor<Channel, Messages::Video> {
+    using Super = TProcessor<Channel, Messages::Video>;
 
 public:
-
     static Logger::Log& Log();
 
     /** Constructor for a DownConverter data channel.
 
-        \param master 
+        \param master
 
-        \param maxBufferSize 
+        \param maxBufferSize
 
-        \param auxIndex 
+        \param auxIndex
     */
     Channel(DownConverter& master, size_t maxBufferSize);
 
@@ -63,7 +61,7 @@ public:
 
         \param msg message to add
 
-        \return true if 
+        \return true if
     */
     bool addData(const Messages::Video::Ref& msg);
 
@@ -84,7 +82,6 @@ public:
     Messages::Video::Ref popData();
 
 private:
-
     void updateNextSequence();
 
     DownConverter& master_;

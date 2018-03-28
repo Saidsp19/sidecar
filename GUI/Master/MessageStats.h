@@ -2,14 +2,14 @@
 #define SIDECAR_GUI_MASTER_MESSAGESTATS_H
 
 namespace SideCar {
-namespace IO { class StatusBase; }
+namespace IO {
+class StatusBase;
+}
 namespace GUI {
 namespace Master {
 
-class MessageStats 
-{
+class MessageStats {
 public:
-
     MessageStats();
 
     MessageStats(const IO::StatusBase& status);

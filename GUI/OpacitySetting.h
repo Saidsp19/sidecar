@@ -8,15 +8,15 @@
 class QSlider;
 class QSpinBox;
 
-namespace Logger { class Log; };
+namespace Logger {
+class Log;
+};
 namespace SideCar {
 namespace GUI {
 
-class OpacitySetting : public DoubleSetting
-{
+class OpacitySetting : public DoubleSetting {
     Q_OBJECT
 public:
-
     static Logger::Log& Log();
 
     static double FromWidget(int value) { return double(value) / 100.0; }
@@ -40,7 +40,6 @@ private slots:
     void sliderChanged(int value);
 
 private:
-
     void valueUpdated();
 };
 

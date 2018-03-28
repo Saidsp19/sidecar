@@ -6,9 +6,9 @@
 
 using namespace SideCar::GUI;
 
-DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max)
-    : Super(min->minimum(), max->maximum(), min->decimals(), parent), min_(min), max_(max),
-      minMin_(min->minimum()), maxMax_(max->maximum())
+DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max) :
+    Super(min->minimum(), max->maximum(), min->decimals(), parent), min_(min), max_(max), minMin_(min->minimum()),
+    maxMax_(max->maximum())
 {
     epsilon_ = ::pow(10, -min->decimals());
     connect(min_, SIGNAL(valueChanged(double)), SLOT(minChanged(double)));
@@ -17,10 +17,10 @@ DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* mi
     max_->setMinimum(minMin_ + epsilon_);
 }
 
-DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max,
-                                             double minMin, double maxMax)
-    : Super(min->minimum(), max->maximum(), min->decimals(), parent), min_(min), max_(max), minMin_(minMin),
-      maxMax_(maxMax)
+DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin,
+                                             double maxMax) :
+    Super(min->minimum(), max->maximum(), min->decimals(), parent),
+    min_(min), max_(max), minMin_(minMin), maxMax_(maxMax)
 {
     epsilon_ = ::pow(10, -min->decimals());
     connect(min_, SIGNAL(valueChanged(double)), SLOT(minChanged(double)));
@@ -32,15 +32,11 @@ DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* mi
 void
 DoubleMinMaxValidator::minChanged(double value)
 {
-    if (max_->value() <= value) {
-	max_->setValue(value + epsilon_);
-    }
+    if (max_->value() <= value) { max_->setValue(value + epsilon_); }
 }
 
 void
 DoubleMinMaxValidator::maxChanged(double value)
 {
-    if (min_->value() >= value) {
-	min_->setValue(value - epsilon_);
-    }
+    if (min_->value() >= value) { min_->setValue(value - epsilon_); }
 }

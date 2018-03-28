@@ -27,7 +27,7 @@ operator<<(std::ostream& os, Filter::DataVector v)
         os << d.real() << s << fabs(d.imag()) << "j\t";
 #endif
     }
-    //os << v.get(idx) << '\t';
+    // os << v.get(idx) << '\t';
     return os;
 }
 
@@ -35,26 +35,23 @@ operator<<(std::ostream& os, Filter::DataVector v)
 std::ostream&
 operator<<(std::ostream& os, Filter::DataMatrix m)
 {
-    //os << m.size(0) << "x" << m.size(1) << std::endl;
-    for(int idx = 0 ; idx < (int)m.size(0); ++idx)
-        os << m.row(idx) << std::endl;
+    // os << m.size(0) << "x" << m.size(1) << std::endl;
+    for (int idx = 0; idx < (int)m.size(0); ++idx) os << m.row(idx) << std::endl;
     return os;
 }
 
-Filter::Filter(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log), m_maxRangeBinValid(false),
-      m_kernelCSVFilename (
-	  Parameter::ReadPathValue::Make("kernel", "CSV Kernel Path", ""))
-      //   "/export/home/sidecar/trunk/Algorithms/filter/range_rising_edge.csv"))
+Filter::Filter(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), m_maxRangeBinValid(false),
+    m_kernelCSVFilename(Parameter::ReadPathValue::Make("kernel", "CSV Kernel Path", ""))
+//   "/export/home/sidecar/trunk/Algorithms/filter/range_rising_edge.csv"))
 {
-    m_kernelCSVFilename->connectChangedSignalTo(
-	boost::bind(&Filter::kernelCSVFilenameChanged, this, _1));
+    m_kernelCSVFilename->connectChangedSignalTo(boost::bind(&Filter::kernelCSVFilenameChanged, this, _1));
 }
 
 bool
 Filter::startup()
 {
-    registerProcessor<Filter,Messages::Video>(&Filter::process);
+    registerProcessor<Filter, Messages::Video>(&Filter::process);
     loadKernel();
     return registerParameter(m_kernelCSVFilename) && Algorithm::startup();
 }
@@ -69,10 +66,10 @@ Filter::shutdown()
 bool
 Filter::reset()
 {
-    //start inserting on the first row of the buffer
+    // start inserting on the first row of the buffer
     m_insertRow = 0;
 
-    //delete the m_priData
+    // delete the m_priData
     m_priData.reset();
 
     loadKernel();
@@ -92,10 +89,10 @@ Filter::process(const Messages::Video::Ref& inMsg)
 {
     static Logger::ProcLog log("process", getLog());
 
-    //lock the m_kernel (this is so it can't be updated while we're using it),
+    // lock the m_kernel (this is so it can't be updated while we're using it),
     // just return immediately (do not wait)
 
-    //track the largest PRI buffer (in terms of number of range bins)
+    // track the largest PRI buffer (in terms of number of range bins)
     if (((RANGEBIN)inMsg->size() > m_maxRangeBin) || (!m_maxRangeBinValid)) {
         m_maxRangeBin = (RANGEBIN)inMsg->size();
         m_maxRangeBinValid = true;
@@ -103,32 +100,29 @@ Filter::process(const Messages::Video::Ref& inMsg)
         resizePriData();
     }
 
-    //insert new data from inMsg into the m_priData matrix
-    for (RANGEBIN r = 0; r < (RANGEBIN)inMsg->size(); r++) {
-        (*m_priData)(m_insertRow, r) = inMsg[r];
-    }
-    //LOGDEBUG << "m_priData:" << std::endl << (*m_priData) << std::endl;
+    // insert new data from inMsg into the m_priData matrix
+    for (RANGEBIN r = 0; r < (RANGEBIN)inMsg->size(); r++) { (*m_priData)(m_insertRow, r) = inMsg[r]; }
+    // LOGDEBUG << "m_priData:" << std::endl << (*m_priData) << std::endl;
 
 #ifndef USE_FAST_CONVOLUTION
     ////////////////////////////////////////////////////////////////////////
-    //determine which wrapped kernel to use
+    // determine which wrapped kernel to use
     int kernelNum = m_wrappedKernels.size() - 1 - m_insertRow;
-    DataMatrixPtr kernel = m_wrappedKernels [kernelNum];
+    DataMatrixPtr kernel = m_wrappedKernels[kernelNum];
 
-    //convole the m_priData with the selected kernel
-    ConvolveMatrix convolver (*kernel, D2(D1(m_priData->size(0)),
-                                          D1(m_priData->size(1))), 1);
+    // convole the m_priData with the selected kernel
+    ConvolveMatrix convolver(*kernel, D2(D1(m_priData->size(0)), D1(m_priData->size(1))), 1);
     convolver(*m_priData, *m_scratch);
 
-    //create the output message/matrix
-    Messages::Video::Ref outMsg (Messages::Video::Make(getName(), inMsg));
+    // create the output message/matrix
+    Messages::Video::Ref outMsg(Messages::Video::Make(getName(), inMsg));
     outMsg->resize(inMsg->size());
     RANGEBIN zeroPad = kernel->size(1) / 2;
     for (RANGEBIN c = 0; c < (RANGEBIN)outMsg->size(); c++) {
         if ((c < zeroPad) || (c >= m_scratch->size(1) + zeroPad))
             outMsg[c] = 0;
         else
-            outMsg[c] = (VIDEODATA) (*m_scratch)(0,c - zeroPad);
+            outMsg[c] = (VIDEODATA)(*m_scratch)(0, c - zeroPad);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -193,23 +187,22 @@ Filter::process(const Messages::Video::Ref& inMsg)
   ////end remove
   */
 
-    Messages::Video::Ref outMsg (Messages::Video::Make(getName(), inMsg));
-    outMsg->resize (m_priData->size(1));
+    Messages::Video::Ref outMsg(Messages::Video::Make(getName(), inMsg));
+    outMsg->resize(m_priData->size(1));
 
     RANGEBIN offset = m_kernel->size(1) / 2;
     for (RANGEBIN c = 0; c < (RANGEBIN)m_priData->size(1); c++) {
-        outMsg[c] = (VIDEODATA) ((*m_scratch)(0, (c+offset) %
-                                              m_priData->size(1))).real();
+        outMsg[c] = (VIDEODATA)((*m_scratch)(0, (c + offset) % m_priData->size(1))).real();
     }
 
     ////////////////////////////////////////////////////////////////////////
 #endif
 
-    //increment to the next line (so that the data is inserted in a fifo style)
+    // increment to the next line (so that the data is inserted in a fifo style)
     m_insertRow = (m_insertRow + 1) % m_priData->size(0);
 
-    //send the new data
-    bool rc = send (outMsg);
+    // send the new data
+    bool rc = send(outMsg);
     return rc;
 }
 
@@ -226,7 +219,7 @@ Filter::resizePriData()
 
     if (!m_maxRangeBinValid) return;
 
-    //the m_priData should always be of size rows x cols (as follows)
+        // the m_priData should always be of size rows x cols (as follows)
 #ifndef USE_FAST_CONVOLUTION
     PRI_COUNT rows = (PRI_COUNT)m_wrappedKernels[0]->size(0);
 #else
@@ -236,62 +229,53 @@ Filter::resizePriData()
     RANGEBIN cols = m_maxRangeBin;
 
     if (!m_priData) {
-        LOGDEBUG << "creating data (" << rows << "x" << cols << ")"
-                 << std::endl;
+        LOGDEBUG << "creating data (" << rows << "x" << cols << ")" << std::endl;
         m_priData = DataMatrixPtr(new DataMatrix(rows, cols, 0));
-        //LOGDEBUG << (*m_priData) << std::endl;
+        // LOGDEBUG << (*m_priData) << std::endl;
 
-    }
-    else if ((rows != (PRI_COUNT)m_priData->size(0))) {
-        //if the number of required rows has changed, then the kernel has
+    } else if ((rows != (PRI_COUNT)m_priData->size(0))) {
+        // if the number of required rows has changed, then the kernel has
         //  changed just discard all data
-        LOGDEBUG << "resizing the number of rows (" << rows << "x" << cols
-                 << ")" << std::endl;
+        LOGDEBUG << "resizing the number of rows (" << rows << "x" << cols << ")" << std::endl;
         m_priData = DataMatrixPtr(new DataMatrix(rows, cols, 0));
 
-    }
-    else if ((cols != (RANGEBIN)m_priData->size(1))) {
-        //if only the columns are mismatched, copy the data (the number of cols
+    } else if ((cols != (RANGEBIN)m_priData->size(1))) {
+        // if only the columns are mismatched, copy the data (the number of cols
         //  required can change as the pri length changes -- e.g., as the
         //  result of PRF stagger)
-        LOGDEBUG << "resizing the number of cols (" << rows << "x" << cols
-                 << ")" << std::endl;
-        DataMatrixPtr newData (new DataMatrix(rows, cols, 0));
+        LOGDEBUG << "resizing the number of cols (" << rows << "x" << cols << ")" << std::endl;
+        DataMatrixPtr newData(new DataMatrix(rows, cols, 0));
         RANGEBIN copyCols = std::min(cols, (RANGEBIN)m_priData->size(1));
-        (*newData)(D2(D1(rows), D1(copyCols))) =
-            (*m_priData)(D2(D1(rows), D1(copyCols)));
+        (*newData)(D2(D1(rows), D1(copyCols))) = (*m_priData)(D2(D1(rows), D1(copyCols)));
         m_priData = newData;
     }
 
 #ifndef USE_FAST_CONVOLUTION
-    //resize the scratch matrix as appropriate
-    vsip::length_type outputSize = m_priData->size(1) -
-	m_wrappedKernels[0]->size(1) + 1;
-    m_scratch = DataMatrixPtr (new DataMatrix (1, outputSize));
+    // resize the scratch matrix as appropriate
+    vsip::length_type outputSize = m_priData->size(1) - m_wrappedKernels[0]->size(1) + 1;
+    m_scratch = DataMatrixPtr(new DataMatrix(1, outputSize));
 #else
-    //initialize the fft and ifft structures. also, pre-calcualte the
+    // initialize the fft and ifft structures. also, pre-calcualte the
     //  fft of the kernel.
     LOGDEBUG << "initializing the fft...";
-    m_fft = FFTPtr (new FFT(D2(D1(rows), D1(cols)), 1.0f));
+    m_fft = FFTPtr(new FFT(D2(D1(rows), D1(cols)), 1.0f));
 
     LOGDEBUG << "done" << std::endl << "initializing the inverse fft...";
-    m_ifft = IFFTPtr(new IFFT(D2(D1(rows), D1(cols)),
-                              1.0f/(FFTDATA)(rows*cols)));
+    m_ifft = IFFTPtr(new IFFT(D2(D1(rows), D1(cols)), 1.0f / (FFTDATA)(rows * cols)));
 
-    DataMatrix zeroPaddedKernel (rows, cols, COMPLEXFFTDATA(0.0f, 0.0f));
-    zeroPaddedKernel(D2(D1(m_kernel->size(0)), D1(m_kernel->size(1)))) =
-	*m_kernel;
+    DataMatrix zeroPaddedKernel(rows, cols, COMPLEXFFTDATA(0.0f, 0.0f));
+    zeroPaddedKernel(D2(D1(m_kernel->size(0)), D1(m_kernel->size(1)))) = *m_kernel;
 
-    m_fftKernel = DataMatrixPtr(new DataMatrix(rows,cols));
-    m_scratch = DataMatrixPtr(new DataMatrix(rows,cols));
+    m_fftKernel = DataMatrixPtr(new DataMatrix(rows, cols));
+    m_scratch = DataMatrixPtr(new DataMatrix(rows, cols));
 
     LOGDEBUG << "done" << std::endl << "calculating the fft of the kernel...";
     (*m_fft)(zeroPaddedKernel, *m_fftKernel);
 
     LOGDEBUG << "done" << std::endl;
 
-    //LOGDEBUG << "kernel" << std::endl << zeroPaddedKernel << std::endl
-    //		 << "fft(kernel)" << std::endl << *m_fftKernel << std::endl;
+    // LOGDEBUG << "kernel" << std::endl << zeroPaddedKernel << std::endl
+    //             << "fft(kernel)" << std::endl << *m_fftKernel << std::endl;
 #endif
 }
 
@@ -305,13 +289,12 @@ void
 Filter::loadKernel()
 {
     static Logger::ProcLog log("kernelCSVFilenameChanged", getLog());
-    LOGINFO << "loading kernel file " << m_kernelCSVFilename->getValue()
-            << std::endl;
+    LOGINFO << "loading kernel file " << m_kernelCSVFilename->getValue() << std::endl;
 
     DataMatrixPtr newKernel;
 
     std::ifstream in(m_kernelCSVFilename->getValue().c_str(), ios::in);
-    if (! in) {
+    if (!in) {
         LOGWARNING << "unable to open file \"" << m_kernelCSVFilename->getValue()
                    << "\", defaulting to a 1x1 all pass kernel" << std::endl;
         newKernel = DataMatrixPtr(new DataMatrix(1, 1, 1.0f));
@@ -332,36 +315,34 @@ Filter::doInternalSetup(DataMatrixPtr kernel)
 
 #ifndef USE_FAST_CONVOLUTION
     ////////////////////////////////////////////////////////////////////////
-    //delete any existing kernels
+    // delete any existing kernels
     m_wrappedKernels.clear();
 
-    //add the original kernel to the list
+    // add the original kernel to the list
     m_wrappedKernels.push_back(kernel);
 
     for (vsip::index_type i = 1; i < kernel->size(0); i++) {
-        //rotate the kernel by one row
-        DataMatrixPtr rotated1Row(new DataMatrix(kernel->size(0),
-                                                 kernel->size(1)));
-        //assume rotated1Row and kernel have dimensions [0:M] x [0:N]
-        //rotated1Row(0:M-1,:) = kernel(1:M,:)
-        (*rotated1Row)(D2(D1(0,1,kernel->size(0)-1), D1(kernel->size(1)))) =
-            (*kernel) (D2(D1(1,1,kernel->size(0)-1), D1(kernel->size(1))));
-        //rotated1Row(M,:) = kernel(0,:)
-        (*rotated1Row)(D2(D1(kernel->size(0)-1,1,1), D1(kernel->size(1)))) =
-            (*kernel) (D2(D1(0,1,1), D1(kernel->size(1))));
+        // rotate the kernel by one row
+        DataMatrixPtr rotated1Row(new DataMatrix(kernel->size(0), kernel->size(1)));
+        // assume rotated1Row and kernel have dimensions [0:M] x [0:N]
+        // rotated1Row(0:M-1,:) = kernel(1:M,:)
+        (*rotated1Row)(D2(D1(0, 1, kernel->size(0) - 1), D1(kernel->size(1)))) =
+            (*kernel)(D2(D1(1, 1, kernel->size(0) - 1), D1(kernel->size(1))));
+        // rotated1Row(M,:) = kernel(0,:)
+        (*rotated1Row)(D2(D1(kernel->size(0) - 1, 1, 1), D1(kernel->size(1)))) =
+            (*kernel)(D2(D1(0, 1, 1), D1(kernel->size(1))));
 
         m_wrappedKernels.push_back(rotated1Row);
         kernel = rotated1Row;
     }
 
     for (int j = 0; j < (int)m_wrappedKernels.size(); j++) {
-        LOGDEBUG << "kernel #" << j << std::endl
-                 << *(m_wrappedKernels[j]) << std::endl;
+        LOGDEBUG << "kernel #" << j << std::endl << *(m_wrappedKernels[j]) << std::endl;
     }
     ////////////////////////////////////////////////////////////////////////
 #else
     ////////////////////////////////////////////////////////////////////////
-    //just save the kernel, nothing to do
+    // just save the kernel, nothing to do
     m_kernel = kernel;
 
     ////////////////////////////////////////////////////////////////////////
@@ -374,7 +355,7 @@ Filter::readCSV(std::istream& is)
     static Logger::ProcLog log("readCSV", getLog());
     std::string line, tok1;
 
-    //read in the number of rows and columns
+    // read in the number of rows and columns
     if (!std::getline(is, line)) {
         LOGERROR << "bad csv file" << std::endl;
         abort();
@@ -394,8 +375,8 @@ Filter::readCSV(std::istream& is)
 
     int cols = atoi(tok1.c_str());
 
-    //create the matrix
-    DataMatrixPtr m = DataMatrixPtr (new DataMatrix(rows, cols));
+    // create the matrix
+    DataMatrixPtr m = DataMatrixPtr(new DataMatrix(rows, cols));
 
     for (int r = 0; r < rows; r++) {
         if (!std::getline(is, line)) {
@@ -406,14 +387,13 @@ Filter::readCSV(std::istream& is)
         std::istringstream iss2(line);
         for (int c = 0; c < cols; c++) {
             if (!std::getline(iss2, tok1, ',')) {
-                LOGERROR << "error read line #" << r << " col #" << c
-                         << std::endl;
+                LOGERROR << "error read line #" << r << " col #" << c << std::endl;
                 abort();
             }
 #ifndef USE_FAST_CONVOLUTION
-            (*m)(r,c) = atof(tok1.c_str());
+            (*m)(r, c) = atof(tok1.c_str());
 #else
-            (*m)(r,c) = COMPLEXFFTDATA(atof(tok1.c_str()), 0.0f);
+            (*m)(r, c) = COMPLEXFFTDATA(atof(tok1.c_str()), 0.0f);
 #endif
         }
     }

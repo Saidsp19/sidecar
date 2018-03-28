@@ -10,14 +10,13 @@ namespace ConfigEditor {
 class ConfigurationItem;
 class StreamItem;
 
-class RunnerItem : public TreeItem
-{
+class RunnerItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
-    RunnerItem(ConfigurationItem* parent, const QString& name,
-               const QString& hostName, const QString& multicastAddress);
+public:
+    RunnerItem(ConfigurationItem* parent, const QString& name, const QString& hostName,
+               const QString& multicastAddress);
 
     ConfigurationItem* getParent() const;
 

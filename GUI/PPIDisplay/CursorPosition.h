@@ -11,12 +11,11 @@ namespace SideCar {
 namespace GUI {
 namespace PPIDisplay {
 
-class CursorPosition : public QObject
-{
+class CursorPosition : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     CursorPosition(double x, double y);
 
     ~CursorPosition();

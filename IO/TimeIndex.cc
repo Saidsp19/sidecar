@@ -1,8 +1,8 @@
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "Logger/Log.h"
 #include "Messages/Header.h"
@@ -28,17 +28,16 @@ TimeIndex::GetIndexFileSuffix()
     return kIndexFileSuffix_;
 }
 
-TimeIndex::TimeIndex(const std::string& path)
-    : array_(0), size_(0)
+TimeIndex::TimeIndex(const std::string& path) : array_(0), size_(0)
 {
     static Logger::ProcLog log("TimeIndex", Log());
     LOGINFO << path << std::endl;
 
     Utils::FilePath fp(path);
-    if (! fp.exists()) {
-	Utils::Exception ex("Unable to locate index file ");
-	ex << fp;
-	log.thrower(ex);
+    if (!fp.exists()) {
+        Utils::Exception ex("Unable to locate index file ");
+        ex << fp;
+        log.thrower(ex);
     }
 
     LOGDEBUG << "loading position file" << std::endl;
@@ -57,29 +56,28 @@ TimeIndex::load(const Utils::FilePath& path)
     LOGINFO << path << std::endl;
 
     AutoCloseFileDescriptor ifd(::open(path.c_str(), O_RDONLY));
-    if (! ifd) {
-	Utils::Exception ex("Failed to open position file ");
-	ex << path << " - " << errno << ' ' << strerror(errno);
-	log.thrower(ex);
+    if (!ifd) {
+        Utils::Exception ex("Failed to open position file ");
+        ex << path << " - " << errno << ' ' << strerror(errno);
+        log.thrower(ex);
     }
 
     struct stat fileStats;
     int rc = ::fstat(ifd, &fileStats);
     if (rc == -1) {
-	Utils::Exception ex("Failed fstats() on position file ");
-	ex << path << " - " << errno << ' ' << strerror(errno);
-	log.thrower(ex);
+        Utils::Exception ex("Failed fstats() on position file ");
+        ex << path << " - " << errno << ' ' << strerror(errno);
+        log.thrower(ex);
     }
 
     size_ = fileStats.st_size / sizeof(Entry);
-    array_ = (Entry*)::mmap(0, fileStats.st_size, PROT_READ, MAP_SHARED,
-                            ifd, 0);
+    array_ = (Entry*)::mmap(0, fileStats.st_size, PROT_READ, MAP_SHARED, ifd, 0);
     if (array_ == (void*)(-1)) {
-	Utils::Exception ex("Failed mmap() on position file ");
-	ex << path << " - " << errno << ' ' << strerror(errno);
-	LOGERROR << ex.err() << std::endl;
-	size_ = 0;
-	array_ = 0;
+        Utils::Exception ex("Failed mmap() on position file ");
+        ex << path << " - " << errno << ' ' << strerror(errno);
+        LOGERROR << ex.err() << std::endl;
+        size_ = 0;
+        array_ = 0;
     }
 }
 
@@ -90,15 +88,14 @@ TimeIndex::findOnOrBefore(uint32_t when) const
     LOGINFO << when << std::endl;
     off_t offset = 0;
     if (size_) {
-	Entry tmp(when);
-	const_iterator pos(std::lower_bound(begin(), end(), tmp));
-	if (pos == end()) {
-	    offset = off_t(-1);
-	}
-	else {
-	    if (pos != begin() && pos->when_ > when) --pos;
-	    offset = pos->position_;
-	}
+        Entry tmp(when);
+        const_iterator pos(std::lower_bound(begin(), end(), tmp));
+        if (pos == end()) {
+            offset = off_t(-1);
+        } else {
+            if (pos != begin() && pos->when_ > when) --pos;
+            offset = pos->position_;
+        }
     }
 
     LOGDEBUG << offset << std::endl;

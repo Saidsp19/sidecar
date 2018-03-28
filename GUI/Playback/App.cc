@@ -5,8 +5,7 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::Playback;
 
-App::App(int& argc, char** argv)
-    : Super("Playback", argc, argv)
+App::App(int& argc, char** argv) : Super("Playback", argc, argv)
 {
     browserWindow_ = new BrowserWindow(Qt::CTRL + Qt::SHIFT + Qt::Key_1);
     addToolWindow(kShowBrowserWindow, browserWindow_);

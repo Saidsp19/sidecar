@@ -1,45 +1,24 @@
-#include <algorithm>		// for transform
-#include <cstring>		// for toupper
+#include <algorithm> // for transform
+#include <cstring>   // for toupper
 #include <sstream>
 
 #include "Logger/Priority.h"
 
 using namespace Logger;
 
-const char* Priority::shortNames_[Priority::kNumLevels] = {
-    "-",
-    "F",
-    "E",
-    "W",
-    "I",
-    "TI",
-    "TO",
-    "D1",
-    "D2",
-    "D3"
-};
+const char* Priority::shortNames_[Priority::kNumLevels] = {"-", "F", "E", "W", "I", "TI", "TO", "D1", "D2", "D3"};
 
-const char* Priority::longNames_[Priority::kNumLevels] = {
-    "NONE",
-    "FATAL",
-    "ERROR",
-    "WARNING",
-    "INFO",
-    "TRACE-IN",
-    "TRACE-OUT",
-    "DEBUG-1",
-    "DEBUG-2",
-    "DEBUG-3"
-};
+const char* Priority::longNames_[Priority::kNumLevels] = {"NONE",     "FATAL",     "ERROR",   "WARNING", "INFO",
+                                                          "TRACE-IN", "TRACE-OUT", "DEBUG-1", "DEBUG-2", "DEBUG-3"};
 
-Priority::InvalidName::InvalidName(const std::string& name)
-    : Priority::PriorityException<InvalidName>("Find", "invalid Priority name - ")
+Priority::InvalidName::InvalidName(const std::string& name) :
+    Priority::PriorityException<InvalidName>("Find", "invalid Priority name - ")
 {
     *this << "'" << name << "'";
 }
 
-Priority::InvalidLevel::InvalidLevel(Priority::Level level)
-    : Priority::PriorityException<InvalidLevel>("Name", "invalid Priority level - ")
+Priority::InvalidLevel::InvalidLevel(Priority::Level level) :
+    Priority::PriorityException<InvalidLevel>("Name", "invalid Priority level - ")
 {
     *this << level;
 }
@@ -51,9 +30,7 @@ Priority::Find(std::string name) throw(Priority::InvalidName)
     //
     std::transform(name.begin(), name.end(), name.begin(), toupper);
     for (int index = 0; index < kNumLevels; ++index) {
-	if (name == shortNames_[index] || name == longNames_[index]) {
-	    return Level(index);
-        }
+        if (name == shortNames_[index] || name == longNames_[index]) { return Level(index); }
     }
 
     // Try and convert to an integer
@@ -61,7 +38,7 @@ Priority::Find(std::string name) throw(Priority::InvalidName)
     std::istringstream is(name);
     int index;
     is >> index;
-    if (! is || index < kNone || index > kDebug3) throw InvalidName(name);
+    if (!is || index < kNone || index > kDebug3) throw InvalidName(name);
     return Level(index);
 }
 

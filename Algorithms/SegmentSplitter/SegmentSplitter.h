@@ -48,8 +48,7 @@ namespace Algorithms {
    \endcode
 
 */
-class SegmentSplitter : public Algorithm
-{
+class SegmentSplitter : public Algorithm {
     // Algorithm interface
     //
 public:
@@ -66,7 +65,7 @@ private:
     Parameter::IntValue::Ref deltaRange;
     Parameter::IntValue::Ref deltaAz;
     Parameter::NormalizedValue::Ref overlap; // maximum allowed overlap
-    float minDist; // minimum allowed distance
+    float minDist;                           // minimum allowed distance
     void handle_overlap_change(const Parameter::NormalizedValue&);
 
     // Video buffer
@@ -77,7 +76,8 @@ private:
     Buffer<VideoT>::Row row;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

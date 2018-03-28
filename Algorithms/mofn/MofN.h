@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_MOFN_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_MOFN_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_MOFN_H
 
 #include "Algorithms/Algorithm.h"
@@ -16,29 +16,22 @@ namespace Algorithms {
     detection.
 */
 
-class MofN : public Algorithm
-{
+class MofN : public Algorithm {
 public:
-
     using DetectionCountType = uint16_t;
     using DetectionCountVector = std::vector<DetectionCountType>;
 
     /** Internal class that contains data retained between PRI message processing. Holds the binary video PRI
-	message and the detected counts from the PRI message.
+        message and the detected counts from the PRI message.
     */
     struct RetainedEntry {
-	Messages::BinaryVideo::Ref video;
-	DetectionCountVector detectionCounts;
+        Messages::BinaryVideo::Ref video;
+        DetectionCountVector detectionCounts;
     };
 
     using RetainedEntryVector = std::vector<RetainedEntry>;
 
-    enum InfoSlot {
-	kNumPRIs = ControllerStatus::kNumSlots,
-	kNumGates,
-	kThreshold,
-	kNumSlots
-    };
+    enum InfoSlot { kNumPRIs = ControllerStatus::kNumSlots, kNumGates, kThreshold, kNumSlots };
 
     /** Constructor.
 
@@ -62,7 +55,6 @@ public:
     bool reset();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     /** Override of Algorithm::setInfoSlots(). Stores XML representation of cancellation statistics ino the
@@ -73,8 +65,8 @@ private:
     void setInfoSlots(IO::StatusBase& status);
 
     struct ThresholdRange {
-	static double GetMinValue() { return 0.0; }
-	static double GetMaxValue() { return 1.0; }
+        static double GetMinValue() { return 0.0; }
+        static double GetMaxValue() { return 1.0; }
     };
 
     using ThresholdDef = Parameter::Defs::RangedDouble<ThresholdRange>;
@@ -125,17 +117,17 @@ private:
     Parameter::BoolValue::Ref enabled_;
 
     /** Runtime parameter window width. This is the number of PRI messages needed before a calculation can be
-	done.
+        done.
     */
     Parameter::PositiveIntValue::Ref numPRIs_;
 
     /** Runtime parameter window length. This is the number of gates in a PRI message that are used for count
-	summation.
+        summation.
     */
     Parameter::PositiveIntValue::Ref numGates_;
 
     /** Runtime parameter threshold. This is the fractional number of cells in the MxN window which must be
-	true. Valid values lie between 0 and 1, inclusive.
+        true. Valid values lie between 0 and 1, inclusive.
     */
     Threshold::Ref threshold_;
 

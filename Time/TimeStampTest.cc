@@ -1,5 +1,5 @@
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <typeinfo>
 
@@ -12,17 +12,16 @@
 #include "TimeStampRangeSet.h"
 
 using namespace SideCar::Time;
-using namespace boost::assign;	// bring 'operator+=()' into scope
+using namespace boost::assign; // bring 'operator+=()' into scope
 
-struct Test : public UnitTest::ProcSuite<Test>
-{
+struct Test : public UnitTest::ProcSuite<Test> {
     Test() : UnitTest::ProcSuite<Test>(this, "TimeStampTests")
-	{
-	    add("TimeStamp", &Test::testTimeStamp);
-	    add("TimeSpecifications", &Test::testTimeSpecifications);
-	    add("TimeStampRange", &Test::testTimeStampRange);
-	    add("TimeStampRangeSet", &Test::testTimeStampRangeSet);
-	}
+    {
+        add("TimeStamp", &Test::testTimeStamp);
+        add("TimeSpecifications", &Test::testTimeSpecifications);
+        add("TimeStampRange", &Test::testTimeStampRange);
+        add("TimeStampRangeSet", &Test::testTimeStampRangeSet);
+    }
 
     void testTimeStamp();
     void testTimeSpecifications();
@@ -38,8 +37,7 @@ Test::testTimeStamp()
     assertEqual(0, TimeStamp::Min().getSeconds());
     assertEqual(0, TimeStamp::Min().getMicro());
 
-    assertEqual(std::numeric_limits<int>::max(),
-                TimeStamp::Max().getSeconds());
+    assertEqual(std::numeric_limits<int>::max(), TimeStamp::Max().getSeconds());
     assertEqual(1E6 - 1, TimeStamp::Max().getMicro());
 
     TimeStamp t0;
@@ -92,69 +90,65 @@ void
 Test::testTimeSpecifications()
 {
     try {
-	// Empty specification
-	//
-	TimeStamp::ParseSpecification("", TimeStamp::Now());
-	assertTrue(0);
-    }
-    catch (const TimeStamp::InvalidSpecification&) {
-	;
-    }
-    catch (const Utils::Exception&) {
-	;
+        // Empty specification
+        //
+        TimeStamp::ParseSpecification("", TimeStamp::Now());
+        assertTrue(0);
+    } catch (const TimeStamp::InvalidSpecification&) {
+        ;
+    } catch (const Utils::Exception&) {
+        ;
     }
 
     try {
-	// Bogus specification
-	//
-	TimeStamp::ParseSpecification("hi", TimeStamp::Now());
-	assertTrue(0);
-    }
-    catch (const TimeStamp::InvalidSpecification&) {
-	;
-    }
-    catch (const Utils::Exception&) {
-	;
+        // Bogus specification
+        //
+        TimeStamp::ParseSpecification("hi", TimeStamp::Now());
+        assertTrue(0);
+    } catch (const TimeStamp::InvalidSpecification&) {
+        ;
+    } catch (const Utils::Exception&) {
+        ;
     }
 
     // Relative seconds (integer)
     //
     TimeStamp now = TimeStamp::Now();
     TimeStamp z = TimeStamp::ParseSpecification("+1", now);
-    assertEqual(now + TimeStamp(1 , 0), z);
+    assertEqual(now + TimeStamp(1, 0), z);
 
     // Relative seconds (floating-point)
     //
     z = TimeStamp::ParseSpecification("+1.5", now);
-    assertEqual(now + TimeStamp(1 , TimeStamp::kMicrosPerSecond / 2), z);
+    assertEqual(now + TimeStamp(1, TimeStamp::kMicrosPerSecond / 2), z);
 
     // Relative seconds in MM:SS
     //
     z = TimeStamp::ParseSpecification("+10:02", now);
-    assertEqual(now + TimeStamp(602 , 0), z);
+    assertEqual(now + TimeStamp(602, 0), z);
 
     // Relative time seconds MM:SS.SSS
     //
     z = TimeStamp::ParseSpecification("+1:02.5", now);
-    assertEqual(now + TimeStamp(62 , TimeStamp::kMicrosPerSecond / 2), z);
+    assertEqual(now + TimeStamp(62, TimeStamp::kMicrosPerSecond / 2), z);
 
     // Absolute time. Obtain SSS:UUU representation of known value, then parse it and make sure we get back the
     // original TimeStamp value.
     //
     {
-	std::ostringstream os;
-	os << now;
-	z = TimeStamp::ParseSpecification(os.str(), now);
-	assertEqual(now, z);
+        std::ostringstream os;
+        os << now;
+        z = TimeStamp::ParseSpecification(os.str(), now);
+        assertEqual(now, z);
     }
 
     {
-	std::ostringstream os;
-	TimeStamp future(now);
-	future += 123;
-	os << future;
-	z = TimeStamp::ParseSpecification(os.str(), now);
-	assertEqual(future, z);
+        std::ostringstream os;
+        TimeStamp future(now);
+        future += 123;
+        os << future;
+        z = TimeStamp::ParseSpecification(os.str(), now);
+        assertEqual(future, z);
     }
 }
 
@@ -164,53 +158,48 @@ Test::testTimeStampRange()
     // Test for illegal formats
     //
     try {
-	TimeStampRange::Make(""); // empty string
-	assertTrue(0);
-    }
-    catch (const std::runtime_error&) {
-	;
-    }
-
-    try {
-	TimeStampRange::Make("barf"); // bad starting value
-	assertTrue(0);
-    }
-    catch (const std::runtime_error&) {
-	;
+        TimeStampRange::Make(""); // empty string
+        assertTrue(0);
+    } catch (const std::runtime_error&) {
+        ;
     }
 
     try {
-	TimeStampRange::Make("123.233&"); // expecting '-'
-	assertTrue(0);
-    }
-    catch (const std::runtime_error&) {
-	;
-    }
-
-    try {
-	TimeStampRange::Make("123.233-barf"); // bad ending value
-	assertTrue(0);
-    }
-    catch (const std::runtime_error&) {
-	;
+        TimeStampRange::Make("barf"); // bad starting value
+        assertTrue(0);
+    } catch (const std::runtime_error&) {
+        ;
     }
 
     try {
-	TimeStampRange::Make("456-123"); // start > end
-	assertTrue(0);
+        TimeStampRange::Make("123.233&"); // expecting '-'
+        assertTrue(0);
+    } catch (const std::runtime_error&) {
+        ;
     }
-    catch (...) {
-	assertTrue(1);
+
+    try {
+        TimeStampRange::Make("123.233-barf"); // bad ending value
+        assertTrue(0);
+    } catch (const std::runtime_error&) {
+        ;
+    }
+
+    try {
+        TimeStampRange::Make("456-123"); // start > end
+        assertTrue(0);
+    } catch (...) {
+        assertTrue(1);
     }
 
     // Now test for valid formats
     //
-    TimeStampRange a(TimeStampRange::Make("123"));// end time only
+    TimeStampRange a(TimeStampRange::Make("123")); // end time only
     assertEqual(TimeStamp::Min(), a.getStart());
-    assertEqual(TimeStamp(123.0) , a.getEnd());
+    assertEqual(TimeStamp(123.0), a.getEnd());
 
     TimeStampRange b(TimeStampRange::Make("123-")); // start time only
-    assertEqual(TimeStamp(123.0) , b.getStart());
+    assertEqual(TimeStamp(123.0), b.getStart());
     assertEqual(TimeStamp::Max(), b.getEnd());
 
     TimeStampRange c(TimeStampRange::Make("123-456")); // both start and end
@@ -245,7 +234,7 @@ Test::testTimeStampRangeSet()
     TimeStampRangeSet tsrs(specs);
     assertFalse(tsrs.empty());
     assertEqual(4U, tsrs.size());
-    
+
     assertTrue(tsrs.contains(TimeStamp::Min()));
     assertTrue(tsrs.contains(200.0));
     assertTrue(tsrs.contains(300.0));

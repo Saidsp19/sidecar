@@ -3,7 +3,10 @@
 
 #include "QtGui/QDialog"
 
-namespace Logger { class ConfiguratorFile; class Log; }
+namespace Logger {
+class ConfiguratorFile;
+class Log;
+} // namespace Logger
 
 namespace SideCar {
 namespace GUI {
@@ -14,12 +17,11 @@ class MainWindowBase;
 /** Common base class for all SideCar GUI tool windows. A tool window is a QDialog window that is not modal. The
     application saves and restores tool window position, size, and visibility state information.
 */
-class ToolWindowBase : public QDialog
-{
+class ToolWindowBase : public QDialog {
     Q_OBJECT
     using Super = QDialog;
-public:
 
+public:
     /** Log device for instances of this class.
 
         \return log device
@@ -28,17 +30,16 @@ public:
 
     /** Constructor.
 
-	\param name the name of the tool window to use when loading and saving
-	settings
+        \param name the name of the tool window to use when loading and saving
+        settings
 
-	\param actionTitle text for the QAction object used to control window
-	visibility
+        \param actionTitle text for the QAction object used to control window
+        visibility
 
-	\param shortcut optional key sequence used to toggle window visibility
-	reflects the state of the tool window
+        \param shortcut optional key sequence used to toggle window visibility
+        reflects the state of the tool window
     */
-    ToolWindowBase(const QString& name, const QString& actionTitle,
-                   int shortcut = 0);
+    ToolWindowBase(const QString& name, const QString& actionTitle, int shortcut = 0);
 
     /** Obtain the QAction object that toggles the tool window's visibility.
 
@@ -73,7 +74,6 @@ public slots:
     virtual void showAndRaise();
 
 protected:
-
     /** Event handler for show events. Use any saved settings for the window's size and position values. Updates
         any managed QAction object.
 
@@ -94,7 +94,6 @@ protected:
     void hideEvent(QHideEvent* event);
 
 private:
-
     void updateShowHideMenuAction(bool state);
 
     QAction* showHideAction_;

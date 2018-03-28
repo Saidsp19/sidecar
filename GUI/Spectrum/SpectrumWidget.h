@@ -14,7 +14,9 @@
 #include "DoubleVector.h"
 #include "ViewSettings.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -26,12 +28,11 @@ class Settings;
 class ViewChanger;
 class WorkRequest;
 
-class SpectrumWidget : public QWidget
-{
+class SpectrumWidget : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor. Creates a new Visualizer from scratch.
@@ -65,10 +66,9 @@ public:
     const QVector<QPointF>& getBins() const { return bins_; }
 
     double getPowerFromMagnitude(const fftw_complex& c) const
-	{
-	    return 20.0 * ::log10(::sqrt(c[0] * c[0] + c[1] * c[1]) + 1.0) -
-		dbOffset_;
-	}
+    {
+        return 20.0 * ::log10(::sqrt(c[0] * c[0] + c[1] * c[1]) + 1.0) - dbOffset_;
+    }
 
 signals:
 
@@ -85,7 +85,7 @@ public slots:
     void setFFTSize(int size);
 
     void centerAtCursor();
-    
+
     void needUpdate();
 
     void swapViews();
@@ -103,11 +103,10 @@ private slots:
     void updateColor(const QColor& color);
 
     void powerScalingChanged();
-    
+
     void recalculateX();
 
 private:
-
     void paintEvent(QPaintEvent* event);
     void resizeEvent(QResizeEvent* event);
     void showEvent(QShowEvent* event);
@@ -137,7 +136,7 @@ private:
     QColor color_;
 
     ViewChanger* viewChanger_;
-    
+
     bool needUpdate_;
     bool frozen_;
 };

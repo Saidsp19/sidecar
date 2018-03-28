@@ -13,10 +13,14 @@
 #include "Time/TimeStamp.h"
 #include "Zeroconf/Browser.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Zeroconf { class Publisher; }
+namespace Zeroconf {
+class Publisher;
+}
 namespace IO {
 
 /** Publisher of data using UDP multicast transport. Relies on MulticastSocketWriter to do the actual delivery
@@ -33,9 +37,9 @@ namespace IO {
     immediately that it has one less subscriber. If for some reason, the 'BYE' does not make it through to the
     publisher, the periodic scan mentioned above will take care of it.
 */
-class MulticastDataPublisher : public DataPublisher, public ZeroconfTypes::Publisher
-{
+class MulticastDataPublisher : public DataPublisher, public ZeroconfTypes::Publisher {
     using Super = DataPublisher;
+
 public:
     using Ref = boost::shared_ptr<MulticastDataPublisher>;
     using ServiceEntryVector = Zeroconf::Browser::ServiceEntryVector;
@@ -58,9 +62,9 @@ public:
 
     /** Open a server connection on a particular port.
 
-	\param key message type key of published data
+        \param key message type key of published data
 
-	\param serviceName Zeroconf name of service publishing the data
+        \param serviceName Zeroconf name of service publishing the data
 
         \return true if successful, false otherwise
     */
@@ -76,7 +80,6 @@ public:
     int close(u_long flags = 0);
 
 protected:
-
     /** Constructor. Does nothing -- like most ACE classes, all initialization is done in the init and open
         methods.
     */
@@ -111,13 +114,12 @@ protected:
     int handle_timeout(const ACE_Time_Value& duration, const void* arg);
 
 private:
-
     /** Override of ACE_Event_Handler method. Invoked by ACE_Reactor when UDP data is available on the given
         socket handle.
 
         \param handle socket handle containing the data
 
-        \return 
+        \return
     */
     int handle_input(ACE_HANDLE handle);
 
@@ -138,7 +140,7 @@ private:
     long threadPriority_;
     ACE_SOCK_Dgram heartBeatReader_;
     long timer_;
-    using HeartBeatMap = std::map<std::string,Time::TimeStamp>;
+    using HeartBeatMap = std::map<std::string, Time::TimeStamp>;
     HeartBeatMap heartBeats_;
 };
 

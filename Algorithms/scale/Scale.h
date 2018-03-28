@@ -2,14 +2,13 @@
 #define SIDECAR_ALGORITHMS_SCALE_H
 
 #include "Algorithms/Algorithm.h"
-#include "Parameter/Parameter.h"
 #include "Messages/Video.h"
+#include "Parameter/Parameter.h"
 
 namespace SideCar {
 namespace Algorithms {
 
-class Scale : public Algorithm
-{
+class Scale : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
 
@@ -28,9 +27,8 @@ public:
     bool startup();
 
     void setScale(double value) { scale_->setValue(value); }
-    
-private:
 
+private:
     /** Process next PRI message.
 
         \param msg message to process

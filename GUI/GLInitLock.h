@@ -1,15 +1,15 @@
 #ifndef SIDECAR_GUI_GLINITLOCK_H // -*- C++ -*-
 #define SIDECAR_GUI_GLINITLOCK_H
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
-class GLInitLock 
-{
+class GLInitLock {
 public:
-
     static Logger::Log& Log();
 
     GLInitLock();
@@ -17,7 +17,6 @@ public:
     ~GLInitLock();
 
 private:
-
     static int GetSemaphore();
 
     static int semaphore_;

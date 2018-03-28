@@ -6,20 +6,21 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace AScope {
 
 class ViewBounds {
-
 public:
-
     ViewBounds() {}
 
-    ViewBounds(double xMin, double xMax, double yMin, double yMax)
-	: xMin_(xMin), xMax_(xMax), yMin_(yMin), yMax_(yMax) {}
+    ViewBounds(double xMin, double xMax, double yMin, double yMax) : xMin_(xMin), xMax_(xMax), yMin_(yMin), yMax_(yMax)
+    {
+    }
 
     double getXMin() const { return xMin_; }
     double getXMax() const { return xMax_; }
@@ -31,27 +32,27 @@ public:
     double getHeight() const { return yMax_ - yMin_; }
 
     void translate(double dx, double dy)
-	{ xMin_ += dx; xMax_ += dx; yMin_ += dy; yMax_ += dy; }
+    {
+        xMin_ += dx;
+        xMax_ += dx;
+        yMin_ += dy;
+        yMax_ += dy;
+    }
 
 private:
-    
     double xMin_, xMax_, yMin_, yMax_;
 };
 
 /** User-defined view setting.
  */
-class ViewSettings
-{
+class ViewSettings {
 public:
-
     static Logger::Log& Log();
 
     ViewSettings() {}
 
-    ViewSettings(double rangeMin, double rangeMax,
-                 int gateMin, int gateMax, double voltageMin,
-                 double voltageMax, int sampleMin, int sampleMax,
-                 bool showingRanges, bool showingVoltages);
+    ViewSettings(double rangeMin, double rangeMax, int gateMin, int gateMax, double voltageMin, double voltageMax,
+                 int sampleMin, int sampleMax, bool showingRanges, bool showingVoltages);
 
     ViewSettings(QSettings& settings);
 
@@ -89,11 +90,9 @@ public:
 
     bool operator==(const ViewSettings& rhs) const;
 
-    bool operator!=(const ViewSettings& rhs) const
-	{ return ! operator==(rhs); }
+    bool operator!=(const ViewSettings& rhs) const { return !operator==(rhs); }
 
 private:
-
     void updateBounds();
 
     ViewBounds bounds_;

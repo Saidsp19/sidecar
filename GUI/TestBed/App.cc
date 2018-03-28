@@ -2,9 +2,9 @@
 #include "QtGui/QIcon"
 #include "QtGui/QMessageBox"
 
+#include "GUI/LogUtils.h"
 #include "GUI/PresetsWindow.h"
 #include "GUI/Utils.h"
-#include "GUI/LogUtils.h"
 
 #include "App.h"
 #include "MainWindow.h"
@@ -19,8 +19,7 @@ App::Log()
     return log_;
 }
 
-App::App(int& argc, char** argv)
-    : AppBase("TestBed", argc, argv)
+App::App(int& argc, char** argv) : AppBase("TestBed", argc, argv)
 {
     static Logger::ProcLog log("App", Log());
     LOGINFO << std::endl;

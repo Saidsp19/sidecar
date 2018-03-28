@@ -15,52 +15,46 @@ using namespace SideCar;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 
-class Message : public Header
-{
+class Message : public Header {
 public:
     using Ref = boost::shared_ptr<Message>;
 
     static const MetaTypeInfo& GetMetaTypeInfo();
 
-    static Header::Ref Loader(ACE_InputCDR& cdr)
-	{
-	    return Make(cdr);
-	}
+    static Header::Ref Loader(ACE_InputCDR& cdr) { return Make(cdr); }
 
     static Ref Make(const std::string& value)
-	{
-	    Ref ref(new Message(value));
-	    return ref;
-	}
+    {
+        Ref ref(new Message(value));
+        return ref;
+    }
 
     static Ref Make(ACE_InputCDR& cdr)
-	{
-	    Ref ref(new Message(cdr));
-	    return ref;
-	}
+    {
+        Ref ref(new Message(cdr));
+        return ref;
+    }
 
     const std::string& getValue() const { return value_; }
 
     ACE_InputCDR& load(ACE_InputCDR& cdr)
-	{
-	    Header::load(cdr);
-	    cdr >> value_;
-	    return cdr;
-	}
+    {
+        Header::load(cdr);
+        cdr >> value_;
+        return cdr;
+    }
 
     ACE_OutputCDR& write(ACE_OutputCDR& cdr) const
-	{
-	    Header::write(cdr);
-	    cdr << value_;
-	    return cdr;
-	}
+    {
+        Header::write(cdr);
+        cdr << value_;
+        return cdr;
+    }
 
 private:
-    Message(ACE_InputCDR& cdr) : Header(GetMetaTypeInfo()), value_("")
-	{ load(cdr); }
+    Message(ACE_InputCDR& cdr) : Header(GetMetaTypeInfo()), value_("") { load(cdr); }
 
-    Message(const std::string& value)
-	: Header("test", GetMetaTypeInfo(), Header::Ref()), value_(value) {}
+    Message(const std::string& value) : Header("test", GetMetaTypeInfo(), Header::Ref()), value_(value) {}
 
     std::string value_;
 
@@ -75,11 +69,14 @@ Message::GetMetaTypeInfo()
     return metaTypeInfo_;
 }
 
-struct TestTask : public Task
-{
+struct TestTask : public Task {
     enum { kNumMessages = 5 };
     using Ref = boost::shared_ptr<TestTask>;
-    static Ref Make() { Ref ref(new TestTask); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new TestTask);
+        return ref;
+    }
     TestTask() : Task(), count_(0) {}
     bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout);
     bool doShutdownRequest();
@@ -96,19 +93,16 @@ TestTask::doShutdownRequest()
 bool
 TestTask::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
 {
-    static Logger::Log& log =
-	Logger::Log::Find("TestTask::deliverDataMessage");
+    static Logger::Log& log = Logger::Log::Find("TestTask::deliverDataMessage");
 
     MessageManager manager(data);
 
-    LOGDEBUG << "*** TestTask::put: " << count_ << " Type: "
-	     << manager.getMessageType()
-	     << std::endl;
+    LOGDEBUG << "*** TestTask::put: " << count_ << " Type: " << manager.getMessageType() << std::endl;
 
-    if (! manager.hasNativeMessageType(Messages::MetaTypeInfo::Value::kUnassigned)) {
-	LOGERROR << "message does not have expected channel ID" << std::endl;
-	ACE_Reactor::instance()->end_reactor_event_loop();
-	return false;
+    if (!manager.hasNativeMessageType(Messages::MetaTypeInfo::Value::kUnassigned)) {
+        LOGERROR << "message does not have expected channel ID" << std::endl;
+        ACE_Reactor::instance()->end_reactor_event_loop();
+        return false;
     }
 
     ++count_;
@@ -116,8 +110,7 @@ TestTask::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     return true;
 }
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("FileModules") {}
     void test();
 };
@@ -139,7 +132,7 @@ Test::test()
     const int N = TestTask::kNumMessages;
     for (int i = 0; i < N; ++i) {
         std::ostringstream text;
-        text << "Message " << i+1 << " of " << N << std::endl;
+        text << "Message " << i + 1 << " of " << N << std::endl;
         MessageManager mgr(Message::Make(text.str()));
         assertEqual(0, fwt->put(mgr.getMessage(), 0));
     }

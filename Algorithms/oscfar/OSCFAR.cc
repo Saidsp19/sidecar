@@ -16,10 +16,8 @@ using namespace SideCar::Messages;
 /** Utility class that maintains an ordered list of sample values from a Video message. When the window slides
     it drops the oldest sample and gains a new sample, while keeping the ordering intact.
 */
-class OrderedSlidingWindow
-{
+class OrderedSlidingWindow {
 public:
-
     OrderedSlidingWindow(Logger::Log& log, size_t windowSize, const Video::Container& initial);
 
     Video::DatumType getThreshold(size_t index) const { return sorted_[index]; }
@@ -31,8 +29,8 @@ private:
     Logger::Log& log_;
 };
 
-OrderedSlidingWindow::OrderedSlidingWindow(Logger::Log& log, size_t windowSize, const Video::Container& initial)
-    : sorted_(initial.begin(), initial.begin() + windowSize), log_(log)
+OrderedSlidingWindow::OrderedSlidingWindow(Logger::Log& log, size_t windowSize, const Video::Container& initial) :
+    sorted_(initial.begin(), initial.begin() + windowSize), log_(log)
 {
     // Sort the initial window
     //
@@ -43,75 +41,72 @@ OrderedSlidingWindow::OrderedSlidingWindow(Logger::Log& log, size_t windowSize, 
 void
 OrderedSlidingWindow::insertAndRemove(Video::DatumType insert, Video::DatumType remove)
 {
-    if (insert == remove) {
-	return;
-    }
+    if (insert == remove) { return; }
 
     // Locate the position of the item to remove.
     //
     Video::Container::iterator insertPos;
     Video::Container::iterator removePos;
     if (insert < remove) {
+        // Locate the lowest position in the ordered vector where we should find the old item.
+        //
+        removePos = std::lower_bound(sorted_.begin(), sorted_.end(), remove);
 
-	// Locate the lowest position in the ordered vector where we should find the old item.
-	//
-	removePos = std::lower_bound(sorted_.begin(), sorted_.end(), remove);
+        // Locate the highest position in the ordered vector where we could insert the new item and keep the
+        // vector ordered.
+        //
+        insertPos = std::upper_bound(sorted_.begin(), removePos, insert);
 
-	// Locate the highest position in the ordered vector where we could insert the new item and keep the
-	// vector ordered.
-	//
-	insertPos = std::upper_bound(sorted_.begin(), removePos, insert);
+        // If the two positions are the same, just replace.
+        //
+        if (insertPos == removePos) {
+            *insertPos = insert;
+        } else {
+            // Shift all elements from [insertPos, removePos) up one, thus effectively deleting the entry at
+            // removePos, and allowing us to store into insertPos while keeping the elements ordered.
+            //
+            std::copy_backward(insertPos, removePos, removePos + 1);
+            *insertPos = insert;
+        }
+    } else { // insert > remove
 
-	// If the two positions are the same, just replace.
-	//
-	if (insertPos == removePos) {
-	    *insertPos = insert;
-	}
-	else {
+        // Locate the highest position in the ordered vector where we should find the old item.
+        //
+        removePos = std::upper_bound(sorted_.begin(), sorted_.end(), remove) - 1;
 
-	    // Shift all elements from [insertPos, removePos) up one, thus effectively deleting the entry at
-	    // removePos, and allowing us to store into insertPos while keeping the elements ordered.
-	    //
-	    std::copy_backward(insertPos, removePos, removePos + 1);
-	    *insertPos = insert;
-	}
-    }
-    else {			// insert > remove
+        // Locate the lowest position in the ordered vector where we could insert the new item and keep the
+        // vector ordered.
+        //
+        insertPos = std::lower_bound(removePos, sorted_.end(), insert);
 
-	// Locate the highest position in the ordered vector where we should find the old item.
-	//
-	removePos = std::upper_bound(sorted_.begin(), sorted_.end(), remove) - 1;
-
-	// Locate the lowest position in the ordered vector where we could insert the new item and keep the
-	// vector ordered.
-	//
-	insertPos = std::lower_bound(removePos, sorted_.end(), insert);
-
-	// If the two positions refer to the same slot, just replace.
-	//
-	if (insertPos == (removePos + 1)) {
-	    *removePos = insert;
-	}
-	else {
-
-	    // Shift all elements from [removePos + 1, insertPos) down one, thus effectively deleting the entry
-	    // at removePos, and allowing us to store into insertPos while keeping the elements ordered.
-	    //
-	    std::copy(removePos + 1, insertPos, removePos);
-	    --insertPos;
-	    *insertPos = insert;
-	}
+        // If the two positions refer to the same slot, just replace.
+        //
+        if (insertPos == (removePos + 1)) {
+            *removePos = insert;
+        } else {
+            // Shift all elements from [removePos + 1, insertPos) down one, thus effectively deleting the entry
+            // at removePos, and allowing us to store into insertPos while keeping the elements ordered.
+            //
+            std::copy(removePos + 1, insertPos, removePos);
+            --insertPos;
+            *insertPos = insert;
+        }
     }
 }
 
-OSCFAR::OSCFAR(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      windowSize_(Parameter::PositiveIntValue::Make("size", "Number of samples in the<br>" "sliding window",
-                                                    kDefaultSize)),
-      thresholdIndex_(Parameter::PositiveIntValue::Make("rank", "Percentile <br>" "to use for threshold",
-                                                        kDefaultRank)),
-      alpha_(Parameter::DoubleValue::Make("alpha", "Multiplier on threshold<br>" "needed for extraction",
-                                          kDefaultAlpha))
+OSCFAR::OSCFAR(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), windowSize_(Parameter::PositiveIntValue::Make("size",
+                                                                              "Number of samples in the<br>"
+                                                                              "sliding window",
+                                                                              kDefaultSize)),
+    thresholdIndex_(Parameter::PositiveIntValue::Make("rank",
+                                                      "Percentile <br>"
+                                                      "to use for threshold",
+                                                      kDefaultRank)),
+    alpha_(Parameter::DoubleValue::Make("alpha",
+                                        "Multiplier on threshold<br>"
+                                        "needed for extraction",
+                                        kDefaultAlpha))
 {
     reset();
 }
@@ -119,9 +114,9 @@ OSCFAR::OSCFAR(Controller& controller, Logger::Log& log)
 bool
 OSCFAR::startup()
 {
-    registerProcessor<OSCFAR,Video>(&OSCFAR::process);
+    registerProcessor<OSCFAR, Video>(&OSCFAR::process);
     return registerParameter(windowSize_) && registerParameter(thresholdIndex_) && registerParameter(alpha_) &&
-	Algorithm::startup();
+           Algorithm::startup();
 }
 
 bool
@@ -135,8 +130,8 @@ OSCFAR::process(const Video::Ref& in)
     //
     size_t windowSize = windowSize_->getValue();
     if (windowSize > in->size()) {
-	LOGERROR << "windowSize > in->size()" << std::endl; 
-	return false;
+        LOGERROR << "windowSize > in->size()" << std::endl;
+        return false;
     }
 
     // Verify that the threshold index we use is valid in the sliding window.
@@ -147,8 +142,8 @@ OSCFAR::process(const Video::Ref& in)
 
     LOGINFO << "thresholdIndex " << thresholdIndex << std::endl;
     if (thresholdIndex >= windowSize) {
-	getController().setError("Threshold index >= window size");
-	return false;
+        getController().setError("Threshold index >= window size");
+        return false;
     }
 
     size_t halfWindowSize = windowSize / 2;
@@ -171,21 +166,19 @@ OSCFAR::process(const Video::Ref& in)
     //
     size_t index = 0;
     while (1) {
-	size_t pos = index + halfWindowSize;
-	bool passed = in[pos] > (alpha * slidingWindow.getThreshold(thresholdIndex));
-	out[pos] = passed;
+        size_t pos = index + halfWindowSize;
+        bool passed = in[pos] > (alpha * slidingWindow.getThreshold(thresholdIndex));
+        out[pos] = passed;
 
-	// Check that we can safely continue and index into the input array.
-	//
-	if (index == limit) {
-	    break;
-        }
+        // Check that we can safely continue and index into the input array.
+        //
+        if (index == limit) { break; }
 
-	// Remove the element that will no longer be valid when the sliding window moves to the next sample, and
-	// add the new element that is now visible in the window.
-	//
-	slidingWindow.insertAndRemove(in[index + windowSize], in[index]);
-	++index;
+        // Remove the element that will no longer be valid when the sliding window moves to the next sample, and
+        // add the new element that is now visible in the window.
+        //
+        slidingWindow.insertAndRemove(in[index + windowSize], in[index]);
+        ++index;
     }
 
     // Finally emit the output message.
@@ -208,9 +201,9 @@ FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
     return Algorithm::FormatInfoValue(QString("WindowSize: %1  ThresholdPercentile: %2  Alpha: %3")
-                                      .arg(static_cast<int>(status[OSCFAR::kWindowSize]))
-                                      .arg(static_cast<int>(status[OSCFAR::kThresholdIndex]))
-                                      .arg(static_cast<double>(status[OSCFAR::kAlpha])));
+                                          .arg(static_cast<int>(status[OSCFAR::kWindowSize]))
+                                          .arg(static_cast<int>(status[OSCFAR::kThresholdIndex]))
+                                          .arg(static_cast<double>(status[OSCFAR::kAlpha])));
 }
 
 extern "C" ACE_Svc_Export Algorithm*

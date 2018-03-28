@@ -6,7 +6,9 @@
 
 #include "GUI/AppBase.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -31,18 +33,17 @@ class PlayerWindow;
 /** Application class for the Master application. Creates and manages the floating tool windows. There is only
     one instance of this class created (in main.cc) for the life of the application.
 */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
+
 public:
-    
     enum ToolsMenuAction {
-	kShowChannelSelectorWindow,
-	kShowConfigurationWindow,
-	kShowControlsWindow,
-	kShowPresetsWindow,
-	kNumToolsMenuActions
+        kShowChannelSelectorWindow,
+        kShowConfigurationWindow,
+        kShowControlsWindow,
+        kShowPresetsWindow,
+        kNumToolsMenuActions
     };
 
     /** Obtain the Log device for App instances
@@ -65,45 +66,37 @@ public:
     */
     App(int& argc, char** argv);
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     /** Obtain the ChannelSelectorWindow tool window.
 
         \return ChannelSelectorWindow object
     */
-    ChannelSelectorWindow* getChannelSelectorWindow() const
-	{ return channelSelectorWindow_; }
+    ChannelSelectorWindow* getChannelSelectorWindow() const { return channelSelectorWindow_; }
 
     /** Obtain the ConfigurationWindow tool window.
 
         \return ConfigurationWindow object
     */
-    ConfigurationWindow* getConfigurationWindow() const
-	{ return configurationWindow_; }
+    ConfigurationWindow* getConfigurationWindow() const { return configurationWindow_; }
 
     /** Obtain the ControlsWindow tool window.
 
         \return ControlsWindow object
     */
-    ControlsWindow* getControlsWindow() const
-	{ return controlsWindow_; }
+    ControlsWindow* getControlsWindow() const { return controlsWindow_; }
 
     /** Obtain the InfoWindow tool window.
 
         \return InfoWindow object
     */
-    PresetsWindow* getPresetsWindow() const
-	{ return presetsWindow_; }
+    PresetsWindow* getPresetsWindow() const { return presetsWindow_; }
 
-    MainWindow* getMainWindow() const
-	{ return mainWindow_; }
+    MainWindow* getMainWindow() const { return mainWindow_; }
 
-    PlayerWindow* getPlayerWindow() const
-	{ return playerWindow_; }
+    PlayerWindow* getPlayerWindow() const { return playerWindow_; }
 
-    FramesWindow* getFramesWindow() const
-	{ return framesWindow_; }
+    FramesWindow* getFramesWindow() const { return framesWindow_; }
 
     Configuration* getConfiguration() const { return configuration_; }
 
@@ -130,7 +123,6 @@ private slots:
     void applicationQuit();
 
 private:
-
     void addViewWindow(MainWindowBase* toolWindow);
 
     /** Create a new MainWindow object and show to the user. Implements AppBase::makeNewMainWindow() interface.

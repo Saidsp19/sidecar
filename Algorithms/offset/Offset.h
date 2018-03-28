@@ -1,15 +1,14 @@
-#ifndef SIDECAR_ALGORITHMS_OFFSET_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_OFFSET_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_OFFSET_H
 
 #include "Algorithms/Algorithm.h"
-#include "Parameter/Parameter.h"
 #include "Messages/Video.h"
+#include "Parameter/Parameter.h"
 
 namespace SideCar {
 namespace Algorithms {
 
-class Offset : public Algorithm
-{
+class Offset : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
 
@@ -30,7 +29,6 @@ public:
     void setOffset(short value) { offset_->setValue(value); }
 
 private:
-
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process

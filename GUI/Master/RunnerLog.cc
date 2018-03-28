@@ -5,8 +5,8 @@
 #include "QtGui/QTextCursor"
 #include "QtGui/QTextDocument"
 
-#include "GUI/ServiceEntry.h"
 #include "GUI/LogUtils.h"
+#include "GUI/ServiceEntry.h"
 
 #include "Logger/Msg.h"
 #include "Logger/Priority.h"
@@ -47,30 +47,27 @@ void
 RunnerLog::CleanUp()
 {
     foreach (RunnerLog* rlp, active_.values())
-	delete rlp;
+        delete rlp;
     active_.clear();
 }
 
 void
-RunnerLog::Make(const QString& name, const QString& configName,
-                const QString& serviceName)
+RunnerLog::Make(const QString& name, const QString& configName, const QString& serviceName)
 {
     static Logger::ProcLog log("Make", Log());
     LOGINFO << "name: " << name << std::endl;
     ActiveHash::const_iterator pos = active_.find(serviceName);
     if (pos != active_.end()) return;
-    active_.insert(serviceName,
-                   new RunnerLog(name, configName, serviceName));
+    active_.insert(serviceName, new RunnerLog(name, configName, serviceName));
 }
 
-RunnerLog::RunnerLog(const QString& name, const QString& configName,
-                     const QString& serviceName)
-    : QObject(App::GetApp()), name_(name), serviceName_(serviceName),
-      alertPrefix_(configName), window_(0),
-      logData_(new QTextDocument(this)), appendCursor_(logData_),
-      lastMatch_(0), matcher_("^.*\\b(FATAL|ERROR|WARNING)\\b.*$")
+RunnerLog::RunnerLog(const QString& name, const QString& configName, const QString& serviceName) :
+    QObject(App::GetApp()), name_(name), serviceName_(serviceName), alertPrefix_(configName), window_(0),
+    logData_(new QTextDocument(this)), appendCursor_(logData_), lastMatch_(0),
+    matcher_("^.*\\b(FATAL|ERROR|WARNING)\\b.*$")
 {
-    Logger::ProcLog log("RunnerLog", Log());;
+    Logger::ProcLog log("RunnerLog", Log());
+    ;
     LOGINFO << "key: " << name << std::endl;
 
     alertPrefix_ += "/";
@@ -106,8 +103,7 @@ RunnerLog::~RunnerLog()
 void
 RunnerLog::showWindow()
 {
-    if (! window_)
-	window_ = new LogViewWindow(name_ + " Log", logData_);
+    if (!window_) window_ = new LogViewWindow(name_ + " Log", logData_);
     window_->showAndRaise();
 }
 
@@ -117,8 +113,7 @@ RunnerLog::appendData(const QString& data)
     static Logger::ProcLog log("appendData", Log());
     LOGINFO << "data: " << data << std::endl;
 
-    if (window_)
-	window_->beginUpdate();
+    if (window_) window_->beginUpdate();
 
     appendCursor_.insertText(data);
     appendCursor_.movePosition(QTextCursor::End);
@@ -127,18 +122,16 @@ RunnerLog::appendData(const QString& data)
     LOGDEBUG << "pos: " << pos.position() << std::endl;
 
     QStringList found;
-    while (! pos.isNull()) {
-	found.append(alertPrefix_ + pos.selectedText() + '\n');
-	lastMatch_ = pos.selectionEnd();
-	pos = logData_->find(matcher_, lastMatch_);
+    while (!pos.isNull()) {
+        found.append(alertPrefix_ + pos.selectedText() + '\n');
+        lastMatch_ = pos.selectionEnd();
+        pos = logData_->find(matcher_, lastMatch_);
     }
 
-    if (! found.empty()) {
-	alertsWindow_->addAlerts(found);
-	RecordingInfo* recordingInfo =
-	    mainWindow_->getRecordingController().getActiveRecording();
-	if (recordingInfo)
-	    recordingInfo->addAlerts(found);
+    if (!found.empty()) {
+        alertsWindow_->addAlerts(found);
+        RecordingInfo* recordingInfo = mainWindow_->getRecordingController().getActiveRecording();
+        if (recordingInfo) recordingInfo->addAlerts(found);
     }
 }
 
@@ -148,20 +141,17 @@ RunnerLog::appendLogMessages(const XmlRpc::XmlRpcValue& logMessages)
     static Logger::ProcLog log("appendLogMessages", Log());
     LOGINFO << "num logMessages: " << logMessages.size() << std::endl;
 
-    if (logMessages.size() == 0)
-	return;
+    if (logMessages.size() == 0) return;
 
     for (int index = 0; index < logMessages.size(); ++index) {
-	const XmlRpc::XmlRpcValue& slot(logMessages[index]);
-	QDateTime when = QDateTime::fromTime_t(
-	    int(slot[LogCollector::kSeconds]));
-	QString msg = QString("%1 %2 %3 %4")
-	    .arg(when.toUTC().toString("hh:mm:ss"))
-	    .arg(Logger::Priority::GetLongName(
-                     Logger::Priority::Level(
-                         int(slot[LogCollector::kPriorityLevel]))))
-	    .arg(QString::fromStdString(slot[LogCollector::kChannel]))
-	    .arg(QString::fromStdString(slot[LogCollector::kMessage]));
-	appendData(msg);
+        const XmlRpc::XmlRpcValue& slot(logMessages[index]);
+        QDateTime when = QDateTime::fromTime_t(int(slot[LogCollector::kSeconds]));
+        QString msg =
+            QString("%1 %2 %3 %4")
+                .arg(when.toUTC().toString("hh:mm:ss"))
+                .arg(Logger::Priority::GetLongName(Logger::Priority::Level(int(slot[LogCollector::kPriorityLevel]))))
+                .arg(QString::fromStdString(slot[LogCollector::kChannel]))
+                .arg(QString::fromStdString(slot[LogCollector::kMessage]));
+        appendData(msg);
     }
 }

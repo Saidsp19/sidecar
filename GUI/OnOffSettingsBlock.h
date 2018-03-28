@@ -12,12 +12,11 @@ namespace GUI {
     additional signal, enabledChanged(), which is emitted whenever the enabled state changes. NOTE: enabled
     state changes do not emit the SettingsBlock::settingsChanged() signal.
 */
-class OnOffSettingsBlock : public SettingsBlock
-{
+class OnOffSettingsBlock : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     /** Constructor.
 
         \param enabled setting that controls this object's enabled state
@@ -40,8 +39,7 @@ public:
     */
     void setToggleEnabledAction(QAction* action);
 
-    void connectWidget(QCheckBox* widget)
-	{ enabled_->connectWidget(widget); }
+    void connectWidget(QCheckBox* widget) { enabled_->connectWidget(widget); }
 
 signals:
 

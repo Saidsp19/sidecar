@@ -4,9 +4,8 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-ConfigurationWindow::ConfigurationWindow(int shortcut)
-    : ToolWindowBase("ConfigurationWindow", "Settings", shortcut),
-      Ui::ConfigurationWindow()
+ConfigurationWindow::ConfigurationWindow(int shortcut) :
+    ToolWindowBase("ConfigurationWindow", "Settings", shortcut), Ui::ConfigurationWindow()
 {
     setupUi(this);
     setFixedSize();

@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ALGORITHMS_INVERTER_H	// -*- C++ -*-
+#ifndef SIDECAR_ALGORITHMS_INVERTER_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_INVERTER_H
 
 #include "Algorithms/Algorithm.h"
@@ -13,8 +13,7 @@ namespace Algorithms {
     is simply (max - value) + min for all values in a message. Note that there is no clamping of values to min
     or max, so if the value is outside of that range it will also be outside of the inverted domain.
 */
-class Inverter : public Algorithm
-{
+class Inverter : public Algorithm {
 public:
     using DatumType = Messages::Video::DatumType;
 
@@ -57,7 +56,6 @@ public:
     bool startup();
 
 private:
-
     /** Implementation of the Algorithm::process interface.
 
         \param mgr object containing the encoded or native data to process

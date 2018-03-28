@@ -12,6 +12,7 @@
     NOTE: the classes here should not be used in new code. They are only used by a tiny part of the Loggger
     system. All other threading in the SideCar framework is (and should be) done using the ACE or Qt libraries.
 */
-namespace Threading {}
+namespace Threading {
+}
 
 #endif

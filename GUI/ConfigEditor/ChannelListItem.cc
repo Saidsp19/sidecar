@@ -1,11 +1,10 @@
-#include "ChannelItem.h"
 #include "ChannelListItem.h"
+#include "ChannelItem.h"
 #include "TaskItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-ChannelListItem::ChannelListItem(TaskItem* parent, const QString& name)
-    : Super(parent, name)
+ChannelListItem::ChannelListItem(TaskItem* parent, const QString& name) : Super(parent, name)
 {
     ;
 }

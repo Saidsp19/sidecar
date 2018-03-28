@@ -10,12 +10,11 @@ namespace ESScope {
 
 class AlphaRangeView;
 
-class AlphaRangeWidget :  public XYWidget
-{
+class AlphaRangeWidget : public XYWidget {
     Q_OBJECT
     using Super = XYWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     AlphaRangeWidget(AlphaRangeView* parent, ViewSettings* viewSettings);
@@ -28,7 +27,6 @@ public:
     double getYMaxMax() const { return radarSettings_->getRangeMaxMax(); }
 
 private:
-
     void alphasChanged(const AlphaIndices& indices);
 
     void paintGL();

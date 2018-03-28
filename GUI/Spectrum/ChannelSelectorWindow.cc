@@ -4,9 +4,8 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-ChannelSelectorWindow::ChannelSelectorWindow(int shortcut)
-    : ToolWindowBase("ChannelSelectorWindow", "Channel", shortcut),
-      Ui::ChannelSelectorWindow()
+ChannelSelectorWindow::ChannelSelectorWindow(int shortcut) :
+    ToolWindowBase("ChannelSelectorWindow", "Channel", shortcut), Ui::ChannelSelectorWindow()
 {
     setupUi(this);
     setFixedSize();

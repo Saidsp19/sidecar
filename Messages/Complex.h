@@ -8,8 +8,7 @@ namespace Messages {
 
 /** Collection of gate values for one PRI message from a radar. The gate values are fixed-point, 16-bit values.
  */
-class Complex : public TPRIMessage<Traits::ComplexInt16>
-{
+class Complex : public TPRIMessage<Traits::ComplexInt16> {
 public:
     using Super = TPRIMessage<Traits::ComplexInt16>;
     using Ref = TPRIMessageRef<Complex>;
@@ -22,44 +21,44 @@ public:
 
     /** Factory method to create a new Complex message instance
 
-        \param producer 
+        \param producer
 
-        \param vmeHeader 
+        \param vmeHeader
 
-        \param count 
+        \param count
 
-        \return 
+        \return
     */
     static Ref Make(const std::string& producer, const VMEDataMessage& vme, size_t count);
 
-    /** 
+    /**
 
-        \param producer 
+        \param producer
 
-        \param vmeHeader 
+        \param vmeHeader
 
-        \param count 
+        \param count
 
-        \return 
+        \return
     */
     static Ref Make(const std::string& producer, const VMEDataMessage& vme, const DatumType* first,
                     const DatumType* end);
 
-    /** 
+    /**
 
-        \param producer 
+        \param producer
 
-        \param vmeHeader 
+        \param vmeHeader
 
-        \param count 
+        \param count
 
-        \return 
+        \return
     */
     static Ref Make(const std::string& producer, const VMEDataMessage& vme, const Container& copy);
 
     /** Class factory used to create a Complex object from another Complex object.
 
-	\param producer name of the entity that is creating the new object
+        \param producer name of the entity that is creating the new object
 
         \param copy object to copy
 
@@ -82,7 +81,6 @@ public:
     Ref getComplexBasis() const { return getBasis<Complex>(); }
 
 private:
-
     Complex();
 
     Complex(const std::string& producer);

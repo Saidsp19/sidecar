@@ -1,8 +1,7 @@
 #include "UnitTest/UnitTest.h"
 #include "Utils.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("PowerOf2") {}
     void test();
 };

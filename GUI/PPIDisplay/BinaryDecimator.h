@@ -11,32 +11,31 @@ namespace PPIDisplay {
     samples within the span defined by the decimation factor is true. A decimation factor of 1 results in no
     decimation. A decimation factor of 2 will return the maximum of every two samples.
 */
-class BinaryDecimator
-{
+class BinaryDecimator {
 public:
-    BinaryDecimator(int factor, const Messages::BinaryVideo::Ref& msg)
-	: factor_(factor), rangeOffset_(factor * msg->getRangeFactor() / 2),
-	  msg_(msg), pos_(msg->begin()), end_(msg->end()) {}
+    BinaryDecimator(int factor, const Messages::BinaryVideo::Ref& msg) :
+        factor_(factor), rangeOffset_(factor * msg->getRangeFactor() / 2), msg_(msg), pos_(msg->begin()),
+        end_(msg->end())
+    {
+    }
 
     operator bool()
-	{
-	    if (pos_ == end_) return false;
-	    range_ = msg_->getRangeAt(pos_) + rangeOffset_;
-	    if (factor_ == 1) {
-		value_ = *pos_++;
-	    }
-	    else {
-		value_ = false;
-		for (int count = 1; pos_ < end_ && count < factor_;
-                     ++count, ++pos_) {
-		    if (*pos_) {
-			value_ = true;
-			break;
-		    }
-		}
-	    }
-	    return true;
-	}
+    {
+        if (pos_ == end_) return false;
+        range_ = msg_->getRangeAt(pos_) + rangeOffset_;
+        if (factor_ == 1) {
+            value_ = *pos_++;
+        } else {
+            value_ = false;
+            for (int count = 1; pos_ < end_ && count < factor_; ++count, ++pos_) {
+                if (*pos_) {
+                    value_ = true;
+                    break;
+                }
+            }
+        }
+        return true;
+    }
 
     double getRange() const { return range_; }
 

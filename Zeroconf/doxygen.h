@@ -1,4 +1,4 @@
-#ifndef SIDECAR_ZEROCONF_DOXYGEN_H	// -*- C++ -*-
+#ifndef SIDECAR_ZEROCONF_DOXYGEN_H // -*- C++ -*-
 #define SIDECAR_ZEROCONF_DOXYGEN_H
 
 /** \page zeroconf Zeroconf Overview
@@ -25,7 +25,8 @@ namespace SideCar {
 
 /** Namespace for entities that interface with Zeroconf library.
  */
-namespace Zeroconf {}
+namespace Zeroconf {
+}
 
 } // end namespace SideCar
 

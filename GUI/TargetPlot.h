@@ -6,7 +6,11 @@
 #include "QtCore/QTime"
 
 namespace SideCar {
-namespace Messages { class BugPlot; class Extraction; class TSPI; }
+namespace Messages {
+class BugPlot;
+class Extraction;
+class TSPI;
+} // namespace Messages
 namespace GUI {
 
 /** Extension of the Messages::Extraction class that plots for extractions and user picks. Contains a QTime
@@ -15,29 +19,27 @@ namespace GUI {
     the alpha value used to draw the TargetPlot graphical representation: older TargetPlot objects have a lower
     alpha value, and thus appear fainter than those that are younger.
 */
-class TargetPlot
-{
+class TargetPlot {
 public:
-
     /** Constructor for user picks.
 
         \param range range in kilometers
 
         \param azimuth azimuth in radians
 
-	\param 
+        \param
     */
     TargetPlot(const Messages::BugPlot& msg);
 
     /** Constructor for existing Messages::Extraction objects.
 
-        \param extraction 
+        \param extraction
     */
     TargetPlot(const Messages::Extraction& extraction, const QString& tag);
 
     /** Constructor for existing Messages::Extraction objects.
 
-        \param extraction 
+        \param extraction
     */
     TargetPlot(const Messages::TSPI& msg);
 

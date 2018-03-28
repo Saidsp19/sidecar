@@ -24,8 +24,7 @@ Splittable::split(Qt::Orientation how, QWidget* other)
 }
 
 void
-Splittable::split(Qt::Orientation how, QWidget* other, int topLeftWeight,
-                  int bottomRightWeight)
+Splittable::split(Qt::Orientation how, QWidget* other, int topLeftWeight, int bottomRightWeight)
 {
     QWidget* original = currentWidget();
     QSplitter* splitter = splitterFactory(how);
@@ -54,18 +53,16 @@ void
 Splittable::resizeEvent(QResizeEvent* event)
 {
     Super::resizeEvent(event);
-    if (size().width() == 1 || size().height() == 1) {
-	closeView();
-    }
+    if (size().width() == 1 || size().height() == 1) { closeView(); }
 }
 
 void
 Splittable::closeView()
 {
     QSplitter* splitter = dynamic_cast<QSplitter*>(parentWidget());
-    if (! splitter) return;
+    if (!splitter) return;
     Splittable* parent = dynamic_cast<Splittable*>(splitter->parentWidget());
-    if (! parent) return;
+    if (!parent) return;
     parent->unsplitWith(locateTwin(splitter));
 }
 
@@ -73,9 +70,9 @@ void
 Splittable::closeOtherView()
 {
     QSplitter* splitter = dynamic_cast<QSplitter*>(parentWidget());
-    if (! splitter) return;
+    if (!splitter) return;
     Splittable* parent = dynamic_cast<Splittable*>(splitter->parentWidget());
-    if (! parent) return;
+    if (!parent) return;
     parent->unsplitWith(this);
 }
 

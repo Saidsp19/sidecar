@@ -2,8 +2,7 @@
 
 using namespace SideCar::GUI::BScope;
 
-FramesPositioner::FramesPositioner(QWidget* parent)
-    : Super(parent), Ui::FramesPositioner()
+FramesPositioner::FramesPositioner(QWidget* parent) : Super(parent), Ui::FramesPositioner()
 {
     setupUi(this);
     position_->setValue(0);

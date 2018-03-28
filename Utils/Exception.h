@@ -1,8 +1,8 @@
-#ifndef UTILS_EXCEPTION_H	// -*- C++ -*-
+#ifndef UTILS_EXCEPTION_H // -*- C++ -*-
 #define UTILS_EXCEPTION_H
 
 #include <iosfwd>
-#include <memory>		// for std::unique_ptr
+#include <memory> // for std::unique_ptr
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -10,21 +10,22 @@
 namespace Utils {
 
 /** Define a stream inserter operator to use for Exception objects that returns the appropriate type.
-*/
+ */
 template <typename T>
-struct ExceptionInserter
-{
+struct ExceptionInserter {
     template <typename U>
-    friend T& operator <<(T& lhs, const U& rhs) { lhs.append(rhs); return lhs; }
+    friend T& operator<<(T& lhs, const U& rhs)
+    {
+        lhs.append(rhs);
+        return lhs;
+    }
 };
 
 /** Base exception class. Nothing too special about this over the stock C++ exception class, except that it does
     have the wonderful ability to accumulate error information via the append() method.
 */
-class Exception : public std::exception, public ExceptionInserter<Exception>
-{
+class Exception : public std::exception, public ExceptionInserter<Exception> {
 public:
-
     /** Default constructor.
      */
     Exception() throw() : std::exception(), os_(nullptr), err_("") {}
@@ -76,14 +77,18 @@ public:
 
         \param value data to write to exception data capture stream
     */
-    template <typename T> void append(const T& value) { os() << value; }
+    template <typename T>
+    void append(const T& value)
+    {
+        os() << value;
+    }
 
 private:
     std::ostream& os() throw();
 
     mutable std::unique_ptr<std::ostringstream> os_;
     mutable std::string err_;
-};				// class Exception
+}; // class Exception
 
 } // namespace Utils
 

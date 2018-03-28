@@ -5,7 +5,9 @@
 
 #include "TreeViewItem.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 namespace Master {
@@ -14,14 +16,13 @@ class StreamItem;
 
 /** TreeViewItem that represents an IO::Task object of an IO::Stream.
  */
-class TaskItem : public TreeViewItem
-{
+class TaskItem : public TreeViewItem {
     Q_OBJECT
     using Super = TreeViewItem;
-public:
 
+public:
     static Logger::Log& Log();
-    
+
     /** Constructor.
 
         \param status initial status value of the item
@@ -51,8 +52,7 @@ public:
 
     QVariant getInfoDataValue(int role) const;
 
-    IO::ProcessingState::Value getProcessingState() const
-	{ return getStatus().getProcessingState(); }
+    IO::ProcessingState::Value getProcessingState() const { return getStatus().getProcessingState(); }
 
     const QString& getError() const { return error_; }
 
@@ -80,20 +80,17 @@ public:
 
     virtual int getDupeCount() const { return getStatus().getDupeCount(); }
 
-    int getPendingQueueCount() const
-	{ return getStatus().getPendingQueueCount(); }
+    int getPendingQueueCount() const { return getStatus().getPendingQueueCount(); }
 
     bool isUsingData() const { return getStatus().isUsingData(); }
 
     StreamItem* getParent() const;
 
-    void formatChangedParameters(const XmlRpc::XmlRpcValue& definitions,
-                                 QStringList& changes) const;
+    void formatChangedParameters(const XmlRpc::XmlRpcValue& definitions, QStringList& changes) const;
 
     QString getParameterChangedHeading() const;
 
 protected:
-
     void beforeUpdate();
 
     void afterUpdate();
@@ -101,15 +98,13 @@ protected:
     virtual void fillCollectionStats(CollectionStats& stats) const;
 
 private:
-
     /** Obtain the type-cast status container sent by a IO::Task object.
 
         \return read-only IO::TaskStatus reference
     */
-    const IO::TaskStatus& getStatus() const
-	{ return getStatusT<IO::TaskStatus>(); }
+    const IO::TaskStatus& getStatus() const { return getStatusT<IO::TaskStatus>(); }
 
-    int lastMessageCount_;	///< Message count from last status
+    int lastMessageCount_; ///< Message count from last status
     QString error_;
     QString connectionInfo_;
 };

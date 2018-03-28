@@ -10,12 +10,11 @@ namespace ConfigEditor {
 class AlgorithmItem;
 class ParameterItem;
 
-class ParameterListItem : public TreeItem
-{
+class ParameterListItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     ParameterListItem(AlgorithmItem* parent);
 
     AlgorithmItem* getParent() const;

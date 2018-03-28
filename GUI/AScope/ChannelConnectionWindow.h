@@ -5,7 +5,9 @@
 
 #include "ui_ChannelConnectionWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -22,13 +24,11 @@ class VideoChannel;
     that allow the user to add/remove channel connections, and to change the ordering of the existing
     connections.
 */
-class ChannelConnectionWindow : public ToolWindowBase,
-				private Ui::ChannelConnectionWindow
-{
+class ChannelConnectionWindow : public ToolWindowBase, private Ui::ChannelConnectionWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Obtain the Log device to use for log messages from this class.
 
         \return Log reference
@@ -37,7 +37,7 @@ public:
 
     /** Constructor. Creates and initializes the GUI objects in the window.
 
-	\param shortcut key sequence to change window's visibility
+        \param shortcut key sequence to change window's visibility
 
         \param history application's data history buffer
     */
@@ -47,7 +47,7 @@ public:
 
         \param channelName the name to look for
 
-	\return found VideoChannel object, or NULL
+        \return found VideoChannel object, or NULL
     */
     VideoChannel* getVideoChannel(const QString& channelName);
 
@@ -72,7 +72,7 @@ public:
     QStringList getUnconnected() const;
 
 public slots:
-    
+
     /** Notification that the active DisplayView has changed. Notify the model object of the change by giving it
         the new DisplayView's Plotter.
 
@@ -83,13 +83,13 @@ public slots:
 private slots:
 
     /** Action handler for the Add button. The data model creates a new ChannelConnection object for the service
-	name shown in the QComboBox widget that contains the unconfigured services.
+        name shown in the QComboBox widget that contains the unconfigured services.
     */
     void on_add__clicked();
 
     /** Action handler for the Remove button. Removes one or more ChannelConnection objexts. Places the names of
-	the removed services into the QComboBox widget for unconfigured services if a service exists under the
-	given name.
+        the removed services into the QComboBox widget for unconfigured services if a service exists under the
+        given name.
     */
     void on_remove__clicked();
 
@@ -107,10 +107,9 @@ private slots:
     void updateWidgets();
 
 private:
+    void closeEvent(QCloseEvent* event);
 
-    void closeEvent(QCloseEvent*event);
-
-    void keyPressEvent(QKeyEvent*event);
+    void keyPressEvent(QKeyEvent* event);
 
     ChannelConnectionModel* model_;
 };

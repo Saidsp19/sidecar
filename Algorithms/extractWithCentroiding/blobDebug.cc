@@ -2,98 +2,89 @@
 #include "ace/Reactor.h"
 #include "ace/Stream.h"
 
-#include "IO/Readers.h"
 #include "IO/FileWriterTask.h"
 #include "IO/MessageManager.h"
+#include "IO/Readers.h"
 
 #include "Logger/Log.h"
 #include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 #include "Utils/FilePath.h"
 
-#include "SegmentedTargetImage.h"
 #include "ImageSegmentation.h"
+#include "SegmentedTargetImage.h"
 
-#include "boost/numeric/ublas/matrix.hpp"
+#include "Centroid.h"
+#include "VideoStorage.h"
 #include "boost/numeric/ublas/io.hpp"
-#include <vector>
+#include "boost/numeric/ublas/matrix.hpp"
 #include <cstdlib>
 #include <fstream>
-#include <ios>
 #include <iomanip>
+#include <ios>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "VideoStorage.h"
-#include "Centroid.h"
+#include <vector>
 
 using namespace SideCar::IO;
 using namespace SideCar::Messages;
 using namespace std;
 
-int im1[] = {
-    0, 0, 1, 0,
-    1, 1, 1, 0,
-    0, 0, 0, 1 };
+int im1[] = {0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1};
 
-int im2[] = {
-    1, 0, 0, 0, 0,
-    1, 0, 0, 0, 0,
-    1, 0, 0, 0, 0,	
-    1, 1, 0, 0, 0,
-    0, 1, 0, 0, 1 };
+int im2[] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1};
 
 int pris[] = {
-//  0  1  2  3  4  5  6  7  8  9  10
-    0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,   //0
-    0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0,   //1		
-    0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1,   //2	
-    0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0,   //3
-    0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0,   //4	
-    0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0,   //5
-    0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0,   //6
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,   //7
-    0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,   //8
-    0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0,   //9
-    0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0,   //10
-    0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0,   //11
-    0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,   //12
-    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //13
+    //  0  1  2  3  4  5  6  7  8  9  10
+    0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,  // 0
+    0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0,  // 1
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1,  // 2
+    0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0,  // 3
+    0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0,  // 4
+    0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0,  // 5
+    0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0,  // 6
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,  // 7
+    0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0,  // 8
+    0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0,  // 9
+    0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0,  // 10
+    0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0,  // 11
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,  // 12
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // 13
 
-void readCSV (ifstream& ifs, vector<BinaryScanLineVector>& vec)
+void
+readCSV(ifstream& ifs, vector<BinaryScanLineVector>& vec)
 {
     BinaryScanLineVector* row;
 
     std::string line;
-    while(std::getline(ifs, line)) {
+    while (std::getline(ifs, line)) {
         row = new BinaryScanLineVector(new vector<BINARYDATA>);
         std::string tok1;
         std::istringstream iss(line);
-        while(std::getline(iss, tok1, ',')) {
-            row->push_back((BINARYDATA)atof(tok1.c_str()));
-        }
+        while (std::getline(iss, tok1, ',')) { row->push_back((BINARYDATA)atof(tok1.c_str())); }
         vec.push_back(*row);
         delete row;
     }
 }
 
-void readCSV (ifstream& ifs, vector<VideoScanLineVector>& vec)
+void
+readCSV(ifstream& ifs, vector<VideoScanLineVector>& vec)
 {
     VideoScanLineVector row;
 
     std::string line;
-    while(std::getline(ifs, line)) {
+    while (std::getline(ifs, line)) {
         std::string tok1;
         std::istringstream iss(line);
-        while(std::getline(iss, tok1, ',')) {
-            row.push_back((VIDEODATA)atof(tok1.c_str()));
-        }
+        while (std::getline(iss, tok1, ',')) { row.push_back((VIDEODATA)atof(tok1.c_str())); }
         vec.push_back(row);
         row.clear();
     }
 }
 
-int main(int argc, const char* argv[])
+int
+main(int argc, const char* argv[])
 {
     Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug);
     Logger::Log::Root().debug() << "this is a debug message" << std::endl;
@@ -102,7 +93,7 @@ int main(int argc, const char* argv[])
       MaskedTargetImagePtr mti1(new MaskedTargetImage(Logger::Log::Root()));
       MaskedTargetImagePtr mti2(new MaskedTargetImage(Logger::Log::Root()));
       VideoScanLine vid;
-	
+
       mti1->AddDataToLastRow(2,5);
       mti1->AddDataToLastRow(8,15);
       mti1->FinalizeRow(vid, 0);
@@ -113,7 +104,7 @@ int main(int argc, const char* argv[])
       mti1->FinalizeRow(vid, 2);
       mti1->Dump();
 
-      //	mti2->AddDataToLastRow(18,18);
+      //  mti2->AddDataToLastRow(18,18);
       //mti2->FinalizeRow(vid,0);
       mti2->AddDataToLastRow(18,18);
       mti2->FinalizeRow(vid,2);
@@ -123,7 +114,7 @@ int main(int argc, const char* argv[])
 
       RegionVector rv;
       rv.push_back(mti1);
-      rv.push_back(mti2);	
+      rv.push_back(mti2);
       MaskedTargetImagePtr mti3 = MaskedTargetImage::Merge(rv, 15,18, Logger::Log::Root());
       mti3->Dump();
     */
@@ -161,43 +152,39 @@ int main(int argc, const char* argv[])
       }
     */
 
-    ifstream mask ("/export/home/data/need_centroiding/mask.csv");
+    ifstream mask("/export/home/data/need_centroiding/mask.csv");
     ifstream vid("/export/home/data/need_centroiding/vid.csv");
 
-    if (!mask || !vid) {
-        std::cout << "unable to find files" << std::endl;
-    }
-	
+    if (!mask || !vid) { std::cout << "unable to find files" << std::endl; }
+
     vector<BinaryScanLineVector> binaryImage;
     vector<VideoScanLineVector> videoImage;
 
     ofstream out;
     char filename[256];
-				
+
     readCSV(mask, binaryImage);
     readCSV(vid, videoImage);
-	
+
     mask.close();
     vid.close();
 
-    cout << "done reading in files: "
-         << binaryImage.size() << " " << videoImage.size() << endl;
+    cout << "done reading in files: " << binaryImage.size() << " " << videoImage.size() << endl;
 
     ImageSegmentation is(Logger::Log::Root());
     VideoStorage vidHist(Logger::Log::Root());
     TargetSize discardSize;
     int targetCount = 0;
     for (int r = 0; r <= binaryImage.size(); r++) {
-
         if (r < binaryImage.size()) {
             is.AppendScanLine(binaryImage[r], r, discardSize);
             vidHist.Append(videoImage[r]);
         } else {
-            //force an empty line to close any targets
+            // force an empty line to close any targets
             vector<BINARYDATA> temp;
             is.AppendScanLine(BinaryScanLineVector(&temp), r, discardSize);
         }
-		
+
         while (!is.IsClosedTargetsEmpty()) {
             cout << "image closed" << endl;
             SegmentedTargetImagePtr target = is.PopClosedTarget();
@@ -213,15 +200,15 @@ int main(int argc, const char* argv[])
             sprintf(filename, "target%i_subtargs.csv", targetCount);
             ofstream targsout;
             targsout.open(filename, ios::trunc | ios::binary);
-            if (!targsout) { cout << "unable to open file " << filename << endl; abort(); }		   
+            if (!targsout) { cout << "unable to open file " << filename << endl; abort(); }
             while (!centroider.IsClosedRegionsEmpty()) {
             TargetPosition cenPos = centroider.PopClosedRegionPosition();
             targsout << cenPos.range << ", " << cenPos.az << std::endl;
             }
             targsout.close();
             */
-			
-            mask->Dump();			
+
+            mask->Dump();
             video->Dump();
 
             VideoTargetImagePtr x_grad;
@@ -239,9 +226,12 @@ int main(int argc, const char* argv[])
 
             sprintf(filename, "target%i_subtargs.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             for (int r = 0; r < rows; r++) {
-                tpis.AppendScanLine(BinaryScanLineArray(data + r*cols, cols), (*az)[r]);
+                tpis.AppendScanLine(BinaryScanLineArray(data + r * cols, cols), (*az)[r]);
                 while (!tpis.IsClosedTargetsEmpty()) {
                     SegmentedTargetImagePtr peakOfTarget = tpis.PopClosedTarget();
                     TargetSize tpsize = peakOfTarget->GetSize();
@@ -250,40 +240,54 @@ int main(int argc, const char* argv[])
                     out << tppos.range << "," << tppos.az << "," << std::endl;
                 }
             }
-            out.close();			
-		
+            out.close();
+
             sprintf(filename, "target%i_xgrad.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             x_grad->DumpCSV(out);
             out.close();
 
             sprintf(filename, "target%i_ygrad.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             y_grad->DumpCSV(out);
             out.close();
 
             sprintf(filename, "target%i_xpeaks.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             peaks_x->DumpCSV(out);
             out.close();
 
             sprintf(filename, "target%i_ypeaks.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             peaks_y->DumpCSV(out);
             out.close();
 
             sprintf(filename, "target%i_targetPeaks.csv", targetCount);
             out.open(filename, ios::trunc | ios::binary);
-            if (!out) { cout << "unable to open file " << filename << endl; abort(); }
+            if (!out) {
+                cout << "unable to open file " << filename << endl;
+                abort();
+            }
             targetPeaks->DumpCSV(out);
             out.close();
-			
-			
-            targetCount++;		 
+
+            targetCount++;
         }
 
         vidHist.SetDepth(is.GetMaxRowDepth());

@@ -5,8 +5,7 @@
 
 using namespace SideCar::GUI;
 
-PotentiometerPlugin::PotentiometerPlugin(QObject *parent)
-    : QObject(parent), initialized_(false)
+PotentiometerPlugin::PotentiometerPlugin(QObject* parent) : QObject(parent), initialized_(false)
 {
     ;
 }
@@ -70,15 +69,15 @@ QString
 PotentiometerPlugin::domXml() const
 {
     return "<widget class=\"SideCar::GUI::Potentiometer\" name=\"pot\">\n"
-	" <property name=\"geometry\">\n"
-	"  <rect>\n"
-	"   <x>0</x>\n"
-	"   <y>0</y>\n"
-	"   <width>200</width>\n"
-	"   <height>200</height>\n"
-	"  </rect>\n"
-	" </property>\n"
-	"</widget>\n";
+           " <property name=\"geometry\">\n"
+           "  <rect>\n"
+           "   <x>0</x>\n"
+           "   <y>0</y>\n"
+           "   <width>200</width>\n"
+           "   <height>200</height>\n"
+           "  </rect>\n"
+           " </property>\n"
+           "</widget>\n";
 }
 
 QString

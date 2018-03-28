@@ -3,7 +3,9 @@
 
 #include "GUI/AppBase.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -24,16 +26,12 @@ class MainWindow;
 
 /** Application class definition. Manages tool windows shared by all MainWindow objects.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
-    enum ToolsMenuAction {
-	kShowConfigurationWindow,
-	kNumToolsMenuActions
-    };
+public:
+    enum ToolsMenuAction { kShowConfigurationWindow, kNumToolsMenuActions };
 
     /** Log device to use for App log messages.
 
@@ -55,8 +53,7 @@ public:
     */
     App(int& argc, char** argv);
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     PresetManager* getPresetManager() const { return presetManager_; }
 
@@ -64,15 +61,13 @@ public:
 
         \return ConfigurationWindow window
     */
-    ConfigurationWindow* getConfigurationWindow() const
-	{ return configurationWindow_; }
+    ConfigurationWindow* getConfigurationWindow() const { return configurationWindow_; }
 
     MainWindow* getMainWindow() const { return mainWindow_; }
 
     void applicationQuit();
 
 private:
-
     /** Override of AppBase method. Create a MainWindow object after the applicadtion has finished starting up.
 
         \return new MainWindow object

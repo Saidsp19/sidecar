@@ -1,7 +1,7 @@
 #include "QtCore/QMap"
 #include "QtCore/QStringList"
-#include "QtGui/QItemDelegate"
 #include "QtGui/QFont"
+#include "QtGui/QItemDelegate"
 #include "QtGui/QStyleOptionViewItem"
 
 #include "Configuration/RunnerConfig.h"
@@ -21,8 +21,7 @@ using namespace SideCar::Configuration;
 Logger::Log&
 LogViewWindowManager::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.Master.LogViewWindowManager");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.Master.LogViewWindowManager");
     return log_;
 }
 
@@ -30,20 +29,18 @@ LogViewWindowManager::Log()
     runner process.
 */
 struct LogInfo {
-
     LogInfo() : displayName_(), serviceName_() {}
 
-    LogInfo(const QString& displayName, const QString& serviceName)
-	: displayName_(displayName), serviceName_(serviceName) {}
+    LogInfo(const QString& displayName, const QString& serviceName) :
+        displayName_(displayName), serviceName_(serviceName)
+    {
+    }
 
-    bool operator<(const LogInfo& rhs) const
-	{ return displayName_ < rhs.displayName_; }
+    bool operator<(const LogInfo& rhs) const { return displayName_ < rhs.displayName_; }
 
-    bool operator==(const LogInfo& rhs) const
-	{ return displayName_ == rhs.displayName_; }
+    bool operator==(const LogInfo& rhs) const { return displayName_ == rhs.displayName_; }
 
-    bool operator!=(const LogInfo& rhs) const
-	{ return displayName_ != rhs.displayName_; }
+    bool operator!=(const LogInfo& rhs) const { return displayName_ != rhs.displayName_; }
 
     QString displayName_;
     QString serviceName_;
@@ -51,13 +48,11 @@ struct LogInfo {
 
 using LogInfoList = QList<LogInfo>;
 
-
 /** Internal mapping from configuration names to a list of LogInfo entries. Used by LogViewWindowManager to
     locate the entries under a given configuration name.
 */
-struct LogViewWindowManager::ConfigMap : public QMap<QString,LogInfoList>
-{
-    using Super = QMap<QString,LogInfoList>;
+struct LogViewWindowManager::ConfigMap : public QMap<QString, LogInfoList> {
+    using Super = QMap<QString, LogInfoList>;
 
     ConfigMap() : Super() {}
 };
@@ -65,33 +60,29 @@ struct LogViewWindowManager::ConfigMap : public QMap<QString,LogInfoList>
 /** QComboBox view delegate. Renders entries in the QComboBox that represent configuration names with italic
     text.
 */
-struct MyItemDelegate : public QItemDelegate
-{
-    MyItemDelegate(LogViewWindowManager* parent)
-	: QItemDelegate(parent), parent_(parent) {}
+struct MyItemDelegate : public QItemDelegate {
+    MyItemDelegate(LogViewWindowManager* parent) : QItemDelegate(parent), parent_(parent) {}
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option,
-               const QModelIndex& index) const
-	{
-	    QStyleOptionViewItem option2(option);
-	    QVariant itemData = parent_->itemData(index.row());
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        QStyleOptionViewItem option2(option);
+        QVariant itemData = parent_->itemData(index.row());
 
-	    // Configuration entries in the QComboBox do not have any item data associated with them. Render the
-	    // text in italics.
-	    //
-	    if (itemData == QVariant::Invalid) {
-		QFont font(option.font);
-		font.setItalic(true);
-		option2.font = font;
-	    }
-	    QItemDelegate::paint(painter, option2, index);
-	}
+        // Configuration entries in the QComboBox do not have any item data associated with them. Render the
+        // text in italics.
+        //
+        if (itemData == QVariant::Invalid) {
+            QFont font(option.font);
+            font.setItalic(true);
+            option2.font = font;
+        }
+        QItemDelegate::paint(painter, option2, index);
+    }
 
     LogViewWindowManager* parent_;
 };
 
-LogViewWindowManager::LogViewWindowManager(QWidget* parent)
-    : QComboBox(parent), configs_(new ConfigMap)
+LogViewWindowManager::LogViewWindowManager(QWidget* parent) : QComboBox(parent), configs_(new ConfigMap)
 {
     connect(this, SIGNAL(activated(int)), SLOT(widgetActivated(int)));
     setItemDelegate(new MyItemDelegate(this));
@@ -105,35 +96,28 @@ LogViewWindowManager::~LogViewWindowManager()
 void
 LogViewWindowManager::addLogInfo(const RunnerConfig* runnerConfig)
 {
-    addLogInfo(runnerConfig->getRunnerName(),
-               runnerConfig->getConfigurationName(),
-               runnerConfig->getServiceName());
+    addLogInfo(runnerConfig->getRunnerName(), runnerConfig->getConfigurationName(), runnerConfig->getServiceName());
 }
 
 void
 LogViewWindowManager::addLogInfo(const RunnerItem* runnerItem)
 {
-    addLogInfo(runnerItem->getName(), runnerItem->getConfigName(),
-               runnerItem->getServiceName());
+    addLogInfo(runnerItem->getName(), runnerItem->getConfigName(), runnerItem->getServiceName());
 }
 
 void
-LogViewWindowManager::addLogInfo(const QString& runnerName,
-                                 const QString& configName,
-                                 const QString& serviceName)
+LogViewWindowManager::addLogInfo(const QString& runnerName, const QString& configName, const QString& serviceName)
 {
     LogInfo logInfo(runnerName, serviceName);
 
     ConfigMap::iterator pos = configs_->find(configName);
     if (pos == configs_->end()) {
-
-	// Insert a new mapping for the RunnerItem's configuration.
-	//
-	pos = configs_->insert(configName, LogInfoList());
+        // Insert a new mapping for the RunnerItem's configuration.
+        //
+        pos = configs_->insert(configName, LogInfoList());
     }
 
-    if (pos.value().contains(logInfo))
-	return;
+    if (pos.value().contains(logInfo)) return;
 
     // Create a new RunnerLog and add the LogInfo to the container.
     //
@@ -156,22 +140,22 @@ LogViewWindowManager::makeItems()
     ConfigMap::const_iterator pos1 = configs_->begin();
     ConfigMap::const_iterator end1 = configs_->end();
     while (pos1 != end1) {
-	// Add a divider to the QComboBox widget that contains the name of the configuration. Then add the
-	// RunnerItem names.
-	//
-	QString configName(pos1.key());
-	addItem(QString("- %1 -").arg(configName), QString());
+        // Add a divider to the QComboBox widget that contains the name of the configuration. Then add the
+        // RunnerItem names.
+        //
+        QString configName(pos1.key());
+        addItem(QString("- %1 -").arg(configName), QString());
 
-	// Iterate over the LogInfo entries, using the displayName for the QCombBox name, and the serviceName
-	// for the user data component.
-	//
-	LogInfoList::const_iterator pos2 = pos1.value().begin();
-	LogInfoList::const_iterator end2 = pos1.value().end();
-	while (pos2 != end2) {
-	    addItem(pos2->displayName_, pos2->serviceName_);
-	    ++pos2;
-	}
-	++pos1;
+        // Iterate over the LogInfo entries, using the displayName for the QCombBox name, and the serviceName
+        // for the user data component.
+        //
+        LogInfoList::const_iterator pos2 = pos1.value().begin();
+        LogInfoList::const_iterator end2 = pos1.value().end();
+        while (pos2 != end2) {
+            addItem(pos2->displayName_, pos2->serviceName_);
+            ++pos2;
+        }
+        ++pos1;
     }
 
     setCurrentIndex(-1);
@@ -188,8 +172,8 @@ LogViewWindowManager::removeConfiguration(const QString& configName)
     LogInfoList::const_iterator pos2 = pos1.value().begin();
     LogInfoList::const_iterator end2 = pos1.value().end();
     while (pos2 != end2) {
-	delete RunnerLog::Find(pos2->serviceName_);
-	++pos2;
+        delete RunnerLog::Find(pos2->serviceName_);
+        ++pos2;
     }
 
     // Remove the mapping for the configuration name.
@@ -213,10 +197,9 @@ LogViewWindowManager::widgetActivated(int index)
     //
     QString serviceName(itemData(index).toString());
     if (serviceName.size()) {
-	LOGDEBUG << "serviceName: " << serviceName << std::endl;
-	RunnerLog* runnerLog = RunnerLog::Find(serviceName);
-	if (runnerLog)
-	    runnerLog->showWindow();
+        LOGDEBUG << "serviceName: " << serviceName << std::endl;
+        RunnerLog* runnerLog = RunnerLog::Find(serviceName);
+        if (runnerLog) runnerLog->showWindow();
     }
 
     // Always unselect whatever was last selected.

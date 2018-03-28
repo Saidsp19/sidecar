@@ -11,20 +11,17 @@ class ViewSettings;
 
 class AlphaRangeWidget;
 
-class AlphaRangeView : public XYView
-{
+class AlphaRangeView : public XYView {
     Q_OBJECT
     using Super = XYView;
-public:
 
+public:
     AlphaRangeView(QWidget* parent, ViewSettings* viewSettings);
 
     AlphaRangeWidget* getDisplay() const;
 
 private:
-
-    QString formatYValue(double value) const
-	{ return Super::formatYValue(value) + " km"; }
+    QString formatYValue(double value) const { return Super::formatYValue(value) + " km"; }
 };
 
 } // end namespace ESScope

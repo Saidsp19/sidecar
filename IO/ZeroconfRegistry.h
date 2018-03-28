@@ -9,31 +9,29 @@ namespace IO {
 /** Registry of Zeroconf types values used within the SideCar system. Collected here to make it easier to find
     the actual values used; previously, they were scattered around the source tree.
 */
-class ZeroconfRegistry
-{
+class ZeroconfRegistry {
 public:
-
     /** Defined Zeroconf types. Entries here should be entered in pairs, at least at the start of the list: the
-	'twin' logic below depends on pair diffences existing only in the least significant bit.
+        'twin' logic below depends on pair diffences existing only in the least significant bit.
     */
     enum ID {
-	kPublisher = 0,		 // _scPub._tcp
-	kSubscriber,		 // _scSub._tcp
-	kRunnerStatusCollector,	 // _scRnrSC._udp
-	kRunnerStatusEmitter,	 // _scRnrSE._udp
-	kStateEmitter,		 // _scStateEmitter._udp
-	kStateCollector,	 // _scStateCollector._udp
+        kPublisher = 0,         // _scPub._tcp
+        kSubscriber,            // _scSub._tcp
+        kRunnerStatusCollector, // _scRnrSC._udp
+        kRunnerStatusEmitter,   // _scRnrSE._udp
+        kStateEmitter,          // _scStateEmitter._udp
+        kStateCollector,        // _scStateCollector._udp
 
-	// See above -- keep paired entries above this one.
-	//
-	kRunnerRemoteController, // _scRnrRC._tcp
-	kNumTypes
+        // See above -- keep paired entries above this one.
+        //
+        kRunnerRemoteController, // _scRnrRC._tcp
+        kNumTypes
     };
 
     /** Obtain the Zeroconf type string for a given ID. NOTE: DO NOT inline this, or the kTypes_ member may not
         initialize properly.
 
-        \param id which type to obtain 
+        \param id which type to obtain
 
         \return NULL-terminated C string
     */
@@ -56,8 +54,7 @@ public:
 
         \return combined type + subtype (eg. _scPub._tcp,_Video)
     */
-    static std::string MakeZeroconfType(const char* type,
-                                        const std::string& subType);
+    static std::string MakeZeroconfType(const char* type, const std::string& subType);
 
 private:
     static const char* kTypes_[kNumTypes];
@@ -65,24 +62,20 @@ private:
 
 /** Collection of Zeroconf types used by SideCar applications and libraries.
  */
-namespace ZeroconfTypes
-{
+namespace ZeroconfTypes {
 
 /** Template class that adds class methods that return character types for the template parameter type ID as
     well as for its twin ID value. Other classes may derive from this template in order to assign a Zeroconf
     type, and to get methods to access the types.
 */
 template <ZeroconfRegistry::ID id>
-class TZCType : public ZeroconfRegistry
-{
+class TZCType : public ZeroconfRegistry {
 public:
-    
     /** Obtain the configured Zeroconf type for objects derived from this class.
 
         \return NULL-terminated C string
     */
-    static const char* GetZeroconfType()
-	{ return GetType(id); }
+    static const char* GetZeroconfType() { return GetType(id); }
 
     /** Obtain the "twin" Zeroconf type for objects derived from this class. A "twin" is the counterpart of a
         publisher/subscriber pair. If the template class was defined to be a publisher, then this class method
@@ -90,8 +83,7 @@ public:
 
         \return NULL-terminated C string
     */
-    static const char* GetTwinZeroconfType()
-	{ return GetType(GetTwin(id)); }
+    static const char* GetTwinZeroconfType() { return GetType(GetTwin(id)); }
 
     /** Construct a valid SideCar Zeroconf type string for a given subtype.
 
@@ -100,8 +92,9 @@ public:
         \return type string
     */
     static std::string MakeZeroconfType(const std::string& subType)
-	{ return ZeroconfRegistry::MakeZeroconfType(GetZeroconfType(),
-                                                    subType); }
+    {
+        return ZeroconfRegistry::MakeZeroconfType(GetZeroconfType(), subType);
+    }
 
     /** Construct the twin SideCar Zeroconf type string for a given subtype.
 
@@ -110,8 +103,9 @@ public:
         \return type string
     */
     static std::string MakeTwinZeroconfType(const std::string& subType)
-	{ return ZeroconfRegistry::MakeZeroconfType(GetTwinZeroconfType(),
-                                                    subType); }
+    {
+        return ZeroconfRegistry::MakeZeroconfType(GetTwinZeroconfType(), subType);
+    }
 };
 
 /** TZCType template instantiation for publishers.

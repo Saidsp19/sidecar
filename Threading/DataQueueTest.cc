@@ -14,29 +14,25 @@
 #include "UnitTest/UnitTest.h"
 #include "Utils/Utils.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("DataQueue"), queue_(29) {}
 
     void test();
 
     using DataQueue = Threading::TDataQueue<std::string>;
 
-    struct Writer : public Threading::Thread
-    {
-	Writer(DataQueue& queue) : Threading::Thread(), queue_(queue) {}
-	virtual void run();
-	DataQueue& queue_;
+    struct Writer : public Threading::Thread {
+        Writer(DataQueue& queue) : Threading::Thread(), queue_(queue) {}
+        virtual void run();
+        DataQueue& queue_;
     };
 
-    struct Reader : public Threading::Thread
-    {
-	Reader(DataQueue& queue)
-	    : Threading::Thread(), queue_(queue), fetched_(0) {}
-	virtual void run();
-	size_t fetched() const { return fetched_; }
-	DataQueue& queue_;
-	size_t fetched_;
+    struct Reader : public Threading::Thread {
+        Reader(DataQueue& queue) : Threading::Thread(), queue_(queue), fetched_(0) {}
+        virtual void run();
+        size_t fetched() const { return fetched_; }
+        DataQueue& queue_;
+        size_t fetched_;
     };
 
     DataQueue queue_;
@@ -45,23 +41,21 @@ struct Test : public UnitTest::TestObj
 void
 Test::Writer::run()
 {
-    for (int index = 0; index < 1000; ++index) {
-	queue_.push(std::string(10, '0' + (index % 10)));
-    }
+    for (int index = 0; index < 1000; ++index) { queue_.push(std::string(10, '0' + (index % 10))); }
 }
 
 void
 Test::Reader::run()
 {
     while (isRunning()) {
-	std::string blah(queue_.pop());
-	++fetched_;
-	Sleep(::drand48() / 10.0);
+        std::string blah(queue_.pop());
+        ++fetched_;
+        Sleep(::drand48() / 10.0);
     }
 }
 
 static inline int
-summer(int total, Test::Reader* reader) 
+summer(int total, Test::Reader* reader)
 {
     return total + reader->fetched();
 }
@@ -71,16 +65,16 @@ Test::test()
 {
     std::vector<Reader*> readers;
     while (readers.size() < 13) {
-	Reader* reader = new Reader(queue_);
-	reader->start();
-	readers.push_back(reader);
+        Reader* reader = new Reader(queue_);
+        reader->start();
+        readers.push_back(reader);
     }
 
     Writer writer(queue_);
     writer.start();
     writer.waitToFinish();
-    while (! queue_.empty())
-	;
+    while (!queue_.empty())
+        ;
 
     int total = std::accumulate(readers.begin(), readers.end(), 0, &summer);
     assertEqual(1000, total);

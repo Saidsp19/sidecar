@@ -4,7 +4,9 @@
 #include "QtCore/QFileInfo"
 #include "QtCore/QThread"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -12,12 +14,11 @@ namespace Playback {
 
 class Emitter;
 
-class LoaderThread : public QThread
-{
+class LoaderThread : public QThread {
     Q_OBJECT
     using Super = QThread;
-public:
 
+public:
     /** Log device for instances of this class.
 
         \return log device
@@ -29,7 +30,6 @@ public:
     Emitter* getEmitter() const { return emitter_; }
 
 private:
-
     void run();
 
     Emitter* emitter_;

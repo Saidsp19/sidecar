@@ -1,22 +1,21 @@
-#ifndef UTILS_ATOMICOP_H	// -*- C++ -*-
+#ifndef UTILS_ATOMICOP_H // -*- C++ -*-
 #define UTILS_ATOMICOP_H
 
-#include "boost/operators.hpp"
 #include "boost/detail/atomic_count.hpp"
+#include "boost/operators.hpp"
 
 namespace Utils {
 
 /** Class that increments and decrements an integral value in an atomic way, thus safe for use in threaded
     processing.
 */
-class AtomicOp : public boost::totally_ordered<AtomicOp>
-{
+class AtomicOp : public boost::totally_ordered<AtomicOp> {
 public:
     using ValueType = long;
 
     /** Constructor.
 
-        \param value initial value for the counter 
+        \param value initial value for the counter
     */
     AtomicOp(ValueType value = 0) : value_(value) {}
 
@@ -29,7 +28,7 @@ public:
         \return true if new counter value is zero
     */
     ValueType operator--() { return --value_; }
-    
+
     /** Obtain the current value
 
         \return current value
@@ -43,7 +42,7 @@ public:
         \return true if so
     */
     bool operator<(const AtomicOp& rhs) const { return getValue() < rhs.getValue(); }
-    
+
     /** Determine if held value is the same as the value of another AtomicOp
 
         \param rhs value to compare
@@ -53,7 +52,7 @@ public:
     bool operator==(const AtomicOp& rhs) const { return getValue() == rhs.getValue(); }
 
 private:
-    boost::detail::atomic_count value_;	///< Current counter value
+    boost::detail::atomic_count value_; ///< Current counter value
 };
 
 } // end namespace Utils

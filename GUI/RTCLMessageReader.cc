@@ -13,32 +13,28 @@ using namespace SideCar::GUI;
 Logger::Log&
 RTCLMessageReader::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.RTCLMessageReader");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.RTCLMessageReader");
     return log_;
 }
 
 RTCLMessageReader*
-RTCLMessageReader::Make(const std::string& topic,
-                        const Messages::MetaTypeInfo* type)
+RTCLMessageReader::Make(const std::string& topic, const Messages::MetaTypeInfo* type)
 {
     static Logger::ProcLog log("Make", Log());
     LOGINFO << std::endl;
 
-    IO::Task::Ref reader = type->makeDDSSubscriber(
-	Messages::MetaTypeInfo::kRTCL, topic, IO::Task::kDefaultThreadFlags,
-	ACE_DEFAULT_THREAD_PRIORITY);
-    if (! reader) {
-	LOGERROR << "failed to open reader" << std::endl;
-	return 0;
+    IO::Task::Ref reader = type->makeDDSSubscriber(Messages::MetaTypeInfo::kRTCL, topic, IO::Task::kDefaultThreadFlags,
+                                                   ACE_DEFAULT_THREAD_PRIORITY);
+    if (!reader) {
+        LOGERROR << "failed to open reader" << std::endl;
+        return 0;
     }
 
     return new RTCLMessageReader(type, reader);
 }
 
-RTCLMessageReader::RTCLMessageReader(const Messages::MetaTypeInfo* type,
-                                     const IO::Task::Ref& reader)
-    : Super(type), reader_(reader)
+RTCLMessageReader::RTCLMessageReader(const Messages::MetaTypeInfo* type, const IO::Task::Ref& reader) :
+    Super(type), reader_(reader)
 {
     static Logger::ProcLog log("RTCLMessageReader", Log());
     LOGINFO << std::endl;

@@ -22,33 +22,28 @@ MessageReader*
 MessageReader::Make(const ServiceEntry* serviceEntry)
 {
     static Logger::ProcLog log("Make", Log());
-    LOGINFO << "name: " << serviceEntry->getName()
-	    << " host: " << serviceEntry->getHost()
-	    << " port: " << serviceEntry->getPort()
-	    << " transport: " << serviceEntry->getTransport() << std::endl;
+    LOGINFO << "name: " << serviceEntry->getName() << " host: " << serviceEntry->getHost()
+            << " port: " << serviceEntry->getPort() << " transport: " << serviceEntry->getTransport() << std::endl;
 
     MessageReader* reader = 0;
     if (serviceEntry->getTransport() == "multicast") {
-	reader = MulticastMessageReader::Make(serviceEntry);
-    }
-    else if (serviceEntry->getTransport() == "tcp") {
-	reader = TCPMessageReader::Make(serviceEntry);
-    }
-    else {
-	LOGERROR << "invalid transport - " << serviceEntry->getTransport() << std::endl;
-	return 0;
+        reader = MulticastMessageReader::Make(serviceEntry);
+    } else if (serviceEntry->getTransport() == "tcp") {
+        reader = TCPMessageReader::Make(serviceEntry);
+    } else {
+        LOGERROR << "invalid transport - " << serviceEntry->getTransport() << std::endl;
+        return 0;
     }
 
-    if (! reader) {
-	LOGERROR << "failed to create reader" << std::endl;
-	return 0;
+    if (!reader) {
+        LOGERROR << "failed to create reader" << std::endl;
+        return 0;
     }
 
     return reader;
 }
 
-MessageReader::MessageReader(const Messages::MetaTypeInfo* metaTypeInfo)
-    : Super(), metaTypeInfo_(metaTypeInfo)
+MessageReader::MessageReader(const Messages::MetaTypeInfo* metaTypeInfo) : Super(), metaTypeInfo_(metaTypeInfo)
 {
     ;
 }

@@ -3,14 +3,13 @@
 #include <sstream>
 #include <string>
 
+#include "LineBuffer.h"
 #include "UnitTest/UnitTest.h"
 #include "Utils/FilePath.h"
-#include "LineBuffer.h"
 
 using namespace SideCar::IO;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("LineBuffer") {}
     void test();
 };
@@ -46,9 +45,9 @@ Test::test()
     Utils::TemporaryFilePath path("./blah");
     std::ofstream ofs(path.filePath());
     ofs << "#first\n"
-	<< "second third\n"
-	<< "fourth\n"
-	<< "#last\n";
+        << "second third\n"
+        << "fourth\n"
+        << "#last\n";
     ofs.close();
 
     LineBufferFile lbf(path.getFilePath().filePath());
@@ -61,7 +60,7 @@ Test::test()
     ex << lbf;
     assertEqual("Error - Line: 2 File: './blah'", ex.what());
 }
-    
+
 int
 main(int argc, const char* argv[])
 {

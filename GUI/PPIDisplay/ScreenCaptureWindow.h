@@ -15,9 +15,7 @@ namespace PPIDisplay {
 class ImageWriter;
 class PPIWidget;
 
-class ScreenCaptureWindow : public ToolWindowBase,
-			    private Ui::ScreenCaptureWindow
-{
+class ScreenCaptureWindow : public ToolWindowBase, private Ui::ScreenCaptureWindow {
     Q_OBJECT
 public:
     ScreenCaptureWindow(QAction* action);

@@ -37,9 +37,7 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow()
-    : MainWindowBase(), Ui::MainWindow(), display_(0), powerScale_(0),
-      freqScale_(0)
+MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powerScale_(0), freqScale_(0)
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -60,11 +58,9 @@ MainWindow::MainWindow()
 
     // NOTE: connected asynchronously so that the background is redrawn after the scale widgets have resized.
     //
-    connect(display_, SIGNAL(transformChanged()),
-            SLOT(transformChanged()), Qt::QueuedConnection);
+    connect(display_, SIGNAL(transformChanged()), SLOT(transformChanged()), Qt::QueuedConnection);
 
-    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)),
-            SLOT(showCursorPosition(const QPointF&)));
+    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)), SLOT(showCursorPosition(const QPointF&)));
 
     freqScale_ = new FreqScaleWidget(top, Qt::Horizontal);
     freqScale_->setLabel("Frequency");
@@ -99,9 +95,7 @@ MainWindow::MainWindow()
     // Radar info widget in the status bar
     //
     RadarInfoWidget* radarInfoWidget = new RadarInfoWidget(statusBar());
-    connect(display_,
-            SIGNAL(showMessageInfo(const Messages::PRIMessage::Ref&)),
-            radarInfoWidget,
+    connect(display_, SIGNAL(showMessageInfo(const Messages::PRIMessage::Ref&)), radarInfoWidget,
             SLOT(showMessageInfo(const Messages::PRIMessage::Ref&)));
     statusBar()->addPermanentWidget(radarInfoWidget);
 
@@ -120,23 +114,17 @@ MainWindow::MainWindow()
     ChannelSetting* channelSetting = settings->getInputChannel();
     channelSetting->connectWidget(csw->found_);
 
-    connect(channelSetting, SIGNAL(valueChanged(const QString&)),
-            SLOT(channelChanged(const QString&)));
-    if (channelSetting->isConnected())
-	channelChanged(channelSetting->getValue());
+    connect(channelSetting, SIGNAL(valueChanged(const QString&)), SLOT(channelChanged(const QString&)));
+    if (channelSetting->isConnected()) channelChanged(channelSetting->getValue());
 
     // View toolbar
     //
     toolBar = makeToolBar("View", Qt::TopToolBarArea);
 
-    connect(settings, SIGNAL(showGridChanged(bool)),
-            SLOT(makeBackground()));
-    connect(settings, SIGNAL(showGridChanged(bool)), actionViewToggleGrid_,
-            SLOT(setChecked(bool)));
-    connect(actionViewToggleGrid_, SIGNAL(toggled(bool)), app,
-            SLOT(updateToggleAction(bool)));
-    connect(actionViewToggleGrid_, SIGNAL(triggered(bool)), settings,
-            SLOT(setShowGrid(bool)));
+    connect(settings, SIGNAL(showGridChanged(bool)), SLOT(makeBackground()));
+    connect(settings, SIGNAL(showGridChanged(bool)), actionViewToggleGrid_, SLOT(setChecked(bool)));
+    connect(actionViewToggleGrid_, SIGNAL(toggled(bool)), app, SLOT(updateToggleAction(bool)));
+    connect(actionViewToggleGrid_, SIGNAL(triggered(bool)), settings, SLOT(setShowGrid(bool)));
     actionViewToggleGrid_->setIcon(QIcon(":/gridOn.png"));
     UpdateToggleAction(actionViewToggleGrid_, settings->getShowGrid());
 
@@ -146,11 +134,11 @@ MainWindow::MainWindow()
 
     toolBar->addAction(actionViewToggleGrid_);
 
-    actionViewPause_->setData(QStringList() << "Freeze" << "Unfreeze");
+    actionViewPause_->setData(QStringList() << "Freeze"
+                                            << "Unfreeze");
     UpdateToggleAction(actionViewPause_, false);
     actionViewPause_->setIcon(QIcon(":/unfreeze.png"));
-    connect(actionViewPause_, SIGNAL(triggered(bool)), app,
-            SLOT(updateToggleAction(bool)));
+    connect(actionViewPause_, SIGNAL(triggered(bool)), app, SLOT(updateToggleAction(bool)));
     toolBar->addAction(actionViewPause_);
 
     toolBar->addAction(actionViewFull_);
@@ -199,10 +187,10 @@ MainWindow::closeEvent(QCloseEvent* event)
 {
     App* app = getApp();
 
-    if (! app->isQuitting()) {
-	event->ignore();
-	QTimer::singleShot(0, app, SLOT(applicationQuit()));
-	return;
+    if (!app->isQuitting()) {
+        event->ignore();
+        QTimer::singleShot(0, app, SLOT(applicationQuit()));
+        return;
     }
 
     Super::closeEvent(event);
@@ -224,16 +212,16 @@ void
 MainWindow::makeBackground()
 {
     QImage image(display_->width(), display_->height(), QImage::Format_RGB32);
-    if (! image.isNull()) {
-	QPainter painter(&image);
-	painter.setBackground(Qt::black);
-	painter.eraseRect(image.rect());
-	if (getApp()->getConfiguration()->getSettings()->getShowGrid()) {
-	    powerScale_->drawGridLines(painter);
-	    freqScale_->drawGridLines(painter);
-	}
-	painter.end();
-	display_->setBackground(image);
+    if (!image.isNull()) {
+        QPainter painter(&image);
+        painter.setBackground(Qt::black);
+        painter.eraseRect(image.rect());
+        if (getApp()->getConfiguration()->getSettings()->getShowGrid()) {
+            powerScale_->drawGridLines(painter);
+            freqScale_->drawGridLines(painter);
+        }
+        painter.end();
+        display_->setBackground(image);
     }
 }
 
@@ -243,11 +231,8 @@ MainWindow::updateScales()
     static Logger::ProcLog log("updateScales", Log());
     LOGINFO << std::endl;
     const ViewSettings& settings(display_->getCurrentView());
-    LOGINFO << "xMin: " << settings.getXMin()
-	    << " xMax: " << settings.getXMax()
-	    << " yMin: " << settings.getYMin()
-	    << " yMax: " << settings.getYMax()
-	    << std::endl;
+    LOGINFO << "xMin: " << settings.getXMin() << " xMax: " << settings.getXMax() << " yMin: " << settings.getYMin()
+            << " yMax: " << settings.getYMax() << std::endl;
     freqScale_->setStart(settings.getXMin());
     freqScale_->setEnd(settings.getXMax());
     powerScale_->setStart(settings.getYMax());
@@ -260,9 +245,7 @@ MainWindow::showCursorPosition(const QPointF& pos)
     freqScale_->setCursorValue(pos.x());
     powerScale_->setCursorValue(pos.y());
     cursorWidget_->showCursorPosition(
-	QString("X: %1 Y: %2 db")
-	.arg(freqScale_->formatTickTag(pos.x()))
-	.arg(powerScale_->formatTickTag(pos.y())));
+        QString("X: %1 Y: %2 db").arg(freqScale_->formatTickTag(pos.x())).arg(powerScale_->formatTickTag(pos.y())));
 }
 
 void

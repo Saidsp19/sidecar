@@ -11,14 +11,12 @@ ChannelConnectionView::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
     case Qt::Key_Clear:
-	event->accept();
-	if (event->modifiers() == 0)
-	    emit clearDrops();
-	else
-	    emit clearAll();
-	break;
-    default:
-	Super::keyPressEvent(event);
-	break;
+        event->accept();
+        if (event->modifiers() == 0)
+            emit clearDrops();
+        else
+            emit clearAll();
+        break;
+    default: Super::keyPressEvent(event); break;
     }
 }

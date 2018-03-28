@@ -4,16 +4,13 @@
 
 using namespace SideCar::GUI;
 
-TimeSetting::TimeSetting(PresetManager* mgr, const QString& name,
-                         bool global)
-    : Super(mgr, name, global)
+TimeSetting::TimeSetting(PresetManager* mgr, const QString& name, bool global) : Super(mgr, name, global)
 {
     value_ = getOpaqueValue().toTime();
 }
-    
-TimeSetting::TimeSetting(PresetManager* mgr, const QString& name,
-                         const QTime& value, bool global)
-    : Super(mgr, name, value, global)
+
+TimeSetting::TimeSetting(PresetManager* mgr, const QString& name, const QTime& value, bool global) :
+    Super(mgr, name, value, global)
 {
     value_ = getOpaqueValue().toTime();
 }
@@ -36,9 +33,7 @@ void
 TimeSetting::connectWidget(QTimeEdit* widget)
 {
     widget->setTime(value_);
-    connect(widget, SIGNAL(timeChanged(const QTime&)),
-            SLOT(setValue(const QTime&)));
-    connect(this, SIGNAL(valueChanged(const QTime&)),
-            widget, SLOT(setTime(const QTime&)));
+    connect(widget, SIGNAL(timeChanged(const QTime&)), SLOT(setValue(const QTime&)));
+    connect(this, SIGNAL(valueChanged(const QTime&)), widget, SLOT(setTime(const QTime&)));
     Super::connectWidget(widget);
 }

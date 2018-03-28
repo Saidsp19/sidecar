@@ -5,7 +5,9 @@
 
 #include "QtCore/QObject"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,19 +15,10 @@ namespace Spectrum {
 
 class FFTSettings;
 
-class WeightWindow : public QObject
-{
+class WeightWindow : public QObject {
     Q_OBJECT
 public:
-
-    enum Type {
-	kRectangular,
-	kTriangular,
-	kHanning,
-	kHamming,
-	kBlackman,
-	kNumTypes
-    };
+    enum Type { kRectangular, kTriangular, kHanning, kHamming, kBlackman, kNumTypes };
 
     /** Log device to use for WeightWindow log messages.
 

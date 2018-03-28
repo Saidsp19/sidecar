@@ -10,10 +10,9 @@ namespace Algorithms {
 
 /** Takes a stream of PRISegments and outputs a stream of segments, each representing an extraction blob.
  */
-class SegmentConnector : public Algorithm
-{
+class SegmentConnector : public Algorithm {
 public:
-    SegmentConnector(Controller& controller, Logger::Log &log);
+    SegmentConnector(Controller& controller, Logger::Log& log);
 
     bool startup();
     bool reset();
@@ -27,7 +26,8 @@ private:
     double rangeFactor_;
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

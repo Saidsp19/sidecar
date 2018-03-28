@@ -8,16 +8,14 @@ class QSpinBox;
 namespace SideCar {
 namespace GUI {
 
-class IntMinMaxValidator : public QIntValidator
-{
+class IntMinMaxValidator : public QIntValidator {
     Q_OBJECT
     using Super = QIntValidator;
-public:
 
+public:
     IntMinMaxValidator(QObject* parent, QSpinBox* min, QSpinBox* max);
 
-    IntMinMaxValidator(QObject* parent, QSpinBox* min, QSpinBox* max,
-                       int minMin, int maxMax);
+    IntMinMaxValidator(QObject* parent, QSpinBox* min, QSpinBox* max, int minMin, int maxMax);
 
 private slots:
 

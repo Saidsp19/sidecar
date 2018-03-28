@@ -11,7 +11,9 @@
 
 #include "ui_MainWindow.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -31,19 +33,18 @@ class Visualizer;
 /** Main window for the AScope application. A main window hosts one or more DisplayView objects, and each
     DisplayView object has a Visualizer widget which does the plotting of the incoming data.
 */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
 
         \param history application history buffer for all Video messages.
 
-	\param basis DisplayView to duplicate
+        \param basis DisplayView to duplicate
     */
     MainWindow(History& history, int windowIndex, DisplayView* basis = 0);
 
@@ -80,7 +81,7 @@ public:
     void restoreFromSettings(QSettings& settings);
 
     void windowMenuAboutToShow(QList<QAction*>& actions);
-							   
+
 private slots:
 
     /** Notification handler invoked when a display view goes away.
@@ -98,7 +99,7 @@ private slots:
     void splitDisplayViewVertically();
 
     /** Remove a QSplitter, keeping the DisplayView object that currently has focus. Destroyes the other
-	DisplayView object.
+        DisplayView object.
     */
     void unsplitDisplayView();
 
@@ -140,19 +141,18 @@ private slots:
 
     /** Notification that
 
-        \param displayView 
+        \param displayView
     */
     void activeDisplayViewChanged(DisplayView* displayView);
 
     /** Notification that the active Visualizer's transform changed. Update the menu actions associated with the
-	ViewStack.
+        ViewStack.
     */
     void updateViewActions();
 
     void peakBarsEnabledChanged(bool state);
 
 private:
-
     QWidget* makeDisplayView(QWidget* parent, DisplayView* basis);
 
     Splittable* splitDisplayView(Qt::Orientation how);

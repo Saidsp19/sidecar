@@ -6,8 +6,7 @@
 
 using namespace SideCar::GUI::AScope;
 
-ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent)
-    : Super(parent)
+ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent) : Super(parent)
 {
     QBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -23,14 +22,11 @@ ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent)
     layout->addSpacing(6);
     layout->addStretch(1);
 
-    connect(chooser_, SIGNAL(activated(int)),
-            viewEditor, SLOT(applyPreset(int)));
+    connect(chooser_, SIGNAL(activated(int)), viewEditor, SLOT(applyPreset(int)));
 
-    connect(viewEditor, SIGNAL(activePreset(int)),
-            chooser_, SLOT(setCurrentIndex(int)));
+    connect(viewEditor, SIGNAL(activePreset(int)), chooser_, SLOT(setCurrentIndex(int)));
 
-    connect(viewEditor, SIGNAL(presetNamesChanged(const QStringList&)),
-            SLOT(presetNamesChanged(const QStringList&)));
+    connect(viewEditor, SIGNAL(presetNamesChanged(const QStringList&)), SLOT(presetNamesChanged(const QStringList&)));
 }
 
 void

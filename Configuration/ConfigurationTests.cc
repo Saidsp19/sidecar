@@ -9,20 +9,18 @@
 
 using namespace SideCar::Configuration;
 
-struct ConfigurationTests : public UnitTest::ProcSuite<ConfigurationTests>
-{
-    ConfigurationTests()
-	: UnitTest::ProcSuite<ConfigurationTests>(this, "Configuration")
-	{
-	    add("Normal", &ConfigurationTests::testNormal);
-	    add("FailedFileOpen", &ConfigurationTests::testFailedFileOpen);
-	    add("FailedXMLParse", &ConfigurationTests::testFailedXMLParse);
-	    add("MissingSidecar", &ConfigurationTests::testMissingSidecar);
-	    add("MissingRadar", &ConfigurationTests::testMissingRadar);
-	    add("InvalidRadar", &ConfigurationTests::testInvalidRadar);
-	    add("MissingDP", &ConfigurationTests::testMissingDP);
-	    add("InvalidIncludes", &ConfigurationTests::testIncludes);
-	}
+struct ConfigurationTests : public UnitTest::ProcSuite<ConfigurationTests> {
+    ConfigurationTests() : UnitTest::ProcSuite<ConfigurationTests>(this, "Configuration")
+    {
+        add("Normal", &ConfigurationTests::testNormal);
+        add("FailedFileOpen", &ConfigurationTests::testFailedFileOpen);
+        add("FailedXMLParse", &ConfigurationTests::testFailedXMLParse);
+        add("MissingSidecar", &ConfigurationTests::testMissingSidecar);
+        add("MissingRadar", &ConfigurationTests::testMissingRadar);
+        add("InvalidRadar", &ConfigurationTests::testInvalidRadar);
+        add("MissingDP", &ConfigurationTests::testMissingDP);
+        add("InvalidIncludes", &ConfigurationTests::testIncludes);
+    }
 
     void testNormal();
     void testFailedFileOpen();
@@ -39,7 +37,7 @@ ConfigurationTests::testNormal()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 <sidecar>\
  <radar>\
@@ -60,8 +58,8 @@ ConfigurationTests::testNormal()
  </dp>\
 </sidecar>\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
@@ -88,7 +86,7 @@ ConfigurationTests::testFailedXMLParse()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
 <sidecar>\n\
  <dp recordingsDirectory=\"/a/b\" logsDirectory=\"/c\">\n\
@@ -100,15 +98,14 @@ ConfigurationTests::testFailedXMLParse()
  </dp>\n\
 </sidecar>\n\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
     assertFalse(loader.load(QString::fromStdString(tempFilePath)));
     assertEqual(Loader::kFailedXMLParse, loader.getLastLoadResult());
-    assertEqual(tempFilePath.getFilePath().filePath(),
-                loader.getParseFilePath().toStdString());
+    assertEqual(tempFilePath.getFilePath().filePath(), loader.getParseFilePath().toStdString());
     int line;
     int column;
     QString error = loader.getParseErrorInfo(line, column);
@@ -121,13 +118,13 @@ ConfigurationTests::testMissingSidecar()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 <foobar>\
 </foobar>\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
@@ -140,7 +137,7 @@ ConfigurationTests::testMissingRadar()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 <sidecar>\
  <dp recordingsDirectory=\"/a/b\" logsDirectory=\"/c\">\
@@ -152,8 +149,8 @@ ConfigurationTests::testMissingRadar()
  </dp>\
 </sidecar>\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
@@ -166,7 +163,7 @@ ConfigurationTests::testInvalidRadar()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 <sidecar>\
  <radar>\
@@ -187,8 +184,8 @@ ConfigurationTests::testInvalidRadar()
  </dp>\
 </sidecar>\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
@@ -203,7 +200,7 @@ ConfigurationTests::testMissingDP()
 {
     Utils::TemporaryFilePath tempFilePath;
     {
-	const char* text = "\
+        const char* text = "\
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 <sidecar>\
  <radar>\
@@ -224,8 +221,8 @@ ConfigurationTests::testMissingDP()
  </dppp>\
 </sidecar>\
 ";
-	std::ofstream os(tempFilePath.filePath().c_str());
-	os << text;
+        std::ofstream os(tempFilePath.filePath().c_str());
+        os << text;
     }
 
     Loader loader;
@@ -241,53 +238,53 @@ ConfigurationTests::testIncludes()
     Utils::TemporaryFilePath runner1FilePath;
     Utils::TemporaryFilePath runner2FilePath;
     {
-	std::ofstream os(mainFilePath.filePath().c_str());
-	os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-	   << "<sidecar>\n"
-	   << " <radar file=\"" << radarFilePath << "\"/>\n"
-	   << " <dp recordingsDirectory=\"/a/b\" logsDirectory=\"/c\">\n"
-	   << "  <runner name=\"A\" file=\"" << runner1FilePath << "\"\n"
-	   << "    host=\"alpha\" multicast=\"237.1.2.101\"/>\n"
-	   << "  <runner file=\"" << runner2FilePath << "\"/>\n"
-	   << " </dp>\n</sidecar>\n";
+        std::ofstream os(mainFilePath.filePath().c_str());
+        os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           << "<sidecar>\n"
+           << " <radar file=\"" << radarFilePath << "\"/>\n"
+           << " <dp recordingsDirectory=\"/a/b\" logsDirectory=\"/c\">\n"
+           << "  <runner name=\"A\" file=\"" << runner1FilePath << "\"\n"
+           << "    host=\"alpha\" multicast=\"237.1.2.101\"/>\n"
+           << "  <runner file=\"" << runner2FilePath << "\"/>\n"
+           << " </dp>\n</sidecar>\n";
     }
 
     {
-	std::ofstream os(radarFilePath.filePath().c_str());
-	os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-	   << "<radar>\n"
-	   << " <name>Radar</name>\n"
-	   << " <gateCountMax type=\"int\">4684</gateCountMax>\n"
-	   << " <shaftEncodingMax type=\"int\">65535</shaftEncodingMax>\n"
-	   << " <rotationRate units=\"rpm\" type=\"double\">6</rotationRate>\n"
-	   << " <rangeMin units=\"km\" type=\"double\">0.0</rangeMin>\n"
-	   << " <rangeMax units=\"km\" type=\"double\">300.0</rangeMax>\n"
-	   << " <beamWidth units=\"radians\" type=\"double\">0.01</beamWidth>\n"
-	   << "</radar>\n";
+        std::ofstream os(radarFilePath.filePath().c_str());
+        os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           << "<radar>\n"
+           << " <name>Radar</name>\n"
+           << " <gateCountMax type=\"int\">4684</gateCountMax>\n"
+           << " <shaftEncodingMax type=\"int\">65535</shaftEncodingMax>\n"
+           << " <rotationRate units=\"rpm\" type=\"double\">6</rotationRate>\n"
+           << " <rangeMin units=\"km\" type=\"double\">0.0</rangeMin>\n"
+           << " <rangeMax units=\"km\" type=\"double\">300.0</rangeMax>\n"
+           << " <beamWidth units=\"radians\" type=\"double\">0.01</beamWidth>\n"
+           << "</radar>\n";
     }
 
     {
-	std::ofstream os(runner1FilePath.filePath().c_str());
-	os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-	   << "<runner name=\"A2\" host=\"alpha2\" multicast=\"999.9.9.999\">\n"
-	   << " <stream name=\"One\">\n"
-	   << "  <subscriber name=\"Hello\"/>\n"
-	   << " </stream>\n"
-	   << "</runner>\n";
+        std::ofstream os(runner1FilePath.filePath().c_str());
+        os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           << "<runner name=\"A2\" host=\"alpha2\" multicast=\"999.9.9.999\">\n"
+           << " <stream name=\"One\">\n"
+           << "  <subscriber name=\"Hello\"/>\n"
+           << " </stream>\n"
+           << "</runner>\n";
     }
 
     {
-	std::ofstream os(runner2FilePath.filePath().c_str());
-	os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-	   << "<runner name=\"B\" host=\"beta\" multicast=\"999.9.9.999\">\n"
-	   << " <stream name=\"Two\">\n"
-	   << "  <subscriber name=\"Bye\"/>\n"
-	   << " </stream>\n"
-	   << "</runner>\n";
+        std::ofstream os(runner2FilePath.filePath().c_str());
+        os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           << "<runner name=\"B\" host=\"beta\" multicast=\"999.9.9.999\">\n"
+           << " <stream name=\"Two\">\n"
+           << "  <subscriber name=\"Bye\"/>\n"
+           << " </stream>\n"
+           << "</runner>\n";
     }
 
     ::setenv("SIDECAR", "/opt/sidecar", 1);
-    
+
     Loader loader;
     assertEqual(Loader::kNotLoaded, loader.getLastLoadResult());
     assertFalse(loader.isLoaded());
@@ -301,19 +298,15 @@ ConfigurationTests::testIncludes()
     assertTrue(runnerConfig == 0);
     runnerConfig = loader.getRunnerConfig("A");
     assertTrue(runnerConfig != 0);
-    assertEqual(std::string("alpha"),
-                runnerConfig->getHostName().toStdString());
-    assertEqual(std::string("237.1.2.101"),
-                runnerConfig->getMulticastAddress().toStdString());
+    assertEqual(std::string("alpha"), runnerConfig->getHostName().toStdString());
+    assertEqual(std::string("237.1.2.101"), runnerConfig->getMulticastAddress().toStdString());
     assertEqual(1, runnerConfig->getStreamNodes().size());
 
     // Since the Loader used the basename component of the configuration file for its configuration name, we get
     // "TemporaryFilePath" in the results because we use a TemporaryFilePath to hold our config file.
     //
-    assertEqual(std::string("TemporaryFilePath:alpha:A"),
-                runnerConfig->getServiceName().toStdString());
-    assertEqual(std::string("/c/TemporaryFilePath_A.log"),
-                runnerConfig->getLogPath().toStdString());
+    assertEqual(std::string("TemporaryFilePath:alpha:A"), runnerConfig->getServiceName().toStdString());
+    assertEqual(std::string("/c/TemporaryFilePath_A.log"), runnerConfig->getLogPath().toStdString());
     std::string cmd("ssh -Tfnx alpha '/usr/bin/nohup "
                     "\"/opt/sidecar/bin/startup\" -L "
                     "\"/c/TemporaryFilePath_A.log\" "
@@ -325,10 +318,8 @@ ConfigurationTests::testIncludes()
 
     runnerConfig = loader.getRunnerConfig("B");
     assertTrue(runnerConfig != 0);
-    assertEqual(std::string("beta"),
-                runnerConfig->getHostName().toStdString());
-    assertEqual(std::string("999.9.9.999"),
-                runnerConfig->getMulticastAddress().toStdString());
+    assertEqual(std::string("beta"), runnerConfig->getHostName().toStdString());
+    assertEqual(std::string("999.9.9.999"), runnerConfig->getMulticastAddress().toStdString());
     assertEqual(1, runnerConfig->getStreamNodes().size());
 }
 

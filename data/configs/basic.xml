@@ -52,7 +52,7 @@
 
        The only valid element inside <dp> is <host>
     -->
-  <dp recordingBasePath="/Users/howes/sidecar/recordings" loggerConfigPath="/opt/sidecar/data/logger.cfg">
+  <dp recordingBasePath="${SIDECAR}/recordings" loggerConfigPath="${SIDECAR}/data/logger.cfg">
     <runner name="localhost" tag="1" multicast="237.1.2.102">
 
       <!-- Basic target extraction processing stream -->

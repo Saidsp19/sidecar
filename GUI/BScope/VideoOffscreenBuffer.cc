@@ -9,33 +9,29 @@
 using namespace SideCar;
 using namespace SideCar::GUI::BScope;
 
-VideoOffscreenBuffer::VideoOffscreenBuffer(int width, int height,
-                                           int textureType)
-    : Super(App::GetApp()->getConfiguration()->getVideoImaging(), width,
-            height, textureType)
+VideoOffscreenBuffer::VideoOffscreenBuffer(int width, int height, int textureType) :
+    Super(App::GetApp()->getConfiguration()->getVideoImaging(), width, height, textureType)
 {
-    transform_ =
-	App::GetApp()->getConfiguration()->getVideoSampleCountTransform();
+    transform_ = App::GetApp()->getConfiguration()->getVideoSampleCountTransform();
 }
 
-class VideoDecimator
-{
+class VideoDecimator {
 public:
-    VideoDecimator(int factor, const Messages::Video::Ref& msg)
-	: factor_(factor),
-	  rangeOffset_(factor / 2.0 * msg->getRangeFactor()),
-	  msg_(msg), pos_(msg->begin()), end_(msg->end()) {}
+    VideoDecimator(int factor, const Messages::Video::Ref& msg) :
+        factor_(factor), rangeOffset_(factor / 2.0 * msg->getRangeFactor()), msg_(msg), pos_(msg->begin()),
+        end_(msg->end())
+    {
+    }
 
     operator bool()
-	{
-	    if (pos_ == end_) return false;
-	    range_ = msg_->getRangeAt(pos_) + rangeOffset_;
-	    long sum = *pos_++;
-	    for (int count = 1; pos_ < end_ && count < factor_; ++count)
-		sum += *pos_++;
-	    value_ = sum / factor_;
-	    return true;
-	}
+    {
+        if (pos_ == end_) return false;
+        range_ = msg_->getRangeAt(pos_) + rangeOffset_;
+        long sum = *pos_++;
+        for (int count = 1; pos_ < end_ && count < factor_; ++count) sum += *pos_++;
+        value_ = sum / factor_;
+        return true;
+    }
 
     double getRange() const { return range_; }
     int getValue() const { return value_; }
@@ -62,40 +58,33 @@ VideoOffscreenBuffer::addPoints(const Messages::PRIMessage::Ref& msg)
 {
     checkPointCapacity(msg->size());
     double azimuth = getNormalizedAzimuth(msg->getAzimuthStart());
-    
-    const Messages::Video::Ref video =
-	boost::dynamic_pointer_cast<Messages::Video>(msg);
+
+    const Messages::Video::Ref video = boost::dynamic_pointer_cast<Messages::Video>(msg);
     const VideoImaging* imaging = getImaging();
     double rangeMin = getRangeMin();
     double rangeMax = getRangeMax();
     int decimation = imaging->getDecimation();
     if (decimation > 1) {
-	VideoDecimator decimator(decimation, video);
-	while (decimator) {
-	    double range = decimator.getRange();
-	    if (range > rangeMax)
-		break;
-	    if (range >= rangeMin) {
-		double intensity =
-		    transform_->transform(decimator.getValue());
-		addPoint(Vertex(azimuth, range),
-                         imaging->getColor(intensity));
-	    }
-	}
-    }
-    else {
-	Messages::Video::const_iterator pos = video->begin();
-	Messages::Video::const_iterator end = video->end();
-	while (pos != end) {
-	    double range = video->getRangeAt(pos);
-	    if (range > rangeMax)
-		break;
-	    if (range >= rangeMin) {
-		double intensity = transform_->transform(*pos);
-		addPoint(Vertex(azimuth, range),
-                         imaging->getColor(intensity));
-	    }
-	    ++pos;
-	}
+        VideoDecimator decimator(decimation, video);
+        while (decimator) {
+            double range = decimator.getRange();
+            if (range > rangeMax) break;
+            if (range >= rangeMin) {
+                double intensity = transform_->transform(decimator.getValue());
+                addPoint(Vertex(azimuth, range), imaging->getColor(intensity));
+            }
+        }
+    } else {
+        Messages::Video::const_iterator pos = video->begin();
+        Messages::Video::const_iterator end = video->end();
+        while (pos != end) {
+            double range = video->getRangeAt(pos);
+            if (range > rangeMax) break;
+            if (range >= rangeMin) {
+                double intensity = transform_->transform(*pos);
+                addPoint(Vertex(azimuth, range), imaging->getColor(intensity));
+            }
+            ++pos;
+        }
     }
 }

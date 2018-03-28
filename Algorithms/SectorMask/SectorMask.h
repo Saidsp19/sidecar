@@ -8,21 +8,17 @@
 namespace SideCar {
 namespace Algorithms {
 
-/** 
+/**
     This algorithm masks out any hits within a given sector of the observable area. The "sector" area is
     specified with a min/max azimuth and range. Any detections in a Binary message within this sector are
     removed.
-  
-*/
-class SectorMask : public Algorithm
-{
-    using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+*/
+class SectorMask : public Algorithm {
+    using Super = Algorithm;
+
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -46,7 +42,6 @@ public:
     bool shutdown();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -68,7 +63,7 @@ private:
 
     // Parameters for specifying the sector to be masked. Azimuth is given in degrees and range is given in
     // bins.
-    // 
+    //
     Parameter::DoubleValue::Ref minAzimuth_;
     Parameter::DoubleValue::Ref maxAzimuth_;
     Parameter::IntValue::Ref minRangeBin_;

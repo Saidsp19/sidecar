@@ -15,30 +15,23 @@ using namespace SideCar;
 using namespace SideCar::Messages;
 using namespace SideCar::Algorithms;
 
-ProcessTracks::ProcessTracks(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make(
-                   "enabled", "Enabled", kDefaultEnabled))
+ProcessTracks::ProcessTracks(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled))
 {
-  
 }
 
 bool
 ProcessTracks::startup()
 {
-    registerProcessor<ProcessTracks,Track>(&ProcessTracks::processInput);
-    return registerParameter(enabled_) &&
-        Super::startup();
+    registerProcessor<ProcessTracks, Track>(&ProcessTracks::processInput);
+    return registerParameter(enabled_) && Super::startup();
 }
-
-
 
 bool
 ProcessTracks::shutdown()
 {
     return Super::shutdown();
 }
-
 
 bool
 ProcessTracks::processInput(const Messages::Track::Ref& msg)
@@ -48,10 +41,8 @@ ProcessTracks::processInput(const Messages::Track::Ref& msg)
     LOGERROR << msg->printHeader(std::cerr) << std::endl;
     LOGERROR << msg->printData(std::cerr) << std::endl;
 
-  
     return send(msg);
 }
-
 
 void
 ProcessTracks::setInfoSlots(IO::StatusBase& status)
@@ -63,7 +54,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[ProcessTracks::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[ProcessTracks::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

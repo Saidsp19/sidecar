@@ -22,18 +22,14 @@ class BrowserWindow;
 
 /** Application class for the Playback application.
  */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
+
 public:
-    
     /** Menu action enumeration for tool window show/hide actions.
      */
-    enum ToolsMenuAction {
-	kShowBrowserWindow,
-	kNumToolsMenuActions
-    };
+    enum ToolsMenuAction { kShowBrowserWindow, kNumToolsMenuActions };
 
     /** Obtain type-casted App singleton object.
 
@@ -49,13 +45,11 @@ public:
     */
     App(int& argc, char** argv);
 
-    QAction* getToolsMenuAction(ToolsMenuAction index)
-	{ return Super::getToolsMenuAction(index); }
+    QAction* getToolsMenuAction(ToolsMenuAction index) { return Super::getToolsMenuAction(index); }
 
     BrowserWindow* getBrowserWindow() const { return browserWindow_; }
 
 private:
-
     /** Override of AppBase method. Creates a new MainWindow object.
 
         \return MainWindow object

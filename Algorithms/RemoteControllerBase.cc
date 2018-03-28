@@ -24,8 +24,8 @@ RemoteControllerBase::Log()
     return log_;
 }
 
-RemoteControllerBase::RemoteControllerBase(const char* zeroconfType)
-    : Super(), zeroconfType_(zeroconfType), rpcServer_(), connectionPublisher_(), running_(0)
+RemoteControllerBase::RemoteControllerBase(const char* zeroconfType) :
+    Super(), zeroconfType_(zeroconfType), rpcServer_(), connectionPublisher_(), running_(0)
 {
     Logger::ProcLog log("RemoteControllerBase", Log());
     LOGINFO << std::endl;
@@ -43,18 +43,17 @@ RemoteControllerBase::close(u_long flags)
     Logger::ProcLog log("svc", Log());
     LOGINFO << flags << std::endl;
     if (flags && running_) {
-	if (! stop()) {
-	    LOGERROR << "failed to stop controller" << std::endl;
-	    return -1;
-	}
+        if (!stop()) {
+            LOGERROR << "failed to stop controller" << std::endl;
+            return -1;
+        }
     }
 
     return 0;
 }
 
 bool
-RemoteControllerBase::start(const std::string& serviceName, long threadFlags,
-                            long priority)
+RemoteControllerBase::start(const std::string& serviceName, long threadFlags, long priority)
 {
     Logger::ProcLog log("start", Log());
     LOGINFO << std::endl;
@@ -62,13 +61,13 @@ RemoteControllerBase::start(const std::string& serviceName, long threadFlags,
     serviceName_ = serviceName;
 
     if (running_) {
-	LOGERROR << "already running" << std::endl;
-	return false;
+        LOGERROR << "already running" << std::endl;
+        return false;
     }
 
     // The task requires a valid ACE_Reactor for the Zeroconf::ACEMonitor to work.
     //
-    if (! reactor()) reactor(ACE_Reactor::instance());
+    if (!reactor()) reactor(ACE_Reactor::instance());
 
     // Create and initialize a new XML-RPC server.
     //
@@ -77,17 +76,17 @@ RemoteControllerBase::start(const std::string& serviceName, long threadFlags,
 
     // Enable XML-RPC connections. Let system pick a free port to use.
     //
-    if (! rpcServer_->bindAndListen(0)) {
-	LOGERROR << "failed to create XMLRPC server socket" << std::endl;
-	return false;
+    if (!rpcServer_->bindAndListen(0)) {
+        LOGERROR << "failed to create XMLRPC server socket" << std::endl;
+        return false;
     }
 
     // Get the adddress of the XML-RPC server.
     //
     ACE_SOCK_Stream sock(rpcServer_->getfd());
     if (sock.get_local_addr(address_) == -1) {
-	LOGERROR << "failed to get port for XMLRPC server" << std::endl;
-	return false;
+        LOGERROR << "failed to get port for XMLRPC server" << std::endl;
+        return false;
     }
 
     uint16_t port = address_.get_port_number();
@@ -99,21 +98,20 @@ RemoteControllerBase::start(const std::string& serviceName, long threadFlags,
     connectionPublisher_ = Publisher::Make(new ACEMonitor);
     connectionPublisher_->setType(serviceType);
     connectionPublisher_->setPort(port);
-    connectionPublisher_->connectToPublishedSignal([this](auto v){publisherPublished(v);});
+    connectionPublisher_->connectToPublishedSignal([this](auto v) { publisherPublished(v); });
 
     // Attempt to publish connection information. If there is a name conflict and our name is changed by
     // Zeroconf, the callback publisherPublished() will record the new name and invoke the serviceNameChanged()
     // method.
     //
-    if (! connectionPublisher_->publish(serviceName_, false)) {
-	LOGERROR << "failed to publish connection with name: " << serviceName << " type: " << serviceType
-                 << std::endl;
-	return false;
+    if (!connectionPublisher_->publish(serviceName_, false)) {
+        LOGERROR << "failed to publish connection with name: " << serviceName << " type: " << serviceType << std::endl;
+        return false;
     }
 
     if (activate(threadFlags, 1, 0, priority) == -1) {
-	LOGFATAL << "failed to start remote controller thread - " << std::endl;
-	return false;
+        LOGFATAL << "failed to start remote controller thread - " << std::endl;
+        return false;
     }
 
     return true;
@@ -123,8 +121,8 @@ void
 RemoteControllerBase::publisherPublished(bool ok)
 {
     if (ok && connectionPublisher_->getName() != serviceName_) {
-	serviceName_ = connectionPublisher_->getName();
-	serviceNameChanged(serviceName_);
+        serviceName_ = connectionPublisher_->getName();
+        serviceNameChanged(serviceName_);
     }
 }
 
@@ -134,9 +132,9 @@ RemoteControllerBase::stop()
     Logger::ProcLog log("stop", Log());
     LOGINFO << std::endl;
 
-    if (! running_) {
-	LOGERROR << "not running" << std::endl;
-	return false;
+    if (!running_) {
+        LOGERROR << "not running" << std::endl;
+        return false;
     }
 
     // Stop the publication of the XML-RPC service connection information, and delete the publisher
@@ -160,8 +158,8 @@ RemoteControllerBase::stop()
     //
     LOGINFO << "waiting for rpc thread to exit: " << running_ << std::endl;
     if (wait() == -1) {
-	LOGERROR << "failed wait() on service thread" << std::endl;
-	return false;
+        LOGERROR << "failed wait() on service thread" << std::endl;
+        return false;
     }
 
     // Delete the XML-RPC server.

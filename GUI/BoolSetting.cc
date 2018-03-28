@@ -7,14 +7,13 @@
 
 using namespace SideCar::GUI;
 
-BoolSetting::BoolSetting(PresetManager* mgr, const QString& name, bool global)
-    : Super(mgr, name, false, global)
+BoolSetting::BoolSetting(PresetManager* mgr, const QString& name, bool global) : Super(mgr, name, false, global)
 {
     value_ = false;
 }
 
-BoolSetting::BoolSetting(PresetManager* mgr, const QString& name, bool value, bool global)
-    : Super(mgr, name, value, global)
+BoolSetting::BoolSetting(PresetManager* mgr, const QString& name, bool value, bool global) :
+    Super(mgr, name, value, global)
 {
     value_ = value;
 }
@@ -48,9 +47,7 @@ void
 BoolSetting::updateAction()
 {
     QAction* action = dynamic_cast<QAction*>(sender());
-    if (action) {
-	UpdateToggleAction(action, action->isChecked());
-    }
+    if (action) { UpdateToggleAction(action, action->isChecked()); }
 }
 
 void

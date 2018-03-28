@@ -9,7 +9,7 @@ namespace SideCar {
 namespace GUI {
 namespace Spectrum {
 
-using DoubleVector = std::vector<double,FFTWAllocator<double> >;
+using DoubleVector = std::vector<double, FFTWAllocator<double>>;
 
 } // end namespace Spectrum
 } // end namespace GUI

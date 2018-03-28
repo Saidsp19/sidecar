@@ -7,51 +7,35 @@
 
 using namespace SideCar::Algorithms;
 
-SandBox::SandBox(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      intValue_(Parameter::IntValue::Make("intValue", "Int Value", 0)),
-      boolValue_(Parameter::BoolValue::Make("boolValue", "Bool Value",
-                                            false)),
-      doubleRange_(DRange::Make("doubleRange", "Double Range Value", 0.5)),
-      pathValue_(Parameter::ReadPathValue::Make(
-                     "pathValue", "Path Value",
-                     "/opt/sidecar/builds/latest/data/configuration.xml")),
-      notificationValue_(Parameter::NotificationValue::Make(
-                             "notificationValue", "Notification Value", 0))
+SandBox::SandBox(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), intValue_(Parameter::IntValue::Make("intValue", "Int Value", 0)),
+    boolValue_(Parameter::BoolValue::Make("boolValue", "Bool Value", false)),
+    doubleRange_(DRange::Make("doubleRange", "Double Range Value", 0.5)),
+    pathValue_(
+        Parameter::ReadPathValue::Make("pathValue", "Path Value", "/opt/sidecar/builds/latest/data/configuration.xml")),
+    notificationValue_(Parameter::NotificationValue::Make("notificationValue", "Notification Value", 0))
 {
-    intValue_->connectChangedSignalTo(
-	boost::bind(&SandBox::intValueChanged, this, _1));
-    boolValue_->connectChangedSignalTo(
-	boost::bind(&SandBox::boolValueChanged, this, _1));
-    pathValue_->connectChangedSignalTo(
-	boost::bind(&SandBox::pathValueChanged, this, _1));
-    notificationValue_->connectChangedSignalTo(
-	boost::bind(&SandBox::notificationValueChanged, this, _1));
+    intValue_->connectChangedSignalTo(boost::bind(&SandBox::intValueChanged, this, _1));
+    boolValue_->connectChangedSignalTo(boost::bind(&SandBox::boolValueChanged, this, _1));
+    pathValue_->connectChangedSignalTo(boost::bind(&SandBox::pathValueChanged, this, _1));
+    notificationValue_->connectChangedSignalTo(boost::bind(&SandBox::notificationValueChanged, this, _1));
 }
 
 bool
 SandBox::startup()
 {
-    registerProcessor<SandBox,Messages::Video>("one",
-                                               &SandBox::processOne);
-    registerProcessor<SandBox,Messages::Video>("two",
-                                               &SandBox::processTwo);
-    registerProcessor<SandBox,Messages::Video>("three",
-                                               &SandBox::processThree);
-    registerProcessor<SandBox,Messages::Video>("four",
-                                               &SandBox::processFour);
+    registerProcessor<SandBox, Messages::Video>("one", &SandBox::processOne);
+    registerProcessor<SandBox, Messages::Video>("two", &SandBox::processTwo);
+    registerProcessor<SandBox, Messages::Video>("three", &SandBox::processThree);
+    registerProcessor<SandBox, Messages::Video>("four", &SandBox::processFour);
 
     oneChannelIndex_ = getOutputChannelIndex("one");
     twoChannelIndex_ = getOutputChannelIndex("two");
     threeChannelIndex_ = getOutputChannelIndex("three");
     fourChannelIndex_ = getOutputChannelIndex("four");
 
-    return registerParameter(intValue_) &&
-	registerParameter(boolValue_) &&
-	registerParameter(doubleRange_) &&
-	registerParameter(pathValue_) &&
-	registerParameter(notificationValue_) &&
-	Algorithm::startup();
+    return registerParameter(intValue_) && registerParameter(boolValue_) && registerParameter(doubleRange_) &&
+           registerParameter(pathValue_) && registerParameter(notificationValue_) && Algorithm::startup();
 }
 
 bool

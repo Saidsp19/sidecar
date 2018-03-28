@@ -21,28 +21,25 @@ using namespace SideCar::Messages;
 constexpr int kNumRows = 5;
 constexpr int kNumCols = 6;
 constexpr int16_t kTestData[kNumRows][kNumCols] = {
-    { 5, 5, 5, 5, 5, 5 },
-    { 4, 9, 4, 4, 0, 4 },
-    { 3, 3, 3, 0, 3, 0 },
-    { 2, 9, 2, 2, 9, 0 },
-    { 1, 1, 1, 1, 1, 1 }
-};
+    {5, 5, 5, 5, 5, 5}, {4, 9, 4, 4, 0, 4}, {3, 3, 3, 0, 3, 0}, {2, 9, 2, 2, 9, 0}, {1, 1, 1, 1, 1, 1}};
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("Despeckle"), messageCounter_(0) {}
     void test();
     bool testOutput(const Video::Ref& msg);
     int messageCounter_;
 };
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), test_(0) {}
 
@@ -51,7 +48,7 @@ struct Sink : public Task
 
     Test* test_;
 };
-    
+
 Logger::Log&
 Sink::Log()
 {
@@ -68,15 +65,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGTIN << mgr.hasNative() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
-	    Video::Ref msg(mgr.getNative<Video>());
-	    LOGINFO << msg->dataPrinter() << std::endl;
-	    if (test_->testOutput(msg)) {
-		LOGINFO << "shutting down server" << std::endl;
-		ACE_Reactor::instance()->end_reactor_event_loop();
-	    }
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+            Video::Ref msg(mgr.getNative<Video>());
+            LOGINFO << msg->dataPrinter() << std::endl;
+            if (test_->testOutput(msg)) {
+                LOGINFO << "shutting down server" << std::endl;
+                ACE_Reactor::instance()->end_reactor_event_loop();
+            }
+        }
     }
 
     LOGTOUT << true << std::endl;
@@ -117,11 +114,11 @@ Test::test()
     alg->setVarianceMultiplier(1.0);
     assertTrue(controller->injectProcessingStateChange(ProcessingState::kRun));
 
-//    stream.put(ProcessingStateChangeRequest(ProcessingState::kRun).getWrapped());
+    //    stream.put(ProcessingStateChangeRequest(ProcessingState::kRun).getWrapped());
 
     for (int messageCounter = 0; messageCounter < kNumRows; ++messageCounter) {
-	VMEDataMessage vme;
-	vme.header.azimuth = 0;
+        VMEDataMessage vme;
+        vme.header.azimuth = 0;
         Video::Ref msg(Video::Make("test", vme, kTestData[messageCounter], kTestData[messageCounter] + kNumCols));
         assertTrue(controller->putInChannel(msg, 0));
     }
@@ -141,7 +138,7 @@ Test::testOutput(const Video::Ref& msg)
 {
     Logger::Log& log = Logger::Log::Find("Test.testOutput");
     LOGTIN << std::endl;
-    
+
     Video::const_iterator pos = msg->begin();
     assertEqual(size_t(kNumCols), msg->size());
     switch (messageCounter_) {
@@ -152,9 +149,9 @@ Test::testOutput(const Video::Ref& msg)
         assertEqual(4, *pos++);
         assertEqual(0, *pos++);
         assertEqual(4, *pos++);
-	assertTrue(pos == msg->end());
+        assertTrue(pos == msg->end());
         break;
-        
+
     case 1:
         assertEqual(3, *pos++);
         assertEqual(3, *pos++);
@@ -162,9 +159,9 @@ Test::testOutput(const Video::Ref& msg)
         assertEqual(0, *pos++);
         assertEqual(3, *pos++);
         assertEqual(0, *pos++);
-	assertTrue(pos == msg->end());
+        assertTrue(pos == msg->end());
         break;
-        
+
     case 2:
         assertEqual(2, *pos++);
         assertEqual(2, *pos++);
@@ -172,7 +169,7 @@ Test::testOutput(const Video::Ref& msg)
         assertEqual(2, *pos++);
         assertEqual(1, *pos++);
         assertEqual(0, *pos++);
-	assertTrue(pos == msg->end());
+        assertTrue(pos == msg->end());
         break;
     }
 

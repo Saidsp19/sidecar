@@ -24,72 +24,26 @@ struct TestData {
 };
 
 TestData data[] = {
-    {
-	EdgeDetector::kLeading,
-	{ 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kLeading,
-	{ 0, 1, 1, 2, 3, 3, 2, 0 },
-	{ 0, 1, 0, 1, 1, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kLeading,
-	{ 0, 1, 2, 3, 1, 2, 3, 0 },
-	{ 0, 1, 1, 0, 0, 1, 0, 0 }
-    },
-    {
-	EdgeDetector::kLeading,
-	{ 0, 1, 2, 3, 2, 1, 2, 0 },
-	{ 0, 1, 1, 0, 0, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kLeading,
-	{ 0, 3, 2, 1, 3, 2, 1, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kLeading,
-	{ 0, 3, 2, 1, 2, 3, 2, 0 },
-	{ 0, 0, 0, 0, 1, 0, 0, 0 }
-    },
+    {EdgeDetector::kLeading, {0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}},
+    {EdgeDetector::kLeading, {0, 1, 1, 2, 3, 3, 2, 0}, {0, 1, 0, 1, 1, 0, 0, 0}},
+    {EdgeDetector::kLeading, {0, 1, 2, 3, 1, 2, 3, 0}, {0, 1, 1, 0, 0, 1, 0, 0}},
+    {EdgeDetector::kLeading, {0, 1, 2, 3, 2, 1, 2, 0}, {0, 1, 1, 0, 0, 0, 0, 0}},
+    {EdgeDetector::kLeading, {0, 3, 2, 1, 3, 2, 1, 0}, {0, 0, 0, 0, 0, 0, 0, 0}},
+    {EdgeDetector::kLeading, {0, 3, 2, 1, 2, 3, 2, 0}, {0, 0, 0, 0, 1, 0, 0, 0}},
 
-    {
-	EdgeDetector::kTrailing,
-	{ 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kTrailing,
-	{ 0, 1, 1, 2, 3, 3, 2, 0 },
-	{ 0, 0, 0, 0, 0, 1, 1, 0 }
-    },
-    {
-	EdgeDetector::kTrailing,
-	{ 0, 1, 2, 3, 1, 2, 3, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kTrailing,
-	{ 0, 1, 2, 3, 2, 1, 2, 0 },
-	{ 0, 0, 0, 0, 1, 0, 0, 0 }
-    },
-    {
-	EdgeDetector::kTrailing,
-	{ 4, 3, 2, 1, 3, 2, 1, 0 },
-	{ 0, 1, 1, 0, 0, 1, 1, 0 }
-    },
+    {EdgeDetector::kTrailing, {0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}},
+    {EdgeDetector::kTrailing, {0, 1, 1, 2, 3, 3, 2, 0}, {0, 0, 0, 0, 0, 1, 1, 0}},
+    {EdgeDetector::kTrailing, {0, 1, 2, 3, 1, 2, 3, 0}, {0, 0, 0, 0, 0, 0, 0, 0}},
+    {EdgeDetector::kTrailing, {0, 1, 2, 3, 2, 1, 2, 0}, {0, 0, 0, 0, 1, 0, 0, 0}},
+    {EdgeDetector::kTrailing, {4, 3, 2, 1, 3, 2, 1, 0}, {0, 1, 1, 0, 0, 1, 1, 0}},
 };
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     enum { kIterationLimit = sizeof(data) / sizeof(TestData) };
 
     static Logger::Log& Log();
 
-    Test() : UnitTest::TestObj("EdgeDetector"), controller_(),
-	     iteration_(0) {}
+    Test() : UnitTest::TestObj("EdgeDetector"), controller_(), iteration_(0) {}
 
     void test();
 
@@ -108,13 +62,16 @@ Test::Log()
     return log_;
 }
 
-struct Sink : public Task
-{
+struct Sink : public Task {
     using Ref = boost::shared_ptr<Sink>;
 
     static Logger::Log& Log();
 
-    static Ref Make() { Ref ref(new Sink); return ref; }
+    static Ref Make()
+    {
+        Ref ref(new Sink);
+        return ref;
+    }
 
     Sink() : Task(true), counter_(0), test_(0) {}
 
@@ -142,16 +99,15 @@ Sink::deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
     LOGERROR << "data: " << data << " test: " << test_ << std::endl;
 
     MessageManager mgr(data);
-    LOGERROR << "count: " << counter_ << " message type: "
-	     << mgr.getMessageType() << std::endl;
+    LOGERROR << "count: " << counter_ << " message type: " << mgr.getMessageType() << std::endl;
 
     if (mgr.hasNative()) {
-	LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
-	if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
-	    BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
-	    LOGERROR << msg->dataPrinter() << std::endl;
-	    test_->testOutput(counter_++, msg);
-	}
+        LOGERROR << "metaType: " << mgr.getNativeMessageType() << std::endl;
+        if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kBinaryVideo) {
+            BinaryVideo::Ref msg(mgr.getNative<BinaryVideo>());
+            LOGERROR << msg->dataPrinter() << std::endl;
+            test_->testOutput(counter_++, msg);
+        }
     }
 
     return true;
@@ -212,13 +168,11 @@ Test::generateInput()
 
     const TestData& testData(data[iteration_++]);
 
-    EdgeDetector* alg = dynamic_cast<EdgeDetector*>(
-	controller_->getAlgorithm());
+    EdgeDetector* alg = dynamic_cast<EdgeDetector*>(controller_->getAlgorithm());
     assertTrue(alg);
     alg->setDetectionType(EdgeDetector::Edge(testData.operation));
 
-    Video::Ref msg(Video::Make("test", vme, testData.input,
-                               testData.input + TestData::kNumSamples));
+    Video::Ref msg(Video::Make("test", vme, testData.input, testData.input + TestData::kNumSamples));
     LOGERROR << msg->dataPrinter() << std::endl;
     assertTrue(controller_->putInChannel(msg, 0));
 }
@@ -234,18 +188,16 @@ Test::testOutput(size_t counter, const BinaryVideo::Ref& msg)
     assertEqual(size_t(TestData::kNumSamples), msg->size());
 
     for (size_t index = 0; index < msg->size(); ++index) {
-	LOGERROR << index << " expected: " << int(testData.output[index])
-		 << std::endl;
-	assertEqual(testData.output[index], bool(msg[index]));
+        LOGERROR << index << " expected: " << int(testData.output[index]) << std::endl;
+        assertEqual(testData.output[index], bool(msg[index]));
     }
 
     LOGERROR << "iteration: " << iteration_ << std::endl;
 
     if (iteration_ == kIterationLimit) {
-	ACE_Reactor::instance()->end_reactor_event_loop();
-    }
-    else {
-	generateInput();
+        ACE_Reactor::instance()->end_reactor_event_loop();
+    } else {
+        generateInput();
     }
 }
 

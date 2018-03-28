@@ -16,18 +16,18 @@ using namespace SideCar;
 using namespace SideCar::Zeroconf;
 using namespace SideCar::Runner;
 
-struct AppMethodBase : public XmlRpc::XmlRpcServerMethod
-{
+struct AppMethodBase : public XmlRpc::XmlRpcServerMethod {
     App& app_;
 
-    AppMethodBase(App& app, XmlRpc::XmlRpcServer* server, const char* name)
-        : XmlRpc::XmlRpcServerMethod(name, server), app_(app) {}
+    AppMethodBase(App& app, XmlRpc::XmlRpcServer* server, const char* name) :
+        XmlRpc::XmlRpcServerMethod(name, server), app_(app)
+    {
+    }
 };
 
 /** App method to clear processing statistics for all streams.
  */
-struct ClearStats : public AppMethodBase
-{
+struct ClearStats : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
@@ -43,24 +43,22 @@ struct ClearStats : public AppMethodBase
         \param result ignored
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            app_.clearStats();
-            result = true;
-        }
+    {
+        app_.clearStats();
+        result = true;
+    }
 };
 
 /** App method to fetch the runtime parameters for a particular IO::Task object.
  */
-struct GetChangedParameters  : public AppMethodBase
-{
+struct GetChangedParameters : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
 
         \param server the server that will execute the method
     */
-    GetChangedParameters(App& app, XmlRpc::XmlRpcServer* server)
-        : AppMethodBase(app, server, "getChangedParameters") {}
+    GetChangedParameters(App& app, XmlRpc::XmlRpcServer* server) : AppMethodBase(app, server, "getChangedParameters") {}
 
     /** Perform the XML-RPC request. Implementation of XmlRpcServerMethod interface.
 
@@ -70,16 +68,12 @@ struct GetChangedParameters  : public AppMethodBase
         \param result XML-RPC array containing the description of the runtme
         parameter values.
     */
-    void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            app_.getChangedParameters(result);
-        }
+    void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result) { app_.getChangedParameters(result); }
 };
 
 /** App method to Fetch the runtime parameters for a particular IO::Task object.
  */
-struct GetParameters  : public AppMethodBase
-{
+struct GetParameters : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
@@ -97,21 +91,18 @@ struct GetParameters  : public AppMethodBase
         parameter values.
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            static Logger::ProcLog log("GetParameters::execute", RemoteController::Log());
-            int streamIndex = params[0];
-            int taskIndex = params[1];
-            LOGINFO << "streamIndex: " << streamIndex << " taskIndex: " << taskIndex << std::endl;
-            if (! app_.getParameters(streamIndex, taskIndex, result)) {
-                result = "Invalid task / stream index";
-            }
-        }
+    {
+        static Logger::ProcLog log("GetParameters::execute", RemoteController::Log());
+        int streamIndex = params[0];
+        int taskIndex = params[1];
+        LOGINFO << "streamIndex: " << streamIndex << " taskIndex: " << taskIndex << std::endl;
+        if (!app_.getParameters(streamIndex, taskIndex, result)) { result = "Invalid task / stream index"; }
+    }
 };
 
 /** App method to change the recording state for all IO::Task objects.
  */
-struct RecordingChange  : public AppMethodBase
-{
+struct RecordingChange : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
@@ -129,17 +120,16 @@ struct RecordingChange  : public AppMethodBase
         \param result unused
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            std::string recordingPath = params[0];
-            app_.recordingStateChange(recordingPath);
-            result = true;
-        }
+    {
+        std::string recordingPath = params[0];
+        app_.recordingStateChange(recordingPath);
+        result = true;
+    }
 };
 
 /** App method to change one or more runtime parameters for a particular IO::Task object.
  */
-struct SetParameters  : public AppMethodBase
-{
+struct SetParameters : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
@@ -160,21 +150,18 @@ struct SetParameters  : public AppMethodBase
         \param result unused
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            static Logger::ProcLog log("SetParameters::execute", RemoteController::Log());
-            int streamIndex = params[0];
-            int taskIndex = params[1];
-            LOGDEBUG << "streamIndex: " << streamIndex << " taskIndex: " << taskIndex << std::endl;
-            if (! app_.setParameters(streamIndex, taskIndex, params[2])) {
-                result = "Invalid task / stream index";
-            }
-        }
+    {
+        static Logger::ProcLog log("SetParameters::execute", RemoteController::Log());
+        int streamIndex = params[0];
+        int taskIndex = params[1];
+        LOGDEBUG << "streamIndex: " << streamIndex << " taskIndex: " << taskIndex << std::endl;
+        if (!app_.setParameters(streamIndex, taskIndex, params[2])) { result = "Invalid task / stream index"; }
+    }
 };
-	
+
 /** App method to command the App to shutdown its IO::Stream objects and exit.
  */
-struct Shutdown  : public AppMethodBase
-{
+struct Shutdown : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
@@ -190,21 +177,20 @@ struct Shutdown  : public AppMethodBase
         \param result ignored
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            app_.shutdown();
-            result = true;
-        }
+    {
+        app_.shutdown();
+        result = true;
+    }
 };
 
-struct StateChange  : public AppMethodBase
-{
+struct StateChange : public AppMethodBase {
     /** Constructor
 
         \param app the App object to work with
 
         \param server the server that will execute the method
     */
-    StateChange(App& app, XmlRpc::XmlRpcServer* server)  : AppMethodBase(app, server, "stateChange") {}
+    StateChange(App& app, XmlRpc::XmlRpcServer* server) : AppMethodBase(app, server, "stateChange") {}
 
     /** Perform the XML-RPC request. Implementation of XmlRpcServerMethod interface.
 
@@ -214,11 +200,11 @@ struct StateChange  : public AppMethodBase
         \param result ignored
     */
     void execute(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
-        {
-            IO::ProcessingState::Value state = IO::ProcessingState::Value(int(params[0]));
-            app_.postControlMessage(IO::ProcessingStateChangeRequest(state).getWrapped());
-            result = true;
-        }
+    {
+        IO::ProcessingState::Value state = IO::ProcessingState::Value(int(params[0]));
+        app_.postControlMessage(IO::ProcessingStateChangeRequest(state).getWrapped());
+        result = true;
+    }
 };
 
 Logger::Log&

@@ -24,10 +24,9 @@ EdgeDetector::EdgeEnumTraits::GetEnumNames()
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-EdgeDetector::EdgeDetector(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      edge_(EdgeParameter::Make("edge", "Edge", Edge(kDefaultEdge))),
-      detectedCount_(0), examinedCount_(0)
+EdgeDetector::EdgeDetector(Controller& controller, Logger::Log& log) :
+    Super(controller, log), edge_(EdgeParameter::Make("edge", "Edge", Edge(kDefaultEdge))), detectedCount_(0),
+    examinedCount_(0)
 {
     ;
 }
@@ -35,7 +34,7 @@ EdgeDetector::EdgeDetector(Controller& controller, Logger::Log& log)
 bool
 EdgeDetector::startup()
 {
-    registerProcessor<EdgeDetector,Messages::Video>(&EdgeDetector::processInput);
+    registerProcessor<EdgeDetector, Messages::Video>(&EdgeDetector::processInput);
     return registerParameter(edge_) && Super::startup();
 }
 
@@ -65,28 +64,25 @@ EdgeDetector::processInput(const Messages::Video::Ref& msg)
 
     out->push_back(false);
     if (edge_->getValue() == kLeading) {
-	while (next < end) {
-	    bool v = *prev < *curr && *curr <= *next;
-	    if (v)
-		++detectedCount_;
-	    ++examinedCount_;
-	    ++prev;
-	    ++curr;
-	    ++next;
-	    out->push_back(v);
-	}
-    }
-    else {
-	while (next < end) {
-	    bool v = *prev >= *curr && *curr > *next;
-	    if (v)
-		++detectedCount_;
-	    ++examinedCount_;
-	    ++prev;
-	    ++curr;
-	    ++next;
-	    out->push_back(v);
-	}
+        while (next < end) {
+            bool v = *prev < *curr && *curr <= *next;
+            if (v) ++detectedCount_;
+            ++examinedCount_;
+            ++prev;
+            ++curr;
+            ++next;
+            out->push_back(v);
+        }
+    } else {
+        while (next < end) {
+            bool v = *prev >= *curr && *curr > *next;
+            if (v) ++detectedCount_;
+            ++examinedCount_;
+            ++prev;
+            ++curr;
+            ++next;
+            out->push_back(v);
+        }
     }
 
     out->push_back(false);
@@ -120,12 +116,10 @@ FormatInfo(const IO::StatusBase& status, int role)
     int detectedCount = status[EdgeDetector::kDetectedCount];
     int examinedCount = status[EdgeDetector::kExaminedCount];
     double percentage = 0.0;
-    if (examinedCount)
-	percentage = (detectedCount * 100.0) / examinedCount;
+    if (examinedCount) percentage = (detectedCount * 100.0) / examinedCount;
 
-    return Algorithm::FormatInfoValue(QString("%1  %3%")
-                                      .arg(kEdgeNames[int(status[EdgeDetector::kEdge])])
-                                      .arg(percentage, 0, 'f', 3));
+    return Algorithm::FormatInfoValue(
+        QString("%1  %3%").arg(kEdgeNames[int(status[EdgeDetector::kEdge])]).arg(percentage, 0, 'f', 3));
 }
 
 // Factory function for the DLL that will create a new instance of the EdgeDetector class. DO NOT CHANGE!

@@ -5,13 +5,15 @@
 
 #include "GUI/AppBase.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 
 /** Namespace for the ZeroconfMonitor application.
-    
+
     \image html ZeroconfMonitor.png
 
     The ZeroconfMonitor (zcm) application shows active Zeroconf publishers
@@ -33,12 +35,11 @@ class MainWindow;
 /** Application class definition. Manages tools windows shared by all MainWindow objects. Also creates a History
     object that other classes use to obtain Video data for display.
 */
-class App : public AppBase
-{
+class App : public AppBase {
     Q_OBJECT
     using Super = AppBase;
-public:
 
+public:
     /** Log device to use for App log messages.
 
         \return Log device
@@ -64,7 +65,6 @@ public slots:
     void showAbout();
 
 protected:
-    
     /** Override of AppBase method. Create a MainWindow object after the applicadtion has finished starting up.
 
         \return new MainWindow object

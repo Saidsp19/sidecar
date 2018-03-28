@@ -6,8 +6,12 @@
 
 #include "GUI/MainWindowBase.h"
 
-namespace Logger { class Log; }
-namespace Ui { class LogViewWindow; }
+namespace Logger {
+class Log;
+}
+namespace Ui {
+class LogViewWindow;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -17,12 +21,11 @@ namespace Master {
     LogViewWindow when asked to show the window by a user action; once created, the window will live until the
     application quits.
 */
-class LogViewWindow : public MainWindowBase
-{
+class LogViewWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** Obtain the log device to use for LogViewWindow objects.
 
         \return Log device
@@ -34,15 +37,15 @@ public:
     LogViewWindow(const QString& title, QTextDocument* logData);
 
     /** Notification that the managing RunnerLog instance is about to append log data to its internal
-	QTextDocument. The LogViewWindow prepares for the update by determining if it should scroll to the new
-	end of the document, or keep the view position as-is.
+        QTextDocument. The LogViewWindow prepares for the update by determining if it should scroll to the new
+        end of the document, or keep the view position as-is.
     */
     void beginUpdate();
 
 private slots:
 
     /** Notification from the internal QTextEdit object that the text has changed. Manage the view position
-	based on the view position found in beginUpdate().
+        based on the view position found in beginUpdate().
     */
     void textChanged();
 

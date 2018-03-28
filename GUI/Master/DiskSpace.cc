@@ -1,5 +1,5 @@
-#include <sys/param.h>
 #include <sys/mount.h>
+#include <sys/param.h>
 
 #ifdef linux
 #include <sys/vfs.h>
@@ -29,9 +29,8 @@ DiskSpaceThread::Log()
     return log_;
 }
 
-DiskSpaceThread::DiskSpaceThread(const QString& path)
-    : QThread(), path_(path), inUse_(1),
-      workingDirectory_(QDir::current())
+DiskSpaceThread::DiskSpaceThread(const QString& path) :
+    QThread(), path_(path), inUse_(1), workingDirectory_(QDir::current())
 {
     moveToThread(this);
     cpath_ = new char[path.size() + 1];
@@ -45,7 +44,7 @@ DiskSpaceThread::run()
     timerEvent(0);
     exec();
     killTimer(timerId_);
-    delete [] cpath_;
+    delete[] cpath_;
     cpath_ = 0;
 }
 
@@ -60,9 +59,9 @@ DiskSpaceThread::getInfo(double& percentUsed, QString& freeSpace)
     QDir::setCurrent(workingDirectory_.absolutePath());
 
     if (rc == -1) {
-	percentUsed = 0.0;
-	freeSpace = "---";
-	return;
+        percentUsed = 0.0;
+        freeSpace = "---";
+        return;
     }
 
     percentUsed = 1.0 - double(stats.f_bavail) / double(stats.f_blocks);
@@ -88,8 +87,7 @@ DiskSpaceMonitor::Log()
     return log_;
 }
 
-DiskSpaceMonitor::DiskSpaceMonitor()
-    : QObject(qApp), threads_()
+DiskSpaceMonitor::DiskSpaceMonitor() : QObject(qApp), threads_()
 {
     ;
 }
@@ -97,23 +95,22 @@ DiskSpaceMonitor::DiskSpaceMonitor()
 DiskSpaceMonitor::~DiskSpaceMonitor()
 {
     foreach (DiskSpaceThread* thread, threads_) {
-	thread->quit();
-	thread->wait();
-	delete thread;
+        thread->quit();
+        thread->wait();
+        delete thread;
     }
 }
 
 DiskSpaceThread*
 DiskSpaceMonitor::AddPath(const QString& path)
 {
-    if (! singleton_)
-	singleton_ = new DiskSpaceMonitor;
+    if (!singleton_) singleton_ = new DiskSpaceMonitor;
 
-    foreach(DiskSpaceThread* thread, singleton_->threads_) {
-	if (thread->getPath() == path) {
-	    ++thread->inUse_;
-	    return thread;
-	}
+    foreach (DiskSpaceThread* thread, singleton_->threads_) {
+        if (thread->getPath() == path) {
+            ++thread->inUse_;
+            return thread;
+        }
     }
 
     DiskSpaceThread* thread = new DiskSpaceThread(path);
@@ -125,18 +122,17 @@ DiskSpaceMonitor::AddPath(const QString& path)
 void
 DiskSpaceMonitor::Release(DiskSpaceThread* thread)
 {
-    if (! singleton_ || ! thread)
-	return;
+    if (!singleton_ || !thread) return;
 
     for (int index = 0; index < singleton_->threads_.size(); ++index) {
-	if (thread == singleton_->threads_[index]) {
-	    --thread->inUse_;
-	    if (thread->inUse_ == 0) {
-		singleton_->threads_.removeAt(index);
-		thread->quit();
-		thread->wait();
-		delete thread;
-	    }
-	}
+        if (thread == singleton_->threads_[index]) {
+            --thread->inUse_;
+            if (thread->inUse_ == 0) {
+                singleton_->threads_.removeAt(index);
+                thread->quit();
+                thread->wait();
+                delete thread;
+            }
+        }
     }
 }

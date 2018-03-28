@@ -13,17 +13,13 @@ namespace Algorithms {
 /** Documentation for the algorithm SumNDiff. Please describe what the algorithm does, in layman's terms and, if
     possible, mathematical terms.
 */
-class SumNDiff : public Algorithm
-{
+class SumNDiff : public Algorithm {
     using Super = Algorithm;
     using VideoMessageBuffer = std::deque<Messages::Video::Ref>;
     using SumVector = std::vector<Messages::Video::DatumType>;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -47,7 +43,6 @@ public:
     bool shutdown();
 
 private:
-
     void radiusChanged(const Parameter::PositiveIntValue& parameter);
     size_t getNumInfoSlots() const { return kNumSlots; }
 
@@ -63,7 +58,7 @@ private:
 
     // Add attributes here
     //
-    Parameter::BoolValue::Ref        enabled_;
+    Parameter::BoolValue::Ref enabled_;
     Parameter::PositiveIntValue::Ref radius_;
 
     SumVector sum1_;

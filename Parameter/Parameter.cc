@@ -38,8 +38,8 @@ Defs::XMLMixin::AddEnumNames(XmlRpc::XmlRpcValue& xml, const char* const* names,
     XmlRpc::XmlRpcValue valueNames;
     valueNames.setSize(size);
     for (auto index = 0; index < size; ++index) {
-	LOGDEBUG << names[index] << std::endl;
-	valueNames[index] = names[index];
+        LOGDEBUG << names[index] << std::endl;
+        valueNames[index] = names[index];
     }
     xml["enumNames"] = valueNames;
 }
@@ -52,8 +52,8 @@ Defs::XMLMixin::AddEnumNames(XmlRpc::XmlRpcValue& xml, const std::vector<std::st
     XmlRpc::XmlRpcValue valueNames;
     valueNames.setSize(names.size());
     for (auto index = 0; index < names.size(); ++index) {
-	LOGDEBUG << names[index] << std::endl;
-	valueNames[index] = names[index];
+        LOGDEBUG << names[index] << std::endl;
+        valueNames[index] = names[index];
     }
     xml["enumNames"] = valueNames;
 }
@@ -61,14 +61,12 @@ Defs::XMLMixin::AddEnumNames(XmlRpc::XmlRpcValue& xml, const std::vector<std::st
 bool
 Defs::StringBase::Load(std::istream& is, std::string& value)
 {
-    if (! (is >> value)) return false;
+    if (!(is >> value)) return false;
     if (value.size() && (value[0] == '"' || value[0] == '\'')) {
-	auto delimiter = value[0];
-	value.erase(0, 1);
-	char c;
-	while ((is.get(c)) && c != delimiter) {
-	    value += c;
-        }
+        auto delimiter = value[0];
+        value.erase(0, 1);
+        char c;
+        while ((is.get(c)) && c != delimiter) { value += c; }
     }
 
     return true;

@@ -20,9 +20,8 @@ Subscriber::Log()
     return log_;
 }
 
-Subscriber::Subscriber(QObject* parent)
-    : QObject(parent), serviceEntry_(0), reader_(new ReaderThread),
-      connected_(false)
+Subscriber::Subscriber(QObject* parent) :
+    QObject(parent), serviceEntry_(0), reader_(new ReaderThread), connected_(false)
 {
     static Logger::ProcLog log("Subscriber", Log());
     LOGINFO << std::endl;
@@ -51,30 +50,26 @@ void
 Subscriber::useServiceEntry(ServiceEntry* serviceEntry)
 {
     static Logger::ProcLog log("useServiceEntry", Log());
-    LOGINFO << "new: " << serviceEntry << " old: " << serviceEntry_
-	    << std::endl;
+    LOGINFO << "new: " << serviceEntry << " old: " << serviceEntry_ << std::endl;
 
-    if (serviceEntry_ == serviceEntry)
-	return;
+    if (serviceEntry_ == serviceEntry) return;
 
     if (serviceEntry_) {
-	LOGDEBUG << "disconnecting old service entry" << std::endl;
-	serviceEntry_->disconnect(this);
-	serviceEntry_ = 0;
-	reader_->stop();
-	if (connected_) {
-	    connected_ = false;
-	    emit disconnected();
-	}
+        LOGDEBUG << "disconnecting old service entry" << std::endl;
+        serviceEntry_->disconnect(this);
+        serviceEntry_ = 0;
+        reader_->stop();
+        if (connected_) {
+            connected_ = false;
+            emit disconnected();
+        }
     }
 
     if (serviceEntry) {
-	LOGDEBUG << "new service entry: " << serviceEntry << ' '
-		 << serviceEntry->getName() << std::endl;
-	serviceEntry_ = serviceEntry;
-	connect(serviceEntry, SIGNAL(resolved(ServiceEntry*)), this,
-                SLOT(resolvedServiceEntry(ServiceEntry*)));
-	serviceEntry->resolve();
+        LOGDEBUG << "new service entry: " << serviceEntry << ' ' << serviceEntry->getName() << std::endl;
+        serviceEntry_ = serviceEntry;
+        connect(serviceEntry, SIGNAL(resolved(ServiceEntry*)), this, SLOT(resolvedServiceEntry(ServiceEntry*)));
+        serviceEntry->resolve();
     }
 }
 
@@ -83,8 +78,7 @@ Subscriber::resolvedServiceEntry(ServiceEntry* serviceEntry)
 {
     static Logger::ProcLog log("resolvedServiceEntry", Log());
     LOGINFO << serviceEntry << ' ' << serviceEntry->getName() << std::endl;
-    connect(serviceEntry, SIGNAL(destroyed()), this,
-            SLOT(lostServiceEntry()));
+    connect(serviceEntry, SIGNAL(destroyed()), this, SLOT(lostServiceEntry()));
     reader_->useServiceEntry(serviceEntry_);
 }
 
@@ -94,8 +88,8 @@ Subscriber::lostServiceEntry()
     static Logger::ProcLog log("lostServiceEntry", Log());
     LOGINFO << sender() << ' ' << serviceEntry_ << std::endl;
     if (serviceEntry_ != sender()) {
-	LOGFATAL << "invalid notification" << std::endl;
-	return;
+        LOGFATAL << "invalid notification" << std::endl;
+        return;
     }
 
     useServiceEntry(0);
@@ -106,9 +100,9 @@ Subscriber::readerConnected()
 {
     Logger::ProcLog log("readerConnected", Log());
     LOGINFO << serviceEntry_->getName() << std::endl;
-    if (! connected_) {
-	connected_ = true;
-	emit connected();
+    if (!connected_) {
+        connected_ = true;
+        emit connected();
     }
 }
 
@@ -118,8 +112,8 @@ Subscriber::readerDisconnected()
     Logger::ProcLog log("readerDisconnected", Log());
     LOGINFO << std::endl;
     if (connected_) {
-	connected_ = false;
-	emit disconnected();
+        connected_ = false;
+        emit disconnected();
     }
 }
 

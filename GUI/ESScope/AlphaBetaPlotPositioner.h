@@ -9,11 +9,10 @@ namespace ESScope {
 
 class RadarSettings;
 
-class AlphaBetaPlotPositioner : public PlotPositionFunctor
-{
+class AlphaBetaPlotPositioner : public PlotPositionFunctor {
     using Super = PlotPositionFunctor;
-public:
 
+public:
     AlphaBetaPlotPositioner();
 
     Vertex getPosition(const TargetPlot& plot) const;

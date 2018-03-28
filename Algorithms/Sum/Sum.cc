@@ -1,7 +1,7 @@
 #include "boost/bind.hpp"
 
-#include <algorithm>		// for std::transform
-#include <functional>		// for std::bind* and std::mem_fun*
+#include <algorithm>  // for std::transform
+#include <functional> // for std::bind* and std::mem_fun*
 
 #include "Algorithms/Controller.h"
 #include "Logger/Log.h"
@@ -17,11 +17,10 @@ using namespace SideCar::Algorithms;
 // Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
 // startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
-Sum::Sum(Controller& controller, Logger::Log& log)
-    : Super(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
-      bufferSize_(Parameter::PositiveIntValue::Make("bufferSize", "Number of PRIs to sum over", kDefaultBufferSize)),
-      sums_(), buffer_() 
+Sum::Sum(Controller& controller, Logger::Log& log) :
+    Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    bufferSize_(Parameter::PositiveIntValue::Make("bufferSize", "Number of PRIs to sum over", kDefaultBufferSize)),
+    sums_(), buffer_()
 {
     bufferSize_->connectChangedSignalTo(boost::bind(&Sum::bufferSizeChanged, this, _1));
 }
@@ -33,7 +32,7 @@ Sum::Sum(Controller& controller, Logger::Log& log)
 bool
 Sum::startup()
 {
-    registerProcessor<Sum,Messages::Video>(&Sum::processInput);
+    registerProcessor<Sum, Messages::Video>(&Sum::processInput);
     return registerParameter(bufferSize_) && registerParameter(enabled_) && Super::startup();
 }
 
@@ -54,9 +53,7 @@ Sum::processInput(const Messages::Video::Ref& msg)
 
     // Resize sum vector if necessary
     //
-    if(msg->size() > sums_.size()) {
-        sums_.resize(msg->size(), 0);
-    }
+    if (msg->size() > sums_.size()) { sums_.resize(msg->size(), 0); }
 
     buffer_.push_back(msg);
 
@@ -72,15 +69,12 @@ Sum::processInput(const Messages::Video::Ref& msg)
     // Put the contents of the summation vector into the output message.
     //
     std::vector<Messages::Video::DatumType>::iterator itr;
-    for(itr = sums_.begin(); itr != sums_.end(); itr++) {
-        out->push_back(*itr);
-    }
+    for (itr = sums_.begin(); itr != sums_.end(); itr++) { out->push_back(*itr); }
 
     // If necessary, trim buffer and remove contributions of old messages.
     //
-    while(buffer_.size() >= size_t(bufferSize_->getValue())) {
-        std::transform(sums_.begin(), sums_.end(), 
-                       buffer_.front()->begin(), sums_.begin(), 
+    while (buffer_.size() >= size_t(bufferSize_->getValue())) {
+        std::transform(sums_.begin(), sums_.end(), buffer_.front()->begin(), sums_.begin(),
                        std::minus<Messages::Video::DatumType>());
         buffer_.pop_front();
     }
@@ -94,7 +88,7 @@ Sum::processInput(const Messages::Video::Ref& msg)
     return rc;
 }
 
-void 
+void
 Sum::bufferSizeChanged(const Parameter::PositiveIntValue& parameter)
 {
     sums_.clear();
@@ -111,7 +105,7 @@ extern "C" ACE_Svc_Export void*
 FormatInfo(const IO::StatusBase& status, int role)
 {
     if (role != Qt::DisplayRole) return NULL;
-    if (! status[Sum::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
+    if (!status[Sum::kEnabled]) return Algorithm::FormatInfoValue("Disabled");
     return NULL;
 }
 

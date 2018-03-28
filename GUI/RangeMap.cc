@@ -7,23 +7,21 @@
 
 using namespace SideCar::GUI;
 
-struct LatLon
-{
+struct LatLon {
     double lat;
     double lon;
 };
 
 /** TODO: this needs to be loaded from a file...
-*/
+ */
 const RangeMap::LatLon RangeMap::map_[] = {
-    { 0.0,0.0 },
-    { 0.0,0.0 },
-    { 0.0,0.0 },
-    { 0.0,0.0 },
+    {0.0, 0.0},
+    {0.0, 0.0},
+    {0.0, 0.0},
+    {0.0, 0.0},
 };
 
-RangeMap::RangeMap()
-    : vertices_()
+RangeMap::RangeMap() : vertices_()
 {
     ;
 }
@@ -48,20 +46,17 @@ RangeMap::generateMap()
 {
     Vertex v;
     for (auto index = 0; index < sizeof(map_) / sizeof(LatLon); ++index) {
-	makeVertex(map_[index], v);
-	addVertex(v);
+        makeVertex(map_[index], v);
+        addVertex(v);
     }
 }
 
 void
 RangeMap::render()
 {
-    if (vertices_.empty())
-	generateMap();
+    if (vertices_.empty()) generateMap();
 
     glBegin(GL_LINE_STRIP);
-    for (auto index = 0; index < vertices_.size(); ++index) {
-	glVertex2f(vertices_[index].x, vertices_[index].y);
-    }
+    for (auto index = 0; index < vertices_.size(); ++index) { glVertex2f(vertices_[index].x, vertices_[index].y); }
     glEnd();
 }

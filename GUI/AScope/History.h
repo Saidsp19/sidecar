@@ -11,7 +11,9 @@
 
 #include "HistoryFrame.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -23,11 +25,9 @@ namespace AScope {
 /** Manager of a collection of HistoryFrame objects that represent unique snapshots of data from one or more
     input channels.
 */
-class History : public QObject
-{
+class History : public QObject {
     Q_OBJECT
 public:
-
     static Logger::Log& Log();
 
     /** Constructor.
@@ -68,7 +68,7 @@ public:
 
         \param data collection of raw incoming messages to record
 
-	\param metaType description of the incoming data
+        \param metaType description of the incoming data
     */
     void update(int slot, const MessageList& data);
 
@@ -123,14 +123,13 @@ public:
 
         \return a PRIMessage reference (may be a NULL reference)
     */
-    Messages::PRIMessage::Ref getPastMessage(int position, int slot)
-	const;
+    Messages::PRIMessage::Ref getPastMessage(int position, int slot) const;
 
 signals:
 
     /** Notification sent out when a new live frame is available.
 
-        \param frame 
+        \param frame
     */
     void liveFrameChanged();
 
@@ -147,7 +146,7 @@ public slots:
     void setEnabled(bool enabled);
 
     /** Freeze the past buffer so that it may be viewed, or thaw it to accumulate new live data. Emits the
-	pastFrozen() or pastThawed() signal depending on which state the past buffer is in. signal.
+        pastFrozen() or pastThawed() signal depending on which state the past buffer is in. signal.
     */
     void freezePast(bool state);
 

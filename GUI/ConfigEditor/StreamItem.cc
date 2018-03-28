@@ -1,11 +1,10 @@
-#include "RunnerItem.h"
 #include "StreamItem.h"
+#include "RunnerItem.h"
 #include "TaskItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-StreamItem::StreamItem(RunnerItem* parent, const QString& name)
-    : Super(parent, name)
+StreamItem::StreamItem(RunnerItem* parent, const QString& name) : Super(parent, name)
 {
     ;
 }

@@ -28,11 +28,9 @@ namespace Algorithms {
     Specifies the allowed variance.
     \endcode
 */
-class Despeckle : public Algorithm
-{
+class Despeckle : public Algorithm {
 public:
-
-    Despeckle(Controller& controller, Logger::Log &log);
+    Despeckle(Controller& controller, Logger::Log& log);
 
     bool startup();
 
@@ -41,7 +39,6 @@ public:
     void setVarianceMultiplier(double value) { varianceMultiplier_->setValue(value); }
 
 private:
-
     bool process(Messages::Video::Ref);
 
     using VideoT = Messages::Video::DatumType;
@@ -54,10 +51,14 @@ private:
     //
     PastBuffer<Messages::Video> past_;
 
-    static void Sort(VideoT& a, VideoT& b) { if (a > b) std::swap(a, b); }
+    static void Sort(VideoT& a, VideoT& b)
+    {
+        if (a > b) std::swap(a, b);
+    }
 };
 
-}} // namespaces
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

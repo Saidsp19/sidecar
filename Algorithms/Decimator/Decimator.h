@@ -11,15 +11,11 @@ namespace Algorithms {
 /** Documentation for the algorithm Decimator. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class Decimator : public Algorithm
-{
+class Decimator : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kNumSlots };
 
     /** Constructor.
 
@@ -46,7 +42,6 @@ public:
     void setIsIQ(bool val) { isIQ_->setValue(val); }
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);

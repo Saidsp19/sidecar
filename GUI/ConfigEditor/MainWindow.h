@@ -5,7 +5,9 @@
 
 #include "App.h"
 
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,12 +15,11 @@ namespace ConfigEditor {
 
 class TreeModel;
 
-class MainWindow : public MainWindowBase
-{
+class MainWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** Constructor.
      */
     MainWindow();

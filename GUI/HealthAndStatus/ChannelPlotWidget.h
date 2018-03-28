@@ -6,8 +6,12 @@
 
 #include "ui_ChannelPlotWidget.h"
 
-namespace Logger { class Log; }
-namespace Utils { class RunningMedian; }
+namespace Logger {
+class Log;
+}
+namespace Utils {
+class RunningMedian;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,24 +24,18 @@ class ChannelConnection;
 class ChannelPlotSettings;
 class PlotDataPointDeque;
 
-class ChannelPlotWidget : public QFrame, Ui::ChannelPlotWidget
-{
+class ChannelPlotWidget : public QFrame, Ui::ChannelPlotWidget {
     Q_OBJECT
     using Super = QFrame;
-public:
 
-    enum AlgorithmType {
-	kAverage = 0,
-	kMedian,
-	kNumAlgorithmTypes
-    };
+public:
+    enum AlgorithmType { kAverage = 0, kMedian, kNumAlgorithmTypes };
 
     static Logger::Log& Log();
 
     static QString GetFormattedValue(double value);
 
-    ChannelPlotWidget(ChannelConnection* channelConnection,
-                      QWidget* parent = 0);
+    ChannelPlotWidget(ChannelConnection* channelConnection, QWidget* parent = 0);
 
     ~ChannelPlotWidget();
 
@@ -58,7 +56,7 @@ public:
 public slots:
 
     void connected();
-    
+
     void processIncoming(const MessageList& msgs);
 
     void disconnected();
@@ -84,7 +82,6 @@ public slots:
     void clearDrops();
 
 private:
-
     void showConnected(bool state = true);
 
     void updateValueColor(QLabel* widget, bool tooBig);
@@ -99,7 +96,7 @@ private:
 
     ChannelPlotSettings* settings_;
     Utils::RunningMedian* sampleMedian_;
-    int	messageDecimation_;
+    int messageDecimation_;
     int sampleStartIndex_;
     int sampleCount_;
     int algorithm_;

@@ -3,9 +3,9 @@
 namespace SideCar {
 namespace GUI {
 
-class DisableAppNap
-{
+class DisableAppNap {
     struct Impl;
+
 public:
     DisableAppNap();
 

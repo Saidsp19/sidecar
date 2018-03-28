@@ -5,7 +5,9 @@
 
 #include "GUI/IntSetting.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -13,46 +15,44 @@ namespace GUI {
 /** Derivation of StringSetting that works with a QComboBox widget to display and change setting values. Uses
     the QComboBox::activated() signal to detect changes in the widget.
 */
-class QComboBoxSetting : public IntSetting
-{
+class QComboBoxSetting : public IntSetting {
     Q_OBJECT
     using Super = IntSetting;
+
 public:
+    /**
 
-    /** 
-
-        \return 
+        \return
     */
     static Logger::Log& Log();
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param widget 
+        \param widget
 
-        \param global 
+        \param global
     */
-    QComboBoxSetting(PresetManager* mgr, QComboBox* widget,
-                     bool global = false);
+    QComboBoxSetting(PresetManager* mgr, QComboBox* widget, bool global = false);
 
-    /** 
+    /**
 
-        \return 
+        \return
     */
     QComboBox* getWidget() const { return first_; }
 
-    /** 
+    /**
 
-        \param parent 
+        \param parent
 
-        \return 
+        \return
     */
     QComboBox* duplicate(QWidget* parent = 0);
 
-    /** 
+    /**
 
-        \param widget 
+        \param widget
     */
     void connectWidget(QComboBox* widget);
 

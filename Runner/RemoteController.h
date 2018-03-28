@@ -14,10 +14,8 @@ class App;
 
 /** A remote controller class for App objects.
  */
-class RemoteController : public Algorithms::RemoteControllerBase, public IO::ZeroconfTypes::RunnerRemoteController
-{
+class RemoteController : public Algorithms::RemoteControllerBase, public IO::ZeroconfTypes::RunnerRemoteController {
 public:
-
     /** Log device for objects of this type.
 
         \return log device
@@ -31,7 +29,7 @@ public:
     RemoteController(App& app) : RemoteControllerBase(GetZeroconfType()), app_(app) {}
 
     /** Start the XML-RPC service.
-        
+
         \param serviceName the name to advertise
 
         \param threadFlags flags controlling the service thread
@@ -40,11 +38,10 @@ public:
 
         \return true if started, false otherwise
     */
-    bool start(const QString& serviceName, long threadFlags = THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED , 
+    bool start(const QString& serviceName, long threadFlags = THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED,
                long priority = ACE_DEFAULT_THREAD_PRIORITY);
-    
-private:
 
+private:
     /** Notification that the Zeroconf service name changed due to a name conflict.
 
         \param name the new Zeroconf service name

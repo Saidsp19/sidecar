@@ -1,11 +1,10 @@
 #include <stdlib.h>
 
 #include "Logger/Log.h"
-#include "UnitTest/UnitTest.h"
 #include "RunningMedian.h"
+#include "UnitTest/UnitTest.h"
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : UnitTest::TestObj("RunningMedian") {}
     void test();
 };
@@ -150,8 +149,7 @@ Test::test()
     Utils::RunningMedian r20(20, 0.0);
     r20.dump();
     ::srandom(0);
-    for (int count = 0; count < 80; ++count)
-	r20.addValue(::random() % 10);
+    for (int count = 0; count < 80; ++count) r20.addValue(::random() % 10);
     assertEqualEpsilon(5.0, r20.getMedianValue(), 3.0);
 
     // Initialize running median to 0.0, with a window of 50 samples
@@ -163,8 +161,7 @@ Test::test()
     // problems with 'finger' maintenance.
     //
     ::srandom(0);
-    for (int count = 0; count < 500; ++count)
-	r50.addValue(::random() % 100);
+    for (int count = 0; count < 500; ++count) r50.addValue(::random() % 100);
     assertEqualEpsilon(50.0, r50.getMedianValue(), 25.0);
 }
 

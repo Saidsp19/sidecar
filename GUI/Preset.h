@@ -8,7 +8,9 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -20,18 +22,16 @@ class Setting;
     records the values that make up the preset. It relies on a PresetCollection object to do the actual
     manipulation of Setting object values when a Preset becomes active.
 */
-class Preset : public QObject
-{
+class Preset : public QObject {
     using Super = class QObject;
     Q_OBJECT
 public:
-
     /** Obtain the Log device to use for Preset objects
 
         \return Log reference
     */
     static Logger::Log& Log();
-    
+
     /** Constructor. Creates a new preset with a given name.
 
         \param name the name of the preset
@@ -86,10 +86,9 @@ public:
 
         \param settings list of Setting objects to update
 
-	\param isActive if true, apply restored values to Setting objects
+        \param isActive if true, apply restored values to Setting objects
     */
-    void restore(QSettings& file, const QList<Setting*>& settings,
-                 bool isActive);
+    void restore(QSettings& file, const QList<Setting*>& settings, bool isActive);
 
     /** Restore one preset value from a QSettings object
 
@@ -101,12 +100,11 @@ public:
 
     /** Apply held preset values to active Setting objects.
 
-	\param settings list of Setting objects to update
+        \param settings list of Setting objects to update
     */
     void apply(const QList<Setting*>& settings);
 
 private:
-
     PresetManager* getParent() const;
 
     QString name_;

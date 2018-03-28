@@ -13,8 +13,8 @@
 
 #endif
 
-#include <sys/types.h>
 #include <signal.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include "ace/Reactor.h"
@@ -40,7 +40,7 @@
 #include "StatusEmitter.h"
 #include "StreamBuilder.h"
 
-#include "GUI/Utils.h"		// NOTE: include after any boost::signal.hpp
+#include "GUI/Utils.h" // NOTE: include after any boost::signal.hpp
 
 using namespace SideCar;
 using namespace SideCar::Algorithms;
@@ -49,16 +49,11 @@ using namespace SideCar::Runner;
 
 const std::string about = "SideCar application that creates and manages one or more processing streams.";
 
-const Utils::CmdLineArgs::OptionDef options[] = {
-    { 'd', "debug", "turn on verbose debugging", 0 },
-    { 'L', "logger", "use LOG for logging configuration", "LOG" },
-    { 'Q', "daq", "setup for data acquisition mode", 0 }
-};
+const Utils::CmdLineArgs::OptionDef options[] = {{'d', "debug", "turn on verbose debugging", 0},
+                                                 {'L', "logger", "use LOG for logging configuration", "LOG"},
+                                                 {'Q', "daq", "setup for data acquisition mode", 0}};
 
-const Utils::CmdLineArgs::ArgumentDef args[] = {
-    { "NAME", "Runner to startup" },
-    { "CONFIG", "Configuration file" }
-};
+const Utils::CmdLineArgs::ArgumentDef args[] = {{"NAME", "Runner to startup"}, {"CONFIG", "Configuration file"}};
 
 App* App::app_ = 0;
 
@@ -83,9 +78,9 @@ quit(int sig)
     ACE_Reactor::instance()->end_event_loop();
 }
 
-App::App(int argc, char* const* argv)
-    : cla_(argc, argv, about, options, sizeof(options), args, sizeof(args)), logCollector_(LogCollector::Make()),
-      loggerConfig_(), streams_(), remoteController_(), statusEmitter_(), loader_(), runnerConfig_()
+App::App(int argc, char* const* argv) :
+    cla_(argc, argv, about, options, sizeof(options), args, sizeof(args)), logCollector_(LogCollector::Make()),
+    loggerConfig_(), streams_(), remoteController_(), statusEmitter_(), loader_(), runnerConfig_()
 {
     Logger::Log::Root().addWriter(logCollector_);
     Logger::ProcLog log("App", Log());
@@ -94,7 +89,7 @@ App::App(int argc, char* const* argv)
 }
 
 static void
-stackPrefault() 
+stackPrefault()
 {
     // Allocate 32K of stack space and touch it. This should keep future function calls from paging stack space.
     //
@@ -111,47 +106,39 @@ App::initializeRealTime(const QString& scheduler)
 
     int policy;
     if (scheduler == "SCHED_FIFO") {
-	policy = ACE_SCHED_FIFO;
-    }
-    else if (scheduler == "SCHED_RR") {
-	policy = ACE_SCHED_RR;
-    }
-    else if (scheduler == "SCHED_OTHER") {
-	policy = ACE_SCHED_OTHER;
-    }
-    else {
-	Utils::Exception ex("invalid RT scheduler policy specified - ");
-	ex << scheduler.toStdString();
-	log.thrower(ex);
+        policy = ACE_SCHED_FIFO;
+    } else if (scheduler == "SCHED_RR") {
+        policy = ACE_SCHED_RR;
+    } else if (scheduler == "SCHED_OTHER") {
+        policy = ACE_SCHED_OTHER;
+    } else {
+        Utils::Exception ex("invalid RT scheduler policy specified - ");
+        ex << scheduler.toStdString();
+        log.thrower(ex);
     }
 
     int priority = runnerConfig_->getPriority().toInt();
     if (priority == 0) {
-	Utils::Exception ex("invalid scheduler priority specified - ");
-	ex << priority;
-	log.thrower(ex);
+        Utils::Exception ex("invalid scheduler priority specified - ");
+        ex << priority;
+        log.thrower(ex);
     }
 
     LOGWARNING << "configuring scheduler" << std::endl;
     ACE_Sched_Params schedParams(policy, priority, ACE_SCOPE_PROCESS);
-	
+
     if (ACE_OS::sched_params(schedParams) != 0) {
-	Utils::Exception ex("");
-	if (ACE_OS::last_error () == EPERM)
-	    ex << "User is not priviledged to modify scheduler";
-	else
-	    ex << "Failed to set scheduler params";
-	log.thrower(ex);
+        Utils::Exception ex("");
+        if (ACE_OS::last_error() == EPERM)
+            ex << "User is not priviledged to modify scheduler";
+        else
+            ex << "Failed to set scheduler params";
+        log.thrower(ex);
     }
 
-    LOGINFO << "Policy is    = " << schedParams.policy()
-	    << " (0=OTHER, 1=FIFO, 2=RR) " << std::endl;
-    LOGINFO << "Priority MIN = "
-	    << ACE_Sched_Params::priority_min(policy, ACE_SCOPE_PROCESS)
-	    << std::endl;
-    LOGINFO << "Priority MAX = "
-	    << ACE_Sched_Params::priority_max(policy, ACE_SCOPE_PROCESS)
-            << std::endl;
+    LOGINFO << "Policy is    = " << schedParams.policy() << " (0=OTHER, 1=FIFO, 2=RR) " << std::endl;
+    LOGINFO << "Priority MIN = " << ACE_Sched_Params::priority_min(policy, ACE_SCOPE_PROCESS) << std::endl;
+    LOGINFO << "Priority MAX = " << ACE_Sched_Params::priority_max(policy, ACE_SCOPE_PROCESS) << std::endl;
     LOGINFO << "Priority is  = " << schedParams.priority() << std::endl;
 
     // Do this before we call mlockall, at least according to mlockall(2) NOTES section.
@@ -160,9 +147,7 @@ App::initializeRealTime(const QString& scheduler)
     stackPrefault();
 
     LOGWARNING << "calling mlockall to prevent page faults" << std::endl;
-    if (::mlockall(MCL_CURRENT | MCL_FUTURE) == -1) {
-	LOGERROR << "mlockall failed" << std::endl;
-    }
+    if (::mlockall(MCL_CURRENT | MCL_FUTURE) == -1) { LOGERROR << "mlockall failed" << std::endl; }
 }
 
 void
@@ -175,17 +160,16 @@ App::initialize()
     //
     std::string name(cla_.arg(0));
     if (name.size() == 0) {
-	Utils::Exception ex("empty rtrunner name");
-	log.thrower(ex);
+        Utils::Exception ex("empty rtrunner name");
+        log.thrower(ex);
     }
 
     // Configure logger
     //
     if (cla_.hasOpt("debug")) {
         Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug);
-    }
-    else {
-	Logger::Log::Root().setPriorityLimit(Logger::Priority::kWarning);
+    } else {
+        Logger::Log::Root().setPriorityLimit(Logger::Priority::kWarning);
     }
 
     std::string value;
@@ -193,52 +177,50 @@ App::initialize()
         loggerConfig_.reset(new Logger::ConfiguratorFile(value));
         loggerConfig_->startMonitor(10);
     }
-    
+
     // Load XML configuration file
     //
-    if (! loader_.load(QString::fromStdString(cla_.arg(1)))) {
-	Utils::Exception ex("failed to load file ");
-	ex << cla_.arg(1);
-	ex << " - " << loader_.getLastLoadResult();
-	log.thrower(ex);
+    if (!loader_.load(QString::fromStdString(cla_.arg(1)))) {
+        Utils::Exception ex("failed to load file ");
+        ex << cla_.arg(1);
+        ex << " - " << loader_.getLastLoadResult();
+        log.thrower(ex);
     }
 
     // Get XML configuration info for Runner thread
     //
     runnerConfig_.reset(loader_.getRunnerConfig(QString::fromStdString(name)));
-    if (! runnerConfig_) {
-	Utils::Exception ex("failed to locate runner ");
-	ex << cla_.arg(0) << " in configuration file";
-	log.thrower(ex);
+    if (!runnerConfig_) {
+        Utils::Exception ex("failed to locate runner ");
+        ex << cla_.arg(0) << " in configuration file";
+        log.thrower(ex);
     }
 
     // If Scheduler is specified as an RT scheduler (FIFO or RR) attempt to configure the scheduler
     //
     QString scheduler = runnerConfig_->getScheduler();
-    if (scheduler != "SCHED_INHERIT") {
-	initializeRealTime(scheduler);
-    }
+    if (scheduler != "SCHED_INHERIT") { initializeRealTime(scheduler); }
 
     struct sigaction action;
-    
+
 #if 0
-    ::memset(&action, 0, sizeof(action));
-    action.sa_handler = SIG_IGN;
-    ::sigaction(SIGABRT, &action, 0);
+  ::memset(&action, 0, sizeof(action));
+  action.sa_handler = SIG_IGN;
+  ::sigaction(SIGABRT, &action, 0);
     
-    ::memset(&action, 0, sizeof(action));
-    action.sa_handler = &quit;
-    ::sigaction(SIGSEGV, &action, 0);
+  ::memset(&action, 0, sizeof(action));
+  action.sa_handler = &quit;
+  ::sigaction(SIGSEGV, &action, 0);
 #endif
-    
+
     ::memset(&action, 0, sizeof(action));
     action.sa_handler = &quit;
     ::sigaction(SIGTERM, &action, 0);
-    
+
     ::memset(&action, 0, sizeof(action));
     action.sa_handler = &quit;
     ::sigaction(SIGINT, &action, 0);
-    
+
     ACE_Reactor::instance()->restart(1);
 
     statusEmitter_ = StatusEmitter::Make(*this);
@@ -255,8 +237,8 @@ App::initialize()
     statmPath_ = os.str();
 #endif
     postControlMessage(IO::ProcessingStateChangeRequest(
-                           IO::ProcessingState::GetValue(
-                               runnerConfig_->getInitialProcessingState().toStdString())).getWrapped());
+                           IO::ProcessingState::GetValue(runnerConfig_->getInitialProcessingState().toStdString()))
+                           .getWrapped());
 }
 
 App::~App()
@@ -279,7 +261,7 @@ App::run()
 
     remoteController_->stop();
 
-    for (auto v: streams_) v->close();
+    for (auto v : streams_) v->close();
     streams_.clear();
 }
 
@@ -323,10 +305,9 @@ App::postControlMessage(ACE_Message_Block* data)
 
     for (size_t index = 0; index < streams_.size(); ++index) {
         std::unique_ptr<ACE_Message_Block> tmp(data->duplicate());
-	if (streams_[index]->put(tmp.get()) == -1) {
-	    LOGERROR << "failed to post message to stream " << streams_[index]->getName() << std::endl;
-	}
-        else {
+        if (streams_[index]->put(tmp.get()) == -1) {
+            LOGERROR << "failed to post message to stream " << streams_[index]->getName() << std::endl;
+        } else {
             tmp.release();
         }
     }
@@ -341,10 +322,10 @@ App::fillStatus(XmlRpc::XmlRpcValue& status)
     LOGINFO << streams_.size() << std::endl;
 
     std::unique_ptr<XmlRpc::XmlRpcValue::ValueArray> streamStatusArray(new XmlRpc::XmlRpcValue::ValueArray);
-    for (auto s: streams_) {
-	IO::StreamStatus streamStatus(s->getName());
-	s->fillStatus(streamStatus);
-	streamStatusArray->push_back(streamStatus.getXMLData());
+    for (auto s : streams_) {
+        IO::StreamStatus streamStatus(s->getName());
+        s->fillStatus(streamStatus);
+        streamStatusArray->push_back(streamStatus.getXMLData());
     }
 
     double memoryUsed = 0;
@@ -366,7 +347,7 @@ App::fillStatus(XmlRpc::XmlRpcValue& status)
 #endif
 
 #ifdef darwin
-    malloc_statistics_t t = { 0, 0, 0, 0 };
+    malloc_statistics_t t = {0, 0, 0, 0};
     malloc_zone_statistics(0, &t);
     memoryUsed = t.size_allocated;
 #endif
@@ -382,10 +363,10 @@ App::getChangedParameters(XmlRpc::XmlRpcValue& value) const
     LOGINFO << "size: " << streams_.size() << std::endl;
     value.setSize(streams_.size());
     for (size_t index = 0; index < streams_.size(); ++index) {
-	XmlRpc::XmlRpcValue changes;
-	streams_[index]->getChangedParameters(changes);
-	LOGDEBUG << "changes: " << changes.toXml() << std::endl;
-	value[index] = changes;
+        XmlRpc::XmlRpcValue changes;
+        streams_[index]->getChangedParameters(changes);
+        LOGDEBUG << "changes: " << changes.toXml() << std::endl;
+        value[index] = changes;
     }
 
     LOGDEBUG << "value: " << value.toXml() << std::endl;
@@ -399,7 +380,7 @@ App::getParameters(int streamIndex, int taskIndex, XmlRpc::XmlRpcValue& result) 
     if (streamIndex < 0 || streamIndex >= int(streams_.size())) return false;
     IO::Stream::Ref stream(streams_[streamIndex]);
     IO::Task::Ref task(stream->getTask(taskIndex));
-    if (! task) return false;
+    if (!task) return false;
     LOGDEBUG << "task: " << task->getTaskName() << std::endl;
     task->getCurrentParameters(result);
     return true;
@@ -421,8 +402,8 @@ App::setParameters(int streamIndex, int taskIndex, const XmlRpc::XmlRpcValue& pa
     // !!! data messages.
     //
     if (task->msg_queue()->enqueue_head(data) == -1) {
-	data->release();
-	return false;
+        data->release();
+        return false;
     }
 
     return true;
@@ -435,7 +416,7 @@ App::setServiceName(const std::string& serviceName)
     LOGWARNING << "new service name: " << serviceName << std::endl;
     runnerConfig_->setServiceName(QString::fromStdString(serviceName));
     if (remoteController_) {
-	remoteController_->stop();
-	remoteController_->start(runnerConfig_->getServiceName());
+        remoteController_->stop();
+        remoteController_->start(runnerConfig_->getServiceName());
     }
 }

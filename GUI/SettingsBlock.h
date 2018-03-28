@@ -16,16 +16,14 @@ class Setting;
     application's event loop is reentered. Only one QTime registration will take place, regardless of how many
     setting changes there are before the application's event loop is entered.
 */
-class SettingsBlock : public QObject
-{
+class SettingsBlock : public QObject {
     Q_OBJECT
     using Super = QObject;
-public:
 
+public:
     /** Constructor.
      */
-    SettingsBlock(QObject* parent = 0)
-	: Super(parent), pendingNotification_(false) {}
+    SettingsBlock(QObject* parent = 0) : Super(parent), pendingNotification_(false) {}
 
 signals:
 
@@ -36,20 +34,19 @@ signals:
 protected slots:
 
     /** Notification handler invoked when a Setting object that was registered with one of the add() methods
-	emits its valueChanged() signal. Sets up a QTimer to call emitSettingChanged() when the application
-	event loop had nothing more to do. The emitSettingChanged() resets the one-shot boolean
-	pendingNotification_ attribute and then emits the settingChanged() signal.
-	
+        emits its valueChanged() signal. Sets up a QTimer to call emitSettingChanged() when the application
+        event loop had nothing more to do. The emitSettingChanged() resets the one-shot boolean
+        pendingNotification_ attribute and then emits the settingChanged() signal.
+
     */
     virtual void postSettingChanged();
 
     /** Notification handler invoked when the QTimer object registered by the postSettingChanged() method fires.
-	Resets the pendingNotification_ attribute and emits the settingChanged() signal.
+        Resets the pendingNotification_ attribute and emits the settingChanged() signal.
     */
     virtual void emitSettingChanged();
 
 protected:
-    
     /** Relate a Setting object to this SettingsBlock object.
 
         \param setting the object to connect

@@ -11,12 +11,11 @@ namespace Playback {
 class RecordingInfo;
 class RecordingModel;
 
-class BrowserWindow : public ToolWindowBase, public Ui::BrowserWindow
-{
+class BrowserWindow : public ToolWindowBase, public Ui::BrowserWindow {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     BrowserWindow(int shortcut);
@@ -32,13 +31,10 @@ private slots:
     void handleDoubleClick(const QModelIndex& index);
     void on_browse__clicked();
     void on_browseDir__activated(int index);
-    void updateColumns(const QModelIndex& topLeft,
-                       const QModelIndex& bottomRight);
-    void currentSelectionChanged(const QModelIndex& current,
-                                 const QModelIndex& previous);
+    void updateColumns(const QModelIndex& topLeft, const QModelIndex& bottomRight);
+    void currentSelectionChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private:
-
     bool eventFilter(QObject* object, QEvent* event);
 
     void adjustColumnSizes();

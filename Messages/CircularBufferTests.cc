@@ -5,8 +5,7 @@
 
 using namespace SideCar::Messages;
 
-class CircularBufferTest : public UnitTest::TestObj
-{
+class CircularBufferTest : public UnitTest::TestObj {
 public:
     CircularBufferTest() : TestObj("CircularBuffer") {}
 
@@ -15,10 +14,9 @@ public:
 private:
 };
 
-struct Counter
-{
+struct Counter {
     int counter;
-    Counter() :counter(0) {}
+    Counter() : counter(0) {}
     void operator()(const Video::Ref& msg) { ++counter; }
 };
 
@@ -29,29 +27,26 @@ CircularBufferTest::test()
     VideoCircularBuffer* buffer = VideoCircularBuffer::Make("hello");
     assertTrue(buffer);
     try {
-	VideoCircularBuffer::Make("hello");
-	assertTrue(false);;
-    }
-    catch (...) {
-	;
+        VideoCircularBuffer::Make("hello");
+        assertTrue(false);
+        ;
+    } catch (...) {
+        ;
     }
 
     try {
-	VideoCircularBuffer::Get("blah");
-	assertTrue(false);;
-    }
-    catch (...) {
-	;
+        VideoCircularBuffer::Get("blah");
+        assertTrue(false);
+        ;
+    } catch (...) {
+        ;
     }
 
     assertEqual(buffer, VideoCircularBuffer::Get("hello"));
 
     VMEDataMessage vme;
-    vme.header.msgDesc = (VMEHeader::kPackedReal << 16)
-	| VMEHeader::kIRIGValidMask
-	| VMEHeader::kTimeStampValidMask
-	| VMEHeader::kAzimuthValidMask
-	| VMEHeader::kPRIValidMask;
+    vme.header.msgDesc = (VMEHeader::kPackedReal << 16) | VMEHeader::kIRIGValidMask | VMEHeader::kTimeStampValidMask |
+                         VMEHeader::kAzimuthValidMask | VMEHeader::kPRIValidMask;
     vme.header.timeStamp = 0;
     vme.header.azimuth = 0;
     vme.header.pri = 1;
@@ -71,7 +66,7 @@ CircularBufferTest::test()
     assertEqual(1U, buffer->newest()->getRIUInfo().sequenceCounter);
 
     ++vme.header.pri;
-    ++vme.header.azimuth;		// 1
+    ++vme.header.azimuth; // 1
     buffer->add(Video::Make("CacheTests", vme, 0));
     ++pos;
     assertEqual(2U, pos->getRIUInfo().sequenceCounter);
@@ -79,7 +74,7 @@ CircularBufferTest::test()
     assertEqual(2U, buffer->newest()->getRIUInfo().sequenceCounter);
 
     ++vme.header.pri;
-    ++vme.header.azimuth;		// 2
+    ++vme.header.azimuth; // 2
     buffer->add(Video::Make("CacheTests", vme, 0));
     ++pos;
     assertEqual(3U, pos->getRIUInfo().sequenceCounter);
@@ -87,7 +82,7 @@ CircularBufferTest::test()
     assertEqual(3U, buffer->newest()->getRIUInfo().sequenceCounter);
 
     ++vme.header.pri;
-    vme.header.azimuth = 0;	// 3
+    vme.header.azimuth = 0; // 3
     buffer->add(Video::Make("CacheTests", vme, 0));
     ++pos;
     assertEqual(4U, pos->getRIUInfo().sequenceCounter);
@@ -97,7 +92,7 @@ CircularBufferTest::test()
     // The following should fail if enabled.
     //
 #if 0
-    delete buffer;
+  delete buffer;
 #endif
 }
 

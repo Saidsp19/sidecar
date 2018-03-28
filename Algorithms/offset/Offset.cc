@@ -11,12 +11,9 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-Offset::Offset(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log),
-      enabled_(Parameter::BoolValue::Make("enabled", "Enabled",
-                                          kDefaultEnabled)),
-      offset_(Parameter::ShortValue::Make("offset", "Offset",
-                                          kDefaultOffset))
+Offset::Offset(Controller& controller, Logger::Log& log) :
+    Algorithm(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
+    offset_(Parameter::ShortValue::Make("offset", "Offset", kDefaultOffset))
 {
     ;
 }
@@ -24,10 +21,8 @@ Offset::Offset(Controller& controller, Logger::Log& log)
 bool
 Offset::startup()
 {
-    registerProcessor<Offset,Messages::Video>(&Offset::process);
-    return registerParameter(enabled_) &&
-	registerParameter(offset_) &&
-	Algorithm::startup();
+    registerProcessor<Offset, Messages::Video>(&Offset::process);
+    return registerParameter(enabled_) && registerParameter(offset_) && Algorithm::startup();
 }
 
 bool
@@ -35,8 +30,7 @@ Offset::process(const Messages::Video::Ref& msg)
 {
     static Logger::ProcLog log("process", getLog());
 
-    if (! enabled_->getValue())
-	return send(msg);
+    if (!enabled_->getValue()) return send(msg);
 
     Messages::Video::Ref out(Messages::Video::Make(getName(), msg));
     out->resize(msg->size());

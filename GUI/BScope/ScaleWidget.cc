@@ -19,14 +19,11 @@ ScaleWidget::Log()
     return log_;
 }
 
-ScaleWidget::ScaleWidget(QWidget* parent, Qt::Orientation orientation)
-    : Super(parent), lastSizeCalculated_(), majorTickHeight_(10),
-      minorTickHeight_(6), majorTickDivisionsMax_(8),
-      minorTickDivisionsMax_(4), start_(0.0), range_(4.0),
-      orientation_(orientation), majorGridPen_(QColor(64, 64, 64), 0.0),
-      minorGridPen_(QColor(16, 16, 16), 0.0),
-      cursorIndicatorPen_(QColor(255, 0, 0, 128), 0), cursorPosition_(-1),
-      autoDivide_(false)
+ScaleWidget::ScaleWidget(QWidget* parent, Qt::Orientation orientation) :
+    Super(parent), lastSizeCalculated_(), majorTickHeight_(10), minorTickHeight_(6), majorTickDivisionsMax_(8),
+    minorTickDivisionsMax_(4), start_(0.0), range_(4.0), orientation_(orientation),
+    majorGridPen_(QColor(64, 64, 64), 0.0), minorGridPen_(QColor(16, 16, 16), 0.0),
+    cursorIndicatorPen_(QColor(255, 0, 0, 128), 0), cursorPosition_(-1), autoDivide_(false)
 {
     QFont labelFont(font());
     labelFont.setPointSize(10);
@@ -42,10 +39,9 @@ ScaleWidget::setSpan(int span)
     LOGINFO << "span: " << span << std::endl;
 
     if (orientation_ == Qt::Horizontal) {
-	resize(span, height());
-    }
-    else {
-	resize(width(), span);
+        resize(span, height());
+    } else {
+        resize(width(), span);
     }
 
     updateGeometry();
@@ -56,9 +52,9 @@ QSize
 ScaleWidget::sizeHint() const
 {
     if (orientation_ == Qt::Horizontal)
-	return QSize(width(), majorTickHeight_ + fontMetrics().height());
+        return QSize(width(), majorTickHeight_ + fontMetrics().height());
     else
-	return QSize(majorTickHeight_ + fontMetrics().height(), height());
+        return QSize(majorTickHeight_ + fontMetrics().height(), height());
 }
 
 QSize
@@ -77,21 +73,17 @@ ScaleWidget::recalculateTickIntervals(int width, int height)
     double span = (orientation_ == Qt::Horizontal ? width : height);
 
     if (autoDivide_) {
-	majorIncrement_ = std::max(80.0, span / majorTickDivisionsMax_);
-	majorTickDivisions_ =
-	    std::max(1, int(::floor(span / majorIncrement_)));
-	majorIncrement_ = span / majorTickDivisions_;
-	minorIncrement_ =
-	    std::max(40.0, majorIncrement_ / minorTickDivisionsMax_);
-	minorTickDivisions_ =
-	    std::max(1, int(::floor(majorIncrement_ / minorIncrement_)));
-	minorIncrement_ = majorIncrement_ / minorTickDivisions_;
-    }
-    else {
-	majorIncrement_ = span / majorTickDivisionsMax_;
-	majorTickDivisions_ = majorTickDivisionsMax_;
-	minorIncrement_ = majorIncrement_ / minorTickDivisionsMax_;
-	minorTickDivisions_ = minorTickDivisionsMax_;
+        majorIncrement_ = std::max(80.0, span / majorTickDivisionsMax_);
+        majorTickDivisions_ = std::max(1, int(::floor(span / majorIncrement_)));
+        majorIncrement_ = span / majorTickDivisions_;
+        minorIncrement_ = std::max(40.0, majorIncrement_ / minorTickDivisionsMax_);
+        minorTickDivisions_ = std::max(1, int(::floor(majorIncrement_ / minorIncrement_)));
+        minorIncrement_ = majorIncrement_ / minorTickDivisions_;
+    } else {
+        majorIncrement_ = span / majorTickDivisionsMax_;
+        majorTickDivisions_ = majorTickDivisionsMax_;
+        minorIncrement_ = majorIncrement_ / minorTickDivisionsMax_;
+        minorTickDivisions_ = minorTickDivisionsMax_;
     }
 }
 
@@ -101,8 +93,8 @@ ScaleWidget::paintEvent(QPaintEvent* event)
     QPainter painter(this);
     render(painter);
     if (cursorPosition_ != -1) {
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	drawCursorPosition(painter, cursorPosition_);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        drawCursorPosition(painter, cursorPosition_);
     }
 }
 
@@ -123,14 +115,13 @@ ScaleWidget::render(QPainter& painter, int width, int height)
     painter.setRenderHint(QPainter::TextAntialiasing, true);
 
     if (orientation_ == Qt::Horizontal) {
-	drawHorizontalTicks(painter, width, height);
-    }
-    else {
-	painter.save();
-	painter.translate(width, 0.0);
-	painter.rotate(+90.0);
-	drawVerticalTicks(painter, height, width);
-	painter.restore();
+        drawHorizontalTicks(painter, width, height);
+    } else {
+        painter.save();
+        painter.translate(width, 0.0);
+        painter.rotate(+90.0);
+        drawVerticalTicks(painter, height, width);
+        painter.restore();
     }
 }
 
@@ -151,54 +142,48 @@ ScaleWidget::drawVerticalTicks(QPainter& painter, int span, int tagOffset)
     double tagIncrement = range_ / majorTickDivisions_;
 
     if (orientation_ == Qt::Vertical) {
-	increment = -increment;
-	origin = span - 1;
+        increment = -increment;
+        origin = span - 1;
     }
 
     while (1) {
+        double x = tickCounter * increment + origin;
 
-	double x = tickCounter * increment + origin;
+        LOGDEBUG << "x: " << x << " tickCounter: " << tickCounter << std::endl;
 
-	LOGDEBUG << "x: " << x << " tickCounter: " << tickCounter << std::endl;
+        if (x >= span || x < 0) break;
 
-	if (x >= span || x < 0)
-	    break;
+        if ((tickCounter % minorTickDivisions_) == 0) {
+            QLineF line(x, 0.0, x, majorTickHeight_);
+            painter.drawLine(line);
+            QString label = formatTickTag(tag);
+            double offset = fm.boundingRect(label).width() / 2;
 
-	if ((tickCounter % minorTickDivisions_) == 0) {
-	    QLineF line(x, 0.0, x, majorTickHeight_);
-	    painter.drawLine(line);
-	    QString label = formatTickTag(tag);
-	    double offset = fm.boundingRect(label).width() / 2;
+            if (orientation_ == Qt::Horizontal) {
+                if (tickCounter == 0) {
+                    offset = 0;
+                } else if (x + offset > span) {
+                    offset *= 2;
+                }
+            } else {
+                if (tickCounter == 0) {
+                    offset *= 2;
+                } else if (x - offset < 0.0) {
+                    offset = 0;
+                }
+            }
 
-	    if (orientation_ == Qt::Horizontal) {
-		if (tickCounter == 0) {
-		    offset = 0;
-		}
-		else if (x + offset > span) {
-		    offset *= 2;
-		}
-	    }
-	    else {
-		if (tickCounter == 0) {
-		    offset *= 2;
-		}
-		else if (x - offset < 0.0) {
-		    offset = 0;
-		}
-	    }
+            LOGDEBUG << "tag: " << tag << " offset: " << offset << std::endl;
 
-	    LOGDEBUG << "tag: " << tag << " offset: " << offset << std::endl;
+            line.translate(-offset, tagOffset - fm.descent() - 1);
+            painter.drawText(line.p1(), label);
+            tag += tagIncrement;
+        } else {
+            QLineF line(x, 0.0, x, minorTickHeight_);
+            painter.drawLine(line);
+        }
 
-	    line.translate(-offset, tagOffset - fm.descent() - 1);
-	    painter.drawText(line.p1(), label);
-	    tag += tagIncrement;
-	}
-	else {
-	    QLineF line(x, 0.0, x, minorTickHeight_);
-	    painter.drawLine(line);
-	}
-
-	++tickCounter;
+        ++tickCounter;
     }
 }
 
@@ -217,65 +202,57 @@ ScaleWidget::drawHorizontalTicks(QPainter& painter, int span, int tagOffset)
     double tagIncrement = range_ / majorTickDivisions_;
     double shift = -start_ / range_ * (span - 1);
 
-    LOGDEBUG <<  "tagIncrement: " << tagIncrement << std::endl;
+    LOGDEBUG << "tagIncrement: " << tagIncrement << std::endl;
 
     while (1) {
-	double x = shift - tickCounter * minorIncrement_;
-	LOGDEBUG << "x: " << x << " tickCounter: " << tickCounter << std::endl;
+        double x = shift - tickCounter * minorIncrement_;
+        LOGDEBUG << "x: " << x << " tickCounter: " << tickCounter << std::endl;
 
-	if (x < 0)
-	    break;
+        if (x < 0) break;
 
-	if ((tickCounter % minorTickDivisions_) == 0) {
-	    QLineF line(x, 0.0, x, majorTickHeight_);
-	    painter.drawLine(line);
-	    QString label = formatTickTag(tag);
-	    double offset = fm.boundingRect(label).width() / 2;
-	    if (x - offset < 0.0) {
-		offset = 0.0;
-	    }
+        if ((tickCounter % minorTickDivisions_) == 0) {
+            QLineF line(x, 0.0, x, majorTickHeight_);
+            painter.drawLine(line);
+            QString label = formatTickTag(tag);
+            double offset = fm.boundingRect(label).width() / 2;
+            if (x - offset < 0.0) { offset = 0.0; }
 
-	    LOGDEBUG << "tag: " << tag << " offset: " << offset << std::endl;
+            LOGDEBUG << "tag: " << tag << " offset: " << offset << std::endl;
 
-	    line.translate(-offset, tagOffset - fm.descent() - 1);
-	    painter.drawText(line.p1(), label);
-	    tag -= tagIncrement;
-	}
-	else {
-	    QLineF line(x, 0.0, x, minorTickHeight_);
-	    painter.drawLine(line);
-	}
+            line.translate(-offset, tagOffset - fm.descent() - 1);
+            painter.drawText(line.p1(), label);
+            tag -= tagIncrement;
+        } else {
+            QLineF line(x, 0.0, x, minorTickHeight_);
+            painter.drawLine(line);
+        }
 
-	++tickCounter;
+        ++tickCounter;
     }
 
     tickCounter = 1;
     tag = tagIncrement;
 
     while (1) {
-	double x = shift + tickCounter * minorIncrement_;
-	if (x >= span)
-	    break;
+        double x = shift + tickCounter * minorIncrement_;
+        if (x >= span) break;
 
-	if ((tickCounter % minorTickDivisions_) == 0) {
-	    QLineF line(x, 0.0, x, majorTickHeight_);
-	    painter.drawLine(line); 
-	    QString label = formatTickTag(tag);
-	    double offset = fm.boundingRect(label).width() / 2;
-	    if (x + offset > span) {
-		offset += offset;
-	    }
+        if ((tickCounter % minorTickDivisions_) == 0) {
+            QLineF line(x, 0.0, x, majorTickHeight_);
+            painter.drawLine(line);
+            QString label = formatTickTag(tag);
+            double offset = fm.boundingRect(label).width() / 2;
+            if (x + offset > span) { offset += offset; }
 
-	    line.translate(-offset, tagOffset - fm.descent() - 1);
-	    painter.drawText(line.p1(), label);
-	    tag += tagIncrement;
-	}
-	else {
-	    QLineF line(x, 0.0, x, minorTickHeight_);
-	    painter.drawLine(line);
-	}
+            line.translate(-offset, tagOffset - fm.descent() - 1);
+            painter.drawText(line.p1(), label);
+            tag += tagIncrement;
+        } else {
+            QLineF line(x, 0.0, x, minorTickHeight_);
+            painter.drawLine(line);
+        }
 
-	++tickCounter;
+        ++tickCounter;
     }
 }
 
@@ -286,55 +263,52 @@ ScaleWidget::drawGridLines(QPainter& painter)
     recalculateTickIntervals(device->width(), device->height());
     painter.setRenderHint(QPainter::Antialiasing, false);
     if (orientation_ == Qt::Horizontal) {
-	drawVerticalGridLines(painter, device->width(), device->height());
-    }
-    else {
-	drawHorizontalGridLines(painter, device->width(), device->height());
+        drawVerticalGridLines(painter, device->width(), device->height());
+    } else {
+        drawHorizontalGridLines(painter, device->width(), device->height());
     }
 }
 
 void
-ScaleWidget::drawVerticalGridLines(QPainter& painter, int width, int height)
-    const
+ScaleWidget::drawVerticalGridLines(QPainter& painter, int width, int height) const
 {
     for (int major = 0; major < majorTickDivisions_; ++major) {
-	double x = major * majorIncrement_;
-	if (major) {
-	    painter.setPen(majorGridPen_);
-	    QLineF line(x, 0.0, x, height);
-	    painter.drawLine(line); 
-	}
+        double x = major * majorIncrement_;
+        if (major) {
+            painter.setPen(majorGridPen_);
+            QLineF line(x, 0.0, x, height);
+            painter.drawLine(line);
+        }
 
-	painter.setPen(minorGridPen_);
-	for (int minor = 1; minor < minorTickDivisions_; ++minor) {
-	    x += minorIncrement_;
-	    QLineF line(x, 0.0, x, height);
-	    painter.drawLine(line);
-	}
+        painter.setPen(minorGridPen_);
+        for (int minor = 1; minor < minorTickDivisions_; ++minor) {
+            x += minorIncrement_;
+            QLineF line(x, 0.0, x, height);
+            painter.drawLine(line);
+        }
     }
 }
 
 void
-ScaleWidget::drawHorizontalGridLines(QPainter& painter, int width, int height)
-    const
+ScaleWidget::drawHorizontalGridLines(QPainter& painter, int width, int height) const
 {
     static Logger::ProcLog log("drawHorizontalGridLines", Log());
 
     for (int major = 0; major < majorTickDivisions_; ++major) {
-	double y = height - major * majorIncrement_;
-	LOGERROR << "major: " << major << " y: " << y << std::endl;
-	if (major) {
-	    painter.setPen(majorGridPen_);
-	    QLineF line(0.0, y, width, y);
-	    painter.drawLine(line);
-	}
+        double y = height - major * majorIncrement_;
+        LOGERROR << "major: " << major << " y: " << y << std::endl;
+        if (major) {
+            painter.setPen(majorGridPen_);
+            QLineF line(0.0, y, width, y);
+            painter.drawLine(line);
+        }
 
-	painter.setPen(minorGridPen_);
-	for (int minor = 1; minor < minorTickDivisions_; ++minor) {
-	    y -= minorIncrement_;
-	    QLineF line(0.0, y, width, y);
-	    painter.drawLine(line);
-	}
+        painter.setPen(minorGridPen_);
+        for (int minor = 1; minor < minorTickDivisions_; ++minor) {
+            y -= minorIncrement_;
+            QLineF line(0.0, y, width, y);
+            painter.drawLine(line);
+        }
     }
 }
 
@@ -426,12 +400,9 @@ ScaleWidget::setOrientation(Qt::Orientation orientation)
 {
     orientation_ = orientation;
     if (orientation_ == Qt::Horizontal) {
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
-                                  QSizePolicy::Fixed));
-    }
-    else {
-	setSizePolicy(QSizePolicy(QSizePolicy::Fixed,
-                                  QSizePolicy::Expanding));
+        setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    } else {
+        setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding));
     }
     update();
 }
@@ -443,16 +414,11 @@ ScaleWidget::drawCursorPosition(QPainter& painter, int position)
     painter.setBrush(cursorIndicatorPen_.color());
     QPolygonF indicator;
     if (orientation_ == Qt::Horizontal) {
-	indicator << QPointF(position, 0)
-		  << QPointF(position - 4, majorTickHeight_)
-		  << QPointF(position + 4, majorTickHeight_)
-		  << QPointF(position, 0);
-    }
-    else {
-	indicator << QPointF(width() - 1, position)
-		  << QPointF(width() - 1 - majorTickHeight_, position - 4)
-		  << QPointF(width() - 1 - majorTickHeight_, position + 4)
-		  << QPointF(width() - 1, position);
+        indicator << QPointF(position, 0) << QPointF(position - 4, majorTickHeight_)
+                  << QPointF(position + 4, majorTickHeight_) << QPointF(position, 0);
+    } else {
+        indicator << QPointF(width() - 1, position) << QPointF(width() - 1 - majorTickHeight_, position - 4)
+                  << QPointF(width() - 1 - majorTickHeight_, position + 4) << QPointF(width() - 1, position);
     }
 
     painter.drawConvexPolygon(indicator);
@@ -462,26 +428,23 @@ void
 ScaleWidget::dirtyCursorPosition(int position)
 {
     if (position != -1) {
-	if (orientation_ == Qt::Horizontal) {
-	    update(position - 5, 0, 11, height() - 1);
-	}
-	else {
-	    update(0, position - 5, width() - 1, 11);
-	}
+        if (orientation_ == Qt::Horizontal) {
+            update(position - 5, 0, 11, height() - 1);
+        } else {
+            update(0, position - 5, width() - 1, 11);
+        }
     }
 }
 
 void
 ScaleWidget::setCursorPosition(double value)
 {
-    int position = int(::rint((value - start_) / range_ *
-                              (getSpan() - 1)));
-    if (orientation_ == Qt::Vertical)
-	position = height() - 1 - position;
+    int position = int(::rint((value - start_) / range_ * (getSpan() - 1)));
+    if (orientation_ == Qt::Vertical) position = height() - 1 - position;
     if (position != cursorPosition_) {
-	dirtyCursorPosition(cursorPosition_);
-	cursorPosition_ = position;
-	dirtyCursorPosition(cursorPosition_);
+        dirtyCursorPosition(cursorPosition_);
+        cursorPosition_ = position;
+        dirtyCursorPosition(cursorPosition_);
     }
 }
 
@@ -489,19 +452,16 @@ void
 ScaleWidget::setNormalizedCursorPosition(double value)
 {
     int position = int(::rint(value * (getSpan() - 1)));
-    if (orientation_ == Qt::Vertical)
-	position = height() - 1 - position;
+    if (orientation_ == Qt::Vertical) position = height() - 1 - position;
     if (position != cursorPosition_) {
-	dirtyCursorPosition(cursorPosition_);
-	cursorPosition_ = position;
-	dirtyCursorPosition(cursorPosition_);
+        dirtyCursorPosition(cursorPosition_);
+        cursorPosition_ = position;
+        dirtyCursorPosition(cursorPosition_);
     }
 }
 
 QString
 DegreesScaleWidget::formatTickTag(double value)
 {
-    return QString("%1%2")
-	.arg(Utils::radiansToDegrees(Utils::normalizeRadians(value)))
-	.arg(GUI::DegreeSymbol());
+    return QString("%1%2").arg(Utils::radiansToDegrees(Utils::normalizeRadians(value))).arg(GUI::DegreeSymbol());
 }

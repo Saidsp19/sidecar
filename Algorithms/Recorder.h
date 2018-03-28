@@ -4,7 +4,9 @@
 #include "IO/Task.h"
 #include "IO/Writers.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Algorithms {
@@ -24,11 +26,10 @@ namespace Algorithms {
     stream. Both streams receive a command to start running, and the Recorder
     to first create its recording file will effectively block the other.
 */
-class Recorder : public ACE_Task<ACE_MT_SYNCH>
-{
+class Recorder : public ACE_Task<ACE_MT_SYNCH> {
     using Super = ACE_Task<ACE_MT_SYNCH>;
-public:
 
+public:
     /** Log device for objects of this type.
 
         \return log device
@@ -44,7 +45,7 @@ public:
     /** Start the recording process. Opens a connection to a file at the given path, and starts a new thread to
         handle the recording to file.
 
-	\param path the path of the file to record into
+        \param path the path of the file to record into
 
         \return true if successful, false otherwise
     */
@@ -66,11 +67,9 @@ public:
 
         \return -1 if error
     */
-    int put(ACE_Message_Block* data, ACE_Time_Value* timeout = 0)
-	{ return putq(data, timeout); }
+    int put(ACE_Message_Block* data, ACE_Time_Value* timeout = 0) { return putq(data, timeout); }
 
 private:
-
     /** Override of ACE_Task method. Processing any entries in the message queue by writing them to file. NOTE:
         this routine is run in its own thread.
 
@@ -78,11 +77,11 @@ private:
     */
     int svc();
 
-    IO::Task& owner_;		///< The task that will receive our errors
-    IO::FileWriter writer_;	///< Object that does the actual writing
+    IO::Task& owner_;       ///< The task that will receive our errors
+    IO::FileWriter writer_; ///< Object that does the actual writing
 };
 
-} // end namespace IO
+} // namespace Algorithms
 } // end namespace SideCar
 
 /** \file

@@ -18,17 +18,17 @@ ServiceBrowser::Log()
     return log_;
 }
 
-ServiceBrowser::ServiceBrowser(QObject* parent, const QString& type)
-    : QObject(parent), browser_(Zeroconf::Browser::Make(monitorFactory_, type.toStdString())),
-      active_(), type_(type), metaTypeInfo_(0)
+ServiceBrowser::ServiceBrowser(QObject* parent, const QString& type) :
+    QObject(parent), browser_(Zeroconf::Browser::Make(monitorFactory_, type.toStdString())), active_(), type_(type),
+    metaTypeInfo_(0)
 {
     Logger::ProcLog log("ServiceBrowser", Log());
-    browser_->connectToFoundSignal([this](auto& s){foundNotification(s);});
-    browser_->connectToLostSignal([this](auto& s){lostNotification(s);});
+    browser_->connectToFoundSignal([this](auto& s) { foundNotification(s); });
+    browser_->connectToLostSignal([this](auto& s) { lostNotification(s); });
     auto index = type.indexOf(',');
     if (index != -1) {
-	QString subType(type.mid(index + 2));
-	metaTypeInfo_ = Messages::MetaTypeInfo::Find(subType.toStdString());
+        QString subType(type.mid(index + 2));
+        metaTypeInfo_ = Messages::MetaTypeInfo::Find(subType.toStdString());
     }
 }
 
@@ -55,25 +55,25 @@ ServiceBrowser::foundNotification(const ZCServiceEntryVector& services)
     LOGINFO << services.size() << std::endl;
 
     ServiceEntryList found;
-    for (auto service: services) {
+    for (auto service : services) {
         auto name = QString::fromStdString(service->getName());
-	LOGDEBUG << "name: " << name << std::endl;
+        LOGDEBUG << "name: " << name << std::endl;
 
-	auto pos = active_.find(name);
-	if (pos != active_.end()) {
-	    LOGDEBUG << "duplicate service entry with name " << name
-		     << " - interface: " << service->getInterface() << std::endl;
-	    continue;
-	}
+        auto pos = active_.find(name);
+        if (pos != active_.end()) {
+            LOGDEBUG << "duplicate service entry with name " << name << " - interface: " << service->getInterface()
+                     << std::endl;
+            continue;
+        }
 
-	auto entry = new ServiceEntry(this, metaTypeInfo_, service);
-	active_[name] = entry;
-	found.append(entry);
+        auto entry = new ServiceEntry(this, metaTypeInfo_, service);
+        active_[name] = entry;
+        found.append(entry);
     }
 
-    if (! found.empty()) {
-	emit foundServices(found);
-	emit availableServices(active_);
+    if (!found.empty()) {
+        emit foundServices(found);
+        emit availableServices(active_);
     }
 }
 
@@ -84,27 +84,27 @@ ServiceBrowser::lostNotification(const ZCServiceEntryVector& services)
     LOGINFO << services.size() << std::endl;
 
     ServiceEntryList lost;
-    for (auto service: services) {
-	auto name = QString::fromStdString(service->getName());
-	LOGDEBUG << "name: " << name << std::endl;
+    for (auto service : services) {
+        auto name = QString::fromStdString(service->getName());
+        LOGDEBUG << "name: " << name << std::endl;
 
-	auto pos = active_.find(name);
-	if (pos == active_.end()) {
-	    LOGDEBUG << "service entry with name " << name << " not found"
-		     << " - interface: " << service->getInterface() << std::endl;
-	    continue;
-	}
+        auto pos = active_.find(name);
+        if (pos == active_.end()) {
+            LOGDEBUG << "service entry with name " << name << " not found"
+                     << " - interface: " << service->getInterface() << std::endl;
+            continue;
+        }
 
-	if (pos.value()->getInterface() == service->getInterface()) {
-	    lost.append(pos.value());
-	    active_.erase(pos);
-	}
+        if (pos.value()->getInterface() == service->getInterface()) {
+            lost.append(pos.value());
+            active_.erase(pos);
+        }
     }
 
-    if (! lost.empty()) {
-	emit lostServices(lost);
-	emit availableServices(active_);
-	std::for_each(lost.begin(), lost.end(),[](auto v){delete v;});
+    if (!lost.empty()) {
+        emit lostServices(lost);
+        emit availableServices(active_);
+        std::for_each(lost.begin(), lost.end(), [](auto v) { delete v; });
     }
 }
 

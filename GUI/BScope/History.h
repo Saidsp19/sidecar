@@ -14,7 +14,9 @@
 
 #include "TargetPlot.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -26,8 +28,7 @@ namespace BScope {
     is then popped off the back of the queue, keeping the queue a constant size, and the popped off Entry object
     becomes the new pending object.
 */
-class History : public QObject
-{
+class History : public QObject {
     Q_OBJECT
 public:
     static Logger::Log& Log();
@@ -42,40 +43,37 @@ public:
     */
     History(QObject* parent);
 
-    Messages::Video::DatumType getVideoValue(double azimuth, double range,
-                                             bool& isValid) const;
+    Messages::Video::DatumType getVideoValue(double azimuth, double range, bool& isValid) const;
 
-    Messages::BinaryVideo::DatumType getBinaryValue(double azimuth,
-                                                    double range,
-                                                    bool& isValid) const;
+    Messages::BinaryVideo::DatumType getBinaryValue(double azimuth, double range, bool& isValid) const;
 
     /** Obtain a read-only reference to the Video collection
 
-	\return MessageVector reference
+        \return MessageVector reference
     */
     const MessageVector& getVideo() const { return video_; }
-	
+
     /** Obtain a read-only reference to the BinaryVideo collection
 
-	\return MessageVector reference
+        \return MessageVector reference
     */
     const MessageVector& getBinary() const { return binary_; }
 
     /** Obtain a read-only reference to the Extraction message collection
 
-	\return TargetPlotList reference
+        \return TargetPlotList reference
     */
     const TargetPlotList& getExtractions() const { return extractions_; }
 
     /** Obtain a read-only reference to the TSPI message collection
 
-	\return TargetPlotListList reference
+        \return TargetPlotListList reference
     */
     const TargetPlotListList& getRangeTruths() const { return rangeTruths_; }
 
     /** Obtain a read-only reference to the user bug plot entries.
 
-	\return TargetPlotList reference
+        \return TargetPlotList reference
     */
     const TargetPlotList& getBugPlots() const { return bugPlots_; }
 
@@ -132,20 +130,17 @@ public slots:
 
     void setRangeTruthsLifeTime(int msecs) { rangeTruthsLifeTime_ = msecs; }
 
-    void setRangeTruthsMaxTrailLength(int length)
-	{ rangeTruthsMaxTrailLength_ = length; }
+    void setRangeTruthsMaxTrailLength(int length) { rangeTruthsMaxTrailLength_ = length; }
 
     void setBugPlotsLifeTime(int msecs) { bugPlotsLifeTime_ = msecs; }
 
 private:
-
-    Messages::PRIMessage::Ref findByAzimuth(const MessageVector& data,
-                                            double azimuth) const;
+    Messages::PRIMessage::Ref findByAzimuth(const MessageVector& data, double azimuth) const;
 
     void pruneExtractions();
 
     void pruneRangeTruths();
-    
+
     void pruneBugPlots();
 
     MessageVector video_;

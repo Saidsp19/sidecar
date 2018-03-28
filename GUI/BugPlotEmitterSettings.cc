@@ -22,10 +22,11 @@ BugPlotEmitterSettings::Log()
     return log_;
 }
 
-BugPlotEmitterSettings::BugPlotEmitterSettings(BoolSetting* enabled, StringSetting* serviceName,
-                                               StringSetting* address, ChannelSetting* channel)
-    : Super(enabled), serviceName_(serviceName), address_(address), channel_(channel), writer_(0),
-      localHostName_(QHostInfo::localHostName()), sequenceCounter_(0), needUpdate_(false)
+BugPlotEmitterSettings::BugPlotEmitterSettings(BoolSetting* enabled, StringSetting* serviceName, StringSetting* address,
+                                               ChannelSetting* channel) :
+    Super(enabled),
+    serviceName_(serviceName), address_(address), channel_(channel), writer_(0),
+    localHostName_(QHostInfo::localHostName()), sequenceCounter_(0), needUpdate_(false)
 {
     Logger::ProcLog log("BugPlotEmitterSettings", Log());
     localHostName_ = localHostName_.split('.')[0];
@@ -45,9 +46,9 @@ BugPlotEmitterSettings::~BugPlotEmitterSettings()
 void
 BugPlotEmitterSettings::needUpdate()
 {
-    if (! needUpdate_) {
-	needUpdate_ = true;
-	QTimer::singleShot(0, this, SLOT(updateWriter()));
+    if (!needUpdate_) {
+        needUpdate_ = true;
+        QTimer::singleShot(0, this, SLOT(updateWriter()));
     }
 }
 
@@ -56,9 +57,9 @@ BugPlotEmitterSettings::updateWriter()
 {
     needUpdate_ = false;
     if (isEnabled())
-	addWriter();
+        addWriter();
     else
-	removeWriter();
+        removeWriter();
 }
 
 void
@@ -68,7 +69,7 @@ BugPlotEmitterSettings::addWriter()
     LOGINFO << std::endl;
 
     removeWriter();
-    QString serviceName = QString("%1 %2").arg(serviceName_->getValue()) .arg(localHostName_);
+    QString serviceName = QString("%1 %2").arg(serviceName_->getValue()).arg(localHostName_);
     std::string subType = Messages::BugPlot::GetMetaTypeInfo().getName();
     LOGDEBUG << "serviceName: " << serviceName << " subType: " << subType << std::endl;
     writer_ = UDPMessageWriter::Make(serviceName, subType, address_->getValue());
@@ -87,21 +88,19 @@ Messages::BugPlot::Ref
 BugPlotEmitterSettings::addBugPlot(double range, double azimuth, double elevation)
 {
     Logger::ProcLog log("addBugPlot", Log());
-    LOGTIN << "range: " << range << " azimuth: " << azimuth
-	   << " elevation: " << elevation
-	   << " writer: " << (writer_ ? 'Y' : 'N') << std::endl;
+    LOGTIN << "range: " << range << " azimuth: " << azimuth << " elevation: " << elevation
+           << " writer: " << (writer_ ? 'Y' : 'N') << std::endl;
 
     // Create a new BugPlot message to send out.
     //
     QString tag = QString("%1/%2").arg(localHostName_).arg(++sequenceCounter_);
     Time::TimeStamp now = Time::TimeStamp::Now();
     Messages::BugPlot::Ref msg = Messages::BugPlot::Make(AppBase::GetApp()->getApplicationName().toStdString(),
-                                                         now.asDouble(), range, azimuth, elevation,
-                                                         tag.toStdString());
+                                                         now.asDouble(), range, azimuth, elevation, tag.toStdString());
 
     // If the writer is not active, let the caller handle the new message.
     //
-    if (! writer_) return msg;
+    if (!writer_) return msg;
 
     // Send out.
     //
@@ -111,8 +110,7 @@ BugPlotEmitterSettings::addBugPlot(double range, double azimuth, double elevatio
     // If the user is connected to a BugPlot channel, then we zap the message reference since it was properly
     // handled.
     //
-    if (channel_->isConnected())
-	msg.reset();
+    if (channel_->isConnected()) msg.reset();
 
     return msg;
 }

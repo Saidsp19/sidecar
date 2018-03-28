@@ -1,5 +1,5 @@
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "Format.h"
 #include "Utils.h"
@@ -10,11 +10,10 @@ namespace {
 
 /** Collection of useful formats, made available at the start of the program.
  */
-struct Formatters
-{
-    Utils::Format hexPtr;	///< Formatter for pointer addresses
-    Utils::Format heading;	///< Formatter for headings
-    Utils::Format time;		///< Formatter for timestamps
+struct Formatters {
+    Utils::Format hexPtr;  ///< Formatter for pointer addresses
+    Utils::Format heading; ///< Formatter for headings
+    Utils::Format time;    ///< Formatter for timestamps
 
     /** Class method that returns the single instance.
 
@@ -23,14 +22,12 @@ struct Formatters
     static Formatters& Singleton();
 
 private:
-
     /** Constuctor. Initialize all Format objects.
      */
     Formatters();
 };
 
-Formatters::Formatters()
-    : hexPtr(sizeof(void*) << 1, 0), heading(3, 0), time(8, 1)
+Formatters::Formatters() : hexPtr(sizeof(void*) << 1, 0), heading(3, 0), time(8, 1)
 {
     hexPtr.fill('0').hex().uppercase();
     heading.fill('0');
@@ -43,8 +40,8 @@ Formatters::Singleton()
     static Formatters singleton_;
     return singleton_;
 }
- 
-} // NULL namespace
+
+} // namespace
 
 void
 Utils::Format::put(std::ios& s) const
@@ -114,8 +111,6 @@ std::ostream&
 dumpHex::print(std::ostream& os) const
 {
     auto ptr = static_cast<const unsigned char*>(data_);
-    for (auto count = size_; count; --count, ++ptr) {
-	os << digit(*ptr >> 4) << digit(*ptr) << ' ';
-    }
+    for (auto count = size_; count; --count, ++ptr) { os << digit(*ptr >> 4) << digit(*ptr) << ' '; }
     return os << std::endl;
 }

@@ -8,10 +8,8 @@ namespace IO {
 
 /** Control message that causes IO::Task objects to clear their runtime statistics.
  */
-class ClearStatsRequest : public ControlMessage
-{
+class ClearStatsRequest : public ControlMessage {
 public:
-
     ClearStatsRequest() : ControlMessage(kClearStats, 0) {}
     ClearStatsRequest(ACE_Message_Block* data) : ControlMessage(data) {}
 };

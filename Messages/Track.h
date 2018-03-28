@@ -12,52 +12,46 @@
 #include "Messages/Attributes.h"
 #include "Messages/Header.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
 
-class Track : public Header, public IO::Printable<Track>
-{
+class Track : public Header, public IO::Printable<Track> {
     using Super = Header;
-public:
 
+public:
     using Ref = boost::shared_ptr<Track>;
 
     struct Coord {
-	Coord() : tuple_() {};
-	Coord(double x, double y, double z = 0.0) { tuple_[0] = x; tuple_[1] = y; tuple_[2] = z; }
-	double operator[](size_t index) const { return tuple_[index]; }
-	double& operator[](size_t index) { return tuple_[index]; }
-	double tuple_[3];
+        Coord() : tuple_(){};
+        Coord(double x, double y, double z = 0.0)
+        {
+            tuple_[0] = x;
+            tuple_[1] = y;
+            tuple_[2] = z;
+        }
+        double operator[](size_t index) const { return tuple_[index]; }
+        double& operator[](size_t index) { return tuple_[index]; }
+        double tuple_[3];
     };
 
-    enum Flags {
-	kDropping = 1,
-	kNew,
-	kPromoted,
-	kNeedsPrediction,
-	kNeedsCorrection,
-	kPredicted,
-	kCorrected
-    };
+    enum Flags { kDropping = 1, kNew, kPromoted, kNeedsPrediction, kNeedsCorrection, kPredicted, kCorrected };
 
-    enum Type {
-	kTentative = 1,
-	kConfirmed
-    };
+    enum Type { kTentative = 1, kConfirmed };
 
     static Logger::Log& Log();
 
     static const MetaTypeInfo& GetMetaTypeInfo();
 
-    static Ref Make(const std::string& producer); 
+    static Ref Make(const std::string& producer);
 
     static Ref Make(ACE_InputCDR& cdr);
 
     /** Copy constructor copies the contents of report to the new Track message */
-    static Ref Make(const std::string& producer,
-                    const Messages::Track::Ref &report);
+    static Ref Make(const std::string& producer, const Messages::Track::Ref& report);
 
     /** Destructor.
      */
@@ -87,11 +81,11 @@ public:
 
     double getConfirmedTime() const { return confirmedTime_; }
 
-    void setConfirmedTime(double time){ confirmedTime_ = time; }
+    void setConfirmedTime(double time) { confirmedTime_ = time; }
 
     int getType() const { return type_; }
 
-    void setType(int t){ type_ = t; }
+    void setType(int t) { type_ = t; }
 
     double getPredictionTime() const { return predictionTime_; }
 
@@ -118,22 +112,22 @@ public:
     void setExtraction(const Coord& aer) { aer_extraction_ = aer; }
 
     int getExtractionNum() const { return extractionNum_; }
-  
+
     void setExtractionNum(int num) { extractionNum_ = num; }
 
     int getBatchNum() const { return batchNum_; }
 
     void setBatchNum(int n) { batchNum_ = n; }
-  
-    int getTotalInBatch() const {return totalInBatch_; }
+
+    int getTotalInBatch() const { return totalInBatch_; }
 
     void setTotalInBatch(int n) { totalInBatch_ = n; }
-  
+
     uint16_t getFlags() const { return flags_; }
 
     void setFlags(uint16_t f) { flags_ = f; }
 
-    const Coord& getEstimate() const { return llh_ ; }
+    const Coord& getEstimate() const { return llh_; }
 
     double getLatitude() const { return getEstimate()[GEO_LAT]; }
 
@@ -156,13 +150,12 @@ public:
     std::ostream& printData(std::ostream& os) const;
 
     std::ostream& printDataXML(std::ostream& os) const;
-     
+
     void loadXML(XmlStreamReader& xsr);
 
     void dump() const;
 
 private:
-
     Track(const std::string& producer);
 
     Track();
@@ -173,27 +166,26 @@ private:
     int totalInBatch_;
     int trackNum_;
 
-    Coord llh_;			///< Last position report for track
-    Coord llh_velocity_;	///< Current velocity estimate for track
-    double when_;		///< Time of last position report
-    Coord aer_extraction_;	///< Last extraction associated with track
-    double extractionTime_;	///< Time of last extraction
-    int extractionNum_;		///< Count of extractions
+    Coord llh_;             ///< Last position report for track
+    Coord llh_velocity_;    ///< Current velocity estimate for track
+    double when_;           ///< Time of last position report
+    Coord aer_extraction_;  ///< Last extraction associated with track
+    double extractionTime_; ///< Time of last extraction
+    int extractionNum_;     ///< Count of extractions
 
-    Coord llh_prediction_;	///< Most recent prediction computed for track
-    double predictionTime_;	///< Time of prediction calculation
+    Coord llh_prediction_;  ///< Most recent prediction computed for track
+    double predictionTime_; ///< Time of prediction calculation
 
-    uint16_t flags_;		///< Tentative or Confirmed */
-    uint16_t type_;		///< ???
+    uint16_t flags_; ///< Tentative or Confirmed */
+    uint16_t type_;  ///< ???
 
     double startTime_;
     double confirmedTime_;
 
     static Header::Ref CDRLoader(ACE_InputCDR& cdr);
 
-    static Header::Ref XMLLoader(const std::string& producer,
-                                 XmlStreamReader& xsr);
-    
+    static Header::Ref XMLLoader(const std::string& producer, XmlStreamReader& xsr);
+
     static ACE_InputCDR& LoadV1(Track* object, ACE_InputCDR& cdr);
 
     using LoaderRegistry = TLoaderRegistry<Track>;

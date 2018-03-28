@@ -9,12 +9,11 @@ namespace SideCar {
 namespace GUI {
 namespace Master {
 
-class UtilsWidget : public QWidget, public Ui::UtilsWidget
-{
+class UtilsWidget : public QWidget, public Ui::UtilsWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     UtilsWidget(QWidget* parent = 0);
 };
 

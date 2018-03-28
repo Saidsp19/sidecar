@@ -3,7 +3,9 @@
 
 #include "OffscreenBuffer.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -17,11 +19,10 @@ namespace PPIDisplay {
     SampleImaging::getDecimation() controls the amount of decimation that
     occurs.
 */
-class BinaryOffscreenBuffer : public OffscreenBuffer
-{
+class BinaryOffscreenBuffer : public OffscreenBuffer {
     using Super = OffscreenBuffer;
+
 public:
- 
     /** Constructor.
      */
     BinaryOffscreenBuffer(int width, int height, int textureType);

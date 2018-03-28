@@ -5,8 +5,7 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-NOOP::NOOP(Controller& controller, Logger::Log& log)
-    : Algorithm(controller, log)
+NOOP::NOOP(Controller& controller, Logger::Log& log) : Algorithm(controller, log)
 {
     ;
 }
@@ -14,7 +13,7 @@ NOOP::NOOP(Controller& controller, Logger::Log& log)
 bool
 NOOP::startup()
 {
-    registerProcessor<NOOP,Messages::Video>(&NOOP::processVideo);
+    registerProcessor<NOOP, Messages::Video>(&NOOP::processVideo);
     return Algorithm::startup();
 }
 

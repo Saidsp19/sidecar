@@ -4,7 +4,9 @@
 #include "GUI/DoubleSetting.h"
 #include "GUI/SettingsBlock.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -17,16 +19,14 @@ namespace BScope {
     a zoom factor that magnifies the data; and a maximum visible range value that limits the samples used for
     the display.
 */
-class ViewSettings : public SettingsBlock
-{
+class ViewSettings : public SettingsBlock {
     Q_OBJECT
     using Super = SettingsBlock;
-public:
 
+public:
     static Logger::Log& Log();
-    
-    ViewSettings(IntSetting* azimuthZero, IntSetting* azimuthSpan,
-                 DoubleSetting* rangeMin, DoubleSetting* rangeMax);
+
+    ViewSettings(IntSetting* azimuthZero, IntSetting* azimuthSpan, DoubleSetting* rangeMin, DoubleSetting* rangeMax);
 
     void setRangeFactorAndMax(double rangeFactor, double rangeMaxMax);
 
@@ -41,9 +41,9 @@ public:
     double getRangeMax() const { return rangeMax_->getValue(); }
 
     double getRangeSpan() const { return getRangeMax() - getRangeMin(); }
-    
+
     double getRangeFactor() const { return rangeFactor_; }
-    
+
     double getRangeMaxMax() const { return rangeMaxMax_; }
 
     double normalizedAzimuth(double radians) const;
@@ -58,16 +58,13 @@ public:
 
     bool viewingAzimuth(double radians) const;
 
-    bool viewingRange(double range) const
-	{ return range >= rangeMin_->getValue() &&
-		range <= rangeMax_->getValue(); }
+    bool viewingRange(double range) const { return range >= rangeMin_->getValue() && range <= rangeMax_->getValue(); }
 
 private slots:
 
     void recalculateAzimuthMinMax();
 
 private:
-
     void restore();
 
     void save();

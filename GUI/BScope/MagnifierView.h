@@ -6,7 +6,9 @@
 
 class QSettings;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 namespace SideCar {
 namespace GUI {
 
@@ -19,12 +21,11 @@ namespace BScope {
 class PPIWidget;
 class ViewSettings;
 
-class MagnifierView : public QGLWidget
-{
+class MagnifierView : public QGLWidget {
     Q_OBJECT
     using Super = QGLWidget;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -74,7 +75,6 @@ public slots:
     void setCursorPosition(const QString& value);
 
 private:
-
     /** Initialize the OpenGL environment.
      */
     void initializeGL();
@@ -96,7 +96,7 @@ private:
     void closeEvent(QCloseEvent* event);
 
     void leaveEvent(QEvent* event);
-    
+
     void timerEvent(QTimerEvent* event);
 
     void mousePressEvent(QMouseEvent* event);
@@ -108,9 +108,9 @@ private:
     void wheelEvent(QWheelEvent* event);
 
     void keyPressEvent(QKeyEvent* event);
-    
+
     void keyReleaseEvent(QKeyEvent* event);
-    
+
     void updateBounds();
 
     void updateZoom();
@@ -118,7 +118,7 @@ private:
     void applyZoom();
 
     void shift(int xd, int yd);
-	
+
     PPIWidget* contents_;
     PhantomCursorImaging* phantomCursorImaging_;
     BugPlotEmitterSettings* bugPlotEmitterSettings_;

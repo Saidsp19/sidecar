@@ -3,20 +3,20 @@
 
 #include "QtGui/QListView"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace HealthAndStatus {
 
-class ChannelConnectionView : public QListView
-{
+class ChannelConnectionView : public QListView {
     Q_OBJECT
     using Super = QListView;
-public:
 
-    ChannelConnectionView(QWidget* parent = 0)
-	: Super(parent) {}
+public:
+    ChannelConnectionView(QWidget* parent = 0) : Super(parent) {}
 
 signals:
 
@@ -25,7 +25,6 @@ signals:
     void clearDrops();
 
 private:
-
     void keyPressEvent(QKeyEvent* event);
 };
 

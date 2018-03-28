@@ -9,16 +9,19 @@
 #include "IO/Stream.h"
 #include "Runner/StatusEmitter.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace IO { class Module; }
+namespace IO {
+class Module;
+}
 namespace Runner {
 
 /** Utility class that creates and populates a new IO::Stream object.
  */
-class StreamBuilder
-{
+class StreamBuilder {
 public:
     static Logger::Log& Log();
 
@@ -32,15 +35,17 @@ public:
                                 const std::string& mcastAddress);
 
 private:
-    using ChannelMap = std::map<std::string,IO::Channel>;
+    using ChannelMap = std::map<std::string, IO::Channel>;
 
     /** Constructor.
 
         \param name the name of the stream
     */
-    StreamBuilder(const std::string& name, const StatusEmitter::Ref& emitter, const std::string& mcastAddress)
-	: stream_(IO::Stream::Make(name, emitter)), modules_(), channels_(), mcastAddress_(mcastAddress),
-          needShutdownMonitor_(false) {}
+    StreamBuilder(const std::string& name, const StatusEmitter::Ref& emitter, const std::string& mcastAddress) :
+        stream_(IO::Stream::Make(name, emitter)), modules_(), channels_(), mcastAddress_(mcastAddress),
+        needShutdownMonitor_(false)
+    {
+    }
 
     /** Obtain the internal IO::Stream object. First, adds configured IO::Module objects to the stream in
         reverse order -- the ACE Stream object operates as a stack.
@@ -54,19 +59,19 @@ private:
         \param xml configuration information for the task
     */
     void makeAlgorithm(const QDomElement& xml);
-    
+
     /** Create a new FileReader task and add to the active stream.
 
         \param xml configuration information for the task
     */
     void makeFileReader(const QDomElement& xml);
-    
+
     /** Create a new FileWriter task and add to the active stream.
 
         \param xml configuration information for the task
     */
     void makeFileWriter(const QDomElement& xml);
-    
+
     /** Create a new DataPublisher task and add to the active stream.
 
         \param xml configuration information for the task
@@ -99,13 +104,11 @@ private:
 
     /** Create a new UDPSocketReaderTask task and add to the active stream.
      */
-    void makeUDPReader(const QDomElement& xml, const std::string& name, const std::string& type,
-                       uint32_t interface);
+    void makeUDPReader(const QDomElement& xml, const std::string& name, const std::string& type, uint32_t interface);
 
     /** Create a new UDPSocketWriterTask task and add to the active stream.
      */
-    void makeUDPWriter(const QDomElement& xml, const std::string& name, const std::string& type,
-                       uint32_t interface);
+    void makeUDPWriter(const QDomElement& xml, const std::string& name, const std::string& type, uint32_t interface);
 
     /** Create a new VMEReader task and add to the active stream.
 
@@ -130,7 +133,7 @@ private:
         \param task the task to configure
     */
     void connectInputs(const QDomElement& xml, IO::Task::Ref task);
-    
+
     /** Connect one input for a task.
 
         \param task task to connect
@@ -157,7 +160,7 @@ private:
 
         \param type channel type to assign
 
-	\param name name registered with the task for the channel
+        \param name name registered with the task for the channel
 
         \param channelName name of channel to create
     */
@@ -169,7 +172,7 @@ private:
     long getThreadFlags(const QString& scheduler) const;
 
     long getThreadPriority(const QString& attribute) const;
-    
+
     /** Make a unique channel name for a channel that did not have one.
 
         \param taskIndex unique index assigned to the task with the channel

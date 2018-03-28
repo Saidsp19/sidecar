@@ -1,8 +1,8 @@
 #ifndef SIDECAR_MESSAGES_HEADER_H // -*- C++ -*-
 #define SIDECAR_MESSAGES_HEADER_H
 
-#include <string>
 #include "boost/shared_ptr.hpp"
+#include <string>
 
 #include "IO/CDRStreamable.h"
 #include "IO/Printable.h"
@@ -11,7 +11,9 @@
 
 class QDomElement;
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace Messages {
@@ -22,8 +24,7 @@ class MetaTypeInfo;
     contain a timestmp indicating when they were created, a timestamp when they were written out to a file or
     the network, and an unique sequence number.
 */
-class Header : public IO::CDRStreamable<Header>, public IO::Printable<Header>
-{
+class Header : public IO::CDRStreamable<Header>, public IO::Printable<Header> {
 public:
     using Ref = boost::shared_ptr<Header>;
 
@@ -67,13 +68,13 @@ public:
            MetaTypeInfo::SequenceType sequenceNumber);
 
     /** Destructor. Made virtual so that derived classes will properly clean up our instance values
-	(specifically guid_) destructed thru a Header pointer.
+        (specifically guid_) destructed thru a Header pointer.
     */
     virtual ~Header();
 
     /** Obtain the type specification for the message.
 
-        \return 
+        \return
     */
     const MetaTypeInfo& getMetaTypeInfo() const { return metaTypeInfo_; }
 
@@ -94,7 +95,7 @@ public:
     /** Set the sequence number for this message. Not to be used lightly. Particularly useful when an algorithm
         generates multiple output messages that should be synchronized by their sequence number.
 
-	NOTE: a better approach than this would be to have unique message sequence generators, which is
+        NOTE: a better approach than this would be to have unique message sequence generators, which is
         available right now since there is a unique sequence generator associated with each unique producer
         name.
 
@@ -113,7 +114,7 @@ public:
 
         \param timeStamp new time stamp value
 
-	\return old value
+        \return old value
     */
     Time::TimeStamp setCreatedTimeStamp(const Time::TimeStamp& timeStamp);
 
@@ -157,16 +158,14 @@ public:
     virtual ACE_OutputCDR& write(ACE_OutputCDR& cdr) const;
 
     /** Utility functor that inserts a textual representation of a Header's header data into a std::ostream
-	object. Example of it use: \code LOGDEBUG << msg.headerPrinter() << std::endl; \endcode Relies on
-	Header::printHeader() to do the actual conversion of header information to text, which derived classes
-	may override.
+        object. Example of it use: \code LOGDEBUG << msg.headerPrinter() << std::endl; \endcode Relies on
+        Header::printHeader() to do the actual conversion of header information to text, which derived classes
+        may override.
     */
-    struct HeaderPrinter
-    {
-	const Header& ref_;
-	HeaderPrinter(const Header& ref) : ref_(ref) {}
-	friend std::ostream& operator<<(std::ostream& os, const HeaderPrinter& us)
-            { return us.ref_.printHeader(os); }
+    struct HeaderPrinter {
+        const Header& ref_;
+        HeaderPrinter(const Header& ref) : ref_(ref) {}
+        friend std::ostream& operator<<(std::ostream& os, const HeaderPrinter& us) { return us.ref_.printHeader(os); }
     };
 
     /** Convenience method that simply returns a new HeaderPrinter functor for this header object.
@@ -176,15 +175,13 @@ public:
     HeaderPrinter headerPrinter() const { return HeaderPrinter(*this); }
 
     /** Utility functor that inserts a textual representation of message data into a std::ostream object.
-	Example of it use: \code LOGDEBUG << msg.dataPrinter() << std::endl; \endcode Relies on
-	Header::printData() to do the actual conversion of data to text, which derived classes may override.
+        Example of it use: \code LOGDEBUG << msg.dataPrinter() << std::endl; \endcode Relies on
+        Header::printData() to do the actual conversion of data to text, which derived classes may override.
     */
-    struct DataPrinter
-    {
-	const Header& ref_;
-	DataPrinter(const Header& ref) : ref_(ref) {}
-	friend std::ostream& operator<<(std::ostream& os, const DataPrinter& us)
-            { return us.ref_.printData(os); }
+    struct DataPrinter {
+        const Header& ref_;
+        DataPrinter(const Header& ref) : ref_(ref) {}
+        friend std::ostream& operator<<(std::ostream& os, const DataPrinter& us) { return us.ref_.printData(os); }
     };
 
     /** Convenience method that simply returns a new DataPrinter functor for this header object.
@@ -194,15 +191,13 @@ public:
     DataPrinter dataPrinter() const { return DataPrinter(*this); }
 
     /** Utility functor that inserts an XML representation of message data into a std::ostream object. Example
-	of it use: \code LOGDEBUG << msg.xmlPrinter() << std::endl; \endcode Relies on Header::printData() to do
-	the actual conversion of data to text, which derived classes may override.
+        of it use: \code LOGDEBUG << msg.xmlPrinter() << std::endl; \endcode Relies on Header::printData() to do
+        the actual conversion of data to text, which derived classes may override.
     */
-    struct XMLPrinter
-    {
-	const Header& ref_;
-	XMLPrinter(const Header& ref) : ref_(ref) {}
-	friend std::ostream& operator<<(std::ostream& os, const XMLPrinter& us)
-            { return us.ref_.printXML(os); }
+    struct XMLPrinter {
+        const Header& ref_;
+        XMLPrinter(const Header& ref) : ref_(ref) {}
+        friend std::ostream& operator<<(std::ostream& os, const XMLPrinter& us) { return us.ref_.printXML(os); }
     };
 
     /** Convenience method that simply returns a new XMLPrinter functor for this header object.
@@ -262,7 +257,7 @@ public:
         a processing stream; in orther words, once a message is written to disk or the network, the message
         loses its basis value.
 
-	\return message reference
+        \return message reference
     */
     Ref getBasis() const { return basis_; }
 
@@ -272,10 +267,12 @@ public:
         \return typed message reference
     */
     template <typename T>
-    typename T::Ref getBasis() const { return boost::dynamic_pointer_cast<T>(basis_); }
+    typename T::Ref getBasis() const
+    {
+        return boost::dynamic_pointer_cast<T>(basis_);
+    }
 
 protected:
-
     /** Obtain new instance data from an XML input stream.
 
         \param xsr stream to read from
@@ -283,7 +280,6 @@ protected:
     virtual void loadXML(XmlStreamReader& xsr);
 
 private:
-
     /** Constructor restricted to use for the GetMessageMetaTypeInfo() class method.
 
         \param cdr the input byte stream to decode
@@ -296,11 +292,11 @@ private:
     */
     Header(const Header& rhs);
 
-    const MetaTypeInfo& metaTypeInfo_; ///< Meta type info for this object
-    GUID guid_;			       ///< Globally-unique ID for this object
-    Time::TimeStamp createdTimeStamp_; ///< When created
+    const MetaTypeInfo& metaTypeInfo_;         ///< Meta type info for this object
+    GUID guid_;                                ///< Globally-unique ID for this object
+    Time::TimeStamp createdTimeStamp_;         ///< When created
     mutable Time::TimeStamp emittedTimeStamp_; ///< When emitted
-    Ref basis_;			       ///< Msg that is the basis for this one
+    Ref basis_;                                ///< Msg that is the basis for this one
 
     /** Header v1 loader. Reads in GUID and created timestamp.
 
@@ -325,7 +321,7 @@ private:
 
     /** Factory method that creates and returns an array of supported versioned loaders.
 
-        \return 
+        \return
     */
     static TLoaderRegistry<Header>::VersionedLoaderVector DefineLoaders();
     static TLoaderRegistry<Header> loaderRegistry_;
@@ -344,18 +340,20 @@ private:
 */
 inline std::ostream&
 operator<<(std::ostream& os, const Header::Ref& ref)
-{ return ref->print(os); }
+{
+    return ref->print(os);
+}
 
 #if 0
 
 struct SideCarMessage
 {
-    uint16_t magic_;		// 0xAAAA
-    uint16_t alignment_;	// Zero is litle-endian
-    uint32_t payloadSize_;	// Number of bytes in messsage
-    uint16_t headerVersion_;	// Currently at 2
-    uint16_t guidVersion_;	// Currently at 3
-    uint32_t producerLength_;	// Number of characters in producer name
+    uint16_t magic_;            // 0xAAAA
+    uint16_t alignment_;        // Zero is litle-endian
+    uint32_t payloadSize_;      // Number of bytes in messsage
+    uint16_t headerVersion_;    // Currently at 2
+    uint16_t guidVersion_;      // Currently at 3
+    uint32_t producerLength_;   // Number of characters in producer name
     char     producer_[producerLength_];
 
     // Pad to align on 2-byte boundary
@@ -370,7 +368,7 @@ struct SideCarMessage
     int32_t  emittedTimeStampSeconds_;
     int32_t  emittedTimeStampMicroSeconds_;
 
-    uint16_t messageVersion_;	// Currently at 4
+    uint16_t messageVersion_;   // Currently at 4
 
     // Pad to align to 4-byte boundary
     //

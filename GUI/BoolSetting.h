@@ -12,31 +12,30 @@ namespace GUI {
 
 /** Derivation of the Setting class that manages boolean values.
  */
-class BoolSetting : public Setting
-{
+class BoolSetting : public Setting {
     Q_OBJECT
     using Super = Setting;
-public:
 
+public:
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
         \param name
-        
-        \param global 
+
+        \param global
     */
     BoolSetting(PresetManager* mgr, const QString& name, bool global = false);
 
     /** Constructor.
 
-        \param mgr 
+        \param mgr
 
-        \param name 
+        \param name
 
         \param value
-        
-        \param global 
+
+        \param global
     */
     BoolSetting(PresetManager* mgr, const QString& name, bool value, bool global = false);
 
@@ -53,7 +52,6 @@ public:
     void connectAction(QAction* action);
 
 signals:
-
 
     /** Notification sent out when the held value changes.
 
@@ -72,17 +70,16 @@ public slots:
 
     /** Toggle the setting value.
      */
-    void toggle() { setValue(! getValue()); }
+    void toggle() { setValue(!getValue()); }
 
 private slots:
 
     /** Notification handler invoked when the QAction object installed via setToggleAction() triggers. Invokes
-	GUI::UpdateShowHideMenuAction() to update the action's tool tip.
+        GUI::UpdateShowHideMenuAction() to update the action's tool tip.
     */
     void updateAction();
 
 private:
-
     /** Override of Setting::valueUpdated() method. Records the new value and emits the valueChanged() signal.
      */
     void valueUpdated();

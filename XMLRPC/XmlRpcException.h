@@ -1,43 +1,41 @@
 #ifndef _XMLRPCEXCEPTION_H_
 #define _XMLRPCEXCEPTION_H_
 #if defined(_MSC_VER)
-# pragma warning(disable:4786)    // identifier was truncated in debug info
+#pragma warning(disable : 4786) // identifier was truncated in debug info
 #endif
 
 #ifndef MAKEDEPEND
-# include <string>
+#include <string>
 #endif
-
 
 namespace XmlRpc {
 
-    //! A class representing an error.
-    //! If server methods throw this exception, a fault response is returned
-    //! to the client.
-    class XmlRpcException {
-    public:
-        //! Constructor
+//! A class representing an error.
+//! If server methods throw this exception, a fault response is returned
+//! to the client.
+class XmlRpcException {
+public:
+    //! Constructor
 
-        //!   \param message  A descriptive error message
+    //!   \param message  A descriptive error message
 
-        //!   \param code     An integer error code
-    XmlRpcException(const std::string& message, int code=-1) :
-        _message(message), _code(code) {}
+    //!   \param code     An integer error code
+    XmlRpcException(const std::string& message, int code = -1) : _message(message), _code(code) {}
 
-        //! Return the error message.
-        const std::string& getMessage() const { return _message; }
+    //! Return the error message.
+    const std::string& getMessage() const { return _message; }
 
-        //! Return the error code.
-        int getCode() const { return _code; }
+    //! Return the error code.
+    int getCode() const { return _code; }
 
-    private:
-        std::string _message;
-        int _code;
-    };
+private:
+    std::string _message;
+    int _code;
+};
 
-}
+} // namespace XmlRpc
 
 /** \file
  */
 
-#endif	// _XMLRPCEXCEPTION_H_
+#endif // _XMLRPCEXCEPTION_H_

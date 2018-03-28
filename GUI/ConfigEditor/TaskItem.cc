@@ -1,11 +1,10 @@
+#include "TaskItem.h"
 #include "ChannelListItem.h"
 #include "StreamItem.h"
-#include "TaskItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-TaskItem::TaskItem(StreamItem* parent, const QString& name)
-    : Super(parent, name)
+TaskItem::TaskItem(StreamItem* parent, const QString& name) : Super(parent, name)
 {
     insertChild(kInputChannels, new ChannelListItem(this, "Inputs"));
     insertChild(kOutputChannels, new ChannelListItem(this, "Outputs"));

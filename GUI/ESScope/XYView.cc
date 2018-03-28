@@ -2,13 +2,13 @@
 
 #include "GUI/LogUtils.h"
 
-#include "XYView.h"
-#include "XYWidget.h"
 #include "App.h"
 #include "Configuration.h"
 #include "GridImaging.h"
 #include "ScaleWidget.h"
 #include "ViewSettings.h"
+#include "XYView.h"
+#include "XYWidget.h"
 
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::ESScope;
@@ -20,17 +20,13 @@ XYView::Log()
     return log_;
 }
 
-XYView::XYView(QWidget* parent, ViewSettings* viewSettings,
-               const QString& title, const QString& xLabel,
-               const QString& yLabel)
-    : Super(parent),
-      radarSettings_(App::GetApp()->getConfiguration()->getRadarSettings()),
-      viewSettings_(viewSettings), display_(0), title_(title),
-      xLabel_(xLabel), yLabel_(yLabel), heading_(0), xScale_(0),
-      yScale_(0), cursorX_(0.0), cursorY_(0.0)
+XYView::XYView(QWidget* parent, ViewSettings* viewSettings, const QString& title, const QString& xLabel,
+               const QString& yLabel) :
+    Super(parent),
+    radarSettings_(App::GetApp()->getConfiguration()->getRadarSettings()), viewSettings_(viewSettings), display_(0),
+    title_(title), xLabel_(xLabel), yLabel_(yLabel), heading_(0), xScale_(0), yScale_(0), cursorX_(0.0), cursorY_(0.0)
 {
-    connect(viewSettings, SIGNAL(viewChanged()),
-            SLOT(viewSettingsChanged()));
+    connect(viewSettings, SIGNAL(viewChanged()), SLOT(viewSettingsChanged()));
 
     QGridLayout* layout = new QGridLayout(this);
     layout->setSpacing(0);
@@ -52,8 +48,7 @@ XYView::XYView(QWidget* parent, ViewSettings* viewSettings,
 
     Configuration* cfg = App::GetApp()->getConfiguration();
     GridImaging* gridImaging = cfg->getGridImaging();
-    connect(gridImaging, SIGNAL(settingChanged()),
-            SLOT(updateGridPositions()));
+    connect(gridImaging, SIGNAL(settingChanged()), SLOT(updateGridPositions()));
 }
 
 void
@@ -61,8 +56,7 @@ XYView::setXYWidget(XYWidget* display)
 {
     display_ = display;
     static_cast<QGridLayout*>(layout())->addWidget(display_, 1, 1);
-    connect(display_, SIGNAL(cursorMoved(double, double)),
-            SLOT(cursorMoved(double, double)));
+    connect(display_, SIGNAL(cursorMoved(double, double)), SLOT(cursorMoved(double, double)));
     viewSettingsChanged();
     updateGridPositions();
 }
@@ -70,10 +64,8 @@ XYView::setXYWidget(XYWidget* display)
 void
 XYView::viewSettingsChanged()
 {
-    xScale_->setStartAndEnd(viewSettings_->getXMin(),
-                            viewSettings_->getXMax());
-    yScale_->setStartAndEnd(viewSettings_->getYMax(),
-                            viewSettings_->getYMin());
+    xScale_->setStartAndEnd(viewSettings_->getXMin(), viewSettings_->getXMax());
+    yScale_->setStartAndEnd(viewSettings_->getYMax(), viewSettings_->getYMin());
 }
 
 void
@@ -81,11 +73,7 @@ XYView::cursorMoved(double x, double y)
 {
     cursorX_ = x;
     cursorY_ = y;
-    heading_->setText(QString("%1: %2  %3: %4")
-                      .arg(xLabel_)
-                      .arg(formatXValue(x))
-                      .arg(yLabel_)
-                      .arg(formatYValue(y)));
+    heading_->setText(QString("%1: %2  %3: %4").arg(xLabel_).arg(formatXValue(x)).arg(yLabel_).arg(formatYValue(y)));
     xScale_->setCursorValue(x);
     yScale_->setCursorValue(y);
 }
@@ -95,8 +83,7 @@ XYView::updateGridPositions()
 {
     static Logger::ProcLog log("updateGridPositions", Log());
     LOGINFO << std::endl;
-    display_->setGridPositions(xScale_->getMajorTickPositions(),
-                               yScale_->getMajorTickPositions());
+    display_->setGridPositions(xScale_->getMajorTickPositions(), yScale_->getMajorTickPositions());
 }
 
 void

@@ -10,27 +10,18 @@ namespace ConfigEditor {
 class RootItem;
 class TreeItem;
 
-class TreeModel : public QAbstractItemModel
-{
+class TreeModel : public QAbstractItemModel {
     Q_OBJECT
 public:
-
-    enum Columns {
-	kName = 0,
-	kInfo,
-	kConnections,
-	kNumColumns
-    };
+    enum Columns { kName = 0, kInfo, kConnections, kNumColumns };
 
     TreeModel(QObject* parent);
 
     QVariant data(const QModelIndex& index, int role) const;
 
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex& parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
 
     QModelIndex parent(const QModelIndex& index) const;
 
@@ -40,17 +31,13 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const;
 
-    bool setData(const QModelIndex& index, const QVariant& value,
-                 int role = Qt::EditRole);
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 
-    bool insertItems(int position, const QList<TreeItem*>& items,
-		     const QModelIndex& parent = QModelIndex());
+    bool insertItems(int position, const QList<TreeItem*>& items, const QModelIndex& parent = QModelIndex());
 
-    bool removeRows(int position, int rows,
-                    const QModelIndex& parent = QModelIndex());
+    bool removeRows(int position, int rows, const QModelIndex& parent = QModelIndex());
 
 private:
-
     TreeItem* getItem(const QModelIndex& index) const;
 
     RootItem* root_;

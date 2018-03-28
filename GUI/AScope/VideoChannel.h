@@ -12,10 +12,15 @@ class QSettings;
 #include "History.h"
 #include "PeakBarCollection.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Messages { class Header; class MetaTypeInfo; }
+namespace Messages {
+class Header;
+class MetaTypeInfo;
+} // namespace Messages
 namespace GUI {
 
 class ServiceEntry;
@@ -26,11 +31,9 @@ namespace AScope {
     unique History slot value which it uses to post incoming data to the application's History object. Instances
     also have a user-configurable color value which is used to distinguish its data from that of other channels.
 */
-class VideoChannel : public QObject
-{
+class VideoChannel : public QObject {
     Q_OBJECT
 public:
-
     /** Obtain the log device for instances of this class.
 
         \return log device
@@ -63,13 +66,13 @@ public:
 
     /** Obtain the history slot assigned to the channel.
 
-        \return 
+        \return
     */
     size_t getHistorySlot() const { return historySlot_; }
 
     /** Obtain the number of times the channel is shown in a Visualizer view.
 
-        \return 
+        \return
     */
     int getDisplayCount() const { return displayCount_; }
 
@@ -82,14 +85,14 @@ public:
     bool isDisplayed() const { return displayCount_ > 0; }
 
     /** Channel is associated with a new ChannelConnection object. Causes the channel to connect to the data
-	publisher if not already connected.
+        publisher if not already connected.
 
-	\return history slot assigned to the channel
+        \return history slot assigned to the channel
     */
     size_t displayAdded();
 
     /** Channel is no longer associated with a ChannelConnection object. If there are no more ChannelConnection
-	objects, then drop the connection to the data publisher.
+        objects, then drop the connection to the data publisher.
     */
     void displayDropped();
 
@@ -112,11 +115,9 @@ public:
     */
     void setColor(const QColor& color);
 
-    void setSampleToVoltageScaling(int sampleMin, int sampleMax,
-                                   double voltageMin, double voltageMax);
+    void setSampleToVoltageScaling(int sampleMin, int sampleMax, double voltageMin, double voltageMax);
 
-    double getVoltageForSample(int sample) const
-	{ return (sample - sampleMin_) * voltageScale_ + voltageMin_; }
+    double getVoltageForSample(int sample) const { return (sample - sampleMin_) * voltageScale_ + voltageMin_; }
 
     void restoreFromSettings(QSettings& settings);
 
@@ -131,7 +132,7 @@ public:
     double getVoltageMax() const { return voltageMax_; }
 
 public slots:
-    
+
     /** Notification from the application that it is shutting down. Stops the reader thread.
      */
     void shutdown();
@@ -153,7 +154,7 @@ signals:
     /** Notification sent out when the sample-to-voltage scaling has changed.
      */
     void sampleToVoltageScalingChanged();
-			 
+
 protected slots:
 
     /** Notification from the Subscriber object of incoming data.
@@ -163,7 +164,6 @@ protected slots:
     void readerIncoming();
 
 private:
-
     const Messages::MetaTypeInfo& videoInfo_;
     History& history_;
     PeakBarCollection peakBars_;

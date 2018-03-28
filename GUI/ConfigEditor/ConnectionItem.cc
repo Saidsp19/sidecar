@@ -1,10 +1,9 @@
-#include "ChannelItem.h"
 #include "ConnectionItem.h"
+#include "ChannelItem.h"
 
 using namespace SideCar::GUI::ConfigEditor;
 
-ConnectionItem::ConnectionItem(ChannelItem* parent, ChannelItem* to)
-    : Super(parent, to->getConnectionName()), to_(to)
+ConnectionItem::ConnectionItem(ChannelItem* parent, ChannelItem* to) : Super(parent, to->getConnectionName()), to_(to)
 {
     ;
 }

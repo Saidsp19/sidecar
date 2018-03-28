@@ -13,27 +13,22 @@ namespace Algorithms {
 /** Documentation for the algorithm WindowedMinMax. Please describe what the algorithm does, in layman's terms
     and, if possible, mathematical terms.
 */
-class WindowedMinMax : public Algorithm
-{
+class WindowedMinMax : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlots {
-        kEnabled = ControllerStatus::kNumSlots,
-	kProcessor,
-        kNumSlots
-    };
+public:
+    enum InfoSlots { kEnabled = ControllerStatus::kNumSlots, kProcessor, kNumSlots };
 
     /** Window processors available via the Master GUI application.
      */
     enum ValueGenerator {
-	kMinValue,
-	kAverage = kMinValue,
-	kMin,
-	kMax,
-	kMaxMin,
-	kMaxMax,
-	kMaxValue = kMaxMax,
+        kMinValue,
+        kAverage = kMinValue,
+        kMin,
+        kMax,
+        kMaxMin,
+        kMaxMax,
+        kMaxValue = kMaxMax,
     };
 
     /** Constructor.
@@ -51,7 +46,6 @@ public:
     bool startup();
 
 private:
-
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     void setInfoSlots(IO::StatusBase& status);
@@ -72,12 +66,11 @@ private:
 
     /** Definition of the enum range for the processWindow parameter.
      */
-    struct ValueGeneratorEnumTraits :
-	public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = ValueGenerator;
-	static ValueType GetMinValue() { return kMinValue; }
-	static ValueType GetMaxValue() { return kMaxValue; }
-	static const char* const* GetEnumNames();
+    struct ValueGeneratorEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
+        using ValueType = ValueGenerator;
+        static ValueType GetMinValue() { return kMinValue; }
+        static ValueType GetMaxValue() { return kMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     using ValueGeneratorParameter = Parameter::TValue<Parameter::Defs::Enum<ValueGeneratorEnumTraits>>;

@@ -5,25 +5,30 @@
 
 #include "boost/shared_ptr.hpp"
 
-#include "QtCore/QObject"
 #include "QtCore/QMetaType"
+#include "QtCore/QObject"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
-namespace Messages { class MetaTypeInfo; }
-namespace Zeroconf { class ServiceEntry; class ResolvedEntry; }
+namespace Messages {
+class MetaTypeInfo;
+}
+namespace Zeroconf {
+class ServiceEntry;
+class ResolvedEntry;
+} // namespace Zeroconf
 namespace GUI {
 
 /** Bridge class that brings together the Zeroconf::ServiceEntry interface and the Qt QObject interface. A
     ServiceEntry may be queried for connection information, and whether its connection information has been
     resolved to a host/port. If it has not, calling its resolve() method will do so.
 */
-class ServiceEntry : public QObject
-{
+class ServiceEntry : public QObject {
     Q_OBJECT
 public:
-
     using ZCServiceEntryRef = boost::shared_ptr<Zeroconf::ServiceEntry>;
 
     /** Obtain the log device for ServiceEntry objects.
@@ -39,8 +44,7 @@ public:
         \param info internal object holding that holds the actual service
         information.
     */
-    ServiceEntry(QObject* parent, const Messages::MetaTypeInfo* metaTypeInfo,
-                 const ZCServiceEntryRef& service);
+    ServiceEntry(QObject* parent, const Messages::MetaTypeInfo* metaTypeInfo, const ZCServiceEntryRef& service);
 
     /** Destructor. Defined here so that we may keep ServiceInfo undefined until ServiceBrowser.cc.
      */
@@ -56,8 +60,7 @@ public:
 
         \return Zeroconf ServiceEntry reference
     */
-    const ZCServiceEntryRef& getZeroconfServiceEntry() const
-	{ return zeroconfServiceEntry_; }
+    const ZCServiceEntryRef& getZeroconfServiceEntry() const { return zeroconfServiceEntry_; }
 
     /** Obtain the Zeroconf::ResolvedEntry object for a resolved Zeroconf::ServiceEntry object. NOTE: only valid
         if isResolved() returns true.
@@ -70,8 +73,7 @@ public:
 
         \return service sub-type
     */
-    const Messages::MetaTypeInfo* getMetaTypeInfo() const
-	{ return metaTypeInfo_; }
+    const Messages::MetaTypeInfo* getMetaTypeInfo() const { return metaTypeInfo_; }
 
     /** Obtain the name of the service.
 
@@ -90,16 +92,16 @@ public:
         \return service domain
     */
     const QString& getDomain() const { return domain_; }
-    
+
     /** Obtain the full name of the service. This is the name + domain.
 
         \return full service name
     */
     const QString& getFullName() const { return fullName_; }
 
-    /** 
+    /**
 
-        \return 
+        \return
     */
     const QString& getNativeHost() const { return nativeHost_; }
 
@@ -108,10 +110,10 @@ public:
         \return service host name
     */
     const QString& getHost() const { return host_; }
-    
-    /** 
 
-        \return 
+    /**
+
+        \return
     */
     const QString& getTransport() const { return transport_; }
 
@@ -120,10 +122,10 @@ public:
         \return interface ID
     */
     uint32_t getInterface() const;
-    
+
     /** Obtain the port on the host getHost() over which the service may be contacted .
 
-        \return 
+        \return
     */
     uint16_t getPort() const;
 
@@ -147,13 +149,13 @@ public:
     */
     QString getTextEntry(const QString& key) const;
 
-    /** 
+    /**
 
-        \param key 
+        \param key
 
-        \param value 
+        \param value
 
-        \return 
+        \return
     */
     bool hasTextEntry(const QString& key, QString* value = 0) const;
 
@@ -166,7 +168,6 @@ signals:
     void resolved(ServiceEntry* serivceEntry);
 
 private:
-
     void resolvedNotification(const ZCServiceEntryRef& service);
 
     const Messages::MetaTypeInfo* metaTypeInfo_;
@@ -177,7 +178,7 @@ private:
 
     /** NOTE: the following attributes are valid only when isResolved() returns true.
      */
-    
+
     QString fullName_;
     QString nativeHost_;
     QString host_;

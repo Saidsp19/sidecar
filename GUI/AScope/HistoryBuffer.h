@@ -5,7 +5,9 @@
 
 #include "HistoryFrame.h"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,10 +18,8 @@ namespace AScope {
     delete old frames, but rather places them on a free list. For near-constant data rates, this should allow
     the HistoryBuffer to reach a stable point where it no longer allocates new frames.
 */
-class HistoryBuffer
-{
+class HistoryBuffer {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor.
@@ -50,7 +50,7 @@ public:
 
     /** Fetch the frame from the buffer at a given position.
 
-        \param index position to fetch from 
+        \param index position to fetch from
 
         \return found frame
     */

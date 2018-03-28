@@ -9,12 +9,11 @@ namespace PPIDisplay {
 
 class History;
 
-class HistoryWidget : public ControlWidget
-{
+class HistoryWidget : public ControlWidget {
     Q_OBJECT
     using Super = ControlWidget;
-public:
 
+public:
     HistoryWidget(History* history, QToolBar* parent);
 
 private slots:

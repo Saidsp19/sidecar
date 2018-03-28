@@ -1,5 +1,5 @@
-#include "App.h"
 #include "CollectionItem.h"
+#include "App.h"
 #include "ServicesModel.h"
 
 using namespace SideCar::GUI;
@@ -26,8 +26,7 @@ CollectionItem::updateCollectionStats(CollectionStats& stats) const
 QVariant
 CollectionItem::getNameDataValue(int role) const
 {
-    if (role == Qt::ForegroundRole && isExpanded())
-	return GetTextColor();
+    if (role == Qt::ForegroundRole && isExpanded()) return GetTextColor();
     return Super::getNameDataValue(role);
 }
 
@@ -44,22 +43,19 @@ CollectionItem::getRecordingDataValue(int role) const
 {
     if (isExpanded()) return QVariant();
 
-    if (role != Qt::DisplayRole)
-	return GetRecordingDataValue(false, role);
+    if (role != Qt::DisplayRole) return GetRecordingDataValue(false, role);
 
     int will = stats_.getWillRecordCount();
-    if (! will) return QVariant();
-    
+    if (!will) return QVariant();
+
     if (App::GetApp()->isRecording()) {
-	int current = stats_.getIsRecordingCount();
-	if (current != will)
-	    return QString("%1 of %2").arg(current).arg(will);
-	return "REC";
+        int current = stats_.getIsRecordingCount();
+        if (current != will) return QString("%1 of %2").arg(current).arg(will);
+        return "REC";
     }
 
     int can = stats_.getCanRecordCount();
-    if (will != can)
-	return  QString("%1 of %2").arg(will).arg(can);
+    if (will != can) return QString("%1 of %2").arg(will).arg(can);
     return "ALL";
 }
 
@@ -68,10 +64,8 @@ CollectionItem::getPendingCountValue(int role) const
 {
     if (isExpanded()) return QVariant();
     if (role != Qt::DisplayRole) return Super::getPendingCountValue(role);
-    if (! isRecording()) return int(stats_.getPendingQueueCount());
-    return QString("%1 (%2)")
-	.arg(stats_.getPendingQueueCount())
-	.arg(stats_.getRecordingQueueCount());
+    if (!isRecording()) return int(stats_.getPendingQueueCount());
+    return QString("%1 (%2)").arg(stats_.getPendingQueueCount()).arg(stats_.getRecordingQueueCount());
 }
 
 QVariant
@@ -81,37 +75,27 @@ CollectionItem::getRateDataValue(int role) const
 
     int dropCount = stats_.getDropCount();
     int dupeCount = stats_.getDupeCount();
-    
+
     if (role == Qt::ForegroundRole) {
+        if (dropCount || dupeCount) return GetFailureColor();
 
-	if (dropCount || dupeCount)
-	    return GetFailureColor();
+        switch (getActiveState()) {
+        case kIdle: return GetFailureColor();
 
-	switch (getActiveState()) {
-	case kIdle:
-	    return GetFailureColor();
+        case kPartial:
+        case kNotUsingData: return GetWarningColor();
 
-	case kPartial:
-	case kNotUsingData:
-	    return GetWarningColor();
-
-	case kActive:
-	default:
-	    return GetOKColor();
-	}
+        case kActive:
+        default: return GetOKColor();
+        }
     }
 
-    if (role != Qt::DisplayRole)
-	return Super::getRateDataValue(role);
+    if (role != Qt::DisplayRole) return Super::getRateDataValue(role);
 
-    QString status = QString("%1 of %2 active")
-	.arg(stats_.getActiveCount())
-	.arg(stats_.getLeafCount());
+    QString status = QString("%1 of %2 active").arg(stats_.getActiveCount()).arg(stats_.getLeafCount());
 
-    if (dropCount)
-	status += QString(" Drops: %3").arg(dropCount);
-    if (dupeCount)
-	status += QString(" Dupes: %3").arg(dupeCount);
+    if (dropCount) status += QString(" Drops: %3").arg(dropCount);
+    if (dupeCount) status += QString(" Dupes: %3").arg(dupeCount);
 
     return status;
 }
@@ -135,21 +119,20 @@ CollectionItem::afterUpdate()
 {
     updateChildren();
 
-    for (int index = 0; index < getNumChildren(); ++index)
-	accumulateChildStats(getChild(index));
+    for (int index = 0; index < getNumChildren(); ++index) accumulateChildStats(getChild(index));
 
     setOK(stats_.isOK());
     setProcessingState(stats_.getProcessingState());
 
     size_t leafCount = stats_.getLeafCount();
     if (stats_.getNotUsingDataCount() == leafCount)
-	setActiveState(kNotUsingData);
+        setActiveState(kNotUsingData);
     else if (stats_.getIdleCount() == leafCount)
-	setActiveState(kIdle);
+        setActiveState(kIdle);
     else if (stats_.getActiveCount() == leafCount)
-	setActiveState(kActive);
+        setActiveState(kActive);
     else
-	setActiveState(kPartial);
+        setActiveState(kPartial);
 }
 
 void
@@ -162,6 +145,5 @@ void
 CollectionItem::recalculateStats()
 {
     stats_.clear();
-    for (int index = 0; index < getNumChildren(); ++index)
-	accumulateChildStats(getChild(index));
+    for (int index = 0; index < getNumChildren(); ++index) accumulateChildStats(getChild(index));
 }

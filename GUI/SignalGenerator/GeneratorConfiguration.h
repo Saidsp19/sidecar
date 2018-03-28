@@ -8,25 +8,22 @@
 
 class QSettings;
 
-namespace Ui { class GeneratorConfiguration; }
+namespace Ui {
+class GeneratorConfiguration;
+}
 
 namespace SideCar {
 namespace GUI {
 namespace SignalGenerator {
 
-class GeneratorConfiguration : public QWidget
-{
+class GeneratorConfiguration : public QWidget {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     using AmplitudeVector = std::vector<double>;
 
-    enum ComplexValueType {
-	kIandQ,
-	kI,
-	kQ
-    };
+    enum ComplexValueType { kIandQ, kI, kQ };
 
     GeneratorConfiguration(double sampleFrequency);
 
@@ -79,7 +76,6 @@ private slots:
     void focusChanged(QWidget* old, QWidget* now);
 
 private:
-
     void initialize();
 
     double getNextValue();

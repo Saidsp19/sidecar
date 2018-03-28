@@ -1,8 +1,8 @@
 #ifndef SIDECAR_ALGORITHMS_MANYINALGORITHM_H // -*- C++ -*-
 #define SIDECAR_ALGORITHMS_MANYINALGORITHM_H
 
-#include <vector>
 #include <limits>
+#include <vector>
 
 #include "QtCore/QString"
 
@@ -13,7 +13,8 @@ namespace SideCar {
 namespace Algorithms {
 
 class ChannelBuffer;
-template <typename T> class TChannelBuffer;
+template <typename T>
+class TChannelBuffer;
 
 /** Derivation of the basic Algorithm class that handles multiple input channels using ChannelBuffer objects.
     Often when processing multiple input channels, one needs to obtain a message from all of the channels with
@@ -23,20 +24,15 @@ template <typename T> class TChannelBuffer;
     the resulting channel buffers is empty. When it returns false, then one may safely access the first message
     from each ChannelBuffer object using ChannelBuffer::getFront().
 */
-class ManyInAlgorithm : public Algorithm
-{
+class ManyInAlgorithm : public Algorithm {
     using Super = Algorithm;
-public:
 
-    enum InfoSlot {
-	kEnabled = ControllerStatus::kNumSlots,
-	kChannelStats,
-	kNumSlots
-    };
+public:
+    enum InfoSlot { kEnabled = ControllerStatus::kNumSlots, kChannelStats, kNumSlots };
 
     static QString GetFormattedStats(const IO::StatusBase& status);
 
-    /** Constructor. 
+    /** Constructor.
 
         \param controller the controller managing our instance
 
@@ -58,7 +54,7 @@ public:
 
     /** Override of Algorithm::shutdown(). Disposes of ChannelBuffer objects created in the startup() method.
 
-	\return true if successful
+        \return true if successful
     */
     bool shutdown() override;
 
@@ -104,8 +100,7 @@ public:
 
         \return ChannelBuffer object
     */
-    ChannelBuffer* getGenericChannelBuffer(size_t index) const
-	{ return channels_[index]; }
+    ChannelBuffer* getGenericChannelBuffer(size_t index) const { return channels_[index]; }
 
     bool reset() override;
 
@@ -123,7 +118,6 @@ public:
     virtual void channelEnabledChanged(ChannelBuffer* channel);
 
 protected:
-
     /** Obtain the number of info slots defined by this algorithm.
 
         \return info slot count
@@ -171,9 +165,7 @@ protected:
 
         \return TChannelBuffer object
     */
-    virtual ChannelBuffer* makeChannelBuffer(int channelIndex,
-                                             const std::string& name,
-                                             size_t maxBufferSize) = 0;
+    virtual ChannelBuffer* makeChannelBuffer(int channelIndex, const std::string& name, size_t maxBufferSize) = 0;
 
     ChannelBuffer* findChannelBuffer(const std::string& name) const;
 
@@ -181,21 +173,21 @@ protected:
     ChannelBufferVector channels_;
 
     template <typename T>
-    size_t fetchEnabledChannelMessages(std::vector<typename T::Ref>& inputs) {
-	size_t minSize = std::numeric_limits<size_t>::max();
-	for (size_t index = 0; index < getChannelCount(); ++index) {
-	    TChannelBuffer<T>* channel = getChannelBuffer<T>(index);
-	    if (channel->isEnabled()) {
-		inputs.push_back(channel->popFront());
-		size_t size = inputs.back()->size();
-		if (size < minSize) minSize = size;
-	    }
-	}
-	return minSize;
+    size_t fetchEnabledChannelMessages(std::vector<typename T::Ref>& inputs)
+    {
+        size_t minSize = std::numeric_limits<size_t>::max();
+        for (size_t index = 0; index < getChannelCount(); ++index) {
+            TChannelBuffer<T>* channel = getChannelBuffer<T>(index);
+            if (channel->isEnabled()) {
+                inputs.push_back(channel->popFront());
+                size_t size = inputs.back()->size();
+                if (size < minSize) minSize = size;
+            }
+        }
+        return minSize;
     }
 
 private:
-
     /** Notification handler called when the maxBufferSize parameter changed. Invokes
         Channel::setMaxBufferSize() on all active Channel objects.
 

@@ -27,18 +27,14 @@ namespace PRIEmitter {
 
     Currently, the entire file to load is read into memory. For large files, this is clearly undesirable.
 */
-class MainWindow : public MainWindowBase, private Ui::MainWindow
-{
+class MainWindow : public MainWindowBase, private Ui::MainWindow {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     /** NOTE: the entries here must match the order of the entries in the connectionType_ QComboBox widget.
      */
-    enum ConnectionType {
-	kTCP,
-	kMulticast
-    };
+    enum ConnectionType { kTCP, kMulticast };
 
     /** Obtain the log device for MainWindow objects. Uses the name 'priemitter.MainWindow'.
 
@@ -73,11 +69,11 @@ private slots:
     void on_actionEmitterStart__triggered();
     void on_actionEmitterRewind__triggered();
     void on_simAz__toggled(bool checked);
-    
+
     /** Timer timeout notification. Emits the next message to the subscribers.
      */
     void emitMessage();
-    
+
     /** Notification that the user has chosen an item from the recent files menu.
      */
     void openRecentFile();
@@ -89,11 +85,10 @@ private slots:
     void writerFailure();
 
 private:
-    
     /** Change the timing interval to reflect the value in the frequency_ widget.
      */
     void updateTimer();
-    
+
     /** Read in a text log file, and create an equivalent Video PRI file.
 
         \param fileInfo location of the file to open
@@ -111,23 +106,23 @@ private:
     bool openPRIFile(const QFileInfo& fileInfo);
 
     /** See if there is an XML configuration that corresponds to a data file. Looks for an XML file with the
-	same path and file name as the data file, but with a suffix of '.xml'. If an XML file does not exist,
-	then
+        same path and file name as the data file, but with a suffix of '.xml'. If an XML file does not exist,
+        then
 
         \param fileInfo location of the data file that is being opened.
     */
     void openConfigFile(const QFileInfo& fileInfo);
 
     /** Update the window title and recent files menu with the name of the file that was just loaded..
-        
+
         \param path path of the file
     */
     void setCurrentFile(const QString& path);
-    
+
     /** Update the recent files menu items.
      */
     void updateRecentFileActions();
-    
+
     /** Obtain the name of a file, sans any path.
 
         \param path full path of a file
@@ -161,7 +156,7 @@ private:
     bool emitting_;
 };
 
-} // end namespace AScope
+} // namespace PRIEmitter
 } // end namespace GUI
 } // end namespace SideCar
 

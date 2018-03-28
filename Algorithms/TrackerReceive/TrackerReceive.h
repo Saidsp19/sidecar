@@ -2,19 +2,20 @@
 #define SIDECAR_ALGORITHMS_TRACKER_RECEIVE_H
 
 #include "Algorithms/Algorithm.h"
-#include "Messages/Video.h"
 #include "Messages/Extraction.h"
+#include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 
+#include <cmath>
 #include <list>
 #include <vector>
-#include <cmath>
 
 // VIADS
 #include <Server.h>
 #include <TrackMessage.h>
 // from radar_post/inc/utils.H
-inline double degreesLat2Meters(const double& latitude_degrees)
+inline double
+degreesLat2Meters(const double& latitude_degrees)
 {
     return latitude_degrees * 111.3e3;
 };
@@ -25,8 +26,7 @@ namespace Algorithms {
 /**
    \ingroup Algorithms
 */
-class TrackerReceive : public Algorithm
-{
+class TrackerReceive : public Algorithm {
 public:
     // Algorithm interface
     //
@@ -36,7 +36,7 @@ public:
 
         \param log device used for log messages
     */
-    TrackerReceive(Controller &controller, Logger::Log& log);
+    TrackerReceive(Controller& controller, Logger::Log& log);
 
     /** Register runtime parameters with the controller.
 
@@ -44,16 +44,15 @@ public:
     */
     bool startup();
 
-    static void * threaded_receiver(void *);
+    static void* threaded_receiver(void*);
 
     void init();
 
 private:
 };
 
-}} // namespaces
-
-
+} // namespace Algorithms
+} // namespace SideCar
 
 /** \file
  */

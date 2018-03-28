@@ -2,8 +2,8 @@
 
 using namespace Utils;
 
-RunningAverage::RunningAverage(size_t windowSize, double initialValue)
-    : values_(windowSize, initialValue), oldest_(0), sum_(0.0)
+RunningAverage::RunningAverage(size_t windowSize, double initialValue) :
+    values_(windowSize, initialValue), oldest_(0), sum_(0.0)
 {
     ;
 }
@@ -14,9 +14,7 @@ RunningAverage::addValue(double value)
     sum_ -= values_[oldest_];
     sum_ += value;
     values_[oldest_++] = value;
-    if (oldest_ == values_.size()) {
-	oldest_ = 0;
-    }
+    if (oldest_ == values_.size()) { oldest_ = 0; }
 }
 
 void

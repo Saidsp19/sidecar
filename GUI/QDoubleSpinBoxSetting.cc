@@ -4,11 +4,8 @@
 
 using namespace SideCar::GUI;
 
-QDoubleSpinBoxSetting::QDoubleSpinBoxSetting(PresetManager* mgr,
-                                             QDoubleSpinBox* widget,
-                                             bool global)
-    : DoubleSetting(mgr, widget->objectName(), widget->value(), global),
-      first_(widget)
+QDoubleSpinBoxSetting::QDoubleSpinBoxSetting(PresetManager* mgr, QDoubleSpinBox* widget, bool global) :
+    DoubleSetting(mgr, widget->objectName(), widget->value(), global), first_(widget)
 {
     connectWidget(widget);
 }

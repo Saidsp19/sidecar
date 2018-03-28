@@ -12,8 +12,7 @@ TCPConnector::Log()
 }
 
 bool
-TCPConnector::openAndInit(const ACE_INET_Addr& remoteAddress,
-                          ACE_Reactor* reactor)
+TCPConnector::openAndInit(const ACE_INET_Addr& remoteAddress, ACE_Reactor* reactor)
 {
     Logger::ProcLog log("open", Log());
     LOGINFO << std::endl;
@@ -26,7 +25,7 @@ TCPConnector::openAndInit(const ACE_INET_Addr& remoteAddress,
         return false;
     }
 
-    if (! attemptConnection()) {
+    if (!attemptConnection()) {
         LOGERROR << "failed to start connection attempt" << std::endl;
         close();
         return false;
@@ -57,26 +56,23 @@ TCPConnector::attemptConnection()
     TCPInputHandler* inputHandler = &inputHandler_;
     int rc = Super::connect(inputHandler, remoteAddress_);
     if (rc == -1) {
-	std::ostringstream os;
-        os << "Failed to connect to " << remoteAddress_.get_host_name() << "/"
-	   << remoteAddress_.get_port_number();
-	LOGERROR << os.str() << std::endl;
-	task_->setError(os.str());
+        std::ostringstream os;
+        os << "Failed to connect to " << remoteAddress_.get_host_name() << "/" << remoteAddress_.get_port_number();
+        LOGERROR << os.str() << std::endl;
+        task_->setError(os.str());
 
-	if (timer_ == -1) 
-	    if (! scheduleConnectionAttempt()) 
-		return false;
-    }
-    else {
-	LOGDEBUG << "established connection" << std::endl;
+        if (timer_ == -1)
+            if (!scheduleConnectionAttempt()) return false;
+    } else {
+        LOGDEBUG << "established connection" << std::endl;
 
-	if (timer_ != -1) {
-	    reactor()->cancel_timer(timer_);
-	    timer_ = -1;
-	}
+        if (timer_ != -1) {
+            reactor()->cancel_timer(timer_);
+            timer_ = -1;
+        }
 
-	task_->establishedConnection();
-	task_->setUsingData(task_->isUsingData());
+        task_->establishedConnection();
+        task_->setUsingData(task_->isUsingData());
     }
 
     LOGDEBUG << "EXIT" << std::endl;
@@ -92,9 +88,8 @@ TCPConnector::scheduleConnectionAttempt()
     const ACE_Time_Value repeat(2);
     timer_ = reactor()->schedule_timer(this, 0, delay, repeat);
     if (timer_ == -1) {
-	LOGERROR << "failed to schedule timer for reconnect attempt"
-		 << std::endl;
-	return false;
+        LOGERROR << "failed to schedule timer for reconnect attempt" << std::endl;
+        return false;
     }
 
     return true;

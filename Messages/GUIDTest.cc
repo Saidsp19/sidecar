@@ -8,8 +8,7 @@
 using namespace SideCar;
 using namespace SideCar::Messages;
 
-struct Test : public UnitTest::TestObj
-{
+struct Test : public UnitTest::TestObj {
     Test() : TestObj("GUID") {}
 
     void test();
@@ -38,8 +37,7 @@ Test::test()
     log.debug1() << g2rep << std::endl;
 
     assertNotEqual(g1rep, g2rep);
-    assertEqual(g1rep.substr(0, g1rep.size() - 1),
-                g2rep.substr(0, g2rep.size() - 1));
+    assertEqual(g1rep.substr(0, g1rep.size() - 1), g2rep.substr(0, g2rep.size() - 1));
 }
 
 int

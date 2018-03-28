@@ -11,21 +11,16 @@
 namespace SideCar {
 namespace Runner {
 
-class LogCollector : public Logger::Writers::Writer
-{
+class LogCollector : public Logger::Writers::Writer {
 public:
-
     using Ref = boost::shared_ptr<LogCollector>;
-    static Ref Make() {Ref ref(new LogCollector); return ref;}
+    static Ref Make()
+    {
+        Ref ref(new LogCollector);
+        return ref;
+    }
 
-    enum SlotIndex {
-	kSeconds,
-	kMicroSeconds,
-	kChannel,
-	kMessage,
-	kPriorityLevel,
-	kNumSlots
-    };
+    enum SlotIndex { kSeconds, kMicroSeconds, kChannel, kMessage, kPriorityLevel, kNumSlots };
 
     void write(const Logger::Msg& msg) override;
 

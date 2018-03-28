@@ -7,11 +7,11 @@
 
 #include "boost/scoped_ptr.hpp"
 
-#include <vsip/support.hpp>
-#include <vsip/matrix.hpp>
-#include <vsip/vector.hpp>
-#include <vsip/signal.hpp>
 #include <vsip/math.hpp>
+#include <vsip/matrix.hpp>
+#include <vsip/signal.hpp>
+#include <vsip/support.hpp>
+#include <vsip/vector.hpp>
 
 #include "Algorithms/Algorithm.h"
 #include "Messages/Video.h"
@@ -23,8 +23,7 @@ namespace Algorithms {
 /** Documentation for the algorithm CIntegrate. Please describe what the algorithm does, in layman's terms and,
     if possible, mathematical terms.
 */
-class CIntegrate : public Algorithm
-{
+class CIntegrate : public Algorithm {
     using Super = Algorithm;
     using ComplexType = std::complex<float>;
     using VsipComplexVector = vsip::Vector<ComplexType>;
@@ -39,17 +38,16 @@ class CIntegrate : public Algorithm
     using ForwardFFTM = vsip::Fftm<ComplexType, ComplexType, vsip::col, vsip::fft_fwd, vsip::by_reference>;
 
 public:
-
     /** Enumeration of info slots provided by this algorithm
      */
     enum InfoSlots {
         kEnabled = ControllerStatus::kNumSlots,
-	kMin,
-	kMax,
-	kNumPRIs,
-	kColorEncoding,
-	kWindowShift,
-	kDopplerBin,
+        kMin,
+        kMax,
+        kNumPRIs,
+        kColorEncoding,
+        kWindowShift,
+        kDopplerBin,
         kNumSlots
     };
 
@@ -102,16 +100,15 @@ public:
     void setEncoding(ColorEncoding v) { colorEncoding_->setValue(v); }
 
 private:
-
     /** Convert FFT magnitude values into RGB values. Uses contents of the fftOut_ matrix attribute.
 
-	\param out storage for calculated values
+        \param out storage for calculated values
     */
     void processRGB(Messages::Video::Container& out);
 
     /** Convert FFT magnitude values into HSV values. Uses contents of the fftOut_ matrix attribute.
 
-	\param out storage for calculated values
+        \param out storage for calculated values
     */
     void processHSV(Messages::Video::Container& out);
 
@@ -142,36 +139,33 @@ private:
 
         \return scaled result
     */
-    float scaleAmp(float amp) const {
-	return std::max(std::min((amp - scaleMin_) * scaleFactor_, 1.0f),
-                        0.0f);
-    }
+    float scaleAmp(float amp) const { return std::max(std::min((amp - scaleMin_) * scaleFactor_, 1.0f), 0.0f); }
 
     /** Notification callback invoked when the numPRIs value changes. Causes recalculation and allocation of
-	internal attributes that depend on it. parameter the parameter that changed
+        internal attributes that depend on it. parameter the parameter that changed
     */
     void numPRIsChanged(const Parameter::PositiveIntValue& parameter);
 
     /** Notification callback invoked when the min_ value changes. Causes recalculation of the scaleMin_ and
-	scaleFactor_ attributes. parameter the parameter that changed
+        scaleFactor_ attributes. parameter the parameter that changed
     */
     void minValueChanged(const Parameter::NonNegativeIntValue& parameter);
 
     /** Notification callback invoked when the max_ value changes. Causes recalculation of the scaleFactor_
-	attribute. parameter the parameter that changed
+        attribute. parameter the parameter that changed
     */
     void maxValueChanged(const Parameter::NonNegativeIntValue& parameter);
 
     /** Override of Algorithm method. Obtain the total number of informational slots provided by this algorithm
-	(including those provided by ancestor classes)
+        (including those provided by ancestor classes)
 
-	\return total slot count
+        \return total slot count
     */
     size_t getNumInfoSlots() const { return kNumSlots; }
 
     /** Override of Algorithm method. Fills in the informational slots provided by this algorithm.
 
-	\param status storage for status updates
+        \param status storage for status updates
     */
     void setInfoSlots(IO::StatusBase& status);
 
@@ -184,23 +178,23 @@ private:
     bool processInput(const Messages::Video::Ref& msg);
 
     /** Encode normalized floating point values for red, green, and blue into a 16-bit integer value, where red
-	occupies the top 6 bits, green the next 5 bits followed by blue in the least-significant 5 bits.
+        occupies the top 6 bits, green the next 5 bits followed by blue in the least-significant 5 bits.
 
-	\param r the red component value between 0.0 and 1.0
+        \param r the red component value between 0.0 and 1.0
 
-	\param g the green component value between 0.0 and 1.0
+        \param g the green component value between 0.0 and 1.0
 
-	\param b the blue component value between 0.0 and 1.0
+        \param b the blue component value between 0.0 and 1.0
 
-	\return encoded value
+        \return encoded value
     */
     static uint16_t EncodeRGB(float r, float g, float b)
-	{
-	    uint16_t ri = ::round(std::min(r, 1.0f) * 63);
-	    uint16_t gi = ::round(std::min(g, 1.0f) * 31);
-	    uint16_t bi = ::round(std::min(b, 1.0f) * 31);
-	    return (ri << 10) | (gi << 5) | bi;
-	}
+    {
+        uint16_t ri = ::round(std::min(r, 1.0f) * 63);
+        uint16_t gi = ::round(std::min(g, 1.0f) * 31);
+        uint16_t bi = ::round(std::min(b, 1.0f) * 31);
+        return (ri << 10) | (gi << 5) | bi;
+    }
 
     /** Controls whether CPI processing is enabled
      */
@@ -220,12 +214,11 @@ private:
 
     /** Traits definition for the ColorEncoding enumeration.
      */
-    struct ColorEncodingEnumTraits :
-	public Parameter::Defs::EnumTypeTraitsBase {
-	using ValueType = ColorEncoding;
-	static ValueType GetMinValue() { return kColorEncodingMinValue; } 
-	static ValueType GetMaxValue() { return kColorEncodingMaxValue; }
-	static const char* const* GetEnumNames();
+    struct ColorEncodingEnumTraits : public Parameter::Defs::EnumTypeTraitsBase {
+        using ValueType = ColorEncoding;
+        static ValueType GetMinValue() { return kColorEncodingMinValue; }
+        static ValueType GetMaxValue() { return kColorEncodingMaxValue; }
+        static const char* const* GetEnumNames();
     };
 
     /** Type definition for the ColorEncoding parameter.
@@ -256,18 +249,18 @@ private:
      */
     boost::scoped_ptr<ForwardFFTM> fftm_;
 
-    size_t N_;			///< Value of numPRIs_ parameter
-    size_t maxSpan_;		///< Value of largest PRI message seen
-    MessageQueue buffer_;    	///< Buffer of incoming messages
-    std::vector<double> H_;	///< Hue mapping for HSV processing
+    size_t N_;              ///< Value of numPRIs_ parameter
+    size_t maxSpan_;        ///< Value of largest PRI message seen
+    MessageQueue buffer_;   ///< Buffer of incoming messages
+    std::vector<double> H_; ///< Hue mapping for HSV processing
 
-    size_t resultsIndex_;	///< Channel index for results output
-    size_t rgbIndex_;		///< Channel index for RGB output
-    size_t maxAmpIndex_;	///< Channel index for maxAmp output
-    size_t dopplerBinOutIndex_;	///< Channel index for doppler bin output
-    size_t kInvalidChannel_;	///< Invalid channel index
-    float scaleMin_;		///< Value of min_ parameter
-    float scaleFactor_;		///< Scaling factor from min_ and max_ params
+    size_t resultsIndex_;       ///< Channel index for results output
+    size_t rgbIndex_;           ///< Channel index for RGB output
+    size_t maxAmpIndex_;        ///< Channel index for maxAmp output
+    size_t dopplerBinOutIndex_; ///< Channel index for doppler bin output
+    size_t kInvalidChannel_;    ///< Invalid channel index
+    float scaleMin_;            ///< Value of min_ parameter
+    float scaleFactor_;         ///< Scaling factor from min_ and max_ params
 };
 
 } // end namespace Algorithms

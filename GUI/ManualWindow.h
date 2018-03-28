@@ -3,23 +3,24 @@
 
 #include "GUI/ToolWindowBase.h"
 
-namespace Ui { class ManualWindow; }
+namespace Ui {
+class ManualWindow;
+}
 
 namespace SideCar {
 namespace GUI {
 
-class ManualWindow : public ToolWindowBase
-{
+class ManualWindow : public ToolWindowBase {
     Q_OBJECT
     using Super = ToolWindowBase;
-public:
 
+public:
     /** Constructor.
      */
     ManualWindow(const QString& name, const QString& manualPath);
 
     void windowMenuAboutToShow(QList<QAction*>& actions);
-    
+
 private:
     void showEvent(QShowEvent* event);
 

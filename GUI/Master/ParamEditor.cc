@@ -26,10 +26,8 @@
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::Master;
 
-ParamBase::ParamBase(QVBoxLayout* parentLayout,
-                     const XmlRpc::XmlRpcValue& entry)
-    : frame_(0), layout_(0), name_(entry["name"]),
-      label_(entry["label"])
+ParamBase::ParamBase(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    frame_(0), layout_(0), name_(entry["name"]), label_(entry["label"])
 {
     frame_ = new QFrame(parentLayout->parentWidget());
     frame_->setFrameStyle(QFrame::Box | QFrame::Sunken);
@@ -61,15 +59,15 @@ void
 ParamBase::done()
 {
 #if 0
-    layout_->addStretch();
-    QLabel* label = new QLabel(GetString(name_), getParent());
-    QFont font = label->font();
-    font.setPointSize(font.pointSize() - 1);
-    label->setFont(font);
-    label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    label->setToolTip("Configuration parameter name");
-    layout_->addWidget(label);
-#endif	
+  layout_->addStretch();
+  QLabel* label = new QLabel(GetString(name_), getParent());
+  QFont font = label->font();
+  font.setPointSize(font.pointSize() - 1);
+  label->setFont(font);
+  label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+  label->setToolTip("Configuration parameter name");
+  layout_->addWidget(label);
+#endif
 }
 
 void
@@ -82,36 +80,31 @@ void
 ParamBase::addIfChanged(XmlRpc::XmlRpcValue& values, QStringList& changes)
 {
     if (hasChanged()) {
-	values.push_back(name_);
-	acceptChange();
-	changes.append(QString("  %1 = %2\n")
-                       .arg(QString::fromStdString(name_))
-                       .arg(fillInChange(values)));
+        values.push_back(name_);
+        acceptChange();
+        changes.append(QString("  %1 = %2\n").arg(QString::fromStdString(name_)).arg(fillInChange(values)));
     }
 }
 
 Logger::Log&
 IntParam::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.ParamEditor.IntParam");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.ParamEditor.IntParam");
     return log_;
 }
 
-IntParam::IntParam(QVBoxLayout* parentLayout,
-                   const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry),
-      value_(entry["value"]), original_(entry["original"]),
-      widget_(new QSpinBox(getParent()))
+IntParam::IntParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), value_(entry["value"]), original_(entry["original"]),
+    widget_(new QSpinBox(getParent()))
 {
     if (entry.hasMember("min"))
-	widget_->setMinimum(entry["min"]);
+        widget_->setMinimum(entry["min"]);
     else
-	widget_->setMinimum(-std::numeric_limits<int>::max());
+        widget_->setMinimum(-std::numeric_limits<int>::max());
     if (entry.hasMember("max"))
-	widget_->setMaximum(entry["max"]);
+        widget_->setMaximum(entry["max"]);
     else
-	widget_->setMaximum(std::numeric_limits<int>::max());
+        widget_->setMaximum(std::numeric_limits<int>::max());
 
     widget_->setValue(value_);
     connect(widget_, SIGNAL(valueChanged(int)), SIGNAL(valueChanged()));
@@ -156,22 +149,17 @@ IntParam::fillInChange(XmlRpc::XmlRpcValue& values)
     return QString::number(value_);
 }
 
-DoubleParam::DoubleParam(QVBoxLayout* parentLayout,
-                         const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry), value_(entry["value"]),
-      original_(entry["original"]),
-      widget_(new QLineEdit(QString::number(value_), getParent()))
+DoubleParam::DoubleParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), value_(entry["value"]), original_(entry["original"]),
+    widget_(new QLineEdit(QString::number(value_), getParent()))
 {
     QDoubleValidator* validator = new QDoubleValidator(widget_);
-    if (entry.hasMember("min"))
-	validator->setBottom(entry["min"]);
-    if (entry.hasMember("max"))
-	validator->setTop(entry["max"]);
+    if (entry.hasMember("min")) validator->setBottom(entry["min"]);
+    if (entry.hasMember("max")) validator->setTop(entry["max"]);
     widget_->setValidator(validator);
     widget_->setAlignment(Qt::AlignRight);
 
-    connect(widget_, SIGNAL(textEdited(const QString&)),
-            SIGNAL(valueChanged()));
+    connect(widget_, SIGNAL(textEdited(const QString&)), SIGNAL(valueChanged()));
 
     add(makeLabel()).add(widget_).done();
 }
@@ -214,15 +202,11 @@ DoubleParam::fillInChange(XmlRpc::XmlRpcValue& values)
     return QString::number(value_);
 }
 
-StringParam::StringParam(QVBoxLayout* parentLayout,
-                         const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry),
-      value_(GetString(std::string(entry["value"]))),
-      original_(GetString(std::string(entry["original"]))),
-      widget_(new QLineEdit(value_, getParent()))
+StringParam::StringParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), value_(GetString(std::string(entry["value"]))),
+    original_(GetString(std::string(entry["original"]))), widget_(new QLineEdit(value_, getParent()))
 {
-    connect(widget_, SIGNAL(textEdited(const QString&)),
-            SIGNAL(valueChanged()));
+    connect(widget_, SIGNAL(textEdited(const QString&)), SIGNAL(valueChanged()));
     add(makeLabel()).add(widget_).done();
 }
 
@@ -264,13 +248,10 @@ StringParam::fillInChange(XmlRpc::XmlRpcValue& values)
     return GetQuotedString(value_);
 }
 
-PathParam::PathParam(QVBoxLayout* parentLayout,
-                     const XmlRpc::XmlRpcValue& entry, PathType pathType)
-    : ParamBase(parentLayout, entry),
-      value_(GetString(entry["value"])),
-      original_(GetString(entry["original"])), fileInfo_(value_),
-      filename_(new QLineEdit(fileInfo_.fileName(), getParent())),
-      widget_(new QPushButton("Set...", getParent())), pathType_(pathType)
+PathParam::PathParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry, PathType pathType) :
+    ParamBase(parentLayout, entry), value_(GetString(entry["value"])), original_(GetString(entry["original"])),
+    fileInfo_(value_), filename_(new QLineEdit(fileInfo_.fileName(), getParent())),
+    widget_(new QPushButton("Set...", getParent())), pathType_(pathType)
 {
     filename_->setReadOnly(true);
     updateWidgets();
@@ -333,54 +314,38 @@ PathParam::editPath()
     QString directory = fileInfo_.absolutePath();
     QString filter = QString("*.%1").arg(fileInfo_.suffix());
     QString newPath =
-	pathType_ == kReadPath ?
-	QFileDialog::getOpenFileName(window,
-                                     caption,
-                                     directory,
-                                     filter,
-                                     0,
-                                     QFileDialog::DontResolveSymlinks) :
-	QFileDialog::getSaveFileName(window,
-                                     caption,
-                                     directory,
-                                     filter,
-                                     0,
-                                     QFileDialog::DontResolveSymlinks);
-    if (! newPath.isEmpty()) {
-	fileInfo_.setFile(newPath);
-	updateWidgets();
-	emit valueChanged();
+        pathType_ == kReadPath
+            ? QFileDialog::getOpenFileName(window, caption, directory, filter, 0, QFileDialog::DontResolveSymlinks)
+            : QFileDialog::getSaveFileName(window, caption, directory, filter, 0, QFileDialog::DontResolveSymlinks);
+    if (!newPath.isEmpty()) {
+        fileInfo_.setFile(newPath);
+        updateWidgets();
+        emit valueChanged();
     }
 }
 
 Logger::Log&
 EnumParam::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.ParamEditor.EnumParam");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.ParamEditor.EnumParam");
     return log_;
 }
 
-EnumParam::EnumParam(QVBoxLayout* parentLayout,
-                     const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry),
-      value_(entry["value"]), original_(entry["original"]),
-      offset_(entry["min"]), widget_(new QComboBox(getParent()))
+EnumParam::EnumParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), value_(entry["value"]), original_(entry["original"]), offset_(entry["min"]),
+    widget_(new QComboBox(getParent()))
 {
     Logger::ProcLog log("EnumParam", Log());
-    LOGINFO << getName() << " value: " << value_ << " offset: "
-	    << offset_ << std::endl;
+    LOGINFO << getName() << " value: " << value_ << " offset: " << offset_ << std::endl;
 
     const XmlRpc::XmlRpcValue::ValueArray& names(entry["enumNames"]);
     for (size_t index = 0; index < names.size(); ++index) {
-	QString entry(QString::fromStdString(
-                          std::string(names[index])));
-	widget_->addItem(entry);
+        QString entry(QString::fromStdString(std::string(names[index])));
+        widget_->addItem(entry);
     }
 
     undoChange();
-    connect(widget_, SIGNAL(currentIndexChanged(int)),
-            SIGNAL(valueChanged()));
+    connect(widget_, SIGNAL(currentIndexChanged(int)), SIGNAL(valueChanged()));
     add(makeLabel()).add(widget_).done();
 }
 
@@ -414,8 +379,7 @@ EnumParam::undoChange()
     Logger::ProcLog log("undoChange", Log());
     int index = value_;
     if (index != -1) index -= offset_;
-    LOGINFO << getName() << " value: " << value_ << " index: " << index
-	    << std::endl;
+    LOGINFO << getName() << " value: " << value_ << " index: " << index << std::endl;
     widget_->setCurrentIndex(index);
 }
 
@@ -425,8 +389,7 @@ EnumParam::revertToOriginal()
     Logger::ProcLog log("revertToOriginal", Log());
     int index = original_;
     if (index != -1) index -= offset_;
-    LOGINFO << getName() << " original: " << original_ << " index: " << index
-	    << std::endl;
+    LOGINFO << getName() << " original: " << original_ << " index: " << index << std::endl;
     widget_->setCurrentIndex(index);
 }
 
@@ -439,11 +402,9 @@ EnumParam::fillInChange(XmlRpc::XmlRpcValue& values)
     return GetQuotedString(widget_->itemText(value_));
 }
 
-BoolParam::BoolParam(QVBoxLayout* parentLayout,
-                     const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry), value_(entry["value"]),
-      original_(entry["original"]),
-      widget_(new QCheckBox(GetString(getLabel()), getParent()))
+BoolParam::BoolParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), value_(entry["value"]), original_(entry["original"]),
+    widget_(new QCheckBox(GetString(getLabel()), getParent()))
 {
     widget_->setCheckState(value_ ? Qt::Checked : Qt::Unchecked);
     connect(widget_, SIGNAL(stateChanged(int)), SIGNAL(valueChanged()));
@@ -451,7 +412,7 @@ BoolParam::BoolParam(QVBoxLayout* parentLayout,
 }
 
 void
-BoolParam::setValue(const XmlRpc:: XmlRpcValue& value)
+BoolParam::setValue(const XmlRpc::XmlRpcValue& value)
 {
     value_ = value;
     undoChange();
@@ -488,11 +449,8 @@ BoolParam::fillInChange(XmlRpc::XmlRpcValue& values)
     return QString(value_ ? "TRUE" : "FALSE");
 }
 
-NotificationParam::NotificationParam(QVBoxLayout* parentLayout,
-                                     const XmlRpc::XmlRpcValue& entry)
-    : ParamBase(parentLayout, entry),
-      armed_(false), value_(entry["value"]),
-      widget_(new QPushButton("Send", getParent()))
+NotificationParam::NotificationParam(QVBoxLayout* parentLayout, const XmlRpc::XmlRpcValue& entry) :
+    ParamBase(parentLayout, entry), armed_(false), value_(entry["value"]), widget_(new QPushButton("Send", getParent()))
 {
     connect(widget_, SIGNAL(clicked()), SLOT(doNotification()));
     add(makeLabel(GetString(getLabel()))).add(widget_).done();
@@ -547,16 +505,13 @@ NotificationParam::fillInChange(XmlRpc::XmlRpcValue& values)
 Logger::Log&
 ParamEditor::Log()
 {
-    static Logger::Log& log_ =
-	Logger::Log::Find("SideCar.GUI.ParamEditor");
+    static Logger::Log& log_ = Logger::Log::Find("SideCar.GUI.ParamEditor");
     return log_;
 }
 
-ParamEditor::ParamEditor(MainWindow* window, ControllerItem* controllerItem)
-    : QDialog(window), controllerItem_(controllerItem), definition_(),
-      widgetContainer_(0), parameters_(), advanced_(0), apply_(0),
-      ok_(0), undo_(0), original_(0), cancel_(0),
-      statusBar_(window->statusBar())
+ParamEditor::ParamEditor(MainWindow* window, ControllerItem* controllerItem) :
+    QDialog(window), controllerItem_(controllerItem), definition_(), widgetContainer_(0), parameters_(), advanced_(0),
+    apply_(0), ok_(0), undo_(0), original_(0), cancel_(0), statusBar_(window->statusBar())
 {
     Q_ASSERT(window && controllerItem);
 
@@ -570,12 +525,10 @@ ParamEditor::ParamEditor(MainWindow* window, ControllerItem* controllerItem)
 
     // Notify the MainWindow of parameter updates.
     //
-    connect(this, SIGNAL(valuesChanged(const QStringList&)), window,
-            SLOT(parameterValuesChanged(const QStringList&)));
+    connect(this, SIGNAL(valuesChanged(const QStringList&)), window, SLOT(parameterValuesChanged(const QStringList&)));
 
     setModal(false);
-    setWindowTitle(QString("%1 Parameters")
-                   .arg(controllerItem->getName()));
+    setWindowTitle(QString("%1 Parameters").arg(controllerItem->getName()));
 }
 
 void
@@ -596,8 +549,7 @@ ParamEditor::buildDialog()
     advanced_ = new QCheckBox("Advanced", this);
     advanced_->setChecked(false);
     advancedClicked(false);
-    connect(advanced_, SIGNAL(clicked(bool)),
-            SLOT(advancedClicked(bool)));
+    connect(advanced_, SIGNAL(clicked(bool)), SLOT(advancedClicked(bool)));
 
     buttonLayout->addWidget(advanced_);
     buttonLayout->addStretch();
@@ -647,34 +599,32 @@ void
 ParamEditor::advancedClicked(bool state)
 {
     if (state)
-	advanced_->setToolTip("Click to hide advanced configuration "
+        advanced_->setToolTip("Click to hide advanced configuration "
                               "parameters");
-    else 
-	advanced_->setToolTip("Click to show advanced configuration "
+    else
+        advanced_->setToolTip("Click to show advanced configuration "
                               "parameters");
 }
 
 bool
 ParamEditor::buildParameters()
 {
-    if (! controllerItem_->getParameters(definition_)) {
-	QMessageBox::information(
-	    qApp->activeWindow(), "Edit Failed",
-	    QString("<p>Unable to request the configuration for the service '"
-                    "%1'. The service may no longer exists or it may not "
-                    "be responding to XML/RPC requests.</p>")
-	    .arg(controllerItem_->getName()),
-	    QMessageBox::Ok);
-	return false;
+    if (!controllerItem_->getParameters(definition_)) {
+        QMessageBox::information(qApp->activeWindow(), "Edit Failed",
+                                 QString("<p>Unable to request the configuration for the service '"
+                                         "%1'. The service may no longer exists or it may not "
+                                         "be responding to XML/RPC requests.</p>")
+                                     .arg(controllerItem_->getName()),
+                                 QMessageBox::Ok);
+        return false;
     }
 
     if (definition_.size() == 0) {
-	QMessageBox::information(qApp->activeWindow(),
-                                 "No Parameters",
+        QMessageBox::information(qApp->activeWindow(), "No Parameters",
                                  "<p>The service you attempted to modify has "
                                  "no editable parameters.</p>",
                                  QMessageBox::Ok);
-	return false;
+        return false;
     }
 
     QVBoxLayout* vbox = new QVBoxLayout(widgetContainer_);
@@ -685,52 +635,42 @@ ParamEditor::buildParameters()
     // parameter.
     //
     for (int index = 0; index < definition_.size(); ++index) {
-	XmlRpc::XmlRpcValue& vs(definition_[index]);
-	std::string type(vs["type"]);
-	bool isAdvanced(vs["advanced"]);
-	ParamBase* item = 0;
+        XmlRpc::XmlRpcValue& vs(definition_[index]);
+        std::string type(vs["type"]);
+        bool isAdvanced(vs["advanced"]);
+        ParamBase* item = 0;
 
-	if (type == "int") {
-	    item = new IntParam(vbox, vs);
-	}
-	else if (type == "double") {
-	    item = new DoubleParam(vbox, vs);
-	}
-	else if (type == "string") {
-	    item = new StringParam(vbox, vs);
-	}
-	else if (type == "readPath") {
-	    item = new PathParam(vbox, vs, PathParam::kReadPath);
-	}
-	else if (type == "writePath") {
-	    item = new PathParam(vbox, vs, PathParam::kWritePath);
-	}
-	else if (type == "enum") {
-	    item = new EnumParam(vbox, vs);
-	}
-	else if (type == "bool") {
-	    item = new BoolParam(vbox, vs);
-	}
-	else if (type == "notification") {
-	    item = new NotificationParam(vbox, vs);
-	    connect(item, SIGNAL(sendNotification()), SLOT(apply()));
-	}
-	else {
-	    QMessageBox::information(
-		qApp->activeWindow(), "Edit Failed",
-		QString("Unexpected data type from XML/RPC response - %1")
-		.arg(type.c_str()), QMessageBox::Ok);
-	    return false;
-	}
+        if (type == "int") {
+            item = new IntParam(vbox, vs);
+        } else if (type == "double") {
+            item = new DoubleParam(vbox, vs);
+        } else if (type == "string") {
+            item = new StringParam(vbox, vs);
+        } else if (type == "readPath") {
+            item = new PathParam(vbox, vs, PathParam::kReadPath);
+        } else if (type == "writePath") {
+            item = new PathParam(vbox, vs, PathParam::kWritePath);
+        } else if (type == "enum") {
+            item = new EnumParam(vbox, vs);
+        } else if (type == "bool") {
+            item = new BoolParam(vbox, vs);
+        } else if (type == "notification") {
+            item = new NotificationParam(vbox, vs);
+            connect(item, SIGNAL(sendNotification()), SLOT(apply()));
+        } else {
+            QMessageBox::information(qApp->activeWindow(), "Edit Failed",
+                                     QString("Unexpected data type from XML/RPC response - %1").arg(type.c_str()),
+                                     QMessageBox::Ok);
+            return false;
+        }
 
-	connect(item, SIGNAL(valueChanged()), SLOT(updateButtons()));
-	parameters_.append(item);
+        connect(item, SIGNAL(valueChanged()), SLOT(updateButtons()));
+        parameters_.append(item);
 
-	if (isAdvanced) {
-	    item->setVisible(advanced_->isChecked());
-	    connect(advanced_, SIGNAL(clicked(bool)), item,
-                    SLOT(setVisible(bool)));
-	}
+        if (isAdvanced) {
+            item->setVisible(advanced_->isChecked());
+            connect(advanced_, SIGNAL(clicked(bool)), item, SLOT(setVisible(bool)));
+        }
     }
 
     adjustSize();
@@ -739,26 +679,24 @@ ParamEditor::buildParameters()
     return true;
 }
 
-
 bool
 ParamEditor::updateParameters()
 {
-    if (! controllerItem_->getParameters(definition_)) {
-	QMessageBox::information(
-	    qApp->activeWindow(), "Edit Failed",
-	    QString("<p>Unable to request the configuration for the service '"
-                    "%1'. The service may no longer exists or it may not "
-                    "be responding to XML/RPC requests.</p>")
-	    .arg(controllerItem_->getName()),
-	    QMessageBox::Ok);
-	return false;
+    if (!controllerItem_->getParameters(definition_)) {
+        QMessageBox::information(qApp->activeWindow(), "Edit Failed",
+                                 QString("<p>Unable to request the configuration for the service '"
+                                         "%1'. The service may no longer exists or it may not "
+                                         "be responding to XML/RPC requests.</p>")
+                                     .arg(controllerItem_->getName()),
+                                 QMessageBox::Ok);
+        return false;
     }
 
     // Update widgets with current values.
     //
     for (int index = 0; index < definition_.size(); ++index) {
-	XmlRpc::XmlRpcValue& vs(definition_[index]);
-	parameters_[index]->setValue(vs["value"]);
+        XmlRpc::XmlRpcValue& vs(definition_[index]);
+        parameters_[index]->setValue(vs["value"]);
     }
 
     return true;
@@ -767,15 +705,11 @@ ParamEditor::updateParameters()
 void
 ParamEditor::beginEdit()
 {
-    if (! widgetContainer_)
-	buildDialog();
+    if (!widgetContainer_) buildDialog();
     if (parameters_.empty()) {
-	if (! buildParameters())
-	    return;
-    }
-    else {
-	if (! updateParameters())
-	    return;
+        if (!buildParameters()) return;
+    } else {
+        if (!updateParameters()) return;
     }
 
     show();
@@ -788,8 +722,7 @@ ParamEditor::endEdit(int status)
 {
     // If the user rejected the changes (via the Cancel button) then just ignore the entire edit.
     //
-    if (status == Rejected)
-	return;
+    if (status == Rejected) return;
 
     // Build the XML-RCP request with new parameter values.
     //
@@ -802,46 +735,40 @@ ParamEditor::endEdit(int status)
     QStringList changed;
     changed.append(controllerItem_->getParameterChangedHeading());
 
-    for (int index = 0; index < parameters_.size(); ++index)
-	parameters_[index]->addIfChanged(args, changed);
+    for (int index = 0; index < parameters_.size(); ++index) parameters_[index]->addIfChanged(args, changed);
 
     if (args.size()) {
-	if (! 	controllerItem_->setParameters(args)) {
-	    QMessageBox::information(
-		qApp->activeWindow(), "Edit Failed",
-		QString("Unable to update the value for the service '"
-                        "%1'. The service may no longer exists or it may "
-                        "not be responding to XML/RPC requests.")
-		.arg(controllerItem_->getName()),
-		QMessageBox::Ok);
+        if (!controllerItem_->setParameters(args)) {
+            QMessageBox::information(qApp->activeWindow(), "Edit Failed",
+                                     QString("Unable to update the value for the service '"
+                                             "%1'. The service may no longer exists or it may "
+                                             "not be responding to XML/RPC requests.")
+                                         .arg(controllerItem_->getName()),
+                                     QMessageBox::Ok);
 
-	    // Since we failed to apply the changes, lets close the dialog if it was not already done so by
-	    // QDialog.
-	    //
-	    if (status == ParamEditor::Applied ||
-                status == ParamEditor::AppliedOriginal)
-		close();
-	}
+            // Since we failed to apply the changes, lets close the dialog if it was not already done so by
+            // QDialog.
+            //
+            if (status == ParamEditor::Applied || status == ParamEditor::AppliedOriginal) close();
+        }
 
-	emit valuesChanged(changed);
+        emit valuesChanged(changed);
     }
 }
 
 void
 ParamEditor::maybeReject()
 {
-    if (! apply_->isEnabled() ||
-        QMessageBox::question(qApp->activeWindow(),
-                              "Changes Pending",
+    if (!apply_->isEnabled() ||
+        QMessageBox::question(qApp->activeWindow(), "Changes Pending",
                               "<p>Changes have not been applied to the "
                               "algorithm. Do you wish to continue and forget "
                               "the changes?.</p>",
-                              QMessageBox::No | QMessageBox::Yes,
-                              QMessageBox::No) == QMessageBox::Yes) {
-	// Invoke QDialog::reject() to set the dialog's status value to QDialog::Reject. This will emit
-	// QDialog::finished(), which will invoke our endEdit() routine.
-	//
-	reject();
+                              QMessageBox::No | QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
+        // Invoke QDialog::reject() to set the dialog's status value to QDialog::Reject. This will emit
+        // QDialog::finished(), which will invoke our endEdit() routine.
+        //
+        reject();
     }
 }
 
@@ -849,14 +776,12 @@ void
 ParamEditor::maybeAccept()
 {
     if (apply_->isEnabled()) {
-
-	// Invoke QDialog::accept() to set the dialog's status value to QDialog::Accept. This will emit
-	// QDialog::finished(), which will invoke our endEdit() routine.
-	//
-	accept();
-    }
-    else {
-	close();
+        // Invoke QDialog::accept() to set the dialog's status value to QDialog::Accept. This will emit
+        // QDialog::finished(), which will invoke our endEdit() routine.
+        //
+        accept();
+    } else {
+        close();
     }
 }
 
@@ -869,15 +794,14 @@ ParamEditor::updateButtons()
     bool enabled = false;
     bool originalEnabled = false;
     for (int index = 0; index < parameters_.size(); ++index) {
-	if (parameters_[index]->hasChanged())
-	    enabled = true;
+        if (parameters_[index]->hasChanged()) enabled = true;
 
-	XmlRpc::XmlRpcValue& vs(definition_[index]);
-	bool isAdvanced(vs["advanced"]);
-	if (! isAdvanced && parameters_[index]->notOriginal()) {
-	    LOGDEBUG << "index: " << index << std::endl;
-	    originalEnabled = true;
-	}
+        XmlRpc::XmlRpcValue& vs(definition_[index]);
+        bool isAdvanced(vs["advanced"]);
+        if (!isAdvanced && parameters_[index]->notOriginal()) {
+            LOGDEBUG << "index: " << index << std::endl;
+            originalEnabled = true;
+        }
     }
 
     apply_->setEnabled(enabled);
@@ -896,8 +820,7 @@ ParamEditor::apply()
 void
 ParamEditor::applyOriginal()
 {
-    for (int index = 0; index < parameters_.size(); ++index)
-	parameters_[index]->revertToOriginal();
+    for (int index = 0; index < parameters_.size(); ++index) parameters_[index]->revertToOriginal();
     setResult(AppliedOriginal);
     emit finished(AppliedOriginal);
     updateButtons();
@@ -906,8 +829,7 @@ ParamEditor::applyOriginal()
 void
 ParamEditor::undo()
 {
-    for (int index = 0; index < parameters_.size(); ++index)
-	parameters_[index]->undoChange();
+    for (int index = 0; index < parameters_.size(); ++index) parameters_[index]->undoChange();
     updateButtons();
 }
 

@@ -6,8 +6,12 @@ class QFile;
 
 #include "GUI/MainWindowBase.h"
 
-namespace Ui { class NotesWindow; }
-namespace Logger { class Log; }
+namespace Ui {
+class NotesWindow;
+}
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace GUI {
@@ -16,12 +20,11 @@ namespace Master {
 class RecordingController;
 class RecordingInfo;
 
-class NotesWindow : public MainWindowBase
-{
+class NotesWindow : public MainWindowBase {
     Q_OBJECT
     using Super = MainWindowBase;
-public:
 
+public:
     static Logger::Log& Log();
 
     /** Constructor.
@@ -73,7 +76,6 @@ private slots:
     void statsChanged();
 
 private:
-
     void makeMenuBar();
 
     void showRecordingStatus(bool recording);

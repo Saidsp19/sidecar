@@ -9,12 +9,11 @@ namespace ConfigEditor {
 
 class ParameterListItem;
 
-class ParameterItem : public TreeItem
-{
+class ParameterItem : public TreeItem {
     Q_OBJECT
     using Super = TreeItem;
-public:
 
+public:
     ParameterItem(ParameterListItem* parent, const QString& name);
 
     Type getType() const { return kParameter; }

@@ -1,7 +1,7 @@
-#ifndef SIDECAR_IO_WRITERS_H	// -*- C++ -*-
+#ifndef SIDECAR_IO_WRITERS_H // -*- C++ -*-
 #define SIDECAR_IO_WRITERS_H
 
-#include <sys/uio.h>		// for struct iovec
+#include <sys/uio.h> // for struct iovec
 #include <vector>
 
 #include "ace/CDR_Stream.h"
@@ -12,7 +12,9 @@
 
 #include "boost/shared_ptr.hpp"
 
-namespace Logger { class Log; }
+namespace Logger {
+class Log;
+}
 
 namespace SideCar {
 namespace IO {
@@ -31,10 +33,8 @@ namespace WriterDevices {
 
 /** Device that writes to a file.
  */
-class File
-{
+class File {
 public:
-
     /** Constructor for new device.
      */
     File() : device_() {}
@@ -52,7 +52,6 @@ public:
     const ACE_FILE_IO& getDevice() const { return device_; }
 
 protected:
-
     /** Send data to the device.
 
         \param iov address of first iovec structure to use
@@ -61,19 +60,16 @@ protected:
 
         \return number of bytes successfully written to device, or -1 if error
     */
-    ssize_t writeToDevice(const iovec* iov, int count)
-	{ return device_.send(iov, count); }
+    ssize_t writeToDevice(const iovec* iov, int count) { return device_.send(iov, count); }
 
 private:
-    ACE_FILE_IO device_;	///< File device for data writes
+    ACE_FILE_IO device_; ///< File device for data writes
 };
 
 /** Device that writes data to a network socket using TCP.
  */
-class TCPSocket
-{
+class TCPSocket {
 public:
-
     /** Constructor for new device.
      */
     TCPSocket() : device_() {}
@@ -91,7 +87,6 @@ public:
     const ACE_SOCK_Stream& getDevice() const { return device_; }
 
 protected:
-
     /** Send data to the device.
 
         \param iov address of first iovec structure to use
@@ -100,19 +95,16 @@ protected:
 
         \return number of bytes successfully written to device, or -1 if error
     */
-    ssize_t writeToDevice(const iovec* iov, int count)
-	{ return device_.sendv(iov, count); }
+    ssize_t writeToDevice(const iovec* iov, int count) { return device_.sendv(iov, count); }
 
 private:
-    ACE_SOCK_Stream device_;	///< Socket device for data fetches
+    ACE_SOCK_Stream device_; ///< Socket device for data fetches
 };
 
 /** Device that writes to a multicast socket.
  */
-class MulticastSocket
-{
+class MulticastSocket {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor for new reader.
@@ -132,7 +124,6 @@ public:
     const ACE_SOCK_Dgram_Mcast& getDevice() const { return device_; }
 
 protected:
-
     /** Send data to the device.
 
         \param iov address of first iovec structure to use
@@ -149,10 +140,8 @@ private:
 
 /** Device that writes to a unicast socket.
  */
-class UDPSocket
-{
+class UDPSocket {
 public:
-
     static Logger::Log& Log();
 
     /** Constructor for new reader.
@@ -175,11 +164,9 @@ public:
 
         \param remoteAddress IP address of remote host
     */
-    void setRemoteAddress(const ACE_INET_Addr& remoteAddress)
-	{ remoteAddress_ = remoteAddress; }
+    void setRemoteAddress(const ACE_INET_Addr& remoteAddress) { remoteAddress_ = remoteAddress; }
 
 protected:
-
     /** Send data to the device.
 
         \param iov address of first iovec structure to use
@@ -199,28 +186,32 @@ private:
 
 /** C++ interface for an ::iovec struct.
  */
-struct IOV: public iovec
-{
+struct IOV : public iovec {
     /** Constructor. Initializes to null values.
      */
-    IOV() { iov_base = 0; iov_len = 0; }
+    IOV()
+    {
+        iov_base = 0;
+        iov_len = 0;
+    }
 
     /** Constructor. Initializes ::iovec struct with data pointer and byte count.
-        
+
         \param addr location of first byte to write
 
         \param size number of bytes to write
     */
     IOV(const void* addr, size_t size)
-	{ iov_base = const_cast<void*>(addr); iov_len = size; }
+    {
+        iov_base = const_cast<void*>(addr);
+        iov_len = size;
+    }
 };
 
 /** Vector of IOV entries. Used in gather-write methods such as writev.
  */
-class IOVVector : public std::vector<IOV>
-{
+class IOVVector : public std::vector<IOV> {
 public:
-
     using Super = std::vector<IOV>;
 
     /** Create IOV objects from the contents of an ACE_Message_Block and add to the collection.
@@ -234,14 +225,13 @@ public:
     file or socket. The writer itself has no idea how data is transported; it only knows how to get the data to
     the device.
 */
-class Writer
-{
+class Writer {
 public:
     using Ref = boost::shared_ptr<Writer>;
 
     /** Obtain the log device to use for log messages.
-        
-        \return 
+
+        \return
     */
     static Logger::Log& Log();
 
@@ -254,7 +244,7 @@ public:
     virtual ~Writer() {}
 
     /** Set a flag to tell the writer that the device is being closed. This will break the writer out of the
-	while loop in writeEncoded if it is encountering EAGAIN errors while writing data.
+        while loop in writeEncoded if it is encountering EAGAIN errors while writing data.
     */
     void setClosingSignal() { closing_ = 1; }
 
@@ -263,13 +253,13 @@ public:
     void resetClosingSignal() { closing_ = 0; }
 
     /** Determine if the writer has been commanded to shut down.
-        
+
         \return true if so
     */
     bool isClosing() const { return closing_; }
 
     /** Write out an already-encoded data block.
-        
+
         \param data block to write
 
         \return true if successful, false otherwise
@@ -288,10 +278,9 @@ public:
     int getLastError() const { return lastError_; }
 
 protected:
-
     /** Prototype of method that writes data to a device. The data to write exists as an array of pointer/length
         pairs.
-        
+
         \param iov pointer to first iov to send
 
         \param count number of iov entries to send
@@ -309,20 +298,19 @@ private:
     writeToDevice(const ACE_OutputCDR&) method.
 */
 template <typename _D>
-class TWriter : public Writer, public _D
-{
+class TWriter : public Writer, public _D {
 public:
-    using Ref = boost::shared_ptr<TWriter<_D> >;
+    using Ref = boost::shared_ptr<TWriter<_D>>;
 
     /** Factory method that creates a new TWriter<_D> object.
-        
+
         \return new TWriter<_D> object
     */
     static Ref Make()
-	{
-	    Ref ref(new TWriter<_D>);
-	    return ref;
-	}
+    {
+        Ref ref(new TWriter<_D>);
+        return ref;
+    }
 
     /** Type of the device that writes out raw data for this writer. Device must provide a writeToDevice()
         method.
@@ -330,15 +318,14 @@ public:
     using DeviceType = _D;
 
     /** Constructor.
-        
-	\param blockSize size of initial buffer
+
+        \param blockSize size of initial buffer
     */
     TWriter() : Writer(), DeviceType() {}
 
     int close() { return DeviceType::getDevice().close(); }
 
 protected:
-
     /** Implementation of MessageWriterBase prototype. Forwards the writing request to the base device class.
         Utilizes the gather-write mechanism of the underlying device.
 
@@ -353,10 +340,8 @@ protected:
 
 /** Writer that sends raw data to a file device.
  */
-class FileWriter : public TWriter<WriterDevices::File>
-{
+class FileWriter : public TWriter<WriterDevices::File> {
 public:
-
     /** Class type synonym for our parent class
      */
     using Super = TWriter<WriterDevices::File>;
@@ -368,10 +353,8 @@ public:
 
 /** Writer that sends raw data to a TCP socket device.
  */
-class TCPSocketWriter : public TWriter<WriterDevices::TCPSocket>
-{
+class TCPSocketWriter : public TWriter<WriterDevices::TCPSocket> {
 public:
-
     /** Class type synonym for our parent class
      */
     using Super = TWriter<WriterDevices::TCPSocket>;
@@ -383,10 +366,8 @@ public:
 
 /** Writer that sends raw data to a UDP socket device.
  */
-class UDPSocketWriter : public TWriter<WriterDevices::UDPSocket>
-{
+class UDPSocketWriter : public TWriter<WriterDevices::UDPSocket> {
 public:
-
     /** Class type synonym for our parent class
      */
     using Super = TWriter<WriterDevices::UDPSocket>;
@@ -398,10 +379,8 @@ public:
 
 /** Writer that sends raw data to a multicast UDP socket device.
  */
-class MulticastSocketWriter : public TWriter<WriterDevices::MulticastSocket>
-{
+class MulticastSocketWriter : public TWriter<WriterDevices::MulticastSocket> {
 public:
-
     /** Class type synonym for our parent class
      */
     using Super = TWriter<WriterDevices::MulticastSocket>;

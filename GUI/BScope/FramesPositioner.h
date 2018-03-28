@@ -7,12 +7,11 @@ namespace SideCar {
 namespace GUI {
 namespace BScope {
 
-class FramesPositioner : public QWidget, private Ui::FramesPositioner
-{
+class FramesPositioner : public QWidget, private Ui::FramesPositioner {
     Q_OBJECT
     using Super = QWidget;
-public:
 
+public:
     FramesPositioner(QWidget* parent = 0);
 
     void updateInfo();
