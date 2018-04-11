@@ -181,7 +181,7 @@ see one channel available:
 Click on the `+` button at the bottom to subscribe to the channel and close the window. Back in the `priemitter`
 app, click the `Start` button. With a good amount of luck, you should see something like this:
 
-![](images/ascope2.png)
+![](images/ascopeSignal.gif)
 
 Now, let's try for the big fish: `ppidisplay`. This application attempts to display incoming data in a format
 similar to a radar display. However, unlike its cousin `ascope`, this application needs to know a bit about the
@@ -196,7 +196,7 @@ describes the format of the `20t10scans` data we are emitting:
 Bring up the `Channel Selector` window with **⌘ 1** and select `NegativeVideo` for the `Video` source. You
 should start to see data flow to the display.
 
-![](images/ppidisplay2.png)
+![](images/ppidisplaySignal.gif)
 
 # Signal Processing Chains
 
@@ -295,4 +295,4 @@ demonstrated above can show all three data types (floating-point, binary, and ex
 "Channels Window" (**⌘ 1**) and you should see the additional available channels. By default binary data appears
 as dark blue (configurable).
 
-![](images/ppidisplay3.png)
+![](images/ppidisplayTracks.gif)
