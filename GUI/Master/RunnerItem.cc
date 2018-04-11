@@ -89,11 +89,12 @@ RunnerItem::executeRequest(const char* cmd, const XmlRpc::XmlRpcValue& args, Xml
     LOGINFO << "cmd: " << cmd << std::endl;
 
     if (!serviceEntry_) {
-        LOGERROR << "unresolved runner - service: " << getServiceName() << " host: " << getHostName() << std::endl;
+        LOGERROR << "unresolved runner - service: " << getServiceName() << " host: " << getHostName()
+                 << std::endl;
         return true;
     }
 
-    LOGDEBUG << "cmd: " << cmd << " host: " << getHostName() << " port: " << serviceEntry_->getPort() << std::endl;
+    LOGINFO << "cmd: " << cmd << " host: " << getHostName() << " port: " << serviceEntry_->getPort() << std::endl;
 
     XmlRpc::XmlRpcClient client(getHostName().toStdString(), serviceEntry_->getPort());
     return client.execute(cmd, args, result);
