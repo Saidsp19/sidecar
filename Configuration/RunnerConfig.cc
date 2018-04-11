@@ -36,22 +36,36 @@ RunnerConfig::RunnerConfig(const Loader& loader, const Init& cfg) :
     logPath_ = QString("%1/%2_%3.log").arg(loader.getLogsDirectory()).arg(configurationName_).arg(tmp);
     LOGDEBUG << "logPath: " << logPath_ << std::endl;
 
-    if (cfg_.host == "localhost") {
-        remoteCommand_ =
-            QString("runner %1 \"%2\" \"%3\"").arg(cfg_.opts).arg(cfg_.name).arg(loader.getConfigurationPath());
-    } else {
-        remoteCommand_ = QString("ssh -Tfnx %1 "
-                                 "'/usr/bin/nohup "
-                                 "\"%2\" "
-                                 "-L \"%3\" "
-                                 "runner %4 \"%5\" \"%6\"'")
-                             .arg(cfg_.host)
-                             .arg(QString(Utils::FilePath("${SIDECAR}/bin/startup").c_str()))
-                             .arg(logPath_)
-                             .arg(cfg_.opts)
-                             .arg(cfg_.name)
-                             .arg(loader.getConfigurationPath());
-    }
+    // Attempt to run a new `runner` instance to host an algorithm on a remote host. We use SSH to establish
+    // connectivity with the following flags:
+    //
+    // - -T -- don't allocate a TTY
+    // - -f -- make SSH run in background
+    // - -n -- don't read from stdin
+    // - -x -- disable X11 display forwarding
+    //
+    // We then run `nohup` so that the remote `runner` process will stay alive even if the SSH connection
+    // terminates. The arguments to `nohup` are:
+    //
+    // - ${SIDECAR}/bin/startup -- a shell script which sets up the environment for running `runner`
+    // - -L LOGPATH -- tell `startup` script where to write log output
+    // - `runner` -- the command to spawn from within `startup`
+    // - OPTS -- option settings to hand to `runner`
+    // - NAME -- the name of the processing stream to execute in `runner`
+    // - CFG -- the path of the configuration file to use that defines the NAME stream
+    //
+    remoteCommand_ = QString("ssh -Tfnx %1 "
+                             "'/usr/bin/nohup "
+                             "\"%2\" "
+                             "-L \"%3\" "
+                             "runner %4 \"%5\" \"%6\"'")
+        .arg(cfg_.host)
+        .arg(QString(Utils::FilePath("${SIDECAR}/bin/startup").c_str()))
+        .arg(logPath_)
+        .arg(cfg_.opts)
+        .arg(cfg_.name)
+        .arg(loader.getConfigurationPath());
+
     LOGDEBUG << "remoteCommand: " << remoteCommand_ << std::endl;
 }
 
