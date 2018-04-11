@@ -34,6 +34,8 @@ LogAlertsWindow::LogAlertsWindow() : Super(), gui_(new Ui::LogAlertsWindow)
 {
     gui_->setupUi(this);
     setObjectName("LogAlertsWindow");
+    setVisibleAfterRestore(false);
+
     makeShowAction(Qt::Key_F3);
     gui_->alerts_->document()->setMaximumBlockCount(1000);
 
