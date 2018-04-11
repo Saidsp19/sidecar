@@ -5,6 +5,7 @@
 add_scripts(algxml.py
 			doinstall.sh
 			dotest.sh
+            env-init.sh
 			extcsv.py
 			install-build.sh
 			install-gui.sh

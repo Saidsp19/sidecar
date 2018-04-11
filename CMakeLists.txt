@@ -60,10 +60,6 @@ add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/data
                    COMMAND ${CMAKE_COMMAND} -E create_symlink ${SIDECAR}/data ${PROJECT_BINARY_DIR}/data)
 add_custom_target(link-data ALL DEPENDS ${PROJECT_BINARY_DIR}/data)
                    
-# Install the env-init.sh files
-#
-install(FILES env-init.sh DESTINATION ./)
-
 # Install the data directory
 #
 install(DIRECTORY data DESTINATION ./ PATTERN ".svn" EXCLUDE PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
