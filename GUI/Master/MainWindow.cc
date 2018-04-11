@@ -140,8 +140,6 @@ MainWindow::updateActiveMasters(const ServiceEntryHash& found)
 void
 MainWindow::doNowTick()
 {
-    Logger::ProcLog log("doNowTick", Log());
-    LOGINFO << std::endl;
     if (checker_) processChecker();
     now_ = QDateTime::currentDateTime().toUTC().time().toString("hh:mm:ss") + " UTC";
     statusWidget_->now_->setText(now_);
