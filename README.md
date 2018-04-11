@@ -156,8 +156,9 @@ You should see something like
 
 ![](images/priemitter1.png)
 
-Now, try loading the data file `$SIDECAR/data/pri/20t10scans.pri` Make sure that the `Connection Type` is set
-to `Multicast`
+Now, try loading the data file `$SIDECAR/data/pri/20t10scans.pri` by selecting "File > Open" (**⌘ O**) and
+navigating to the `20t10scans.pri` file. Make sure that the `Connection Type` is set to `Multicast` in the main
+window; it defaults to using `TCP`.
 
 ![](images/priemitter2.png)
 
