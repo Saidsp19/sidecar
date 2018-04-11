@@ -34,9 +34,9 @@ namespace Algorithms {
     bool
     Foo::startup()
     {
-    registerProcessor<Foo,Messages::Video>("main", &NOOP::processMain);
-    registerProcessor<Foo,Messages::Video>("aux", &NOOP::processAux);
-    return true;
+        registerProcessor<Foo,Messages::Video>("main", &NOOP::processMain);
+        registerProcessor<Foo,Messages::Video>("aux", &NOOP::processAux);
+        return true;
     }
     \endcode
 
@@ -48,9 +48,9 @@ namespace Algorithms {
     bool
     Foo::startup()
     {
-    registerProcessor<Foo,Messages::Video>("main", &NOOP::processMain);
-    registerProcessor<Foo,Messages::Video>("aux", &NOOP::processAux);
-    return registerParameter(param1_) && registerParameter(param2_);
+        registerProcessor<Foo,Messages::Video>("main", &NOOP::processMain);
+        registerProcessor<Foo,Messages::Video>("aux", &NOOP::processAux);
+        return registerParameter(param1_) && registerParameter(param2_);
     }
     \endcode
 
@@ -133,7 +133,9 @@ public:
 
         \return true if successful
     */
-    bool unregisterParameter(const Parameter::Ref& parameter) { return controller_.unregisterParameter(parameter); }
+    bool unregisterParameter(const Parameter::Ref& parameter) {
+        return controller_.unregisterParameter(parameter);
+    }
 
     /** Install a method to process a particular message type. Used by derived classes to install message
         processing methods. The two template parameters are
@@ -151,8 +153,8 @@ public:
         \code
         bool
         Foo::startup() {
-        registerProcessor<Foo,Messages::Video>(&Foo::process);
-        return true;
+            registerProcessor<Foo,Messages::Video>(&Foo::process);
+            return true;
         }
 
         bool
@@ -207,7 +209,8 @@ public:
     void registerProcessor(size_t channelIndex, const Messages::MetaTypeInfo& metaTypeInfo,
                            boost::function<bool(A*, typename Messages::Header::Ref)> proc)
     {
-        addProcessor(channelIndex, metaTypeInfo, new TProcessor<A, Messages::Header>(static_cast<A*>(this), proc));
+        addProcessor(channelIndex, metaTypeInfo,
+                     new TProcessor<A, Messages::Header>(static_cast<A*>(this), proc));
     }
 
     /** Add a message processor for a channel. Locates the channel with a given name.
@@ -252,7 +255,9 @@ public:
 
         \return the index found
     */
-    size_t getOutputChannelIndex(const std::string& name) const { return controller_.getOutputChannelIndex(name); }
+    size_t getOutputChannelIndex(const std::string& name) const {
+        return controller_.getOutputChannelIndex(name);
+    }
 
     /** Submit a message object to the controller for sending out on a given data channel. Assigns a unique
         sequence number to the message.
