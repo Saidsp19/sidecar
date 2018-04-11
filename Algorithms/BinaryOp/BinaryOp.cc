@@ -123,10 +123,14 @@ BinaryOp::processChannels()
             BinaryVideo::Ref b = inputs[index];
             switch (operator_->getValue()) {
             case kAndOp:
-            case kNotAndOp: std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), AndOp()); break;
+            case kNotAndOp:
+                std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), AndOp());
+                break;
 
             case kOrOp:
-            case kNotOrOp: std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), OrOp()); break;
+            case kNotOrOp:
+                std::transform(a->begin(), a->begin() + minSize, b->begin(), out->begin(), OrOp());
+                break;
 
             case kXorOp:
             case kNotXorOp:
@@ -145,7 +149,9 @@ BinaryOp::processChannels()
     // Need to perform a NOT operation on the result? If we've gone through the above loop at least once, 'a'
     // will alias 'out'.
     //
-    if (op >= kNotOp) { std::transform(a->begin(), a->begin() + minSize, out->begin(), NotOp()); }
+    if (op >= kNotOp) {
+        std::transform(a->begin(), a->begin() + minSize, out->begin(), NotOp());
+    }
 
     LOGDEBUG << out->dataPrinter() << std::endl;
 
