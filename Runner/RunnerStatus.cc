@@ -15,14 +15,7 @@ RunnerStatus::Make(XmlRpc::XmlRpcValue& status, const RunnerConfig& runnerConfig
     StatusBase::Make(status, kNumSlots, GetClassName(), runnerConfig.getRunnerName().toStdString());
     status[kConfigName] = runnerConfig.getConfigurationName().toStdString();
     status[kServiceName] = runnerConfig.getServiceName().toStdString();
-
-    char buffer[256];
-    if (::gethostname(buffer, sizeof(buffer)) == -1) {
-        status[kHostName] = runnerConfig.getHostName().toStdString();
-    } else {
-        status[kHostName] = buffer;
-    }
-
+    status[kHostName] = runnerConfig.getHostName().toStdString();
     status[kLogPath] = runnerConfig.getLogPath().toStdString();
     status[kStreamStatus] = streamStatus.release();
     status[kLogMessages] = logMessages.release();
