@@ -494,8 +494,8 @@ private:
 
     \code
     void Foo::bar() {
-    static Logger::ProcLog log("bar", Log());
-    log.debug() << "hi mom!" << std::endl;
+        static Logger::ProcLog log("bar", Log());
+        log.debug() << "hi mom!" << std::endl;
     \endcode
 
     The above assumes that the class Foo defined a (class) method called Log() which returned the general log
@@ -645,53 +645,43 @@ protected:
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug3 messages.
  */
-#define LOGDEBUG3                                                                                                      \
-    if (log.showsDebug3()) log.debug3()
+#define LOGDEBUG3 if (log.showsDebug3()) log.debug3()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug2 messages.
  */
-#define LOGDEBUG2                                                                                                      \
-    if (log.showsDebug2()) log.debug2()
+#define LOGDEBUG2 if (log.showsDebug2()) log.debug2()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug1 messages.
  */
-#define LOGDEBUG1                                                                                                      \
-    if (log.showsDebug1()) log.debug1()
+#define LOGDEBUG1 if (log.showsDebug1()) log.debug1()
 
 /** Macro to conditionally obtain a log stream if log device is accepting debug1 messages.
  */
-#define LOGDEBUG                                                                                                       \
-    if (log.showsDebug1()) log.debug1()
+#define LOGDEBUG if (log.showsDebug1()) log.debug1()
 
 /** Macro to conditionally obtain a log stream if log device is accepting trace messages.
  */
-#define LOGTOUT                                                                                                        \
-    if (log.showsTraceOut()) log.traceOut()
+#define LOGTOUT if (log.showsTraceOut()) log.traceOut()
 
 /** Macro to conditionally obtain a log stream if log device is accepting trace messages.
  */
-#define LOGTIN                                                                                                         \
-    if (log.showsTraceIn()) log.traceIn()
+#define LOGTIN if (log.showsTraceIn()) log.traceIn()
 
 /** Macro to conditionally obtain a log stream if log device is accepting info messages.
  */
-#define LOGINFO                                                                                                        \
-    if (log.showsInfo()) log.info()
+#define LOGINFO if (log.showsInfo()) log.info()
 
 /** Macro to conditionally obtain a log stream if log device is accepting warning messages.
  */
-#define LOGWARNING                                                                                                     \
-    if (log.showsWarning()) log.warning()
+#define LOGWARNING if (log.showsWarning()) log.warning()
 
 /** Macro to conditionally obtain a log stream if log device is accepting error messages.
  */
-#define LOGERROR                                                                                                       \
-    if (log.showsError()) log.error()
+#define LOGERROR if (log.showsError()) log.error()
 
 /** Macro to conditionally obtain a log stream if log device is accepting fatal messages.
  */
-#define LOGFATAL                                                                                                       \
-    if (log.showsFatal()) log.fatal()
+#define LOGFATAL if (log.showsFatal()) log.fatal()
 
 } // namespace Logger
 
