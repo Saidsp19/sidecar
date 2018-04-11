@@ -53,10 +53,11 @@ AppBase::GetApp()
 }
 
 AppBase::AppBase(const QString& name, int& argc, char** argv) :
-    QApplication(argc, argv), name_(name), windowManager_(new WindowManager(this)), manualWindow_(0), loggerWindow_(0), 
-    lastConfigurationFile_(""), lastStyleSheetFile_(), config_(0), toolsMenuActions_(), loggingMenuActions_(), helpMenuActions_(),
-    distanceUnits_("km"), distanceUnitsSuffix_(" km"), phantomCursor_(PhantomCursorImaging::InvalidCursor()),
-    angularFormatType_(kDecimal), quitting_(false), disableAppNap_(new DisableAppNap)
+    QApplication(argc, argv), name_(name), windowManager_(new WindowManager(this)), manualWindow_(0),
+    loggerWindow_(0), lastConfigurationFile_(""), lastStyleSheetFile_(), config_(0), toolsMenuActions_(),
+    loggingMenuActions_(), helpMenuActions_(), distanceUnits_("km"), distanceUnitsSuffix_(" km"),
+    phantomCursor_(PhantomCursorImaging::InvalidCursor()), angularFormatType_(kDecimal), quitting_(false),
+    disableAppNap_(new DisableAppNap)
 {
     Logger::ProcLog log("AppBase", Log());
     LOGINFO << "argv0: " << argv[0] << std::endl;
@@ -154,7 +155,8 @@ void
 AppBase::setActiveConfiguration(const std::string& root)
 {
     ::setenv("SIDECAR", root.c_str(), 0);
-    auto paths = {"${SIDECAR_CONFIG}", "${SIDECAR}/data/configuration.xml", "/opt/sidecar/data/configuration.xml"};
+    auto paths = {"${SIDECAR_CONFIG}", "${SIDECAR}/data/configuration.xml",
+                  "/opt/sidecar/data/configuration.xml"};
     SideCar::Configuration::Loader loader;
     for (auto path : paths) {
         auto filePath = Utils::FilePath(path);
