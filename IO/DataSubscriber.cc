@@ -134,13 +134,9 @@ DataSubscriber::foundNotification(const ServiceEntryVector& services)
 
     if (best && best != service_) {
         if (service_) { resolvedSignalConnection_.disconnect(); }
-
         service_ = best;
         LOGDEBUG << "best interface: " << best->getInterfaceName() << std::endl;
-
         resolvedSignalConnection_ = best->connectToResolvedSignal([this](auto& v) { resolvedNotification(v); });
-
-        setError("Publisher found.", true);
         best->resolve();
     }
 }
