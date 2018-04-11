@@ -33,9 +33,10 @@ Task::Log()
 }
 
 Task::Task(bool usingData) :
-    Super(), stream_(), taskName_(""), error_(""), taskIndex_(0), inputs_(), inputStats_(), outputs_(), parameterMap_(),
-    parameterVector_(), processingStateParameter_(ProcessingStateParameter::Make("processingState", "Processing State",
-                                                                                 ProcessingStateParameter::None())),
+    Super(), stream_(), taskName_(""), error_(""), taskIndex_(0), inputs_(), inputStats_(), outputs_(),
+    parameterMap_(), parameterVector_(),
+    processingStateParameter_(ProcessingStateParameter::Make("processingState", "Processing State",
+                                                             ProcessingStateParameter::None())),
     editingEnabled_(Parameter::BoolValue::Make("editingEnabled", "Editing Enabled", true)), connectionInfo_(""),
     processingState_(ProcessingState::kInvalid), lastProcessingState_(ProcessingState::kInvalid),
     alwaysUsingData_(Parameter::BoolValue::Make("alwaysUsingData", "Always Using Data", false)), threadParams_(),
@@ -46,7 +47,8 @@ Task::Task(bool usingData) :
 
     // Receive notification when the processing state runtime parameter changes.
     //
-    processingStateParameter_->connectChangedSignalTo(boost::bind(&Task::processingStateParameterChanged, this, _1));
+    processingStateParameter_->connectChangedSignalTo(boost::bind(&Task::processingStateParameterChanged, this,
+                                                                  _1));
 
     // Make these parameters 'advanced' so that they don't normally show up in the Master parameter setting
     // editor.
@@ -107,7 +109,8 @@ Task::registerParameter(const Parameter::Ref& parameter)
     LOGINFO << parameter->getName() << std::endl;
 
     if (parameterMap_.find(parameter->getName()) != parameterMap_.end()) {
-        LOGERROR << "duplicate registration of a parameter with name '" << parameter->getName() << "'" << std::endl;
+        LOGERROR << "duplicate registration of a parameter with name '" << parameter->getName() << "'"
+                 << std::endl;
         return false;
     }
 
@@ -231,7 +234,8 @@ Task::enterProcessingState(ProcessingState::Value goalState)
     static Logger::ProcLog log("enterProcessingState", Log());
 
     LOGINFO << "task: " << taskName_ << " current: " << ProcessingState::GetName(processingState_) << '/'
-            << processingState_ << " goal: " << ProcessingState::GetName(goalState) << '/' << goalState << std::endl;
+            << processingState_ << " goal: " << ProcessingState::GetName(goalState) << '/'
+            << goalState << std::endl;
 
     // Remember the new processing state for use with enterLastProcessingState()
     //
