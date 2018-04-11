@@ -42,7 +42,7 @@ done
 
 [[ -z "${LOG}" ]] && LOG="/tmp/${1}_${USER}.log"
 
-# If there is a user's ${HOME}/.profile, bring it in first
+# If there is a user's ${HOME}/.profile, bring it in first so we can get SIDECAR set
 #
 PROFILE="${HOME}/.profile"
 [[ -f ${PROFILE} ]] && . ${PROFILE}
@@ -63,7 +63,7 @@ fi
 
 # Now bring in the SideCar environment.
 #
-[[ -f "${SIDECAR}/env-init.sh" ]] && . "${SIDECAR}/env-init.sh" ""
+[[ -f "${SIDECAR}/bin/env-init" ]] && . "${SIDECAR}/bin/env-init" ""
 
 # Start the requested program. If the program quits with a non-zero exit, restart it if asked to.
 #

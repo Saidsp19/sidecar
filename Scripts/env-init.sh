@@ -65,18 +65,10 @@ function PathAdd # VAR VALUE VALUE VALUE
 }
 
 export SIDECAR
-export SIDECAR_SRC
-export SIDECAR_CONFIG
-
-if [[ -z "${SIDECAR_SRC}" && -d "${HOME}/src/sidecar" ]]; then
-    SIDECAR_SRC="${HOME}/src/sidecar"
-    SIDECAR="${SIDECAR_SRC}/builds/latest"
-fi
-
 [[ -z "${SIDECAR}" ]] && SIDECAR="/opt/sidecar"
+
 if [[ -d "${SIDECAR}" ]]; then
     PathAdd PATH "${SIDECAR}/bin"
-    [[ -z "${SIDECAR_CONFIG}" ]] && SIDECAR_CONFIG="${SIDECAR}/data/radar_files/20t10scans.xml"
 else
     echo "*** SIDECAR not defined or not found"
 fi
