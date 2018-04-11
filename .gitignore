@@ -1,6 +1,6 @@
 CMakeCache.txt
 build/
-GUI/*/*.icns
+# GUI/*/*.icns
 # GUI/*/*.png
 doc/html
 bin
