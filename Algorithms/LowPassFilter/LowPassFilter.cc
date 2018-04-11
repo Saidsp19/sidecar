@@ -17,8 +17,8 @@
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
-// Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur in the
-// startup() method. NOTE: it is WRONG to call any virtual functions here...
+// Constructor. Do minimal initialization here. Registration of processors and runtime parameters should occur
+// in the startup() method. NOTE: it is WRONG to call any virtual functions here...
 //
 LowPassFilter::LowPassFilter(Controller& controller, Logger::Log& log) :
     Super(controller, log), enabled_(Parameter::BoolValue::Make("enabled", "Enabled", kDefaultEnabled)),
@@ -56,7 +56,7 @@ LowPassFilter::loadKernel()
 
     std::string file = kernelFile_->getValue().c_str();
 
-    if (file == "") { LOGERROR << "No kernel file provided.  Using default!" << std::endl; }
+    if (file == "") LOGERROR << "No kernel file provided.  Using default!" << std::endl;
 
     std::ifstream input(file.c_str());
 
@@ -128,14 +128,14 @@ LowPassFilter::processInput(const Messages::Video::Ref& msg)
 
     int msg_size = msg->getSize() / 2;
 
-    // Create a new message to hold the output of what we do. Note that although we pass in the input message, the new
-    // message does not contain any data.
+    // Create a new message to hold the output of what we do. Note that although we pass in the input message,
+    // the new message does not contain any data.
     //
     Messages::Video::Ref out(Messages::Video::Make("LowPassFilter::processInput", msg));
     Messages::Video::Container& outputData(out->getData());
 
-    // Fetch the FFT parameters. The number of windows is the number of FFTs we must execute in order to process the
-    // filter span. Using ::ceil to sure that numWindows covers the entire message.
+    // Fetch the FFT parameters. The number of windows is the number of FFTs we must execute in order to process
+    // the filter span. Using ::ceil to sure that numWindows covers the entire message.
     //
     const int fftSize = fftSize_->getValue();
     const int numWindows = static_cast<int>(::ceil(static_cast<float>(msg_size) / fftSize));
@@ -160,7 +160,7 @@ LowPassFilter::processInput(const Messages::Video::Ref& msg)
         // Copy filtered data into output message.
         //
         int limit = fftSize;
-        if (windowIndex == numWindows - 1) { limit -= padding; }
+        if (windowIndex == numWindows - 1) limit -= padding;
 
         for (int index = 0; index < limit; ++index) {
             outputData.push_back(Messages::Video::DatumType((*filtered_data_)(index).real()));
@@ -169,9 +169,9 @@ LowPassFilter::processInput(const Messages::Video::Ref& msg)
 
     } // end for each window
 
-    // Send out on the default output device, and return the result to our Controller. NOTE: for multichannel output,
-    // one must give a channel index to the send() method. Use getOutputChannelIndex() to obtain the index for an
-    // output channel with a given name.
+    // Send out on the default output device, and return the result to our Controller. NOTE: for multichannel
+    // output, one must give a channel index to the send() method. Use getOutputChannelIndex() to obtain the
+    // index for an output channel with a given name.
     //
     bool rc = send(out);
     LOGDEBUG << "rc: " << rc << std::endl;
