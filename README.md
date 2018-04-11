@@ -109,7 +109,22 @@ Hopefully `CMake` will find everything and run without errors. Next:
 This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
 machine.
 
-Note that in the instructions below `<SIDECAR>` will refer to the source directory of the Git clone.
+## Environment Configuration
+
+Various parts of the software like to know where it was installed, and they expect to find an environment
+variable called `SIDECAR` that holds the installation directory. For our purposes, we will just set it to the
+`build` directory that holds the output of the `make` operation.
+
+```text
+% export SIDECAR="$PWD"
+```
+
+We also need to save this value for any future processes to find. The best place to store it is in
+`$HOME/.profile` or `$HOME/.bash_profile` (I've only tested with the first).
+
+```text
+% echo export SIDECAR="'$SIDECAR'" >> $HOME/.profile
+```
 
 ## Post Install
 
@@ -124,7 +139,7 @@ loopback interface. The apps are hardcoded (I think) to use the address `237.1.2
 There are some binary files in the `data/pri` directory that need to be joined before they can be used:
 
 ```
-% cd <SIDECAR>/data/pri
+% cd $SIDECAR/data/pri
 % bash prijoin.sh
 ```
 
@@ -134,15 +149,14 @@ If all of the above went well, we can test out the apps in the `build/bin` direc
 some data:
 
 ```
-% cd <SIDECAR>/build/bin
-% open priemitter.app
+% open $SIDECAR/bin/priemitter.app
 ```
 
 You should see something like
 
 ![](images/priemitter1.png)
 
-Now, try loading the data file `<SIDECAR>/data/pri/20t10scans.pri` Make sure that the `Connection Type` is set
+Now, try loading the data file `$SIDECAR/data/pri/20t10scans.pri` Make sure that the `Connection Type` is set
 to `Multicast`
 
 ![](images/priemitter2.png)
@@ -151,7 +165,7 @@ The window shows `Connections: 0` because no one is listening for data on the `N
 if we can get an app to do so:
 
 ```
-% open ascope.app
+% open $SIDECAR/bin/ascope.app
 ```
 
 The AScope app will show something like an osciliscope display that plots data samples from a data source.
@@ -174,13 +188,110 @@ incoming data in order to properly display it. We will point it to an XML config
 describes the format of the `20t10scans` data we are emitting:
 
 ```
-% cd <SIDECAR>/data/pri
-% export SIDECAR_CONFIG="$PWD/20t10scans.xml"
-% cd ../../build/bin
-% open ppidisplay.app
+% export SIDECAR_CONFIG="$SIDECAR/data/pri/20t10scans.xml"
+% open $SIDECAR/bin/ppidisplay.app
 ```
 
 Bring up the `Channel Selector` window with **⌘ 1** and select `NegativeVideo` for the `Video` source. You
 should start to see data flow to the display.
 
 ![](images/ppidisplay2.png)
+
+# Signal Processing Chains
+
+There is a GUI application called `master` which lets you launch and monitor signal processing chains --
+collections of algorithms that process input streams and generate new output streams. Unfortunately, getting
+this to work properly on a new host is a bit of dark art. Below is a minimal attempt to document what needs to
+be done to get at least a minimal processing chain up and running
+
+## SSH Connectivity
+
+The first thing that needs to be done is to enable SSH access to the machine(s) you wish to run the processing
+chains. For demonstration purposes we will run all processing locally, so we need SSH to the local machine. This
+is disabled by default on macOS and for a good reason: **enabling SSH can allow others to access your machine**.
+Just be aware of that.
+
+![](images/enablessh.png)
+
+Next, we need to be able to access the host via SSH using a public key. Since we are trying to reach our own
+machine using SSH, the easiest way to enable this is to do the following (assuming you have a public key with
+the name `id_rsa.pub`)
+
+```text
+% cat $HOME/.ssh/id\_rsa.pub >> $HOME/.ssh/authorized\_keys
+% ssh localhost
+The authenticity of host 'localhost (::1)' can't be established.
+ECDSA key fingerprint is SHA256:2Me0Xq0lP5ruqvhQQn8UkHm3NopftDviyZvJhGr7ZYg.
+Are you sure you want to continue connecting (yes/no)? yes
+
+Warning: Permanently added 'localhost' (ECDSA) to the list of known hosts.
+Last login: Wed Apr 11 10:36:32 2018 from 192.168.12.132
+% exit
+logout
+Connection to localhost closed.
+% 
+```
+
+(Future connections will be less noisy)
+
+## Launching Master Application
+
+The `master` GUI app allows one to load XML configuration files that describe signal processing chains and then
+_launch_ them and monitor their performance.
+
+![](images/master1.png)
+
+Load the `basic` configuration file found at `$SIDECAR/data/configs/basic.xml` by pressing the big plus sign
+(+) in the upper-left region corner. Now try launching it by pressing the `Launch` button. If your environment
+and SSH are set up properly, you should see an alert saying all was well and your `master` view should look
+something like this:
+
+![](images/master2.png)
+
+The `basic.xml` configuration defines just one processing stream -- "Basic Extraction" -- with four algorithms:
+
+- NCIntegrate -- a smoothing filter
+- Threshold -- a filter that converts floating values into booleans depending on their magnitude
+- MofN -- further filters boolean values such that a true value depends on having a certain number of
+  surrounding true values.
+- Extract -- another conversion filter that generates an _extraction_ record for each true value from MofN.
+
+The `master` view shows real runtime state from each of the algorithms. The view also has a button for each
+algorithm that allows you to edit runtime parameters declared by the algorithm.
+
+## Sending Data
+
+Start up the `priemitter` application mentioned earlier and reload the `20t10scans.pri` file. Make sure that the
+multicast address is `237.1.2.102` -- this is the same value that is in the `basic.xml`. Notice that after
+loading, the `Connections` value still shows 0, unlike when we ran `ascope`. This is because Sidecar processing
+streams do not do any work unless there is something that is consuming their output, and we don't have anything
+yet that is doing so. However, the streams *will* perform work if they are set in the "AutoDiag" state. Click on
+the "State" popup and select "AutoDiag" (or "Calibrate"). Now, the `Connections` count should change to `1` if
+all the plumbing is working properly.
+
+> NOTE: an easy way to debug issues is to launch a GUI app from a termainal shell, such as
+> `$SIDECAR/bin/master.app/Contents/MacOS/master`. That way log messages from the application will appear in the
+> terminal window. Also, log levels can be set for `master` in the "Logger Configuration Window". Note that
+> DEBUG level will emit a lot of data and make the GUI rather slow
+
+Press "Start" button in the `priemitter` application. You should see the real-time stats for the algorithms turn
+to green and show messages per second stats:
+
+![](images/master3.png)
+
+## Viewing Data
+
+The basic processing stream above consumes data over the `NegativeVideo` channel, and it creates three new data
+streams:
+
+- NCIntegrate -- the smoothed output from the NCIntegrate algorithm
+- Threshold -- a stream of binary values from thresholding the smoothed values
+- MofN -- a stream of binary values from the M-of-N filtering
+- Extractions -- a stream of _extraction_ records 
+
+The `ascope` application can only show streams of floating-point data. However, the `ppidisplay` app
+demonstrated above can show all three data types (floating-point, binary, and extractions). Simply show the
+"Channels Window" (**⌘ 1**) and you should see the additional available channels. By default binary data appears
+as dark blue (configurable).
+
+![](images/ppidisplay3.png)

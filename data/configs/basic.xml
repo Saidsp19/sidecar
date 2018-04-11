@@ -35,7 +35,7 @@
        rangeOfFirstGate - the range value associated with the first sample
        rangeDelta - the change in range between subsequent samples
     -->
-  <radar file="radar-1.xml"/>
+  <radar file="20t10scans.xml"/>
 
   <!-- Configuration of the Radar Interface Unit (RIU) VME system
     -->
@@ -52,8 +52,8 @@
 
        The only valid element inside <dp> is <host>
     -->
-  <dp recordingBasePath="${SIDECAR}/recordings" loggerConfigPath="${SIDECAR}/data/logger.cfg">
-    <runner name="localhost" tag="1" multicast="237.1.2.102">
+  <dp recordingsDirectory="${SIDECAR}/recordings" loggerConfiguration="${SIDECAR}/data/logger.cfg">
+    <runner name="basic" host="localhost" tag="1" multicast="237.1.2.102">
 
       <!-- Basic target extraction processing stream -->
 
@@ -70,7 +70,7 @@
 	<algorithm dll="Threshold">
 	  <input type="Video" channel="NCIntegrate"/>
 	  <output type="BinaryVideo" channel="Threshold"/>
-	  <param name="threshold" type="int" value="-2400"/>
+	  <param name="threshold" type="int" value="6000"/>
 	</algorithm>
 
         <publisher name="Threshold" type="BinaryVideo" channel="Threshold"/>
