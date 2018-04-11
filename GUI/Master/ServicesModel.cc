@@ -27,7 +27,8 @@ using namespace SideCar::Algorithms;
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::Master;
 
-const char* ServicesModel::kColumnNames_[] = {"Name", "Host", "State", "Rec", "Pending", "Activity", "Error", "Info"};
+const char* ServicesModel::kColumnNames_[] = {"Name", "Host", "State", "Rec", "Pending", "Activity", "Error",
+                                              "Info"};
 
 Logger::Log&
 ServicesModel::Log()
@@ -40,9 +41,9 @@ TreeViewItem*
 ServicesModel::GetModelData(const QModelIndex& index)
 {
     static Logger::ProcLog log("GetModelData", Log());
-    LOGINFO << "row: " << index.row() << " col: " << index.column() << " p: " << index.internalPointer()
-            << " rows: " << index.model()->rowCount() << " cols: " << index.model()->columnCount() << std::endl;
-    if (!index.isValid()) return 0;
+    LOGDEBUG << "row: " << index.row() << " col: " << index.column() << " p: " << index.internalPointer()
+             << " rows: " << index.model()->rowCount() << " cols: " << index.model()->columnCount() << std::endl;
+    if (!index.isValid()) return nullptr;
     return static_cast<TreeViewItem*>(index.internalPointer());
 }
 
@@ -58,7 +59,8 @@ ServicesModel::ServicesModel(QObject* parent) :
     statusCollector_(new StatusCollector), rootItem_(new RootItem)
 {
     static Logger::ProcLog log("ServicesModel", Log());
-    connect(browser_, SIGNAL(foundServices(const ServiceEntryList&)), SLOT(foundServices(const ServiceEntryList&)));
+    connect(browser_, SIGNAL(foundServices(const ServiceEntryList&)),
+            SLOT(foundServices(const ServiceEntryList&)));
     connect(browser_, SIGNAL(lostServices(const ServiceEntryList&)), SLOT(lostServices(const ServiceEntryList&)));
     connect(statusCollector_, SIGNAL(statusUpdates(const QList<QByteArray>&)),
             SLOT(updateStatus(const QList<QByteArray>&)));
