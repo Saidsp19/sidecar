@@ -25,21 +25,18 @@ class ParamEditor;
     Algorithms::Algorithm object performs some work on the data. At present, there is at most one runner process
     per host.
 
-    The Runner object contains an XML-RPC server (wrapped in a RemoteController
-    object) and a StatusEmitter object that periodically sends out status
-    information to active processes running a GUI::StatusCollector. The status
-    sent out contains entries for all of the Runner's IO::Stream objects, and
-    their IO::Task/Algorithms::Controller objects. This information is held by
-    the GUI::ServicesModel object that provides data to this view.
+    The Runner object contains an XML-RPC server (wrapped in a RemoteController object) and a StatusEmitter
+    object that periodically sends out status information to active processes running a GUI::StatusCollector.
+    The status sent out contains entries for all of the Runner's IO::Stream objects, and their
+    IO::Task/Algorithms::Controller objects. This information is held by the GUI::ServicesModel object that
+    provides data to this view.
 
-    The tree view shows information in a nested fashion, with contained entries
-    indented under their parents. Entries with children may be expanded or
-    collapsed by the user -- a collapsed entry hides its children and
+    The tree view shows information in a nested fashion, with contained entries indented under their parents.
+    Entries with children may be expanded or collapsed by the user -- a collapsed entry hides its children and
     children's children.
 
-    Entries in the view that correspond to Algorithms::Controller objects have
-    a QPushButton widget in the name column, which when pushed, allows the user
-    to change runtime parameter settings of the algorithm.
+    Entries in the view that correspond to Algorithms::Controller objects have a QPushButton widget in the name
+    column, which when pushed, allows the user to change runtime parameter settings of the algorithm.
 */
 class ServicesView : public QTreeView {
     Q_OBJECT
@@ -63,7 +60,8 @@ public:
     */
     void setModel(QAbstractItemModel* model);
 
-    void setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible, const QString& filter);
+    void setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible,
+                                       const QString& filter);
 
     void setExpanded(const QModelIndex& index, bool expanded);
 

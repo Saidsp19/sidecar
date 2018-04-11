@@ -56,11 +56,12 @@ NameItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex
 
 ServicesView::ServicesView(QWidget* parent) :
     Super(parent), columnVisibility_(ServicesModel::kNumColumns, true), contextMenu_(new QMenu(this)),
-    contextMenuMapper_(new QSignalMapper(this)), adjustmentTimer_(), known_(), visible_(), filter_(""), dirtyColumns_()
+    contextMenuMapper_(new QSignalMapper(this)), adjustmentTimer_(), known_(), visible_(), filter_(""),
+    dirtyColumns_()
 {
     Logger::ProcLog log("ServicesView", Log());
 
-    adjustmentTimer_.setInterval(0);
+    adjustmentTimer_.setInterval(500);
     adjustmentTimer_.setSingleShot(true);
 
     dirtyColumns_.resize(ServicesModel::kNumColumns);
@@ -224,7 +225,8 @@ ServicesView::initializeRow(const QModelIndex& index)
 
         // Connect the button to a new ParamEditor object.
         //
-        ParamEditor* editor = new ParamEditor(qobject_cast<MainWindow*>(window()), qobject_cast<ControllerItem*>(item));
+        ParamEditor* editor = new ParamEditor(qobject_cast<MainWindow*>(window()),
+                                              qobject_cast<ControllerItem*>(item));
         connect(button, SIGNAL(clicked()), editor, SLOT(beginEdit()));
     }
 }
@@ -257,9 +259,15 @@ ServicesView::rowsInserted(const QModelIndex& parent, int start, int end)
 void
 ServicesView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
 {
+    static Logger::ProcLog log("dataChanged", Log());
+    LOGINFO << "top: " << topLeft.row() << " left: " << topLeft.column()
+            << " bottom: " << bottomRight.row() << " right: " << bottomRight.column() << std::endl;
     Super::dataChanged(topLeft, bottomRight);
-    for (int index = topLeft.column(); index < bottomRight.column(); ++index) dirtyColumns_[index] = true;
-    adjustColumnSizes(false);
+    if (! adjusting_) {
+        for (int index = topLeft.column(); index < bottomRight.column(); ++index)
+            dirtyColumns_[index] = true;
+        adjustColumnSizes(false);
+    }
 }
 
 void
@@ -455,7 +463,8 @@ ServicesView::doAdjustColumnSizes()
         if (dirtyColumns_[index]) {
             resizeColumnToContents(index);
             dirtyColumns_[index] = false;
-            if (index == ServicesModel::kName) setColumnWidth(index, columnWidth(index) + 20);
+            if (index == ServicesModel::kName)
+                setColumnWidth(index, columnWidth(index) + 20);
         }
     }
 }
@@ -500,7 +509,8 @@ ServicesView::getWasExpanded(const QModelIndex& index) const
 }
 
 void
-ServicesView::setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible, const QString& filter)
+ServicesView::setConfigurationVisibleFilter(const QStringList& known, const QStringList& visible,
+                                            const QString& filter)
 {
     static Logger::ProcLog log("setConfigurationVisibleFilter", Log());
     LOGINFO << "filter: " << filter << std::endl;
