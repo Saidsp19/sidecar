@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 #include "QtGui/QImage"
 #include "QtGui/QPainter"
 
@@ -1325,10 +1325,10 @@ static CLUTInfo cluts_[] = {{"Blue (saturated)", blueWithSaturation_, ClutSize(b
 #undef CLUTSize
 
 static void
-fillComponentValues(std::vector<GLfloat>& v, uint16_t bits)
+fillComponentValues(std::vector<float>& v, uint16_t bits)
 {
     uint32_t size = 1 << bits;
-    GLfloat scale = 1.0 / (size - 1);
+    float scale = 1.0 / (size - 1);
     for (uint32_t index = 0; index < size; ++index) { v.push_back(scale * index); }
 }
 
@@ -1339,13 +1339,13 @@ makeEncodedClut(CLUTInfo& info, uint16_t redBitCount, uint16_t greenBitCount, ui
 
     // Generate RED values from 0.0 to 1.0 with the given bit resolution.
     //
-    std::vector<GLfloat> redValues;
+    std::vector<float> redValues;
     fillComponentValues(redValues, redBitCount);
 
     // Generate GREEN values from 0.0 to 1.0 with the given bit resolution. If same resolution as RED, just copy
     // its values.
     //
-    std::vector<GLfloat> greenValues;
+    std::vector<float> greenValues;
     if (greenBitCount == redBitCount) {
         greenValues = redValues;
     } else {
@@ -1355,7 +1355,7 @@ makeEncodedClut(CLUTInfo& info, uint16_t redBitCount, uint16_t greenBitCount, ui
     // Generate BLUE values from 0.0 to 1.0 with the given bit resolution. If same resolution as RED or GREEN,
     // just copy their values.
     //
-    std::vector<GLfloat> blueValues;
+    std::vector<float> blueValues;
     if (blueBitCount == redBitCount) {
         blueValues = redValues;
     } else if (blueBitCount == greenBitCount) {
@@ -1371,7 +1371,8 @@ makeEncodedClut(CLUTInfo& info, uint16_t redBitCount, uint16_t greenBitCount, ui
     const uint32_t blueMask = (1 << blueBitCount) - 1;
 
     LOGDEBUG << "RGB counts: " << redBitCount << ' ' << greenBitCount << ' ' << blueBitCount << std::endl;
-    LOGDEBUG << "RGB masks: " << std::hex << redMask << ' ' << greenMask << ' ' << blueMask << std::dec << std::endl;
+    LOGDEBUG << "RGB masks: " << std::hex << redMask << ' ' << greenMask << ' ' << blueMask << std::dec
+             << std::endl;
 
     // Allocate an array for our new component values
     //
@@ -1436,7 +1437,7 @@ CLUT::AddTypeNames(QComboBox* widget)
     widget->setCurrentIndex(index);
 }
 
-CLUT::CLUT(Type type, GLfloat alpha) : colors_(0), type_(type), alpha_(alpha)
+CLUT::CLUT(Type type, float alpha) : colors_(0), type_(type), alpha_(alpha)
 {
     Logger::ProcLog log("CLUT", Log());
     setType(type);

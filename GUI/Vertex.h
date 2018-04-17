@@ -3,15 +3,13 @@
 
 #include <vector>
 
-#include "QtOpenGL/QtOpenGL"
-
 namespace SideCar {
 namespace GUI {
 
 struct Vertex {
     Vertex() {}
 
-    Vertex(GLfloat tx, GLfloat ty) : x(tx), y(ty) {}
+    Vertex(float tx, float ty) : x(tx), y(ty) {}
 
     Vertex& operator*=(float rhs)
     {
@@ -27,7 +25,7 @@ struct Vertex {
         return *this;
     }
 
-    GLfloat x, y;
+    float x, y;
 };
 
 inline Vertex operator*(const Vertex& lhs, float rhs)

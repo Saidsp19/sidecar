@@ -1,4 +1,4 @@
-#include "QtGui/QDoubleSpinBox"
+#include "QtWidgets/QDoubleSpinBox"
 
 #include "DoubleSetting.h"
 #include "LogUtils.h"

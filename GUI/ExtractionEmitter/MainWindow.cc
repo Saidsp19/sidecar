@@ -2,14 +2,14 @@
 
 #include <cmath>
 
+#include "QtCore/QItemSelectionModel"
 #include "QtCore/QSettings"
 #include "QtCore/QString"
-#include "QtGui/QHeaderView"
-#include "QtGui/QInputDialog"
-#include "QtGui/QItemSelectionModel"
-#include "QtGui/QMessageBox"
 #include "QtGui/QRegExpValidator"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QInputDialog"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Writers.h"
@@ -49,7 +49,7 @@ MainWindow::MainWindow() :
     pending_->setModel(model_);
     pending_->setSelectionBehavior(QAbstractItemView::SelectRows);
     pending_->setSelectionMode(QAbstractItemView::SingleSelection);
-    pending_->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    pending_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     entryChanger_->initialize(model_, range_, azimuth_);
 

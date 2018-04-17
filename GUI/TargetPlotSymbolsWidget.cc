@@ -5,7 +5,8 @@
 
 using namespace SideCar::GUI;
 
-TargetPlotSymbolsWidget::TargetPlotSymbolsWidget(QWidget* parent) : Super(parent), gui_(new Ui::TargetPlotSymbolsWidget)
+TargetPlotSymbolsWidget::TargetPlotSymbolsWidget(QWidget* parent)
+    : Super(parent), gui_(new Ui::TargetPlotSymbolsWidget)
 {
     gui_->setupUi(this);
 }

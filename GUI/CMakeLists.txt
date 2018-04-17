@@ -6,19 +6,20 @@
 # Make sure that when we compile we see any include files in the current build directory.
 #
 
-set(QT_USE_QTMAIN 1)
-set(QT_USE_QTNETWORK 1)
-set(QT_USE_QTOPENGL 1)
-set(QT_USE_QTSVG 1)
-set(QT_USE_QTXML 1)
+set(QTDEPS Core Gui Network OpenGL Svg Widgets Xml)
+set(QTLIBS)
 
-include(${QT_USE_FILE})
+foreach(tmp ${QTDEPS})
+    add_definitions(${Qt5${tmp}_DEFINITIONS})
+    include_directories(${Qt5${tmp}_INCLUDE_DIRS})
+    list(APPEND QTLIBS Qt5::${tmp})
+endforeach()
 
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-qt4_add_resources(GUI_tQRCS LED.qrc guiIcons.qrc)
+qt5_add_resources(GUI_tQRCS LED.qrc guiIcons.qrc)
 
-qt4_wrap_ui(GUI_tUIS
+qt5_wrap_ui(GUI_tUIS
             ChannelInfoWidget.ui
             ChannelSelectorWindow.ui
             ColorMapWidget.ui
@@ -30,7 +31,7 @@ qt4_wrap_ui(GUI_tUIS
             RadarInfoWidget.ui
             TargetPlotSymbolsWidget.ui)
 
-qt4_wrap_cpp(GUI_tMOCS AppBase.h
+qt5_wrap_cpp(GUI_tMOCS AppBase.h
              BoolSetting.h
              BugPlotEmitterSettings.h
              ChannelGroup.h
@@ -58,7 +59,7 @@ qt4_wrap_cpp(GUI_tMOCS AppBase.h
              MainWindowBase.h
              ManualWindow.h
              MessageReader.h
-             modeltest.h
+             # modeltest.h
              MulticastMessageReader.h
              OffscreenBuffer.h
              OnOffSettingsBlock.h
@@ -151,7 +152,7 @@ add_library(GUIUtils SHARED
             MainWindowBase.cc
             ManualWindow.cc
             MessageReader.cc
-            modeltest.cpp
+            # modeltest.cpp
             MulticastMessageReader.cc
             OffscreenBuffer.cc
             OnOffSettingsBlock.cc
@@ -223,8 +224,8 @@ set_target_properties(GUIUtils PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION $
 
 # Linkage dependencies for libGUIUtils
 #
-message(STATUS "*** OPENGL_LIBRARIES: ${OPENGL_LIBRARIES}")
-target_link_libraries(GUIUtils IO ${QT_LIBRARIES} ${OPENGL_LIBRARIES} "${GUI_EXTRA_LIBS}")
+message(STATUS "GUI linking with these OpenGL libraries: ${OPENGL_LIBRARIES}")
+target_link_libraries(GUIUtils IO ${QTLIBS} ${OPENGL_LIBRARIES} "${GUI_EXTRA_LIBS}")
 install(TARGETS GUIUtils LIBRARY DESTINATION lib)
 
 # Unit test for CLUT class

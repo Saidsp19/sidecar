@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_QCOMBOBOXSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QCOMBOBOXSETTING_H
 
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 
 #include "GUI/IntSetting.h"
 

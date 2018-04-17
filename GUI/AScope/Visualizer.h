@@ -10,7 +10,7 @@
 
 #include "QtGui/QMatrix"
 #include "QtGui/QPixmap"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "IO/Printable.h"
 

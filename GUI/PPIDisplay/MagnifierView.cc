@@ -2,6 +2,7 @@
 
 #include "QtCore/QSettings"
 #include "QtCore/QTimerEvent"
+#include "QtGui/QMouseEvent"
 
 #include "GUI/BugPlotEmitterSettings.h"
 #include "GUI/LogUtils.h"
@@ -27,8 +28,8 @@ MagnifierView::Log()
 }
 
 MagnifierView::MagnifierView(PPIWidget* contents, QWidget* parent) :
-    QGLWidget(parent, contents), contents_(contents), updateTimer_(), zoomPower_(0), cursorPosition_(), panning_(false),
-    showPhantomCursor_(true), showCursorPosition_(true)
+    QGLWidget(parent, contents), contents_(contents), updateTimer_(), zoomPower_(0), cursorPosition_(),
+    panning_(false), showPhantomCursor_(true), showCursorPosition_(true)
 {
     App* app = App::GetApp();
     setFocusPolicy(Qt::StrongFocus);

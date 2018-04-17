@@ -95,11 +95,18 @@ macro(add_tested_library NAME)
         endif()
     endforeach()
 
-    # message("${atl_UNTESTED} sources: ${atl_SRCS}")
-    # message("${atl_UNTESTED} deps: ${atl_DEPS}")
+    foreach(atl_ARG ${atl_DEPS})
+        string(FIND "${atl_ARG}" "Qt5::" atl_POS)
+        if(${atl_POS} EQUAL 0)
+            string(SUBSTRING "${atl_ARG}" 5 -1 atl_TMP)
+            add_definitions(${Qt5${atl_TMP}_DEFINITIONS})
+            include_directories(${Qt5${atl_TMP}_INCLUDE_DIRS})
+        endif()
+    endforeach()
 
     add_library(${atl_OBJS} OBJECT ${atl_SRCS})
     add_library(${atl_UNTESTED} SHARED $<TARGET_OBJECTS:${atl_OBJS}>)
+
     target_link_libraries(${atl_UNTESTED} ${atl_DEPS})
 
     set(atl_TEST_TARGETS)
@@ -121,8 +128,6 @@ macro(add_tested_library NAME)
         add_unit_test(${atl_TST} ${atl_UNTESTED})
         list(APPEND atl_TEST_TARGETS ${aut_NAME}-PASSED)
     endif()
-
-    # message("${atl_UNTESTED} tests: ${atl_TEST_TARGETS}")
 
     add_library(${atl_TESTED} SHARED $<TARGET_OBJECTS:${atl_OBJS}>)
     target_link_libraries(${atl_TESTED} ${atl_DEPS})

@@ -9,7 +9,8 @@ using namespace SideCar;
 using namespace SideCar::GUI;
 
 LoggerWindow::LoggerWindow(int shortcut) :
-    Super("LoggerWindow", "Logger Configuration", shortcut), gui_(new Ui::LoggerWindow), model_(new LoggerModel(this))
+    Super("LoggerWindow", "Logger Configuration", shortcut), gui_(new Ui::LoggerWindow),
+    model_(new LoggerModel(this))
 {
 #ifdef __DEBUG__
     new ModelTest(model_, this);

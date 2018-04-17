@@ -1,6 +1,7 @@
-#include "QtGui/QComboBox"
 #include "QtGui/QPainter"
 #include "QtGui/QPixmap"
+#include "QtWidgets/QComboBox"
+#include "QtOpenGL/QGLWidget"
 
 #include "GUI/Utils.h"
 #include "Utils/Utils.h"

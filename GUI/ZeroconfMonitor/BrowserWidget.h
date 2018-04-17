@@ -1,8 +1,8 @@
 #ifndef SIDECAR_GUI_ZEROCONFMONITOR_BROWSERWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_ZEROCONFMONITOR_BROWSERWIDGET_H
 
-#include "QtGui/QLabel"
-#include "QtGui/QListWidget"
+#include "QtWidgets/QLabel"
+#include "QtWidgets/QListWidget"
 
 #include "GUI/ServiceBrowser.h"
 

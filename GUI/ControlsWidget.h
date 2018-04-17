@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_BSCOPE_CONTROLSWIDGET_H
 
 #include "QtCore/QList"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QBoxLayout;
 class QSlider;

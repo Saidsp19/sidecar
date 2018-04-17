@@ -3,7 +3,7 @@
 
 #include "QtCore/QBitArray"
 #include "QtCore/QTimer"
-#include "QtGui/QTreeView"
+#include "QtWidgets/QTreeView"
 
 class QSignalMapper;
 

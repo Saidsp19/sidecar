@@ -1,8 +1,8 @@
-#include "QtGui/QScrollBar"
 #include "QtGui/QSyntaxHighlighter"
 #include "QtGui/QTextCharFormat"
 #include "QtGui/QTextCursor"
 #include "QtGui/QTextDocument"
+#include "QtWidgets/QScrollBar"
 
 #include "GUI/LogUtils.h"
 

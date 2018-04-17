@@ -1,4 +1,4 @@
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 #include "App.h"
 #include "MainWindow.h"

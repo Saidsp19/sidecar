@@ -614,7 +614,7 @@
           </palette>
          </property>
          <property name="autoFillBackground" >
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>

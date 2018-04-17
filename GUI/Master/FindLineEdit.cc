@@ -1,5 +1,5 @@
-#include "QtGui/QStyle"
-#include "QtGui/QToolButton"
+#include "QtWidgets/QStyle"
+#include "QtWidgets/QToolButton"
 
 #include "FindLineEdit.h"
 

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_RANGETRUTHEMITTER_VELOCITYEDITOR_H // -*- C++ -*-
 #define SIDECAR_GUI_RANGETRUTHEMITTER_VELOCITYEDITOR_H
 
-#include "QtGui/QItemDelegate"
+#include "QtWidgets/QItemDelegate"
 
 namespace SideCar {
 namespace GUI {

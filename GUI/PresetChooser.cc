@@ -1,6 +1,5 @@
 #include "QtCore/QEvent"
-#include "QtGui/QBoxLayout"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QBoxLayout"
 #include "QtGui/QFont"
 #include "QtGui/QMouseEvent"
 #include "QtGui/QPalette"

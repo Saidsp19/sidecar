@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "QtCore/QDir"
-#include "QtGui/QAction"
-#include "QtGui/QApplication"
+// #include "QtGui/QAction"
+#include "QtWidgets/QApplication"
 
 class QAction;
 class QMenu;

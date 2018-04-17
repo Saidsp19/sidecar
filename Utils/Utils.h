@@ -35,9 +35,7 @@ template <typename T>
 constexpr T
 GCD(T x, T y)
 {
-    if (x == y) return x;
-    if (x > y) return GCD(x - y, y);
-    return GCD(x, y - x);
+    return (x == y) ? x : ((x > y) ? GCD(x - y, y) : GCD(x, y - x));
 }
 
 /** Calculate the least common multiple for two integral numbers

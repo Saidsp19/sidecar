@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "QtGui/QDoubleSpinBox"
+#include "QtWidgets/QDoubleSpinBox"
 
 #include "DoubleMinMaxValidator.h"
 
@@ -17,8 +17,8 @@ DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* mi
     max_->setMinimum(minMin_ + epsilon_);
 }
 
-DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin,
-                                             double maxMax) :
+DoubleMinMaxValidator::DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max,
+                                             double minMin, double maxMax) :
     Super(min->minimum(), max->maximum(), min->decimals(), parent),
     min_(min), max_(max), minMin_(minMin), maxMax_(maxMax)
 {

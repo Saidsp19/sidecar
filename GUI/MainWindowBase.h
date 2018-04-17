@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_MAINWINDOWBASE_H // -*- C++ -*-
 #define SIDECAR_GUI_MAINWINDOWBASE_H
 
-#include "QtGui/QMainWindow"
+#include "QtWidgets/QMainWindow"
 
 class QAction;
 class QMenu;

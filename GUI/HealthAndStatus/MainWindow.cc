@@ -1,9 +1,9 @@
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
-#include "QtGui/QAction"
+#include "QtWidgets/QAction"
 #include "QtGui/QCloseEvent"
 #include "QtGui/QIcon"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/PresetManager.h"

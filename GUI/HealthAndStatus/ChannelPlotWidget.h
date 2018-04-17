@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_HEALTHANDSTATUS_CHANNELPLOTWIDGET_H
 
 #include "QtCore/QString"
-#include "QtGui/QFrame"
+#include "QtWidgets/QFrame"
 
 #include "ui_ChannelPlotWidget.h"
 

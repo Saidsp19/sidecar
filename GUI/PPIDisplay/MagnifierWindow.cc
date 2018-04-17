@@ -1,6 +1,6 @@
 #include "QtCore/QSettings"
-#include "QtGui/QStatusBar"
-#include "QtGui/QVBoxLayout"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QVBoxLayout"
 
 #include "GUI/LogUtils.h"
 #include "GUI/PhantomCursorImaging.h"
@@ -29,7 +29,8 @@ MagnifierWindow::Log()
     return log_;
 }
 
-MagnifierWindow::MagnifierWindow(PPIWidget* renderer) : Super(), gui_(new Ui::MagnifierWindow), renderer_(renderer)
+MagnifierWindow::MagnifierWindow(PPIWidget* renderer)
+    : Super(), gui_(new Ui::MagnifierWindow), renderer_(renderer)
 {
     gui_->setupUi(this);
 

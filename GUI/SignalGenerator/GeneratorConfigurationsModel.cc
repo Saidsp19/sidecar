@@ -3,7 +3,8 @@
 
 using namespace SideCar::GUI::SignalGenerator;
 
-GeneratorConfigurationsModel::GeneratorConfigurationsModel(QObject* parent) : Super(parent), signalConfigurations_()
+GeneratorConfigurationsModel::GeneratorConfigurationsModel(QObject* parent)
+    : Super(parent), signalConfigurations_()
 {
     ;
 }

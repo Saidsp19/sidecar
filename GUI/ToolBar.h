@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_TOOLBAR_H // -*- C++ -*-
 #define SIDECAR_GUI_TOOLBAR_H
 
-#include "QtGui/QToolBar"
+#include "QtWidgets/QToolBar"
 
 class QMenu;
 

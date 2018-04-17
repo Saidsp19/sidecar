@@ -6,7 +6,7 @@
 #include "QtCore/QBasicTimer"
 #include "QtGui/QMatrix"
 #include "QtGui/QPixmap"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "GUI/Color.h"
 #include "Messages/PRIMessage.h"

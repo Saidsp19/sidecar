@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_NOTESEDIT_H // -*- C++ -*-
 #define SIDECAR_GUI_NOTESEDIT_H
 
-#include "QtGui/QTextEdit"
+#include "QtWidgets/QTextEdit"
 
 namespace SideCar {
 namespace GUI {

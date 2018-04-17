@@ -1,3 +1,5 @@
+#include "QtWidgets/QCheckBox"
+
 #include "QCheckBoxSetting.h"
 
 using namespace SideCar::GUI;

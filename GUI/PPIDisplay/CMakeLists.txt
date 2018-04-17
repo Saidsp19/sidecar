@@ -49,6 +49,7 @@ add_gui(ppidisplay
 		ViewSettings.h
         ppidisplay.icns
         ppidisplay.png
+        Qt5::Core Qt5::Gui Qt5::OpenGL Qt5::Widgets
         )
 
 set_target_properties(ppidisplay PROPERTIES MACOSX_BUNDLE_INFO_STRING

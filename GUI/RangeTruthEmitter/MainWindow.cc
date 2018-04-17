@@ -9,10 +9,10 @@
 #include "QtCore/QTextStream"
 #include "QtCore/QTimer"
 #include "QtGui/QCloseEvent"
-#include "QtGui/QFileDialog"
-#include "QtGui/QHeaderView"
-#include "QtGui/QMessageBox"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QFileDialog"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"
@@ -71,7 +71,7 @@ MainWindow::MainWindow() :
 #endif
 
     QHeaderView* header = segments_->horizontalHeader();
-    header->setResizeMode(QHeaderView::Stretch);
+    header->setSectionResizeMode(QHeaderView::Stretch);
 
     getApp()->setVisibleWindowMenuNew(false);
     getApp()->setVisibleWindowMenuMaximize(false);

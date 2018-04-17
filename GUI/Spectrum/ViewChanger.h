@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_SPECTRUM_VIEWCHANGER_H // -*- C++ -*-
 #define SIDECAR_GUI_SPECTRUM_VIEWCHANGER_H
 
-#include "QtGui/QRubberBand"
+#include "QtWidgets/QRubberBand"
 
 namespace SideCar {
 namespace GUI {

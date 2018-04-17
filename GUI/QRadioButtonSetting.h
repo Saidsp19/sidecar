@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QRADIOBUTTONSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QRADIOBUTTONSETTING_H
 
-#include "QtGui/QRadioButton"
-
 #include "GUI/BoolSetting.h"
+
+class QRadioButton;
 
 namespace SideCar {
 namespace GUI {

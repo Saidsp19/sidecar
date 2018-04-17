@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_QSLIDERSETTING_H
 
 #include "QtCore/QList"
-#include "QtGui/QSlider"
+#include "QtWidgets/QSlider"
 
 #include "GUI/IntSetting.h"
 

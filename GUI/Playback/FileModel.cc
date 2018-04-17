@@ -1,8 +1,8 @@
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
 #include "QtGui/QCloseEvent"
-#include "QtGui/QMessageBox"
-#include "QtGui/QProgressDialog"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QProgressDialog"
 
 #include "GUI/LogUtils.h"
 
@@ -275,7 +275,7 @@ FileModel::data(const QModelIndex& pos, int role) const
             flags |= Qt::AlignRight;
         return flags;
     } else if (role == Qt::ForegroundRole) {
-        if (pos.column() > 0 && !emitter->isValid()) return Qt::darkRed;
+        if (pos.column() > 0 && !emitter->isValid()) return QVariant(QColor(Qt::darkRed));
     }
 
     switch (pos.column()) {

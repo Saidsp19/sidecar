@@ -69,6 +69,10 @@ add_gui(ascope
         icons.qrc
         ascope.icns
         ascope.png
+        Qt5::Core
+        Qt5::Gui
+        Qt5::PrintSupport
+        Qt5::Widgets
         )
 
 set_target_properties(ascope PROPERTIES MACOSX_BUNDLE_INFO_STRING
