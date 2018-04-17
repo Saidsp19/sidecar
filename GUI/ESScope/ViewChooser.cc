@@ -1,5 +1,5 @@
-#include "QtGui/QBoxLayout"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QBoxLayout"
+#include "QtWidgets/QComboBox"
 
 #include "ViewChooser.h"
 #include "ViewEditor.h"

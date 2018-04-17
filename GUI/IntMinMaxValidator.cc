@@ -1,4 +1,4 @@
-#include "QtGui/QSpinBox"
+#include "QtWidgets/QSpinBox"
 
 #include "IntMinMaxValidator.h"
 

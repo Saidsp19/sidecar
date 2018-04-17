@@ -4,7 +4,7 @@
 #include "QtCore/QBasicTimer"
 #include "QtCore/QList"
 #include "QtGui/QImage"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "GUI/MainWindowBase.h"
 

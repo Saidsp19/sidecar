@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_HEALTHANDSTATUS_CHANNELCONNECTIONVIEW_H // -*- C++ -*-
 #define SIDECAR_GUI_HEALTHANDSTATUS_CHANNELCONNECTIONVIEW_H
 
-#include "QtGui/QListView"
+#include "QtWidgets/QListView"
 
 namespace Logger {
 class Log;

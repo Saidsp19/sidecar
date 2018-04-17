@@ -1,4 +1,4 @@
-#include "QtGui/QDoubleSpinBox"
+#include "QtWidgets/QDoubleSpinBox"
 
 #include "AccelerationEditor.h"
 

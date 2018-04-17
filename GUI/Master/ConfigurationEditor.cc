@@ -2,8 +2,8 @@
 #include "QtCore/QSettings"
 
 #include "QtGui/QCloseEvent"
-#include "QtGui/QMessageBox"
 #include "QtGui/QTextDocument"
+#include "QtWidgets/QMessageBox"
 
 #include "App.h"
 #include "ConfigurationEditor.h"
@@ -106,7 +106,7 @@ ConfigurationEditor::save()
         return true;
     }
 
-    file.write(gui_->contents_->document()->toPlainText().toAscii());
+    file.write(gui_->contents_->document()->toPlainText().toLatin1());
     file.close();
 
     gui_->contents_->document()->setModified(false);

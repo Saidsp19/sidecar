@@ -1,11 +1,11 @@
 #include "QtCore/QSignalMapper"
-#include "QtGui/QColorDialog"
+#include "QtWidgets/QColorDialog"
 #include "QtGui/QContextMenuEvent"
-#include "QtGui/QHeaderView"
-#include "QtGui/QItemDelegate"
-#include "QtGui/QMenu"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QItemDelegate"
+#include "QtWidgets/QMenu"
 #include "QtGui/QPainter"
-#include "QtGui/QStyleOptionViewItemV2"
+#include "QtWidgets/QStyleOptionViewItem"
 
 #include "GUI/LogUtils.h"
 
@@ -26,7 +26,7 @@ struct ItemDelegate : public QItemDelegate {
 void
 ItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    QStyleOptionViewItemV2 opt(option);
+    QStyleOptionViewItem opt(option);
     QColor c(index.data(Qt::ForegroundRole).value<QColor>());
     opt.palette.setColor(QPalette::Active, QPalette::HighlightedText, c);
     opt.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, c);
@@ -54,9 +54,9 @@ ChannelConnectionView::ChannelConnectionView(QWidget* parent) : Super(parent), c
                           "}");
 #endif
 
-    header->setClickable(false);
-    header->setMovable(false);
-    header->setResizeMode(QHeaderView::Fixed);
+    header->setSectionsClickable(false);
+    header->setSectionsMovable(false);
+    header->setSectionResizeMode(QHeaderView::Fixed);
 
     header = verticalHeader();
     header->setVisible(false);

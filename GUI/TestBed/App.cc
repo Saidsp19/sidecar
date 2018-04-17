@@ -1,6 +1,6 @@
 #include "QtCore/QSettings"
 #include "QtGui/QIcon"
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 #include "GUI/PresetsWindow.h"

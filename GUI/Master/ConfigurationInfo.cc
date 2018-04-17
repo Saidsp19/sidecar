@@ -5,7 +5,7 @@
 #include "QtCore/QFile"
 #include "QtCore/QFileInfo"
 #include "QtCore/QSettings"
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 #include "QtXml/QDomDocument"
 #include "QtXml/QDomElement"
 

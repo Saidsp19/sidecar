@@ -1,7 +1,7 @@
 #include "QtCore/QSettings"
-#include "QtGui/QApplication"
-#include "QtGui/QInputDialog"
 #include "QtGui/QInputEvent"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QInputDialog"
 
 #include "GUI/Utils.h"
 #include "Utils/Utils.h"
@@ -239,7 +239,7 @@ GeneratorConfiguration::eventFilter(QObject* obj, QEvent* event)
             if (w->objectName() == "frequency_") {
                 int value = w->value();
                 bool ok = false;
-                value = QInputDialog::getInteger(w, "Frequency", "Frequency", value, 1, 999, 10, &ok);
+                value = QInputDialog::getInt(w, "Frequency", "Frequency", value, 1, 999, 10, &ok);
                 if (ok) { w->setValue(value); }
             } else if (w->objectName() == "amplitude_") {
                 double value = w->value() / 100.0;

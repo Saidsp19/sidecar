@@ -1,5 +1,5 @@
-#include "QtGui/QMessageBox"
-#include "QtGui/QPrinter"
+#include "QtPrintSupport/QPrinter"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"

@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_ESSCOPE_RADARINFOWIDGET_H
 
 #include "QtCore/QBasicTimer"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "Messages/PRIMessage.h"
 

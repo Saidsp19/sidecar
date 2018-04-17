@@ -1,9 +1,7 @@
 #ifndef SIDECAR_GUI_PRESETCHOOSER_H // -*- C++ -*-
 #define SIDECAR_GUI_PRESETCHOOSER_H
 
-#include "QtGui/QComboBox"
-
-class QComboBox;
+#include "QtWidgets/QComboBox"
 
 namespace Logger {
 class Log;

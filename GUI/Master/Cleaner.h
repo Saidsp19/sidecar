@@ -4,7 +4,7 @@
 #include "QtCore/QSet"
 #include "QtCore/QString"
 #include "QtCore/QThread"
-#include "QtGui/QProgressDialog"
+#include "QtWidgets/QProgressDialog"
 
 namespace SideCar {
 namespace GUI {

@@ -1,13 +1,13 @@
 #include "QtCore/QDateTime"
 #include "QtCore/QDir"
+#include "QtCore/QItemSelectionModel"
 #include "QtCore/QProcess"
-#include "QtGui/QApplication"
 #include "QtGui/QCursor"
-#include "QtGui/QHeaderView"
-#include "QtGui/QItemSelectionModel"
 #include "QtGui/QKeyEvent"
-#include "QtGui/QMessageBox"
 #include "QtNetwork/QTcpServer"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"
@@ -65,12 +65,12 @@ RecordingController::RecordingController(MainWindow& window) :
     connect(recordings, SIGNAL(doubleClicked(const QModelIndex&)), SLOT(editNotes(const QModelIndex&)));
 
     QHeaderView* header = recordings->horizontalHeader();
-    header->setResizeMode(QHeaderView::Fixed);
+    header->setSectionResizeMode(QHeaderView::Fixed);
 
     header = recordings->verticalHeader();
     header->hide();
     header->setMinimumSectionSize(-1);
-    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     mainWindow_.recordingStartStop_->setText(kStart);
     mainWindow_.actionRecordingStartStop_->setText(kStart);

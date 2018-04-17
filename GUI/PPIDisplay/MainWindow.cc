@@ -1,8 +1,9 @@
+#include "QtGui/QCloseEvent"
 #include "QtGui/QIcon"
-#include "QtGui/QMenu"
-#include "QtGui/QMessageBox"
-#include "QtGui/QStatusBar"
-#include "QtGui/QToolButton"
+#include "QtWidgets/QMenu"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QToolButton"
 
 #include "GUI/ChannelInfoWidget.h"
 #include "GUI/ChannelMenu.h"
@@ -257,6 +258,9 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), writer_(0)
 
     connect(cfg->getShowPhantomCursorSetting(), SIGNAL(enabledChanged(bool)), display_, SLOT(showPhantomCursor(bool)));
     display_->showPhantomCursor(cfg->getShowPhantomCursorSetting()->isEnabled());
+
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    setWindowOpacity(1.0);
 }
 
 void

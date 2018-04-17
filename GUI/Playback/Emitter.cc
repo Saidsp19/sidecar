@@ -4,7 +4,7 @@
 
 #include "QtCore/QFileInfo"
 #include "QtCore/QString"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Writers.h"

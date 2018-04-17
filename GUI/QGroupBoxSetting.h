@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QGROUPBOXSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QGROUPBOXSETTING_H
 
-#include "QtGui/QGroupBox"
-
 #include "GUI/BoolSetting.h"
+
+class QGroupBox;
 
 namespace SideCar {
 namespace GUI {

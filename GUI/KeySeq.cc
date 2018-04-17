@@ -40,7 +40,8 @@ KeySeq::asString() const
     static const QChar QMAC_META = QChar(0x2303);
     static const QChar QMAC_ALT = QChar(0x2325);
     static const QChar QMAC_SHIFT = QChar(0x21E7);
-    QString s(key_);
+
+    QString s(key_.toString());
     s.replace(QMAC_CTRL, "Ctrl+");
     s.replace(QMAC_META, "Meta+");
     s.replace(QMAC_ALT, "Alt+");

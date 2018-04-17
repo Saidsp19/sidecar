@@ -1,6 +1,6 @@
 #include "QtGui/QContextMenuEvent"
-#include "QtGui/QInputDialog"
 #include "QtGui/QPixmap"
+#include "QtWidgets/QInputDialog"
 
 #include "ui_ColorMapWidget.h"
 

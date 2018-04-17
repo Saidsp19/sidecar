@@ -1,5 +1,5 @@
-#include "QtGui/QSlider"
-#include "QtGui/QSpinBox"
+#include "QtWidgets/QSlider"
+#include "QtWidgets/QSpinBox"
 
 #include "AppBase.h"
 #include "LogUtils.h"

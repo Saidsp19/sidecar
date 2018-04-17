@@ -1,8 +1,10 @@
 #include "QtCore/QSettings"
-#include "QtGui/QGridLayout"
+#include "QtCore/QTimer"
+#include "QtGui/QCloseEvent"
 #include "QtGui/QPainter"
-#include "QtGui/QStatusBar"
-#include "QtGui/QToolButton"
+#include "QtWidgets/QGridLayout"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QToolButton"
 
 #include "GUI/ChannelInfoWidget.h"
 #include "GUI/ChannelMenu.h"

@@ -1,7 +1,7 @@
 #include "QtCore/QList"
 #include "QtCore/QString"
-#include "QtGui/QApplication"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QComboBox"
 
 #include "AppBase.h"
 #include "ChannelSetting.h"

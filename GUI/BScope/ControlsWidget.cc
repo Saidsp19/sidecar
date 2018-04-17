@@ -1,5 +1,5 @@
-#include "QtGui/QBoxLayout"
-#include "QtGui/QLabel"
+#include "QtWidgets/QBoxLayout"
+#include "QtWidgets/QLabel"
 #include "QtGui/QSlider"
 #include "QtGui/QToolBar"
 

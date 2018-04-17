@@ -1,8 +1,8 @@
 #ifndef SIDECAR_GUI_SQUAREBUTTON_H // -*- C++ -*-
 #define SIDECAR_GUI_SQUAREBUTTON_H
 
-#include "QtDesigner/QDesignerExportWidget"
-#include "QtGui/QPushButton"
+#include "QtUiPlugin/QDesignerExportWidget"
+#include "QtWidgets/QPushButton"
 
 #include "GUI/LED.h"
 

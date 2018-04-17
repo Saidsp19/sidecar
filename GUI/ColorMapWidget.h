@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_COLORMAPWIDGET_H
 
 #include "QtGui/QPalette"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QImage;
 

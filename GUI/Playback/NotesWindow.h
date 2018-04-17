@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_PLAYBACK_NOTESWINDOW_H // -*- C++ -*-
 #define SIDECAR_GUI_PLAYBACK_NOTESWINDOW_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "ui_NotesWindow.h"
 

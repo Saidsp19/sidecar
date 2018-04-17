@@ -1,6 +1,6 @@
-#include "QtGui/QAction"
 #include "QtGui/QContextMenuEvent"
-#include "QtGui/QMenu"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QMenu"
 
 #include "ToolBar.h"
 

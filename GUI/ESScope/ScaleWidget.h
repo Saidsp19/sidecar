@@ -7,7 +7,7 @@
 
 #include "QtGui/QMatrix"
 #include "QtGui/QPen"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 namespace Logger {
 class Log;

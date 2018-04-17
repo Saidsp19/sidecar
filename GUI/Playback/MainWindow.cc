@@ -3,13 +3,13 @@
 
 #include "QtCore/QSettings"
 #include "QtGui/QCloseEvent"
-#include "QtGui/QFileDialog"
-#include "QtGui/QHeaderView"
-#include "QtGui/QInputDialog"
-#include "QtGui/QMessageBox"
 #include "QtGui/QPainter"
-#include "QtGui/QStatusBar"
-#include "QtGui/QStyledItemDelegate"
+#include "QtWidgets/QFileDialog"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QInputDialog"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QStyledItemDelegate"
 
 #include "GUI/LogUtils.h"
 #include "GUI/modeltest.h"
@@ -177,12 +177,12 @@ MainWindow::MainWindow() :
     files_->setItemDelegateForColumn(FileModel::kName, new NameItemDelegate(this));
 
     QHeaderView* header = files_->horizontalHeader();
-    header->setResizeMode(QHeaderView::Fixed);
+    header->setSectionResizeMode(QHeaderView::Fixed);
 
     header = files_->verticalHeader();
     header->hide();
     header->setMinimumSectionSize(-1);
-    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     updateRecentFileActions();
 }

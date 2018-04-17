@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_SPECTRUM_SPECTROGRAPHSCROLLAREA_H // -*- C++ -*-
 #define SIDECAR_GUI_SPECTRUM_SPECTROGRAPHSCROLLAREA_H
 
-#include "QtGui/QScrollArea"
+#include "QtWidgets/QScrollArea"
 
 namespace Logger {
 class Log;

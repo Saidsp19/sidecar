@@ -1,6 +1,6 @@
 #include "QtCore/QList"
 #include "QtCore/QSettings"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 
 #include "IO/ZeroconfRegistry.h"
 

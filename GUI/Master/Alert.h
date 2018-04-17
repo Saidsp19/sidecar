@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_MASTER_ALERT_H // -*- C++ -*-
 #define SIDECAR_GUI_MASTER_ALERT_H
 
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 namespace SideCar {
 namespace GUI {

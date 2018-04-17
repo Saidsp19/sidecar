@@ -1,3 +1,5 @@
+#include "QtWidgets/QLineEdit"
+
 #include "QLineEditSetting.h"
 
 using namespace SideCar::GUI;

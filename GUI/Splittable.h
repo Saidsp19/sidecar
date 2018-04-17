@@ -1,8 +1,8 @@
 #ifndef SIDECAR_GUI_SPLITTABLE_H // -*- C++ -*-
 #define SIDECAR_GUI_SPLITTABLE_H
 
-#include "QtGui/QSplitter"
-#include "QtGui/QStackedWidget"
+#include "QtWidgets/QSplitter"
+#include "QtWidgets/QStackedWidget"
 
 namespace SideCar {
 namespace GUI {
