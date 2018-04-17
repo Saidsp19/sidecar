@@ -56,7 +56,7 @@ QGLFormat
 PPIWidget::GetGLFormat()
 {
     QGLFormat format = QGLFormat::defaultFormat();
-    format.setAlpha(true);
+    format.setAlpha(false);
     format.setDoubleBuffer(true);
     format.setStencil(true);
     format.setAccum(false);
@@ -82,7 +82,7 @@ PPIWidget::PPIWidget(QWidget* parent) :
     // Widget initialization. NOTE: all Open/GL initialization occurs in the initializeGL method.
     //
     setCursor(Qt::CrossCursor);
-    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    // setAttribute(Qt::WA_OpaquePaintEvent, true);
 }
 
 PPIWidget::~PPIWidget()
@@ -853,6 +853,9 @@ void
 PPIWidget::paintGL()
 {
     static Logger::ProcLog log("paintGL", Log());
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     if (!videoBuffer_) makeVideoBuffer();
 
