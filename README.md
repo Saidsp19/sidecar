@@ -35,7 +35,7 @@ code relies on the following external libraries:
 
 * [ACE](http://www.cs.wustl.edu/~schmidt/ACE.html) - should work with at least version 5.5
 * [Boost C++ Framework](http://boost.org) - built and tested using v1.60.0
-* [Qt](http://qt.io) - built and tested using v4.8.7. **Will not compile under v5**
+* [Qt](http://qt.io) - built and tested using v4.8.7. **See Qt5 branch for a v5 version**
 * [Zeroconf](http://www.zeroconf.org) - on Linux, requires Avahi's mDNS API emulation support (legacy)
 * [OpenVSIP](https://github.com/openvsip/openvsip) - vector signal and image processing library
 
@@ -68,6 +68,9 @@ install the following packages (I've noted the versions that I currently have)
 Unfortunately, SideCar also needs a legacy (v4) version of [Qt](https://qt.io). There is a Brew formula
 available for this at https://github.com/cartr/homebrew-qt4 -- see the instructions there for installing.
 
+> The `Qt5` branch now builds with Qt 5.10.1. You need to install Qt and find the directory where
+> `Qt5Config.cmake` resides. This location must then be given to `CMake`. See below.
+
 The software also needs an implementation of the
 [Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
 [OpenVSIP](https://github.com/openvsip/openvsip) that compiles on macOS. To install:
@@ -99,6 +102,15 @@ Now to build SideCar:
 % cd build
 % cmake ..
 ```
+
+**NOTE**: If using Qt5 branch, the last command should be:
+
+```
+% cmake -DQt5_DIR=/Users/howes/Qt/5.10.1/clang_64/lib/cmake/Qt5 ..
+```
+
+where the given path pertains to the Qt5 installation on your machine. In the given path, `CMake` must be able
+to find the `Qt5Config.cmake` file.
 
 Hopefully `CMake` will find everything and run without errors. Next:
 
