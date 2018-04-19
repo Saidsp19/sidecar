@@ -117,7 +117,8 @@ Hopefully `CMake` will find everything and run without errors. Next:
 ```
 
 This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
-machine.
+machine. Note that currently the `spectrum` application does not build on Fedora 27 due to OpenGL configuration
+issues.
 
 ## MacOS Installation Notes
 
