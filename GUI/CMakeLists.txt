@@ -225,6 +225,14 @@ install(TARGETS GUIUtils LIBRARY DESTINATION lib)
 #
 add_unit_test(CLUTTests.cc GUIUtils)
 
+# The Spectrum app compiles on macOS 10.13 but not on Fedora. Needs to be ported to current Qt5 OpenGL classes.
+#
+if(APPLE)
+    set(SPECTRUM "Spectrum")
+else(APPLE)
+    set(SPECTRUM)
+endif(APPLE)
+
 add_directories(Alert
                 AScope
                 BScope
@@ -238,7 +246,7 @@ add_directories(Alert
                 PRIEmitter
                 RangeTruthEmitter
                 SignalGenerator
-                # Spectrum
+                ${SPECTRUM}
                 TestBed
                 ZeroconfMonitor
                 )
