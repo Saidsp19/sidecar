@@ -51,6 +51,7 @@ set(FFTW3_VERSION "")
 set(MPI_VERSION "")
 set(VSIPL_VERSION "")
 set(OpenGL_VERSION "")
+set(OpenGL_GL_PREFERENCE "GLVND")
 set(Qt5_VERSION "5.10")
 
 # Locate dependencies
@@ -69,7 +70,7 @@ find_package(Boost ${BOOST_VERSION} REQUIRED
              system
              thread)
 find_package(FFTW3 ${FFTW3_VERSION} REQUIRED)
-find_package(MPI ${MPI_VERSION} REQUIRED)
+#find_package(MPI ${MPI_VERSION} REQUIRED)
 find_package(VSIPL ${VSIPL_VERSION} REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenGL ${OpenGL_VERSION} REQUIRED)
@@ -116,7 +117,7 @@ if(UNIX)
         # Definitions for Linux (and Solaris *** FIX ***)
         #
         add_definitions(-Dlinux)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++14")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++14 -fPIC")
     endif(APPLE)
 endif(UNIX)
 
