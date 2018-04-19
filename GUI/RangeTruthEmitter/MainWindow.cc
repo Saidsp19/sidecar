@@ -403,7 +403,7 @@ MainWindow::sendMessage(const Messages::TSPI::Ref& msg)
 
     union {
         int32_t full;
-        unsigned char byte[1];
+        unsigned char byte[4];
     } converter;
 
     tcnMsg_->reset();
