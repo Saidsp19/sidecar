@@ -1,8 +1,8 @@
 #include "QtCore/QSettings"
-#include "QtGui/QAction"
-#include "QtGui/QApplication"
-#include "QtGui/QMenu"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QMenu"
+#include "QtWidgets/QStatusBar"
 
 #include "AppBase.h"
 #include "LogUtils.h"

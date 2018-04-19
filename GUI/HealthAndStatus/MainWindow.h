@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_HEALTHANDSTATUS_MAINWINDOW_H // -*- C++ -*-
 #define SIDECAR_GUI_HEALTHANDSTATUS_MAINWINDOW_H
 
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 
 #include "GUI/MainWindowBase.h"
 

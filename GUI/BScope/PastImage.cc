@@ -1,11 +1,11 @@
 #include <cmath>
 
 #include "QtCore/QTimerEvent"
-#include "QtGui/QApplication"
-#include "QtGui/QCursor"
 #include "QtGui/QMouseEvent"
 #include "QtGui/QPainter"
 #include "QtGui/QPen"
+#include "QtGui/QCursor"
+#include "QtWidgets/QApplication"
 
 #include "GUI/LogUtils.h"
 #include "GUI/PhantomCursorImaging.h"

@@ -1,5 +1,5 @@
-#include "QtGui/QHBoxLayout"
-#include "QtGui/QLabel"
+#include "QtWidgets/QHBoxLayout"
+#include "QtWidgets/QLabel"
 
 #include "HistoryFrame.h"
 #include "RadarInfoWidget.h"

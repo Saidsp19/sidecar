@@ -2,8 +2,8 @@
 #define SIDECAR_GUI_WINDOWMANAGER_H
 
 #include "QtCore/QList"
-#include "QtGui/QAction"
-#include "QtGui/QWidget"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QWidget"
 
 class QMenu;
 

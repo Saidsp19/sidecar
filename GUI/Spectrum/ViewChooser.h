@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_SPECTRUM_VIEWCHOOSER_H // -*- C++ -*-
 #define SIDECAR_GUI_SPECTRUM_VIEWCHOOSER_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QComboBox;
 

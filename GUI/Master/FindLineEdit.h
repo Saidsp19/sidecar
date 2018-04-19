@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_MASTER_FINDLINEEDIT_H // -*- C++ -*-
 #define SIDECAR_GUI_MASTER_FINDLINEEDIT_H
 
-#include "QtGui/QLineEdit"
+#include "QtWidgets/QLineEdit"
 
 class QToolButton;
 

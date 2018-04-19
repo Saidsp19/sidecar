@@ -1,10 +1,13 @@
+#include "QtWidgets/QSlider"
+
 #include "ViewModel.h"
 
 using namespace SideCar::GUI;
 using namespace SideCar::GUI::ExtractionEmitter;
 
 ViewModel::ViewModel(QObject* parent) :
-    QAbstractTableModel(parent), entries_(Messages::Extractions::Make("ExtractionEmitter", Messages::Header::Ref()))
+    QAbstractTableModel(parent),
+    entries_(Messages::Extractions::Make("ExtractionEmitter", Messages::Header::Ref()))
 {
     ;
 }

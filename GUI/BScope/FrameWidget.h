@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_BSCOPE_FRAMEWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_BSCOPE_FRAMEWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QImage;
 

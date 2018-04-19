@@ -1,6 +1,6 @@
-#include "QtGui/QAction"
-#include "QtGui/QCheckBox"
-#include "QtGui/QRadioButton"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QCheckBox"
+#include "QtWidgets/QRadioButton"
 
 #include "BoolSetting.h"
 #include "Utils.h"

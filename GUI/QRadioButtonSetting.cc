@@ -1,3 +1,5 @@
+#include "QtWidgets/QRadioButton"
+
 #include "QRadioButtonSetting.h"
 
 using namespace SideCar::GUI;

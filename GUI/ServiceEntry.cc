@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "boost/bind.hpp"
 
 #include "Messages/MetaTypeInfo.h"

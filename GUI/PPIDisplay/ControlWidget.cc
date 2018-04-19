@@ -1,7 +1,7 @@
-#include "QtGui/QBoxLayout"
-#include "QtGui/QLabel"
-#include "QtGui/QSlider"
-#include "QtGui/QToolBar"
+#include "QtWidgets/QBoxLayout"
+#include "QtWidgets/QLabel"
+#include "QtWidgets/QSlider"
+#include "QtWidgets/QToolBar"
 
 #include "ControlWidget.h"
 

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_TOOLWINDOWBASE_H // -*- C++ -*-
 #define SIDECAR_GUI_TOOLWINDOWBASE_H
 
-#include "QtGui/QDialog"
+#include "QtWidgets/QDialog"
 
 namespace Logger {
 class ConfiguratorFile;

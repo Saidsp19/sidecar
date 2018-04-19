@@ -84,7 +84,6 @@ install(TARGETS IOBase IO LIBRARY DESTINATION lib)
 
 # Build some utilities that work with SideCar files
 #
-include_directories(${QT_INCLUDES})
 set(CMDS converter
     extinfo
     gradients
@@ -103,7 +102,7 @@ set(CMDS converter
 
 foreach(CMD ${CMDS})
     add_executable(${CMD} ${CMD}.cc)
-    target_link_libraries(${CMD} IO ${QT_LIBRARIES})
+    target_link_libraries(${CMD} IO)
 endforeach(CMD ${CMDS})
 
 install(TARGETS ${CMDS} RUNTIME DESTINATION bin)

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_COLORBUTTONWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_COLORBUTTONWIDGET_H
 
-#include "QtGui/QPushButton"
+#include "QtWidgets/QPushButton"
 
 namespace SideCar {
 namespace GUI {

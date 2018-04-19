@@ -3,6 +3,12 @@
 # CMake build file for the 'libMessages' library
 #
 
+add_definitions(${Qt5Core_DEFINITIONS})
+add_definitions(${Qt5Xml_DEFINITIONS})
+
+include_directories(${Qt5Core_INCLUDE_DIRS})
+include_directories(${Qt5Xml_INCLUDE_DIRS})
+
 # Production specification for libMessages (uses and implementation libraries defined above)
 #
 add_library(MessagesBase SHARED 
@@ -20,9 +26,7 @@ set_target_properties(MessagesBase PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSI
 
 # Linkage dependencies for libMessages
 #
-target_link_libraries(MessagesBase GeoStars Time XMLRPC
-					  ${QT_QTXML_LIBRARY}
-					  ${QT_QTCORE_LIBRARY})
+target_link_libraries(MessagesBase GeoStars Time XMLRPC Qt5::Xml Qt5::Core)
 
 # Production specification for libMessages (uses libraries defined above)
 #
@@ -40,7 +44,7 @@ add_tested_library(Messages
 			       TSPI.cc
 			       Video.cc
 			       ${MESSAGES_EXTRA_SRCS}
-                   DEPS MessagesBase IOBase ${QT_QTXML_LIBRARY} ${QT_QTCORE_LIBRARY} ${MESSAGES_EXTRA_LIBS}
+                   DEPS MessagesBase IOBase Qt5::Xml Qt5::Core ${MESSAGES_EXTRA_LIBS}
                    TEST CircularBufferTests.cc
                    TEST ExtractionsTests.cc
                    TEST GUIDTest.cc

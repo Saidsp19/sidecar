@@ -1,8 +1,8 @@
 #include "QtCore/QMap"
 #include "QtCore/QStringList"
 #include "QtGui/QFont"
-#include "QtGui/QItemDelegate"
-#include "QtGui/QStyleOptionViewItem"
+#include "QtWidgets/QStyleOptionViewItem"
+#include "QtWidgets/QItemDelegate"
 
 #include "Configuration/RunnerConfig.h"
 #include "GUI/LogUtils.h"

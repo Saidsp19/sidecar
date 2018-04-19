@@ -3,12 +3,12 @@
 #include "QtCore/QDir"
 #include "QtCore/QFile"
 #include "QtCore/QFileInfo"
-#include "QtGui/QAbstractButton"
-#include "QtGui/QAction"
 #include "QtGui/QFont"
 #include "QtGui/QIcon"
 #include "QtGui/QPainter"
 #include "QtGui/QPixmap"
+#include "QtWidgets/QAbstractButton"
+#include "QtWidgets/QAction"
 
 #include "Utils/Utils.h"
 

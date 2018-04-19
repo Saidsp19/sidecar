@@ -1,8 +1,8 @@
 #include "QtCore/QDir"
 #include "QtCore/QSettings"
-#include "QtGui/QFileDialog"
-#include "QtGui/QHeaderView"
 #include "QtGui/QKeyEvent"
+#include "QtWidgets/QFileDialog"
+#include "QtWidgets/QHeaderView"
 
 #include "GUI/LogUtils.h"
 #include "GUI/modeltest.h"
@@ -47,12 +47,12 @@ BrowserWindow::BrowserWindow(int shortcut) :
             SLOT(currentSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     QHeaderView* header = recordings_->horizontalHeader();
-    header->setResizeMode(QHeaderView::Fixed);
+    header->setSectionResizeMode(QHeaderView::Fixed);
 
     header = recordings_->verticalHeader();
     header->hide();
     header->setMinimumSectionSize(-1);
-    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     QSettings settings;
     int size = settings.beginReadArray(kBrowseDirs);

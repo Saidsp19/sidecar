@@ -1,10 +1,14 @@
 #ifndef SIDECAR_GUI_CLUT_H // -*- C++ -*-
 #define SIDECAR_GUI_CLUT_H
 
+#include <algorithm>
+#include <cstddef>
+
 #include "GUI/Color.h"
 
 class QComboBox;
 class QImage;
+class QString;
 
 namespace Logger {
 class Log;
@@ -75,7 +79,7 @@ public:
 
         \param alpha initial alpha value to use
     */
-    CLUT(Type type, GLfloat alpha = 1.0);
+    CLUT(Type type, float alpha = 1.0);
 
     /** Change the lookup table use by the CLUT object
 
@@ -127,7 +131,7 @@ public:
 private:
     const RGBColor* colors_;
     Type type_;
-    double alpha_;
+    float alpha_;
 };
 
 } // end namespace GUI

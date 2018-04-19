@@ -6,9 +6,9 @@
 #include "QtCore/QString"
 #include "QtCore/QTimer"
 #include "QtGui/QCloseEvent"
-#include "QtGui/QMessageBox"
 #include "QtGui/QRegExpValidator"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Writers.h"

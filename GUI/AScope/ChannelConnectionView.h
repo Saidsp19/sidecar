@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_ASCOPE_CHANNELCONNECTIONVIEW_H // -*- C++ -*-
 #define SIDECAR_GUI_ASCOPE_CHANNELCONNECTIONVIEW_H
 
-#include "QtGui/QTableView"
+#include "QtWidgets/QTableView"
 
 namespace Logger {
 class Log;

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_ASCOPE_VIEWCHANGER_H // -*- C++ -*-
 #define SIDECAR_GUI_ASCOPE_VIEWCHANGER_H
 
-#include "QtGui/QRubberBand"
+#include "QtWidgets/QRubberBand"
 
 namespace SideCar {
 namespace GUI {
@@ -81,6 +81,7 @@ public:
 */
 class ZoomingViewChanger : public ViewChanger {
 public:
+
     /** Constructor. Starts showing a QRubberBand object to indicate the region to zoom into.
 
         \param plotter the Visualizer to manipulate

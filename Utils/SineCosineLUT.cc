@@ -25,7 +25,7 @@ SineCosineLUT::Make(size_t size)
     return new SineCosineLUT(size);
 }
 
-SineCosineLUT::SineCosineLUT(size_t size) throw(InvalidSize) : values_(size / 4), size_(size)
+SineCosineLUT::SineCosineLUT(size_t size) : values_(size / 4), size_(size)
 {
     if (size % 4 != 0) {
         InvalidSize ex;

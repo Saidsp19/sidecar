@@ -2,8 +2,8 @@
 #define SIDECAR_GUI_MASTER_LOGVIEWWINDOWMANAGER_H
 
 #include "QtCore/QObject"
-#include "QtGui/QCheckBox"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QCheckBox"
+#include "QtWidgets/QComboBox"
 
 namespace Logger {
 class Log;

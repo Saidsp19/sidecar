@@ -18,71 +18,71 @@ class RunResults {
 public:
     /** Default constructor.
      */
-    RunResults() throw() : oks_(), errs_(), fails_(), stopped_(false) {}
+    RunResults() : oks_(), errs_(), fails_(), stopped_(false) {}
 
     /** Add a test name that passed.
 
         \param s the test name that passed
     */
-    void addOK(const std::string& s) throw() { oks_.push_back(s); }
+    void addOK(const std::string& s) { oks_.push_back(s); }
 
     /** Add an exception to the list of errors.
 
         \param e exception to record.
     */
-    void addError(const UnitTestException& e) throw() { errs_.push_back(e); }
+    void addError(const UnitTestException& e) { errs_.push_back(e); }
 
     /** Add an exception to the list of failures.
 
         \param e exception to record.
     */
-    void addFailure(const UnitTestException& e) throw() { fails_.push_back(e); }
+    void addFailure(const UnitTestException& e) { fails_.push_back(e); }
 
     /** \return the number of good tests so far
      */
-    int numGood() const throw() { return oks_.size(); }
+    int numGood() const { return oks_.size(); }
 
     /** \return the number of unit tests with errors.
      */
-    int numErrors() const throw() { return errs_.size(); }
+    int numErrors() const { return errs_.size(); }
 
     /** \return the number of unit tests that failed to pass.
      */
-    int numFailures() const throw() { return fails_.size(); }
+    int numFailures() const { return fails_.size(); }
 
     /** \return count of unit tests that did not pass. This is the sum of numErrors and numFailures.
      */
-    int numBad() const throw() { return numErrors() + numFailures(); }
+    int numBad() const { return numErrors() + numFailures(); }
 
     /** \return true if all unit tests passed (numBad() == 0)
      */
-    bool passed() const throw() { return numBad() == 0; }
+    bool passed() const { return numBad() == 0; }
 
     /** Test if any errors or failures (! passed()).
 
         \return true if any errors or failures
     */
-    operator bool() const throw() { return !passed(); }
+    operator bool() const { return !passed(); }
 
     /** \return true if asked to stop running.
      */
-    bool isStopped() const throw() { return stopped_; }
+    bool isStopped() const { return stopped_; }
 
     /** Stop running. Do not start any future tests.
      */
-    void stopRun() throw() { stopped_ = true; }
+    void stopRun() { stopped_ = true; }
 
     /** Write formatted text statistics to the given stream.
 
         \param os stream to write to
     */
-    std::ostream& printText(std::ostream& os) const throw();
+    std::ostream& printText(std::ostream& os) const;
 
     /** Write XML statistics to the given stream.
 
         \param os stream to write to
     */
-    std::ostream& printXML(std::ostream& os) const throw();
+    std::ostream& printXML(std::ostream& os) const;
 
 private:
     std::vector<std::string> oks_;         ///< Names of tests that passed
@@ -95,7 +95,7 @@ private:
    Utility function to output formatted stats to the given output stream.
 */
 inline std::ostream&
-operator<<(std::ostream& os, const RunResults& rr) throw()
+operator<<(std::ostream& os, const RunResults& rr)
 {
     return rr.printText(os);
 }

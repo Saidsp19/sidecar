@@ -1,7 +1,7 @@
 #include "QtCore/QSettings"
-#include "QtGui/QGridLayout"
 #include "QtGui/QPainter"
 #include "QtGui/QResizeEvent"
+#include "QtWidgets/QGridLayout"
 
 #include "GUI/LogUtils.h"
 

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_RANGETRUTHEMITTER_ADDRESSLINEEDIT_H // -*- C++ -*-
 #define SIDECAR_GUI_RANGETRUTHEMITTER_ADDRESSLINEEDIT_H
 
-#include "QtGui/QLineEdit"
+#include "QtWidgets/QLineEdit"
 
 namespace SideCar {
 namespace GUI {

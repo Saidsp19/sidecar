@@ -1,6 +1,6 @@
 #include "QtCore/QSettings"
-#include "QtGui/QStatusBar"
-#include "QtGui/QVBoxLayout"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QVBoxLayout"
 
 #include "GUI/LogUtils.h"
 #include "GUI/PhantomCursorImaging.h"

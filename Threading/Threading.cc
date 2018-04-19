@@ -32,7 +32,7 @@ initStub()
 }
 
 void
-Guard::Lock(bool state) throw(Mutex::FailedInit, Mutex::FailedLock, Mutex::FailedUnlock)
+Guard::Lock(bool state)
 {
     pthread_once(&onceControl_, &initStub);
     if (state) {
@@ -42,7 +42,8 @@ Guard::Lock(bool state) throw(Mutex::FailedInit, Mutex::FailedLock, Mutex::Faile
     }
 }
 
-ThreadingException::ThreadingException(const char* className, const char* routine, int rc) throw() : Utils::Exception()
+ThreadingException::ThreadingException(const char* className, const char* routine, int rc)
+  : Utils::Exception()
 {
     *this << className << "::" << routine << " - rc: " << rc << ' ' << strerror(rc);
 }
@@ -54,7 +55,7 @@ ThreadingException::ThreadingException(const char* className, const char* routin
     true, generate an absolute time \param ts timespec structure filled in with the future time
 */
 static void
-fillTimespec(double offset, bool abs, timespec& ts) throw(std::out_of_range)
+fillTimespec(double offset, bool abs, timespec& ts)
 {
     static const long kNanosecondsPerSecond = 1000000000L;
 
@@ -90,7 +91,7 @@ fillTimespec(double offset, bool abs, timespec& ts) throw(std::out_of_range)
     }
 }
 
-Mutex::Mutex(int kind) throw(Mutex::FailedInit)
+Mutex::Mutex(int kind)
 {
     pthread_mutexattr_t attr;
     int rc = pthread_mutexattr_init(&attr);
@@ -103,27 +104,27 @@ Mutex::Mutex(int kind) throw(Mutex::FailedInit)
     if (rc) throw FailedInit(rc);
 }
 
-Mutex::~Mutex() throw()
+Mutex::~Mutex()
 {
     pthread_mutex_destroy(&mutex_);
 }
 
 void
-Mutex::lock() throw(Mutex::FailedLock)
+Mutex::lock()
 {
     int rc = pthread_mutex_lock(&mutex_);
     if (rc) { throw FailedLock(rc); }
 }
 
 void
-Mutex::unlock() throw(Mutex::FailedUnlock)
+Mutex::unlock()
 {
     int rc = pthread_mutex_unlock(&mutex_);
     if (rc) { throw FailedUnlock(rc); }
 }
 
 bool
-Mutex::tryToLock() throw(Mutex::FailedLock)
+Mutex::tryToLock()
 {
     int rc = pthread_mutex_trylock(&mutex_);
     switch (rc) {
@@ -139,31 +140,31 @@ Mutex::tryToLock() throw(Mutex::FailedLock)
     return rc == 0;
 }
 
-Condition::Condition(const Mutex::Ref& mutex) throw(Condition::FailedInit) : mutex_(mutex)
+Condition::Condition(const Mutex::Ref& mutex) : mutex_(mutex)
 {
     int rc = pthread_cond_init(&condition_, 0);
     if (rc) throw FailedInit(rc);
 }
 
-Condition::~Condition() throw()
+Condition::~Condition()
 {
     pthread_cond_destroy(&condition_);
 }
 
 void
-Condition::signal() throw()
+Condition::signal()
 {
     pthread_cond_signal(&condition_);
 }
 
 void
-Condition::broadcast() throw()
+Condition::broadcast()
 {
     pthread_cond_broadcast(&condition_);
 }
 
 void
-Condition::waitForSignal() throw(Condition::FailedWaitForSignal)
+Condition::waitForSignal()
 {
 #ifdef darwin
     timedWaitForSignal(0.5);
@@ -174,7 +175,7 @@ Condition::waitForSignal() throw(Condition::FailedWaitForSignal)
 }
 
 bool
-Condition::timedWaitForSignal(double duration) throw(Condition::FailedWaitForSignal, std::out_of_range)
+Condition::timedWaitForSignal(double duration)
 {
     timespec ts;
     fillTimespec(duration, true, ts);
@@ -192,23 +193,23 @@ Condition::timedWaitForSignal(double duration) throw(Condition::FailedWaitForSig
     return rc == ETIMEDOUT;
 }
 
-Locker::Locker(const Mutex::Ref& mutex) throw(Mutex::FailedLock) : mutex_(mutex)
+Locker::Locker(const Mutex::Ref& mutex) : mutex_(mutex)
 {
     mutex_->lock();
 }
 
-Locker::Locker(const Condition::Ref& condition) throw(Mutex::FailedLock) : mutex_(condition->mutex())
+Locker::Locker(const Condition::Ref& condition) : mutex_(condition->mutex())
 {
     mutex_->lock();
 }
 
-Locker::~Locker() throw(Mutex::FailedUnlock)
+Locker::~Locker()
 {
     mutex_->unlock();
 }
 
 void
-Thread::Sleep(double duration) throw(std::out_of_range)
+Thread::Sleep(double duration)
 {
     timespec ts;
     fillTimespec(duration, false, ts);
@@ -321,7 +322,7 @@ starterStub(void* arg)
 }
 
 void
-Thread::start() throw(Thread::FailedCreate, Mutex::FailedLock, Condition::FailedInit)
+Thread::start()
 {
     // Create a helper object to invoke our runWrapper method in a new thread.
     //
@@ -337,7 +338,7 @@ Thread::start() throw(Thread::FailedCreate, Mutex::FailedLock, Condition::Failed
 }
 
 void
-Thread::waitToFinish() throw(Mutex::FailedLock)
+Thread::waitToFinish()
 {
     Locker lock(condition_);
     while (running_) { condition_->waitForSignal(); }
@@ -354,7 +355,7 @@ Thread::~Thread()
 }
 
 bool
-Thread::isRunning() throw(Mutex::FailedLock)
+Thread::isRunning()
 {
 #ifdef darwin
     pthread_testcancel();
@@ -364,14 +365,14 @@ Thread::isRunning() throw(Mutex::FailedLock)
 }
 
 bool
-Thread::detach() throw()
+Thread::detach()
 {
     int rc = pthread_detach(tid_);
     return rc == 0;
 }
 
 bool
-Thread::join() throw(Thread::FailedJoin)
+Thread::join()
 {
     if (!started_) return false;
     int rc = pthread_join(tid_, 0);
@@ -380,7 +381,7 @@ Thread::join() throw(Thread::FailedJoin)
 }
 
 void
-Thread::cancel() throw(Thread::FailedCancel)
+Thread::cancel()
 {
     if (!started_) return;
     int rc = pthread_cancel(tid_);
@@ -388,7 +389,7 @@ Thread::cancel() throw(Thread::FailedCancel)
 }
 
 bool
-Thread::operator==(const Thread& rhs) const throw()
+Thread::operator==(const Thread& rhs) const
 {
     return pthread_equal(tid_, rhs.tid_) != 0;
 }

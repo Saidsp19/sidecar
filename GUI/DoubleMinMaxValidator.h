@@ -15,7 +15,8 @@ class DoubleMinMaxValidator : public QDoubleValidator {
 public:
     DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max);
 
-    DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin, double minMax);
+    DoubleMinMaxValidator(QObject* parent, QDoubleSpinBox* min, QDoubleSpinBox* max, double minMin,
+                          double minMax);
 
 private slots:
 

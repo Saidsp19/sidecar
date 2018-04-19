@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QTABWIDGETSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QTABWIDGETSETTING_H
 
-#include "QtGui/QTabWidget"
-
 #include "GUI/IntSetting.h"
+
+class QTabWidget;
 
 namespace SideCar {
 namespace GUI {

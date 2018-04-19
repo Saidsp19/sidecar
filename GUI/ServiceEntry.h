@@ -16,10 +16,12 @@ namespace SideCar {
 namespace Messages {
 class MetaTypeInfo;
 }
+
 namespace Zeroconf {
 class ServiceEntry;
 class ResolvedEntry;
 } // namespace Zeroconf
+
 namespace GUI {
 
 /** Bridge class that brings together the Zeroconf::ServiceEntry interface and the Qt QObject interface. A

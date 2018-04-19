@@ -15,13 +15,13 @@ struct DeleteTest {
 
         \param p object to check
     */
-    void operator()(const Suite::PairBoolTestObj& p) const throw()
+    void operator()(const Suite::PairBoolTestObj& p) const
     {
         if (p.first) delete p.second;
     }
 };
 
-Suite::~Suite() throw()
+Suite::~Suite()
 {
     std::for_each(tests_.begin(), tests_.end(), DeleteTest());
 }
@@ -31,23 +31,23 @@ Suite::~Suite() throw()
 struct CountTests {
     /** Constructor.
      */
-    CountTests() throw() : sum_(0) {}
+    CountTests() : sum_(0) {}
 
     /** Functor method that accumulates number of unit tests in the suite.
 
         \param p entry to accumulate
     */
-    void operator()(const Suite::PairBoolTestObj& p) throw() { sum_ += p.second->numTests(); }
+    void operator()(const Suite::PairBoolTestObj& p) { sum_ += p.second->numTests(); }
 
     /** Conversion operator that spits out the counter.
      */
-    operator int() const throw() { return sum_; }
+    operator int() const { return sum_; }
 
     int sum_; ///< Unit test accumulator
 };
 
 int
-Suite::numTests() const throw()
+Suite::numTests() const
 {
     return std::for_each(tests_.begin(), tests_.end(), CountTests());
 }
@@ -61,7 +61,7 @@ struct RunTests {
 
         \param rr collector of results from the unit tests
     */
-    RunTests(Suite& master, RunResults& rr) throw() : master_(master), rr_(rr), name_(master.testName())
+    RunTests(Suite& master, RunResults& rr) : master_(master), rr_(rr), name_(master.testName())
     {
         name_ += "::";
     }
@@ -70,7 +70,7 @@ struct RunTests {
 
         \param p unit test to run
     */
-    void operator()(const Suite::PairBoolTestObj& p) const throw()
+    void operator()(const Suite::PairBoolTestObj& p) const
     {
         std::string saved = p.second->testName();
         std::string tmp = name_;
@@ -86,7 +86,7 @@ struct RunTests {
 
         \return reference to held RunResults object
     */
-    operator RunResults&() const throw() { return rr_; }
+    operator RunResults&() const { return rr_; }
 
 private:
     Suite& master_;
@@ -95,7 +95,7 @@ private:
 };
 
 RunResults&
-Suite::run(RunResults& rr) throw()
+Suite::run(RunResults& rr)
 {
     return std::for_each(tests_.begin(), tests_.end(), RunTests(*this, rr));
 }

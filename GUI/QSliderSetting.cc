@@ -1,6 +1,6 @@
 #include "QtCore/QEvent"
-#include "QtGui/QInputDialog"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QInputDialog"
+#include "QtWidgets/QStatusBar"
 
 #include "LogUtils.h"
 #include "QSliderSetting.h"
@@ -93,8 +93,8 @@ QSliderSetting::eventFilter(QObject* object, QEvent* event)
     if (valueAtPress_ != slider->value()) slider->setValue(valueAtPress_);
 
     bool ok;
-    int value = QInputDialog::getInteger(0, "Slider Value", "New value: ", valueAtPress_, slider->minimum(),
-                                         slider->maximum(), slider->singleStep(), &ok);
+    int value = QInputDialog::getInt(0, "Slider Value", "New value: ", valueAtPress_, slider->minimum(),
+                                     slider->maximum(), slider->singleStep(), &ok);
     if (!ok) return true;
 
     slider->setValue(value);

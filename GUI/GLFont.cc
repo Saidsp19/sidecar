@@ -1,5 +1,6 @@
 #include <cmath>
 
+#include "QtCore/QString"
 #include "QtCore/QStringList"
 #include "QtCore/QSysInfo"
 #include "QtGui/QImage"
@@ -8,6 +9,7 @@
 #include "QtOpenGL/QGLWidget"
 
 #include "GUI/LogUtils.h"
+#include "GUI/VertexColorTagArray.h"
 
 #include "GLFont.h"
 
@@ -132,8 +134,8 @@ GLFont::render(const VertexColorTagArray& tags)
 
         // Set the vertex color to the given tag color.
         //
-        tag.color.use();
-
+        glColor4f(tag.color.red, tag.color.green, tag.color.blue, tag.color.alpha);
+        
         // Apply the character textures that make up the tag.
         //
         foreach (QChar character, tag.tag) {

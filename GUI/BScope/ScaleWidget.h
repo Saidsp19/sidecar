@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_BSCOPE_SCALEWIDGET_H
 
 #include "QtGui/QPen"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 namespace Logger {
 class Log;

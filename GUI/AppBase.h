@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "QtCore/QDir"
-#include "QtGui/QAction"
-#include "QtGui/QApplication"
+// #include "QtGui/QAction"
+#include "QtWidgets/QApplication"
 
 class QAction;
 class QMenu;
@@ -19,7 +19,6 @@ class Log;
 namespace SideCar {
 namespace GUI {
 
-class DisableAppNap;
 class LoggerWindow;
 class MainWindowBase;
 class ManualWindow;
@@ -359,7 +358,6 @@ private:
     QPointF phantomCursor_;
     AngularFormatType angularFormatType_;
     bool quitting_;
-    DisableAppNap* disableAppNap_;
 
     static AppBase* singleton_;
 };

@@ -10,3 +10,4 @@ deps
 .\#*
 data/pri/20t10scans.pri
 data/pri/cfartest.pri
+.~/

@@ -24,7 +24,7 @@ Priority::InvalidLevel::InvalidLevel(Priority::Level level) :
 }
 
 Priority::Level
-Priority::Find(std::string name) throw(Priority::InvalidName)
+Priority::Find(std::string name)
 {
     // Convert request to uppercase before searching.
     //
@@ -43,14 +43,14 @@ Priority::Find(std::string name) throw(Priority::InvalidName)
 }
 
 const char*
-Priority::GetShortName(Level level) throw(Priority::InvalidLevel)
+Priority::GetShortName(Level level)
 {
     if (level < kNone || level > kDebug3) throw InvalidLevel(level);
     return shortNames_[level];
 }
 
 const char*
-Priority::GetLongName(Level level) throw(Priority::InvalidLevel)
+Priority::GetLongName(Level level)
 {
     if (level < kNone || level > kDebug3) throw InvalidLevel(level);
     return longNames_[level];

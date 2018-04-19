@@ -1,8 +1,8 @@
 #ifndef SIDECAR_GUI_PPIWIDGET_PATHSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_PPIWIDGET_PATHSETTING_H
 
-#include "QtGui/QLabel"
-#include "QtGui/QPushButton"
+#include "QtWidgets/QLabel"
+#include "QtWidgets/QPushButton"
 
 #include "GUI/StringSetting.h"
 

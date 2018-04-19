@@ -1,3 +1,5 @@
+#include "QtWidgets/QTimeEdit"
+
 #include "QTimeEditSetting.h"
 
 using namespace SideCar::GUI;

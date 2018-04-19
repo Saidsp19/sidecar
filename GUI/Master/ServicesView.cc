@@ -1,14 +1,14 @@
 #include "QtCore/QSettings"
 #include "QtCore/QSignalMapper"
-#include "QtGui/QAction"
+#include "QtWidgets/QAction"
 #include "QtGui/QContextMenuEvent"
-#include "QtGui/QFrame"
-#include "QtGui/QHBoxLayout"
-#include "QtGui/QHeaderView"
-#include "QtGui/QItemDelegate"
-#include "QtGui/QMenu"
-#include "QtGui/QMessageBox"
-#include "QtGui/QToolButton"
+#include "QtWidgets/QFrame"
+#include "QtWidgets/QHBoxLayout"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QItemDelegate"
+#include "QtWidgets/QMenu"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QToolButton"
 
 #include "GUI/LogUtils.h"
 
@@ -263,11 +263,9 @@ ServicesView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomR
     LOGINFO << "top: " << topLeft.row() << " left: " << topLeft.column()
             << " bottom: " << bottomRight.row() << " right: " << bottomRight.column() << std::endl;
     Super::dataChanged(topLeft, bottomRight);
-    if (! adjusting_) {
-        for (int index = topLeft.column(); index < bottomRight.column(); ++index)
-            dirtyColumns_[index] = true;
-        adjustColumnSizes(false);
-    }
+    for (int index = topLeft.column(); index < bottomRight.column(); ++index)
+        dirtyColumns_[index] = true;
+    adjustColumnSizes(false);
 }
 
 void

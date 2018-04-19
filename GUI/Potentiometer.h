@@ -1,8 +1,8 @@
 #ifndef SIDECAR_GUI_QPOTENTIOMETER_H // -*- C++ -*-
 #define SIDECAR_GUI_QPOTENTIOMETER_H
 
-#include "QtDesigner/QDesignerExportWidget"
-#include "QtGui/QWidget"
+#include "QtUiPlugin/QDesignerExportWidget"
+#include "QtWidgets/QWidget"
 
 namespace SideCar {
 namespace GUI {

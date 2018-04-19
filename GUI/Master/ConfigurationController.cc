@@ -1,13 +1,13 @@
 #include "QtCore/QFileInfo"
 #include "QtCore/QSet"
 #include "QtCore/QSettings"
-#include "QtGui/QApplication"
-#include "QtGui/QFileDialog"
-#include "QtGui/QHeaderView"
-#include "QtGui/QItemDelegate"
-#include "QtGui/QItemSelectionModel"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QFileDialog"
+#include "QtWidgets/QHeaderView"
+#include "QtWidgets/QItemDelegate"
+#include "QtCore/QItemSelectionModel"
 #include "QtGui/QKeyEvent"
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 #include "GUI/modeltest.h"
@@ -71,12 +71,12 @@ ConfigurationController::ConfigurationController(MainWindow& window, Configurati
                         "}");
 #endif
 
-    header->setResizeMode(QHeaderView::Fixed);
+    header->setSectionResizeMode(QHeaderView::Fixed);
 
     header = configurations->verticalHeader();
     header->hide();
     header->setMinimumSectionSize(-1);
-    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     connect(mainWindow_.configAdd_, SIGNAL(clicked()), SLOT(add()));
     connect(mainWindow_.actionConfigAdd_, SIGNAL(triggered()), SLOT(add()));

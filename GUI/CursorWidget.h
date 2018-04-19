@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_CURSORWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_CURSORWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 namespace Ui {
 class CursorWidget;

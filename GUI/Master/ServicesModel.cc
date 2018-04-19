@@ -20,7 +20,7 @@
 
 #include "QtCore/QMetaType"
 #include "QtCore/QVariant"
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 using namespace SideCar;
 using namespace SideCar::Algorithms;

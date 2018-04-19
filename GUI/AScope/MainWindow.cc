@@ -1,7 +1,7 @@
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
 #include "QtGui/QCloseEvent"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Splittable.h"

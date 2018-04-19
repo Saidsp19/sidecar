@@ -1,5 +1,5 @@
 #include "QtCore/QTimer"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "LogUtils.h"
 #include "PresetManager.h"

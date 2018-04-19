@@ -1,3 +1,5 @@
+#include "QtOpenGL/QGLWidget"
+
 #include "VertexColorArray.h"
 #include "LogUtils.h"
 

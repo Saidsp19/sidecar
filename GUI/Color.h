@@ -1,8 +1,6 @@
 #ifndef SIDECAR_GUI_COLOR_H // -*- C++ -*-
 #define SIDECAR_GUI_COLOR_H
 
-#include "QtOpenGL/QtOpenGL"
-
 namespace SideCar {
 namespace GUI {
 
@@ -11,12 +9,13 @@ namespace GUI {
     able to do so if there is a constructor defined.
 */
 struct RGBColor {
-    GLfloat red, green, blue;
+    float red, green, blue;
 };
 
 /** Utility OpenGL color class that expands on the primitive RGBColor class to hold an opacity (alpha) value.
  */
 struct Color : public RGBColor {
+
     /** Default constructor.
      */
     Color() {}
@@ -27,7 +26,7 @@ struct Color : public RGBColor {
 
         \param ta alpha value
     */
-    Color(const RGBColor& rgb, GLfloat ta) : RGBColor(rgb), alpha(ta) {}
+    Color(const RGBColor& rgb, float ta) : RGBColor(rgb), alpha(ta) {}
 
     /** Construction from individual RGB values
 
@@ -37,7 +36,7 @@ struct Color : public RGBColor {
 
         \param tb blue value
     */
-    Color(GLfloat tr, GLfloat tg, GLfloat tb) : alpha(1.0)
+    Color(float tr, float tg, float tb) : alpha(1.0)
     {
         red = tr;
         green = tg;
@@ -54,7 +53,7 @@ struct Color : public RGBColor {
 
         \param ta alpha value
     */
-    Color(GLfloat tr, GLfloat tg, GLfloat tb, GLfloat ta) : alpha(ta)
+    Color(float tr, float tg, float tb, float ta) : alpha(ta)
     {
         red = tr;
         green = tg;
@@ -77,9 +76,9 @@ struct Color : public RGBColor {
 
     /** Apply the held RGB and alpha values to the current OpenGL context.
      */
-    void use() const { glColor4f(red, green, blue, alpha); }
+    // void use() const { glColor4f(red, green, blue, alpha); }
 
-    GLfloat alpha;
+    float alpha;
 };
 
 } // end namespace GUI

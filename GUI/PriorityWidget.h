@@ -3,7 +3,7 @@
 
 #include "QtCore/QModelIndex"
 #include "QtCore/QStringList"
-#include "QtGui/QItemDelegate"
+#include "QtWidgets/QItemDelegate"
 
 namespace Logger {
 class Log;

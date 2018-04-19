@@ -1,3 +1,5 @@
+#include "QtWidgets/QTabWidget"
+
 #include "QTabWidgetSetting.h"
 
 using namespace SideCar::GUI;

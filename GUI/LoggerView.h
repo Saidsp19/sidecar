@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_LOGGERVIEW_H // -*- C++ -*-
 #define SIDECAR_GUI_LOGGERVIEW_H
 
-#include "QtGui/QTreeView"
+#include "QtWidgets/QTreeView"
 
 namespace SideCar {
 namespace GUI {

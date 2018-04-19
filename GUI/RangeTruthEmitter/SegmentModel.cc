@@ -1,3 +1,5 @@
+#include "QtGui/QColor"
+
 #include "SegmentModel.h"
 
 using namespace SideCar::GUI::RangeTruthEmitter;
@@ -54,7 +56,7 @@ SegmentModel::data(const QModelIndex& index, int role) const
     if (!index.isValid()) return v;
 
     if (role == Qt::BackgroundRole && index.row() == lastActiveRow_) {
-        v = Qt::yellow;
+        v = QVariant(QColor(Qt::yellow));
     } else if (role == Qt::DisplayRole || role == Qt::EditRole) {
         Segment* segment = segments_[index.row()];
         switch (index.column()) {

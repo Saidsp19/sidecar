@@ -2,8 +2,8 @@
 #define SIDECAR_GUI_ESSCOPE_XYVIEW_H
 
 #include "QtCore/QString"
-#include "QtGui/QLabel"
-#include "QtGui/QWidget"
+#include "QtWidgets/QLabel"
+#include "QtWidgets/QWidget"
 
 namespace Logger {
 class Log;

@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_CHANNELMENU_H
 
 #include "QtCore/QList"
-#include "QtGui/QMenu"
+#include "QtWidgets/QMenu"
 
 namespace Logger {
 class Log;

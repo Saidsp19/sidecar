@@ -4,9 +4,10 @@
 #include <cmath>
 
 #include "QtCore/QAbstractTableModel"
-#include "QtGui/QSlider"
 
 #include "Messages/Extraction.h"
+
+class QSlider;
 
 namespace SideCar {
 namespace GUI {

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUID_ASCOPE_DISPLAYVIEW_H // -*- C++ -*-
 #define SIDECAR_GUID_ASCOPE_DISPLAYVIEW_H
 
-#include "QtGui/QFrame"
+#include "QtWidgets/QFrame"
 
 class QSettings;
 

@@ -1,6 +1,6 @@
 #include "QtCore/QAbstractItemModel"
 #include "QtCore/QStringList"
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 
 #include "LogUtils.h"
 #include "LoggerTreeItem.h"

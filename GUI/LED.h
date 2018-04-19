@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_LED_H // -*- C++ -*-
 #define SIDECAR_GUI_LED_H
 
-#include "QtDesigner/QDesignerExportWidget"
+#include "QtUiPlugin/QDesignerExportWidget"
 #include "QtSvg/QSvgWidget"
 
 namespace SideCar {

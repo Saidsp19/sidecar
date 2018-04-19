@@ -1,4 +1,5 @@
-#include "QtGui/QMessageBox"
+#include "QtOpenGL/QGLWidget"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/ChannelSelectorWindow.h"
 #include "GUI/LogUtils.h"

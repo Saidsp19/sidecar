@@ -5,6 +5,9 @@
 #undef GL_GLEXT_PROTOTYPES
 #endif
 
+#include "QtGui/QMouseEvent"
+#include "QtOpenGL/QGLWidget"
+
 #include "GUI/BugPlotEmitterSettings.h"
 #include "GUI/LogUtils.h"
 #include "GUI/PhantomCursorImaging.h"
@@ -393,7 +396,9 @@ XYWidget::makeGridLines()
 
     GLEC(glNewList(getDisplayList(kGridLines), GL_COMPILE));
     {
-        gridImaging_->getColor().use();
+        auto color = gridImaging_->getColor();
+        glColor4f(color.red, color.green, color.blue, color.alpha);
+        
         double lineWidth = gridImaging_->getSize();
         GLEC(glLineWidth(lineWidth));
 

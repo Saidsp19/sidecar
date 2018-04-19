@@ -1,4 +1,4 @@
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QMessageBox"
 
 #include "MainWindow.h"
 #include "NotesWindow.h"
@@ -14,9 +14,9 @@ static QChar kBullet = QChar(0x2713);
 static QChar kSpace = QChar(0x0020);
 
 RecordingInfo::RecordingInfo(RecordingController& controller, const QString& name, const QTime& duration) :
-    configurationNames_(), recordingDirs_(), name_(name), duration_(0), start_(QDateTime::currentDateTime().toUTC()),
-    elapsed_("00:00:00"), remaining_(""), notesWindow_(0), dropCount_(0), dupeCount_(0),
-    hasDuration_(duration.isValid()), done_(false)
+    configurationNames_(), recordingDirs_(), name_(name), duration_(0),
+    start_(QDateTime::currentDateTime().toUTC()), elapsed_("00:00:00"), remaining_(""), notesWindow_(0),
+    dropCount_(0), dupeCount_(0), hasDuration_(duration.isValid()), done_(false)
 {
     if (hasDuration_) {
         duration_ = duration.hour() * 3600 + duration.minute() * 60 + duration.second();

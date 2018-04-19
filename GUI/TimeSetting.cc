@@ -1,4 +1,4 @@
-#include "QtGui/QTimeEdit"
+#include "QtWidgets/QTimeEdit"
 
 #include "TimeSetting.h"
 

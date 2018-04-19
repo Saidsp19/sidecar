@@ -11,9 +11,9 @@
 
 #include "QtCore/QDir"
 #include "QtCore/QFileInfo"
-#include "QtGui/QApplication"
-#include "QtGui/QLabel"
 #include "QtGui/QPainter"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QLabel"
 
 #include "GUI/LogUtils.h"
 #include "GUI/Utils.h"
@@ -34,7 +34,7 @@ DiskSpaceThread::DiskSpaceThread(const QString& path) :
 {
     moveToThread(this);
     cpath_ = new char[path.size() + 1];
-    strcpy(cpath_, path.toAscii());
+    strcpy(cpath_, path.toLatin1());
 }
 
 void

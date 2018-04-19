@@ -112,7 +112,8 @@ Texture::Texture(GLenum type, GLuint id, GLuint width, GLuint height) :
     type_(type), id_(id), width_(width), height_(height), xMin_(0.0), yMin_(0.0)
 {
     Logger::ProcLog log("Texture", Log());
-    LOGINFO << "type: " << GetTextureTypeTag(type) << " id: " << id << " width: " << width << " height: " << height
+    LOGINFO << "type: " << GetTextureTypeTag(type) << " id: " << id << " width: " << width
+            << " height: " << height
             << std::endl;
 
     if (isPowerOfTwoSizeRequired_) {

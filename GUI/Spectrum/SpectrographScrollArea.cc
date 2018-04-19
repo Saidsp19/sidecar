@@ -1,4 +1,4 @@
-#include "QtGui/QScrollBar"
+#include "QtWidgets/QScrollBar"
 
 #include "GUI/LogUtils.h"
 

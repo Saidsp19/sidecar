@@ -55,7 +55,8 @@ PhantomCursorImaging::drawCursor(const QPointF& pos, double xScale, double yScal
 
     if (isEnabled() && IsValidCursor(pos)) {
         glLineWidth(getSize());
-        getColor().use();
+        auto color = getColor();
+        glColor4f(color.red, color.green, color.blue, color.alpha);
         glBegin(GL_LINES);
         float xSpan = xScale * getRadius();
         float ySpan = yScale * getRadius();

@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "QtGui/QGridLayout"
+#include "QtWidgets/QGridLayout"
 
 #include "GUI/LogUtils.h"
 #include "GUI/RangeRingsImaging.h"
