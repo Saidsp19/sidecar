@@ -18,19 +18,19 @@ struct PrintText {
 
         \param os stream to write to.
     */
-    PrintText(std::ostream& os) throw() : os_(os){};
+    PrintText(std::ostream& os) : os_(os){};
 
     /** Print exception
 
         \param e exception to print
     */
-    void operator()(const UnitTestException& e) const throw() { e.printText(os_) << '\n'; }
+    void operator()(const UnitTestException& e) const { e.printText(os_) << '\n'; }
 
     /** Print test name
 
         \param s test name to print
     */
-    void operator()(const std::string& s) const throw() { os_ << s << '\n'; }
+    void operator()(const std::string& s) const { os_ << s << '\n'; }
 
 private:
     std::ostream& os_;
@@ -49,7 +49,7 @@ printSet(std::ostream& os, const std::vector<UnitTestException>& v, const char* 
 }
 
 std::ostream&
-RunResults::printText(std::ostream& os) const throw()
+RunResults::printText(std::ostream& os) const 
 {
     if (passed()) {
         os << "+++ PASSED - " << numGood() << " passed\n";
@@ -77,14 +77,14 @@ struct PrintXML {
 
         \param counter ID of the test that is being printed
     */
-    PrintXML(std::ostream& os, const std::string& type, int counter) throw() :
+    PrintXML(std::ostream& os, const std::string& type, int counter) :
         os_(os), type_(type), counter_(counter){};
 
     /** Print exception.
 
         \param e the assertion or exception to record
     */
-    void operator()(const UnitTestException& e) throw()
+    void operator()(const UnitTestException& e)
     {
         os_ << "  <FailedTest id=\"" << ++counter_ << "\">\n"
             << "   <FailureType>" << type_ << "</FailureType>\n";
@@ -96,7 +96,7 @@ struct PrintXML {
 
         \param s the test name to record
     */
-    void operator()(const std::string& s) throw()
+    void operator()(const std::string& s)
     {
         os_ << "  <Test id=\"" << ++counter_ << "\">\n"
             << "   <Name>" << s << "</Name>\n"
@@ -116,7 +116,7 @@ private:
 };
 
 std::ostream&
-RunResults::printXML(std::ostream& os) const throw()
+RunResults::printXML(std::ostream& os) const
 {
     os << "<?xml version=\"1.0\" encoding='utf-8' ?>\n"
        << "<TestRun>\n"

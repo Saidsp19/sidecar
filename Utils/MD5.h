@@ -2,6 +2,7 @@
 #define UTILS_MD5_H
 
 #include <inttypes.h> // Contains uint8_t
+#include <memory>
 #include <string>
 #include <vector>
 

@@ -57,7 +57,7 @@ RemoteSyslog::close()
 }
 
 void
-RemoteSyslog::write(const Msg& msg) throw(std::invalid_argument)
+RemoteSyslog::write(const Msg& msg)
 {
     if (socket_ == -1) open();
     if (socket_ == -1) {

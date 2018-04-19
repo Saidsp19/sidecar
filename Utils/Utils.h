@@ -223,7 +223,7 @@ namespace std {
 */
 template <class T>
 inline bool
-operator>>(const std::string& s, T& v) throw()
+operator>>(const std::string& s, T& v)
 {
     return (std::istringstream(s) >> v).good();
 }

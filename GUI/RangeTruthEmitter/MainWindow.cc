@@ -418,15 +418,24 @@ MainWindow::sendMessage(const Messages::TSPI::Ref& msg)
 
     double value = msg->getE();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) ptr[index + 5] = converter.byte[index];
+    ptr[0 + 5] = converter.byte[0];
+    ptr[1 + 5] = converter.byte[1];
+    ptr[2 + 5] = converter.byte[2];
+    ptr[3 + 5] = converter.byte[3];
 
     value = msg->getF();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) ptr[index + 9] = converter.byte[index];
+    ptr[0 + 9] = converter.byte[0];
+    ptr[1 + 9] = converter.byte[1];
+    ptr[2 + 9] = converter.byte[2];
+    ptr[3 + 9] = converter.byte[3];
 
     value = msg->getG();
     converter.full = int32_t(256.0 * value + (value < 0.0 ? -0.5 : 0.5));
-    for (size_t index = 0; index < 4; ++index) ptr[index + 13] = converter.byte[index];
+    ptr[0 + 13] = converter.byte[0];
+    ptr[1 + 13] = converter.byte[1];
+    ptr[2 + 13] = converter.byte[2];
+    ptr[3 + 13] = converter.byte[3];
 
     for (size_t index = 0; index < 3; ++index) ptr[index + 17] = 0x0;
 

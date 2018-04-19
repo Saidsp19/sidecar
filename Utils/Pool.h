@@ -62,11 +62,11 @@ public:
 
         \param objectsPerBlock number of objects to allocate per block of raw memory allocated.
     */
-    Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::invalid_argument);
+    Pool(std::size_t objectSize, std::size_t objectsPerBlock);
 
     /** Destructor. Frees allocated memory block.
      */
-    ~Pool() throw();
+    ~Pool();
 
     AllocationStats getAllocationStats() const;
 
@@ -74,34 +74,34 @@ public:
 
         \return address of memory allocated
     */
-    void* allocate(std::size_t size) throw(std::bad_alloc);
+    void* allocate(std::size_t size);
 
     /** Reclaim chunk allocated for an object.
 
         \param ptr address of memory to add back
     */
-    void release(void* ptr, std::size_t size) throw();
+    void release(void* ptr, std::size_t size);
 
     /** \return number of memory blocks currently in use.
      */
-    size_t numBlocks() const throw() { return blocks_.size(); }
+    size_t numBlocks() const { return blocks_.size(); }
 
     /** \return number of created chunks
      */
-    size_t numAllocated() const throw() { return numBlocks() * chunksPerBlock_; }
+    size_t numAllocated() const { return numBlocks() * chunksPerBlock_; }
 
     /** \return number of chunks in use
      */
-    size_t numInUse() const throw() { return numInUse_; }
+    size_t numInUse() const { return numInUse_; }
 
     /** \return number of available chunks
      */
-    size_t numFree() const throw() { return numAllocated() - numInUse_; }
+    size_t numFree() const { return numAllocated() - numInUse_; }
 
 private:
     /** Allocate a new Block object and initialize it.
      */
-    void newBlock() throw(std::bad_alloc);
+    void newBlock();
 
     /** When debugging, verify that a given pointer came from our allocator.
 

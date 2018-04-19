@@ -56,7 +56,7 @@ public:
 
         \param name name of this test collection
     */
-    ProcSuite(T* obj, const std::string& name) throw() : TestObj(name), obj_(obj), own_(0), procs_() {}
+    ProcSuite(T* obj, const std::string& name) : TestObj(name), obj_(obj), own_(0), procs_() {}
 
     /** Constructor which creates a new T object to be used to call the all of the registered methods. Adds a
         '.' to the name as a separator -- in the ProcSuite::run method, test names are prepended with this name
@@ -64,7 +64,7 @@ public:
 
         \param name name of this test collection
     */
-    ProcSuite(const std::string& name) throw() : TestObj(name), obj_(new T), own_(1), procs_() {}
+    ProcSuite(const std::string& name) : TestObj(name), obj_(new T), own_(1), procs_() {}
 
     /** Destructor. Cleans up any previously-allocated test object.
      */
@@ -77,7 +77,7 @@ public:
     /** \return the number of unit tests this object represents. Unlike Suite::numTests, this is simply the
         value of std::vector::size().
     */
-    virtual int numTests() const throw() { return procs_.size(); }
+    virtual int numTests() const { return procs_.size(); }
 
     /** Execute the unit tests this object represents. Loops thru all of the registered unit test methods, and
         invokes each one, recording their pass/fail value. See also ProcSuite::test() below.
@@ -86,7 +86,7 @@ public:
 
         \return RunResults object that was used
     */
-    virtual RunResults& run(RunResults& rr) throw()
+    virtual RunResults& run(RunResults& rr)
     {
         // Append the test name to our own for error messages.
         //
@@ -116,7 +116,7 @@ public:
 
         \param p pointer to the class method to call to run a unit test
     */
-    void add(const char* name, Proc p) throw()
+    void add(const char* name, Proc p)
     {
         std::clog << "add: name: " << name << " proc: " << p << std::endl;
         procs_.push_back(NamedProc(name, p));

@@ -1,6 +1,7 @@
 #ifndef SIDECAR_MESSAGES_METATYPEINFO_H // -*- C++ -*-
 #define SIDECAR_MESSAGES_METATYPEINFO_H
 
+#include <iosfwd>
 #include <string>
 #include <vector>
 
@@ -43,7 +44,8 @@ public:
         *NOTE: if you add to this, add to the *END* of the list, before kUnassigned. Otherwise, past recordings
         won't play correctly.
     */
-    enum class Value : uint16_t {
+    using ValueType = uint16_t;
+    enum class Value : ValueType {
         kInvalid = 0, ///< Keep first
         kRawVideo, ///< Video data message emitted by the VME board
         kVideo, ///< Video data message after conversion from VME format
@@ -57,9 +59,9 @@ public:
         kUnassigned ///< Keep last
     };
 
-    static auto GetValueValue(const Value& value) -> std::underlying_type_t<Value>
+    static ValueType GetValueValue(const Value& value)
     {
-        return static_cast<std::underlying_type_t<Value>>(value);
+        return static_cast<ValueType>(value);
     }
 
     /** Obtain the log device for MetaTypeInfo objects
@@ -166,8 +168,6 @@ private:
      */
     class Registrations;
     static Registrations* registrations_;
-
-    static std::vector<std::string> ddsVariantTags_;
 };
 
 extern bool operator>>(ACE_InputCDR& cdr, MetaTypeInfo::Value& value);

@@ -56,7 +56,7 @@ public:
 
         \return Priority instance found
     */
-    static Priority::Level Find(std::string name) throw(InvalidName);
+    static Priority::Level Find(std::string name);
 
     /** Locate a Priority instance with a given level.
 
@@ -64,7 +64,7 @@ public:
 
         \return Priority instance found
     */
-    static const char* GetShortName(Level level) throw(InvalidLevel);
+    static const char* GetShortName(Level level);
 
     /** Locate a Priority instance with a given level.
 
@@ -72,7 +72,7 @@ public:
 
         \return Priority instance found
     */
-    static const char* GetLongName(Level level) throw(InvalidLevel);
+    static const char* GetLongName(Level level);
 
     /** Obtain a pointer to all of the priority names.
 

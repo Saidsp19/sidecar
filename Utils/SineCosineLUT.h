@@ -48,7 +48,7 @@ public:
 
         \param size number of integral values in a circle (2 * PI)
     */
-    SineCosineLUT(size_t size) throw(InvalidSize);
+    SineCosineLUT(size_t size);
 
     /** Obtain the sine and cosine values for a given lookup index
 

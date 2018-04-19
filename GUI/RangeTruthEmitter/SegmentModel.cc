@@ -1,4 +1,5 @@
-#include "QtGui/QColor.h"
+#include "QtGui/QColor"
+
 #include "SegmentModel.h"
 
 using namespace SideCar::GUI::RangeTruthEmitter;

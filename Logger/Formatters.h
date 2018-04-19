@@ -135,7 +135,7 @@ public:
 
         \param os stream to write to
     */
-    void format(std::ostream& os, const Msg& msg) throw(std::out_of_range);
+    void format(std::ostream& os, const Msg& msg);
 
 private:
     /** Constructor. Install default pattern which mimics VerboseFormatter.
