@@ -1,6 +1,7 @@
 #ifndef UTILS_RINGBUFFER_H // -*- C++ -*-
 #define UTILS_RINGBUFFER_H
 
+#include <atomic>
 #include <memory>
 #include <vector>
 

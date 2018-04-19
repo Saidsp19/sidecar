@@ -27,7 +27,7 @@ struct ThreadingException : public Utils::Exception {
         \param rc return value from a pthreads library call that reported an error
     */
 
-    ThreadingException(const char* className, const char* routine, int rc) throw();
+    ThreadingException(const char* className, const char* routine, int rc);
 };
 
 /**
@@ -47,25 +47,25 @@ public:
     /** Top-level exception class for all Mutex-related exceptions
      */
     struct Exception : public ThreadingException {
-        Exception(const char* routine, int rc) throw() : ThreadingException("Mutex", routine, rc) {}
+        Exception(const char* routine, int rc) : ThreadingException("Mutex", routine, rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_mutex_init
      */
     struct FailedInit : public Exception, public Utils::ExceptionInserter<FailedInit> {
-        FailedInit(int rc) throw() : Exception("Mutex", rc) {}
+        FailedInit(int rc) : Exception("Mutex", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_mutex_lock
      */
     struct FailedLock : public Exception, public Utils::ExceptionInserter<FailedLock> {
-        FailedLock(int rc) throw() : Exception("lock", rc) {}
+        FailedLock(int rc) : Exception("lock", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_mutex_unlock
      */
     struct FailedUnlock : public Exception, public Utils::ExceptionInserter<FailedLock> {
-        FailedUnlock(int rc) throw() : Exception("unlock", rc) {}
+        FailedUnlock(int rc) : Exception("unlock", rc) {}
     };
 
     /** Factory method for creating new Mutex objects.
@@ -74,7 +74,7 @@ public:
 
         \return reference to new Mutex object
     */
-    static Ref Make(int kind = PTHREAD_MUTEX_ERRORCHECK) throw(FailedInit)
+    static Ref Make(int kind = PTHREAD_MUTEX_ERRORCHECK)
     {
         Ref ref(new Mutex(kind));
         return ref;
@@ -82,27 +82,27 @@ public:
 
     /** Destructor. Releases system-dependent mutex resource.
      */
-    virtual ~Mutex() throw();
+    virtual ~Mutex();
 
     /** Acquire exclusive ownership of the mutex. Other threads attempting to lock the same mutex will block and
         wait until the mutex is unlocked.
     */
-    void lock() throw(FailedLock);
+    void lock();
 
     /** Similar to the Mutex::lock method, but will not block if the mutex is currently locked.
 
         \return true if locking was successful, false if mutex is already locked by another thread (if already
         locked by same thread as caller, an exception is thrown)
     */
-    bool tryToLock() throw(FailedLock);
+    bool tryToLock();
 
     /** Release ownership of the mutex.
      */
-    void unlock() throw(FailedUnlock);
+    void unlock();
 
     /** Accessor to system-dependent mutex resource.
      */
-    pthread_mutex_t* getMutexID() throw() { return &mutex_; }
+    pthread_mutex_t* getMutexID() { return &mutex_; }
 
     bool operator==(const Mutex& rhs) const { return this == &rhs; }
 
@@ -114,15 +114,15 @@ private:
         \param kind type of mutex to create. See pthread_mutexattr_settype man page for more information about
         this value.
     */
-    Mutex(int kind = PTHREAD_MUTEX_ERRORCHECK) throw(FailedInit);
+    Mutex(int kind = PTHREAD_MUTEX_ERRORCHECK);
 
     /** Copying is prohibited.
      */
-    Mutex(const Mutex&) throw();
+    Mutex(const Mutex&);
 
     /** Assigning is prohibited.
      */
-    Mutex& operator=(const Mutex&) throw();
+    Mutex& operator=(const Mutex&);
 
     pthread_mutex_t mutex_;
 };
@@ -143,8 +143,8 @@ class Guard {
 public:
     static void Init();
 
-    Guard() throw(Mutex::FailedInit, Mutex::FailedLock) { Lock(true); }
-    ~Guard() throw(Mutex::FailedInit, Mutex::FailedUnlock) { Lock(false); }
+    Guard() { Lock(true); }
+    ~Guard() { Lock(false); }
 
 private:
     Guard(const Guard&);
@@ -153,7 +153,7 @@ private:
 
     void operator delete(void*);
 
-    static void Lock(bool state) throw(Mutex::FailedInit, Mutex::FailedLock, Mutex::FailedUnlock);
+    static void Lock(bool state);
     static Mutex::Ref mutex_;
     static pthread_once_t onceControl_;
 };
@@ -169,25 +169,25 @@ public:
     /** Top-level exception class for all Condition-related exceptions.
      */
     struct Exception : public ThreadingException {
-        Exception(const char* routine, int rc) throw() : ThreadingException("Condition", routine, rc) {}
+        Exception(const char* routine, int rc) : ThreadingException("Condition", routine, rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_cond_init.
      */
     struct FailedInit : public Exception, public Utils::ExceptionInserter<FailedInit> {
-        FailedInit(int rc) throw() : Exception("Condition", rc) {}
+        FailedInit(int rc) : Exception("Condition", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_cond_wait.
      */
     struct FailedWaitForSignal : public Exception, public Utils::ExceptionInserter<FailedWaitForSignal> {
-        FailedWaitForSignal(int rc) throw() : Exception("waitForSignal", rc) {}
+        FailedWaitForSignal(int rc) : Exception("waitForSignal", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_cond_timedwait.
      */
     struct FailedTimedWaitForSignal : public Exception, public Utils::ExceptionInserter<FailedTimedWaitForSignal> {
-        FailedTimedWaitForSignal(int rc) throw() : Exception("timedWaitForSignal", rc) {}
+        FailedTimedWaitForSignal(int rc) : Exception("timedWaitForSignal", rc) {}
     };
 
     static Ref Make()
@@ -204,19 +204,19 @@ public:
 
     /** Destructor. Releases system-dependent condition variable resource.
      */
-    virtual ~Condition() throw();
+    virtual ~Condition();
 
     /** Announce a change in the condition we represent. One or more threads blocking on the condition via
         Condition::waitForSignal will awake with ownership of the locking mutex, and they can safely check the
         condition to see if it has been met.
     */
-    void signal() throw();
+    void signal();
 
     /** Announce to all blocking threads that a change in the condition has occured. When resumed, each thread
         will have ownership of the associated mutex, and they can verify the condition change in a thread-safe
         manner.
     */
-    void broadcast() throw();
+    void broadcast();
 
     /** The current thread will release ownership of the mutex lock, and wait until another thread signals a
         condition change. Whenever the thread wakes up because of a condition change signal, it will have
@@ -225,7 +225,7 @@ public:
         condition is satisfied, the thread will usually continue operation, but must release the mutex lock when
         it is appropriate to do so.
     */
-    void waitForSignal() throw(FailedWaitForSignal);
+    void waitForSignal();
 
     /** Similar to Condition::waitForSignal, but the call will only block for a certain length of time. If the
         timer expires, the call will return false, but the thread will still have ownership of the mutex.
@@ -233,22 +233,22 @@ public:
         \param duration amount of time to wait before giving up \return true if the call did not time out; false
         otherwise
     */
-    bool timedWaitForSignal(double duration) throw(FailedWaitForSignal, std::out_of_range);
+    bool timedWaitForSignal(double duration);
 
     Mutex::Ref mutex() const { return mutex_; }
 
 private:
     /** Constructor. Initializes system-dependent condition variable resource.
      */
-    Condition(const Mutex::Ref& mutex) throw(FailedInit);
+    Condition(const Mutex::Ref& mutex);
 
     /** Copying is prohibited
      */
-    Condition(const Condition&) throw();
+    Condition(const Condition&);
 
     /** Assigning is prohibited
      */
-    Condition& operator=(const Condition&) throw();
+    Condition& operator=(const Condition&);
 
     Mutex::Ref mutex_;
     pthread_cond_t condition_;
@@ -263,17 +263,17 @@ public:
 
         \param mutex the mutex to use for the lock
     */
-    Locker(const Mutex::Ref& mutex) throw(Mutex::FailedLock);
+    Locker(const Mutex::Ref& mutex);
 
     /** Constructor.
 
         \param mutex the mutex to use for the lock
     */
-    Locker(const Condition::Ref& condition) throw(Mutex::FailedLock);
+    Locker(const Condition::Ref& condition);
 
     /** Destructor. Release any hold we may have on the mutex.
      */
-    ~Locker() throw(Mutex::FailedUnlock);
+    ~Locker();
 
 private:
     /** Heap objects are prohibited.
@@ -282,11 +282,11 @@ private:
 
     /** Copying is prohibited.
      */
-    Locker(const Locker& rhs) throw();
+    Locker(const Locker& rhs);
 
     /** Assigning is prohibited.
      */
-    Locker& operator=(const Locker&) throw();
+    Locker& operator=(const Locker&);
 
     Mutex::Ref mutex_;
 };
@@ -300,38 +300,38 @@ public:
     /** Top-level exception class for all Thread-related exceptions.
      */
     struct Exception : public ThreadingException {
-        Exception(const char* routine, int rc) throw() : ThreadingException("Thread", routine, rc) {}
+        Exception(const char* routine, int rc) : ThreadingException("Thread", routine, rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedCreate : public Exception, public Utils::ExceptionInserter<FailedCreate> {
-        FailedCreate(int rc) throw() : Exception("start", rc) {}
+        FailedCreate(int rc) : Exception("start", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedJoin : public Exception, public Utils::ExceptionInserter<FailedJoin> {
-        FailedJoin(int rc) throw() : Exception("join", rc) {}
+        FailedJoin(int rc) : Exception("join", rc) {}
     };
 
     /** Exception thrown if there is a problem with pthread_create.
      */
     struct FailedCancel : public Exception, public Utils::ExceptionInserter<FailedCancel> {
-        FailedCancel(int rc) throw() : Exception("cancel", rc) {}
+        FailedCancel(int rc) : Exception("cancel", rc) {}
     };
 
     /** Utility to pause a thread for some amount of time. Other threads can run while this one is sleeping.
 
         \param duration amount of time to pause, in seconds/microseconds
     */
-    static void Sleep(double duration) throw(std::out_of_range);
+    static void Sleep(double duration);
 
     static pthread_t Self() { return pthread_self(); }
 
     /** Constructor.
      */
-    Thread() throw(Condition::FailedInit, Mutex::FailedInit) :
+    Thread() :
         tid_(pthread_self()), condition_(Condition::Make()), running_(false), started_(false)
     {
     }
@@ -344,23 +344,23 @@ public:
 
         \return thread ID
     */
-    pthread_t getThreadId() const throw() { return tid_; }
+    pthread_t getThreadId() const { return tid_; }
 
     /** \return true if the thread is still running. Not necessarily thread-safe, but for the resolution
         required vs. the cost of locking this attribute, its OK.
     */
-    bool isRunning() throw(Mutex::FailedLock);
+    bool isRunning();
 
     /** Pause the current thread until the thread represented by this instance has finished running.
      */
-    void waitToFinish() throw(Mutex::FailedLock);
+    void waitToFinish();
 
     /** Detach the running thread so that a join() call is unnecessary to clean up thread-specific memory when
         the thread run() method finishes.
 
         \return true if successful
     */
-    bool detach() throw();
+    bool detach();
 
     /** Another thread wishes to consume the one we represent. This method will block the calling thread until
         our thread exits.
@@ -368,13 +368,13 @@ public:
         \return true if pthread_join was successful; false if our thread has already terminated and has joined
         with another thread.
     */
-    bool join() throw(Thread::FailedJoin);
+    bool join();
 
     /** Request that a our thread be canceled. A thread cancellation is deferred until the thread reaches a
         cancellation point. Note that usually a call to join() should follow a cancel request, but is not
         mandatory.
     */
-    void cancel() throw(Thread::FailedCancel);
+    void cancel();
 
     /** See if two Thread objects represent the same thread.
 
@@ -382,7 +382,7 @@ public:
 
         \return true if same
     */
-    bool operator==(const Thread& rhs) const throw();
+    bool operator==(const Thread& rhs) const;
 
     /** See if two Thread objects do not represent the same thread.
 
@@ -390,17 +390,17 @@ public:
 
         \return true if not the same
     */
-    bool operator!=(const Thread& rhs) const throw() { return !(*this == rhs); }
+    bool operator!=(const Thread& rhs) const { return !(*this == rhs); }
 
     /** \return true if this instance represents the thread currently executing
      */
-    bool isActive() const throw() { return pthread_self() == tid_; }
+    bool isActive() const { return pthread_self() == tid_; }
 
     /** Start a new thread. The new thread will invoke Thread::run, which must be defined by derived classes.
         Creates a new Starter object to do the actually starting. Call will not return until the new thread is
         up and running.
     */
-    void start() throw(FailedCreate, Mutex::FailedLock, Condition::FailedInit);
+    void start();
 
 protected:
     /** Thread-specific code to run when Thread::start is called. Derived classes must define.
@@ -414,11 +414,11 @@ private:
 
     /** Copying is prohibited.
      */
-    Thread(const Thread&) throw();
+    Thread(const Thread&);
 
     /** Assigning is prohibited.
      */
-    Thread& operator=(const Thread&) throw();
+    Thread& operator=(const Thread&);
 
     pthread_t tid_;            ///< System-specific thread resource.
     Condition::Ref condition_; ///< Condition/mutex for running_ flag.

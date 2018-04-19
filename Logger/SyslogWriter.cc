@@ -7,7 +7,7 @@ using namespace Logger;
 using namespace Logger::Writers;
 
 int
-Syslog::ConvertPriority(Priority::Level level) throw(std::invalid_argument)
+Syslog::ConvertPriority(Priority::Level level)
 {
     switch (level) {
     case Priority::kFatal: return LOG_CRIT;
@@ -36,7 +36,7 @@ Syslog::close()
 }
 
 void
-Syslog::write(const Msg& msg) throw(std::invalid_argument)
+Syslog::write(const Msg& msg)
 {
     buffer_.str("");
     format(buffer_, msg);

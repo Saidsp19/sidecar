@@ -28,30 +28,30 @@ class Exception : public std::exception, public ExceptionInserter<Exception> {
 public:
     /** Default constructor.
      */
-    Exception() throw() : std::exception(), os_(nullptr), err_("") {}
+    Exception() : std::exception(), os_(nullptr), err_("") {}
 
     /** Constructor.
 
         \param err C character string to use as the start of the error. Throws exception if NULL pointer is
         passed in. text.
     */
-    Exception(const char* err) throw(std::invalid_argument);
+    Exception(const char* err);
 
     /** Constructor.
 
         \param err C++ string to use as the start of the error text.
     */
-    Exception(const std::string& err) throw() : std::exception(), os_(nullptr), err_(err) {}
+    Exception(const std::string& err) : std::exception(), os_(nullptr), err_(err) {}
 
     /** Copy constructor. Seeds the output formatter with the value from the given instance.
 
         \param rhs instance to copy from
     */
-    Exception(const Exception& rhs) throw();
+    Exception(const Exception& rhs);
 
     /** Destructor. Dispose of any active ostringstream object.
      */
-    virtual ~Exception() throw();
+    virtual ~Exception();
 
     /** Assignment operator.
 
@@ -59,19 +59,19 @@ public:
 
         \return reference to self
     */
-    Exception& operator=(const Exception& rhs) throw();
+    Exception& operator=(const Exception& rhs);
 
     /** Accessor for the error text of the exception.
 
         \return error text
     */
-    const std::string& err() const throw();
+    const std::string& err() const;
 
     /** Override of std::exception method. Takes error text from formatted string stream.
 
         \return error text
     */
-    virtual const char* what() const throw();
+    virtual const char* what() const noexcept;
 
     /** Append a value to the exception text.
 
@@ -84,7 +84,7 @@ public:
     }
 
 private:
-    std::ostream& os() throw();
+    std::ostream& os();
 
     mutable std::unique_ptr<std::ostringstream> os_;
     mutable std::string err_;

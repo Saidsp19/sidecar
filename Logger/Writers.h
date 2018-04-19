@@ -189,11 +189,11 @@ public:
 
     ~Syslog() { close(); }
 
-    static int ConvertPriority(Priority::Level level) throw(std::invalid_argument);
+    static int ConvertPriority(Priority::Level level);
 
     void open() override;
     void close() override;
-    void write(const Msg& msg) throw(std::invalid_argument) override;
+    void write(const Msg& msg) override;
 
 private:
     Syslog(const Formatters::Formatter::Ref& formatter, const std::string& ident, int facility, bool flushAfterUse) :
@@ -219,7 +219,7 @@ public:
 
     virtual void open();
     virtual void close();
-    virtual void write(const Msg& msg) throw(std::invalid_argument);
+    virtual void write(const Msg& msg);
 
 private:
     RemoteSyslog(const Formatters::Formatter::Ref& formatter, const std::string& host, int port, bool flushAfterUse) :

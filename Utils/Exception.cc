@@ -2,26 +2,26 @@
 
 using namespace Utils;
 
-Exception::Exception(const char* err) throw(std::invalid_argument) :
+Exception::Exception(const char* err) :
     std::exception(), os_(nullptr), err_(err ? err : "")
 {
     if (!err) { throw std::invalid_argument("NULL pointer for exception text"); }
 }
 
-Exception::Exception(const Exception& copy) throw() : std::exception(), os_(nullptr), err_(copy.err_)
+Exception::Exception(const Exception& copy) : std::exception(), os_(nullptr), err_(copy.err_)
 {
     // If the given instance has an active ostringstream, take its contents as our err text.
     //
     if (copy.os_.get()) err_ = copy.os_->str();
 }
 
-Exception::~Exception() throw()
+Exception::~Exception()
 {
     ;
 }
 
 Exception&
-Exception::operator=(const Utils::Exception& rhs) throw()
+Exception::operator=(const Utils::Exception& rhs)
 {
     if (&rhs == this) return *this;
 
@@ -42,7 +42,7 @@ Exception::operator=(const Utils::Exception& rhs) throw()
 }
 
 const std::string&
-Exception::err() const throw()
+Exception::err() const
 {
     // If we have a converter stream, save a copy of its contents and then dispose of it.
     //
@@ -55,13 +55,13 @@ Exception::err() const throw()
 }
 
 const char*
-Exception::what() const throw()
+Exception::what() const noexcept
 {
     return err().c_str();
 }
 
 std::ostream&
-Exception::os() throw()
+Exception::os()
 {
     if (!os_.get()) {
         os_.reset(new std::ostringstream(err_, std::ios_base::out | std::ios_base::app | std::ios_base::ate));

@@ -44,11 +44,11 @@ public:
 
         \param name name of the test suite
     */
-    Suite(const std::string& name) throw() : TestObj(name), tests_() {}
+    Suite(const std::string& name) : TestObj(name), tests_() {}
 
     /** Destructor. Deletes all registered tests which we own.
      */
-    virtual ~Suite() throw();
+    virtual ~Suite();
 
     /** Returns the number of unit tests this object represents. The returned value represents the sum of
         numTests calls for each registered unit test. Note that this value may not be the same as what
@@ -56,7 +56,7 @@ public:
 
         \return number of registered tests
     */
-    virtual int numTests() const throw();
+    virtual int numTests() const;
 
     /** Execute the unit tests this object represents. Loops thru all of the registered unit test objects, and
         calls their run method.
@@ -65,7 +65,7 @@ public:
 
         \return value of input parameter
     */
-    virtual RunResults& run(RunResults& rr) throw();
+    virtual RunResults& run(RunResults& rr);
 
     /** Add the given test object to our collection. Note that there is no way to remove tests once added.
 
@@ -73,7 +73,7 @@ public:
 
         \param own if true, assume ownership of the object and delete it when the Suite instance is destroyed.
     */
-    void add(TestObj* obj, bool own = true) throw() { tests_.push_back(PairBoolTestObj(own, obj)); }
+    void add(TestObj* obj, bool own = true) { tests_.push_back(PairBoolTestObj(own, obj)); }
 
     /** Add a reference to a test object, probably something allocated on the stack, and not the heap. Does not
         take ownership of the object.
@@ -84,7 +84,7 @@ public:
         will be destroyed after the add method returns, and then your test case
         will run on a destructed object, which is bad.
     */
-    void add(TestObj& obj) throw() { tests_.push_back(PairBoolTestObj(false, &obj)); }
+    void add(TestObj& obj) { tests_.push_back(PairBoolTestObj(false, &obj)); }
 
 private:
     /** Set of test cases to run, represented by TestObj objects.

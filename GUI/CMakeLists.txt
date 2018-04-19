@@ -110,11 +110,6 @@ qt5_wrap_cpp(GUI_tMOCS AppBase.h
              Writers.h
              )
 
-if(APPLE)
-    set(GUI_EXTRA_SRCS DisableAppNap.mm)
-    set(GUI_EXTRA_LIBS "-framework Foundation")
-endif(APPLE)
-
 # Production specification for libGUIUtils
 #
 add_library(GUIUtils SHARED
@@ -213,8 +208,6 @@ add_library(GUIUtils SHARED
             WindowManager.cc
             Writers.cc
 
-            ${GUI_EXTRA_SRCS}
-            
             ${GUI_tQRCS}
             ${GUI_tUIS}
             ${GUI_tMOCS}
@@ -225,7 +218,7 @@ set_target_properties(GUIUtils PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION $
 # Linkage dependencies for libGUIUtils
 #
 message(STATUS "GUI linking with these OpenGL libraries: ${OPENGL_LIBRARIES}")
-target_link_libraries(GUIUtils IO ${QTLIBS} ${OPENGL_LIBRARIES} "${GUI_EXTRA_LIBS}")
+target_link_libraries(GUIUtils IO ${QTLIBS} ${OPENGL_LIBRARIES})
 install(TARGETS GUIUtils LIBRARY DESTINATION lib)
 
 # Unit test for CLUT class
@@ -245,7 +238,7 @@ add_directories(Alert
                 PRIEmitter
                 RangeTruthEmitter
                 SignalGenerator
-                Spectrum
+                # Spectrum
                 TestBed
                 ZeroconfMonitor
                 )

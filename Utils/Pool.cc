@@ -26,7 +26,7 @@ Pool::SetObjectSizeWarning(bool flag)
     return prev;
 }
 
-Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::invalid_argument) :
+Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) :
     free_(0), blocks_(), objectSize_(objectSize), chunkSize_(Utils::LCM(objectSize, sizeof(FreeStore))),
     chunksPerBlock_(objectsPerBlock), blockSize_(chunkSize_ * objectsPerBlock), numInUse_(0)
 {
@@ -34,13 +34,13 @@ Pool::Pool(std::size_t objectSize, std::size_t objectsPerBlock) throw(std::inval
     if (objectsPerBlock < 1) throw std::invalid_argument("objectsPerBlock");
 }
 
-Pool::~Pool() throw()
+Pool::~Pool()
 {
     std::for_each(blocks_.begin(), blocks_.end(), [](auto b) { delete[] b; });
 }
 
 void*
-Pool::allocate(std::size_t size) throw(std::bad_alloc)
+Pool::allocate(std::size_t size)
 {
     if (size != objectSize_) {
         if (objectSizeWarning_) {
@@ -61,7 +61,7 @@ Pool::allocate(std::size_t size) throw(std::bad_alloc)
 }
 
 void
-Pool::release(void* ptr, std::size_t size) throw()
+Pool::release(void* ptr, std::size_t size)
 {
     if (!ptr) return;
     if (size != objectSize_) {
@@ -85,7 +85,7 @@ Pool::release(void* ptr, std::size_t size) throw()
 }
 
 void
-Pool::newBlock() throw(std::bad_alloc)
+Pool::newBlock()
 {
     // Allocate new block to hold N number of objects and add to list of allocated blocks.
     //

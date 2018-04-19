@@ -88,7 +88,7 @@ protected:
 
         \param numVersions number of entries to register
     */
-    VoidLoaderRegistry(const VersionedVoidLoader* first, size_t numVersions) throw(Utils::Exception);
+    VoidLoaderRegistry(const VersionedVoidLoader* first, size_t numVersions);
 
     /** Register a new version/loader combination. NOTE: if the version is already registered, the routine
         thruws an exception.
@@ -97,7 +97,7 @@ protected:
 
         \param loader procedure to register
     */
-    void addVoidLoader(VersionType version, VoidLoader loader) throw(Utils::Exception);
+    void addVoidLoader(VersionType version, VoidLoader loader);
 
     /** Obtain the appropriate loader for a given version. Note that if the version indicator is greater than
         the last registered version indicator, the routine will return the last loader. Throws an exception if
@@ -107,7 +107,7 @@ protected:
 
         \return found Loader method
     */
-    VoidLoader getVoidLoader(VersionType version) const throw(Utils::Exception);
+    VoidLoader getVoidLoader(VersionType version) const;
 
 private:
     /** Utility that emits information about current registrations
@@ -216,7 +216,7 @@ public:
 
         \param loader procedure to register
     */
-    void addLoader(VersionType version, TLoader loader) throw(Utils::Exception) { addVoidLoader(version, loader); }
+    void addLoader(VersionType version, TLoader loader) { addVoidLoader(version, loader); }
 
     /** Find and invoke the appropriate loader procedure depending on the version indicator read in from an ACE
         CDR stream.

@@ -48,7 +48,7 @@ KeySeq::asString() const
     s.replace(QMAC_SHIFT, "Shift+");
     return s;
 #else
-    return QString(key_);
+    return QString(key_.toString());
 #endif
 }
 

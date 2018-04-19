@@ -1,6 +1,8 @@
 #ifndef SIDECAR_RUNNERSTATUS_H // -*- C++ -*-
 #define SIDECAR_RUNNERSTATUS_H
 
+#include <memory>
+
 #include "IO/ProcessingState.h"
 #include "IO/StreamStatus.h"
 
