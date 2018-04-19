@@ -51,6 +51,74 @@ build is to create a build directory, move into it and then execute `cmake ..` t
 
 If successful, one should then just type `make` to build the executables.
 
+## Linux Fedora 27 Installation Notes
+
+Originally, I developed the software on both macOS and Debian. For kicks, I tried and succeeded getting most of
+the code and apps built on a Fedora 27 installation. This was a bit more involved than the macOS install
+described below, but it does work. The following packages are needed on the system:
+
+```
+avahi-compat-libdns_sd (0.7-11)
+avahi-compat-libdns_sd-devel (0.7-11)
+boost (1.64.0-5)
+boost-devel (1.64.0-5)
+cmake (3.11.0-1)
+fftw (3.3.5-7)
+fftw-devel (3.3.5-7)
+freeglut-devel (3.0.0-6)
+gcc (7.3.1-5)
+gcc-c++ (7.3.1-5)
+lapack-devel (3.8.0-7)
+mesa-demos (8.3.0-9)
+qt5 (5.9.4-2)
+qt5-qtsvg (5.9.4-1)
+qt5-qtsvg-devel (5.9.4-1)
+qt5-qttools-devel (5.9.4-1)
+```
+
+Other versions would probably work as well, but these are what I used.
+
+The software also needs an implementation of the
+[Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
+[OpenVSIP](https://github.com/openvsip/openvsip) that compiles on macOS. To install:
+
+```
+% git clone https://github.com/bradhowes/openvsip.git
+% cd openvsip
+% ./autogen.sh
+% mkdir objdir
+% cd objdir
+% ../configure # It *should* find the LAPACK install from above
+```
+
+If all goes well with `configure`, you should be able to build:
+
+```
+% make
+% make install
+```
+
+If `configure` has issues, you will have to explore its options to see if you can get it to do what you want.
+
+Now to build SideCar:
+
+```
+% git clone https://github.com/bradhowes/sidecar.git
+% cd sidecar
+% mkdir build
+% cd build
+% cmake ..
+```
+
+Hopefully `CMake` will find everything and run without errors. Next:
+
+```
+% make
+```
+
+This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
+machine.
+
 ## MacOS Installation Notes
 
 Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running High
@@ -76,7 +144,7 @@ The software also needs an implementation of the
 % ./autogen.sh
 % mkdir objdir
 % cd objdir
-% ../configure --with-lapack=apple # only if on macOS
+% ../configure --with-lapack=apple # Only if on macOS
 ```
 
 If all goes well with `configure`, you should be able to build:
