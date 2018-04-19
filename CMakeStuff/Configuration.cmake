@@ -75,21 +75,19 @@ find_package(VSIPL ${VSIPL_VERSION} REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenGL ${OpenGL_VERSION} REQUIRED)
 
-#if(NOT Qt5_DIR)
-#    set(Qt5_HINTS "/usr/local" "/usr" "/opt" "/opt/local" "$ENV{HOME}")
-#    foreach(P ${Qt5_HINTS})
-#        execute_process(COMMAND find "${P}/Qt" "-name" "Qt5Config.cmake"
-#                       OUTPUT_VARIABLE F OUTPUT_STRIP_TRAILING_WHITESPACE)
-#       message(STATUS "${P} - ${F}")
-#   endforeach()
-#endif()
+if(APPLE AND EXISTS /usr/local/opt/qt5)
 
-# set(Qt5_DIR "/Users/howes/Qt/5.10.1/clang_64/lib/cmake/Qt5" CACHE STRING "Qt install location ")
-find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL Network PrintSupport Svg Widgets Xml REQUIRED)
+	# Homebrew installs Qt5 (up to at least 5.9.1) in /usr/local/qt5, ensure it can be found by CMake since it
+	# is not in the default /usr/local prefix.
+    #
+    list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+endif()
 
-# Update compile flags/settings based on QT library
+# For Qt installs in other locations, pass in a value for Qt5_DIR on the cmake command line, like:
 #
-# INCLUDE(${QT_USE_FILE})
+# %  cmake -DQt5_DIR=/Users/howes/Qt/5.10.1/clang_64/lib/cmake/Qt5 ..
+#
+find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL Network PrintSupport Svg Widgets Xml REQUIRED)
 
 #message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
 #message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
