@@ -4,7 +4,7 @@
 #include <cmath>
 #include <vector>
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QSettings;
 

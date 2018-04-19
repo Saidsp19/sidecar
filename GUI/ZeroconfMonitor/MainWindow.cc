@@ -1,4 +1,4 @@
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/LogUtils.h"
 #include "IO/ZeroconfRegistry.h"

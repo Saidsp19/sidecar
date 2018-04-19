@@ -57,7 +57,7 @@ private:
 };
 
 RunResults&
-TestObj::run(RunResults& rr) throw()
+TestObj::run(RunResults& rr)
 {
     // Run test as long as unit testing is not stopped.
     //
@@ -83,7 +83,6 @@ TestObj::run(RunResults& rr) throw()
 
 void
 TestObj::_assertEqual(double expected, double actual, double epsilon, const char* file, int line) const
-    throw(UnitTestException)
 {
     double delta = std::abs(expected - actual);
     if (delta > epsilon) throwError("expected", expected, actual, delta, epsilon, file, line);
@@ -91,7 +90,6 @@ TestObj::_assertEqual(double expected, double actual, double epsilon, const char
 
 void
 TestObj::_assertNotEqual(double expected, double actual, double epsilon, const char* file, int line) const
-    throw(UnitTestException)
 {
     double delta = std::abs(expected - actual);
     if (delta <= epsilon) throwError("did not expect", expected, actual, delta, epsilon, file, line);
@@ -99,7 +97,7 @@ TestObj::_assertNotEqual(double expected, double actual, double epsilon, const c
 
 void
 TestObj::throwError(const char* tag, const std::string& expected, const std::string& actual, const char* file,
-                    int line) const throw(UnitTestException)
+                    int line) const
 {
     std::ostringstream os("");
     os << tag << " [" << expected << "], got [" << actual << "]";
@@ -110,7 +108,7 @@ TestObj::throwError(const char* tag, const std::string& expected, const std::str
 
 void
 TestObj::throwError(const char* tag, double expected, double actual, double delta, double epsilon, const char* file,
-                    int line) const throw(UnitTestException)
+                    int line) const
 {
     std::ostringstream os("");
     os.precision(10);
@@ -121,7 +119,7 @@ TestObj::throwError(const char* tag, double expected, double actual, double delt
 }
 
 int
-TestObj::mainRun(std::ostream* os) throw()
+TestObj::mainRun(std::ostream* os)
 {
     char* fileName = ::getenv("UNIT_TEST_DIR");
     if (fileName && *fileName) {

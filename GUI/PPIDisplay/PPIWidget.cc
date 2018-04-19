@@ -2,9 +2,11 @@
 
 #include "QtCore/QSettings"
 #include "QtGui/QCursor"
+#include "QtGui/QKeyEvent"
+#include "QtGui/QMouseEvent"
 #include "QtGui/QImage"
-#include "QtGui/QMessageBox"
-#include "QtGui/QStatusBar"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
 
 #include "GUI/BugPlotEmitterSettings.h"
 #include "GUI/ChannelSetting.h"
@@ -54,22 +56,25 @@ QGLFormat
 PPIWidget::GetGLFormat()
 {
     QGLFormat format = QGLFormat::defaultFormat();
-    format.setAlpha(true);
+    format.setAlpha(false);
+    format.setDoubleBuffer(true);
+    format.setStencil(true);
+    format.setAccum(false);
     format.setDepth(false);
     format.setSampleBuffers(true);
     return format;
 }
 
 PPIWidget::PPIWidget(QWidget* parent) :
-    Super(GetGLFormat(), parent), xSpan_(1.0), ySpan_(1.0), lastAzimuth_(0.0), lastShaftEncoding_(0), viewSettings_(0),
-    videoImaging_(0), binaryImaging_(0), extractionsImaging_(0), rangeTruthsImaging_(0), bugPlotsImaging_(0),
-    rangeMapImaging_(0), rangeRingsImaging_(0), backgroundImageSettings_(0), decaySettings_(0),
-    phantomCursorImaging_(0), bugPlotEmitterSettings_(0), rangeMap_(new RangeMap), history_(0), videoBuffer_(0),
-    videoVertexGenerator_(new VideoVertexGenerator), binaryBuffer_(0),
+    Super(GetGLFormat(), parent), xSpan_(1.0), ySpan_(1.0), lastAzimuth_(0.0), lastShaftEncoding_(0),
+    viewSettings_(0), videoImaging_(0), binaryImaging_(0), extractionsImaging_(0), rangeTruthsImaging_(0),
+    bugPlotsImaging_(0), rangeMapImaging_(0), rangeRingsImaging_(0), backgroundImageSettings_(0),
+    decaySettings_(0), phantomCursorImaging_(0), bugPlotEmitterSettings_(0), rangeMap_(new RangeMap), history_(0),
+    videoBuffer_(0), videoVertexGenerator_(new VideoVertexGenerator), binaryBuffer_(0),
     binaryVertexGenerator_(new BinaryVertexGenerator), displayLists_(0), decayTexture_(), desaturationTexture_(),
     backgroundTexture_(), updateTimer_(), phantomCursor_(PhantomCursorImaging::InvalidCursor()), info_(),
-    settingsKey_(), magnifiers_(), cursorPosition_(), panning_(false), rubberBanding_(false), showPhantomCursor_(true),
-    showCursorPosition_(true), trimVideo_(true), trimBinary_(true)
+    settingsKey_(), magnifiers_(), cursorPosition_(), panning_(false), rubberBanding_(false),
+    showPhantomCursor_(true), showCursorPosition_(true), trimVideo_(true), trimBinary_(true)
 {
     Logger::ProcLog log("PPIWidget", Log());
     LOGINFO << std::endl;
@@ -77,7 +82,7 @@ PPIWidget::PPIWidget(QWidget* parent) :
     // Widget initialization. NOTE: all Open/GL initialization occurs in the initializeGL method.
     //
     setCursor(Qt::CrossCursor);
-    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    // setAttribute(Qt::WA_OpaquePaintEvent, true);
 }
 
 PPIWidget::~PPIWidget()
@@ -556,7 +561,8 @@ PPIWidget::makeRangeMapList()
 {
     glNewList(getDisplayList(kRangeMap), GL_COMPILE);
     {
-        rangeMapImaging_->getColor().use();
+        auto color = rangeMapImaging_->getColor();
+        glColor4f(color.red, color.green, color.blue, color.alpha);
         glLineWidth(rangeMapImaging_->getSize());
         rangeMap_->render();
     }
@@ -575,7 +581,8 @@ PPIWidget::makeRangeRingsList()
 
     glNewList(getDisplayList(kRangeRings), GL_COMPILE);
 
-    rangeRingsImaging_->getColor().use();
+    auto color = rangeRingsImaging_->getColor();
+    glColor4f(color.red, color.green, color.blue, color.alpha);
 
     double lineWidth = rangeRingsImaging_->getSize();
     glLineWidth(lineWidth);
@@ -846,6 +853,9 @@ void
 PPIWidget::paintGL()
 {
     static Logger::ProcLog log("paintGL", Log());
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     if (!videoBuffer_) makeVideoBuffer();
 

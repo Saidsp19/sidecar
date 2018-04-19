@@ -1,4 +1,4 @@
-#include "QtGui/QColorDialog"
+#include "QtWidgets/QColorDialog"
 
 #include "ColorButtonWidget.h"
 

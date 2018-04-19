@@ -65,7 +65,8 @@ TimeStamp::ParseSpecification(const std::string& spec, const TimeStamp& zero)
     QStringList bits = re.capturedTexts();
 
     LOGDEBUG << "1: '" << bits[1].toStdString() << "' 2: '" << bits[2].toStdString() << "' 3: '"
-             << bits[3].toStdString() << "' 4: '" << bits[4].toStdString() << "' 5: '" << bits[5].toStdString() << "'"
+             << bits[3].toStdString() << "' 4: '" << bits[4].toStdString() << "' 5: '" << bits[5].toStdString()
+             << "'"
              << std::endl;
 
     TimeStamp rc;

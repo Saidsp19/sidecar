@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_PLOTSYMBOLWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_PLOTSYMBOLWIDGET_H
 
-#include "QtGui/QComboBox"
+#include "QtWidgets/QComboBox"
 
 namespace SideCar {
 namespace GUI {

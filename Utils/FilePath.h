@@ -178,11 +178,11 @@ public:
 
     const FilePath& getFilePath() const { return filePath_; }
 
-    const std::string& filePath() const throw() { return filePath_.filePath(); }
+    const std::string& filePath() const { return filePath_.filePath(); }
 
-    operator const std::string&() const throw() { return filePath_.filePath(); }
+    operator const std::string&() const { return filePath_.filePath(); }
 
-    operator const char*() const throw() { return filePath_.filePath().c_str(); }
+    operator const char*() const { return filePath_.filePath().c_str(); }
 
 private:
     FilePath filePath_;

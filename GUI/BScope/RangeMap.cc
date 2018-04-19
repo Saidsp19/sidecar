@@ -34,18 +34,19 @@ RangeMap::addVertex(const Vertex& vertex)
     v.x = viewSettings_->normalizedAzimuth(::atan2(vertex.x, vertex.y));
 
     if (!empty()) {
+
         // See if we are drawing a line that wraps around to the other side of the image.
         //
-        GLfloat dx = v.x - last_.x;
+        auto dx = v.x - last_.x;
         if (::fabs(dx) > M_PI) {
-            GLfloat dy = v.y - last_.y;
+            auto dy = v.y - last_.y;
             Vertex tmp = v;
             if (v.x > last_.x) {
                 // Since our new azimuth is greater than the previous, we need to slice the line at azimuthMin_.
                 // Calculate the range value at azimuthMin_: x = (x1 - x0) / (y1 - y0) * (y - y0) + x0
                 //
                 dx -= Utils::kCircleRadians;
-                GLfloat ty = dy / dx * (azimuthMin_ - last_.x) + last_.y;
+                auto ty = dy / dx * (azimuthMin_ - last_.x) + last_.y;
                 v.y = ty;
                 v.x = azimuthMin_;
                 Super::addVertex(v);
@@ -65,7 +66,7 @@ RangeMap::addVertex(const Vertex& vertex)
                 // Calculate the range value at azimuthMax_ with the same equation as given above.
                 //
                 dx += Utils::kCircleRadians;
-                GLfloat ty = dy / dx * (azimuthMax_ - last_.x) + last_.y;
+                auto ty = dy / dx * (azimuthMax_ - last_.x) + last_.y;
                 v.y = ty;
                 v.x = azimuthMax_;
                 Super::addVertex(v);

@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QLINEEDITSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QLINEEDITSETTING_H
 
-#include "QtGui/QLineEdit"
-
 #include "GUI/StringSetting.h"
+
+class QLineEdit;
 
 namespace SideCar {
 namespace GUI {

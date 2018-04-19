@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_CHANNELINFOWIDGET_H
 
 #include "QtCore/QStringList"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QSignalMapper;
 

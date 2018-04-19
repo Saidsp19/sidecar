@@ -54,7 +54,7 @@ GUID::getSequenceKey() const
 {
     if (!sequenceKey_.size()) {
         std::ostringstream os;
-        os << producer_ << '/' << messageTypeKey_;
+        os << producer_ << '/' << MetaTypeInfo::GetValueValue(messageTypeKey_);
         sequenceKey_ = os.str();
     }
     return sequenceKey_;
@@ -65,7 +65,7 @@ GUID::getRepresentation() const
 {
     if (!representation_.size()) {
         std::ostringstream os;
-        os << producer_ << '/' << messageTypeKey_;
+        os << producer_ << '/' << MetaTypeInfo::GetValueValue(messageTypeKey_);
         sequenceKey_ = os.str();
         os << '/' << messageSequenceNumber_;
         representation_ = os.str();

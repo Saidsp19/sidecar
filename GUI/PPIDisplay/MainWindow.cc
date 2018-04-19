@@ -1,8 +1,9 @@
+#include "QtGui/QCloseEvent"
 #include "QtGui/QIcon"
-#include "QtGui/QMenu"
-#include "QtGui/QMessageBox"
-#include "QtGui/QStatusBar"
-#include "QtGui/QToolButton"
+#include "QtWidgets/QMenu"
+#include "QtWidgets/QMessageBox"
+#include "QtWidgets/QStatusBar"
+#include "QtWidgets/QToolButton"
 
 #include "GUI/ChannelInfoWidget.h"
 #include "GUI/ChannelMenu.h"

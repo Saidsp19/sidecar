@@ -1,5 +1,5 @@
 #include "QtCore/QSettings"
-#include "QtGui/QHeaderView"
+#include "QtWidgets/QHeaderView"
 
 #include "LogUtils.h"
 #include "LoggerTreeItem.h"
@@ -28,7 +28,7 @@ LoggerView::LoggerView(QWidget* parent) : Super(parent)
     setAlternatingRowColors(true);
     connect(this, SIGNAL(expanded(const QModelIndex&)), SLOT(saveExpansionState(const QModelIndex&)));
     connect(this, SIGNAL(collapsed(const QModelIndex&)), SLOT(saveExpansionState(const QModelIndex&)));
-    header()->setResizeMode(QHeaderView::ResizeToContents);
+    header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void

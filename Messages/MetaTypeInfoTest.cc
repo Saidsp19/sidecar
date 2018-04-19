@@ -40,6 +40,10 @@ Test::test()
         assertEqual(MetaTypeInfo::Value::kUnassigned, m.getKey());
         assertEqual(std::string("Special"), m.getName());
 
+	std::stringstream os("");
+	os << m.getKey();
+	assertEqual(os.str(), "10");
+	
         MetaTypeInfo::SequenceType s1(m.getNextSequenceNumber());
         MetaTypeInfo::SequenceType s2(m.getNextSequenceNumber());
         assertNotEqual(s1, s2);

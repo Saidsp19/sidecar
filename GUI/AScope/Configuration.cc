@@ -1,5 +1,5 @@
-#include "QtGui/QDoubleSpinBox"
-#include "QtGui/QSpinBox"
+#include "QtWidgets/QDoubleSpinBox"
+#include "QtWidgets/QSpinBox"
 
 #include "GUI/QCheckBoxSetting.h"
 #include "GUI/QDoubleSpinBoxSetting.h"

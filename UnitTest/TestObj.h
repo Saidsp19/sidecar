@@ -127,45 +127,45 @@ public:
 
         \param testName name of the test that was running at the time of the exception.
     */
-    UnitTestException(const char* msg, const std::string& testName) throw() :
+    UnitTestException(const char* msg, const std::string& testName) :
         msg_(msg), file_(""), line_(-1), testName_(testName)
     {
     }
 
-    UnitTestException(const std::string& msg, const std::string& testName) throw() :
+    UnitTestException(const std::string& msg, const std::string& testName) :
         msg_(msg), file_(""), line_(-1), testName_(testName)
     {
     }
 
-    UnitTestException(const char* msg, const char* file, int line, const std::string& testName) throw() :
+    UnitTestException(const char* msg, const char* file, int line, const std::string& testName) :
         msg_(msg), file_(file), line_(line), testName_(testName)
     {
     }
 
-    UnitTestException(const std::string& msg, const char* file, int line, const std::string& testName) throw() :
+    UnitTestException(const std::string& msg, const char* file, int line, const std::string& testName) :
         msg_(msg), file_(file), line_(line), testName_(testName)
     {
     }
 
     /** Destructor.
      */
-    virtual ~UnitTestException() throw() {}
+    virtual ~UnitTestException() {}
 
     /** Return the description of the failure or error.
      */
-    const std::string& err() const throw() { return msg_; }
+    const std::string& err() const { return msg_; }
 
     /** Return the name of the unit test that was running.
      */
-    const std::string& testName() const throw() { return testName_; }
+    const std::string& testName() const { return testName_; }
 
     /** Return the name of the file in which the exception occured. May be NULL.
      */
-    const std::string& file() const throw() { return file_; }
+    const std::string& file() const { return file_; }
 
     /** Return the line number of the file. If file() returns NULL, this is undefined.
      */
-    long line() const throw() { return line_; }
+    long line() const { return line_; }
 
     /** Write out exception text to given output stream.
 
@@ -221,13 +221,13 @@ class TestObj {
 public:
     /** Default contructor.
      */
-    TestObj() throw() : name_("") {}
+    TestObj() : name_("") {}
 
     /** Contructor. Takes the given name as its own. Note that test names may be changed by a container object.
 
         \param name name of this unit test object.
     */
-    TestObj(const std::string& name) throw() : name_(name) {}
+    TestObj(const std::string& name) : name_(name) {}
 
     /** Destructor.
      */
@@ -238,7 +238,7 @@ public:
 
         \return the number of unit tests this object represents.
     */
-    virtual int numTests() const throw() { return 1; }
+    virtual int numTests() const { return 1; }
 
     /** Execute the unit test(s) this object represents. This is basically a wrapper for the protected
         TestObj::test method that traps an records any exceptions that occur during the unit test.
@@ -247,7 +247,7 @@ public:
 
         \return value of input parameter
     */
-    virtual RunResults& run(RunResults& rr) throw();
+    virtual RunResults& run(RunResults& rr);
 
     /** Utility method useful in main() to run unit tests. Prints out the unit test results to the given stream
         (if not NULL), and then returns EXIT_SUCCESS or EXIT_FAILURE depending on whether all the test pass.
@@ -256,20 +256,20 @@ public:
 
         \return EXIT_SUCCESS if all tests pass; otherwise EXIT_FAILURE.
     */
-    virtual int mainRun(std::ostream* os = &std::cerr) throw();
+    virtual int mainRun(std::ostream* os = &std::cerr);
 
     /** Set the test name to the given value. Derived classes and container clases use this to manipulate the
         test name.
 
         \param name new name to assume
     */
-    void setTestName(const std::string& name) throw() { name_ = name; }
+    void setTestName(const std::string& name) { name_ = name; }
 
     /** Get the name of this test object.
 
         \return test name
     */
-    const std::string& testName() const throw() { return name_; }
+    const std::string& testName() const { return name_; }
 
     /** Assertion for a true value. Raises a UnitTestException exception if the given value is not true. Passes
         other arguments to exception constructor.
@@ -282,7 +282,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertTrue(bool value, const char* expr, const char* file, int line) const throw(UnitTestException)
+    void _assertTrue(bool value, const char* expr, const char* file, int line) const
     {
         if (!value) throw UnitTestException(expr, file, line, testName());
     }
@@ -298,7 +298,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertTrue(std::istream& value, const char* expr, const char* file, int line) const throw(UnitTestException)
+    void _assertTrue(std::istream& value, const char* expr, const char* file, int line) const
     {
         if (!value.good()) throw UnitTestException(expr, file, line, testName());
     }
@@ -314,7 +314,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertFalse(bool value, const char* expr, const char* file, int line) const throw(UnitTestException)
+    void _assertFalse(bool value, const char* expr, const char* file, int line) const
     {
         if (value) throw UnitTestException(expr, file, line, testName());
     }
@@ -330,7 +330,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertFalse(std::istream& value, const char* expr, const char* file, int line) const throw(UnitTestException)
+    void _assertFalse(std::istream& value, const char* expr, const char* file, int line) const
     {
         if (value.good()) throw UnitTestException(expr, file, line, testName());
     }
@@ -348,7 +348,7 @@ public:
         \param line line number of the file where the assertion was made
     */
     template <typename T>
-    void _assertEqual(const T& expected, const T& actual, const char* file, int line) const throw(UnitTestException)
+    void _assertEqual(const T& expected, const T& actual, const char* file, int line) const
     {
         if (!TypeTraits<T>::areEqual(expected, actual)) {
             _assertEqual(TypeTraits<T>::toString(expected), TypeTraits<T>::toString(actual), file, line);
@@ -368,7 +368,7 @@ public:
         \param line line number of the file where the assertion was made
     */
     template <typename T>
-    void _assertEqual(const T* expected, const T* actual, const char* file, int line) const throw(UnitTestException)
+    void _assertEqual(const T* expected, const T* actual, const char* file, int line) const
     {
         if (!TypeTraits<T>::areEqual(expected, actual)) {
             _assertEqual(TypeTraits<T>::toString(expected), TypeTraits<T>::toString(actual), file, line);
@@ -386,12 +386,11 @@ public:
         \param line line number of the file where the assertion was made
     */
     void _assertEqual(std::string expected, std::string actual, const char* file, int line) const
-        throw(UnitTestException)
     {
         if (expected != actual) throwError("expected", expected, actual, file, line);
     }
 
-    void _assertEqual(double expected, double actual, const char* file, int line) const throw(UnitTestException)
+    void _assertEqual(double expected, double actual, const char* file, int line) const
     {
         _assertEqual(expected, actual, std::numeric_limits<double>::epsilon(), file, line);
     }
@@ -409,8 +408,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertEqual(double expected, double actual, double epsilon, const char* file, int line) const
-        throw(UnitTestException);
+    void _assertEqual(double expected, double actual, double epsilon, const char* file, int line) const;
 
     /** Assertion that two values are NOT equal. Raises a UnitTestException exception if two values are exactly
         the same. Equality is checked using the '!=' operator, and then by comparing the textual representations
@@ -426,7 +424,7 @@ public:
         \param line line number of the file where the assertion was made
     */
     template <typename T>
-    void _assertNotEqual(const T& expected, const T& actual, const char* file, int line) const throw(UnitTestException)
+    void _assertNotEqual(const T& expected, const T& actual, const char* file, int line) const
     {
         if (TypeTraits<T>::areEqual(expected, actual)) {
             throwError("did not expect", TypeTraits<T>::toString(expected), TypeTraits<T>::toString(actual), file,
@@ -435,7 +433,7 @@ public:
     }
 
     template <typename T>
-    void _assertNotEqual(const T* expected, const T* actual, const char* file, int line) const throw(UnitTestException)
+    void _assertNotEqual(const T* expected, const T* actual, const char* file, int line) const
     {
         if (TypeTraits<T>::areEqual(expected, actual)) {
             throwError("did not expect", TypeTraits<T>::toString(expected), TypeTraits<T>::toString(actual), file,
@@ -454,12 +452,11 @@ public:
         \param line line number of the file where the assertion was made
     */
     void _assertNotEqual(std::string expected, std::string actual, const char* file, int line) const
-        throw(UnitTestException)
     {
         if (expected == actual) throwError("did not expected", expected, actual, file, line);
     }
 
-    void _assertNotEqual(double expected, double actual, const char* file, int line) const throw(UnitTestException)
+    void _assertNotEqual(double expected, double actual, const char* file, int line) const
     {
         _assertNotEqual(expected, actual, std::numeric_limits<double>::epsilon(), file, line);
     }
@@ -478,8 +475,7 @@ public:
 
         \param line line number of the file where the assertion was made
     */
-    void _assertNotEqual(double expected, double actual, double epsilon, const char* file, int line) const
-        throw(UnitTestException);
+    void _assertNotEqual(double expected, double actual, double epsilon, const char* file, int line) const;
 
 protected:
     /** Method to perform the unit test. Derived classes must override to do something useful. Default behavior
@@ -501,7 +497,7 @@ private:
         \param line line of the file that the test is found on
     */
     void throwError(const char* tag, const std::string& expected, const std::string& actual, const char* file,
-                    int line) const throw(UnitTestException);
+                    int line) const;
 
     /** Construct a failed unit test exception and throw.
 
@@ -520,7 +516,7 @@ private:
         \param line line of the file that the test is found on
     */
     void throwError(const char* tag, double expected, double actual, double delta, double epsilon, const char* file,
-                    int line) const throw(UnitTestException);
+                    int line) const;
 
     std::string name_; ///< Name of the test.
 };                     // class TestObj

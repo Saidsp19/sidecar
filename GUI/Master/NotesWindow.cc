@@ -2,10 +2,10 @@
 #include "QtCore/QDir"
 #include "QtCore/QFile"
 #include "QtCore/QSettings"
-#include "QtGui/QApplication"
 #include "QtGui/QCursor"
-#include "QtGui/QMessageBox"
 #include "QtGui/QTextDocument"
+#include "QtWidgets/QApplication"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 
@@ -222,7 +222,8 @@ NotesWindow::loadFromFile(QFile& file)
         gui_->drfmOn_->setChecked(false);
     }
 
-    file.readLine().trimmed();
+    auto _ = file.readLine().trimmed();
+    
     gui_->notes_->document()->setPlainText(file.readAll());
 
     statsChanged();
@@ -261,7 +262,7 @@ NotesWindow::saveToFile()
     if (gui_->drfmOn_->isChecked()) data.append(" - Configuration: ").append(gui_->drfmConfig_->text());
 
     data.append("\n\n");
-    data.append(gui_->notes_->document()->toPlainText().toAscii());
+    data.append(gui_->notes_->document()->toPlainText().toLatin1());
 
     foreach (QString path, info_.getRecordingDirectories()) {
         QDir dir(path);

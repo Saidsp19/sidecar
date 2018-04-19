@@ -11,6 +11,12 @@ execute_process(COMMAND date "+%Y%m%d" OUTPUT_VARIABLE PREFIX OUTPUT_STRIP_TRAIL
 set(CMAKE_INSTALL_PREFIX "${SIDECAR}/builds/${PREFIX}")
 message(STATUS "Installation location: ${CMAKE_INSTALL_PREFIX}")
 
+# We require C++ 14
+#
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Set up CMake so that it will generate the proper RPATH values embedded in the applications, whether they exist
 # in the build directory or the install directory.
 #
@@ -45,7 +51,8 @@ set(FFTW3_VERSION "")
 set(MPI_VERSION "")
 set(VSIPL_VERSION "")
 set(OpenGL_VERSION "")
-set(Qt4_VERSION "4.8")
+set(OpenGL_GL_PREFERENCE "GLVND")
+set(Qt5_VERSION "5.10")
 
 # Locate dependencies
 #
@@ -63,22 +70,32 @@ find_package(Boost ${BOOST_VERSION} REQUIRED
              system
              thread)
 find_package(FFTW3 ${FFTW3_VERSION} REQUIRED)
-find_package(MPI ${MPI_VERSION} REQUIRED)
+#find_package(MPI ${MPI_VERSION} REQUIRED)
 find_package(VSIPL ${VSIPL_VERSION} REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenGL ${OpenGL_VERSION} REQUIRED)
-find_package(Qt4 ${Qt4_VERSION} MODULE REQUIRED)
+
+#if(NOT Qt5_DIR)
+#    set(Qt5_HINTS "/usr/local" "/usr" "/opt" "/opt/local" "$ENV{HOME}")
+#    foreach(P ${Qt5_HINTS})
+#        execute_process(COMMAND find "${P}/Qt" "-name" "Qt5Config.cmake"
+#                       OUTPUT_VARIABLE F OUTPUT_STRIP_TRAILING_WHITESPACE)
+#       message(STATUS "${P} - ${F}")
+#   endforeach()
+#endif()
+
+# set(Qt5_DIR "/Users/howes/Qt/5.10.1/clang_64/lib/cmake/Qt5" CACHE STRING "Qt install location ")
+find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL Network PrintSupport Svg Widgets Xml REQUIRED)
 
 # Update compile flags/settings based on QT library
 #
-INCLUDE(${QT_USE_FILE})
+# INCLUDE(${QT_USE_FILE})
 
-message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
-message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
-message(STATUS "FFTW3_INCLUDE_DIRS: ${FFTW3_INCLUDE_DIRS}")
-message(STATUS "VSIPL_INCLUDE_DIRS: ${VSIPL_INCLUDE_DIRS}")
-message(STATUS "QT_INCLUDE_DIR: ${QT_INCLUDE_DIR}")
+#message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
+#message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+#message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+#message(STATUS "FFTW3_INCLUDE_DIRS: ${FFTW3_INCLUDE_DIRS}")
+#message(STATUS "VSIPL_INCLUDE_DIRS: ${VSIPL_INCLUDE_DIRS}")
 
 # Platform-specific settings
 #
@@ -100,7 +117,7 @@ if(UNIX)
         # Definitions for Linux (and Solaris *** FIX ***)
         #
         add_definitions(-Dlinux)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++14")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++14 -fPIC")
     endif(APPLE)
 endif(UNIX)
 

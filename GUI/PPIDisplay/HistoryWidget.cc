@@ -1,6 +1,6 @@
-#include "QtGui/QBoxLayout"
-#include "QtGui/QCheckBox"
-#include "QtGui/QSlider"
+#include "QtWidgets/QBoxLayout"
+#include "QtWidgets/QCheckBox"
+#include "QtWidgets/QSlider"
 
 #include "App.h"
 #include "Configuration.h"

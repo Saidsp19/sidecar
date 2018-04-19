@@ -1,7 +1,7 @@
 #include <cmath>
 #include <numeric>
 
-#include "QtGui/QAction"
+#include "QtWidgets/QAction"
 
 #include "GUI/LogUtils.h"
 #include "GUI/MessageList.h"

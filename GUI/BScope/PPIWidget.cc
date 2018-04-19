@@ -1,7 +1,8 @@
 #include "QtCore/QSettings"
 #include "QtGui/QCursor"
 #include "QtGui/QImage"
-#include "QtGui/QMessageBox"
+#include "QtGui/QMouseEvent"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/BugPlotEmitterSettings.h"
 #include "GUI/ChannelSetting.h"
@@ -58,13 +59,13 @@ PPIWidget::GetGLFormat()
 }
 
 PPIWidget::PPIWidget(QWidget* parent) :
-    Super(GetGLFormat(), parent), lastAzimuth_(-M_PI * 4), azimuthScaling_(1.0), viewSettings_(0), videoImaging_(0),
-    binaryImaging_(0), extractionsImaging_(0), rangeTruthsImaging_(0), bugPlotsImaging_(0), rangeMapImaging_(0),
-    rangeRingsImaging_(0), phantomCursorImaging_(0), bugPlotEmitterSettings_(0), rangeMap_(new RangeMap), history_(0),
-    videoBuffer_(0), videoVertexGenerator_(new VideoVertexGenerator), binaryBuffer_(0),
-    binaryVertexGenerator_(new BinaryVertexGenerator), displayLists_(0), updateTimer_(), mouse_(), info_(),
-    settingsKey_(), magnifiers_(), cursorPosition_(), rubberBanding_(false), showPhantomCursor_(true),
-    showCursorPosition_(true), trimVideo_(true), trimBinary_(true)
+    Super(GetGLFormat(), parent), lastAzimuth_(-M_PI * 4), azimuthScaling_(1.0), viewSettings_(0),
+    videoImaging_(0), binaryImaging_(0), extractionsImaging_(0), rangeTruthsImaging_(0), bugPlotsImaging_(0),
+    rangeMapImaging_(0), rangeRingsImaging_(0), phantomCursorImaging_(0), bugPlotEmitterSettings_(0),
+    rangeMap_(new RangeMap), history_(0), videoBuffer_(0), videoVertexGenerator_(new VideoVertexGenerator),
+    binaryBuffer_(0), binaryVertexGenerator_(new BinaryVertexGenerator), displayLists_(0), updateTimer_(),
+    mouse_(), info_(), settingsKey_(), magnifiers_(), cursorPosition_(), rubberBanding_(false),
+    showPhantomCursor_(true), showCursorPosition_(true), trimVideo_(true), trimBinary_(true)
 {
     Logger::ProcLog log("PPIWidget", Log());
     LOGINFO << std::endl;
@@ -354,7 +355,8 @@ PPIWidget::makeRangeMapList()
 {
     glNewList(getDisplayList(kRangeMap), GL_COMPILE);
     {
-        rangeMapImaging_->getColor().use();
+        auto color = rangeMapImaging_->getColor();
+        glColor4f(color.red, color.green, color.blue, color.alpha);
         glLineWidth(rangeMapImaging_->getSize());
         rangeMap_->render();
     }
@@ -374,7 +376,8 @@ PPIWidget::makeRangeRingsList()
 
     glNewList(getDisplayList(kRangeRings), GL_COMPILE);
 
-    rangeRingsImaging_->getColor().use();
+    auto color = rangeRingsImaging_->getColor();
+    glColor4f(color.red, color.green, color.blue, color.alpha);
 
     double lineWidth = rangeRingsImaging_->getSize();
     glLineWidth(lineWidth);

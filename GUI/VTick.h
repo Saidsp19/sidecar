@@ -3,7 +3,7 @@
 
 #include "boost/shared_ptr.hpp"
 
-#include "QtGui/QLabel"
+#include "QtWidgets/QLabel"
 
 namespace SideCar {
 namespace GUI {

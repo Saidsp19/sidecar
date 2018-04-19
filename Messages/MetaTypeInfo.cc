@@ -166,7 +166,9 @@ void
 MetaTypeInfo::Registrations::dump() const
 {
     static Logger::ProcLog log("dump", Log());
-    for (auto& info : infos_) { LOGDEBUG << info->getKey() << ' ' << info->getName() << std::endl; }
+    for (auto& info : infos_) {
+        LOGDEBUG << info->getKey() << '/' << info->getName() << std::endl;
+    }
 }
 
 void
@@ -240,7 +242,7 @@ MetaTypeInfo::MetaTypeInfo(Value key, const std::string& name, CDRLoader cdrLoad
     key_(key), name_(name), cdrLoader_(cdrLoader), xmlLoader_(xmlLoader), sequenceGenerator_(new SequenceGenerator)
 {
     static Logger::ProcLog log("MetaTypeInfo", Log());
-    LOGINFO << key << ' ' << name << ' ' << std::endl;
+    LOGINFO << key << '/' << name << ' ' << std::endl;
     ACE_Guard<ACE_Mutex> locker(mutex_);
     if (!registrations_) registrations_ = new Registrations;
     registrations_->add(GetValueValue(key_), this);

@@ -1,5 +1,7 @@
-#include "QtGui/QAction"
+#include "QtGui/QMouseEvent"
 #include "QtGui/QPixmap"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QInputDialog"
 
 #include "ui_ColorMapWidget.h"
 
@@ -84,7 +86,7 @@ ColorMapWidget::mouseDoubleClickEvent(QMouseEvent* event)
         int value = int(::rint(transform_->getThresholdMin()));
         int high = int(::rint(transform_->getThresholdMax()));
         bool ok = false;
-        value = QInputDialog::getInteger(window(), "Min Value", "Set lower cutoff value: ", value, low, high, 1, &ok);
+        value = QInputDialog::getInt(window(), "Min Value", "Set lower cutoff value: ", value, low, high, 1, &ok);
         if (ok) transform_->setThresholdMin(value);
         event->accept();
     } else if (x > size().width() * 0.80) {
@@ -92,7 +94,7 @@ ColorMapWidget::mouseDoubleClickEvent(QMouseEvent* event)
         int value = int(::rint(transform_->getThresholdMax()));
         int high = transform_->getSampleMax();
         bool ok = false;
-        value = QInputDialog::getInteger(window(), "Max Value", "Set upper cutoff value: ", value, low, high, 1, &ok);
+        value = QInputDialog::getInt(window(), "Max Value", "Set upper cutoff value: ", value, low, high, 1, &ok);
         if (ok) transform_->setThresholdMax(value);
         event->accept();
     } else {

@@ -22,7 +22,7 @@ CleanerThread::run()
     foreach (QString host, hosts_) {
         if (stop_) return;
 
-        ::system(QString("ssh %1 'killall runner tail'").arg(host).toAscii());
+        ::system(QString("ssh %1 'killall runner tail'").arg(host).toLatin1());
 
         emit finishedHost(host);
 

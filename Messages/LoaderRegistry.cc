@@ -18,7 +18,7 @@ VoidLoaderRegistry::VoidLoaderRegistry(VersionType version, VoidLoader loader) :
     addVoidLoader(version, loader);
 }
 
-VoidLoaderRegistry::VoidLoaderRegistry(const VersionedVoidLoader* first, size_t count) throw(Utils::Exception) :
+VoidLoaderRegistry::VoidLoaderRegistry(const VersionedVoidLoader* first, size_t count) :
     loaders_()
 {
     static Logger::ProcLog log("VoidLoaderRegistry", Log());
@@ -54,7 +54,7 @@ VoidLoaderRegistry::dump() const
 }
 
 void
-VoidLoaderRegistry::addVoidLoader(VersionType version, VoidLoader loader) throw(Utils::Exception)
+VoidLoaderRegistry::addVoidLoader(VersionType version, VoidLoader loader)
 {
     static Logger::ProcLog log("addLoader", Log());
     LOGINFO << version << ' ' << ptrdiff_t(loader) << std::endl;
@@ -101,7 +101,7 @@ VoidLoaderRegistry::addVoidLoader(VersionType version, VoidLoader loader) throw(
 }
 
 VoidLoaderRegistry::VoidLoader
-VoidLoaderRegistry::getVoidLoader(VersionType version) const throw(Utils::Exception)
+VoidLoaderRegistry::getVoidLoader(VersionType version) const
 {
     static Logger::ProcLog log("getVoidLoader", Log());
     LOGINFO << "looking for version: " << version << std::endl;

@@ -155,7 +155,7 @@ ScanCorrelator::corrCell(Data& d, Entry& candidates)
 #endif
 
             // ext.correlate(other, sqrt(dist2));
-            ext.setCorrelated(TRUE);
+            ext.setCorrelated(true);
             int num_scans = other.getNumCorrelations();
             num_scans++;
             ext.setNumCorrelations(num_scans);
@@ -178,7 +178,7 @@ ScanCorrelator::corr(Extraction& ext, time_t time)
     int binX = int(floor(ext.getX() / searchRadius)) + indexOffset + 1;
     int binY = int(floor(ext.getY() / searchRadius)) + indexOffset + 1;
 
-    ext.setCorrelated(FALSE);
+    ext.setCorrelated(false);
 
     Data d = {time, ext};
 

@@ -1,7 +1,7 @@
 #include "QtCore/QRegExp"
-#include "QtGui/QScrollBar"
 #include "QtGui/QSyntaxHighlighter"
 #include "QtGui/QTextCharFormat"
+#include "QtWidgets/QScrollBar"
 
 #include "App.h"
 #include "LogAlertsWindow.h"

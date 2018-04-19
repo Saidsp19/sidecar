@@ -37,7 +37,7 @@ Verbose::format(std::ostream& os, const Msg& msg)
 }
 
 void
-Pattern::format(std::ostream& os, const Msg& msg) throw(std::out_of_range)
+Pattern::format(std::ostream& os, const Msg& msg)
 {
     std::string::const_iterator pos(pattern_.begin());
     std::string::const_iterator end(pattern_.end());

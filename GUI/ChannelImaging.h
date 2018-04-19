@@ -26,6 +26,7 @@ class ChannelImaging : public OnOffSettingsBlock {
     using Super = OnOffSettingsBlock;
 
 public:
+
     /** Constructor. Create a new model for a particular imaging part of the PPIWidget.
 
         \param enabled setting that controls whether the channel is rendered

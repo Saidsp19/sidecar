@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_PPIDISPLAY_CONTROLWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_PPIDISPLAY_CONTROLWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 class QBoxLayout;
 class QLabel;

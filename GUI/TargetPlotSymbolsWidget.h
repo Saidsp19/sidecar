@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_TARGETPLOTSYMBOLSWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_TARGETPLOTSYMBOLSWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 namespace Ui {
 class TargetPlotSymbolsWidget;

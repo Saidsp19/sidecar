@@ -2,7 +2,7 @@
 #define SIDECAR_GUI_MASTER_STATUSWIDGET_H
 
 #include "QtCore/QStringList"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "ui_StatusWidget.h"
 

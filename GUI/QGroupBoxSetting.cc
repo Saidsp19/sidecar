@@ -1,3 +1,5 @@
+#include "QtWidgets/QGroupBox"
+
 #include "QGroupBoxSetting.h"
 
 using namespace SideCar::GUI;

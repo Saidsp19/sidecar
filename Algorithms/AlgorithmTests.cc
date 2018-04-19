@@ -1,21 +1,18 @@
-#include "ace/FILE_Connector.h"
+#include "ace/Event_Handler.h"
 #include "ace/Reactor.h"
 
-#include "IO/Encoder.h"
-#include "IO/FileReaderTask.h"
 #include "IO/MessageManager.h"
 #include "IO/ProcessingStateChangeRequest.h"
 #include "IO/Stream.h"
-#include "IO/Writers.h"
 #include "Logger/Log.h"
 #include "Messages/Video.h"
 #include "Parameter/Parameter.h"
 #include "UnitTest/UnitTest.h"
-#include "Utils/FilePath.h"
+#include "Utils/VsipVector.h"
+#include "Utils/Utils.h"
 
 #include "Algorithm.h"
 #include "Controller.h"
-#include "ShutdownMonitor.h"
 
 using namespace SideCar;
 using namespace SideCar::Algorithms;
@@ -24,116 +21,215 @@ using namespace SideCar::Parameter;
 
 struct AlgorithmTest : public UnitTest::TestObj {
     AlgorithmTest() : TestObj("Algorithm") {}
+
     void test();
 };
 
-static int processedCount_ = 0;
-
-class Blah : public Algorithm {
+// Dummy algorithm we will use for testing purposes. Does nothing but emits messages it receives
+//
+class Blah : public Algorithm, ACE_Event_Handler {
 public:
+
+    static Logger::Log& Log()
+        {
+            static Logger::Log& log_ = Logger::Log::Find("Blah");
+            return log_;
+        }
+
     Blah(Controller& controller, Logger::Log& log) :
-        Algorithm(controller, log), foo_(IntValue::Make("foo", "foo test", 1)),
-        bar_(DoubleValue::Make("bar", "bar test", 0.0))
-    {
-    }
+        Algorithm(controller, log),
+        foo_(IntValue::Make("foo", "foo test", 1)),
+        bar_(DoubleValue::Make("bar", "bar test", 1.0))
+        {}
 
     bool startup()
-    {
-        getLog().info() << "STARTUP" << std::endl;
-        registerProcessor<Blah, Video>("A", &Blah::process);
-        registerParameter(foo_);
-        registerParameter(bar_);
-        processedCount_ = 0;
-        return Algorithm::startup();
-    }
+        {
+            Logger::ProcLog log("startup", Log());
+            LOGINFO << "STARTUP" << std::endl;
+            registerProcessor<Blah, Video>("input", &Blah::process);
+            registerParameter(foo_);
+            registerParameter(bar_);
+            return Algorithm::startup();
+        }
 
     bool reset()
-    {
-        getLog().info() << "RESET" << std::endl;
-        processedCount_ = 0;
-        return Algorithm::reset();
-    }
+        {
+            Logger::ProcLog log("reset", Log());
+            LOGINFO << "RESET" << std::endl;
+            return Algorithm::reset();
+        }
+    
+    bool process(const Video::Ref& msg)
+        {
+            Logger::ProcLog log("process", Log());
+            
+            // Obtain a new message to use for our output values.
+            //
+            Messages::Video::Ref out(Messages::Video::Make(getName(), msg));
+            out->resize(msg->size());
 
-    /** Implementation of the Algorithm::process interface.
+            // Use VSIPL to do the conversion for us. First, we need to create VSIPL vectors that use our message data.
+            //
+            VsipVector<Messages::Video> vMsg(*msg);
+            VsipVector<Messages::Video> vOut(*out);
 
-        \param decoder CDR object containing the raw data to process
+            vMsg.admit(true);  // Tell VSIPL to use data from msg
+            vOut.admit(false); // Tell VSIPL to ignore data from out
 
-        \param inputKey identifier of the device that provided the data
+            // Perform the scaling.
+            //
+            vOut.v = bar_->getValue() * vMsg.v;
 
-        \return true if successful, false otherwise
-    */
-    bool process(const Video::Ref& msg);
+            vMsg.release(false); // Don't flush data from VSIPL to msg
+            vOut.release(true);  // Do flush data from VSIPL to out
+
+            // Send out on the default output channel, and return the result to the controller.
+            //
+            bool rc = send(out);
+            LOGDEBUG << "rc: " << rc << std::endl;
+            return rc;
+        }
 
     bool stop()
-    {
-        getLog().info() << "STOP" << std::endl;
-        ACE_Reactor::instance()->end_event_loop();
-        return Algorithm::stop();
-    }
-
-    int getProcessedCount() const { return processedCount_; }
+        {
+            Logger::ProcLog log("stop", Log());
+            LOGINFO << "STOP" << std::endl;
+            return Algorithm::stop();
+        }
 
     IntValue::Ref foo_;
     DoubleValue::Ref bar_;
 };
 
-bool
-Blah::process(const Video::Ref& msg)
-{
-    getLog().info() << "PROCESS - " << ++processedCount_ << std::endl;
-    return send(msg);
-}
+struct Sink : public IO::Task {
+    using Ref = boost::shared_ptr<Sink>;
+
+    static Logger::Log& Log()
+        {
+            static Logger::Log& log_ = Logger::Log::Find("Sink");
+            return log_;
+        }
+
+    static Ref Make()
+        {
+            Ref ref(new Sink);
+            return ref;
+        }
+
+    Sink() : Task(true), msgs_(), expected_(10), watchdogTimer_(-1)
+        {
+            startTimer();
+        }
+
+    void startTimer()
+        {
+            Logger::ProcLog log("startTimer", Log());
+            LOGINFO << "START_TIMER" << std::endl;
+            stopTimer();
+            const ACE_Time_Value delay(10);
+            watchdogTimer_ = ACE_Reactor::instance()->schedule_timer(this, 0, delay);
+        }
+
+    void stopTimer()
+        {
+            Logger::ProcLog log("stopTimer", Log());
+            LOGINFO << "STOP_TIMER - " << watchdogTimer_ << std::endl;
+            if (watchdogTimer_ != -1) {
+                ACE_Reactor::instance()->cancel_timer(watchdogTimer_);
+                watchdogTimer_ = -1;
+            }
+        }
+
+    int handle_timeout(const ACE_Time_Value&, const void*)
+        {
+            Logger::ProcLog log("handle_timeout", Log());
+            LOGINFO << "HANDLE_TIMEOUT" << std::endl;
+            ACE_Reactor::instance()->end_reactor_event_loop();
+            watchdogTimer_ = -1;
+            return 0;
+        }
+
+    bool deliverDataMessage(ACE_Message_Block* data, ACE_Time_Value* timeout)
+        {
+            Logger::ProcLog log("deliverDataMessage", Log());
+            IO::MessageManager mgr(data);
+            if (mgr.hasNative()) {
+                LOGINFO << "metaType: " << mgr.getNativeMessageType() << std::endl;
+                if (mgr.getNativeMessageType() == MetaTypeInfo::Value::kVideo) {
+                    msgs_.push_back(mgr.getNative<Video>());
+                    if (--expected_ == 0) {
+                        stopTimer();
+                        ACE_Reactor::instance()->end_reactor_event_loop();
+                    }
+                    else {
+                        startTimer();
+                    }
+                }
+            }
+
+            return true;
+        }
+
+    std::vector<Video::Ref> msgs_;
+    long watchdogTimer_;
+    int expected_;
+};
 
 void
 AlgorithmTest::test()
 {
-    Logger::Log::Root().setPriorityLimit(Logger::Priority::kDebug1);
+    Logger::Log::Root().setPriorityLimit(Logger::Priority::kInfo);
 
-    Utils::TemporaryFilePath fp("algorithmTestsOutput");
-    ACE_FILE_Addr addr(fp.getFilePath().c_str());
-    IO::FileWriter::Ref writer(IO::FileWriter::Make());
-    ACE_FILE_Connector fd(writer->getDevice(), addr);
-
-    VMEDataMessage vme;
-    Video::Ref msg(Video::Make("hi", vme, 3));
-    msg->push_back(100);
-    msg->push_back(200);
-    msg->push_back(300);
-    for (int count = 0; count < 10; ++count) {
-        IO::MessageManager mgr(msg);
-        assertTrue(writer->write(mgr.getMessage()));
-    }
-
+    // Create a processing stream and add processing elements
+    //
     IO::Stream::Ref stream(IO::Stream::Make("AlgorithmTest"));
-    stream->push(new ShutdownMonitorModule(stream));
-
+    auto ctm = new IO::TModule<Sink>(stream);
+    assertEqual(0, stream->push(ctm));
+    Sink::Ref sink = ctm->getTask();
+    sink->setTaskName("Sink");
+    sink->setTaskIndex(1);
+    
+    // Create an algorithm Controller and our mock Algorithm and add to the stream
+    //
     ControllerModule* module = new ControllerModule(stream);
     assertEqual(0, stream->push(module));
+    Controller::Ref controller = module->getTask();
+    controller->setTaskIndex(0);
 
-    Controller* controller = module->getTask().get();
-    controller->setTaskIndex(1);
+    sink->addInputChannel(IO::Channel("input", "Video"));
+
+    controller->addInputChannel(IO::Channel("input", "Video"));
+    controller->addOutputChannel(IO::Channel("output", "Video", sink));
+
     Blah* blah = new Blah(*controller, Logger::Log::Root());
-
-    IO::FileReaderTaskModule* reader = new IO::FileReaderTaskModule(stream);
-    assertEqual(0, stream->push(reader));
-
-    IO::Channel output("A", "Video", module->getTask());
-    reader->getTask()->addOutputChannel(output);
-
-    controller->addOutputChannel(IO::Channel("B", "Video"));
-    controller->addInputChannel(IO::Channel("A", "Video"));
-
     assertTrue(controller->openAndInit("blah", "", blah));
+    blah->bar_->setValue(0.5);
     assertTrue(controller->injectProcessingStateChange(IO::ProcessingState::kAutoDiagnostic));
 
-    assertTrue(reader->getTask()->openAndInit("Video", fp.filePath(), true));
-    assertTrue(reader->getTask()->start());
+    VMEDataMessage vme;
+    std::vector<Video::Ref> inputs;
+    for (int count = 0; count < 10; ++count) {
+        Video::Ref msg(Video::Make("hi", vme, 3));
+        msg->push_back(100);
+        msg->push_back(200);
+        msg->push_back(300);
+        inputs.push_back(msg);
+        assertTrue(controller->putInChannel(msg, 0));
+    }
 
     ACE_Reactor::instance()->run_reactor_event_loop();
 
-    stream->close();
+    assertTrue(sink->msgs_.size() == 10);
 
-    assertEqual(10, processedCount_);
+    // Validate that the output from the algorithm is 0.5 of the input
+    //
+    for (size_t index = 0; index < sink->msgs_.size(); ++index) {
+        auto input = inputs[index];
+        auto output = sink->msgs_[index];
+        assertEqual(input[0] * blah->bar_->getValue(), output[0]);
+        assertEqual(input[1] * blah->bar_->getValue(), output[1]);
+        assertEqual(input[2] * blah->bar_->getValue(), output[2]);
+    }
 }
 
 int

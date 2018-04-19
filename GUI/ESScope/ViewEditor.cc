@@ -1,8 +1,8 @@
 #include "QtCore/QSettings"
-#include "QtGui/QAction"
-#include "QtGui/QLineEdit"
-#include "QtGui/QMessageBox"
 #include "QtGui/QValidator"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QLineEdit"
+#include "QtWidgets/QMessageBox"
 
 #include "App.h"
 #include "ViewEditor.h"

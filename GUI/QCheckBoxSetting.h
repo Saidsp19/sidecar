@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QCHECKBOXSETTING_H // -*- C++ -*-
 #define SIDECAR_GUI_QCHECKBOXSETTING_H
 
-#include "QtGui/QCheckBox"
-
 #include "GUI/BoolSetting.h"
+
+class QCheckBox;
 
 namespace SideCar {
 namespace GUI {

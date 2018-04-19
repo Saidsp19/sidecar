@@ -82,7 +82,9 @@ ChannelConnectionModel::setVisualizer(Visualizer* visualizer)
         // Zap our visualizer_ value so any future rowCount() calls will return zero.
         //
         visualizer_ = 0;
-        reset();
+        beginResetModel();
+        endResetModel();
+
         endRemoveRows();
     }
 
@@ -233,7 +235,7 @@ ChannelConnectionModel::data(const QModelIndex& pos, int role) const
         if (pos.column() > kColor) return int(Qt::AlignRight | Qt::AlignVCenter);
         return value;
     } else if (role == Qt::ForegroundRole) {
-        return channel.isConnected() ? Qt::black : Qt::red;
+        return QVariant(QColor(channel.isConnected() ? Qt::black : Qt::red));
     }
 
     switch (pos.column()) {

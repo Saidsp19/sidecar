@@ -2,11 +2,10 @@
 #define SIDECAR_GUI_GLFONT_H
 
 #include "QtCore/QHash"
-#include "QtCore/QString"
 #include "QtGui/QFont"
 #include "QtGui/QFontMetrics"
 
-#include "GUI/VertexColorTagArray.h"
+class QString;
 
 namespace Logger {
 class Log;
@@ -14,6 +13,8 @@ class Log;
 
 namespace SideCar {
 namespace GUI {
+
+class VertexColorTagArray;
 
 class GLFont {
 public:
@@ -32,13 +33,14 @@ public:
     const QFontMetrics& getFontMetrics() const { return fontMetrics_; }
 
 private:
+
     // create all needed textures and display lists to paint the string
     void analyzeText(const QString& text);
 
     struct RenderInfo {
         RenderInfo() : texture_(0), displayList_(0) {}
-        GLuint texture_;
-        GLuint displayList_;
+        unsigned int texture_;
+        unsigned int displayList_;
     };
 
     using CharacterRenderInfoHash = QHash<QChar, RenderInfo>;

@@ -1,5 +1,5 @@
-#include "QtGui/QAction"
-#include "QtGui/QMessageBox"
+#include "QtWidgets/QAction"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/ChannelSelectorWindow.h"
 #include "GUI/ControlsWindow.h"

@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_HEALTHANDSTATUS_SAMPLEPLOTWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_HEALTHANDSTATUS_SAMPLEPLOTWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "Messages/Video.h"
 

@@ -1,9 +1,9 @@
 #include <sstream>
 
 #include "QtCore/QDateTime"
-#include "QtGui/QMessageBox"
 #include "QtGui/QTextCursor"
 #include "QtGui/QTextDocument"
+#include "QtWidgets/QMessageBox"
 
 #include "GUI/LogUtils.h"
 #include "GUI/ServiceEntry.h"

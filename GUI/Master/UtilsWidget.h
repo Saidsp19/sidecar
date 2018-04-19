@@ -1,7 +1,7 @@
 #ifndef SIDECAR_GUI_MASTER_UTILSWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_MASTER_UTILSWIDGET_H
 
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 #include "ui_UtilsWidget.h"
 

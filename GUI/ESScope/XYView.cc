@@ -1,4 +1,4 @@
-#include "QtGui/QGridLayout"
+#include "QtWidgets/QGridLayout"
 
 #include "GUI/LogUtils.h"
 

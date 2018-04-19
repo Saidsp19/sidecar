@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_QTIMEEDITSETTING // -*- C++ -*-
 #define SIDECAR_GUI_QTIMEEDITSETTING
 
-#include "QtGui/QTimeEdit"
-
 #include "GUI/TimeSetting.h"
+
+class QTimeEdit;
 
 namespace SideCar {
 namespace GUI {

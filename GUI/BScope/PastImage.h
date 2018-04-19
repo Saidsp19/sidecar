@@ -4,7 +4,7 @@
 #include "QtCore/QBasicTimer"
 #include "QtGui/QImage"
 #include "QtGui/QPixmap"
-#include "QtGui/QWidget"
+#include "QtWidgets/QWidget"
 
 namespace Logger {
 class Log;

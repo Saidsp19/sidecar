@@ -2,6 +2,7 @@
 
 #include "QtCore/QSettings"
 #include "QtCore/QTimerEvent"
+#include "QtGui/QMouseEvent"
 
 #include "GUI/BugPlotEmitterSettings.h"
 #include "GUI/LogUtils.h"

@@ -1,11 +1,12 @@
-#include "QtGui/QComboBox"
-#include "QtGui/QSpinBox"
+#include "QtWidgets/QComboBox"
+#include "QtWidgets/QSpinBox"
 
 #include "IntSetting.h"
 
 using namespace SideCar::GUI;
 
-IntSetting::IntSetting(PresetManager* mgr, const QString& name, bool global) : Super(mgr, name, 0, global), value_(0)
+IntSetting::IntSetting(PresetManager* mgr, const QString& name, bool global)
+    : Super(mgr, name, 0, global), value_(0)
 {
     ;
 }

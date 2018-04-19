@@ -4,8 +4,8 @@
 #include "QtCore/QFileInfo"
 #include "QtCore/QString"
 #include "QtCore/QStringList"
-#include "QtGui/QDialog"
-#include "QtGui/QHBoxLayout"
+#include "QtWidgets/QDialog"
+#include "QtWidgets/QHBoxLayout"
 
 #include "XMLRPC/XmlRpc.h"
 

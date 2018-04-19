@@ -1,5 +1,5 @@
 #include "QtCore/QSettings"
-#include "QtGui/QAction"
+#include "QtWidgets/QAction"
 
 #include "KeySetting.h"
 
