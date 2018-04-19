@@ -55,8 +55,7 @@ macro(ADD_UNIT_TEST FILE)
     #
     add_custom_command(OUTPUT "${aut_OK}"
                        COMMAND ${CMAKE_COMMAND} -E remove ${aut_OK} ${aut_LOG}
-                       COMMAND ${aut_NAME} > ${aut_LOG} 2>&1 || (cat ${aut_LOG} && false)
-                       COMMAND ${CMAKE_COMMAND} -E touch "${aut_OK}"
+                       COMMAND "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/dotest" "${CMAKE_CURRENT_BINARY_DIR}/${aut_NAME}" "${aut_LOG}" "${aut_OK}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
                        BYPRODUCTS "${aut_LOG}"
                        DEPENDS ${aut_NAME}
                        COMMENT "Running unit tests in ${aut_NAME}" )
