@@ -89,11 +89,11 @@ endif()
 #
 find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL Network PrintSupport Svg Widgets Xml REQUIRED)
 
-#message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
-#message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-#message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
-#message(STATUS "FFTW3_INCLUDE_DIRS: ${FFTW3_INCLUDE_DIRS}")
-#message(STATUS "VSIPL_INCLUDE_DIRS: ${VSIPL_INCLUDE_DIRS}")
+message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
+message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+message(STATUS "FFTW3_INCLUDE_DIRS: ${FFTW3_INCLUDE_DIRS}")
+message(STATUS "VSIPL_INCLUDE_DIRS: ${VSIPL_INCLUDE_DIRS}")
 
 # Platform-specific settings
 #
@@ -119,11 +119,11 @@ if(UNIX)
     endif(APPLE)
 endif(UNIX)
 
+message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+
 # link_directories($ENV{FFTW_ROOT}/lib $ENV{VSIPL_ROOT}/lib)
 set(MATHLIBS lapack cblas fftw3 fftw3f ${CMAKE_THREAD_LIBS_INIT} ${MPI_CXX_LIBRARIES})
 
-# Use SideCar support library include directories when compiling
-#
 include_directories(${PROJECT_SOURCE_DIR} ${ACE_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${MPI_INCLUDE_PATH})
 
 message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY:" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
