@@ -46,23 +46,20 @@ public:
     */
     using ValueType = uint16_t;
     enum class Value : ValueType {
-        kInvalid = 0, ///< Keep first
-        kRawVideo, ///< Video data message emitted by the VME board
-        kVideo, ///< Video data message after conversion from VME format
-        kBinaryVideo, ///< Boolean data message
-        kExtractions, ///< Feature extraction message
+        kInvalid = 0,    ///< Keep first
+        kRawVideo,       ///< Video data message emitted by the VME board
+        kVideo,          ///< Video data message after conversion from VME format
+        kBinaryVideo,    ///< Boolean data message
+        kExtractions,    ///< Feature extraction message
         kSegmentMessage, ///< Feature segmentation message
-        kComplex, ///< IQ (complex) message
-        kTSPI, ///< Message from external track (TSPI) provider
-        kBugPlot, ///< Message recording a user-initiated track
-        kTrack, ///< Message for an internally initiated track
-        kUnassigned ///< Keep last
+        kComplex,        ///< IQ (complex) message
+        kTSPI,           ///< Message from external track (TSPI) provider
+        kBugPlot,        ///< Message recording a user-initiated track
+        kTrack,          ///< Message for an internally initiated track
+        kUnassigned      ///< Keep last
     };
 
-    static ValueType GetValueValue(const Value& value)
-    {
-        return static_cast<ValueType>(value);
-    }
+    static ValueType GetValueValue(const Value& value) { return static_cast<ValueType>(value); }
 
     /** Obtain the log device for MetaTypeInfo objects
 
@@ -154,10 +151,10 @@ public:
 private:
     static std::vector<std::string> InitVariantTags();
 
-    Value key_; ///< The key value assigned to this object
-    std::string name_; ///< The key name assigned to this object
-    CDRLoader cdrLoader_; ///< The CDRLoader object used to read raw data
-    XMLLoader xmlLoader_; ///< The XMLLoader object used to read XML data
+    Value key_;                            ///< The key value assigned to this object
+    std::string name_;                     ///< The key name assigned to this object
+    CDRLoader cdrLoader_;                  ///< The CDRLoader object used to read raw data
+    XMLLoader xmlLoader_;                  ///< The XMLLoader object used to read XML data
     SequenceGenerator* sequenceGenerator_; ///< Sequence number generator
 
     /** Mutex for MetaType registrations_

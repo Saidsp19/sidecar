@@ -77,7 +77,7 @@ MetaTypeInfoDestroyPerThreadInfoStub(void* obj)
     using PerThreadInfo = MetaTypeInfo::SequenceGenerator::PerThreadInfo;
     delete static_cast<PerThreadInfo*>(obj);
 }
-}
+} // end extern "C"
 
 MetaTypeInfo::SequenceGenerator::SequenceGenerator()
 {
