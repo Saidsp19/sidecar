@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "QtCore/QDir"
-// #include "QtGui/QAction"
 #include "QtWidgets/QApplication"
 
 class QAction;
