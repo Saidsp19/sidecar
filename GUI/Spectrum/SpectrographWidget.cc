@@ -1,4 +1,4 @@
-#include "QtGlobal" // need Q_WS_X11 definition
+#include "QtCore/QtGlobal" // need Q_WS_X11 definition
 
 // On X11 we need to do some preprocessor setup to get the C prototype for the glFramebufferTexture2DEXT()
 // function and the framebuffer extension constants.
