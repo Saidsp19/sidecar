@@ -53,6 +53,7 @@ public:
     void openFile(const QString& path);
 
 private slots:
+    void updateButtons();
     void on_frequency__valueChanged(int value);
     void on_startStop__clicked();
     void on_resetRate__clicked();
@@ -136,7 +137,7 @@ private:
     void removeWriter();
 
     void rewind();
-    void loadDone();
+    void loadDone(const QString& path);
 
     QFile* file_;
     IO::FileReader::Ref reader_;

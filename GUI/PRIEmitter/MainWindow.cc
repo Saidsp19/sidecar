@@ -63,7 +63,7 @@ MainWindow::Log()
 }
 
 MainWindow::MainWindow() :
-    MainWindowBase(), Ui::MainWindow(), file_(0), reader_(), writer_(0), timer_(new QTimer(this)), lastFile_(""),
+    MainWindowBase(), Ui::MainWindow(), file_(nullptr), reader_(), progressDialog_(nullptr), writer_(nullptr), timer_(new QTimer(this)), lastFile_(""),
     emitting_(false)
 {
     setupUi(this);
@@ -82,7 +82,7 @@ MainWindow::MainWindow() :
     name_->setText(settings.value("Name", "NegativeVideo").toString());
     lastName_ = name_->text();
 
-    connectionType_->setCurrentIndex(settings.value("ConnectionType", kTCP).toInt());
+    connectionType_->setCurrentIndex(settings.value("ConnectionType", kMulticast).toInt());
 
     // The following should match valid IP addresses and host names.
     //
@@ -118,7 +118,7 @@ MainWindow::MainWindow() :
     for (int index = 0; index < kMaxRecentFiles; ++index) {
         QAction* action = recentFiles_[index] = new QAction(this);
         action->setShortcut(QKeySequence(QString("CTRL+%1").arg(index + 1)));
-        connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+        connect(action, &QAction::triggered, this, &MainWindow::openRecentFile);
         menuRecentFiles_->addAction(action);
     }
 
@@ -128,7 +128,7 @@ MainWindow::MainWindow() :
     updateRecentFileActions();
     updateTimer();
 
-    connect(timer_, SIGNAL(timeout()), SLOT(emitMessage()));
+    connect(timer_, &QTimer::timeout, this, &MainWindow::emitMessage);
     if (!writer_) makeWriter();
 }
 
@@ -200,10 +200,9 @@ MainWindow::makeWriter()
         writer_ = UDPMessageWriter::Make(name_->text(), Messages::Video::GetMetaTypeInfo().getName(), address_->text());
     }
 
-    connect(writer_, SIGNAL(published(const QString&, const QString&, uint16_t)),
-            SLOT(writerPublished(const QString&, const QString&, uint16_t)));
-    connect(writer_, SIGNAL(failure()), SLOT(writerFailure()));
-    connect(writer_, SIGNAL(subscriberCountChanged(size_t)), SLOT(writerSubscriberCountChanged(size_t)));
+    connect(writer_, &MessageWriter::published, this, &MainWindow::writerPublished);
+    connect(writer_, &MessageWriter::failure, this, &MainWindow::writerFailure);
+    connect(writer_, &MessageWriter::subscriberCountChanged, this, &MainWindow::writerSubscriberCountChanged);
 }
 
 void
@@ -248,6 +247,26 @@ MainWindow::on_resetRate__clicked()
     frequency_->setValue(fileFrequency_->text().toInt());
 }
 
+void 
+MainWindow::updateButtons() 
+{
+    auto enabled = !!reader_;
+
+    startStop_->setEnabled(enabled);
+    resetRate_->setEnabled(enabled);
+    actionEmitterStart_->setEnabled(enabled);
+    rewind_->setEnabled(enabled);
+    actionEmitterRewind_->setEnabled(enabled);
+
+    if (!emitting_) {
+        startStop_->setText("Start");
+        actionEmitterStart_->setText("Start");
+    } else {
+        startStop_->setText("Stop");
+        actionEmitterStart_->setText("Stop");
+    }
+}
+
 void
 MainWindow::on_startStop__clicked()
 {
@@ -257,15 +276,13 @@ MainWindow::on_startStop__clicked()
         timer_->stop();
         emitting_ = false;
         statusBar()->showMessage("Stopped.", 5000);
-        startStop_->setText("Start");
-        actionEmitterStart_->setText("Start");
     } else {
-        statusBar()->showMessage("Started.", 5000);
-        startStop_->setText("Stop");
-        actionEmitterStart_->setText("Stop");
         timer_->start();
         emitting_ = true;
+        statusBar()->showMessage("Started.", 5000);
     }
+
+    QTimer::singleShot(0, this, &MainWindow::updateButtons);
 }
 
 void
@@ -281,7 +298,6 @@ MainWindow::on_actionFileOpen__triggered()
 {
     static Logger::ProcLog log("on_actionFileOpen__triggered", Log());
     QString path = QFileDialog::getOpenFileName(this, "Choose a data file", lastFile_, "Data (*.hdr *.pri)");
-
     if (path.isEmpty()) {
         statusBar()->showMessage("Open canceled", 5000);
         return;
@@ -289,16 +305,29 @@ MainWindow::on_actionFileOpen__triggered()
 
     LOGINFO << "path: " << path << std::endl;
     openFile(path);
+    loadDone(path);
 }
 
 void
-MainWindow::loadDone()
+MainWindow::loadDone(const QString& path)
 {
-    delete progressDialog_;
-    progressDialog_ = 0;
     QApplication::restoreOverrideCursor();
-    startStop_->setEnabled(writer_ != 0);
-    resetRate_->setEnabled(writer_ != 0);
+
+    if (progressDialog_) {
+        progressDialog_->hide();
+        delete progressDialog_;
+        progressDialog_ = nullptr;
+    }
+
+    auto enabled = !!reader_;
+    if (enabled) {
+        setCurrentFile(path);
+    }
+
+    shaftDelta_ = Messages::RadarConfig::GetShaftEncodingMax() / (M_PI * 2.0) * beamWidthValue_;
+    simulatedShaft_ = 0.0;
+
+    QTimer::singleShot(0, this, &MainWindow::updateButtons);
 }
 
 void
@@ -309,39 +338,31 @@ MainWindow::openFile(const QString& path)
 
     if (emitting_) on_startStop__clicked();
 
-    progressDialog_ = new QProgressDialog("Loading...", "Cancel", 0, 100, this);
-    progressDialog_->setWindowModality(Qt::ApplicationModal);
+    // progressDialog_ = new QProgressDialog("Loading...", "Cancel", 0, 100, this);
+    // progressDialog_->setWindowModality(Qt::ApplicationModal);
 
     if (fileInfo.completeSuffix() == "pri") {
         if (!openPRIFile(fileInfo)) {
-            loadDone();
             return;
         }
     } else if (fileInfo.completeSuffix() == "hdr") {
         if (!openLogFile(fileInfo)) {
-            loadDone();
             return;
         }
     } else {
         statusBar()->showMessage("Unkown file type");
-        loadDone();
         return;
     }
 
-    if (progressDialog_->wasCanceled()) {
+    if (progressDialog_ && progressDialog_->wasCanceled()) {
+        reader_.reset();
+        file_->close();
+        delete file_;
+        file_ = nullptr;
         statusBar()->showMessage("Canceled.", 5000);
     } else {
         statusBar()->showMessage("Finished.", 5000);
     }
-    loadDone();
-
-    actionEmitterStart_->setEnabled(true);
-    rewind_->setEnabled(true);
-    actionEmitterRewind_->setEnabled(true);
-    setCurrentFile(path);
-
-    shaftDelta_ = Messages::RadarConfig::GetShaftEncodingMax() / (M_PI * 2.0) * beamWidthValue_;
-    simulatedShaft_ = 0.0;
 }
 
 void
@@ -486,9 +507,7 @@ MainWindow::openLogFile(const QFileInfo& fileInfo)
     }
 
     ByteOrder byteOrder;
-    // byteOrder.setDecodingByteOrder(ByteOrder::kLittleEndian);
     short* ptr = reinterpret_cast<short*>(data.data());
-
     short valueMin = 32767;
     short valueMax = -valueMin;
 
@@ -516,17 +535,17 @@ bool
 MainWindow::openPRIFile(const QFileInfo& fileInfo)
 {
     if (file_) {
-        if (reader_) { reader_->reset(); }
+        if (reader_) reader_->reset();
         file_->close();
         delete file_;
-        file_ = 0;
+        file_ = nullptr;
     }
 
     file_ = new QFile(fileInfo.filePath());
     if (!file_->open(QFile::ReadOnly)) {
         statusBar()->showMessage(QString("Failed to open file %1").arg(fileInfo.fileName()));
         delete file_;
-        file_ = 0;
+        file_ = nullptr;
         return false;
     }
 
@@ -567,9 +586,11 @@ MainWindow::openPRIFile(const QFileInfo& fileInfo)
         }
 
         double percentComplete = reader_->getDevice().tell() / fileSize;
-        progressDialog_->setValue(int(percentComplete * 100.0));
+        if (progressDialog_) progressDialog_->setValue(int(percentComplete * 100.0));
         qApp->processEvents();
-        if (progressDialog_->wasCanceled()) { break; }
+        if (progressDialog_ && progressDialog_->wasCanceled()) {
+            break; 
+        }
     }
 
     rewind();
@@ -612,7 +633,7 @@ MainWindow::emitMessage()
 {
     static Logger::ProcLog log("emitMessages", Log());
 
-    while (1) {
+    while (true) {
         if (!reader_->fetchInput()) {
             rewind();
             if (!loopAtEnd_->isChecked()) {
@@ -651,6 +672,7 @@ MainWindow::openRecentFile()
     if (action) {
         QString path(action->data().toString());
         openFile(path);
+        loadDone(path);
     }
 }
 
@@ -756,6 +778,8 @@ MainWindow::rewind()
 {
     // Reset the stream and rewind the device.
     //
-    reader_->reset();
-    ::lseek(reader_->getDevice().get_handle(), 0, SEEK_SET);
+    if (reader_) {
+        reader_->reset();
+        ::lseek(reader_->getDevice().get_handle(), 0, SEEK_SET);
+    }
 }
