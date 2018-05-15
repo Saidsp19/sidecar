@@ -30,7 +30,7 @@ SpectrographScrollArea::SpectrographScrollArea(QWidget* parent) : Super(parent),
     timeScale_->resize(timeScale_->minimumSizeHint());
 
     SpectrographImaging* imaging = configuration->getSpectrographImaging();
-    connect(imaging, SIGNAL(historySizeChanged(int)), SLOT(historySizeChanged(int)));
+    connect(imaging, &SpectrographImaging::historySizeChanged, this, &SpectrographScrollArea::historySizeChanged);
 
     timeScale_->setStart(imaging->getHistorySize());
     timeScale_->setEnd(0);
@@ -38,7 +38,8 @@ SpectrographScrollArea::SpectrographScrollArea(QWidget* parent) : Super(parent),
     timeScale_->setLabel("FFTs");
 
     verticalScrollBar()->setTracking(true);
-    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), SLOT(verticalPositionChanged(int)));
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this,
+            &SpectrographScrollArea::verticalPositionChanged);
 
     freqScale_ = new FreqScaleWidget(this, Qt::Horizontal);
     int freqScaleHeight = freqScale_->minimumSizeHint().height();
@@ -47,9 +48,10 @@ SpectrographScrollArea::SpectrographScrollArea(QWidget* parent) : Super(parent),
     freqScale_->setLabel("Frequency");
 
     FFTSettings* fftSettings = configuration->getFFTSettings();
-    connect(fftSettings, SIGNAL(frequencyStepChanged(double)), SLOT(frequencyStepChanged(double)));
-    setFrequencyScaleEnds(fftSettings->getFrequencyMin());
+    connect(fftSettings, &FFTSettings::frequencyStepChanged, this,
+            &SpectrographScrollArea::frequencyStepChanged);
 
+    setFrequencyScaleEnds(fftSettings->getFrequencyMin());
     setViewportMargins(timeScaleWidth, 0, 0, freqScaleHeight);
 }
 

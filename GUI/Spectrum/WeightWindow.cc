@@ -27,7 +27,7 @@ WeightWindow::WeightWindow(FFTSettings* fftSettings) : QObject(), window_(), typ
 {
     window_.resize(fftSettings->getFFTSize(), 0.0);
     setType(fftSettings->getWindowType());
-    connect(fftSettings, SIGNAL(windowTypeChanged(int)), SLOT(setType(int)));
+    connect(fftSettings, &FFTSettings::windowTypeChanged, this, &WeightWindow::setType);
 }
 
 void

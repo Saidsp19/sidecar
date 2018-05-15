@@ -42,8 +42,8 @@ private:
 };
 
 ViewEditor::ViewEditor(int shortcut) :
-    ToolWindowBase("ViewEditor", "View Editor", shortcut), Ui::ViewEditor(), spectrumWidget_(0), xMinScaleValue_(1.0),
-    xMaxScaleValue_(1.0)
+    ToolWindowBase("ViewEditor", "View Editor", shortcut), Ui::ViewEditor(), spectrumWidget_(nullptr),
+    xMinScaleValue_(1.0), xMaxScaleValue_(1.0)
 {
     setupUi(this);
     setFixedSize();
@@ -51,11 +51,10 @@ ViewEditor::ViewEditor(int shortcut) :
     // new DoubleMinMaxValidator(this, yMin_, yMax_);
 
     App* app = App::GetApp();
-    connect(app, SIGNAL(shutdown()), SLOT(shutdown()));
+    connect(app, &App::shutdown, this, &ViewEditor::shutdown);
 
     presets_->setValidator(new PresetValidator(presets_));
-
-    connect(presets_->lineEdit(), SIGNAL(editingFinished()), SLOT(addPreset()));
+    connect(presets_->lineEdit(), &QLineEdit::editingFinished, this, &ViewEditor::addPreset);
 
     QSettings settings;
     settings.beginGroup(objectName());

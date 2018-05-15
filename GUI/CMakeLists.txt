@@ -225,7 +225,8 @@ install(TARGETS GUIUtils LIBRARY DESTINATION lib)
 #
 add_unit_test(CLUTTests.cc GUIUtils)
 
-# The Spectrum app compiles on macOS 10.13 but not on Fedora. Needs to be ported to current Qt5 OpenGL classes.
+# The Spectrum app compiles on macOS 10.13 but not on Fedora. Needs to be ported to current Qt5 OpenGL classes
+# or remove OpenGL dependency which is not really necessary for the type of imaging being done.
 #
 if(APPLE)
     set(SPECTRUM "Spectrum")

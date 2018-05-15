@@ -39,7 +39,8 @@ MainWindow::Log()
     return log_;
 }
 
-MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powerScale_(0), freqScale_(0)
+MainWindow::MainWindow() :
+    MainWindowBase(), Ui::MainWindow(), display_(nullptr), powerScale_(nullptr), freqScale_(nullptr)
 {
     static Logger::ProcLog log("MainWindow", Log());
     LOGINFO << std::endl;
@@ -60,9 +61,9 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powe
 
     // NOTE: connected asynchronously so that the background is redrawn after the scale widgets have resized.
     //
-    connect(display_, SIGNAL(transformChanged()), SLOT(transformChanged()), Qt::QueuedConnection);
-
-    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)), SLOT(showCursorPosition(const QPointF&)));
+    connect(display_, &SpectrumWidget::transformChanged, this, &MainWindow::transformChanged,
+            Qt::QueuedConnection);
+    connect(display_, &SpectrumWidget::currentCursorPosition, this, &MainWindow::showCursorPosition);
 
     freqScale_ = new FreqScaleWidget(top, Qt::Horizontal);
     freqScale_->setLabel("Frequency");
@@ -97,8 +98,7 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powe
     // Radar info widget in the status bar
     //
     RadarInfoWidget* radarInfoWidget = new RadarInfoWidget(statusBar());
-    connect(display_, SIGNAL(showMessageInfo(const Messages::PRIMessage::Ref&)), radarInfoWidget,
-            SLOT(showMessageInfo(const Messages::PRIMessage::Ref&)));
+    connect(display_, &SpectrumWidget::showMessageInfo, radarInfoWidget, &RadarInfoWidget::showMessageInfo);
     statusBar()->addPermanentWidget(radarInfoWidget);
 
     // Connection info widget in the status bar
@@ -116,17 +116,19 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powe
     ChannelSetting* channelSetting = settings->getInputChannel();
     channelSetting->connectWidget(csw->found_);
 
-    connect(channelSetting, SIGNAL(valueChanged(const QString&)), SLOT(channelChanged(const QString&)));
+    connect(channelSetting, &StringSetting::valueChanged, this, &MainWindow::channelChanged);
     if (channelSetting->isConnected()) channelChanged(channelSetting->getValue());
 
     // View toolbar
     //
     toolBar = makeToolBar("View", Qt::TopToolBarArea);
 
-    connect(settings, SIGNAL(showGridChanged(bool)), SLOT(makeBackground()));
-    connect(settings, SIGNAL(showGridChanged(bool)), actionViewToggleGrid_, SLOT(setChecked(bool)));
-    connect(actionViewToggleGrid_, SIGNAL(toggled(bool)), app, SLOT(updateToggleAction(bool)));
-    connect(actionViewToggleGrid_, SIGNAL(triggered(bool)), settings, SLOT(setShowGrid(bool)));
+    connect(settings, &Settings::showGridChanged, this, &MainWindow::makeBackground);
+    connect(settings, &Settings::showGridChanged, actionViewToggleGrid_, &QAction::setChecked);
+
+    connect(actionViewToggleGrid_, &QAction::toggled, app, &App::updateToggleAction);
+    connect(actionViewToggleGrid_, &QAction::triggered, settings, &Settings::setShowGrid);
+
     actionViewToggleGrid_->setIcon(QIcon(":/gridOn.png"));
     UpdateToggleAction(actionViewToggleGrid_, settings->getShowGrid());
 
@@ -136,11 +138,10 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0), powe
 
     toolBar->addAction(actionViewToggleGrid_);
 
-    actionViewPause_->setData(QStringList() << "Freeze"
-                                            << "Unfreeze");
+    actionViewPause_->setData(QStringList() << "Freeze" << "Unfreeze");
     UpdateToggleAction(actionViewPause_, false);
     actionViewPause_->setIcon(QIcon(":/unfreeze.png"));
-    connect(actionViewPause_, SIGNAL(triggered(bool)), app, SLOT(updateToggleAction(bool)));
+    connect(actionViewPause_, &QAction::triggered, app, &App::updateToggleAction);
     toolBar->addAction(actionViewPause_);
 
     toolBar->addAction(actionViewFull_);

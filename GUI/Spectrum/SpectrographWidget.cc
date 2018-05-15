@@ -132,8 +132,8 @@ SpectrographWidget::GetGLFormat()
 }
 
 SpectrographWidget::SpectrographWidget(QWidget* parent) :
-    Super(GetGLFormat(), parent), imaging_(0), fbo_(0), readTexture_(0), writeTexture_(1), points_(), updateTimer_(),
-    mouse_(), displayLists_(0), needUpdate_(true), doClear_(false), frozen_(false)
+    Super(GetGLFormat(), parent), imaging_(nullptr), fbo_(nullptr), readTexture_(0), writeTexture_(1),
+    points_(), updateTimer_(), mouse_(), displayLists_(0), needUpdate_(true), doClear_(false), frozen_(false)
 {
     Logger::ProcLog log("SpectrographWidget", Log());
     LOGINFO << std::endl;
@@ -159,9 +159,10 @@ SpectrographWidget::SpectrographWidget(QWidget* parent) :
 
     Configuration* cfg = App::GetApp()->getConfiguration();
     imaging_ = cfg->getSpectrographImaging();
-    connect(imaging_, SIGNAL(historySizeChanged(int)), SLOT(sizeChanged()));
+    connect(imaging_, &SpectrographImaging::historySizeChanged, this, &SpectrographWidget::sizeChanged);
+
     fftSettings_ = cfg->getFFTSettings();
-    connect(fftSettings_, SIGNAL(fftSizeChanged(int)), SLOT(sizeChanged()));
+    connect(fftSettings_, &FFTSettings::fftSizeChanged, this, &SpectrographWidget::sizeChanged);
 
     sizeChanged();
 }

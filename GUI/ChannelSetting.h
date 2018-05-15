@@ -72,8 +72,9 @@ private slots:
     void dataAvailable();
 
 private:
-    /** Override of StringSetting::valueUpdated() method. Records the new value and emits the valueChanged(int
-        ) and valueChanged(QString) signals.
+
+    /** Override of StringSetting::valueUpdated() method. Records the new value and emits the
+        valueChanged(int) and valueChanged(QString) signals.
     */
     void valueUpdated();
 

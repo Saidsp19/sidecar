@@ -41,30 +41,31 @@ SpectrographWindow::SpectrographWindow(int shortcut) : Super(), Ui::Spectrograph
     makeShowAction(shortcut);
 
     QVBoxLayout* vboxLayout = new QVBoxLayout(centralwidget);
-    QScrollArea* scrollArea = new SpectrographScrollArea(centralwidget);
+    SpectrographScrollArea* scrollArea = new SpectrographScrollArea(centralwidget);
     vboxLayout->addWidget(scrollArea);
 
     display_ = new SpectrographWidget(centralwidget);
     scrollArea->setWidget(display_);
     scrollArea->setWidgetResizable(true);
 
-    connect(display_, SIGNAL(currentCursorPosition(const QPointF&)), scrollArea,
-            SLOT(currentCursorPositionChanged(const QPointF&)));
-    connect(scrollArea, SIGNAL(currentCursorPosition(const QString&, const QString&)),
-            SLOT(showCursorPosition(const QString&, const QString&)));
-
+    connect(display_, &SpectrographWidget::currentCursorPosition, scrollArea,
+            &SpectrographScrollArea::currentCursorPositionChanged);
+    connect(scrollArea, &SpectrographScrollArea::currentCursorPosition, this,
+            &SpectrographWindow::showCursorPosition);
+    
     App* app = App::GetApp();
     Configuration* configuration = app->getConfiguration();
 
-    actionViewPause_->setData(QStringList() << "Freeze"
-                                            << "Unfreeze");
+    actionViewPause_->setData(QStringList() << "Freeze" << "Unfreeze");
     actionViewPause_->setIcon(QIcon(":/unfreeze.png"));
-    connect(actionViewPause_, SIGNAL(triggered(bool)), app, SLOT(updateToggleAction(bool)));
+    connect(actionViewPause_, &QAction::triggered, app, &App::updateToggleAction);
 
     Settings* settings = configuration->getSettings();
     ChannelSetting* channelSetting = settings->getInputChannel();
-    connect(channelSetting, SIGNAL(valueChanged(const QString&)), SLOT(channelChanged(const QString&)));
-    if (channelSetting->isConnected()) channelChanged(channelSetting->getValue());
+    connect(channelSetting, &StringSetting::valueChanged, this, &SpectrographWindow::channelChanged);
+    if (channelSetting->isConnected()) {
+        channelChanged(channelSetting->getValue());
+    }
 
     // Cursor info widget in the status bar
     //
@@ -93,12 +94,13 @@ SpectrographWindow::SpectrographWindow(int shortcut) : Super(), Ui::Spectrograph
     //
     toolBar = makeToolBar("Color Map", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    ColorMapWidget* colorMapWidget = new ColorMapWidget(imaging->getMinCutoff(), imaging->getMaxCutoff(), toolBar);
+    ColorMapWidget* colorMapWidget = new ColorMapWidget(imaging->getMinCutoff(), imaging->getMaxCutoff(),
+                                                        toolBar);
     toolBar->addWidget(colorMapWidget);
 
-    connect(imaging, SIGNAL(minCutoffChanged(double)), colorMapWidget, SLOT(setMinCutoff(double)));
-    connect(imaging, SIGNAL(maxCutoffChanged(double)), colorMapWidget, SLOT(setMaxCutoff(double)));
-    connect(imaging, SIGNAL(colorMapChanged(const QImage&)), colorMapWidget, SLOT(setColorMap(const QImage&)));
+    connect(imaging, &SpectrographImaging::minCutoffChanged, colorMapWidget, &ColorMapWidget::setMinCutoff);
+    connect(imaging, &SpectrographImaging::maxCutoffChanged, colorMapWidget, &ColorMapWidget::setMaxCutoff);
+    connect(imaging, &SpectrographImaging::colorMapChanged, colorMapWidget, &ColorMapWidget::setColorMap);
     colorMapWidget->setColorMap(imaging->getColorMap());
 
     // Min/max cutoff toolbar

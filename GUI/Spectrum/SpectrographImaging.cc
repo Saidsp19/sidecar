@@ -15,24 +15,25 @@ SpectrographImaging::Log()
     return log_;
 }
 
-SpectrographImaging::SpectrographImaging(BoolSetting* enabled, ColorButtonSetting* color, DoubleSetting* pointSize,
-                                         OpacitySetting* opacity, BoolSetting* colorMapEnabled,
-                                         QComboBoxSetting* colorMapType, QDoubleSpinBoxSetting* minCutoff,
-                                         QDoubleSpinBoxSetting* maxCutoff, IntSetting* historySize) :
-    Super(enabled, color, pointSize, opacity),
-    colorMapEnabled_(colorMapEnabled), colorMap_(), clut_(CLUT::kBlueSaturated), colorMapType_(colorMapType),
-    minCutoff_(minCutoff), maxCutoff_(maxCutoff), historySize_(historySize)
+SpectrographImaging::SpectrographImaging(BoolSetting* enabled, ColorButtonSetting* color,
+                                         DoubleSetting* pointSize, OpacitySetting* opacity,
+                                         BoolSetting* colorMapEnabled, QComboBoxSetting* colorMapType,
+                                         QDoubleSpinBoxSetting* minCutoff, QDoubleSpinBoxSetting* maxCutoff,
+                                         IntSetting* historySize) :
+    Super(enabled, color, pointSize, opacity), colorMapEnabled_(colorMapEnabled), colorMap_(),
+    clut_(CLUT::kBlueSaturated), colorMapType_(colorMapType), minCutoff_(minCutoff), maxCutoff_(maxCutoff),
+    historySize_(historySize)
 {
-    connect(colorMapEnabled, SIGNAL(valueChanged(bool)), SLOT(setColorMapEnabled(bool)));
-    connect(colorMapType, SIGNAL(valueChanged(int)), SLOT(setColorMapType(int)));
+    connect(colorMapEnabled, &BoolSetting::valueChanged, this, &SpectrographImaging::setColorMapEnabled);
+    connect(colorMapType, &QComboBoxSetting::valueChanged, this, &SpectrographImaging::setColorMapType);
 
-    connect(minCutoff, SIGNAL(valueChanged(double)), SIGNAL(minCutoffChanged(double)));
-    connect(maxCutoff, SIGNAL(valueChanged(double)), SIGNAL(maxCutoffChanged(double)));
+    connect(minCutoff, &QDoubleSpinBoxSetting::valueChanged, this, &SpectrographImaging::minCutoffChanged);
+    connect(maxCutoff, &QDoubleSpinBoxSetting::valueChanged, this, &SpectrographImaging::maxCutoffChanged);
 
-    connect(minCutoff, SIGNAL(valueChanged(double)), SLOT(updateDbColorTransform()));
-    connect(maxCutoff, SIGNAL(valueChanged(double)), SLOT(updateDbColorTransform()));
+    connect(minCutoff, &QDoubleSpinBoxSetting::valueChanged, this, &SpectrographImaging::updateDbColorTransform);
+    connect(maxCutoff, &QDoubleSpinBoxSetting::valueChanged, this, &SpectrographImaging::updateDbColorTransform);
 
-    connect(historySize, SIGNAL(valueChanged(int)), SIGNAL(historySizeChanged(int)));
+    connect(historySize, &IntSetting::valueChanged, this, &SpectrographImaging::historySizeChanged);
 
     updateDbColorTransform();
     updateColorMapImage();

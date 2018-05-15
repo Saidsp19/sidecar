@@ -22,11 +22,10 @@ ViewChooser::ViewChooser(ViewEditor* viewEditor, QWidget* parent) : Super(parent
     layout->addSpacing(6);
     layout->addStretch(1);
 
-    connect(chooser_, SIGNAL(activated(int)), viewEditor, SLOT(applyPreset(int)));
-
-    connect(viewEditor, SIGNAL(activePreset(int)), chooser_, SLOT(setCurrentIndex(int)));
-
-    connect(viewEditor, SIGNAL(presetNamesChanged(const QStringList&)), SLOT(presetNamesChanged(const QStringList&)));
+    connect(chooser_, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), viewEditor,
+            &ViewEditor::applyPreset);
+    connect(viewEditor, &ViewEditor::activePreset, chooser_, &QComboBox::setCurrentIndex);
+    connect(viewEditor, &ViewEditor::presetNamesChanged, this, &ViewChooser::presetNamesChanged);
 }
 
 void

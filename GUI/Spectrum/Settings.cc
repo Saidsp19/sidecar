@@ -10,7 +10,8 @@ Settings::Settings(QDoubleSpinBoxSetting* sampleFrequencyValue, QComboBoxSetting
                    QComboBoxSetting* drawingMode, QSpinBoxSetting* powerMax) :
     Super(),
     sampleFrequencyValue_(sampleFrequencyValue), sampleFrequencyScale_(sampleFrequencyScale),
-    inputChannel_(inputChannel), qcolor_(qcolor), showGrid_(showGrid), drawingMode_(drawingMode), powerMax_(powerMax)
+    inputChannel_(inputChannel), qcolor_(qcolor), showGrid_(showGrid), drawingMode_(drawingMode),
+    powerMax_(powerMax)
 {
     add(sampleFrequencyValue);
     add(sampleFrequencyScale);
@@ -19,12 +20,12 @@ Settings::Settings(QDoubleSpinBoxSetting* sampleFrequencyValue, QComboBoxSetting
     add(drawingMode);
     add(powerMax);
 
-    connect(sampleFrequencyValue_, SIGNAL(valueChanged(double)), SLOT(updateSampleFrequency()));
-    connect(sampleFrequencyScale_, SIGNAL(valueChanged(int)), SLOT(updateSampleFrequency()));
-    connect(qcolor_, SIGNAL(valueChanged(const QColor&)), SLOT(handleColorChanged(const QColor&)));
-    connect(showGrid_, SIGNAL(valueChanged(bool)), SIGNAL(showGridChanged(bool)));
-    connect(powerMax_, SIGNAL(valueChanged(int)), SIGNAL(powerScalingChanged()));
-    connect(drawingMode_, SIGNAL(valueChanged(int)), SIGNAL(drawingModeChanged()));
+    connect(sampleFrequencyValue_, &QDoubleSpinBoxSetting::valueChanged, this, &Settings::updateSampleFrequency);
+    connect(sampleFrequencyScale_, &QComboBoxSetting::valueChanged, this, &Settings::updateSampleFrequency);
+    connect(qcolor_, &ColorButtonSetting::valueChanged, this, &Settings::handleColorChanged);
+    connect(showGrid_, &QCheckBoxSetting::valueChanged, this, &Settings::showGridChanged);
+    connect(powerMax_, &QSpinBoxSetting::valueChanged, this, &Settings::powerScalingChanged);
+    connect(drawingMode_, &QComboBoxSetting::valueChanged, this, &Settings::drawingModeChanged);
 
     updateSampleFrequency();
 }

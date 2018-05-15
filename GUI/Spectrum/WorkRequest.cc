@@ -16,20 +16,14 @@ WorkRequest::Log()
 }
 
 WorkRequest::WorkRequest(const WeightWindow& weightWindow) :
-    weightWindow_(weightWindow), gateStart_(0), inputSmoothing_(1), accumulated_(0), fftSize_(weightWindow.getSize()),
-    input_(0), output_(0), plan_(0), master_(true), zeroPad_(false)
+    weightWindow_(weightWindow), gateStart_(0), inputSmoothing_(1), accumulated_(0),
+    fftSize_(weightWindow.getSize()), input_(nullptr), output_(nullptr), plan_(0), master_(true), zeroPad_(false)
 {
     FFTSettings* settings = App::GetApp()->getConfiguration()->getFFTSettings();
 
     gateStart_ = settings->getGateStart();
     inputSmoothing_ = settings->getInputSmoothing();
     zeroPad_ = settings->getZeroPad();
-
-    connect(settings, SIGNAL(gateStartChanged(int)), SLOT(setGateStart(int)));
-
-    connect(settings, SIGNAL(inputSmoothingChanged(int)), SLOT(setInputSmoothing(int)));
-
-    connect(settings, SIGNAL(zeroPadChanged(bool)), SLOT(setZeroPad(bool)));
 
     initialize();
 }
@@ -39,14 +33,6 @@ WorkRequest::WorkRequest(const WorkRequest& copy) :
     accumulated_(0), fftSize_(copy.fftSize_), input_(0), output_(0), plan_(copy.plan_), master_(false),
     zeroPad_(copy.zeroPad_)
 {
-    FFTSettings* settings = App::GetApp()->getConfiguration()->getFFTSettings();
-
-    connect(settings, SIGNAL(gateStartChanged(int)), SLOT(setGateStart(int)));
-
-    connect(settings, SIGNAL(inputSmoothingChanged(int)), SLOT(setInputSmoothing(int)));
-
-    connect(settings, SIGNAL(zeroPadChanged(bool)), SLOT(setZeroPad(bool)));
-
     initialize();
 }
 
@@ -61,6 +47,11 @@ void
 WorkRequest::initialize()
 {
     static Logger::ProcLog log("initialize", Log());
+
+    FFTSettings* settings = App::GetApp()->getConfiguration()->getFFTSettings();
+    connect(settings, &FFTSettings::gateStartChanged, this, &WorkRequest::setGateStart);
+    connect(settings, &FFTSettings::inputSmoothingChanged, this, &WorkRequest::setInputSmoothing);
+    connect(settings, &FFTSettings::zeroPadChanged, this, &WorkRequest::setZeroPad);
 
     if (input_) fftw_free(input_);
     input_ = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * fftSize_);

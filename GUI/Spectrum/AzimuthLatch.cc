@@ -8,7 +8,8 @@
 
 using namespace SideCar::GUI::Spectrum;
 
-AzimuthLatch::AzimuthLatch(QWidget* parent) : QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0), caught_(false)
+AzimuthLatch::AzimuthLatch(QWidget* parent) :
+    QWidget(parent), Ui_AzimuthLatch(), lastAzimuth_(-1.0), caught_(false)
 {
     setupUi(this);
     azimuth_->setSuffix(DegreeSymbol());
@@ -18,7 +19,7 @@ AzimuthLatch::AzimuthLatch(QWidget* parent) : QWidget(parent), Ui_AzimuthLatch()
     cfg->getAzLatchAzimuth()->connectWidget(azimuth_);
     cfg->getAzLatchRelatch()->connectWidget(relatch_);
 
-    connect(cfg->getAzLatchEnabled(), SIGNAL(valueChanged(bool)), SLOT(handleEnabledChanged(bool)));
+    connect(cfg->getAzLatchEnabled(), &BoolSetting::valueChanged, this, &AzimuthLatch::handleEnabledChanged);
 
     enabled_->setEnabled(true);
     azimuth_->setEnabled(true);

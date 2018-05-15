@@ -31,14 +31,15 @@ App::Log()
 }
 
 App::App(int& argc, char** argv) :
-    AppBase("Spectrum", argc, argv), configurationWindow_(0), viewEditor_(0), mainWindow_(0), spectrographWindow_(0),
-    weightWindow_(0), workerThreads_(), idleWorkerThreads_(), display_(0)
+    AppBase("Spectrum", argc, argv), configurationWindow_(nullptr), viewEditor_(nullptr), mainWindow_(nullptr),
+    spectrographWindow_(nullptr), weightWindow_(nullptr), workerThreads_(), idleWorkerThreads_(),
+    display_(nullptr)
 {
     static Logger::ProcLog log("App", Log());
     LOGINFO << std::endl;
     setVisibleWindowMenuNew(false);
     makeToolWindows();
-    connect(this, SIGNAL(aboutToQuit()), SLOT(shutdownThreads()));
+    connect(this, &App::aboutToQuit, this, &App::shutdownThreads);
 }
 
 void
@@ -59,11 +60,11 @@ App::makeToolWindows()
     weightWindow_ = new WeightWindow(fftSettings);
     setWorkerThreadCount(fftSettings->getWorkerThreadCount());
 
-    connect(fftSettings, SIGNAL(fftSizeChanged(int)), SLOT(fftSizeChanged(int)));
-    connect(fftSettings, SIGNAL(workerThreadCountChanged(int)), SLOT(setWorkerThreadCount(int)));
+    connect(fftSettings, &FFTSettings::fftSizeChanged, this, &App::fftSizeChanged);
+    connect(fftSettings, &FFTSettings::workerThreadCountChanged, this, &App::setWorkerThreadCount);
 
     Settings* settings = configuration_->getSettings();
-    connect(settings->getInputChannel(), SIGNAL(incoming(const MessageList&)), SLOT(processVideo(const MessageList&)));
+    connect(settings->getInputChannel(), &ChannelSetting::incoming, this, &App::processVideo);
 }
 
 MainWindowBase*
@@ -79,8 +80,8 @@ App::makeNewMainWindow(const QString& objectName)
     display_ = mainWindow_->getDisplay();
 
     if (spectrographWindow_) {
-        connect(display_, SIGNAL(binsUpdated(const QVector<QPointF>&)), spectrographWindow_->getDisplay(),
-                SLOT(processBins(const QVector<QPointF>&)));
+        connect(display_, &SpectrumWidget::binsUpdated, spectrographWindow_->getDisplay(),
+                &SpectrographWidget::processBins);
     }
 
     viewEditor_->setSpectrumWidget(display_);
@@ -199,7 +200,7 @@ App::setWorkerThreadCount(int value)
                                                           : new WorkRequest(*workerThreads_[0]->getWorkRequest());
         WorkerThread* workerThread = new WorkerThread(workRequest);
         workerThreads_.append(workerThread);
-        connect(workerThread, SIGNAL(finished()), SLOT(threadFinished()), Qt::QueuedConnection);
+        connect(workerThread, &WorkerThread::finished, this, &App::threadFinished, Qt::QueuedConnection);
         idleWorkerThreads_.append(workerThread);
     }
 }
@@ -210,8 +211,8 @@ App::getSpectrographWindow()
     if (!spectrographWindow_) {
         spectrographWindow_ = new SpectrographWindow(Qt::Key_F3);
         if (display_) {
-            connect(display_, SIGNAL(binsUpdated(const QVector<QPointF>&)), spectrographWindow_->getDisplay(),
-                    SLOT(processBins(const QVector<QPointF>&)));
+            connect(display_, &SpectrumWidget::binsUpdated, spectrographWindow_->getDisplay(),
+                    &SpectrographWidget::processBins);
         }
     }
 

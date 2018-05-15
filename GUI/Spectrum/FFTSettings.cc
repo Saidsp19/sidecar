@@ -6,10 +6,9 @@
 using namespace SideCar::GUI::Spectrum;
 
 FFTSettings::FFTSettings(QComboBoxSetting* fftSizePower, QSpinBoxSetting* gateStart, QComboBoxSetting* windowType,
-                         QCheckBoxSetting* zeroPad, QSpinBoxSetting* workerThreadCount, QSpinBoxSetting* smoothing,
-                         Settings* settings) :
-    Super(),
-    fftSizePower_(fftSizePower), gateStart_(gateStart), windowType_(windowType), zeroPad_(zeroPad),
+                         QCheckBoxSetting* zeroPad, QSpinBoxSetting* workerThreadCount,
+                         QSpinBoxSetting* smoothing, Settings* settings) :
+    Super(), fftSizePower_(fftSizePower), gateStart_(gateStart), windowType_(windowType), zeroPad_(zeroPad),
     workerThreadCount_(workerThreadCount), smoothing_(smoothing)
 {
     add(fftSizePower_);
@@ -19,13 +18,13 @@ FFTSettings::FFTSettings(QComboBoxSetting* fftSizePower, QSpinBoxSetting* gateSt
     add(workerThreadCount_);
     add(smoothing_);
 
-    connect(fftSizePower_, SIGNAL(valueChanged(int)), SLOT(updateFFTSize()));
-    connect(gateStart_, SIGNAL(valueChanged(int)), SIGNAL(gateStartChanged(int)));
-    connect(windowType_, SIGNAL(valueChanged(int)), SIGNAL(windowTypeChanged(int)));
-    connect(zeroPad_, SIGNAL(valueChanged(bool)), SIGNAL(zeroPadChanged(bool)));
-    connect(workerThreadCount_, SIGNAL(valueChanged(int)), SIGNAL(workerThreadCountChanged(int)));
-    connect(smoothing_, SIGNAL(valueChanged(int)), SIGNAL(inputSmoothingChanged(int)));
-    connect(settings, SIGNAL(sampleFrequencyChanged(double)), SLOT(sampleFrequencyChanged(double)));
+    connect(fftSizePower_, &QComboBoxSetting::valueChanged, this, &FFTSettings::updateFFTSize);
+    connect(gateStart_, &QSpinBoxSetting::valueChanged, this, &FFTSettings::gateStartChanged);
+    connect(windowType_, &QComboBoxSetting::valueChanged, this, &FFTSettings::windowTypeChanged);
+    connect(zeroPad_, &QCheckBoxSetting::valueChanged, this, &FFTSettings::zeroPadChanged);
+    connect(workerThreadCount_, &QSpinBoxSetting::valueChanged, this, &FFTSettings::workerThreadCountChanged);
+    connect(smoothing_, &QSpinBoxSetting::valueChanged, this, &FFTSettings::inputSmoothingChanged);
+    connect(settings, &Settings::sampleFrequencyChanged, this, &FFTSettings::sampleFrequencyChanged);
 
     sampleFrequencyChanged(settings->getSampleFrequency());
 

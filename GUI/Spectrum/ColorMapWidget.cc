@@ -24,7 +24,7 @@ ColorMapWidget::ColorMapWidget(double minCutoff, double maxCutoff, QWidget* pare
         QString name = CLUT::GetTypeName(CLUT::Type(index));
         QAction* action = new QAction(name, this);
         action->setData(index);
-        connect(action, SIGNAL(triggered()), SLOT(changeColorMap()));
+        connect(action, &QAction::triggered, this, &ColorMapWidget::changeColorMap);
         addAction(action);
     }
 

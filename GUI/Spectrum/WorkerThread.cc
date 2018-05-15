@@ -15,7 +15,7 @@ WorkerThread::Log()
 WorkerThread::WorkerThread(WorkRequest* workRequest) : Super(), workRequest_(workRequest)
 {
     moveToThread(this);
-    connect(this, SIGNAL(threadSubmit()), this, SLOT(threadProcess()), Qt::QueuedConnection);
+    connect(this, &WorkerThread::threadSubmit, this, &WorkerThread::threadProcess, Qt::QueuedConnection);
     start();
 }
 
