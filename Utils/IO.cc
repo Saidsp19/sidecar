@@ -3,6 +3,8 @@
 
 #include "IO.h"
 
+#if 0
+
 bool
 operator>>(ACE_InputCDR& cdr, std::string& value)
 {
@@ -29,6 +31,8 @@ operator<<(ACE_OutputCDR& cdr, const std::string& value)
     cdr.write_char_array(value.c_str(), size);
     return cdr.good_bit();
 }
+
+#endif
 
 std::string
 Utils::INETAddrToString(const ACE_INET_Addr& address)

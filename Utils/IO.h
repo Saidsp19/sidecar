@@ -7,6 +7,8 @@ class ACE_INET_Addr;
 class ACE_InputCDR;
 class ACE_OutputCDR;
 
+#if 0
+
 /** Utility ACE CDR input stream extractor for C++ string objects. Reads in a 4 byte size followed by that
     number of characters.
 
@@ -29,9 +31,12 @@ extern bool operator>>(ACE_InputCDR& cdr, std::string& string);
 */
 extern bool operator<<(ACE_OutputCDR& cdr, const std::string& string);
 
+#endif
+
 namespace Utils {
 
 extern std::string INETAddrToString(const ACE_INET_Addr& address);
+
 }
 
 /** \file
