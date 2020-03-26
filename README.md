@@ -122,17 +122,16 @@ issues.
 
 ## MacOS Installation Notes
 
-Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running High
-Sierra (10.13.3). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
+Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
 install the following packages (I've noted the versions that I currently have)
 
 ```
-% brew install cmake # 3.10.3
-% brew install ace # 6.4.7
-% brew install boost # 1.66.0
-% brew install fftw # 3.3.7
-% brew install open-mpi # 3.0.0
-% brew install qt # 5.10.1
+% brew install cmake # 3.17.0
+% brew install ace # 6.5.8
+% brew install boost # 1.72.0
+% brew install fftw # 3.3.8
+% brew install open-mpi # 4.0.3
+% brew install qt # 5.14.1
 ```
 
 The software also needs an implementation of the
@@ -202,6 +201,9 @@ loopback interface. The apps are hardcoded (I think) to use the address `237.1.2
 ```
 % sudo route add -net 237.1.2.100/32 -interface lo0
 ```
+
+> NOTE: this may not be necessary depending on your system. Try the examples below first, and only if you have
+> issues receiving multcast packets do the above route change.
 
 There are some binary files in the `data/pri` directory that need to be joined before they can be used:
 
@@ -297,7 +299,7 @@ Last login: Wed Apr 11 10:36:32 2018 from 192.168.12.132
 % exit
 logout
 Connection to localhost closed.
-% 
+%
 ```
 
 (Future connections will be less noisy)
@@ -355,7 +357,7 @@ streams:
 - NCIntegrate -- the smoothed output from the NCIntegrate algorithm
 - Threshold -- a stream of binary values from thresholding the smoothed values
 - MofN -- a stream of binary values from the M-of-N filtering
-- Extractions -- a stream of _extraction_ records 
+- Extractions -- a stream of _extraction_ records
 
 The `ascope` application can only show streams of floating-point data. However, the `ppidisplay` app
 demonstrated above can show all three data types (floating-point, binary, and extractions). Simply show the
