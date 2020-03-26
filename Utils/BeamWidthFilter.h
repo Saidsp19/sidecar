@@ -17,7 +17,7 @@ class BeamWidthFilter : public SideCar::IO::Printable<BeamWidthFilter> {
 public:
     /** Constructor.
 
-        \param windowSize number of width samples to keep around in the running average calculation. The larget
+        \param windowSize number of width samples to keep around in the running average calculation. The larger
         the number, the more damping occurs.
     */
     BeamWidthFilter(size_t windowSize = 2000) :
