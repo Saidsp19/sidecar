@@ -46,7 +46,7 @@ add_definitions(-DSIDECAR_VERSION="${SIDECAR_VERSION}")
 # Specify versions of dependencies (if desired)
 #
 set(ACE_VERSION "")
-set(BOOST_VERSION "1.60")
+set(BOOST_VERSION "")
 set(FFTW3_VERSION "")
 set(MPI_VERSION "")
 set(VSIPL_VERSION "")
@@ -59,14 +59,13 @@ set(Qt5_VERSION "5.10")
 find_package(ACE ${ACE_VERSION} REQUIRED)
 
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost ${BOOST_VERSION} REQUIRED
+find_package(Boost ${BOOST_VERSION} REQUIRED COMPONENTS
              date_time
              filesystem
              graph
              iostreams
              random
              serialization
-             signals
              system
              thread)
 find_package(FFTW3 ${FFTW3_VERSION} REQUIRED)
@@ -122,7 +121,7 @@ endif(UNIX)
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
 # link_directories($ENV{FFTW_ROOT}/lib $ENV{VSIPL_ROOT}/lib)
-set(MATHLIBS lapack cblas fftw3 fftw3f ${CMAKE_THREAD_LIBS_INIT} ${MPI_CXX_LIBRARIES})
+set(MATHLIBS lapack cblas ${FFTW3_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${MPI_CXX_LIBRARIES})
 
 include_directories(${PROJECT_SOURCE_DIR} ${ACE_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${MPI_INCLUDE_PATH})
 
