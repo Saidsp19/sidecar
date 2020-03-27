@@ -69,6 +69,8 @@ macro(ADD_GUI NAME)
         set_target_properties(${NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                               "Copyright © 2016 Brad Howes. All rights reserved.")
 
+        set_target_properties(${NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/GUI/MacOSXBundleInfo.plist.in)
+
         if(${NAME}_PNG)
             set_source_files_properties(${${NAME}_PNG} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
         endif(${NAME}_PNG)
@@ -77,8 +79,6 @@ macro(ADD_GUI NAME)
             set_source_files_properties(${${NAME}_ICNS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
             set_target_properties(${NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE ${${NAME}_ICNS})
         endif(${NAME}_ICNS)
-
-        # install(TARGETS ${NAME} BUNDLE DESTINATION bin)
 
         # Let the app disable any OS sleeping
         #
