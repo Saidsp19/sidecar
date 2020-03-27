@@ -1,11 +1,10 @@
 # -*- Mode: CMake -*-
-#
+
 # Top-level CMake file for the SideCar project.
 #
-
 cmake_minimum_required(VERSION 3.4)
 
-project(SIDECAR VERSION 1.0.0)
+project(SIDECAR VERSION 2.1.0)
 
 set(SIDECAR_VERSION ${PROJECT_VERSION})
 message(STATUS "Version ${SIDECAR_VERSION}")
@@ -23,9 +22,13 @@ endif(ebug)
 # Enable use of ccache if -Dccache=1
 #
 if(ccache)
-  message(STATUS "using CCACHE")
-  set(CMAKE_CXX_COMPILER ccache)
-  set(CMAKE_CXX_COMPILER_ARG1 c++)
+    find_program(CCACHE_PROGRAM ccache)
+    if(CCACHE_PROGRAM)
+        set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+        message(STATUS "Using 'ccache' for C/C++ compiles")
+    else(CCACHE_PROGRAM)
+        message(STATUS "No 'ccache' program found -- not using")
+    endif(CCACHE_PROGRAM)
 endif(ccache)
 
 # Load in the CMake customizations for the SideCar project
@@ -59,7 +62,7 @@ add_subdirectory(GUI)
 add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/data
                    COMMAND ${CMAKE_COMMAND} -E create_symlink ${SIDECAR}/data ${PROJECT_BINARY_DIR}/data)
 add_custom_target(link-data ALL DEPENDS ${PROJECT_BINARY_DIR}/data)
-                   
+
 # Install the data directory
 #
 install(DIRECTORY data DESTINATION ./ PATTERN ".svn" EXCLUDE PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
