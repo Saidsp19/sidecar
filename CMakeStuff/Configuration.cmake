@@ -4,13 +4,6 @@
 #
 set(SIDECAR "${PROJECT_SOURCE_DIR}")
 
-# Create an installation directory based on the date when we were run. This will be used by 'make install' and
-# to properly set the RPATH of the installed applications and libraries.
-#
-execute_process(COMMAND date "+%Y%m%d" OUTPUT_VARIABLE PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
-set(CMAKE_INSTALL_PREFIX "${SIDECAR}/builds/${PREFIX}")
-message(STATUS "Installation location: ${CMAKE_INSTALL_PREFIX}")
-
 # We require C++ 14
 #
 set(CMAKE_CXX_STANDARD 14)
