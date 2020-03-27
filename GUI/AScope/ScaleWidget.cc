@@ -2,6 +2,7 @@
 #include <cmath>
 #include <functional>
 
+#include "QtGui/QGuiApplication"
 #include "QtGui/QPainter"
 
 #include "ScaleWidget.h"
@@ -12,7 +13,7 @@ ScaleWidget::ScaleWidget(QWidget* parent, Qt::Orientation orientation) :
     QWidget(parent), lastSizeCalculated_(), majorTickHeight_(10), minorTickHeight_(6), majorTickDivisionsMax_(8),
     minorTickDivisionsMax_(4), start_(0.0), range_(4.0), orientation_(orientation),
     majorGridPen_(QColor(64, 64, 64), 0.0), minorGridPen_(QColor(16, 16, 16), 0.0),
-    cursorIndicatorPen_(QColor(255, 0, 0, 64), 0), cursorPosition_(-1)
+    cursorIndicatorPen_(QColor(255, 0, 0), 0), cursorPosition_(-1)
 {
     QFont labelFont(font());
     labelFont.setPointSize(10);
@@ -68,7 +69,7 @@ ScaleWidget::render(QPainter& painter, int width, int height)
 {
     recalculateTickIntervals(width, height);
 
-    // For horizontal and vertical lines, disable antialiasing.
+    // For horizontal and vertical lines, disable anti-aliasing.
     //
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
@@ -87,8 +88,10 @@ ScaleWidget::render(QPainter& painter, int width, int height)
 void
 ScaleWidget::drawTicks(QPainter& painter, int width, double y, int sign, int tagOffset)
 {
+    auto palette = QGuiApplication::palette();
+
     painter.setFont(font());
-    painter.setPen(Qt::black);
+    painter.setPen(palette.dark().color());
 
     QFontMetrics fm(fontMetrics());
     double tag = start_;
