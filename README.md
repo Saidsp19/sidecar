@@ -202,8 +202,8 @@ loopback interface. The apps are hardcoded (I think) to use the address `237.1.2
 % sudo route add -net 237.1.2.100/32 -interface lo0
 ```
 
-> NOTE: this may not be necessary depending on your system. Try the examples below first, and only if you have
-> issues receiving multcast packets do the above route change.
+> NOTE: this should *not* be done if you want to share multicast data with other systems on your network. It is great
+> for development on one system so you don't disrupt the network with tons of packets.
 
 There are some binary files in the `data/pri` directory that need to be joined before they can be used:
 
