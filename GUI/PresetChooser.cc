@@ -5,9 +5,9 @@
 #include "QtGui/QPalette"
 
 #include "Logger/Log.h"
-
 #include "PresetChooser.h"
 #include "PresetManager.h"
+#include "Utils.h"
 
 using namespace SideCar::GUI;
 
@@ -64,7 +64,7 @@ PresetChooser::setDirtyState(int index, bool isDirty)
     static Logger::ProcLog log("setDirtyState", Log());
     LOGINFO << "index: " << index << " isDirty: " << isDirty << std::endl;
     QPalette p(palette());
-    p.setColor(QPalette::Text, isDirty ? Qt::red : Qt::black);
+    p.setColor(QPalette::Text, isDirty ? WarningRedColor() : NormalTextColor(QPalette::ButtonText));
     setPalette(p);
     update();
 }

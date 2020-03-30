@@ -13,8 +13,7 @@ using namespace SideCar::GUI::Master;
 QColor
 TreeViewItem::GetTextColor()
 {
-    static const QColor color(0, 0, 0);
-    return color;
+    return NormalTextColor(QPalette::WindowText);
 }
 
 QColor

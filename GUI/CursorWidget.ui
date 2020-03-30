@@ -39,15 +39,26 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="font" >
+      <font>
+       <family>Monospace</family>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
      <property name="palette" >
       <palette>
        <active>
         <colorrole role="WindowText" >
          <brush brushstyle="SolidPattern" >
           <color alpha="255" >
-           <red>0</red>
-           <green>90</green>
-           <blue>0</blue>
+           <red>127</red>
+           <green>127</green>
+           <blue>127</blue>
           </color>
          </brush>
         </colorrole>
@@ -56,9 +67,9 @@
         <colorrole role="WindowText" >
          <brush brushstyle="SolidPattern" >
           <color alpha="255" >
-           <red>0</red>
-           <green>90</green>
-           <blue>0</blue>
+           <red>127</red>
+           <green>127</green>
+           <blue>127</blue>
           </color>
          </brush>
         </colorrole>
@@ -75,17 +86,6 @@
         </colorrole>
        </disabled>
       </palette>
-     </property>
-     <property name="font" >
-      <font>
-       <family>Lucida Grande</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-       <underline>false</underline>
-       <strikeout>false</strikeout>
-      </font>
      </property>
      <property name="text" >
       <string>value_</string>

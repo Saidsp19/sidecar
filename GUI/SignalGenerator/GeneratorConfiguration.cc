@@ -14,7 +14,7 @@ using namespace SideCar::GUI::SignalGenerator;
 
 GeneratorConfiguration::GeneratorConfiguration(double sampleFrequency) :
     Super(), gui_(new Ui::GeneratorConfiguration), sampleFrequency_(sampleFrequency), amplitude_(0.0),
-    phaseOffset_(1.0), counter_(0), enabled_(true), selected_(QColor(203, 255, 102)), unselected_()
+    phaseOffset_(1.0), counter_(0), enabled_(true)
 {
     gui_->setupUi(this);
     on_frequency__valueChanged(gui_->frequency_->value());
@@ -28,8 +28,7 @@ GeneratorConfiguration::GeneratorConfiguration(double sampleFrequency) :
 GeneratorConfiguration::GeneratorConfiguration(GeneratorConfiguration* basis) :
     Super(), gui_(new Ui::GeneratorConfiguration), sampleFrequency_(basis->sampleFrequency_),
     amplitude_(basis->amplitude_), phaseOffset_(basis->phaseOffset_), dcOffset_(basis->dcOffset_),
-    complexValueType_(basis->complexValueType_), counter_(0), enabled_(true), selected_(QColor(203, 255, 102)),
-    unselected_()
+    complexValueType_(basis->complexValueType_), counter_(0), enabled_(true)
 {
     gui_->setupUi(this);
     gui_->frequency_->setValue(basis->gui_->frequency_->value());
@@ -52,7 +51,6 @@ GeneratorConfiguration::initialize()
     gui_->phaseOffset_->installEventFilter(this);
     calculateRadiansPerSample();
     connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), SLOT(focusChanged(QWidget*, QWidget*)));
-    unselected_ = palette().color(QPalette::Active, QPalette::Window);
     setAutoFillBackground(true);
     setBackgroundRole(QPalette::Window);
 }
@@ -209,8 +207,9 @@ GeneratorConfiguration::getSignalFrequency() const
 void
 GeneratorConfiguration::setSelected(bool selected)
 {
-    QPalette p(palette());
-    p.setColor(QPalette::Active, QPalette::Window, selected ? selected_ : unselected_);
+    auto windowColor = QGuiApplication::palette().window().color();
+    auto p(palette());
+    p.setColor(QPalette::Active, QPalette::Window, selected ? windowColor.lighter() : windowColor);
     setPalette(p);
     update();
 }

@@ -75,21 +75,14 @@ AzimuthLatch::check(double azimuth)
 void
 AzimuthLatch::updateCaughtIndicator()
 {
-    QPalette palette(enabled_->palette());
-    QColor color = caught_ ? Qt::red : Qt::black;
-    palette.setColor(QPalette::Active, QPalette::Text, color);
+    QPalette palette(QGuiApplication::palette());
+    QColor color = caught_ ? WarningRedColor() : NormalTextColor(QPalette::WindowText);
+
     palette.setColor(QPalette::Active, QPalette::ButtonText, color);
     palette.setColor(QPalette::Active, QPalette::WindowText, color);
 
-    palette.setColor(QPalette::Inactive, QPalette::Text, color);
-    palette.setColor(QPalette::Inactive, QPalette::ButtonText, color);
-    palette.setColor(QPalette::Inactive, QPalette::WindowText, color);
-
     enabled_->setPalette(palette);
     enabled_->update();
-
-    relatch_->setPalette(palette);
-    relatch_->update();
 }
 
 void

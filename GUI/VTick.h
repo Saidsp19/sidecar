@@ -1,8 +1,6 @@
 #ifndef SIDECAR_GUI_VTICK_H // -*- C++ -*-
 #define SIDECAR_GUI_VTICK_H
 
-#include "boost/shared_ptr.hpp"
-
 #include "QtWidgets/QLabel"
 
 namespace SideCar {

@@ -9,6 +9,9 @@ TargetPlotSymbolsWidget::TargetPlotSymbolsWidget(QWidget* parent)
     : Super(parent), gui_(new Ui::TargetPlotSymbolsWidget)
 {
     gui_->setupUi(this);
+    gui_->extractionsLabel_->setForegroundRole(QPalette::WindowText);
+    gui_->rangeTruthsLabel_->setForegroundRole(QPalette::WindowText);
+    gui_->bugPlotsLabel_->setForegroundRole(QPalette::WindowText);
 }
 
 void

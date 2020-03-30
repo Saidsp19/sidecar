@@ -21,9 +21,9 @@ ControlWidget::ControlWidget(const QString& tag, QToolBar* parent) : Super(paren
     QLabel* label = new QLabel(tag, this);
     label->setAlignment(Qt::AlignCenter);
     QFont font(label->font());
-    font.setPointSize(9);
-    font.setBold(true);
+    font.setPointSize(font.pointSize() - 1);
     label->setFont(font);
+    label->setForegroundRole(QPalette::WindowText);
     layout_->addWidget(label, 0, Qt::AlignCenter);
 
     control_ = new QSlider(orientation, this);

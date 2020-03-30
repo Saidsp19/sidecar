@@ -91,7 +91,7 @@ ScaleWidget::drawTicks(QPainter& painter, int width, double y, int sign, int tag
     auto palette = QGuiApplication::palette();
 
     painter.setFont(font());
-    painter.setPen(palette.dark().color());
+    painter.setBrush(palette.windowText());
 
     QFontMetrics fm(fontMetrics());
     double tag = start_;

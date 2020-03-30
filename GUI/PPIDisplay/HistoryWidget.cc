@@ -1,6 +1,8 @@
 #include "QtWidgets/QBoxLayout"
 #include "QtWidgets/QCheckBox"
+#include "QtWidgets/QLabel"
 #include "QtWidgets/QSlider"
+#include "QtWidgets/QToolBar"
 
 #include "App.h"
 #include "Configuration.h"
@@ -10,59 +12,114 @@
 
 using namespace SideCar::GUI::PPIDisplay;
 
-HistoryWidget::HistoryWidget(History* history, QToolBar* parent) : Super("Past", parent), history_(history)
+static const int kMinLength = 100;
+static const int kMaxLength = 200;
+
+HistoryWidget::HistoryWidget(History* history, QToolBar* parent) : Super(parent), history_(history)
 {
     HistorySettings* historySettings = App::GetApp()->getConfiguration()->getHistorySettings();
+    auto orientation = parent->orientation();
 
-    QCheckBox* enabled = new QCheckBox(this);
-    historySettings->connectWidget(enabled);
+    layout_ = new QBoxLayout(orientation == Qt::Vertical ? QBoxLayout::TopToBottom : QBoxLayout::LeftToRight, this);
+    layout_->setMargin(0);
+    layout_->setSpacing(4);
 
-    QBoxLayout* tmp = qobject_cast<QBoxLayout*>(layout());
-    tmp->insertWidget(0, enabled, 0, Qt::AlignCenter);
+    enabled_ = new QCheckBox("History", this);
+    enabled_->setForegroundRole(QPalette::WindowText);
+    historySettings->connectWidget(enabled_);
+    layout_->addWidget(enabled_, 0, Qt::AlignCenter);
 
-    QSlider* slider = getControl();
-    slider->setMinimum(0);
-    slider->setMaximum(0);
-    slider->setPageStep(1);
+    layout_->addSpacing(8);
+
+    slider_ = new QSlider(orientation, this);
+    slider_->setMinimum(0);
+    slider_->setMaximum(1);
+    slider_->setValue(0);
+    slider_->setPageStep(1);
+    slider_->setEnabled(false);
+
+    layout_->addWidget(slider_, 0, orientation == Qt::Vertical ? Qt::AlignHCenter : Qt::AlignVCenter);
 
     connect(history_, SIGNAL(retainedCountChanged(int)), SLOT(historyRetainedCountChanged(int)));
     connect(history_, SIGNAL(currentViewChanged(int)), SLOT(historyCurrentViewChanged(int)));
     connect(history_, SIGNAL(currentViewAged(int)), SLOT(historyCurrentViewAged(int)));
-    connect(slider, SIGNAL(valueChanged(int)), history, SLOT(showEntry(int)));
 
-    slider->setEnabled(historySettings->isEnabled());
+    connect(slider_, SIGNAL(valueChanged(int)), history, SLOT(showEntry(int)));
 
-    connect(historySettings, SIGNAL(enabledChanged(bool)), slider, SLOT(setEnabled(bool)));
+    connect(historySettings, SIGNAL(enabledChanged(bool)), SLOT(historyEnabledChanged(bool)));
+    connect(parent, SIGNAL(orientationChanged(Qt::Orientation)), SLOT(changeOrientation(Qt::Orientation)));
+}
+
+void
+HistoryWidget::updateOrientation(Qt::Orientation orientation)
+{
+    slider_->setOrientation(orientation);
+    if (orientation == Qt::Vertical) {
+        slider_->setMinimumSize(QSize(0, kMinLength));
+        slider_->setMaximumSize(QSize(QWIDGETSIZE_MAX, kMaxLength));
+        QSizePolicy policy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        policy.setHorizontalStretch(0);
+        policy.setVerticalStretch(1);
+        slider_->setSizePolicy(policy);
+    } else {
+        slider_->setMinimumSize(QSize(kMinLength, 0));
+        slider_->setMaximumSize(QSize(kMaxLength, QWIDGETSIZE_MAX));
+        QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        policy.setHorizontalStretch(1);
+        policy.setVerticalStretch(0);
+        slider_->setSizePolicy(policy);
+    }
+}
+
+void
+HistoryWidget::changeOrientation(Qt::Orientation orientation)
+{
+    updateOrientation(orientation);
+    if (orientation == Qt::Horizontal) {
+        layout_->setDirection(QBoxLayout::LeftToRight);
+        layout_->setAlignment(slider_, Qt::AlignVCenter);
+    } else {
+        layout_->setDirection(QBoxLayout::TopToBottom);
+        layout_->setAlignment(slider_, Qt::AlignHCenter);
+    }
+}
+
+void
+HistoryWidget::historyEnabledChanged(bool enabled)
+{
+    if (enabled) {
+        historyRetainedCountChanged(history_->getRetentionCount());
+    }
+    else {
+        slider_->setEnabled(false);
+    }
 }
 
 void
 HistoryWidget::historyRetainedCountChanged(int size)
 {
-    QSlider* slider = getControl();
-    slider->setEnabled(size);
-    slider->setMaximum(size);
+    slider_->setEnabled(size > 0);
+    slider_->setMaximum(std::max(size, 1));
 }
 
 void
 HistoryWidget::historyCurrentViewAged(int age)
 {
-    QSlider* slider = getControl();
     if (age <= history_->getRetentionCount()) {
-        slider->blockSignals(true);
-        slider->setValue(age);
-        slider->blockSignals(false);
+        slider_->blockSignals(true);
+        slider_->setValue(age);
+        slider_->blockSignals(false);
     }
-    slider->setToolTip(makeAgeText(age));
+    slider_->setToolTip(makeAgeText(age));
 }
 
 void
 HistoryWidget::historyCurrentViewChanged(int age)
 {
-    QSlider* slider = getControl();
-    slider->blockSignals(true);
-    slider->setValue(age);
-    slider->blockSignals(false);
-    slider->setToolTip(makeAgeText(age));
+    slider_->blockSignals(true);
+    slider_->setValue(age);
+    slider_->blockSignals(false);
+    slider_->setToolTip(makeAgeText(age));
 }
 
 QString

@@ -13,7 +13,7 @@ ChannelInfoWidget::ChannelInfoWidget(QWidget* parent) :
     Super(parent), gui_(new Ui::ChannelInfoWidget), mapper_(new QSignalMapper(this)), values_()
 {
     gui_->setupUi(this);
-    gui_->value_->setTextFormat(Qt::PlainText);
+    // gui_->value_->setTextFormat(Qt::PlainText);
     connect(mapper_, SIGNAL(mapped(int)), SLOT(channelChanged(int)));
     update();
 }

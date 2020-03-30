@@ -62,7 +62,7 @@ match in their names</string>
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="label_2" >
+    <widget class="QLabel" name="runStateLabel_" >
      <property name="text" >
       <string>State:</string>
      </property>
@@ -131,7 +131,7 @@ match in their names</string>
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="label_5" >
+    <widget class="QLabel" name="logsLabel_" >
      <property name="text" >
       <string>Logs:</string>
      </property>

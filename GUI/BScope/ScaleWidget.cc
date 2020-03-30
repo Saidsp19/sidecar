@@ -2,6 +2,7 @@
 #include <cmath>
 #include <functional>
 
+#include "QtGui/QGuiApplication"
 #include "QtGui/QPainter"
 
 #include "GUI/LogUtils.h"
@@ -131,8 +132,9 @@ ScaleWidget::drawVerticalTicks(QPainter& painter, int span, int tagOffset)
     static Logger::ProcLog log("drawVerticalTicks", Log());
     LOGINFO << "span: " << span << " tagOffset: " << tagOffset << std::endl;
 
+    auto palette = QGuiApplication::palette();
     painter.setFont(font());
-    painter.setPen(Qt::black);
+    painter.setBrush(palette.windowText());
     QFontMetrics fm(fontMetrics());
 
     double increment = minorIncrement_;
@@ -193,8 +195,9 @@ ScaleWidget::drawHorizontalTicks(QPainter& painter, int span, int tagOffset)
     static Logger::ProcLog log("drawHorizontalTicks", Log());
     LOGINFO << "span: " << span << " tagOffset: " << tagOffset << std::endl;
 
+    auto palette = QGuiApplication::palette();
     painter.setFont(font());
-    painter.setPen(Qt::black);
+    painter.setBrush(palette.windowText());
     QFontMetrics fm(fontMetrics());
 
     double tag = 0.0;

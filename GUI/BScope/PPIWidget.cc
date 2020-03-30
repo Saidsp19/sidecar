@@ -70,6 +70,11 @@ PPIWidget::PPIWidget(QWidget* parent) :
     Logger::ProcLog log("PPIWidget", Log());
     LOGINFO << std::endl;
 
+    auto palette= this->palette();
+    palette.setColor(QPalette::Window, Qt::black);
+    setPalette(palette);
+    setAutoFillBackground(true);
+
     // Widget initialization. NOTE: all Open/GL initialization occurs in the initializeGL method.
     //
     setCursor(Qt::CrossCursor);

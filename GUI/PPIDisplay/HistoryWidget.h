@@ -1,7 +1,13 @@
 #ifndef SIDECAR_GUI_PPIDISPLAY_HISTORYWIDGET_H // -*- C++ -*-
 #define SIDECAR_GUI_PPIDISPLAY_HISTORYWIDGET_H
 
-#include "ControlWidget.h"
+#include "QtWidgets/QWidget"
+
+class QBoxLayout;
+class QCheckBox;
+class QLabel;
+class QSlider;
+class QToolBar;
 
 namespace SideCar {
 namespace GUI {
@@ -9,24 +15,30 @@ namespace PPIDisplay {
 
 class History;
 
-class HistoryWidget : public ControlWidget {
+class HistoryWidget : public QWidget {
     Q_OBJECT
-    using Super = ControlWidget;
+    using Super = QWidget;
 
 public:
     HistoryWidget(History* history, QToolBar* parent);
 
-private slots:
+public slots:
+    void changeOrientation(Qt::Orientation orientation);
 
+private slots:
+    void historyEnabledChanged(bool enabled);
     void historyRetainedCountChanged(int size);
     void historyCurrentViewChanged(int age);
     void historyCurrentViewAged(int age);
 
 private:
     QString makeAgeText(int age);
+    void updateOrientation(Qt::Orientation orientation);
 
-    QLabel* ageValue_;
+    QCheckBox* enabled_;
+    QSlider* slider_;
     History* history_;
+    QBoxLayout* layout_;
 };
 
 } // end namespace PPIDisplay

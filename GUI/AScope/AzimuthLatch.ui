@@ -39,9 +39,6 @@
      <property name="toolTip" >
       <string>Check to enable azimuth latch</string>
      </property>
-     <property name="styleSheet" >
-      <string/>
-     </property>
      <property name="text" >
       <string>Az Latch</string>
      </property>

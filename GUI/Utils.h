@@ -4,6 +4,8 @@
 #include "QtCore/QChar"
 #include "QtCore/QObject"
 #include "QtCore/QString"
+#include "QtGui/QColor"
+#include "QtGui/QPalette"
 
 class QAbstractButton;
 class QAction;
@@ -179,6 +181,10 @@ extern bool ProjectPoint(double objx, double objy, double objz, const double mod
 extern bool UnProjectPoint(double winx, double winy, double winz, const double modelMatrix[16],
                            const double projMatrix[16], const int viewport[4], double* objx, double* objy,
                            double* objz);
+
+inline QColor WarningRedColor() { return QColor(Qt::red).lighter(); }
+
+extern QColor NormalTextColor(QPalette::ColorRole role);
 
 } // end namespace GUI
 } // end namespace SideCar

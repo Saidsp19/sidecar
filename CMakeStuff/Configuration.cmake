@@ -1,5 +1,5 @@
 # -*- Mode: CMake -*-
-#
+
 # CMake macros and settings for the SideCar project
 #
 set(SIDECAR "${PROJECT_SOURCE_DIR}")
@@ -45,7 +45,7 @@ set(MPI_VERSION "")
 set(VSIPL_VERSION "")
 set(OpenGL_VERSION "")
 set(OpenGL_GL_PREFERENCE "GLVND")
-set(Qt5_VERSION "5.10")
+set(Qt5_VERSION "5.14.1")
 
 # Locate dependencies
 #
@@ -72,7 +72,8 @@ if(APPLE AND EXISTS /usr/local/opt/qt5)
 	# Homebrew installs Qt5 (up to at least 5.9.1) in /usr/local/qt5, ensure it can be found by CMake since it
 	# is not in the default /usr/local prefix.
     #
-    list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+    # list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+    list(APPEND CMAKE_PREFIX_PATH "${HOME}/src/qt_build/qtbase")
 endif()
 
 # For Qt installs in other locations, pass in a value for Qt5_DIR on the cmake command line, like:

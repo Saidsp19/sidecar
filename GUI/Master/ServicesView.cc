@@ -218,7 +218,7 @@ ServicesView::initializeRow(const QModelIndex& index)
         // Create a new push button for the algorithm that when clicked will show a dialog box with the current
         // runtime parammeter values.
         //
-        QToolButton* button = new QToolButton(this);
+        auto button = new QPushButton(this);
         button->setObjectName("paramEditor");
         button->setText(item->getName());
         setIndexWidget(index, button);

@@ -26,11 +26,11 @@ struct ItemDelegate : public QItemDelegate {
 void
 ItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    QStyleOptionViewItem opt(option);
-    QColor c(index.data(Qt::ForegroundRole).value<QColor>());
-    opt.palette.setColor(QPalette::Active, QPalette::HighlightedText, c);
-    opt.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, c);
-    Super::paint(painter, opt, index);
+    // QStyleOptionViewItem opt(option);
+    // QColor c(index.data(Qt::ForegroundRole).value<QColor>());
+    // opt.palette.setColor(QPalette::Active, QPalette::HighlightedText, c);
+    // opt.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, c);
+    Super::paint(painter, option, index);
 }
 
 Logger::Log&
@@ -45,7 +45,7 @@ ChannelConnectionView::ChannelConnectionView(QWidget* parent) : Super(parent), c
     connect(this, SIGNAL(doubleClicked(const QModelIndex&)), SLOT(editEntry(const QModelIndex&)));
 
     QHeaderView* header = horizontalHeader();
-#if 1
+#if 0
     header->setStyleSheet("QHeaderView::section {"
                           "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 "
                           "#616161, stop: 0.5 #505050, stop: 0.6 #434343, stop: 1 #656565);"
@@ -62,7 +62,7 @@ ChannelConnectionView::ChannelConnectionView(QWidget* parent) : Super(parent), c
     header->setVisible(false);
     header->setFont(font());
 
-    setItemDelegate(new ItemDelegate(this));
+    // setItemDelegate(new ItemDelegate(this));
 
     QMenu* menu = contextMenu_;
     menu->addAction("All Visible", this, SLOT(makeAllVisible()));

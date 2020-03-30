@@ -40,10 +40,12 @@ ControlsWidget::addControl(const QString& tag, QSliderSetting* setting)
 
     QLabel* label = new QLabel(tag, this);
     label->setAlignment(Qt::AlignCenter);
+
     QFont font(label->font());
-    font.setPointSize(9);
-    font.setBold(true);
+    font.setPointSize(font.pointSize() - 1);
     label->setFont(font);
+
+    label->setForegroundRole(QPalette::WindowText);
     layout_->insertWidget(index++, label, 0, Qt::AlignCenter);
 
     QSlider* control = new QSlider(orientation, this);

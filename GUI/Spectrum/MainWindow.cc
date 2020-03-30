@@ -154,11 +154,17 @@ MainWindow::MainWindow() :
     FFTSettings* fftSettings = cfg->getFFTSettings();
     toolBar = makeToolBar("FFT Config", Qt::TopToolBarArea);
     toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    toolBar->addWidget(new QLabel("FFT Size:", toolBar));
-    QWidget* w = fftSettings->duplicateFFTSizePower(toolBar);
+
+    auto label = new QLabel("FFT Size:", toolBar);
+    label->setForegroundRole(QPalette::WindowText);
+    toolBar->addWidget(label);
+    auto w = fftSettings->duplicateFFTSizePower(toolBar);
     w->setFocusPolicy(Qt::NoFocus);
     toolBar->addWidget(w);
-    toolBar->addWidget(new QLabel("Window:", toolBar));
+
+    label = new QLabel("Wndow:", toolBar);
+    label->setForegroundRole(QPalette::WindowText);
+    toolBar->addWidget(label);
     w = fftSettings->duplicateWindowType(toolBar);
     w->setFocusPolicy(Qt::NoFocus);
     toolBar->addWidget(w);

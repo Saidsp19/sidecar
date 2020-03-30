@@ -39,7 +39,7 @@ Inverter::process(const Messages::Video::Ref& msg)
     // std::bind1st - a value binder that assigns a value to the 1st value of a method. For member functions,
     // the first argument is always an object of the type that has the method
     //
-    std::transform(msg->begin(), msg->end(), msg->begin(), std::bind1st(std::mem_fun(&Inverter::invert), this));
+    std::transform(msg->begin(), msg->end(), msg->begin(), [this](auto const& value){ return invert(value); });
 
     // Transformation is done -- send out on the default output device.
     //

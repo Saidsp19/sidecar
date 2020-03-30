@@ -1,3 +1,4 @@
+#include "QtGui/QGuiApplication"
 #include "QtGui/QMouseEvent"
 #include "QtGui/QPixmap"
 #include "QtWidgets/QAction"
@@ -7,6 +8,7 @@
 
 #include "CLUT.h"
 #include "ColorMapWidget.h"
+#include "Utils.h"
 #include "VideoSampleCountTransform.h"
 
 using namespace SideCar::GUI;
@@ -19,9 +21,17 @@ ColorMapWidget::ColorMapWidget(VideoSampleCountTransform* transform, QWidget* pa
 {
     gui_->setupUi(this);
 
-    normalPalette_ = gui_->min_->palette();
+    auto palette = QGuiApplication::palette();
+    normalPalette_ = palette;
+
     dbPalette_ = normalPalette_;
-    dbPalette_.setColor(QPalette::ButtonText, Qt::red);
+    dbPalette_.setColor(QPalette::ButtonText, WarningRedColor());
+
+    gui_->min_->setForegroundRole(QPalette::WindowText);
+    gui_->q1_->setForegroundRole(QPalette::WindowText);
+    gui_->q2_->setForegroundRole(QPalette::WindowText);
+    gui_->q3_->setForegroundRole(QPalette::WindowText);
+    gui_->max_->setForegroundRole(QPalette::WindowText);
 
     decibelStateChange(transform_->getShowDecibels());
     connect(transform_, SIGNAL(settingChanged()), SLOT(updateLabels()));

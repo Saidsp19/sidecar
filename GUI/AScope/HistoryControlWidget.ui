@@ -73,9 +73,6 @@
      <property name="toolTip" >
       <string>Click to begin viewing past messages</string>
      </property>
-     <property name="styleSheet" >
-      <string/>
-     </property>
      <property name="text" >
       <string>View Past</string>
      </property>
@@ -133,8 +130,7 @@
       </size>
      </property>
      <property name="toolTip" >
-      <string>Check to synchronize time change
-among separate past views</string>
+      <string>Check to synchronize time change among separate past views</string>
      </property>
      <property name="text" >
       <string>Synch View</string>

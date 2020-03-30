@@ -15,6 +15,7 @@
 #include "GUI/LogUtils.h"
 #include "GUI/ToolBar.h"
 #include "GUI/modeltest.h"
+#include "GUI/Utils.h"
 #include "IO/ProcessingState.h"
 
 #include "App.h"
@@ -374,9 +375,13 @@ MainWindow::servicesStatusUpdated()
 
     if (failureCount != lastFailureCount_) {
         lastFailureCount_ = failureCount;
-        QPalette palette(statusWidget_->failures_->palette());
-        palette.setColor(QPalette::WindowText, failureCount > 0 ? TreeViewItem::GetFailureColor() : Qt::black);
-        palette.setColor(QPalette::ButtonText, failureCount > 0 ? TreeViewItem::GetFailureColor() : Qt::black);
+
+        auto normalColor = NormalTextColor(QPalette::WindowText);
+        auto palette(statusWidget_->failures_->palette());
+
+        palette.setColor(QPalette::WindowText, failureCount > 0 ? TreeViewItem::GetFailureColor() : normalColor);
+        palette.setColor(QPalette::ButtonText, failureCount > 0 ? TreeViewItem::GetFailureColor() : normalColor);
+
         statusWidget_->failures_->setPalette(palette);
         statusWidget_->failuresLabel_->setPalette(palette);
     }
@@ -511,8 +516,9 @@ MainWindow::stopRecording(const QStringList& configNames)
 void
 MainWindow::showRecordingState(bool recording)
 {
-    QColor color = recording ? TreeViewItem::GetRecordingColor() : Qt::black;
+    QColor color = recording ? TreeViewItem::GetRecordingColor() : NormalTextColor(QPalette::WindowText);
     QPalette palette(recordingStartStop_->palette());
+
     palette.setColor(QPalette::Active, QPalette::WindowText, color);
     palette.setColor(QPalette::Active, QPalette::ButtonText, color);
     palette.setColor(QPalette::Inactive, QPalette::WindowText, color);

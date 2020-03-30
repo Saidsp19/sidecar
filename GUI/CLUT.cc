@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "QtWidgets/QComboBox"
+#include "QtGui/QGuiApplication"
 #include "QtGui/QImage"
 #include "QtGui/QPainter"
 
@@ -1499,10 +1500,13 @@ CLUT::makeColorMapImage(QImage& image, bool showTicks)
     }
 
     if (showTicks) {
+        auto systemPalette = QGuiApplication::palette();
+        auto tickColor = systemPalette.brush(QPalette::Normal, QPalette::WindowText).color().darker();
+
         // Draw three tiny tick marks, at 25%, 50% and 75% span positions.
         //
         const int tickSpacing = width / 4;
-        painter.setPen(Qt::black);
+        painter.setPen(tickColor);
         for (int index = 1; index < 4; ++index) {
             const int x = index * tickSpacing;
             painter.drawLine(x, height - 3, x, height);

@@ -63,6 +63,11 @@ MainWindow::MainWindow() : MainWindowBase(), Ui::MainWindow(), display_(0)
     setWindowTitle("B-Scope");
 #endif
 
+    auto palette = live_->palette();
+    palette.setColor(QPalette::Window, Qt::black);
+    live_->setPalette(palette);
+    live_->setAutoFillBackground(true);
+
     // Create the live widget. This has a PPIWidget and two ScaleWidgets.
     //
     QGridLayout* layout = new QGridLayout(live_);

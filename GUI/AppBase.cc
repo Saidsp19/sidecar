@@ -300,7 +300,7 @@ AppBase::loggingLoadConfigurationFile()
 
 void
 AppBase::loadStyleSheet()
-{
+{    
     QString path = QFileDialog::getOpenFileName(0, "Choose style sheet file", lastStyleSheetFile_, "CSS (*.css)");
     if (!path.isEmpty()) {
         lastStyleSheetFile_ = path;

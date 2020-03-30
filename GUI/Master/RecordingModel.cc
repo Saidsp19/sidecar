@@ -1,4 +1,5 @@
 #include "GUI/LogUtils.h"
+#include "GUI/Utils.h"
 
 #include "RecordingModel.h"
 #include "TreeViewItem.h"
@@ -88,7 +89,8 @@ RecordingModel::data(const QModelIndex& index, int role) const
         }
         break;
 
-    case Qt::ForegroundRole: value = obj->isDone() ? Qt::black : TreeViewItem::GetRecordingColor(); break;
+    case Qt::ForegroundRole: value = obj->isDone() ? NormalTextColor(QPalette::WindowText) :
+        TreeViewItem::GetRecordingColor(); break;
 
     case Qt::DecorationRole:
         switch (index.column()) {

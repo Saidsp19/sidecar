@@ -4,8 +4,10 @@
 #include "QtCore/QFile"
 #include "QtCore/QFileInfo"
 #include "QtGui/QFont"
+#include "QtGui/QGuiApplication"
 #include "QtGui/QIcon"
 #include "QtGui/QPainter"
+#include "QtGui/QPalette"
 #include "QtGui/QPixmap"
 #include "QtWidgets/QAbstractButton"
 #include "QtWidgets/QAction"
@@ -336,4 +338,11 @@ SideCar::GUI::UnProjectPoint(double winx, double winy, double winz, const double
     *objz = out[2];
 
     return true;
+}
+
+QColor
+SideCar::GUI::NormalTextColor(QPalette::ColorRole role)
+{
+    auto systemPalette = QGuiApplication::palette();
+    return systemPalette.brush(QPalette::Normal, role).color();
 }

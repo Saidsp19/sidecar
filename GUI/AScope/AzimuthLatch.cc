@@ -1,3 +1,5 @@
+#include "QtGUI/QGuiApplication"
+
 #include "GUI/Utils.h"
 #include "Utils/Utils.h"
 
@@ -20,8 +22,9 @@ AzimuthLatch::AzimuthLatch(QWidget* parent) : QWidget(parent), Ui_AzimuthLatch()
 void
 AzimuthLatch::updateCaughtIndicator(bool caught)
 {
-    QPalette palette(enabled_->palette());
-    QColor color = caught ? Qt::red : Qt::black;
+    auto palette = QGuiApplication::palette();
+    QColor color = caught ? QColor(Qt::red).lighter() : palette.windowText().color();
+
     palette.setColor(QPalette::Active, QPalette::Text, color);
     palette.setColor(QPalette::Active, QPalette::ButtonText, color);
     palette.setColor(QPalette::Active, QPalette::WindowText, color);

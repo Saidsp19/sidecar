@@ -32,7 +32,7 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QLabel" name="now_5" >
+    <widget class="QLabel" name="masters_" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>0</horstretch>
@@ -96,7 +96,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="now_6" >
+    <widget class="QLabel" name="configs_" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>0</horstretch>
@@ -160,7 +160,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="now_1" >
+    <widget class="QLabel" name="runners_" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>0</horstretch>
@@ -218,7 +218,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="now_7" >
+    <widget class="QLabel" name="streams_" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>1</horstretch>

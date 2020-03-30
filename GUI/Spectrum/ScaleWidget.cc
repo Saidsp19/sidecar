@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "QtGui/QPainter"
+#include "QtGui/QGuiApplication"
 
 #include "GUI/LogUtils.h"
 #include "Utils/Utils.h"
@@ -206,8 +207,9 @@ ScaleWidget::paintEvent(QPaintEvent* event)
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
 
+    auto palette = QGuiApplication::palette();
     painter.setFont(font());
-    painter.setPen(Qt::black);
+    painter.setBrush(palette.windowText());
 
     if (orientation_ == Qt::Vertical) painter.setWorldMatrix(transform_);
 

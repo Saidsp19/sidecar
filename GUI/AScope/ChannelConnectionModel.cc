@@ -1,7 +1,10 @@
 #include "QtCore/QSettings"
+#include "QtGUI/QGuiApplication"
 
 #include "GUI/LogUtils.h"
 #include "GUI/ServiceEntry.h"
+#include "GUI/Utils.h"
+
 #include "IO/ZeroconfRegistry.h"
 #include "Messages/Video.h"
 #include "Utils/Utils.h"
@@ -224,6 +227,8 @@ ChannelConnectionModel::rowCount(const QModelIndex& parent) const
 QVariant
 ChannelConnectionModel::data(const QModelIndex& pos, int role) const
 {
+    auto palette = QGuiApplication::palette();
+
     static Logger::ProcLog log("data", Log());
     if (!visualizer_ || !pos.isValid() || pos.row() >= rowCount()) return QVariant();
 
@@ -235,7 +240,7 @@ ChannelConnectionModel::data(const QModelIndex& pos, int role) const
         if (pos.column() > kColor) return int(Qt::AlignRight | Qt::AlignVCenter);
         return value;
     } else if (role == Qt::ForegroundRole) {
-        return QVariant(QColor(channel.isConnected() ? Qt::black : Qt::red));
+        return QVariant(channel.isConnected() ? palette.windowText().color() : WarningRedColor());
     }
 
     switch (pos.column()) {
