@@ -85,10 +85,6 @@ The software also needs an implementation of the
 [Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
 [OpenVSIP](https://github.com/openvsip/openvsip) that compiles on macOS. To install:
 
-> NOTE: the `ppidisplay` program will not run if the window system is Wayland (the `ascope` application works fine).
-> You should be able to chose to use an X11 windowing environment from the login screen. I have no time to work on
-> changes to make the Open GL applications work properly when run in Wayland.
-
 ```
 % git clone https://github.com/bradhowes/openvsip.git
 % cd openvsip
@@ -126,6 +122,10 @@ Hopefully `CMake` will find everything and run without errors. Next:
 This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
 machine. Note that currently the `spectrum` application does not build on Fedora 27 due to OpenGL configuration
 issues.
+
+> NOTE: the `ppidisplay` program will not run if the window system is Wayland (the `ascope` application works fine).
+> You should be able to chose to use an X11 windowing environment from the login screen. I have no time to work on
+> changes to make the Open GL applications work properly when run in Wayland.
 
 ## MacOS Installation Notes
 
