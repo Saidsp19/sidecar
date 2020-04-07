@@ -57,27 +57,25 @@ Originally, I developed the software on both macOS and Debian. For kicks, I trie
 the code and apps built on a Fedora 27 installation. This was a bit more involved than the macOS install
 described below, but it does work. The following packages are needed on the system:
 
-```
-ace (see https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/ for RPMs)
-autoconf
-avahi-compat-libdns_sd (0.7-11)
-avahi-compat-libdns_sd-devel (0.7-11)
-boost (1.64.0-5)
-boost-devel (1.64.0-5)
-cmake (3.11.0-1)
-fftw (3.3.5-7)
-fftw-devel (3.3.5-7)
-freeglut-devel (3.0.0-6)
-gcc (7.3.1-5)
-gcc-c++ (7.3.1-5)
-lapack-devel (3.8.0-7)
-make
-mesa-demos (8.3.0-9)
-qt5 (5.9.4-2)
-qt5-qtsvg (5.9.4-1)
-qt5-qtsvg-devel (5.9.4-1)
-qt5-qttools-devel (5.9.4-1)
-```
+* ace (6.5.8) (see [https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/](https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/) for RPMs)
+* autoconf
+* avahi-compat-libdns_sd (0.7-11)
+* avahi-compat-libdns_sd-devel (0.7-11)
+* boost (1.64.0-5)
+* boost-devel (1.64.0-5)
+* cmake (3.11.0-1)
+* fftw (3.3.5-7)
+* fftw-devel (3.3.5-7)
+* freeglut-devel (3.0.0-6)
+* gcc (7.3.1-5)
+* gcc-c++ (7.3.1-5)
+* lapack-devel (3.8.0-7)
+* make
+* mesa-demos (8.3.0-9)
+* qt5 (5.9.4-2)
+* qt5-qtsvg (5.9.4-1)
+* qt5-qtsvg-devel (5.9.4-1)
+* qt5-qttools-devel (5.9.4-1)
 
 Other versions would probably work as well, but these are what I used.
 
