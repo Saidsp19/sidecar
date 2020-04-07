@@ -1,4 +1,4 @@
-#include "QtGUI/QGuiApplication"
+#include "QtGui/QGuiApplication"
 
 #include "GUI/Utils.h"
 #include "Utils/Utils.h"

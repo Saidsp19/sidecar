@@ -1,5 +1,5 @@
 #include "QtCore/QSettings"
-#include "QtGUI/QGuiApplication"
+#include "QtGui/QGuiApplication"
 
 #include "GUI/LogUtils.h"
 #include "GUI/ServiceEntry.h"

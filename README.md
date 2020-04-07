@@ -58,6 +58,8 @@ the code and apps built on a Fedora 27 installation. This was a bit more involve
 described below, but it does work. The following packages are needed on the system:
 
 ```
+ace (see https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/ for RPMs)
+autoconf
 avahi-compat-libdns_sd (0.7-11)
 avahi-compat-libdns_sd-devel (0.7-11)
 boost (1.64.0-5)
@@ -69,6 +71,7 @@ freeglut-devel (3.0.0-6)
 gcc (7.3.1-5)
 gcc-c++ (7.3.1-5)
 lapack-devel (3.8.0-7)
+make
 mesa-demos (8.3.0-9)
 qt5 (5.9.4-2)
 qt5-qtsvg (5.9.4-1)
@@ -81,6 +84,10 @@ Other versions would probably work as well, but these are what I used.
 The software also needs an implementation of the
 [Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
 [OpenVSIP](https://github.com/openvsip/openvsip) that compiles on macOS. To install:
+
+> NOTE: the `ppidisplay` program will not run if the window system is Wayland (the `ascope` application works fine).
+> You should be able to chose to use an X11 windowing environment from the login screen. I have no time to work on
+> changes to make the Open GL applications work properly when run in Wayland.
 
 ```
 % git clone https://github.com/bradhowes/openvsip.git
