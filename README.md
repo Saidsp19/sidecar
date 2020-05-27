@@ -39,8 +39,15 @@ code relies on the following external libraries:
 * [Zeroconf](http://www.zeroconf.org) - on Linux, requires Avahi's mDNS API emulation support (legacy)
 * [OpenVSIP](https://github.com/openvsip/openvsip) - vector signal and image processing library
 
-[CMake](https://cmake.org) scripts control the building process, and require at least v3.6. The usual way to
-build is to create a build directory, move into it and then execute `cmake ..` to generate Makefiles, like so:
+[CMake](https://cmake.org) scripts control the building process, and require at least v3.6. Hopefully it will
+find everything it needs and run without errors. If not, all configury is done in
+`CMakeStuff/Configuration.cmake`. Locate the step that failed and try to figure out why it failed. Usually a
+path will be wrong or a package is missing. Check out the [CMake
+documentation](https://cmake.org/cmake/help/v3.17/command/find_package.html?highlight=find_package) for the
+`find_package` command for additional details and hints on how to make it work.
+
+The usual way to build is to create a build directory, move into it and then execute `cmake ..` to generate
+Makefiles, like so:
 
 ```
 % cd ~/src/sidecar
@@ -50,6 +57,11 @@ build is to create a build directory, move into it and then execute `cmake ..` t
 ```
 
 If successful, one should then just type `make` to build the executables.
+
+> **NOTE:** the SideCar system consists of a collection of shared libraries, programs, and algorithms (packaged
+    as dynamically loadable modules). As each one is built, unit and integration tests are automatically run as
+    part of the built. Hopefully these tests will all succeed, but if not they should help identify what is
+    causing the issue.
 
 ## Linux Fedora 27 Installation Notes
 
@@ -127,7 +139,8 @@ issues.
 
 ## MacOS Installation Notes
 
-Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
+Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running
+Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
 install the following packages (I've noted the versions that I currently have)
 
 ```
@@ -179,6 +192,10 @@ Hopefully `CMake` will find everything and run without errors. Next:
 
 This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
 machine.
+
+> **NOTE:** there may be some rendering issues in the Qt applications if your system is running in the *dark
+    mode* setting on macOS 10.15 (Catalina). I have tried to fix some, but much more time should be spent on
+    fixing the various Qt bits that no longer work right or well.
 
 ## Environment Configuration
 
