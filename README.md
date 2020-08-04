@@ -65,11 +65,12 @@ If successful, one should then just type `make` to build the executables.
 
 ## Linux Fedora 27 Installation Notes
 
-Originally, I developed the software on both macOS and Debian. For kicks, I tried and succeeded getting most of
+Originally, I developed the software on both macOS and openSUSE. For kicks, I tried and succeeded getting most of
 the code and apps built on a Fedora 27 installation. This was a bit more involved than the macOS install
 described below, but it does work. The following packages are needed on the system:
 
 * ace (6.5.8) (see [https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/](https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/) for RPMs)
+* ace-devel
 * autoconf
 * avahi-compat-libdns_sd (0.7-11)
 * avahi-compat-libdns_sd-devel (0.7-11)
