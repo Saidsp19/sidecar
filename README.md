@@ -63,6 +63,9 @@ If successful, one should then just type `make` to build the executables.
     part of the built. Hopefully these tests will all succeed, but if not they should help identify what is
     causing the issue.
 
+> **NOTE:** if the build fails because of a `ZeroconfTests` failure, you probably need to enable multicast DNS on
+    your system and perhaps modify your firewall configuration for multcast traffic (or just disable the firewall).
+    
 ## Linux Fedora 27 Installation Notes
 
 Originally, I developed the software on both macOS and openSUSE. For kicks, I tried and succeeded getting most of
