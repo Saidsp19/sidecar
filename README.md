@@ -141,6 +141,15 @@ issues.
 > You should be able to chose to use an X11 windowing environment from the login screen. I have no time to work on
 > changes to make the Open GL applications work properly when run in Wayland.
 
+## CentOS 8 Installation Notes
+
+Due to an interest expressed in using the code on a CentOS 8 system, I managed to install and build the system after some
+effort and a lot of Googling. The dependencies are the same as above (more or less) but I had to locate the ACE RPMs that were 
+not available on EPEL or PowerTools repositories. I also needed to disable the firewall to see multicast DNS traffic (configuring
+would be a better option, but this was on a virtual machine with no external network connectivity). Finally, I had to install 
+Python (3.8) and used `sudo alternatives --config python` to make a `python` command available. After all of that, the build and unit tests
+started to work.
+
 ## MacOS Installation Notes
 
 Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running
