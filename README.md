@@ -39,8 +39,15 @@ code relies on the following external libraries:
 * [Zeroconf](http://www.zeroconf.org) - on Linux, requires Avahi's mDNS API emulation support (legacy)
 * [OpenVSIP](https://github.com/openvsip/openvsip) - vector signal and image processing library
 
-[CMake](https://cmake.org) scripts control the building process, and require at least v3.6. The usual way to
-build is to create a build directory, move into it and then execute `cmake ..` to generate Makefiles, like so:
+[CMake](https://cmake.org) scripts control the building process, and require at least v3.6. Hopefully it will
+find everything it needs and run without errors. If not, all configury is done in
+`CMakeStuff/Configuration.cmake`. Locate the step that failed and try to figure out why it failed. Usually a
+path will be wrong or a package is missing. Check out the [CMake
+documentation](https://cmake.org/cmake/help/v3.17/command/find_package.html?highlight=find_package) for the
+`find_package` command for additional details and hints on how to make it work.
+
+The usual way to build is to create a build directory, move into it and then execute `cmake ..` to generate
+Makefiles, like so:
 
 ```
 % cd ~/src/sidecar
@@ -51,30 +58,40 @@ build is to create a build directory, move into it and then execute `cmake ..` t
 
 If successful, one should then just type `make` to build the executables.
 
+> **NOTE:** the SideCar system consists of a collection of shared libraries, programs, and algorithms (packaged
+    as dynamically loadable modules). As each one is built, unit and integration tests are automatically run as
+    part of the built. Hopefully these tests will all succeed, but if not they should help identify what is
+    causing the issue.
+
+> **NOTE:** if the build fails because of a `ZeroconfTests` failure, you probably need to enable multicast DNS on
+    your system and perhaps modify your firewall configuration for multcast traffic (or just disable the firewall).
+    
 ## Linux Fedora 27 Installation Notes
 
-Originally, I developed the software on both macOS and Debian. For kicks, I tried and succeeded getting most of
+Originally, I developed the software on both macOS and openSUSE. For kicks, I tried and succeeded getting most of
 the code and apps built on a Fedora 27 installation. This was a bit more involved than the macOS install
 described below, but it does work. The following packages are needed on the system:
 
-```
-avahi-compat-libdns_sd (0.7-11)
-avahi-compat-libdns_sd-devel (0.7-11)
-boost (1.64.0-5)
-boost-devel (1.64.0-5)
-cmake (3.11.0-1)
-fftw (3.3.5-7)
-fftw-devel (3.3.5-7)
-freeglut-devel (3.0.0-6)
-gcc (7.3.1-5)
-gcc-c++ (7.3.1-5)
-lapack-devel (3.8.0-7)
-mesa-demos (8.3.0-9)
-qt5 (5.9.4-2)
-qt5-qtsvg (5.9.4-1)
-qt5-qtsvg-devel (5.9.4-1)
-qt5-qttools-devel (5.9.4-1)
-```
+* ace (6.5.8) (see [https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/](https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/) for RPMs)
+* ace-devel
+* autoconf
+* avahi-compat-libdns_sd (0.7-11)
+* avahi-compat-libdns_sd-devel (0.7-11)
+* boost (1.64.0-5)
+* boost-devel (1.64.0-5)
+* cmake (3.11.0-1)
+* fftw (3.3.5-7)
+* fftw-devel (3.3.5-7)
+* freeglut-devel (3.0.0-6)
+* gcc (7.3.1-5)
+* gcc-c++ (7.3.1-5)
+* lapack-devel (3.8.0-7)
+* make
+* mesa-demos (8.3.0-9)
+* qt5 (5.9.4-2)
+* qt5-qtsvg (5.9.4-1)
+* qt5-qtsvg-devel (5.9.4-1)
+* qt5-qttools-devel (5.9.4-1)
 
 Other versions would probably work as well, but these are what I used.
 
@@ -120,9 +137,23 @@ This will take some time -- you can try adding `-j N` where N is something like 
 machine. Note that currently the `spectrum` application does not build on Fedora 27 due to OpenGL configuration
 issues.
 
+> NOTE: the `ppidisplay` program will not run if the window system is Wayland (the `ascope` application works fine).
+> You should be able to chose to use an X11 windowing environment from the login screen. I have no time to work on
+> changes to make the Open GL applications work properly when run in Wayland.
+
+## CentOS 8 Installation Notes
+
+Due to an interest expressed in using the code on a CentOS 8 system, I managed to install and build the system after some
+effort and a lot of Googling. The dependencies are the same as above (more or less) but I had to locate the ACE RPMs that were 
+not available on EPEL or PowerTools repositories. I also needed to disable the firewall to see multicast DNS traffic (configuring
+would be a better option, but this was on a virtual machine with no external network connectivity). Finally, I had to install 
+Python (3.8) and used `sudo alternatives --config python` to make a `python` command available. After all of that, the build and unit tests
+started to work.
+
 ## MacOS Installation Notes
 
-Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
+Here are some brief notes on getting everything to run on macOS. This works on my MacBook Pro 2017 running
+Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you don't already have it. Next,
 install the following packages (I've noted the versions that I currently have)
 
 ```
@@ -175,6 +206,10 @@ Hopefully `CMake` will find everything and run without errors. Next:
 This will take some time -- you can try adding `-j N` where N is something like the number of CPUs on your
 machine.
 
+> **NOTE:** there may be some rendering issues in the Qt applications if your system is running in the *dark
+    mode* setting on macOS 10.15 (Catalina). I have tried to fix some, but much more time should be spent on
+    fixing the various Qt bits that no longer work right or well.
+
 ## Environment Configuration
 
 Various parts of the software like to know where it was installed, and they expect to find an environment
@@ -202,8 +237,8 @@ loopback interface. The apps are hardcoded (I think) to use the address `237.1.2
 % sudo route add -net 237.1.2.100/32 -interface lo0
 ```
 
-> NOTE: this may not be necessary depending on your system. Try the examples below first, and only if you have
-> issues receiving multcast packets do the above route change.
+> NOTE: this should *not* be done if you want to share multicast data with other systems on your network. It is great
+> for development on one system so you don't disrupt the network with tons of packets.
 
 There are some binary files in the `data/pri` directory that need to be joined before they can be used:
 

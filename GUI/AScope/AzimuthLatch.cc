@@ -1,5 +1,3 @@
-// #include "QtGUI/QGuiApplication"
-
 #include "GUI/Utils.h"
 #include "Utils/Utils.h"
 
