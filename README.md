@@ -65,7 +65,7 @@ If successful, one should then just type `make` to build the executables.
 
 > **NOTE:** if the build fails because of a `ZeroconfTests` failure, you probably need to enable multicast DNS on
     your system and perhaps modify your firewall configuration for multcast traffic (or just disable the firewall).
-    
+
 ## Linux Fedora 27 Installation Notes
 
 Originally, I developed the software on both macOS and openSUSE. For kicks, I tried and succeeded getting most of
@@ -143,12 +143,28 @@ issues.
 
 ## CentOS 8 Installation Notes
 
-Due to an interest expressed in using the code on a CentOS 8 system, I managed to install and build the system after some
-effort and a lot of Googling. The dependencies are the same as above (more or less) but I had to locate the ACE RPMs that were 
-not available on EPEL or PowerTools repositories. I also needed to disable the firewall to see multicast DNS traffic (configuring
-would be a better option, but this was on a virtual machine with no external network connectivity). Finally, I had to install 
-Python (3.8) and used `sudo alternatives --config python` to make a `python` command available. After all of that, the build and unit tests
-started to work.
+Due to an interest expressed in using the code on a CentOS 8 system, I managed to install and build the system
+after some effort and a lot of Googling. The dependencies are the same as above (more or less) but I had to
+locate the ACE RPMs that were not available on EPEL or PowerTools repositories. I also needed to disable the
+firewall to see multicast DNS traffic (configuring would be a better option, but this was on a virtual machine
+with no external network connectivity). Finally, I had to install Python (3.8) and used `sudo alternatives
+--config python` to make a `python` command available. After all of that, the build and unit tests started to
+work.
+
+## Docker Container Build
+
+For the CentOS 8 build above, I now have a `Dockerfile` in the `containers` directory that can be used to
+build the source in controlled environnment. It is noticably *slower* to build this way but it does reduce
+the amount of work necessary to create a Linux environment for building.
+
+The `containers/build` script will create a new "sidecar" Docker container, provisioned with the right tools to
+do a build. When complete, the `containers/start` script can be used to start up the container and obtain a
+shell connection to it. Once connected, the shell has its own `build` script which compiles the sources from the
+host to generate binaries in the container. In the container, the sources are in `/home/sidecar/src` and the
+binaries will be in `/home/sidecar/build/bin`.
+
+> NOTE: currently, there is no OpenGL support from the container via X11, so only the `AScope` display
+> application will run properly.
 
 ## MacOS Installation Notes
 
