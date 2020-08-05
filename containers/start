@@ -1,0 +1,150 @@
+#!/bin/bash # -*- Mode: Sh -*-
+
+HERE="${PWD}"
+case "${BASH_SOURCE[0]}" in
+    [.]/*) HERE="${PWD}" ;;
+    */*) HERE="${BASH_SOURCE[0]%/*}" ;;
+esac
+
+CONTAINER="sidecar"
+DOCKER_USER="sidecar"
+
+REINIT=""
+START=""
+
+while [[ "${1}" != "${1#-}" ]]; do
+    case "${1}" in
+        -r) REINIT=1 ;;
+        -s) START="./start" ;;
+        *)
+            echo "*** unknown option - ${1}"
+            exit 1
+            ;;
+    esac
+    shift 1
+done
+
+if [[ -z "${DOCKER_USER}" ]]; then
+    echo "*** DOCKER_USER is not set"
+    exit 1
+fi
+
+function getownip
+{
+    local CMD="ifconfig en0"
+    local IP=$(${CMD} | awk '/inet.*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {split($2, IP, "/");} END {print IP[1];}')
+    echo "${IP}"
+}
+
+HOST_USER="${USER}"
+[[ -z "${HOST_USER}" ]] && HOST_USER="$(whoami)"
+
+VOLS=""
+function addVol # SRC DST
+{
+    if [[ -z "${2}" ]]; then
+        VOLS="${VOLS} --volume ${1}"
+    else
+        VOLS="${VOLS} --volume ${1}:/home/${DOCKER_USER}/${2}"
+    fi
+}
+
+ENVS=""
+function addEnv # NAME VALUE
+{
+    echo "-- ${1} ${2}"
+    ENVS="${ENVS} -e ${1}=${2}"
+}
+
+DNS=""
+function addDNS
+{
+    for SERVER in $(awk '/nameserver/ { printf "%s ", $2; }' /etc/resolv.conf); do
+        # !!! HACK: this server does not exist
+        [[ "${SERVER}" = "172.29.154.110" ]] && continue
+        DNS="${DNS} --dns ${SERVER}"
+    done
+
+    for DOMAIN in $(grep '^search' /etc/resolv.conf); do
+        [[ "${DOMAIN}" = "search" ]] && continue
+        DNS="${DNS} --dns-search ${DOMAIN}"
+    done
+}
+
+PORTS=""
+function addPorts # ID
+{
+    for P in "${@}"; do
+        PORTS="${PORTS} -p ${P}:${P}"
+    done
+}
+
+REINIT="${1}"
+DOCKER_ID=$(docker ps -aq -f name=${CONTAINER})
+
+if [[ -n "${DOCKER_ID}" && -n "${REINIT}" ]]; then
+    echo "-- remove existing docker"
+    docker stop "${DOCKER_ID}"
+    docker rm "${DOCKER_ID}"
+    DOCKER_ID=$(docker ps -aq -f name=${CONTAINER})
+fi
+
+HOST_IP="$(getownip)"
+
+addEnv HOST_USER "${HOST_USER}"
+addEnv DOCKER_USER "${DOCKER_USER}"
+addEnv HOST_IP "${HOST_IP}"
+addEnv COLUMNS $(tput cols)
+addEnv LINES $(tput lines)
+addEnv TERM "${TERM}"
+addEnv DISPLAY "${HOST_IP}:0"
+
+function connect
+{
+    docker exec ${ENVS} --detach-keys="ctrl-@" -it ${CONTAINER} gosu ${DOCKER_USER} /bin/bash -il
+}
+
+if [[ -z "${DOCKER_ID}" ]]; then
+    echo "-- docker run"
+
+    addDNS
+
+    # 5005:  JVM remote debug
+    # 6006: MONO remote debug
+    addPorts 5005 6006
+
+    # Add a mount for the SideCar source tree
+    addVol ${PWD}/.. src
+
+    # Create a volume that will hold the build artifacts
+    docker volume create --name ${CONTAINER}
+
+    # Add a mount for the build artifacts
+    addVol ${CONTAINER} build
+
+    # Allow Docker VM to see home directory on host
+    addVol "${HOME}" "host"
+
+    # Use same ssh config and keys
+    addVol "${HOME}/.ssh" ".ssh"
+
+    addVol "/tmp/.X11-unix:/tmp/.X11-unix"
+
+    echo "-- starting container '${CONTAINER}'"
+    echo "-- envs: ${ENVS}"
+    echo "-- ports: ${PORTS}"
+    echo "-- dns: ${DNS}"
+    echo "-- vols: ${VOLS}"
+
+    docker run -d --tmpfs /tmp --tmpfs /run -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+           ${ENVS} ${PORTS} ${VOLS} ${DNS} \
+           --detach-keys="ctrl-@" \
+           --name ${CONTAINER} \
+           -it ${CONTAINER} ${START}
+fi
+
+echo "-- connecting to container '${CONTAINER}'"
+echo "-- NOTE: for X connections remember to do 'xhost +'"
+connect
+
+[[ -z "${DOCKER_ID}" ]] && ./stop

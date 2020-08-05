@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CONTAINER="sidecar"
+
+docker build --build-arg DOCKER_USER=${CONTAINER} --network=host -t ${CONTAINER} .

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CONTAINER="sidecar"
+
+DOCKER_ID=$(docker ps -aq -f name=${CONTAINER})
+
+if [[ -n "${DOCKER_ID}" ]]; then
+    echo "-- stopping existing docker ${DOCKER_ID}"
+    docker stop "${DOCKER_ID}"
+    docker rm "${DOCKER_ID}"
+fi
