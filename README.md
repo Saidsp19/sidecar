@@ -37,7 +37,7 @@ code relies on the following external libraries:
 * [Boost C++ Framework](http://boost.org) - built and tested using v1.60.0
 * [Qt](http://qt.io) - built and tested using v5.10.1
 * [Zeroconf](http://www.zeroconf.org) - on Linux, requires Avahi's mDNS API emulation support (legacy)
-* [OpenVSIP](https://github.com/openvsip/openvsip) - vector signal and image processing library
+* [OpenVSIP](https://github.com/bradhowes/openvsip) - vector signal and image processing library
 
 [CMake](https://cmake.org) scripts control the building process, and require at least v3.6. Hopefully it will
 find everything it needs and run without errors. If not, all configury is done in
@@ -97,7 +97,7 @@ Other versions would probably work as well, but these are what I used.
 
 The software also needs an implementation of the
 [Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
-[OpenVSIP](https://github.com/openvsip/openvsip) that compiles on macOS. To install:
+[OpenVSIP](https://github.com/bradhowes/openvsip) that compiles on macOS. To install:
 
 ```
 % git clone https://github.com/bradhowes/openvsip.git
@@ -105,7 +105,7 @@ The software also needs an implementation of the
 % ./autogen.sh
 % mkdir objdir
 % cd objdir
-% ../configure # It *should* find the LAPACK install from above
+% ../configure --disable-exceptions # It *should* find the LAPACK install from above
 ```
 
 If all goes well with `configure`, you should be able to build:
@@ -191,7 +191,7 @@ The software also needs an implementation of the
 % ./autogen.sh
 % mkdir objdir
 % cd objdir
-% ../configure --with-lapack=apple # Only if on macOS
+% ../configure --disable-exceptions --with-lapack=apple # Only if on macOS
 ```
 
 If all goes well with `configure`, you should be able to build:
