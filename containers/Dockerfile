@@ -63,7 +63,7 @@ RUN git clone https://github.com/bradhowes/openvsip && \
     ./autogen.sh && \
     mkdir objdir && \
     cd objdir && \
-    ../configure && \
+    ../configure --disable-exceptions && \
     make && \
     make install && \
     cd / && \
