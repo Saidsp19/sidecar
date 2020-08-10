@@ -43,8 +43,8 @@ RUN yum install -y \
     qt5-qtsvg-devel
 
 # ACE library
-RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-6.5.10-81.2.x86_64.rpm
-RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-devel-6.5.10-81.2.x86_64.rpm
+RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-6.5.10-81.3.x86_64.rpm
+RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-devel-6.5.10-81.3.x86_64.rpm
 
 # -- Install gosu
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
