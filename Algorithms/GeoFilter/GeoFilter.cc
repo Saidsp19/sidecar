@@ -1,6 +1,8 @@
 #include <algorithm>  // for std::transform
 #include <functional> // for std::bind* and std::mem_fun*
 
+#include "boost/bind/bind.hpp"
+
 #include "Algorithms/Controller.h"
 #include "GUI/LogUtils.h"
 #include "IO/StateEmitter.h"
@@ -15,6 +17,7 @@
 #include "QtXml/QDomDocument"
 #include "QtXml/QDomElement"
 
+using namespace boost::placeholders;
 using namespace SideCar;
 using namespace SideCar::Algorithms;
 
@@ -167,7 +170,7 @@ GeoFilter::loadConfigFile(const std::string& path)
 
             QString tag = element.tagName();
             if (tag == "range") {
-                QStringList values = element.text().split(' ', QString::SkipEmptyParts);
+                QStringList values = element.text().split(' ', Qt::SkipEmptyParts);
                 if (values.size() != 2) {
                     LOGERROR << "invalid range values" << std::endl;
                     return false;
@@ -185,7 +188,7 @@ GeoFilter::loadConfigFile(const std::string& path)
                     return false;
                 }
             } else if (tag == "azimuth") {
-                QStringList values = element.text().split(' ', QString::SkipEmptyParts);
+                QStringList values = element.text().split(' ', Qt::SkipEmptyParts);
                 if (values.size() != 2) {
                     LOGERROR << "invalid azimuth values" << std::endl;
                     return false;
@@ -217,7 +220,7 @@ GeoFilter::loadConfigFile(const std::string& path)
                     return false;
                 }
             } else if (tag == "clamp") {
-                QStringList values = element.text().split(' ', QString::SkipEmptyParts);
+                QStringList values = element.text().split(' ', Qt::SkipEmptyParts);
                 if (values.size() != 2) {
                     LOGERROR << "invalid clamp values" << std::endl;
                     return false;

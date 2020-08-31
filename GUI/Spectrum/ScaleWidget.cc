@@ -211,7 +211,7 @@ ScaleWidget::paintEvent(QPaintEvent* event)
     painter.setFont(font());
     painter.setBrush(palette.windowText());
 
-    if (orientation_ == Qt::Vertical) painter.setWorldMatrix(transform_);
+    if (orientation_ == Qt::Vertical) painter.setWorldTransform(transform_);
 
     painter.drawLines(majorTicks_);
     painter.drawLines(minorTicks_);

@@ -44,8 +44,8 @@ RUN yum update -y && \
     alternatives --set python /usr/bin/python3
 
 # ACE library
-RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-6.5.10-81.3.x86_64.rpm
-RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-devel-6.5.10-81.3.x86_64.rpm
+RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-6.5.11-82.1.x86_64.rpm
+RUN rpm -i https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/CentOS_8/x86_64/ace-devel-6.5.11-82.1.x86_64.rpm
 
 # -- Install gosu
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
@@ -83,7 +83,7 @@ RUN groupadd ${DOCKER_USER} && \
 COPY user_data/ /tmp/user_data
 RUN chmod -R 755 /tmp/user_data && \
     cp -rp /tmp/user_data/. /home/${DOCKER_USER}/ && \
-    mkdir -p /home/${DOCKER_USER}/sidecar && \
+    mkdir -p /home/${DOCKER_USER}/bin /home/${DOCKER_USER}/sidecar && \
     chown -R ${DOCKER_USER}:${DOCKER_USER} /home/${DOCKER_USER} && \
     chmod -R a+x /usr/local/bin/entrypoint /home/${DOCKER_USER}/bin
 

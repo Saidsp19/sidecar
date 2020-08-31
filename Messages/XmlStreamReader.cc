@@ -27,5 +27,5 @@ XmlStreamReader::readNextEntityAndValidate(const QString& expected)
 QStringList
 XmlStreamReader::getSamples()
 {
-    return readElementText().split(' ', QString::SkipEmptyParts);
+    return readElementText().split(' ', Qt::SkipEmptyParts);
 }

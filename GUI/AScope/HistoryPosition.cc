@@ -270,7 +270,7 @@ HistoryPosition::channelNamesChanged(const QSet<QString>& names)
         latchChannel_ = 0;
         caught_ = false;
     }
-    names_ = names.toList();
+    names_ = names.values();
     azimuthLatch_->setConfiguration(azLatchEnabled_, azLatchAzimuth_, azLatchRelatch_, caught_, names_,
                                     azLatchChannel_);
 }

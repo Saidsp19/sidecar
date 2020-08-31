@@ -2,12 +2,13 @@
 #include <functional>
 #include <iterator>
 
-#include "boost/bind.hpp"
+#include "boost/bind/bind.hpp"
 
 #include "TimeStampRangeSet.h"
 #include "Utils/Utils.h"
 
 using namespace SideCar::Time;
+using namespace boost::placeholders;
 
 void
 TimeStampRangeSet::fill(const std::vector<std::string>& specs)

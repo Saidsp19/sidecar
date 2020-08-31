@@ -53,7 +53,7 @@ ControlsWidget::addControl(const QString& tag, QSliderSetting* setting)
     setting->connectWidget(control);
 
     updateOrientation(orientation, control);
-    layout_->insertWidget(index++, control, 1, 0);
+    layout_->insertWidget(index++, control, 1);
 
     layout_->setAlignment(control, orientation == Qt::Vertical ? Qt::AlignHCenter : Qt::AlignVCenter);
 }

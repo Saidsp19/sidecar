@@ -236,7 +236,7 @@ MainWindowBase::makeToolBar(const QString& title, Qt::ToolBarArea area)
 
     // Give the new toolbar a name based on its title -- just remove any spaces in the title.
     //
-    toolBar->setObjectName(title.split(' ', QString::SkipEmptyParts).join(""));
+    toolBar->setObjectName(title.split(' ', Qt::SkipEmptyParts).join(""));
 
     // Set the initial location of the toolbar. May be changed by the user.
     //

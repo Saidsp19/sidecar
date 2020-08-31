@@ -253,7 +253,7 @@ Potentiometer::setShowValue(bool value)
 void
 Potentiometer::wheelEvent(QWheelEvent* event)
 {
-    double numDegrees = event->delta() / 8;
+    double numDegrees = event->angleDelta().y() / 8;
     double numSteps = numDegrees / 15;
     setValue(value_ + numSteps * step_);
 }

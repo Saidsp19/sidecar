@@ -1,4 +1,4 @@
-#include "boost/bind.hpp"
+#include "boost/bind/bind.hpp"
 #include "boost/enable_shared_from_this.hpp"
 
 #include "Logger/Log.h"
@@ -6,6 +6,7 @@
 #include "ASIOMonitor.h"
 #include "Transaction.h"
 
+using namespace boost::placeholders;
 using namespace SideCar::Zeroconf;
 
 /** Internal implementation class for ASIOMonitor

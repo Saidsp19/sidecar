@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtGui/QKeyEvent"
 
 #include "GUI/LogUtils.h"
@@ -130,7 +132,7 @@ ChannelConnectionWindow::on_remove__clicked()
     if (serviceEntry) {
         QStringList unconnected(getUnconnected());
         unconnected.append(serviceEntry->getName());
-        qSort(unconnected);
+        std::sort(unconnected.begin(), unconnected.end());
         setUnconnected(unconnected);
     }
 

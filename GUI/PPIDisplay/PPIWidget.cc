@@ -1295,13 +1295,13 @@ void
 PPIWidget::wheelEvent(QWheelEvent* event)
 {
     static Logger::ProcLog log("wheelEvent", Log());
-    LOGINFO << event->delta() << std::endl;
+    LOGINFO << event->angleDelta().y() << std::endl;
     event->accept();
 
-    // The delta() value is given in 1/8ths of a degree. Apparently the standard for the scroll wheel is to
+    // The angleDelta() value is given in 1/8ths of a degree. Apparently the standard for the scroll wheel is to
     // report in 15 degree steps. Thus the division by 120.
     //
-    int steps = event->delta() / 120;
+    int steps = event->angleDelta().y() / 120;
     changeZoom(steps);
     Super::wheelEvent(event);
 }

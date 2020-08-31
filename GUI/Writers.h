@@ -3,10 +3,10 @@
 
 #include "boost/shared_ptr.hpp"
 
+#include "QtCore/QElapsedTimer"
 #include "QtCore/QList"
 #include "QtCore/QObject"
 #include "QtCore/QString"
-#include "QtCore/QTime"
 #include "QtCore/QTimer"
 #include "QtNetwork/QUdpSocket"
 
@@ -366,7 +366,7 @@ private:
 
     IO::UDPSocketWriter writer_;
     QUdpSocket* heartBeatReader_;
-    using HeartBeatMap = std::map<QString, QTime>;
+    using HeartBeatMap = std::map<QString, QElapsedTimer>;
     HeartBeatMap heartBeats_;
     size_t active_;
     QTimer* timer_;

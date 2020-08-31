@@ -5,8 +5,8 @@
 #include "QtCore/QPointF"
 #include "QtCore/QVector"
 
-#include "QtGui/QMatrix"
 #include "QtGui/QPen"
+#include "QtGui/QTransform"
 #include "QtWidgets/QWidget"
 
 namespace Logger {
@@ -117,7 +117,7 @@ private:
     QVector<QPointF> labelStarts_;
     QVector<QString> labelTexts_;
 
-    QMatrix transform_;
+    QTransform transform_;
 
     int cursorPosition_;
     bool autoDivide_;

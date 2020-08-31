@@ -1,6 +1,8 @@
 #include <sstream>
 #include <typeinfo>
 
+#include "boost/bind/bind.hpp"
+
 #include "ace/Guard_T.h"
 #include "ace/Message_Queue_T.h"
 #include "ace/Reactor.h"
@@ -15,6 +17,7 @@
 #include "Task.h"
 #include "TaskStatus.h"
 
+using namespace boost::placeholders;
 using namespace SideCar;
 using namespace SideCar::IO;
 using namespace SideCar::Messages;

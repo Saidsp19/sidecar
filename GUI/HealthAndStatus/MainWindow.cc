@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QSettings"
 #include "QtCore/QTimer"
 #include "QtWidgets/QAction"
@@ -120,7 +122,7 @@ MainWindow::on_actionRemove__triggered()
     int unconnectedIndex = unconnected_->currentIndex();
     for (int index = 0; index < unconnected_->count(); ++index) names.append(unconnected_->itemText(index));
 
-    qSort(names);
+    std::sort(names.begin(), names.end());
     setUnconnected(names);
     if (unconnectedIndex == -1) unconnectedIndex = 0;
     unconnected_->setCurrentIndex(unconnectedIndex);
@@ -269,7 +271,7 @@ MainWindow::getSelectedPlotWidgets() const
 {
     Logger::ProcLog log("getSelectedPlotWidgets", Log());
     QModelIndexList indices = plots_->selectionModel()->selectedIndexes();
-    if (!indices.empty()) qSort(indices.begin(), indices.end());
+    if (!indices.empty()) std::sort(indices.begin(), indices.end());
     return indices;
 }
 

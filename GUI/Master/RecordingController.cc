@@ -292,15 +292,20 @@ RecordingController::start(const QStringList& configNames)
 
             // Allow everyone to read/write to the new directory.
             //
-            if (QProcess::execute(QString("chmod a+rw %1").arg(recordingPath)) != 0) return kFailedRecordingSetup;
+            if (QProcess::execute(QString("chmod"),
+                                  QStringList() << "a+rw" << recordingPath) != 0)
+                return kFailedRecordingSetup;
 
             // Remove any old 'last' soft link.
             //
-            if (QProcess::execute(QString("rm -f %1/last").arg(parentDir)) != 0) return kFailedRecordingSetup;
+            if (QProcess::execute(QString("rm"),
+                                  QStringList() << "-f" << QString("%1/last").arg(parentDir)) != 0)
+                return kFailedRecordingSetup;
 
             // Create 'last' soft link to the new recording directory
             //
-            if (QProcess::execute(QString("ln -s %1 %2/last").arg(recordingPath).arg(parentDir)) != 0)
+            if (QProcess::execute(QString("ln"),
+                                  QStringList() << "-s" << recordingPath << QString("%1/last").arg(parentDir)) != 0)
                 return kFailedRecordingSetup;
 
             if (!activeRecording_) {

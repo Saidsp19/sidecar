@@ -2,7 +2,7 @@
 #include <cmath>
 #include <functional> // for std::bind* and std::mem_fun*
 
-#include "boost/bind.hpp"
+#include "boost/bind/bind.hpp"
 #include <iostream>
 #include <limits>
 
@@ -13,6 +13,7 @@
 #include "VMEHeader.h"
 #include "XmlStreamReader.h"
 
+using namespace boost::placeholders;
 using namespace SideCar;
 using namespace SideCar::Messages;
 

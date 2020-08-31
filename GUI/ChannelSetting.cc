@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QList"
 #include "QtCore/QString"
 #include "QtWidgets/QApplication"
@@ -132,7 +134,7 @@ ChannelSetting::setAvailableServices(const ServiceEntryHash& services)
     // Get the found keys and sort then alphabetically.
     //
     QList<QString> keys = services.keys();
-    qSort(keys.begin(), keys.end());
+    std::sort(keys.begin(), keys.end());
 
     // Place an empty name at the beginning of the list to represent no channel selection or OFF.
     //

@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QMap"
 #include "QtCore/QStringList"
 #include "QtGui/QFont"
@@ -123,7 +125,7 @@ LogViewWindowManager::addLogInfo(const QString& runnerName, const QString& confi
     //
     RunnerLog::Make(runnerName, configName, serviceName);
     pos.value().append(logInfo);
-    qSort(pos.value().begin(), pos.value().end());
+    std::sort(pos.value().begin(), pos.value().end());
 
     // Now rebuild our contents
     //

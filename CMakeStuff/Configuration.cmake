@@ -82,6 +82,7 @@ endif()
 find_package(Qt5 COMPONENTS Core Concurrent Gui OpenGL Network PrintSupport Svg Widgets Xml REQUIRED)
 
 message(STATUS "ACE_INCLUDE_DIR: ${ACE_INCLUDE_DIR}")
+message(STATUS "ACE_LIBRARY: ${ACE_LIBRARY}")
 message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 message(STATUS "FFTW3_INCLUDE_DIRS: ${FFTW3_INCLUDE_DIRS}")

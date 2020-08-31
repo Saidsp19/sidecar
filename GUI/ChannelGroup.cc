@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QList"
 #include "QtCore/QSettings"
 #include "QtWidgets/QComboBox"
@@ -76,7 +78,7 @@ ChannelGroup::setAvailableServices(const ServiceEntryHash& services)
     //
     int active = 0;
     QList<QString> keys = services.keys();
-    qSort(keys.begin(), keys.end());
+    std::sort(keys.begin(), keys.end());
 
     // Add to the widget, remembering which one matches the one we would like to be current.
     //

@@ -92,7 +92,7 @@ MulticastMessageReader::open(const ServiceEntry* service)
     QHostInfo hostInfo = QHostInfo::fromName(service->getNativeHost());
     if (hostInfo.error() != QHostInfo::NoError) {
         LOGERROR << "failed QHostInfo::fromName() with " << service->getNativeHost() << std::endl;
-        heartBeatHost_ = "127.0.0.1";
+        heartBeatHost_ = QHostAddress("127.0.0.1");
     } else {
         foreach (QHostAddress address, hostInfo.addresses()) {
             if (address.protocol() == QAbstractSocket::IPv4Protocol) {

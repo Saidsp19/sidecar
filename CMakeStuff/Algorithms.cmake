@@ -33,12 +33,12 @@ macro(ADD_ALGORITHM NAME)
     # Make sure that the algorithm can see the ${NAME}_defaults.h file in the binary directory.
     #
     include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR})
-    
+
     # Build the algorithm DLL. Link with the Algorithm library.
     #
     add_library(${NAME} SHARED ${FILES})
     set_target_properties(${NAME} PROPERTIES VERSION ${SIDECAR_VERSION} SOVERSION ${SIDECAR_VERSION})
     target_link_libraries(${NAME} Algorithm ${QT_LIBRARIES} ${MATHLIBS})
     install(TARGETS ${NAME} LIBRARY DESTINATION lib)
-    
+
 endmacro(ADD_ALGORITHM)

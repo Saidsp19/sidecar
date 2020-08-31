@@ -358,7 +358,7 @@ ConfigurationController::cleanup()
         QString text("<p>WARNING: All SideCar processes on the following "
                      "hosts are about to be forcibly terminated:</p>"
                      "<ul><li>");
-        text.append(QStringList(hostSet.toList()).join("</li><li>"));
+        text.append(QStringList(hostSet.values()).join("</li><li>"));
         text.append("</li></ul><p>Continue with this operation?</p>");
         int rc = QMessageBox::critical(qApp->activeWindow(), "Purge Remote Processes", text,
                                        QMessageBox::Yes | QMessageBox::No, QMessageBox::No);

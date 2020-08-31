@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QSettings"
 
 #include "GUI/LogUtils.h"
@@ -104,8 +106,8 @@ ChannelConnectionModel::setVisualizer(Visualizer* visualizer)
     if (newRows) unconnected -= visualizer_->getConnectionNames();
 
     LOGDEBUG << "unconnected: " << unconnected << std::endl;
-    QStringList tmp = unconnected.toList();
-    qSort(tmp);
+    QStringList tmp = unconnected.values();
+    std::sort(tmp.begin(), tmp.end());
     LOGDEBUG << "tmp: " << tmp << std::endl;
 
     getParent()->setUnconnected(tmp);

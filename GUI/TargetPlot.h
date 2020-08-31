@@ -1,9 +1,9 @@
 #ifndef SIDECAR_GUI_TARGETPLOT_H // -*- C++ -*-
 #define SIDECAR_GUI_TARGETPLOT_H
 
+#include "QtCore/QElapsedTimer"
 #include "QtCore/QList"
 #include "QtCore/QString"
-#include "QtCore/QTime"
 
 namespace SideCar {
 namespace Messages {
@@ -72,7 +72,7 @@ private:
     double x_;
     double y_;
     QString tag_;
-    QTime age_;
+    QElapsedTimer age_;
 };
 
 using TargetPlotList = QList<TargetPlot>;

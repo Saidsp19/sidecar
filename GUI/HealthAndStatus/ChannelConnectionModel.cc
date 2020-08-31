@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "QtCore/QStringList"
 
 #include "GUI/LogUtils.h"
@@ -54,7 +56,7 @@ ChannelConnectionModel::setAvailableServices(const ServiceEntryHash& services)
         }
     }
 
-    qSort(unconnected);
+    std::sort(unconnected.begin(), unconnected.end());
     emit availableServicesChanged(unconnected);
 }
 
@@ -103,7 +105,7 @@ ChannelConnectionModel::swap(int row1, int row2)
     QModelIndexList from;
     from.append(index(row1));
     from.append(index(row2));
-    connections_.swap(row1, row2);
+    connections_.swapItemsAt(row1, row2);
     QModelIndexList to;
     to.append(index(row2));
     to.append(index(row1));

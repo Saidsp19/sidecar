@@ -57,7 +57,7 @@ BackgroundImageSettings::update(double opacity)
 
     if (!image_.isNull()) {
         int scaled = int(::rint(opacity * 255));
-        QImage alphaChannel = image_.alphaChannel();
+        QImage alphaChannel = image_.convertToFormat(QImage::Format_Alpha8);
         alphaChannel.fill(qRgb(scaled, scaled, scaled));
         filtered_ = image_;
         filtered_.setAlphaChannel(alphaChannel);

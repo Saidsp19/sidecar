@@ -1,8 +1,10 @@
+#include "boost/bind/bind.hpp"
 #include "Logger/Log.h"
 
 #include "ServerSocketWriterTask.h"
 #include "TCPDataPublisher.h"
 
+using namespace boost::placeholders;
 using namespace SideCar::IO;
 using namespace SideCar::Zeroconf;
 

@@ -1,6 +1,6 @@
 #include <cmath> // for ::sqrt()
 
-#include "boost/bind.hpp"
+#include "boost/bind/bind.hpp"
 
 #include "Logger/Log.h"
 
@@ -8,6 +8,7 @@
 #include "RunningMedian.h"
 
 using namespace Utils;
+using namespace boost::placeholders;
 
 Logger::Log&
 RunningMedian::Log()
