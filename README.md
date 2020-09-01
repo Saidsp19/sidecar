@@ -72,28 +72,27 @@ Originally, I developed the software on both macOS and openSUSE. For kicks, I tr
 the code and apps built on a Fedora 27 installation. This was a bit more involved than the macOS install
 described below, but it does work. The following packages are needed on the system:
 
-* ace (6.5.8) (see [https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/](https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/) for RPMs)
+* ace (6.5.11) (see [https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/](https://download.opensuse.org/repositories/devel:/libraries:/ACE:/micro/) for RPMs)
 * ace-devel
 * autoconf
 * avahi-compat-libdns_sd (0.7-11)
 * avahi-compat-libdns_sd-devel (0.7-11)
-* boost (1.64.0-5)
-* boost-devel (1.64.0-5)
-* cmake (3.11.0-1)
-* fftw (3.3.5-7)
-* fftw-devel (3.3.5-7)
+* boost (1.73)
+* boost-devel
+* cmake (3.18.2)
+* fftw (3.3.8)
+* fftw-devel
 * freeglut-devel (3.0.0-6)
-* gcc (7.3.1-5)
-* gcc-c++ (7.3.1-5)
+* gcc / clang
 * lapack-devel (3.8.0-7)
 * make
 * mesa-demos (8.3.0-9)
-* qt5 (5.9.4-2)
-* qt5-qtsvg (5.9.4-1)
-* qt5-qtsvg-devel (5.9.4-1)
-* qt5-qttools-devel (5.9.4-1)
+* qt5 (5.15.0)
+* qt5-qtsvg
+* qt5-qtsvg-devel
+* qt5-qttools-devel
 
-Other versions would probably work as well, but these are what I used.
+Other versions would probably work as well, but these are what I have most recently used and tested.
 
 The software also needs an implementation of the
 [Vector Signal and Image Processing Library](http://openvsip.org) spec. I have a slightly modified fork of
@@ -173,12 +172,12 @@ Catalina (10.15.4). Install the [Brew](https://brew.sh) package manager if you d
 install the following packages (I've noted the versions that I currently have)
 
 ```
-% brew install cmake # 3.17.0
-% brew install ace # 6.5.8
-% brew install boost # 1.72.0
+% brew install cmake # 3.18.2
+% brew install ace # 6.5.11
+% brew install boost # 1.73
 % brew install fftw # 3.3.8
 % brew install open-mpi # 4.0.3
-% brew install qt # 5.14.1
+% brew install qt # 5.15.0
 ```
 
 The software also needs an implementation of the
