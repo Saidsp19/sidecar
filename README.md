@@ -33,7 +33,7 @@ https://bradhowes.github.io/sidecar/index.html
 Building has worked on various Linux and MacOS X systems. Nearly all of the code is C++ with some bits in C. The
 code relies on the following external libraries:
 
-* [ACE](http://www.cs.wustl.edu/~schmidt/ACE.html) - should work with at least version 5.5
+* [ACE](https://www.dre.vanderbilt.edu/~schmidt/ACE.html) - should work with at least version 5.5
 * [Boost C++ Framework](http://boost.org) - built and tested using v1.60.0
 * [Qt](http://qt.io) - built and tested using v5.10.1
 * [Zeroconf](http://www.zeroconf.org) - on Linux, requires Avahi's mDNS API emulation support (legacy)
